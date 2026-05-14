@@ -136,3 +136,28 @@ Next actions:
 
 - Create the first domain primitives and tests, starting with `ZodiacLongitude` and aspect angle/orb math.
 - Keep the rest of the solution behavior-free until those types and tests are in place.
+
+## 2026-05-14: First Domain Primitives and Aspect Math
+
+Summary:
+
+- Added the first domain primitives for zodiac longitude normalization, zodiac sign derivation, major aspect types, and compact aspect matching math.
+- Kept the implementation inside `NoxAeterna.Domain` with no new external dependencies and no coupling to UI, rendering, persistence, or infrastructure.
+- Added focused xUnit coverage for normalization, sign boundaries, angular delta, exact aspects, in-orb matches, and out-of-orb rejections.
+- Verified the result with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `NoxAeterna.Domain/Astrology/ZodiacLongitude.cs`
+- `NoxAeterna.Domain/Astrology/ZodiacSign.cs`
+- `NoxAeterna.Domain/Astrology/AspectType.cs`
+- `NoxAeterna.Domain/Astrology/AspectMath.cs`
+- `NoxAeterna.Tests/Astrology/ZodiacLongitudeTests.cs`
+- `NoxAeterna.Tests/Astrology/AspectMathTests.cs`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+
+Next actions:
+
+- Define `BirthData` and `BirthMoment` direction.
+- Introduce the first NodaTime-based time model contracts without binding to Swiss Ephemeris yet.
