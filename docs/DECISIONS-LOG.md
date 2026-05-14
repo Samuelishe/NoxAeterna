@@ -130,3 +130,11 @@ Decision: Use a deterministic MVP resolver strategy where ambiguous local times 
 Reason: The first time model needs reproducible, testable behavior before more elaborate user-configurable resolution strategies exist.
 
 Consequences: `BirthMoment` stores `TimeResolutionStatus`, and tests must cover normal, ambiguous, and invalid local-time cases explicitly.
+
+## 2026-05-14: Keep Position Models in Domain and Calculation Boundary in Astronomy
+
+Decision: Keep `CelestialBody` and `PlanetPosition` in `NoxAeterna.Domain`, while placing `ChartCalculationRequest`, `ChartCalculationResult`, and `IEphemerisCalculator` in `NoxAeterna.Astronomy`.
+
+Reason: The position model is shared domain data, while calculation orchestration and provider abstraction belong to the astronomy layer.
+
+Consequences: Future ephemeris implementations can stay astronomy-local, while domain models remain reusable by chart, transit, and archive features without provider leakage.

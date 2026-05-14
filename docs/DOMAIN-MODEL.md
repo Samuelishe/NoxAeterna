@@ -113,6 +113,8 @@ Calculated chart snapshot for a profile:
 - Calculation settings.
 - Ephemeris/version metadata for reproducibility.
 
+This is still not implemented as a composed model yet.
+
 ### PlanetPosition
 
 Planetary body position:
@@ -123,6 +125,13 @@ Planetary body position:
 - Degree within sign.
 - Retrograde state.
 - Optional speed and latitude.
+
+Current implemented direction:
+
+- `CelestialBody`
+- `PlanetPosition`
+
+`PlanetPosition` currently derives zodiac sign and degree-within-sign from `ZodiacLongitude`.
 
 ### ZodiacLongitude
 

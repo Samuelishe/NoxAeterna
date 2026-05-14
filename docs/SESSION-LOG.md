@@ -202,3 +202,33 @@ Next actions:
 
 - Define astronomy calculation contracts such as `IEphemerisCalculator`, `CelestialBody`, `PlanetPosition`, and `ChartCalculationRequest`.
 - Keep Swiss Ephemeris-specific integration out of scope until those contracts are stable.
+
+## 2026-05-14: First Astronomy Calculation Contracts
+
+Summary:
+
+- Added the first astronomy calculation-facing contracts without binding to Swiss Ephemeris: `ChartCalculationRequest`, `ChartCalculationResult`, and `IEphemerisCalculator`.
+- Added the first shared position model in the domain: `CelestialBody` and `PlanetPosition`, with sign and degree-within-sign derived from `ZodiacLongitude`.
+- Added focused tests for derived sign/degree behavior, deterministic calculator contract usage through a test fake, and project-boundary checks against Avalonia and Swiss package leakage.
+- Verified the result with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `NoxAeterna.Domain/Astrology/CelestialBody.cs`
+- `NoxAeterna.Domain/Astrology/PlanetPosition.cs`
+- `NoxAeterna.Astronomy/Calculation/ChartCalculationRequest.cs`
+- `NoxAeterna.Astronomy/Calculation/ChartCalculationResult.cs`
+- `NoxAeterna.Astronomy/Calculation/IEphemerisCalculator.cs`
+- `NoxAeterna.Tests/Astronomy/PlanetPositionTests.cs`
+- `NoxAeterna.Tests/Astronomy/ChartCalculationContractsTests.cs`
+- `NoxAeterna.Tests/Astronomy/ProjectBoundaryTests.cs`
+- `docs/DOMAIN-MODEL.md`
+- `docs/ASTRONOMY-ENGINE.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+
+Next actions:
+
+- Create a minimal `NatalChart` contract or model that combines `BirthMoment`, calculated `PlanetPosition` collection, and aspect output using existing `AspectMath`.
+- Keep houses and Swiss Ephemeris-specific integration out of scope for that step.

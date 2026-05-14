@@ -53,6 +53,14 @@ The abstraction should eventually expose:
 - Speed for retrograde detection.
 - Calculation flags and ephemeris version metadata.
 
+Current contract direction:
+
+- `ChartCalculationRequest`
+- `ChartCalculationResult`
+- `IEphemerisCalculator`
+
+The current contract is synchronous and deterministic. It does not expose Swiss Ephemeris package types.
+
 Package choice is not yet verified. See `KNOWN-PROBLEMS.md`.
 
 ## Coordinate Conventions
@@ -76,6 +84,12 @@ Each position should include:
 - Retrograde state where applicable.
 - Calculation timestamp.
 - Calculation settings.
+
+Current implemented direction:
+
+- `CelestialBody` lives in `NoxAeterna.Domain`.
+- `PlanetPosition` lives in `NoxAeterna.Domain`.
+- `ChartCalculationRequest` and `ChartCalculationResult` live in `NoxAeterna.Astronomy`.
 
 ## Aspects
 
