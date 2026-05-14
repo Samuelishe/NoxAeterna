@@ -1,15 +1,15 @@
 # Next Steps
 
-The temporary preview path now proves the Domain -> Geometry -> Rendering -> Avalonia pipeline. The next work should start replacing the debug-only path with a thin presentation-led shell structure while keeping chart rendering isolated.
+The thin shell foundation now exists and still hosts the temporary debug preview for pipeline verification. The next work should establish the first real settings foundation for language and theme preferences without adding persistence yet.
 
 Immediate next steps:
 
-1. Introduce a thin Presentation-level view model or presentation contract for chart preview hosting, without moving rendering logic out of `NoxAeterna.Rendering`.
+1. Implement the first minimal Settings screen or window foundation using the existing Presentation localization and preference models.
 
-2. Start shaping a proper localized shell structure around the preview, still keeping it clearly minimal and non-productized.
+2. Keep settings behavior in-memory only for now; do not add persistence yet.
 
-3. Avoid settings UI, persistence, real data-entry flows, and Swiss Ephemeris integration while the first presentation shell is being established.
+3. Preserve the current debug preview path as an easy visual verification route while the shell gains real sections.
 
 4. Verify Swiss Ephemeris wrapper options before committing to a package and record the decision in `DECISIONS-LOG.md`.
 
-5. Keep houses, advanced collision avoidance, and theme integration out of scope until the shell/presentation boundary is cleaner.
+5. Keep real profile entry, houses, advanced collision avoidance, and theme resource polish out of scope until the settings and shell foundations are cleaner.

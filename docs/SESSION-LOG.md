@@ -374,3 +374,33 @@ Next actions:
 
 - Replace the temporary debug-only host with a thin Presentation-level shell structure.
 - Keep chart rendering isolated in `NoxAeterna.Rendering` while the shell becomes more real.
+
+## 2026-05-15: Thin Localized Shell Foundation
+
+Summary:
+
+- Added the first minimal shell foundation in `NoxAeterna.Presentation` with `ShellViewModel`, `ShellNavigationItem`, and `ShellSectionId`.
+- Replaced the raw debug-only host in `MainWindow` with a thin localized shell layout in `NoxAeterna.App`, while keeping the chart preview as the default temporary debug section.
+- Added a temporary in-memory shell localization factory in `App` and kept shell navigation labels localization-key-based.
+- Added focused tests for shell section order, deterministic default section, localization-key-backed navigation items, and explicit temporary status for the debug preview section.
+- Verified the result with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `NoxAeterna.Presentation/Shell/ShellSectionId.cs`
+- `NoxAeterna.Presentation/Shell/ShellNavigationItem.cs`
+- `NoxAeterna.Presentation/Shell/ShellViewModel.cs`
+- `NoxAeterna.App/Debug/DebugShellLocalizationFactory.cs`
+- `NoxAeterna.App/MainWindow.axaml`
+- `NoxAeterna.App/MainWindow.axaml.cs`
+- `NoxAeterna.Tests/Presentation/ShellViewModelTests.cs`
+- `docs/DECISIONS-LOG.md`
+- `docs/NEXT-STEPS.md`
+- `docs/RENDERING-ENGINE.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Implement the first real Settings foundation for language and theme preferences without persistence.
+- Keep the debug preview route available for chart-rendering verification while the shell grows.

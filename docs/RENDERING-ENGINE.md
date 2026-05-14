@@ -38,7 +38,7 @@ DebugSampleNatalChartFactory
 -> CircularChartLayoutBuilder
 -> ChartRenderScene
 -> CircularChartRenderer
--> Avalonia preview control in NoxAeterna.App
+-> Avalonia debug preview control inside the temporary shell host in NoxAeterna.App
 ```
 
 This path exists only to verify the current geometry-to-rendering boundary. It is not the final UI architecture.

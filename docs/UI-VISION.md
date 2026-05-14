@@ -63,6 +63,13 @@ The UI should support repeated study and comparison:
 - Tarot sessions should be saved and revisitable.
 - Interpretation should be structured, not dumped as one long paragraph.
 
+Current shell direction:
+
+- a thin presentation-led shell can exist before real product screens;
+- top-level sections should be modeled explicitly rather than improvised in `App`;
+- temporary debug preview content may be hosted inside the shell while the real product structure is still being formed;
+- the debug preview must remain clearly marked as temporary infrastructure rather than the final Astrology screen.
+
 ## Controls
 
 Use familiar desktop controls for serious work:

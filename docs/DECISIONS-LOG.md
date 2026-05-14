@@ -170,3 +170,11 @@ Decision: Make the first renderer consume `ChartRenderScene` derived from `Circu
 Reason: Rendering should prove the Geometry -> Rendering handoff without backsliding into raw domain-model rendering or calculation leakage.
 
 Consequences: Geometry remains the only source of chart placement, while rendering stays focused on Avalonia drawing commands, numeric options, and visual placeholder output.
+
+## 2026-05-15: Start the App Shell in Presentation While Keeping Debug Preview Temporary
+
+Decision: Start the application shell in `NoxAeterna.Presentation` with explicit section identifiers and localization-key-based navigation items, while continuing to host the chart preview as a temporary debug section.
+
+Reason: The app now needs a stable shell shape for future real sections, but the current chart host still exists only to verify the rendering pipeline.
+
+Consequences: The shell can grow into real sections without rewriting the window host from scratch, and the debug preview remains visibly temporary instead of being mistaken for the final Astrology UI.
