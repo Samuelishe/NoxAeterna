@@ -16,17 +16,15 @@ See `docs/DEVELOPMENT-PHILOSOPHY.md` for the durable decision style behind the p
 
 ## Current Status
 
-Current status: documentation and architectural direction are locked for implementation startup.
+Current status: initial .NET 10 solution scaffold is in place.
 
-The repository is ready for:
+The repository now contains:
 
-- .NET 10 solution scaffold
-- Project creation
-- Dependency graph setup
-- Test infrastructure
-- Domain primitives
-- Astronomy abstractions
-- Rendering contracts
+- Solution and project structure
+- Initial project reference graph
+- Minimal Avalonia application shell
+- xUnit test harness
+- Repository-level build configuration
 
 Application behavior is not implemented yet.
 
@@ -88,21 +86,33 @@ Planned requirements for implementation startup:
 - Platform support for Avalonia development
 - Future native dependency support for astronomy packages, pending package choice
 
-## Future Build Instructions
+## Build Instructions
 
-Build instructions will be added once the solution scaffold exists.
+Restore, build, and test commands:
 
-Expected future sections:
+- `dotnet restore NoxAeterna.sln`
+- `dotnet build NoxAeterna.sln`
+- `dotnet test NoxAeterna.sln`
 
-- Restore dependencies
-- Build solution
-- Run tests
-- Launch desktop app
+Minimal desktop shell launch:
+
+- `dotnet run --project NoxAeterna.App`
 
 ## Repository Structure Overview
 
 - `docs/`: architecture, vision, glossary, boundaries, roadmap, risks, and agent continuity documents
-- `NoxAeterna.sln`: placeholder solution file, to be replaced or expanded during scaffold work
+- `NoxAeterna.App/`: minimal Avalonia app shell and composition root
+- `NoxAeterna.Presentation/`: presentation layer scaffold
+- `NoxAeterna.Rendering/`: rendering layer scaffold
+- `NoxAeterna.Geometry/`: geometry layer scaffold
+- `NoxAeterna.Astronomy/`: astronomy layer scaffold
+- `NoxAeterna.Symbolics/`: symbolics layer scaffold
+- `NoxAeterna.Interpretation/`: interpretation layer scaffold
+- `NoxAeterna.Domain/`: domain layer scaffold
+- `NoxAeterna.Infrastructure/`: infrastructure layer scaffold
+- `NoxAeterna.Tests/`: xUnit test scaffold
+- `Directory.Build.props`: repository-level compiler defaults
+- `NoxAeterna.sln`: solution root
 
 ## Documentation Navigation
 
@@ -135,18 +145,22 @@ External libraries, frameworks, assets, fonts, datasets, ephemeris sources, tool
 
 See `docs/THIRD-PARTY.md`.
 
-Current planned ecosystem includes:
+Current scaffold dependencies include:
 
-- .NET
 - Avalonia
+- Avalonia.Desktop
+- Avalonia.Themes.Fluent
+- Microsoft.NET.Test.Sdk
+- xunit
+- xunit.runner.visualstudio
+
+Additional planned directions, not yet added in code:
+
 - CommunityToolkit.Mvvm
 - NodaTime
 - Dapper
 - Serilog
-- xUnit
 - SwissEphNet or equivalent Swiss Ephemeris wrapper
-
-These are planned directions, not yet confirmed implementation dependencies.
 
 ## AI-Assisted Development Notes
 

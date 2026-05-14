@@ -106,3 +106,11 @@ Decision: After this clarification pass, treat the repository as ready for solut
 Reason: Core philosophical, architectural, rendering, interpretation, attribution, and continuity questions have been documented to a sufficient level for coding to begin.
 
 Consequences: The next major step should be .NET 10 solution scaffold creation and dependency graph setup rather than another large planning pass.
+
+## 2026-05-14: Create Initial Solution Scaffold With Minimal Dependencies
+
+Decision: Create the initial .NET 10 solution scaffold with a minimal Avalonia app shell, class-library layer projects, xUnit test project, repository-level build props, and a narrow project reference graph.
+
+Reason: The repository needed a real implementation starting point without introducing domain behavior, infrastructure behavior, or premature package sprawl.
+
+Consequences: The next implementation step should focus on first domain primitives and tests rather than more scaffold work.

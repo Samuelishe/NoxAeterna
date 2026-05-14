@@ -20,12 +20,16 @@ For each entry, record:
 | Name | Author or organization | License | Purpose in project | Official repository or site | Notes |
 | --- | --- | --- | --- | --- | --- |
 | .NET 10 SDK | Microsoft | To be verified at adoption time | Core SDK and runtime | https://dotnet.microsoft.com/ | Planned, not yet added as a tracked runtime dependency in code |
-| Avalonia | Avalonia UI contributors | To be verified at adoption time | Cross-platform desktop UI | https://github.com/AvaloniaUI/Avalonia | Planned |
+| Avalonia | Avalonia UI contributors | MIT | Cross-platform desktop UI base package for the desktop app shell | https://github.com/AvaloniaUI/Avalonia | Added in `NoxAeterna.App`, version `12.0.2` |
+| Avalonia.Desktop | Avalonia UI contributors | MIT | Desktop lifetime and platform integration for the app shell | https://www.nuget.org/packages/Avalonia.Desktop | Added in `NoxAeterna.App`, version `12.0.2` |
+| Avalonia.Themes.Fluent | Avalonia UI contributors | MIT | Minimal application theme for the Avalonia shell | https://docs.avaloniaui.net/docs/basics/user-interface/styling/themes/fluent | Added in `NoxAeterna.App`, version `12.0.2` |
 | CommunityToolkit.Mvvm | Microsoft | To be verified at adoption time | MVVM support | https://github.com/CommunityToolkit/dotnet | Planned |
 | NodaTime | Noda Time contributors | To be verified at adoption time | Time modeling and timezone handling | https://nodatime.org/ | Planned |
 | Dapper | Dapper contributors | To be verified at adoption time | Lightweight data access | https://github.com/DapperLib/Dapper | Planned |
 | Serilog | Serilog contributors | To be verified at adoption time | Logging | https://github.com/serilog/serilog | Planned |
-| xUnit | xUnit contributors | To be verified at adoption time | Testing | https://xunit.net/ | Planned |
+| Microsoft.NET.Test.Sdk | Microsoft | MIT | Test host integration for `dotnet test` | https://github.com/microsoft/vstest | Added in `NoxAeterna.Tests`, version `17.14.1` |
+| xunit | xUnit contributors | Apache-2.0 | Unit test framework | https://github.com/xunit/xunit | Added in `NoxAeterna.Tests`, version `2.9.3` |
+| xunit.runner.visualstudio | xUnit contributors | Apache-2.0 | VSTest adapter for `dotnet test` and IDE test runners | https://github.com/xunit/visualstudio.xunit | Added in `NoxAeterna.Tests`, version `3.1.4` |
 | SwissEphNet or equivalent | To be verified | To be verified | Ephemeris access | To be verified | Package choice still open |
 
 ## Assets, Fonts, and Generated Material

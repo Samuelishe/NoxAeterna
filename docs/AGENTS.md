@@ -14,7 +14,7 @@ Avoid: joke generation, fake AI magic, meme occult aesthetics, TikTok witchcore,
 
 ## Current Phase
 
-Current phase: Stage 0 complete, repository ready for Stage 1 scaffold startup.
+Current phase: Stage 1 scaffold initialized.
 
 The architecture is documented but not implemented. Do not claim that projects, engines, renderers, persistence, or UI flows exist until they are created in code.
 

@@ -95,3 +95,44 @@ Next actions:
 
 - Create the .NET 10 solution scaffold and dependency graph.
 - Add the first domain primitives and tests after scaffold creation.
+
+## 2026-05-14: Initial Solution Scaffold
+
+Summary:
+
+- Created the initial .NET 10 solution scaffold with ten projects: one Avalonia app shell, eight production class libraries, and one xUnit test project.
+- Added `Directory.Build.props` with repository-level nullable, implicit usings, and language-version defaults.
+- Locked the initial `ProjectReference` graph to reflect the documented architectural boundaries.
+- Verified the scaffold with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `Directory.Build.props`
+- `NoxAeterna.sln`
+- `NoxAeterna.App/NoxAeterna.App.csproj`
+- `NoxAeterna.App/Program.cs`
+- `NoxAeterna.App/App.axaml`
+- `NoxAeterna.App/App.axaml.cs`
+- `NoxAeterna.App/MainWindow.axaml`
+- `NoxAeterna.App/MainWindow.axaml.cs`
+- `NoxAeterna.Presentation/NoxAeterna.Presentation.csproj`
+- `NoxAeterna.Rendering/NoxAeterna.Rendering.csproj`
+- `NoxAeterna.Geometry/NoxAeterna.Geometry.csproj`
+- `NoxAeterna.Astronomy/NoxAeterna.Astronomy.csproj`
+- `NoxAeterna.Symbolics/NoxAeterna.Symbolics.csproj`
+- `NoxAeterna.Interpretation/NoxAeterna.Interpretation.csproj`
+- `NoxAeterna.Domain/NoxAeterna.Domain.csproj`
+- `NoxAeterna.Infrastructure/NoxAeterna.Infrastructure.csproj`
+- `NoxAeterna.Tests/NoxAeterna.Tests.csproj`
+- `NoxAeterna.Tests/UnitTest1.cs`
+- `README.md`
+- `docs/AGENTS.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+- `docs/THIRD-PARTY.md`
+
+Next actions:
+
+- Create the first domain primitives and tests, starting with `ZodiacLongitude` and aspect angle/orb math.
+- Keep the rest of the solution behavior-free until those types and tests are in place.
