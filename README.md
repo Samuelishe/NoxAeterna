@@ -28,10 +28,11 @@ The repository now contains:
 - A minimal Avalonia rendering layer for technical chart drawing
 - A thin shell, JSON-backed UI localization, in-memory settings, and first real dark/light theme switching
 - A first astrology workspace foundation that hosts the chart surface and placeholder side panels
+- A first structured birth-data input foundation with basic validation and explicit mapping into domain birth data
 - Development-only sample chart generation used behind that workspace for current pipeline verification
 - xUnit test harness and repository-level build configuration
 
-The application is still in foundation mode. Real profile workflows, birth-data input, ephemeris-backed calculations, persistence, Tarot UX, and final visual design are not implemented yet.
+The application is still in foundation mode. Real profile workflows, input-driven chart calculation, ephemeris-backed calculations, persistence, Tarot UX, and final visual design are not implemented yet.
 
 ## Planned Architecture
 

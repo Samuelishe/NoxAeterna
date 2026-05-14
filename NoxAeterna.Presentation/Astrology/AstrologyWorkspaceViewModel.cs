@@ -14,7 +14,8 @@ public sealed class AstrologyWorkspaceViewModel
     /// <param name="panels">The workspace panels.</param>
     public AstrologyWorkspaceViewModel(
         LocalizationKey workspaceHintKey,
-        IEnumerable<AstrologyWorkspacePanel> panels)
+        IEnumerable<AstrologyWorkspacePanel> panels,
+        BirthDataInputViewModel birthDataInput)
     {
         var copiedPanels = (panels ?? throw new ArgumentNullException(nameof(panels))).ToArray();
 
@@ -25,6 +26,7 @@ public sealed class AstrologyWorkspaceViewModel
 
         WorkspaceHintKey = workspaceHintKey;
         Panels = Array.AsReadOnly(copiedPanels);
+        BirthDataInput = birthDataInput ?? throw new ArgumentNullException(nameof(birthDataInput));
     }
 
     /// <summary>
@@ -36,6 +38,11 @@ public sealed class AstrologyWorkspaceViewModel
     /// Gets the workspace panels in deterministic order.
     /// </summary>
     public IReadOnlyList<AstrologyWorkspacePanel> Panels { get; }
+
+    /// <summary>
+    /// Gets the current birth-data input foundation.
+    /// </summary>
+    public BirthDataInputViewModel BirthDataInput { get; }
 
     /// <summary>
     /// Creates the current default astrology workspace foundation.
@@ -58,5 +65,6 @@ public sealed class AstrologyWorkspaceViewModel
                     AstrologyWorkspacePanelId.Interpretation,
                     new LocalizationKey("ui.astrology.panel.interpretation.title"),
                     new LocalizationKey("ui.astrology.panel.interpretation.description"))
-            });
+            },
+            BirthDataInputViewModel.CreateDefault());
 }

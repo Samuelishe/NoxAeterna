@@ -552,3 +552,45 @@ Next actions:
 
 - Introduce the first structured birth-data input foundation inside the astrology workspace.
 - Keep settings persistence and real ephemeris-backed calculation flow deferred while the input foundation is introduced.
+
+## 2026-05-15: Birth Data Input Foundation
+
+Summary:
+
+- Added the first structured birth-data input foundation in `NoxAeterna.Presentation`, including editable input state, birth-time accuracy options, validation rules, validation results, and explicit mapping to domain `BirthData`.
+- Added an app-side `BirthDataInputControl` inside the astrology workspace, with date, time, place, latitude, longitude, timezone, and birth-time-accuracy fields plus localized validation feedback.
+- Kept validation and text parsing in presentation code, with no geocoding, no persistence, no resolver wiring, and no real chart recalculation yet.
+- Preserved the current sample-based chart surface so the workspace still renders while input remains an independent foundation.
+- Updated localization catalogs and synchronized the architecture, domain, astronomy, UI, README, and next-step documents to the new workspace state.
+
+Changed files:
+
+- `NoxAeterna.Presentation/Astrology/BirthDataInputField.cs`
+- `NoxAeterna.Presentation/Astrology/BirthTimeAccuracyOption.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataInputError.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataValidationResult.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataInputState.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataInputValidator.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataInputMapper.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataInputViewModel.cs`
+- `NoxAeterna.Presentation/Astrology/AstrologyWorkspaceViewModel.cs`
+- `NoxAeterna.App/Astrology/BirthDataInputControl.cs`
+- `NoxAeterna.App/Astrology/AstrologyWorkspaceControl.cs`
+- `NoxAeterna.App/Themes/DarkThemeResources.axaml`
+- `NoxAeterna.App/Themes/LightThemeResources.axaml`
+- `NoxAeterna.Tests/Presentation/BirthDataInputViewModelTests.cs`
+- `NoxAeterna.Tests/Presentation/AstrologyWorkspaceViewModelTests.cs`
+- `resources/localization/ui/ru.json`
+- `resources/localization/ui/en.json`
+- `README.md`
+- `docs/ASTRONOMY-ENGINE.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/DOMAIN-MODEL.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Connect validated birth-data input to `IBirthMomentResolver` and a deterministic or fake chart-calculation path.
+- Keep persistence, geocoding, Swiss Ephemeris, and real profile workflows deferred while input-driven chart flow is introduced.

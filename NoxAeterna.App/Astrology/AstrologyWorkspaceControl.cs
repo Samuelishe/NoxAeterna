@@ -49,7 +49,12 @@ public sealed class AstrologyWorkspaceControl : UserControl
             Spacing = 16,
             Children =
             {
-                CreatePlaceholderPanel(birthDataPanel),
+                CreatePanelContainer(
+                    birthDataPanel,
+                    new BirthDataInputControl(
+                        _viewModel.BirthDataInput,
+                        _localizationProvider,
+                        _applicationLanguage)),
                 CreatePlaceholderPanel(interpretationPanel)
             }
         };

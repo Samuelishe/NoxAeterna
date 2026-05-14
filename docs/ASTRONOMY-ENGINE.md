@@ -32,6 +32,7 @@ Current implemented direction:
 - Birth-time domain types live in `NoxAeterna.Domain`.
 - A resolver contract exists as `IBirthMomentResolver`.
 - A first TZDB-based resolver implementation exists in `NoxAeterna.Astronomy`.
+- the astrology workspace now has a structured birth-data input foundation in presentation, but it is not yet connected to `IBirthMomentResolver`.
 - The current deterministic resolver policy is:
   - ambiguous local times resolve to the earlier occurrence;
   - invalid local times shift forward by the gap duration.

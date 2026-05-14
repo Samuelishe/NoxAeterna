@@ -69,6 +69,7 @@ Current shell direction:
 - top-level sections should be modeled explicitly rather than improvised in `App`;
 - the first astrology workspace foundation can replace a raw debug-only host before full product screens exist;
 - development-only sample data may still drive that workspace temporarily, but should stay out of the visible shell structure.
+- the astrology workspace may now host an initial birth-data input panel before real chart calculation is connected.
 
 Current settings direction:
 
@@ -84,6 +85,7 @@ Current localization direction:
 - UI labels should now be sourced from flat JSON catalogs under `resources/localization/ui`;
 - missing UI keys must degrade deterministically through fallback rather than disappearing.
 - interpretation and symbolic localization are still deferred.
+- validation feedback inside the astrology workspace must also resolve through localization keys.
 
 Current theme direction:
 

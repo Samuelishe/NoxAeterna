@@ -37,6 +37,12 @@ Current implemented direction:
 - `TimezoneId`
 - `BirthData`
 
+Current workspace integration:
+
+- the astrology workspace now has a presentation-side birth-data input foundation;
+- parsing and validation stay outside the domain layer;
+- valid presentation input is mapped explicitly into `BirthData`.
+
 ### BirthMoment
 
 Resolved time object produced from local birth data:

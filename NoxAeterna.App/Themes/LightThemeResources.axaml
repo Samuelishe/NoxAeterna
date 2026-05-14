@@ -10,6 +10,8 @@
   <SolidColorBrush x:Key="WorkspacePanelBackgroundBrush" Color="#F3EEE6" />
   <SolidColorBrush x:Key="WorkspacePanelBorderBrush" Color="#C0B19C" />
   <SolidColorBrush x:Key="WorkspacePanelSubtleForegroundBrush" Color="#6C6458" />
+  <SolidColorBrush x:Key="WorkspaceValidationErrorBrush" Color="#A24F4A" />
+  <SolidColorBrush x:Key="WorkspaceValidationSuccessBrush" Color="#5A7A52" />
   <SolidColorBrush x:Key="PreviewSurfaceBackgroundBrush" Color="#F5F1EA" />
   <SolidColorBrush x:Key="PreviewSurfaceBorderBrush" Color="#BDAF9C" />
 </ResourceDictionary>

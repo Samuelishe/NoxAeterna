@@ -210,3 +210,11 @@ Decision: Replace the visible debug-preview shell route with a first reusable as
 Reason: The app now needs a real workspace structure that can later host input, chart controls, and interpretation panels without presenting the chart area as pure debug infrastructure.
 
 Consequences: The shell opens into the astrology workspace by default, rendering stays isolated behind `ChartRenderScene`, and development-only sample data remains an internal temporary source rather than a visible product section.
+
+## 2026-05-15: Keep Birth-Data Parsing and Validation in Presentation
+
+Decision: Keep the first structured birth-data input state, parsing, validation, and `BirthData` mapping in `NoxAeterna.Presentation`, then pass only validated values into `NoxAeterna.Domain`.
+
+Reason: Input parsing rules, field errors, and localization-key-based validation feedback are presentation concerns, while domain types should continue receiving clean value objects instead of UI-specific text state.
+
+Consequences: The astrology workspace can validate and map user input without leaking text parsing into domain models. Resolver and calculation wiring can be added later on top of already validated `BirthData`.
