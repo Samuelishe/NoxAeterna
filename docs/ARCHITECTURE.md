@@ -2,21 +2,20 @@
 
 Nox Aeterna should follow clean architecture principles without enterprise overengineering. The goal is clear boundaries, testable components, and a stable core that can support astronomy, symbolic systems, rendering, persistence, and UI without coupling them together.
 
-## Repository Readiness
+## Repository State
 
-This architecture pass is the final pre-scaffold clarification step.
+The repository is already past the initial scaffold stage.
 
-After this document set, the repository should be considered ready for:
+Current implemented foundation includes:
 
-- .NET 10 solution scaffold.
-- Project creation.
-- Dependency graph setup.
-- Test infrastructure.
-- Domain primitives.
-- Astronomy abstractions.
-- Rendering contracts.
+- .NET 10 solution and project graph.
+- Core domain primitives for longitudes, signs, aspects, birth-time modeling, positions, and natal-chart snapshots.
+- Astronomy contracts without Swiss Ephemeris binding.
+- Render-independent circular chart geometry.
+- Minimal rendering contracts and a technical chart renderer.
+- Thin presentation shell, JSON-backed UI localization, in-memory settings, and first dark/light theme switching.
 
-No further large-scale planning pass is required before scaffold work starts.
+Large-scale planning passes should remain closed. The next work should stay implementation-led and boundary-aware.
 
 ## Expected Solution Structure
 
@@ -145,6 +144,13 @@ Current preferences and theme direction:
 - `ThemeDefinition`
 - `ThemeRegistry`
 
+Current theme implementation direction:
+
+- `ThemeRegistry` lives in `NoxAeterna.Presentation`.
+- `AppThemeController` in `NoxAeterna.App` applies the active `ThemeId` to Avalonia resource dictionaries.
+- Dark and light theme resources currently define only foundational shell and preview brushes.
+- Theme switching is in memory only. No persistence adapter exists yet.
+
 MVP fallback chain:
 
 ```text
@@ -168,6 +174,15 @@ Intended resource structure:
 /resources/localization/interpretation/en.json
 /resources/localization/symbolics/ru.json
 ```
+
+Current theme resource direction:
+
+```text
+NoxAeterna.App/Themes/DarkThemeResources.axaml
+NoxAeterna.App/Themes/LightThemeResources.axaml
+```
+
+These are application resource dictionaries, not a final design system.
 
 User preferences should eventually be persisted as JSON in a user app-data location. That persistence is not implemented yet.
 

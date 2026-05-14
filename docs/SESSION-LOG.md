@@ -468,3 +468,44 @@ Next actions:
 
 - Add the first real dark/light theme switching path using `ThemeId`.
 - Keep settings persistence deferred while theme switching is introduced.
+
+## 2026-05-15: First Real Dark/Light Theme Switching
+
+Summary:
+
+- Added the first real `ThemeId`-driven dark/light theme switching path in `NoxAeterna.App` through `AppThemeController` and Avalonia resource dictionaries.
+- Kept theme metadata and available themes in `NoxAeterna.Presentation`, and updated the settings flow to source available themes from `ThemeRegistry`.
+- Updated the shell host and debug preview surface to consume theme resources while keeping chart rendering isolated in `NoxAeterna.Rendering`.
+- Added focused tests for default theme registry contents and deterministic app-level theme application, including rejection of unregistered themes.
+- Re-synchronized core documentation and `README.md` to match the current architecture and implementation state.
+- Verified the result with `dotnet build NoxAeterna.sln`, `dotnet test NoxAeterna.sln`, and a short `dotnet run --project NoxAeterna.App` startup check with no immediate startup exception.
+
+Changed files:
+
+- `NoxAeterna.App/App.axaml.cs`
+- `NoxAeterna.App/Debug/DebugChartPreviewControl.cs`
+- `NoxAeterna.App/MainWindow.axaml`
+- `NoxAeterna.App/MainWindow.axaml.cs`
+- `NoxAeterna.App/Themes/AppThemeController.cs`
+- `NoxAeterna.App/Themes/DarkThemeResources.axaml`
+- `NoxAeterna.App/Themes/DarkThemeResources.axaml.cs`
+- `NoxAeterna.App/Themes/LightThemeResources.axaml`
+- `NoxAeterna.App/Themes/LightThemeResources.axaml.cs`
+- `NoxAeterna.Presentation/Settings/SettingsViewModel.cs`
+- `NoxAeterna.Presentation/Theming/ThemeRegistry.cs`
+- `NoxAeterna.Tests/App/AppThemeControllerTests.cs`
+- `NoxAeterna.Tests/Presentation/ThemeRegistryTests.cs`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/CODING-GUIDELINES.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/NEXT-STEPS.md`
+- `docs/PERSISTENCE.md`
+- `docs/RENDERING-ENGINE.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Start replacing the temporary debug preview section with the first real astrology workspace foundation.
+- Keep settings persistence deferred while the shell, workspace, and preference flow stabilize.

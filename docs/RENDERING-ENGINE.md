@@ -90,7 +90,8 @@ Current placeholder strategy:
 
 - small circular planet markers instead of final glyphs;
 - deterministic aspect line colors by aspect type;
-- no final art direction, theme integration, or text-based glyph rendering yet.
+- no final art direction or text-based glyph rendering yet;
+- app-level theme switching may change preview surface resources around the renderer, but rendering still does not own shell-theme orchestration.
 
 ## DPI and Scaling
 

@@ -1,0 +1,12 @@
+<ResourceDictionary
+    x:Class="NoxAeterna.App.Themes.LightThemeResources"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <SolidColorBrush x:Key="ShellWindowBackgroundBrush" Color="#F2EFEA" />
+  <SolidColorBrush x:Key="ShellNavigationPanelBackgroundBrush" Color="#E9E2D8" />
+  <SolidColorBrush x:Key="ShellContentPanelBackgroundBrush" Color="#FAF7F2" />
+  <SolidColorBrush x:Key="ShellPanelBorderBrush" Color="#B8AA95" />
+  <SolidColorBrush x:Key="ShellSecondaryForegroundBrush" Color="#665E54" />
+  <SolidColorBrush x:Key="PreviewSurfaceBackgroundBrush" Color="#F5F1EA" />
+  <SolidColorBrush x:Key="PreviewSurfaceBorderBrush" Color="#BDAF9C" />
+</ResourceDictionary>

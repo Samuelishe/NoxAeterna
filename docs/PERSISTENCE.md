@@ -61,6 +61,7 @@ Settings persistence is still deferred.
 Current implemented state:
 
 - language and theme preferences can exist in presentation and app memory;
+- dark/light theme switching can already be applied in memory through `ThemeId`;
 - no `settings.json` writing exists yet;
 - no app-data path resolver exists yet;
 - no infrastructure settings adapter exists yet.

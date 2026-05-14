@@ -1,5 +1,7 @@
 namespace NoxAeterna.Presentation.Theming;
 
+using NoxAeterna.Presentation.Localization;
+
 /// <summary>
 /// Represents a deterministic registry of available application themes.
 /// </summary>
@@ -40,4 +42,15 @@ public sealed class ThemeRegistry
     /// <param name="theme">The resolved theme definition when present.</param>
     /// <returns><see langword="true"/> when the theme exists; otherwise <see langword="false"/>.</returns>
     public bool TryGet(ThemeId themeId, out ThemeDefinition? theme) => _themes.TryGetValue(themeId, out theme);
+
+    /// <summary>
+    /// Creates the current default application theme registry.
+    /// </summary>
+    /// <returns>A deterministic theme registry containing the initial themes.</returns>
+    public static ThemeRegistry CreateDefault() =>
+        new(
+        [
+            new ThemeDefinition(new ThemeId("dark"), new LocalizationKey("theme.dark")),
+            new ThemeDefinition(new ThemeId("light"), new LocalizationKey("theme.light"))
+        ]);
 }

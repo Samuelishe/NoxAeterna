@@ -16,17 +16,21 @@ See `docs/DEVELOPMENT-PHILOSOPHY.md` for the durable decision style behind the p
 
 ## Current Status
 
-Current status: initial .NET 10 solution scaffold is in place.
+Current status: the repository has moved beyond pure scaffold and now contains the first implementation foundations.
 
 The repository now contains:
 
 - Solution and project structure
 - Initial project reference graph
-- Minimal Avalonia application shell
-- xUnit test harness
-- Repository-level build configuration
+- Domain primitives for zodiac math, birth-time modeling, positions, aspects, and natal-chart snapshots
+- Astronomy contracts without Swiss Ephemeris binding
+- Render-independent circular chart geometry
+- A minimal Avalonia rendering layer for technical chart drawing
+- A thin shell, JSON-backed UI localization, in-memory settings, and first real dark/light theme switching
+- A temporary debug chart preview route for visual pipeline verification
+- xUnit test harness and repository-level build configuration
 
-Application behavior is not implemented yet.
+The application is still in foundation mode. Real profile workflows, ephemeris-backed calculations, persistence, Tarot UX, and final visual design are not implemented yet.
 
 ## Planned Architecture
 
@@ -102,14 +106,19 @@ Current app-localization note:
 
 - UI localization catalogs are loaded from flat JSON files copied to `resources/localization/ui` under the app output.
 
+Current theme note:
+
+- Dark and light themes are applied in memory through `ThemeId` and Avalonia resource dictionaries.
+- Theme selection is not persisted yet.
+
 ## Repository Structure Overview
 
 - `docs/`: architecture, vision, glossary, boundaries, roadmap, risks, and agent continuity documents
-- `NoxAeterna.App/`: minimal Avalonia app shell and composition root
-- `NoxAeterna.Presentation/`: presentation layer scaffold
-- `NoxAeterna.Rendering/`: rendering layer scaffold
-- `NoxAeterna.Geometry/`: geometry layer scaffold
-- `NoxAeterna.Astronomy/`: astronomy layer scaffold
+- `NoxAeterna.App/`: Avalonia app host, temporary shell window, debug preview host, and current theme application boundary
+- `NoxAeterna.Presentation/`: shell, localization, preferences, settings, and theme metadata foundations
+- `NoxAeterna.Rendering/`: technical chart rendering contracts and Avalonia renderer
+- `NoxAeterna.Geometry/`: render-independent circular chart layout foundation
+- `NoxAeterna.Astronomy/`: time resolution and ephemeris calculation contracts
 - `NoxAeterna.Symbolics/`: symbolics layer scaffold
 - `NoxAeterna.Interpretation/`: interpretation layer scaffold
 - `NoxAeterna.Domain/`: domain layer scaffold
@@ -154,6 +163,7 @@ Current scaffold dependencies include:
 - Avalonia
 - Avalonia.Desktop
 - Avalonia.Themes.Fluent
+- NodaTime
 - Microsoft.NET.Test.Sdk
 - xunit
 - xunit.runner.visualstudio
@@ -163,7 +173,6 @@ The base `Avalonia` package is currently used by both the minimal app shell and 
 Additional planned directions, not yet added in code:
 
 - CommunityToolkit.Mvvm
-- NodaTime
 - Dapper
 - Serilog
 - SwissEphNet or equivalent Swiss Ephemeris wrapper

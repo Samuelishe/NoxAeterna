@@ -194,3 +194,11 @@ Decision: Load UI localization catalogs from simple flat key-value JSON files an
 Reason: The app needs real resource-backed localization without introducing a heavy localization framework or premature nested catalog complexity.
 
 Consequences: UI localization can now be loaded from `resources/localization/ui/<language>.json`, while persistence, interpretation localization, and broader resource-loading architecture remain deferred.
+
+## 2026-05-15: Keep the First Real Theme Switching in App and Theme Metadata in Presentation
+
+Decision: Keep theme metadata and selection contracts in `NoxAeterna.Presentation`, and apply the active `ThemeId` through a small `AppThemeController` in `NoxAeterna.App` using Avalonia resource dictionaries.
+
+Reason: Theme identity and preference state belong to presentation concerns, while actual Avalonia resource application belongs at the application host boundary.
+
+Consequences: Dark/light switching now works in memory without polluting domain, rendering, or infrastructure. Persistence, richer theme catalogs, and broader design-system work remain deferred.

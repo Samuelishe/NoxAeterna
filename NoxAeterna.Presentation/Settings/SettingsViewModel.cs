@@ -122,9 +122,8 @@ public sealed class SettingsViewModel
                 new LanguageOption(new LanguageCode("ru"), new LocalizationKey("ui.language.ru")),
                 new LanguageOption(new LanguageCode("en"), new LocalizationKey("ui.language.en"))
             },
-            new[]
-            {
-                new ThemeOption(new ThemeId("dark"), new LocalizationKey("theme.dark")),
-                new ThemeOption(new ThemeId("light"), new LocalizationKey("theme.light"))
-            });
+            ThemeRegistry.CreateDefault()
+                .Themes
+                .Select(theme => new ThemeOption(theme.Id, theme.DisplayNameKey))
+                .ToArray());
 }

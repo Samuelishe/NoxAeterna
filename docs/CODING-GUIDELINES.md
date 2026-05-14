@@ -83,6 +83,8 @@ Temporary in-memory localization or settings bootstrapping is acceptable in `App
 
 When JSON-backed localization exists, prefer catalog loading over inline bootstrap dictionaries. Keep the JSON shape simple and flat unless a stronger reason appears.
 
+Theme switching should continue to flow through `ThemeId` and a small app-level theme controller or equivalent boundary. Do not reintroduce boolean dark-mode flags or scatter hardcoded product colors across shell controls when theme resources can carry them.
+
 ## Attribution and Provenance
 
 Every session that introduces external material must document:

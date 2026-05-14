@@ -3,13 +3,14 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Nox Aeterna"
+    Background="{DynamicResource ShellWindowBackgroundBrush}"
     Width="1280"
     Height="800">
   <Grid ColumnDefinitions="240,*" Margin="20">
     <Border Grid.Column="0"
             Padding="16"
-            Background="#17171A"
-            BorderBrush="#34343A"
+            Background="{DynamicResource ShellNavigationPanelBackgroundBrush}"
+            BorderBrush="{DynamicResource ShellPanelBorderBrush}"
             BorderThickness="1"
             CornerRadius="6">
       <StackPanel Spacing="12">
@@ -24,8 +25,8 @@
     <Border Grid.Column="1"
             Margin="16,0,0,0"
             Padding="16"
-            Background="#121214"
-            BorderBrush="#34343A"
+            Background="{DynamicResource ShellContentPanelBackgroundBrush}"
+            BorderBrush="{DynamicResource ShellPanelBorderBrush}"
             BorderThickness="1"
             CornerRadius="6">
       <Grid RowDefinitions="Auto,Auto,*">
@@ -35,7 +36,7 @@
         <TextBlock x:Name="SectionHintTextBlock"
                    Grid.Row="1"
                    Margin="0,6,0,0"
-                   Foreground="#A8A8AF" />
+                   Foreground="{DynamicResource ShellSecondaryForegroundBrush}" />
         <ContentControl x:Name="SectionContentHost"
                         Grid.Row="2"
                         Margin="0,16,0,0" />

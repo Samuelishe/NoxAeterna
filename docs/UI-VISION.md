@@ -74,13 +74,22 @@ Current settings direction:
 
 - the shell may host a minimal settings section before persistence exists;
 - language and theme selection can exist as in-memory settings state before real storage is added;
-- real settings UX, localization loading, and theme resource switching can arrive incrementally rather than all at once.
+- real settings UX can arrive incrementally rather than all at once;
+- localization now loads from JSON UI catalogs;
+- dark/light theme switching now works through `ThemeId`-driven Avalonia resource dictionaries;
+- persistence and richer theme resources remain deferred.
 
 Current localization direction:
 
 - UI labels should now be sourced from flat JSON catalogs under `resources/localization/ui`;
-- temporary in-memory localization dictionaries in `App` should be treated as transitional only and removed when a cleaner loading boundary exists;
 - missing UI keys must degrade deterministically through fallback rather than disappearing.
+- interpretation and symbolic localization are still deferred.
+
+Current theme direction:
+
+- shell and preview surfaces should use theme resources rather than hardcoded product colors where practical;
+- the first real theme scope is intentionally small: window, panel, border, foreground-hint, and preview-surface brushes;
+- chart rendering remains isolated and should not absorb app-level theme orchestration.
 
 ## Controls
 
@@ -108,6 +117,7 @@ Intended resource direction:
 
 - JSON-based localization catalogs under `/resources/localization/...`
 - JSON-based user preferences in the eventual user app-data directory
+- Avalonia resource dictionaries for active app themes
 
 ## First User Flows
 

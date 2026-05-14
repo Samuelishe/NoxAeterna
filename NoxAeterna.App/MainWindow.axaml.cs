@@ -1,4 +1,6 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml;
 using NoxAeterna.App.Debug;
 using NoxAeterna.Presentation.Localization;
@@ -15,10 +17,26 @@ public partial class MainWindow : Window
     private UserPreferences _userPreferences;
     private readonly ShellViewModel _shellViewModel;
     private readonly SettingsViewModel _settingsViewModel;
+    private readonly TextBlock _navigationTitleTextBlock;
+    private readonly ListBox _navigationListBox;
+    private readonly TextBlock _sectionTitleTextBlock;
+    private readonly TextBlock _sectionHintTextBlock;
+    private readonly ContentControl _sectionContentHost;
 
     public MainWindow()
     {
         InitializeComponent();
+
+        _navigationTitleTextBlock = this.FindControl<TextBlock>("NavigationTitleTextBlock")
+            ?? throw new InvalidOperationException("NavigationTitleTextBlock was not found.");
+        _navigationListBox = this.FindControl<ListBox>("NavigationListBox")
+            ?? throw new InvalidOperationException("NavigationListBox was not found.");
+        _sectionTitleTextBlock = this.FindControl<TextBlock>("SectionTitleTextBlock")
+            ?? throw new InvalidOperationException("SectionTitleTextBlock was not found.");
+        _sectionHintTextBlock = this.FindControl<TextBlock>("SectionHintTextBlock")
+            ?? throw new InvalidOperationException("SectionHintTextBlock was not found.");
+        _sectionContentHost = this.FindControl<ContentControl>("SectionContentHost")
+            ?? throw new InvalidOperationException("SectionContentHost was not found.");
 
         _userPreferences = new UserPreferences(
             new ApplicationLanguagePreference(new LanguageCode("ru")),
@@ -35,7 +53,7 @@ public partial class MainWindow : Window
 
     private void OnNavigationSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (NavigationListBox.SelectedItem is not LocalizedShellNavigationItem selectedItem)
+        if (_navigationListBox.SelectedItem is not LocalizedShellNavigationItem selectedItem)
         {
             return;
         }
@@ -48,19 +66,19 @@ public partial class MainWindow : Window
     {
         var currentItem = _shellViewModel.NavigationItems.First(item => item.Id == _shellViewModel.SelectedSectionId);
 
-        SectionTitleTextBlock.Text = Localize(currentItem.LabelKey);
+        _sectionTitleTextBlock.Text = Localize(currentItem.LabelKey);
 
         if (currentItem.Id == ShellSectionId.DebugPreview)
         {
-            SectionHintTextBlock.Text = $"{Localize("ui.shell.preview_caption")} • {Localize("ui.shell.preview_hint")}";
-            SectionContentHost.Content = new DebugChartPreviewControl();
+            _sectionHintTextBlock.Text = $"{Localize("ui.shell.preview_caption")} • {Localize("ui.shell.preview_hint")}";
+            _sectionContentHost.Content = new DebugChartPreviewControl();
             return;
         }
 
         if (currentItem.Id == ShellSectionId.Settings)
         {
-            SectionHintTextBlock.Text = Localize("ui.settings.hint");
-            SectionContentHost.Content = new DebugSettingsControl(
+            _sectionHintTextBlock.Text = Localize("ui.settings.hint");
+            _sectionContentHost.Content = new DebugSettingsControl(
                 _settingsViewModel,
                 _localizationProvider,
                 _userPreferences.ApplicationLanguage.Language,
@@ -68,8 +86,8 @@ public partial class MainWindow : Window
             return;
         }
 
-        SectionHintTextBlock.Text = $"{Localize("ui.shell.placeholder.caption")} • {Localize("ui.shell.placeholder.hint")}";
-        SectionContentHost.Content = new TextBlock
+        _sectionHintTextBlock.Text = $"{Localize("ui.shell.placeholder.caption")} • {Localize("ui.shell.placeholder.hint")}";
+        _sectionContentHost.Content = new TextBlock
         {
             Text = Localize("ui.shell.placeholder.caption"),
             FontSize = 18
@@ -80,20 +98,25 @@ public partial class MainWindow : Window
     {
         _userPreferences = updatedPreferences;
         _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
+        if (Application.Current is App app)
+        {
+            app.ApplyTheme(_userPreferences.ThemeId);
+        }
+
         RefreshShell();
     }
 
     private void RefreshShell()
     {
         Title = Localize(_shellViewModel.WindowTitleKey);
-        NavigationTitleTextBlock.Text = Localize("ui.shell.navigation_title");
+        _navigationTitleTextBlock.Text = Localize("ui.shell.navigation_title");
 
         var navigationItems = _shellViewModel.NavigationItems
             .Select(item => new LocalizedShellNavigationItem(item, Localize(item.LabelKey)))
             .ToArray();
 
-        NavigationListBox.ItemsSource = navigationItems;
-        NavigationListBox.SelectedItem = navigationItems.First(item => item.Item.Id == _shellViewModel.SelectedSectionId);
+        _navigationListBox.ItemsSource = navigationItems;
+        _navigationListBox.SelectedItem = navigationItems.First(item => item.Item.Id == _shellViewModel.SelectedSectionId);
 
         UpdateShellSection();
     }
