@@ -114,3 +114,19 @@ Decision: Create the initial .NET 10 solution scaffold with a minimal Avalonia a
 Reason: The repository needed a real implementation starting point without introducing domain behavior, infrastructure behavior, or premature package sprawl.
 
 Consequences: The next implementation step should focus on first domain primitives and tests rather than more scaffold work.
+
+## 2026-05-14: Keep Birth-Time Types in Domain and Resolver in Astronomy
+
+Decision: Place birth-time value objects and the `IBirthMomentResolver` contract in `NoxAeterna.Domain`, with the first TZDB-backed resolver implementation in `NoxAeterna.Astronomy`.
+
+Reason: Birth-time representations are core domain concepts, while timezone-to-instant resolution is a time-conversion rule aligned with the astronomy layer.
+
+Consequences: The domain stays explicit and NodaTime-based, while astronomy owns the first concrete time resolution behavior without introducing ephemeris coupling.
+
+## 2026-05-14: Use Deterministic MVP Birth-Time Resolution
+
+Decision: Use a deterministic MVP resolver strategy where ambiguous local times resolve to the earlier occurrence and invalid local times shift forward by the gap duration.
+
+Reason: The first time model needs reproducible, testable behavior before more elaborate user-configurable resolution strategies exist.
+
+Consequences: `BirthMoment` stores `TimeResolutionStatus`, and tests must cover normal, ambiguous, and invalid local-time cases explicitly.

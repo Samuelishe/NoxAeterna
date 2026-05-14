@@ -27,6 +27,17 @@ Special attention:
 
 The system must record how ambiguous or invalid local times are resolved. Silent conversion is not acceptable for birth data.
 
+Current implemented direction:
+
+- Birth-time domain types live in `NoxAeterna.Domain`.
+- A resolver contract exists as `IBirthMomentResolver`.
+- A first TZDB-based resolver implementation exists in `NoxAeterna.Astronomy`.
+- The current deterministic resolver policy is:
+  - ambiguous local times resolve to the earlier occurrence;
+  - invalid local times shift forward by the gap duration.
+
+This is an MVP resolution strategy, not the final breadth of time-resolution options.
+
 ## Ephemeris Abstraction
 
 Swiss Ephemeris or an equivalent high-quality ephemeris should be hidden behind an interface, likely `IEphemerisCalculator`.

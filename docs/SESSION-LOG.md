@@ -161,3 +161,44 @@ Next actions:
 
 - Define `BirthData` and `BirthMoment` direction.
 - Introduce the first NodaTime-based time model contracts without binding to Swiss Ephemeris yet.
+
+## 2026-05-14: First NodaTime-Based Birth-Time Contracts
+
+Summary:
+
+- Added the first explicit birth-time domain model using NodaTime: `BirthTimeAccuracy`, `LocalBirthDateTime`, `BirthLocation`, `TimezoneId`, `BirthData`, `BirthMoment`, `TimeResolutionStatus`, and `IBirthMomentResolver`.
+- Added a small TZDB-based resolver implementation in `NoxAeterna.Astronomy` with deterministic MVP behavior for normal, ambiguous, and invalid local times.
+- Added focused tests for location validation, timezone ID validation, known and unknown birth-time representation, resolver behavior, and public API protection against `System.DateTime` leakage.
+- Introduced NodaTime as a real dependency in `NoxAeterna.Domain` and `NoxAeterna.Astronomy`, and verified the result with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `NoxAeterna.Domain/NoxAeterna.Domain.csproj`
+- `NoxAeterna.Domain/Birth/BirthTimeAccuracy.cs`
+- `NoxAeterna.Domain/Birth/TimeResolutionStatus.cs`
+- `NoxAeterna.Domain/Birth/TimezoneId.cs`
+- `NoxAeterna.Domain/Birth/BirthLocation.cs`
+- `NoxAeterna.Domain/Birth/LocalBirthDateTime.cs`
+- `NoxAeterna.Domain/Birth/BirthData.cs`
+- `NoxAeterna.Domain/Birth/BirthMoment.cs`
+- `NoxAeterna.Domain/Birth/IBirthMomentResolver.cs`
+- `NoxAeterna.Astronomy/NoxAeterna.Astronomy.csproj`
+- `NoxAeterna.Astronomy/Time/TzdbBirthMomentResolver.cs`
+- `NoxAeterna.Tests/Birth/BirthLocationTests.cs`
+- `NoxAeterna.Tests/Birth/TimezoneIdTests.cs`
+- `NoxAeterna.Tests/Birth/BirthDataTests.cs`
+- `NoxAeterna.Tests/Birth/BirthMomentTests.cs`
+- `NoxAeterna.Tests/Birth/TzdbBirthMomentResolverTests.cs`
+- `NoxAeterna.Tests/Birth/PublicApiTimeTypeTests.cs`
+- `README.md`
+- `docs/THIRD-PARTY.md`
+- `docs/DOMAIN-MODEL.md`
+- `docs/ASTRONOMY-ENGINE.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+
+Next actions:
+
+- Define astronomy calculation contracts such as `IEphemerisCalculator`, `CelestialBody`, `PlanetPosition`, and `ChartCalculationRequest`.
+- Keep Swiss Ephemeris-specific integration out of scope until those contracts are stable.

@@ -21,21 +21,35 @@ Central product entity. Expected data:
 
 User-provided birth information. Expected fields:
 
-- Birth date.
-- Birth time, if known.
+- Local birth date/time input.
+- Birth time accuracy.
 - Birth place.
-- Timezone metadata.
-- Accuracy or confidence flags where needed.
+- Explicit timezone ID.
+- Optional source note or confidence metadata.
+
+Current implemented direction:
+
+- `LocalBirthDateTime`
+- `BirthTimeAccuracy`
+- `BirthLocation`
+- `TimezoneId`
+- `BirthData`
 
 ### BirthMoment
 
 Resolved time object produced from local birth data:
 
-- Local date/time.
-- Date/time zone.
-- Zoned date/time.
+- Original local date/time.
+- Explicit timezone ID.
 - UTC instant.
 - Ambiguity or invalid-time resolution metadata.
+- Birth time accuracy.
+
+Current implemented direction:
+
+- `BirthMoment`
+- `TimeResolutionStatus`
+- `IBirthMomentResolver`
 
 ### BirthLocation
 
@@ -44,8 +58,49 @@ Geographic and administrative location:
 - Display name.
 - Latitude.
 - Longitude.
-- Country/region identifiers where useful.
-- Timezone lookup metadata.
+- Optional country/region identifiers.
+- No automatic geocoding in MVP.
+
+### LocalBirthDateTime
+
+User-provided local birth date plus optional local birth time.
+
+Current direction:
+
+- NodaTime `LocalDate`
+- Optional NodaTime `LocalTime`
+- No timezone resolution by itself
+
+### TimezoneId
+
+Explicit IANA timezone identifier such as `Europe/Moscow`.
+
+Current direction:
+
+- Reproducible string value object
+- No automatic lookup in the value object
+
+### BirthTimeAccuracy
+
+Reliability of the provided birth time.
+
+Current direction:
+
+- `UnknownTime`
+- `ApproximateTime`
+- `ExactTime`
+
+### TimeResolutionStatus
+
+How ambiguous or invalid local time was handled during resolution.
+
+Current direction:
+
+- `Resolved`
+- `AmbiguousResolvedEarlier`
+- `AmbiguousResolvedLater`
+- `InvalidShiftedForward`
+- `InvalidRejected`
 
 ### NatalChart
 
