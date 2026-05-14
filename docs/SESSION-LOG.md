@@ -347,3 +347,30 @@ Next actions:
 
 - Add a minimal temporary/debug preview path in `NoxAeterna.App`.
 - Use a deterministic sample chart only to visually verify the Geometry -> Rendering pipeline.
+
+## 2026-05-15: Temporary Debug Chart Preview Window
+
+Summary:
+
+- Added a temporary debug-only preview path in `NoxAeterna.App` to visually verify the current chart pipeline without introducing product UI.
+- Added `DebugSampleNatalChartFactory` with deterministic hardcoded domain data, `DebugChartPreviewControl`, and a temporary `MainWindow` host that renders the sample chart through `CircularChartLayoutBuilder`, `ChartRenderScene`, and `CircularChartRenderer`.
+- Added focused tests for sample-chart determinism and an app boundary check confirming that the app project still does not reference `NoxAeterna.Astronomy`.
+- Verified the result with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `NoxAeterna.App/NoxAeterna.App.csproj`
+- `NoxAeterna.App/Debug/DebugSampleNatalChartFactory.cs`
+- `NoxAeterna.App/Debug/DebugChartPreviewControl.cs`
+- `NoxAeterna.App/MainWindow.axaml`
+- `NoxAeterna.Tests/NoxAeterna.Tests.csproj`
+- `NoxAeterna.Tests/App/DebugSampleNatalChartFactoryTests.cs`
+- `NoxAeterna.Tests/App/AppBoundaryTests.cs`
+- `docs/NEXT-STEPS.md`
+- `docs/RENDERING-ENGINE.md`
+- `docs/SESSION-LOG.md`
+
+Next actions:
+
+- Replace the temporary debug-only host with a thin Presentation-level shell structure.
+- Keep chart rendering isolated in `NoxAeterna.Rendering` while the shell becomes more real.

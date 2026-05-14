@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NoxAeterna.Domain\NoxAeterna.Domain.csproj" />
+    <ProjectReference Include="..\NoxAeterna.Geometry\NoxAeterna.Geometry.csproj" />
     <ProjectReference Include="..\NoxAeterna.Presentation\NoxAeterna.Presentation.csproj" />
     <ProjectReference Include="..\NoxAeterna.Rendering\NoxAeterna.Rendering.csproj" />
     <ProjectReference Include="..\NoxAeterna.Infrastructure\NoxAeterna.Infrastructure.csproj" />

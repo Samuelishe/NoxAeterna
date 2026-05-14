@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NoxAeterna.App\NoxAeterna.App.csproj" />
     <ProjectReference Include="..\NoxAeterna.Domain\NoxAeterna.Domain.csproj" />
     <ProjectReference Include="..\NoxAeterna.Symbolics\NoxAeterna.Symbolics.csproj" />
     <ProjectReference Include="..\NoxAeterna.Astronomy\NoxAeterna.Astronomy.csproj" />

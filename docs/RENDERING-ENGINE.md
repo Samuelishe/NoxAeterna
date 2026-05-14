@@ -31,6 +31,18 @@ The current renderer is intentionally minimal and technical. It consumes prepare
 - aspect lines;
 - planet marker placeholders.
 
+Current temporary verification path:
+
+```text
+DebugSampleNatalChartFactory
+-> CircularChartLayoutBuilder
+-> ChartRenderScene
+-> CircularChartRenderer
+-> Avalonia preview control in NoxAeterna.App
+```
+
+This path exists only to verify the current geometry-to-rendering boundary. It is not the final UI architecture.
+
 ## Boundaries
 
 Rendering should receive prepared geometry and rendering models. It should not calculate planetary positions, interpret symbolic meaning, or query persistence.

@@ -2,8 +2,12 @@
     x:Class="NoxAeterna.App.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Nox Aeterna"
+    xmlns:debug="using:NoxAeterna.App.Debug"
+    Title="Nox Aeterna Debug Preview"
     Width="1280"
     Height="800">
-  <Grid />
+  <!-- Temporary debug preview host for Geometry -> Rendering verification. Not product UI. -->
+  <Grid Margin="24">
+    <debug:DebugChartPreviewControl />
+  </Grid>
 </Window>
