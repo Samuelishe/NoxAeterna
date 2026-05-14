@@ -9,7 +9,7 @@ public sealed class ShellViewModelTests
     {
         var shell = ShellViewModel.CreateDefault();
 
-        Assert.Equal(ShellSectionId.DebugPreview, shell.SelectedSectionId);
+        Assert.Equal(ShellSectionId.Astrology, shell.SelectedSectionId);
     }
 
     [Fact]
@@ -23,8 +23,7 @@ public sealed class ShellViewModelTests
                 ShellSectionId.Astrology,
                 ShellSectionId.Tarot,
                 ShellSectionId.Archive,
-                ShellSectionId.Settings,
-                ShellSectionId.DebugPreview
+                ShellSectionId.Settings
             },
             shell.NavigationItems.Select(item => item.Id));
     }
@@ -38,12 +37,10 @@ public sealed class ShellViewModelTests
     }
 
     [Fact]
-    public void DebugPreviewItem_RemainsClearlyTemporary()
+    public void CreateDefault_DoesNotExposeTemporaryNavigationItems()
     {
         var shell = ShellViewModel.CreateDefault();
 
-        var debugItem = Assert.Single(shell.NavigationItems, item => item.Id == ShellSectionId.DebugPreview);
-
-        Assert.True(debugItem.IsTemporary);
+        Assert.DoesNotContain(shell.NavigationItems, item => item.IsTemporary);
     }
 }

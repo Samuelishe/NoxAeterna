@@ -14,6 +14,7 @@ Current implemented foundation includes:
 - Render-independent circular chart geometry.
 - Minimal rendering contracts and a technical chart renderer.
 - Thin presentation shell, JSON-backed UI localization, in-memory settings, and first dark/light theme switching.
+- First astrology workspace foundation hosted through the shell, still using development-only sample chart data.
 
 Large-scale planning passes should remain closed. The next work should stay implementation-led and boundary-aware.
 
@@ -62,7 +63,7 @@ Turns prepared geometry and rendering models into visuals. It may use Avalonia d
 
 ### Presentation
 
-Contains MVVM view models, presentation models, commands, validation state, UI orchestration, localization contracts, theme selection, and user preference models. It coordinates use cases but does not perform core astronomy, geometry, interpretation, or persistence details directly.
+Contains MVVM view models, presentation models, commands, validation state, UI orchestration, localization contracts, workspace state, theme selection, and user preference models. It coordinates use cases but does not perform core astronomy, geometry, interpretation, or persistence details directly.
 
 ### Infrastructure
 
@@ -70,7 +71,7 @@ Contains concrete adapters: Swiss Ephemeris wrapper, SQLite data access, logging
 
 ### App
 
-Application composition root, Avalonia startup, dependency injection, configuration, and top-level shell.
+Application composition root, Avalonia startup, dependency injection, configuration, top-level shell, and current workspace host wiring.
 
 ### Tests
 

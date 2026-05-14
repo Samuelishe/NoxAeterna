@@ -509,3 +509,46 @@ Next actions:
 
 - Start replacing the temporary debug preview section with the first real astrology workspace foundation.
 - Keep settings persistence deferred while the shell, workspace, and preference flow stabilize.
+
+## 2026-05-15: First Astrology Workspace Foundation
+
+Summary:
+
+- Replaced the visible debug-preview shell route with the first astrology workspace foundation.
+- Added presentation-side astrology workspace models and moved the shell default section to `Astrology`.
+- Added app-level `AstrologyWorkspaceControl` and `AstrologyChartSurfaceControl`, while keeping development-only sample chart and scene generation in a dedicated `Samples` area.
+- Preserved the Geometry -> Rendering isolation by feeding the workspace a prepared `ChartRenderScene` instead of calculation services or raw rendering code in presentation models.
+- Updated localization catalogs, theme resource usage for workspace panels, and synchronized architecture/UI/rendering documentation to the new shell/workspace state.
+
+Changed files:
+
+- `NoxAeterna.Presentation/Astrology/AstrologyWorkspacePanelId.cs`
+- `NoxAeterna.Presentation/Astrology/AstrologyWorkspacePanel.cs`
+- `NoxAeterna.Presentation/Astrology/AstrologyWorkspaceViewModel.cs`
+- `NoxAeterna.Presentation/Shell/ShellSectionId.cs`
+- `NoxAeterna.Presentation/Shell/ShellViewModel.cs`
+- `NoxAeterna.App/Astrology/AstrologyChartSurfaceControl.cs`
+- `NoxAeterna.App/Astrology/AstrologyWorkspaceControl.cs`
+- `NoxAeterna.App/Samples/DevelopmentSampleNatalChartFactory.cs`
+- `NoxAeterna.App/Samples/DevelopmentSampleChartSceneFactory.cs`
+- `NoxAeterna.App/MainWindow.axaml.cs`
+- `NoxAeterna.App/Themes/DarkThemeResources.axaml`
+- `NoxAeterna.App/Themes/LightThemeResources.axaml`
+- `NoxAeterna.Tests/App/DevelopmentSampleFactoriesTests.cs`
+- `NoxAeterna.Tests/Presentation/AstrologyWorkspaceViewModelTests.cs`
+- `NoxAeterna.Tests/Presentation/ShellViewModelTests.cs`
+- `resources/localization/ui/ru.json`
+- `resources/localization/ui/en.json`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/GEOMETRY-ENGINE.md`
+- `docs/NEXT-STEPS.md`
+- `docs/RENDERING-ENGINE.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Introduce the first structured birth-data input foundation inside the astrology workspace.
+- Keep settings persistence and real ephemeris-backed calculation flow deferred while the input foundation is introduced.

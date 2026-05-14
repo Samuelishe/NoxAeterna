@@ -62,8 +62,7 @@ public sealed class ShellViewModel
                 new ShellNavigationItem(ShellSectionId.Astrology, new LocalizationKey("ui.shell.section.astrology")),
                 new ShellNavigationItem(ShellSectionId.Tarot, new LocalizationKey("ui.shell.section.tarot")),
                 new ShellNavigationItem(ShellSectionId.Archive, new LocalizationKey("ui.shell.section.archive")),
-                new ShellNavigationItem(ShellSectionId.Settings, new LocalizationKey("ui.shell.section.settings")),
-                new ShellNavigationItem(ShellSectionId.DebugPreview, new LocalizationKey("ui.shell.section.debug_preview"), isTemporary: true)
+                new ShellNavigationItem(ShellSectionId.Settings, new LocalizationKey("ui.shell.section.settings"))
             },
-            ShellSectionId.DebugPreview);
+            ShellSectionId.Astrology);
 }

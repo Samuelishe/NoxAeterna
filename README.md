@@ -27,10 +27,11 @@ The repository now contains:
 - Render-independent circular chart geometry
 - A minimal Avalonia rendering layer for technical chart drawing
 - A thin shell, JSON-backed UI localization, in-memory settings, and first real dark/light theme switching
-- A temporary debug chart preview route for visual pipeline verification
+- A first astrology workspace foundation that hosts the chart surface and placeholder side panels
+- Development-only sample chart generation used behind that workspace for current pipeline verification
 - xUnit test harness and repository-level build configuration
 
-The application is still in foundation mode. Real profile workflows, ephemeris-backed calculations, persistence, Tarot UX, and final visual design are not implemented yet.
+The application is still in foundation mode. Real profile workflows, birth-data input, ephemeris-backed calculations, persistence, Tarot UX, and final visual design are not implemented yet.
 
 ## Planned Architecture
 
@@ -114,8 +115,8 @@ Current theme note:
 ## Repository Structure Overview
 
 - `docs/`: architecture, vision, glossary, boundaries, roadmap, risks, and agent continuity documents
-- `NoxAeterna.App/`: Avalonia app host, temporary shell window, debug preview host, and current theme application boundary
-- `NoxAeterna.Presentation/`: shell, localization, preferences, settings, and theme metadata foundations
+- `NoxAeterna.App/`: Avalonia app host, shell window, astrology workspace host, development-only sample scene wiring, and current theme application boundary
+- `NoxAeterna.Presentation/`: shell, astrology workspace models, localization, preferences, settings, and theme metadata foundations
 - `NoxAeterna.Rendering/`: technical chart rendering contracts and Avalonia renderer
 - `NoxAeterna.Geometry/`: render-independent circular chart layout foundation
 - `NoxAeterna.Astronomy/`: time resolution and ephemeris calculation contracts

@@ -67,8 +67,8 @@ Current shell direction:
 
 - a thin presentation-led shell can exist before real product screens;
 - top-level sections should be modeled explicitly rather than improvised in `App`;
-- temporary debug preview content may be hosted inside the shell while the real product structure is still being formed;
-- the debug preview must remain clearly marked as temporary infrastructure rather than the final Astrology screen.
+- the first astrology workspace foundation can replace a raw debug-only host before full product screens exist;
+- development-only sample data may still drive that workspace temporarily, but should stay out of the visible shell structure.
 
 Current settings direction:
 
@@ -89,6 +89,7 @@ Current theme direction:
 
 - shell and preview surfaces should use theme resources rather than hardcoded product colors where practical;
 - the first real theme scope is intentionally small: window, panel, border, foreground-hint, and preview-surface brushes;
+- workspace panels may use the same theme resource approach for basic structure and separation;
 - chart rendering remains isolated and should not absorb app-level theme orchestration.
 
 ## Controls

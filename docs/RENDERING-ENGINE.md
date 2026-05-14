@@ -34,14 +34,14 @@ The current renderer is intentionally minimal and technical. It consumes prepare
 Current temporary verification path:
 
 ```text
-DebugSampleNatalChartFactory
+DevelopmentSampleNatalChartFactory
 -> CircularChartLayoutBuilder
 -> ChartRenderScene
 -> CircularChartRenderer
--> Avalonia debug preview control inside the temporary shell host in NoxAeterna.App
+-> AstrologyChartSurfaceControl inside the first astrology workspace foundation in NoxAeterna.App
 ```
 
-This path exists only to verify the current geometry-to-rendering boundary. It is not the final UI architecture.
+This path still exists only to verify the current geometry-to-rendering boundary. It now sits inside a reusable astrology workspace foundation rather than a raw debug-only shell section. It is not the final UI architecture.
 
 ## Boundaries
 

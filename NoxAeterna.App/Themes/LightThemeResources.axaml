@@ -7,6 +7,9 @@
   <SolidColorBrush x:Key="ShellContentPanelBackgroundBrush" Color="#FAF7F2" />
   <SolidColorBrush x:Key="ShellPanelBorderBrush" Color="#B8AA95" />
   <SolidColorBrush x:Key="ShellSecondaryForegroundBrush" Color="#665E54" />
+  <SolidColorBrush x:Key="WorkspacePanelBackgroundBrush" Color="#F3EEE6" />
+  <SolidColorBrush x:Key="WorkspacePanelBorderBrush" Color="#C0B19C" />
+  <SolidColorBrush x:Key="WorkspacePanelSubtleForegroundBrush" Color="#6C6458" />
   <SolidColorBrush x:Key="PreviewSurfaceBackgroundBrush" Color="#F5F1EA" />
   <SolidColorBrush x:Key="PreviewSurfaceBorderBrush" Color="#BDAF9C" />
 </ResourceDictionary>

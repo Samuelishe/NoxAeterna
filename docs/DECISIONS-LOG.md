@@ -202,3 +202,11 @@ Decision: Keep theme metadata and selection contracts in `NoxAeterna.Presentatio
 Reason: Theme identity and preference state belong to presentation concerns, while actual Avalonia resource application belongs at the application host boundary.
 
 Consequences: Dark/light switching now works in memory without polluting domain, rendering, or infrastructure. Persistence, richer theme catalogs, and broader design-system work remain deferred.
+
+## 2026-05-15: Replace the Visible Debug Section With an Astrology Workspace Foundation
+
+Decision: Replace the visible debug-preview shell route with a first reusable astrology workspace foundation, while keeping development-only sample chart generation in an internal sample area under `NoxAeterna.App`.
+
+Reason: The app now needs a real workspace structure that can later host input, chart controls, and interpretation panels without presenting the chart area as pure debug infrastructure.
+
+Consequences: The shell opens into the astrology workspace by default, rendering stays isolated behind `ChartRenderScene`, and development-only sample data remains an internal temporary source rather than a visible product section.

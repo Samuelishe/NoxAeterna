@@ -8,6 +8,5 @@ public enum ShellSectionId
     Astrology = 0,
     Tarot = 1,
     Archive = 2,
-    Settings = 3,
-    DebugPreview = 4
+    Settings = 3
 }

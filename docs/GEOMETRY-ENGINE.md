@@ -98,6 +98,7 @@ Current implemented handoff:
 - `CircularChartLayout` is the geometry output consumed by rendering.
 - `ChartRenderScene` is the first rendering-side wrapper over that layout.
 - Geometry still does not know Avalonia points, brushes, pens, or `DrawingContext`.
+- The current astrology workspace host receives rendering-side scene data, while development-only sample scene creation remains outside presentation models.
 
 ## Collision Avoidance
 

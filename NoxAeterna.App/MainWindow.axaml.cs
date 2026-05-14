@@ -1,8 +1,10 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml;
+using NoxAeterna.App.Astrology;
 using NoxAeterna.App.Debug;
+using NoxAeterna.App.Samples;
+using NoxAeterna.Presentation.Astrology;
 using NoxAeterna.Presentation.Localization;
 using NoxAeterna.Presentation.Preferences;
 using NoxAeterna.Presentation.Settings;
@@ -16,6 +18,7 @@ public partial class MainWindow : Window
     private ILocalizationProvider _localizationProvider;
     private UserPreferences _userPreferences;
     private readonly ShellViewModel _shellViewModel;
+    private readonly AstrologyWorkspaceViewModel _astrologyWorkspaceViewModel;
     private readonly SettingsViewModel _settingsViewModel;
     private readonly TextBlock _navigationTitleTextBlock;
     private readonly ListBox _navigationListBox;
@@ -44,6 +47,7 @@ public partial class MainWindow : Window
             new ThemeId("dark"));
         _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
         _shellViewModel = ShellViewModel.CreateDefault();
+        _astrologyWorkspaceViewModel = AstrologyWorkspaceViewModel.CreateFoundation();
         _settingsViewModel = SettingsViewModel.CreateDefault(_userPreferences);
 
         RefreshShell();
@@ -68,10 +72,14 @@ public partial class MainWindow : Window
 
         _sectionTitleTextBlock.Text = Localize(currentItem.LabelKey);
 
-        if (currentItem.Id == ShellSectionId.DebugPreview)
+        if (currentItem.Id == ShellSectionId.Astrology)
         {
-            _sectionHintTextBlock.Text = $"{Localize("ui.shell.preview_caption")} • {Localize("ui.shell.preview_hint")}";
-            _sectionContentHost.Content = new DebugChartPreviewControl();
+            _sectionHintTextBlock.Text = Localize(_astrologyWorkspaceViewModel.WorkspaceHintKey);
+            _sectionContentHost.Content = new AstrologyWorkspaceControl(
+                _astrologyWorkspaceViewModel,
+                _localizationProvider,
+                _userPreferences.ApplicationLanguage.Language,
+                DevelopmentSampleChartSceneFactory.Create());
             return;
         }
 

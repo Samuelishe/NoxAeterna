@@ -1,30 +1,26 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using NoxAeterna.Geometry.Charts;
 using NoxAeterna.Rendering.Charts;
 
-namespace NoxAeterna.App.Debug;
+namespace NoxAeterna.App.Astrology;
 
 /// <summary>
-/// Hosts a temporary debug-only chart preview for visual verification of the current pipeline.
-/// This control is not product UI.
+/// Hosts the current chart rendering surface for the astrology workspace foundation.
 /// </summary>
-public sealed class DebugChartPreviewControl : Control
+public sealed class AstrologyChartSurfaceControl : Control
 {
     private readonly ChartRenderScene _scene;
     private readonly CircularChartRenderer _renderer;
     private readonly ChartRenderOptions _renderOptions;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DebugChartPreviewControl"/> class.
+    /// Initializes a new instance of the <see cref="AstrologyChartSurfaceControl"/> class.
     /// </summary>
-    public DebugChartPreviewControl()
+    /// <param name="scene">The prepared chart render scene.</param>
+    public AstrologyChartSurfaceControl(ChartRenderScene scene)
     {
-        var sampleChart = DebugSampleNatalChartFactory.Create();
-        var layout = new CircularChartLayoutBuilder().Build(sampleChart);
-
-        _scene = ChartRenderScene.FromLayout(layout);
+        _scene = scene ?? throw new ArgumentNullException(nameof(scene));
         _renderer = new CircularChartRenderer();
         _renderOptions = new ChartRenderOptions();
     }

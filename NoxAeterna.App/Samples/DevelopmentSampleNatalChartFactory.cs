@@ -2,16 +2,16 @@ using NodaTime;
 using NoxAeterna.Domain.Astrology;
 using NoxAeterna.Domain.Birth;
 
-namespace NoxAeterna.App.Debug;
+namespace NoxAeterna.App.Samples;
 
 /// <summary>
-/// Creates a deterministic sample chart for temporary pipeline verification.
-/// This factory is debug-only infrastructure and must not be treated as product data flow.
+/// Creates deterministic development-only chart data for workspace and rendering verification.
+/// This factory is not product data flow.
 /// </summary>
-public static class DebugSampleNatalChartFactory
+public static class DevelopmentSampleNatalChartFactory
 {
     /// <summary>
-    /// Creates a deterministic natal chart snapshot for temporary preview rendering.
+    /// Creates a deterministic natal chart snapshot for development-only use.
     /// </summary>
     /// <returns>A sample natal chart snapshot.</returns>
     public static NatalChart Create()
@@ -22,7 +22,7 @@ public static class DebugSampleNatalChartFactory
             Instant.FromUtc(1990, 7, 14, 9, 45),
             TimeResolutionStatus.Resolved,
             BirthTimeAccuracy.ExactTime,
-            "Debug sample");
+            "Development sample");
 
         var positions = new[]
         {
@@ -41,6 +41,6 @@ public static class DebugSampleNatalChartFactory
         return NatalChart.Create(
             birthMoment,
             positions,
-            ephemerisSourceVersion: "debug-sample");
+            ephemerisSourceVersion: "development-sample");
     }
 }
