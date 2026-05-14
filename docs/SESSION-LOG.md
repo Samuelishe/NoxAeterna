@@ -314,3 +314,36 @@ Next actions:
 
 - Introduce the first render-layer contracts in `NoxAeterna.Rendering`.
 - Connect rendering to `CircularChartLayout` through Avalonia drawing abstractions without building full UI screens yet.
+
+## 2026-05-15: First Rendering-Layer Contracts
+
+Summary:
+
+- Added the first minimal rendering-layer contracts in `NoxAeterna.Rendering`: `ChartRenderOptions`, `ChartRenderScene`, and `CircularChartRenderer`.
+- Added a scene-based rendering boundary where Avalonia drawing code consumes `CircularChartLayout` through `ChartRenderScene` instead of using `NatalChart` directly.
+- Implemented deterministic technical drawing of the outer chart circle, zodiac sector separators, aspect lines, and planet marker placeholders using Avalonia `DrawingContext`.
+- Added focused tests for render-scene determinism, render-option validation, and rendering project boundary rules.
+- Verified the result with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `NoxAeterna.Rendering/NoxAeterna.Rendering.csproj`
+- `NoxAeterna.Rendering/Charts/ChartRenderOptions.cs`
+- `NoxAeterna.Rendering/Charts/ChartRenderScene.cs`
+- `NoxAeterna.Rendering/Charts/CircularChartRenderer.cs`
+- `NoxAeterna.Tests/NoxAeterna.Tests.csproj`
+- `NoxAeterna.Tests/Rendering/ChartRenderSceneTests.cs`
+- `NoxAeterna.Tests/Rendering/ChartRenderOptionsTests.cs`
+- `NoxAeterna.Tests/Rendering/RenderingBoundaryTests.cs`
+- `README.md`
+- `docs/THIRD-PARTY.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/GEOMETRY-ENGINE.md`
+- `docs/NEXT-STEPS.md`
+- `docs/RENDERING-ENGINE.md`
+- `docs/SESSION-LOG.md`
+
+Next actions:
+
+- Add a minimal temporary/debug preview path in `NoxAeterna.App`.
+- Use a deterministic sample chart only to visually verify the Geometry -> Rendering pipeline.

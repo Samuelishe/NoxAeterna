@@ -162,3 +162,11 @@ Decision: Keep localization contracts, fallback resolution, theme identifiers, a
 Reason: Domain models must remain language-neutral, while language selection, localization catalogs, and theme selection are application-facing concerns.
 
 Consequences: Future UI, interpretation, and symbolic text should resolve through localization keys and providers, with a deterministic MVP fallback chain of `selected language -> ru -> key`.
+
+## 2026-05-15: Keep the First Rendering Boundary Scene-Based
+
+Decision: Make the first renderer consume `ChartRenderScene` derived from `CircularChartLayout`, instead of accepting `NatalChart` or astronomy-facing models directly.
+
+Reason: Rendering should prove the Geometry -> Rendering handoff without backsliding into raw domain-model rendering or calculation leakage.
+
+Consequences: Geometry remains the only source of chart placement, while rendering stays focused on Avalonia drawing commands, numeric options, and visual placeholder output.

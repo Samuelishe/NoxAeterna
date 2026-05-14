@@ -154,6 +154,8 @@ Current scaffold dependencies include:
 - xunit
 - xunit.runner.visualstudio
 
+The base `Avalonia` package is currently used by both the minimal app shell and the first rendering-layer contracts.
+
 Additional planned directions, not yet added in code:
 
 - CommunityToolkit.Mvvm

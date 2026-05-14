@@ -18,9 +18,30 @@ Prefer:
 - Future SVG/PNG export.
 - Future animation support.
 
+Current implemented direction:
+
+- `ChartRenderOptions`
+- `ChartRenderScene`
+- `CircularChartRenderer`
+
+The current renderer is intentionally minimal and technical. It consumes prepared chart geometry and draws:
+
+- outer chart circle;
+- zodiac sector separators;
+- aspect lines;
+- planet marker placeholders.
+
 ## Boundaries
 
 Rendering should receive prepared geometry and rendering models. It should not calculate planetary positions, interpret symbolic meaning, or query persistence.
+
+Current boundary handoff:
+
+```text
+CircularChartLayout -> ChartRenderScene -> CircularChartRenderer
+```
+
+`CircularChartRenderer` accepts `ChartRenderScene`, `Rect`, and Avalonia `DrawingContext`. It does not accept `NatalChart` directly.
 
 Allowed responsibilities:
 
@@ -53,11 +74,19 @@ The chart renderer should eventually handle:
 
 Exact astrological diagrams should be rendered programmatically. Generated images must not be used for technical chart output.
 
+Current placeholder strategy:
+
+- small circular planet markers instead of final glyphs;
+- deterministic aspect line colors by aspect type;
+- no final art direction, theme integration, or text-based glyph rendering yet.
+
 ## DPI and Scaling
 
 Rendering must be DPI-aware and responsive. Chart visuals should scale without blurred text or distorted glyphs.
 
 Future rendering models should include stable dimensions and scale factors so export and on-screen display can share layout logic.
+
+The current options model carries only numeric drawing parameters such as padding ratio and stroke thickness.
 
 ## Assets
 

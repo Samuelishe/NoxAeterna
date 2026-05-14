@@ -20,7 +20,7 @@ For each entry, record:
 | Name | Author or organization | License | Purpose in project | Official repository or site | Notes |
 | --- | --- | --- | --- | --- | --- |
 | .NET 10 SDK | Microsoft | To be verified at adoption time | Core SDK and runtime | https://dotnet.microsoft.com/ | Planned, not yet added as a tracked runtime dependency in code |
-| Avalonia | Avalonia UI contributors | MIT | Cross-platform desktop UI base package for the desktop app shell | https://github.com/AvaloniaUI/Avalonia | Added in `NoxAeterna.App`, version `12.0.2` |
+| Avalonia | Avalonia UI contributors | MIT | Cross-platform desktop UI base package for the desktop app shell and controlled rendering layer | https://github.com/AvaloniaUI/Avalonia | Added in `NoxAeterna.App` and `NoxAeterna.Rendering`, version `12.0.2` |
 | Avalonia.Desktop | Avalonia UI contributors | MIT | Desktop lifetime and platform integration for the app shell | https://www.nuget.org/packages/Avalonia.Desktop | Added in `NoxAeterna.App`, version `12.0.2` |
 | Avalonia.Themes.Fluent | Avalonia UI contributors | MIT | Minimal application theme for the Avalonia shell | https://docs.avaloniaui.net/docs/basics/user-interface/styling/themes/fluent | Added in `NoxAeterna.App`, version `12.0.2` |
 | CommunityToolkit.Mvvm | Microsoft | To be verified at adoption time | MVVM support | https://github.com/CommunityToolkit/dotnet | Planned |

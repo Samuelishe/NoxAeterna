@@ -93,6 +93,12 @@ Likely render-facing handoff objects:
 
 `ChartRenderScene` and visual-layer objects belong to rendering-side contracts, not to astronomy or UI orchestration.
 
+Current implemented handoff:
+
+- `CircularChartLayout` is the geometry output consumed by rendering.
+- `ChartRenderScene` is the first rendering-side wrapper over that layout.
+- Geometry still does not know Avalonia points, brushes, pens, or `DrawingContext`.
+
 ## Collision Avoidance
 
 Label and glyph collision avoidance can become complex. MVP should start with a simple deterministic strategy and evolve.
