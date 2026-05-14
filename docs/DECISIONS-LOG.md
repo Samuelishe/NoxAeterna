@@ -178,3 +178,11 @@ Decision: Start the application shell in `NoxAeterna.Presentation` with explicit
 Reason: The app now needs a stable shell shape for future real sections, but the current chart host still exists only to verify the rendering pipeline.
 
 Consequences: The shell can grow into real sections without rewriting the window host from scratch, and the debug preview remains visibly temporary instead of being mistaken for the final Astrology UI.
+
+## 2026-05-15: Keep the First Settings Foundation In Presentation and In Memory
+
+Decision: Keep the first language and theme settings foundation in `NoxAeterna.Presentation`, with in-memory updates only and no persistence adapter yet.
+
+Reason: The app needs a real settings shape before storage exists, but introducing persistence now would blur boundaries and overextend the current step.
+
+Consequences: Settings can already model separate application and interpretation languages plus theme selection, but `settings.json` storage, app-data location handling, and real theme resource switching remain deferred.

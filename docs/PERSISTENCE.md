@@ -53,3 +53,16 @@ Options to evaluate later:
 - EF Core migrations only if EF Core is adopted for a strong reason.
 
 Record the migration decision in `DECISIONS-LOG.md`.
+
+## Current Deferred Areas
+
+Settings persistence is still deferred.
+
+Current implemented state:
+
+- language and theme preferences can exist in presentation and app memory;
+- no `settings.json` writing exists yet;
+- no app-data path resolver exists yet;
+- no infrastructure settings adapter exists yet.
+
+Do not treat the current in-memory settings foundation as a persistence solution.

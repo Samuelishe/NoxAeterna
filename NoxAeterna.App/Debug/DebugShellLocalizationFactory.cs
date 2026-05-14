@@ -29,7 +29,14 @@ public static class DebugShellLocalizationFactory
                     new LocalizationEntry(new LocalizationKey("ui.shell.preview_caption"), "Временная визуальная проверка pipeline"),
                     new LocalizationEntry(new LocalizationKey("ui.shell.preview_hint"), "Не продуктовый экран"),
                     new LocalizationEntry(new LocalizationKey("ui.shell.placeholder.caption"), "Раздел пока не реализован"),
-                    new LocalizationEntry(new LocalizationKey("ui.shell.placeholder.hint"), "Сейчас доступен только временный preview pipeline")
+                    new LocalizationEntry(new LocalizationKey("ui.shell.placeholder.hint"), "Сейчас доступен только временный preview pipeline"),
+                    new LocalizationEntry(new LocalizationKey("ui.settings.title"), "Настройки"),
+                    new LocalizationEntry(new LocalizationKey("ui.settings.application_language"), "Язык приложения"),
+                    new LocalizationEntry(new LocalizationKey("ui.settings.interpretation_language"), "Язык интерпретации"),
+                    new LocalizationEntry(new LocalizationKey("ui.settings.theme"), "Тема"),
+                    new LocalizationEntry(new LocalizationKey("ui.settings.hint"), "Изменения пока действуют только в памяти"),
+                    new LocalizationEntry(new LocalizationKey("ui.language.ru"), "Русский"),
+                    new LocalizationEntry(new LocalizationKey("ui.language.en"), "Английский")
                 ]),
             new LocalizationCatalog(
                 LocalizationScope.Ui,
@@ -45,7 +52,14 @@ public static class DebugShellLocalizationFactory
                     new LocalizationEntry(new LocalizationKey("ui.shell.preview_caption"), "Temporary visual pipeline verification"),
                     new LocalizationEntry(new LocalizationKey("ui.shell.preview_hint"), "Not product UI"),
                     new LocalizationEntry(new LocalizationKey("ui.shell.placeholder.caption"), "Section scaffold only"),
-                    new LocalizationEntry(new LocalizationKey("ui.shell.placeholder.hint"), "Only the temporary preview pipeline is available now")
+                    new LocalizationEntry(new LocalizationKey("ui.shell.placeholder.hint"), "Only the temporary preview pipeline is available now"),
+                    new LocalizationEntry(new LocalizationKey("ui.settings.title"), "Settings"),
+                    new LocalizationEntry(new LocalizationKey("ui.settings.application_language"), "Application language"),
+                    new LocalizationEntry(new LocalizationKey("ui.settings.interpretation_language"), "Interpretation language"),
+                    new LocalizationEntry(new LocalizationKey("ui.settings.theme"), "Theme"),
+                    new LocalizationEntry(new LocalizationKey("ui.settings.hint"), "Changes currently apply in memory only"),
+                    new LocalizationEntry(new LocalizationKey("ui.language.ru"), "Russian"),
+                    new LocalizationEntry(new LocalizationKey("ui.language.en"), "English")
                 ])
         ]);
 }

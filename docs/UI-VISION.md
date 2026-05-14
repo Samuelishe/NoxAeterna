@@ -70,6 +70,12 @@ Current shell direction:
 - temporary debug preview content may be hosted inside the shell while the real product structure is still being formed;
 - the debug preview must remain clearly marked as temporary infrastructure rather than the final Astrology screen.
 
+Current settings direction:
+
+- the shell may host a minimal settings section before persistence exists;
+- language and theme selection can exist as in-memory settings state before real storage is added;
+- real settings UX, localization loading, and theme resource switching can arrive incrementally rather than all at once.
+
 ## Controls
 
 Use familiar desktop controls for serious work:

@@ -404,3 +404,35 @@ Next actions:
 
 - Implement the first real Settings foundation for language and theme preferences without persistence.
 - Keep the debug preview route available for chart-rendering verification while the shell grows.
+
+## 2026-05-15: First In-Memory Settings Foundation
+
+Summary:
+
+- Added the first minimal settings presentation foundation in `NoxAeterna.Presentation`: `SettingsViewModel`, `LanguageOption`, and `ThemeOption`.
+- Wired the shell `Settings` section in `NoxAeterna.App` to a temporary in-memory settings control for application language, interpretation language, and theme selection.
+- Kept preference updates in memory only, with no JSON writing, app-data resolver, or infrastructure persistence.
+- Extended the temporary localization bootstrap with settings-related keys and allowed shell relocalization from the selected application language.
+- Added focused tests for available language/theme options, separation of application and interpretation languages, `ThemeId`-based theme selection, deterministic preference updates, and localization-key-based settings labels.
+- Verified the result with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `NoxAeterna.Presentation/Settings/LanguageOption.cs`
+- `NoxAeterna.Presentation/Settings/ThemeOption.cs`
+- `NoxAeterna.Presentation/Settings/SettingsViewModel.cs`
+- `NoxAeterna.App/Debug/DebugSettingsControl.cs`
+- `NoxAeterna.App/Debug/DebugShellLocalizationFactory.cs`
+- `NoxAeterna.App/MainWindow.axaml.cs`
+- `NoxAeterna.Tests/Presentation/SettingsViewModelTests.cs`
+- `docs/CODING-GUIDELINES.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/NEXT-STEPS.md`
+- `docs/PERSISTENCE.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Add JSON-backed localization loading for UI resources.
+- Keep settings persistence deferred while replacing the in-memory localization bootstrap.

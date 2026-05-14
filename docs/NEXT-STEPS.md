@@ -1,15 +1,15 @@
 # Next Steps
 
-The thin shell foundation now exists and still hosts the temporary debug preview for pipeline verification. The next work should establish the first real settings foundation for language and theme preferences without adding persistence yet.
+The first in-memory settings foundation now exists. The next work should replace the temporary in-memory UI localization bootstrap with JSON-backed localization loading for UI resources.
 
 Immediate next steps:
 
-1. Implement the first minimal Settings screen or window foundation using the existing Presentation localization and preference models.
+1. Add JSON-backed localization loading for UI resources and replace the temporary in-memory shell/settings localization catalog in `App`.
 
-2. Keep settings behavior in-memory only for now; do not add persistence yet.
+2. Keep settings persistence deferred even after localization loading exists.
 
-3. Preserve the current debug preview path as an easy visual verification route while the shell gains real sections.
+3. Preserve the current debug preview route as an easy visual verification path while localization bootstrapping is removed from `App`.
 
 4. Verify Swiss Ephemeris wrapper options before committing to a package and record the decision in `DECISIONS-LOG.md`.
 
-5. Keep real profile entry, houses, advanced collision avoidance, and theme resource polish out of scope until the settings and shell foundations are cleaner.
+5. Keep real profile entry, houses, advanced collision avoidance, and theme resource switching out of scope until localization loading is in place.
