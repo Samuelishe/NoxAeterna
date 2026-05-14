@@ -436,3 +436,35 @@ Next actions:
 
 - Add JSON-backed localization loading for UI resources.
 - Keep settings persistence deferred while replacing the in-memory localization bootstrap.
+
+## 2026-05-15: JSON-Backed UI Localization Catalogs
+
+Summary:
+
+- Added `JsonLocalizationCatalogLoader` in `NoxAeterna.Presentation` to load flat key-value localization catalogs from JSON.
+- Replaced the temporary in-memory shell/settings localization source in `NoxAeterna.App` with JSON-backed catalog loading through `DebugShellLocalizationProviderFactory`.
+- Expanded `resources/localization/ui/ru.json` and `resources/localization/ui/en.json` to contain the current shell and settings labels.
+- Configured `NoxAeterna.App` to copy UI localization JSON files into the app output so `dotnet run --project NoxAeterna.App` can load them reliably.
+- Added focused tests for JSON catalog loading, malformed or invalid JSON handling, duplicate key rejection, and fallback behavior through the real Russian UI catalog.
+- Verified the result with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `NoxAeterna.Presentation/Localization/JsonLocalizationCatalogLoader.cs`
+- `NoxAeterna.App/Debug/DebugShellLocalizationProviderFactory.cs`
+- `NoxAeterna.App/NoxAeterna.App.csproj`
+- `NoxAeterna.App/MainWindow.axaml.cs`
+- `NoxAeterna.Tests/Presentation/JsonLocalizationCatalogLoaderTests.cs`
+- `resources/localization/ui/ru.json`
+- `resources/localization/ui/en.json`
+- `docs/CODING-GUIDELINES.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+- `README.md`
+
+Next actions:
+
+- Add the first real dark/light theme switching path using `ThemeId`.
+- Keep settings persistence deferred while theme switching is introduced.

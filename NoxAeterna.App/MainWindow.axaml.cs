@@ -11,7 +11,7 @@ namespace NoxAeterna.App;
 
 public partial class MainWindow : Window
 {
-    private readonly ILocalizationProvider _localizationProvider;
+    private ILocalizationProvider _localizationProvider;
     private UserPreferences _userPreferences;
     private readonly ShellViewModel _shellViewModel;
     private readonly SettingsViewModel _settingsViewModel;
@@ -24,7 +24,7 @@ public partial class MainWindow : Window
             new ApplicationLanguagePreference(new LanguageCode("ru")),
             new InterpretationLanguagePreference(new LanguageCode("ru")),
             new ThemeId("dark"));
-        _localizationProvider = DebugShellLocalizationFactory.Create();
+        _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
         _shellViewModel = ShellViewModel.CreateDefault();
         _settingsViewModel = SettingsViewModel.CreateDefault(_userPreferences);
 
@@ -79,6 +79,7 @@ public partial class MainWindow : Window
     private void ApplyUserPreferences(UserPreferences updatedPreferences)
     {
         _userPreferences = updatedPreferences;
+        _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
         RefreshShell();
     }
 

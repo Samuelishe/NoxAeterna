@@ -1,15 +1,15 @@
 # Next Steps
 
-The first in-memory settings foundation now exists. The next work should replace the temporary in-memory UI localization bootstrap with JSON-backed localization loading for UI resources.
+The app now uses JSON-backed UI localization catalogs. The next work should add the first real dark/light theme resource switching using the existing in-memory theme preference.
 
 Immediate next steps:
 
-1. Add JSON-backed localization loading for UI resources and replace the temporary in-memory shell/settings localization catalog in `App`.
+1. Add the first real dark/light theme switching path using `ThemeId` and the current in-memory settings state.
 
-2. Keep settings persistence deferred even after localization loading exists.
+2. Keep settings persistence deferred even after theme switching exists.
 
-3. Preserve the current debug preview route as an easy visual verification path while localization bootstrapping is removed from `App`.
+3. Preserve the current debug preview route as an easy visual verification path while theme switching is introduced.
 
 4. Verify Swiss Ephemeris wrapper options before committing to a package and record the decision in `DECISIONS-LOG.md`.
 
-5. Keep real profile entry, houses, advanced collision avoidance, and theme resource switching out of scope until localization loading is in place.
+5. Keep real profile entry, houses, advanced collision avoidance, and interpretation localization out of scope until theme switching is in place.

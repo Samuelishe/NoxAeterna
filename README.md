@@ -98,6 +98,10 @@ Minimal desktop shell launch:
 
 - `dotnet run --project NoxAeterna.App`
 
+Current app-localization note:
+
+- UI localization catalogs are loaded from flat JSON files copied to `resources/localization/ui` under the app output.
+
 ## Repository Structure Overview
 
 - `docs/`: architecture, vision, glossary, boundaries, roadmap, risks, and agent continuity documents

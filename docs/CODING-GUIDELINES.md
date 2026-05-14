@@ -81,6 +81,8 @@ Do not add helper methods such as `ZodiacSign.GetRussianName()` to domain types.
 
 Temporary in-memory localization or settings bootstrapping is acceptable in `App` only while real loading and persistence are still absent. Do not let that bootstrap code spread into domain or infrastructure boundaries.
 
+When JSON-backed localization exists, prefer catalog loading over inline bootstrap dictionaries. Keep the JSON shape simple and flat unless a stronger reason appears.
+
 ## Attribution and Provenance
 
 Every session that introduces external material must document:

@@ -17,4 +17,10 @@
     <ProjectReference Include="..\NoxAeterna.Rendering\NoxAeterna.Rendering.csproj" />
     <ProjectReference Include="..\NoxAeterna.Infrastructure\NoxAeterna.Infrastructure.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\resources\localization\ui\*.json"
+          Link="resources\localization\ui\%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

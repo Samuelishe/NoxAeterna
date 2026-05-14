@@ -76,6 +76,12 @@ Current settings direction:
 - language and theme selection can exist as in-memory settings state before real storage is added;
 - real settings UX, localization loading, and theme resource switching can arrive incrementally rather than all at once.
 
+Current localization direction:
+
+- UI labels should now be sourced from flat JSON catalogs under `resources/localization/ui`;
+- temporary in-memory localization dictionaries in `App` should be treated as transitional only and removed when a cleaner loading boundary exists;
+- missing UI keys must degrade deterministically through fallback rather than disappearing.
+
 ## Controls
 
 Use familiar desktop controls for serious work:

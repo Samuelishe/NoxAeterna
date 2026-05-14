@@ -186,3 +186,11 @@ Decision: Keep the first language and theme settings foundation in `NoxAeterna.P
 Reason: The app needs a real settings shape before storage exists, but introducing persistence now would blur boundaries and overextend the current step.
 
 Consequences: Settings can already model separate application and interpretation languages plus theme selection, but `settings.json` storage, app-data location handling, and real theme resource switching remain deferred.
+
+## 2026-05-15: Use Flat JSON Catalogs for the First UI Localization Loader
+
+Decision: Load UI localization catalogs from simple flat key-value JSON files and compose fallback behavior through `FallbackLocalizationProvider`.
+
+Reason: The app needs real resource-backed localization without introducing a heavy localization framework or premature nested catalog complexity.
+
+Consequences: UI localization can now be loaded from `resources/localization/ui/<language>.json`, while persistence, interpretation localization, and broader resource-loading architecture remain deferred.
