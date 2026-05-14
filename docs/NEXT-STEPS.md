@@ -1,8 +1,10 @@
 # Next Steps
 
-Immediate suggested steps after documentation initialization:
+This repository is now ready for scaffold and implementation startup. No further large-scale planning pass is required before coding begins.
 
-1. Scaffold the .NET 10 solution projects:
+Immediate next steps:
+
+1. Create the .NET 10 solution scaffold:
    - `NoxAeterna.App`
    - `NoxAeterna.Presentation`
    - `NoxAeterna.Rendering`
@@ -14,20 +16,21 @@ Immediate suggested steps after documentation initialization:
    - `NoxAeterna.Infrastructure`
    - `NoxAeterna.Tests`
 
-2. Define the initial project reference graph to enforce architecture boundaries.
+2. Lock the initial project reference graph in code so architectural boundaries are enforced by `csproj` dependencies.
 
 3. Add baseline dependencies only where justified:
-   - Avalonia for app/presentation/rendering.
+   - Avalonia for app, presentation, and rendering.
    - CommunityToolkit.Mvvm for presentation.
-   - NodaTime for domain/astronomy time modeling.
+   - NodaTime for domain and astronomy time modeling.
    - xUnit for tests.
-   - Serilog for app/infrastructure logging.
+   - Serilog for app and infrastructure logging.
 
-4. Create first domain value objects and tests:
+4. Create the first domain primitives and tests:
    - `ZodiacLongitude`
    - Zodiac sign derivation
    - Aspect angular delta and orb matching
+   - `BirthMoment` metadata shape for reproducible time handling
 
-5. Verify Swiss Ephemeris wrapper options before committing to a package.
+5. Verify Swiss Ephemeris wrapper options before committing to a package and record the decision in `DECISIONS-LOG.md`.
 
-Do not implement UI flows, rendering, database schema, or ephemeris integration before the solution scaffold and core boundaries exist.
+Do not implement UI flows, rendering behavior, database schema, or ephemeris integration before the scaffold and dependency graph are in place.

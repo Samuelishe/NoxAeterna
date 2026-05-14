@@ -57,3 +57,52 @@ Decision: Initialize agent-oriented documentation before writing application cod
 Reason: Future autonomous sessions need continuity, boundaries, and product direction before implementation begins.
 
 Consequences: The repository currently documents intent only. Implementation must not be assumed until later stages create code.
+
+## 2026-05-14: Lock Structured-First Interpretation
+
+Decision: Use a structured-first interpretation pipeline:
+`SymbolicFactor[] -> MeaningFragment[] -> ContextModifier[] -> Tension/Reinforcement analysis -> InterpretationBlock -> Optional Narrative Layer`.
+
+Reason: This avoids fragile prose-first logic and keeps interpretation explainable, testable, and compositional.
+
+Consequences: Narrative output, including any future LLM usage, must remain optional and downstream from symbolic logic.
+
+## 2026-05-14: Keep Symbolics as a Typed Catalog
+
+Decision: Keep Symbolics as a structured symbolic catalog with typed relationships rather than a graph database system or flat prose repository.
+
+Reason: The MVP needs explainability and maintainability without graph-system overhead or prose-only ambiguity.
+
+Consequences: Symbolics should define typed entities and relationships such as symbols, meanings, relationship types, and source metadata.
+
+## 2026-05-14: Use Conservative MVP Timezone Strategy
+
+Decision: For MVP, allow explicit/manual timezone selection and prioritize reproducibility over automatic place-to-timezone automation.
+
+Reason: Timezone history and location resolution are complex, and pretending they are solved early would create unreliable birth calculations.
+
+Consequences: `BirthMoment` must preserve local time, timezone ID, UTC instant, ambiguity resolution, and source/confidence metadata.
+
+## 2026-05-14: Lock Render-Independent Geometry Contract
+
+Decision: Geometry must produce render-independent models, and rendering must convert prepared models into Avalonia drawing operations.
+
+Reason: This keeps chart layout testable and prevents Avalonia leakage into geometry or domain logic.
+
+Consequences: Geometry must not return Avalonia controls, brushes, pens, or UI objects. Rendering contracts should be explicit.
+
+## 2026-05-14: Enforce Permanent Attribution Tracking
+
+Decision: Every future session must document third-party libraries, frameworks, assets, fonts, rendering systems, datasets, ephemeris sources, tools, borrowed code, adapted code, and generated assets when relevant.
+
+Reason: The project needs durable authorship, licensing, and provenance records from the start.
+
+Consequences: `README.md`, `docs/AGENTS.md`, `docs/CODING-GUIDELINES.md`, and `docs/THIRD-PARTY.md` must be updated whenever new external material is introduced.
+
+## 2026-05-14: Declare Repository Ready for Scaffold Startup
+
+Decision: After this clarification pass, treat the repository as ready for solution scaffold and implementation startup.
+
+Reason: Core philosophical, architectural, rendering, interpretation, attribution, and continuity questions have been documented to a sufficient level for coding to begin.
+
+Consequences: The next major step should be .NET 10 solution scaffold creation and dependency graph setup rather than another large planning pass.

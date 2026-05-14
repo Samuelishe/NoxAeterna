@@ -8,6 +8,8 @@ Do not generate meaningless LLM-style text.
 
 The interpretation system should not use a language model as the source of symbolic logic. Future LLM use may exist only as an optional narrative polishing layer over already structured meanings.
 
+Interpretation is structured-first.
+
 ## Layered Interpretation
 
 Interpretation should combine symbolic layers such as:
@@ -34,7 +36,18 @@ This should be interpreted by combining structured symbolic fragments, not by ha
 
 ## Pipeline Direction
 
-Future pipeline:
+Target pipeline:
+
+```text
+SymbolicFactor[]
+-> MeaningFragment[]
+-> ContextModifier[]
+-> Tension/Reinforcement analysis
+-> InterpretationBlock
+-> Optional Narrative Layer
+```
+
+Operational direction:
 
 1. Collect symbolic factors.
 2. Normalize meaning fragments.
@@ -46,6 +59,12 @@ Future pipeline:
 ## Avoiding Combinatorial Explosion
 
 Do not create a static rule for every possible combination of planet, sign, house, aspect, transit, lunar phase, and profile context.
+
+Avoid:
+
+- Giant rule tables.
+- Giant if-else systems.
+- Hardcoded every-combination logic.
 
 Instead:
 
@@ -75,3 +94,5 @@ Expected future output:
 If a future LLM or template system is added, it may only polish or reshape curated structured output. It must not invent the symbolic basis.
 
 Generated narrative should remain calm, restrained, serious, and non-ironic.
+
+The narrative layer must always remain optional and downstream from structured interpretation.

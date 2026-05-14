@@ -63,3 +63,35 @@ Next actions:
 
 - Scaffold the .NET 10 solution structure.
 - Keep new project artifacts aligned with the updated `.gitignore`.
+
+## 2026-05-14: Final Architecture Clarification Pass
+
+Summary:
+
+- Locked structured-first interpretation, typed Symbolics catalog direction, conservative MVP timezone strategy, and render-independent geometry-to-rendering contracts.
+- Added repository-level guidance for development philosophy, glossary, architectural boundaries, attribution tracking, and GitHub-facing repository documentation.
+- Declared the repository ready for solution scaffold and implementation startup without another large planning pass.
+
+Changed files:
+
+- `README.md`
+- `docs/AGENTS.md`
+- `docs/ARCHITECTURE.md`
+- `docs/ASSETS-PIPELINE.md`
+- `docs/CODING-GUIDELINES.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/GEOMETRY-ENGINE.md`
+- `docs/INTERPRETATION-ENGINE.md`
+- `docs/KNOWN-PROBLEMS.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+- `docs/SYMBOLICS.md`
+- `docs/DEVELOPMENT-PHILOSOPHY.md`
+- `docs/GLOSSARY.md`
+- `docs/ARCHITECTURAL-BOUNDARIES.md`
+- `docs/THIRD-PARTY.md`
+
+Next actions:
+
+- Create the .NET 10 solution scaffold and dependency graph.
+- Add the first domain primitives and tests after scaffold creation.

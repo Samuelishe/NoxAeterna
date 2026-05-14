@@ -6,6 +6,14 @@ Symbolics answers: "What symbolic meanings, correspondences, and relationships a
 
 Interpretation answers: "How do selected symbolic factors combine into user-facing meaning in this context?"
 
+## Core Decision
+
+The Symbolics layer is not a graph database system and not a flat prose database.
+
+It is a structured symbolic catalog with typed relationships.
+
+The MVP should stay explainable and lightweight. Do not introduce graph-database complexity unless a later, concrete need proves it necessary.
+
 ## Responsibilities
 
 The Symbolics layer should eventually contain:
@@ -26,7 +34,17 @@ The Symbolics layer should eventually contain:
 
 Symbolic knowledge should be structured and typed. Avoid storing the core knowledge as only prose paragraphs.
 
-Potential future structures:
+Likely future structures:
+
+- `Symbol`
+- `SymbolCategory`
+- `SymbolSystem`
+- `SymbolMeaning`
+- `SymbolRelationship`
+- `RelationshipType`
+- `SourceMetadata`
+
+Supporting fields may include:
 
 - Symbol identifier.
 - System, such as Astrology or Tarot.
@@ -38,6 +56,19 @@ Potential future structures:
 - Related symbols.
 - Historical notes.
 - Source metadata.
+
+## Typed Relationships
+
+Relationships should be typed and explainable.
+
+Examples:
+
+- Mars rules Aries.
+- Mars corresponds to Tower.
+- Mars corresponds to iron.
+- Mars corresponds to Tuesday.
+
+These relationships should be stored as structured data rather than buried in prose paragraphs.
 
 ## Source Curation
 
@@ -59,3 +90,5 @@ These links should be data-driven and explainable, not hidden in UI text.
 ## Relationship to Interpretation
 
 Interpretation consumes symbolic data and combines it with context. Symbolics should not directly decide how a full reading is phrased for a specific user.
+
+Symbolics may provide keywords, themes, meaning fragments, and relationship metadata. It must not become a prose-generation layer.

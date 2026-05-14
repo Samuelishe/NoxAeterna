@@ -16,10 +16,15 @@ These guidelines apply once application code begins.
 
 - UI must not calculate astronomy.
 - UI must not directly query SQLite.
+- Presentation must not normalize angles.
 - Astronomy must not depend on Avalonia.
 - Geometry must not depend on Avalonia UI controls.
+- Geometry must remain Avalonia-independent.
 - Interpretation must not depend on UI.
+- Interpretation must not access SQLite directly.
+- Symbolics must not contain user-facing prose generation.
 - Rendering must not consume raw business logic when a prepared geometry/rendering model is appropriate.
+- Rendering must consume prepared render models.
 - Domain should not depend on infrastructure packages.
 
 ## Errors
@@ -53,6 +58,22 @@ Add abstractions when they protect real boundaries:
 
 Avoid abstractions that only rename a single implementation without clarifying a boundary.
 
+Prefer clarity over abstraction when a boundary is not yet proven.
+
 ## Documentation
 
 When behavior changes, update relevant docs in the same session. Record major decisions in `DECISIONS-LOG.md`.
+
+## Attribution and Provenance
+
+Every session that introduces external material must document:
+
+- Package or asset name.
+- Author or organization.
+- License.
+- Project purpose.
+- Official repository or site.
+
+This applies to libraries, frameworks, assets, fonts, datasets, ephemeris sources, borrowed code, adapted code, rendering systems, and generated assets when relevant.
+
+Update `README.md` and `docs/THIRD-PARTY.md` in the same session.

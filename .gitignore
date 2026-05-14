@@ -1,5 +1,35 @@
-bin/
-obj/
+# Build output
+[Bb]in/
+[Oo]bj/
 /packages/
+/artifacts/
+/publish/
+/TestResults/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE and editor settings
+.idea/
+.vs/
+.vscode/
+*.iml
 riderModule.iml
-/_ReSharper.Caches/
+
+# JetBrains / ReSharper
+_ReSharper.Caches/
+*.DotSettings.user
+
+# Logs and diagnostics
+*.log
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini

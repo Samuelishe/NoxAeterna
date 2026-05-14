@@ -10,6 +10,13 @@ SwissEphNet or an equivalent package must be verified for availability, license 
 
 Birth location to timezone mapping needs design.
 
+Current MVP direction:
+
+- Timezone may be chosen explicitly and manually.
+- Reproducibility is prioritized over automation.
+- `BirthMoment` must preserve local time, timezone ID, UTC instant, ambiguity resolution, and source/confidence metadata.
+- Full historical timezone automation is not considered solved yet.
+
 Open questions:
 
 - Which geocoding source is used?
@@ -36,3 +43,11 @@ Symbolic sources require careful curation. The project should distinguish tradit
 ## Licensing
 
 Future dependencies, ephemeris data, fonts, icons, generated assets, and Tarot art must be checked for license compatibility.
+
+This must be tracked continuously in `README.md` and `docs/THIRD-PARTY.md`.
+
+## Native Dependency Packaging
+
+Swiss Ephemeris wrappers or other astronomy dependencies may introduce native library packaging and distribution complexity across Windows, macOS, and Linux.
+
+This risk should be evaluated before the astronomy package is locked into scaffolded projects.

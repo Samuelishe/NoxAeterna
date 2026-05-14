@@ -35,6 +35,13 @@ Prepared models should be plain data structures suitable for tests and for rende
 
 Expected future model categories:
 
+- `ChartGeometryModel`
+- `GlyphPlacement`
+- `HitTestRegion`
+- Sector, ring, arc, and line primitives
+
+Expected future geometry output categories:
+
 - Chart bounds.
 - Rings and radial bands.
 - Zodiac segment geometry.
@@ -49,6 +56,24 @@ Expected future model categories:
 Geometry must not depend on Avalonia UI controls. It may define primitives such as points, rectangles, arcs, angles, and rings using domain-owned or geometry-owned types.
 
 Rendering should consume geometry models and decide how to draw them.
+
+Geometry must not return Avalonia controls, brushes, pens, `DrawingContext`, or UI objects.
+
+Geometry prepares layout. Rendering decides visual materialization.
+
+## Render Contract Handoff
+
+Likely render-facing handoff objects:
+
+- `ChartGeometryModel`
+- `ChartRenderScene`
+- `RenderLayer`
+- `GlyphPlacement`
+- `AspectLineVisual`
+- `HouseSectorVisual`
+- `HitTestRegion`
+
+`ChartRenderScene` and visual-layer objects belong to rendering-side contracts, not to astronomy or UI orchestration.
 
 ## Collision Avoidance
 

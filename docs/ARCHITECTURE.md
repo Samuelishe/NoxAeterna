@@ -2,6 +2,22 @@
 
 Nox Aeterna should follow clean architecture principles without enterprise overengineering. The goal is clear boundaries, testable components, and a stable core that can support astronomy, symbolic systems, rendering, persistence, and UI without coupling them together.
 
+## Repository Readiness
+
+This architecture pass is the final pre-scaffold clarification step.
+
+After this document set, the repository should be considered ready for:
+
+- .NET 10 solution scaffold.
+- Project creation.
+- Dependency graph setup.
+- Test infrastructure.
+- Domain primitives.
+- Astronomy abstractions.
+- Rendering contracts.
+
+No further large-scale planning pass is required before scaffold work starts.
+
 ## Expected Solution Structure
 
 Starting assumption:
@@ -61,6 +77,23 @@ Application composition root, Avalonia startup, dependency injection, configurat
 
 Contains unit and integration tests. Core math, domain rules, time conversion, aspect calculation, and geometry should be tested early.
 
+## Planned Dependency Direction
+
+Initial dependency direction for scaffold:
+
+- `NoxAeterna.Domain`: no dependency on Avalonia, SQLite, Dapper, or Swiss Ephemeris packages.
+- `NoxAeterna.Symbolics`: depends on `NoxAeterna.Domain` only if shared primitives are required.
+- `NoxAeterna.Astronomy`: may depend on `NoxAeterna.Domain` and NodaTime; must not depend on Avalonia.
+- `NoxAeterna.Geometry`: may depend on `NoxAeterna.Domain` and astronomy-facing data contracts where justified; must not depend on Avalonia UI objects.
+- `NoxAeterna.Interpretation`: may depend on `NoxAeterna.Domain` and `NoxAeterna.Symbolics`; must not depend on Presentation or persistence infrastructure.
+- `NoxAeterna.Rendering`: may depend on `NoxAeterna.Geometry` and render models; must not contain astronomy or interpretation logic.
+- `NoxAeterna.Presentation`: may depend on domain-facing application contracts and presentation models; should not own core calculation logic.
+- `NoxAeterna.Infrastructure`: contains adapters to ephemeris, SQLite, logging, and external services; references core abstractions but should not redefine them.
+- `NoxAeterna.App`: composition root only.
+- `NoxAeterna.Tests`: references whichever project each test actually exercises.
+
+Exact references should be kept minimal. Do not create convenience references that blur boundaries.
+
 ## Dependency Rules
 
 - UI must not know astronomical calculation details.
@@ -71,6 +104,50 @@ Contains unit and integration tests. Core math, domain rules, time conversion, a
 - Domain must remain independent from infrastructure details.
 - Swiss Ephemeris must be hidden behind an interface such as `IEphemerisCalculator`.
 - Time handling must go through NodaTime.
+- Presentation must not normalize angles or perform chart math.
+- Interpretation must not access SQLite directly.
+- Symbolics must not contain user-facing prose generation.
+- Geometry must remain render-framework-independent.
+- Rendering must consume prepared render models rather than raw domain state.
+
+See `docs/ARCHITECTURAL-BOUNDARIES.md` for stricter rules.
+
+## Timezone Strategy
+
+MVP timezone strategy is deliberately conservative.
+
+For MVP:
+
+- Timezone selection may be explicit and manual.
+- Reproducibility is more important than automation.
+- Birth data flow must preserve both the user-entered local value and the resolved UTC calculation instant.
+- The system must not pretend that full timezone history and place lookup are solved when they are not.
+
+`BirthMoment` should preserve:
+
+- Local time.
+- Timezone ID.
+- UTC instant.
+- Ambiguity resolution.
+- Source and confidence metadata.
+
+Automatic place-to-timezone lookup is a future enhancement, not an MVP assumption.
+
+## Rendering Contract Direction
+
+Geometry should produce render-independent models. Rendering converts those prepared models into Avalonia drawing operations.
+
+Likely future contracts:
+
+- `ChartGeometryModel`
+- `ChartRenderScene`
+- `RenderLayer`
+- `GlyphPlacement`
+- `AspectLineVisual`
+- `HouseSectorVisual`
+- `HitTestRegion`
+
+Geometry must not return Avalonia controls, brushes, pens, or UI objects.
 
 ## Avoid
 

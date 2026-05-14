@@ -2,6 +2,28 @@
 
 The project may use AI-assisted visual asset generation, but the final application must feel curated, not like a random folder of generated images.
 
+## Asset Strategy Decision
+
+Programmatic rendering is the source of truth for technical visuals.
+
+Programmatic rendering should be used for:
+
+- Charts.
+- Glyphs.
+- Houses.
+- Aspects.
+- Technical visuals.
+- Small icons.
+
+Curated or generated assets may be used for:
+
+- Tarot illustrations.
+- Textures.
+- Decorative engravings.
+- Atmospheric imagery.
+
+Generated AI imagery must never become the source of technical chart rendering.
+
 ## Intended Pipeline
 
 1. Generate visual concepts.
@@ -57,3 +79,15 @@ Future style guide should define:
 - Tarot card framing.
 - Background and surface rules.
 - Export visual rules.
+
+## Attribution Rule
+
+Every future session that introduces assets, fonts, textures, icon sets, or generated imagery must document:
+
+- Asset or source name.
+- Author or origin.
+- License or usage terms.
+- Purpose in the project.
+- Storage location or source link.
+
+Track this in `README.md` and `docs/THIRD-PARTY.md`, and update project docs when the visual pipeline materially changes.
