@@ -111,6 +111,14 @@ delta = min(abs(a - b), 360 - abs(a - b))
 
 Aspect calculation should be deterministic and unit-tested.
 
+Current implemented direction:
+
+- `CalculatedAspect` lives in `NoxAeterna.Domain`.
+- `PlanetaryAspectCalculator` lives in `NoxAeterna.Domain`.
+- `NatalChart` can be created from a resolved `BirthMoment` and calculated `PlanetPosition` values, then derive major aspects without any Swiss Ephemeris-specific types.
+
+This remains a minimal chart snapshot. Houses, transits, and ephemeris-backed astronomy calculations are still separate concerns.
+
 ## Retrogrades
 
 Retrograde state should be based on calculated apparent speed or a reliable ephemeris-provided equivalent, not guessed from position deltas unless explicitly documented.

@@ -232,3 +232,29 @@ Next actions:
 
 - Create a minimal `NatalChart` contract or model that combines `BirthMoment`, calculated `PlanetPosition` collection, and aspect output using existing `AspectMath`.
 - Keep houses and Swiss Ephemeris-specific integration out of scope for that step.
+
+## 2026-05-15: Minimal Natal Chart Snapshot and Aspect Results
+
+Summary:
+
+- Added the first minimal `NatalChart` domain model that combines a resolved `BirthMoment`, read-only `PlanetPosition` collection, and read-only calculated major aspects.
+- Added `CalculatedAspect` and `PlanetaryAspectCalculator` in `NoxAeterna.Domain` to detect canonical major-aspect pairs using the existing angular delta and orb math.
+- Added focused tests for exact aspects, wrap-around across 0 degrees, duplicate-reversal avoidance, self-aspect avoidance, orb behavior, and public read-only chart collections.
+- Verified the result with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `NoxAeterna.Domain/Astrology/CalculatedAspect.cs`
+- `NoxAeterna.Domain/Astrology/PlanetaryAspectCalculator.cs`
+- `NoxAeterna.Domain/Astrology/NatalChart.cs`
+- `NoxAeterna.Tests/Astrology/NatalChartTests.cs`
+- `docs/DOMAIN-MODEL.md`
+- `docs/ASTRONOMY-ENGINE.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+
+Next actions:
+
+- Create the first render-independent chart geometry contracts for circular chart layout and glyph slot placement.
+- Keep geometry independent from Avalonia and separate from rendering concerns.

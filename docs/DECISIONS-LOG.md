@@ -138,3 +138,11 @@ Decision: Keep `CelestialBody` and `PlanetPosition` in `NoxAeterna.Domain`, whil
 Reason: The position model is shared domain data, while calculation orchestration and provider abstraction belong to the astronomy layer.
 
 Consequences: Future ephemeris implementations can stay astronomy-local, while domain models remain reusable by chart, transit, and archive features without provider leakage.
+
+## 2026-05-15: Keep Natal Chart Snapshot and Aspect Detection in Domain
+
+Decision: Keep the minimal `NatalChart`, `CalculatedAspect`, and `PlanetaryAspectCalculator` in `NoxAeterna.Domain`.
+
+Reason: These types are pure domain snapshots and deterministic angle rules over already calculated positions. They do not need ephemeris provider details, UI concerns, or persistence behavior.
+
+Consequences: Astronomy remains responsible for producing positions, while the domain can compose chart snapshots and major aspects without Swiss Ephemeris coupling.

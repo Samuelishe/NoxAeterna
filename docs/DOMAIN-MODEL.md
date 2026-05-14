@@ -108,12 +108,24 @@ Calculated chart snapshot for a profile:
 
 - Birth moment.
 - Planetary positions.
-- House system, if used.
 - Aspects.
-- Calculation settings.
+- House system, if used later.
 - Ephemeris/version metadata for reproducibility.
 
-This is still not implemented as a composed model yet.
+Current implemented direction:
+
+- `NatalChart`
+- `CalculatedAspect`
+- `PlanetaryAspectCalculator`
+
+The current `NatalChart` is intentionally minimal:
+
+- `BirthMoment`
+- read-only `PlanetPosition` collection
+- read-only calculated major aspects
+- optional ephemeris source metadata
+
+Houses remain out of scope for the current model.
 
 ### PlanetPosition
 
@@ -157,6 +169,11 @@ Relationship between two positions:
 - Exact angle.
 - Orb.
 - Applying/separating direction when available.
+
+Current implemented direction:
+
+- `CalculatedAspect` stores a canonical body pair, detected aspect type, angular delta, orb distance, and both longitudes.
+- `PlanetaryAspectCalculator` detects major aspects across a position set using the existing orb math.
 
 Initial major aspects:
 
