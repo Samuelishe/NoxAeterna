@@ -26,6 +26,7 @@ These guidelines apply once application code begins.
 - Rendering must not consume raw business logic when a prepared geometry/rendering model is appropriate.
 - Rendering must consume prepared render models.
 - Domain should not depend on infrastructure packages.
+- Domain must remain language-neutral.
 
 ## Errors
 
@@ -43,6 +44,7 @@ Add tests early for:
 - Aspect delta and orb calculation.
 - Time conversion and ambiguous/invalid local time handling.
 - Geometry math.
+- Localization fallback and theme/preferences contracts before substantial UI work begins.
 - Interpretation composition rules.
 - Repository behavior once persistence exists.
 
@@ -63,6 +65,19 @@ Prefer clarity over abstraction when a boundary is not yet proven.
 ## Documentation
 
 When behavior changes, update relevant docs in the same session. Record major decisions in `DECISIONS-LOG.md`.
+
+## User-Facing Text Rule
+
+All future user-facing text must use localization keys.
+
+Hardcoded strings are allowed only for:
+
+- tests;
+- diagnostics;
+- logs;
+- exceptions and internal debugging where appropriate.
+
+Do not add helper methods such as `ZodiacSign.GetRussianName()` to domain types.
 
 ## Attribution and Provenance
 

@@ -2,6 +2,8 @@
 
 The domain model should express the product's symbolic and archival concepts without depending on UI, persistence, or external calculation libraries.
 
+Domain models must remain language-neutral. Localization keys, localized strings, application language, interpretation language, and theme preferences belong outside the domain layer.
+
 ## Core Entities and Value Objects
 
 ### PersonalProfile

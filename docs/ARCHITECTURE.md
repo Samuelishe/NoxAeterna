@@ -63,7 +63,7 @@ Turns prepared geometry and rendering models into visuals. It may use Avalonia d
 
 ### Presentation
 
-Contains MVVM view models, presentation models, commands, validation state, and UI orchestration. It coordinates use cases but does not perform core astronomy, geometry, interpretation, or persistence details directly.
+Contains MVVM view models, presentation models, commands, validation state, UI orchestration, localization contracts, theme selection, and user preference models. It coordinates use cases but does not perform core astronomy, geometry, interpretation, or persistence details directly.
 
 ### Infrastructure
 
@@ -109,8 +109,67 @@ Exact references should be kept minimal. Do not create convenience references th
 - Symbolics must not contain user-facing prose generation.
 - Geometry must remain render-framework-independent.
 - Rendering must consume prepared render models rather than raw domain state.
+- Domain models must remain language-neutral.
+- User-facing text resolution must happen through localization keys and localization providers rather than domain helper methods.
 
 See `docs/ARCHITECTURAL-BOUNDARIES.md` for stricter rules.
+
+## Localization, Themes, and Preferences
+
+All human-facing text should be localization-driven before substantial UI work begins.
+
+Current architectural direction:
+
+- Domain stays language-neutral.
+- Presentation owns localization contracts and preference models.
+- Interpretation and symbolic systems should eventually expose keys or structured content, not hardcoded localized prose.
+- Application language and interpretation language are separate preferences even when they share the same initial value.
+- Theme selection uses stable theme identifiers rather than a boolean dark-mode flag.
+
+Current localization contract direction:
+
+- `LanguageCode`
+- `LocalizationKey`
+- `LocalizationEntry`
+- `LocalizationCatalog`
+- `LocalizationResult`
+- `ILocalizationProvider`
+- `FallbackLocalizationProvider`
+
+Current preferences and theme direction:
+
+- `ApplicationLanguagePreference`
+- `InterpretationLanguagePreference`
+- `UserPreferences`
+- `ThemeId`
+- `ThemeDefinition`
+- `ThemeRegistry`
+
+MVP fallback chain:
+
+```text
+selected language -> ru -> key
+```
+
+Current implementation also checks the neutral parent language before `ru` when a regional code such as `en-us` is requested.
+
+Future target fallback chain:
+
+```text
+selected language -> en -> ru -> key
+```
+
+Intended resource structure:
+
+```text
+/resources/localization/ui/ru.json
+/resources/localization/ui/en.json
+/resources/localization/interpretation/ru.json
+/resources/localization/interpretation/en.json
+/resources/localization/symbolics/ru.json
+```
+
+User preferences should eventually be persisted as JSON in a user app-data location. That persistence is not implemented yet.
 
 ## Timezone Strategy
 

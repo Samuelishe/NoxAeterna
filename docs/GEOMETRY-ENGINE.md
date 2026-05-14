@@ -29,6 +29,12 @@ delta = min(abs(a - b), 360 - abs(a - b))
 
 Geometry code should avoid UI coordinate assumptions where possible. Use clear coordinate conventions and document orientation choices, such as whether 0 degrees starts at the top, right, ascendant, or Aries origin.
 
+Current implemented convention:
+
+- chart-space `0°` is at the top of the circle;
+- angles increase clockwise;
+- radial coordinates are expressed as normalized radius ratios rather than pixels.
+
 ## Geometry Models
 
 Prepared models should be plain data structures suitable for tests and for rendering adapters.
@@ -39,6 +45,16 @@ Expected future model categories:
 - `GlyphPlacement`
 - `HitTestRegion`
 - Sector, ring, arc, and line primitives
+
+Current implemented direction:
+
+- `AngularPosition`
+- `RadialPoint`
+- `ZodiacSectorGeometry`
+- `PlanetGlyphSlot`
+- `AspectLineGeometry`
+- `CircularChartLayout`
+- `CircularChartLayoutBuilder`
 
 Expected future geometry output categories:
 
@@ -60,6 +76,8 @@ Rendering should consume geometry models and decide how to draw them.
 Geometry must not return Avalonia controls, brushes, pens, `DrawingContext`, or UI objects.
 
 Geometry prepares layout. Rendering decides visual materialization.
+
+The current builder consumes `NatalChart` and produces deterministic zodiac sectors, planet glyph slots, and aspect line geometry without Avalonia types.
 
 ## Render Contract Handoff
 
@@ -88,3 +106,9 @@ Possible staged approach:
 5. More advanced layout optimization if needed.
 
 Collision behavior should be tested with dense planet clusters.
+
+Current implemented status:
+
+- fixed single-ring glyph slots;
+- reserved `RadialBandIndex` on `PlanetGlyphSlot` for later collision-safe refinement;
+- no advanced collision avoidance yet.

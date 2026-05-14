@@ -258,3 +258,59 @@ Next actions:
 
 - Create the first render-independent chart geometry contracts for circular chart layout and glyph slot placement.
 - Keep geometry independent from Avalonia and separate from rendering concerns.
+
+## 2026-05-15: Geometry Contracts and Localization Foundation
+
+Summary:
+
+- Added the first render-independent circular chart geometry contracts in `NoxAeterna.Geometry`, including angular positions, radial points, zodiac sectors, planetary glyph slots, aspect line geometry, and a deterministic `CircularChartLayoutBuilder`.
+- Added the first presentation-side localization, theme, and user-preference contracts in `NoxAeterna.Presentation`, including deterministic fallback localization, separate application and interpretation language preferences, and stable theme identifiers.
+- Added focused tests for geometry normalization, circular placement, wrap-around behavior, deterministic output, localization fallback, theme registry behavior, and project boundary checks for `Geometry` and `Presentation`.
+- Added small JSON localization examples under `resources/localization/...`.
+- Verified the result with `dotnet build NoxAeterna.sln` and `dotnet test NoxAeterna.sln`.
+
+Changed files:
+
+- `NoxAeterna.Geometry/Charts/AngularPosition.cs`
+- `NoxAeterna.Geometry/Charts/RadialPoint.cs`
+- `NoxAeterna.Geometry/Charts/ZodiacSectorGeometry.cs`
+- `NoxAeterna.Geometry/Charts/PlanetGlyphSlot.cs`
+- `NoxAeterna.Geometry/Charts/AspectLineGeometry.cs`
+- `NoxAeterna.Geometry/Charts/CircularChartLayout.cs`
+- `NoxAeterna.Geometry/Charts/CircularChartLayoutBuilder.cs`
+- `NoxAeterna.Presentation/Localization/LanguageCode.cs`
+- `NoxAeterna.Presentation/Localization/LocalizationKey.cs`
+- `NoxAeterna.Presentation/Localization/LocalizationScope.cs`
+- `NoxAeterna.Presentation/Localization/LocalizationEntry.cs`
+- `NoxAeterna.Presentation/Localization/LocalizationCatalog.cs`
+- `NoxAeterna.Presentation/Localization/LocalizationResult.cs`
+- `NoxAeterna.Presentation/Localization/ILocalizationProvider.cs`
+- `NoxAeterna.Presentation/Localization/FallbackLocalizationProvider.cs`
+- `NoxAeterna.Presentation/Preferences/ApplicationLanguagePreference.cs`
+- `NoxAeterna.Presentation/Preferences/InterpretationLanguagePreference.cs`
+- `NoxAeterna.Presentation/Preferences/UserPreferences.cs`
+- `NoxAeterna.Presentation/Theming/ThemeId.cs`
+- `NoxAeterna.Presentation/Theming/ThemeDefinition.cs`
+- `NoxAeterna.Presentation/Theming/ThemeRegistry.cs`
+- `NoxAeterna.Tests/NoxAeterna.Tests.csproj`
+- `NoxAeterna.Tests/Geometry/CircularChartLayoutBuilderTests.cs`
+- `NoxAeterna.Tests/Presentation/LocalizationContractsTests.cs`
+- `NoxAeterna.Tests/Presentation/ProjectBoundaryTests.cs`
+- `resources/localization/ui/ru.json`
+- `resources/localization/ui/en.json`
+- `resources/localization/interpretation/ru.json`
+- `resources/localization/interpretation/en.json`
+- `docs/AGENTS.md`
+- `docs/ARCHITECTURE.md`
+- `docs/CODING-GUIDELINES.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/DOMAIN-MODEL.md`
+- `docs/GEOMETRY-ENGINE.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Introduce the first render-layer contracts in `NoxAeterna.Rendering`.
+- Connect rendering to `CircularChartLayout` through Avalonia drawing abstractions without building full UI screens yet.

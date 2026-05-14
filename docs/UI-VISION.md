@@ -51,6 +51,7 @@ Avoid:
 Typography should feel archival and professional. Use display typography sparingly and keep data-heavy screens highly readable.
 
 Text must not occlude charts, controls, or archive content.
+All user-facing text should come from localization keys rather than hardcoded UI literals.
 
 ## Layout Principles
 
@@ -72,6 +73,22 @@ Use familiar desktop controls for serious work:
 - Toggles and segmented controls for display modes.
 - Sliders or numeric inputs for numeric settings.
 - Context menus where useful.
+
+## Localization and Themes
+
+The UI architecture should support language and theme switching before large screen implementation begins.
+
+Rules:
+
+- Application UI text must use localization keys.
+- Interpretation language must be selectable independently from application UI language.
+- Symbolic and interpretation text should eventually resolve through localization catalogs, not embedded strings in domain types.
+- Theme selection should use stable theme identifiers such as `dark`, `light`, `parchment`, or `obsidian`, not a single `IsDarkTheme` flag.
+
+Intended resource direction:
+
+- JSON-based localization catalogs under `/resources/localization/...`
+- JSON-based user preferences in the eventual user app-data directory
 
 ## First User Flows
 

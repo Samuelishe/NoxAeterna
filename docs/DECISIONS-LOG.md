@@ -146,3 +146,19 @@ Decision: Keep the minimal `NatalChart`, `CalculatedAspect`, and `PlanetaryAspec
 Reason: These types are pure domain snapshots and deterministic angle rules over already calculated positions. They do not need ephemeris provider details, UI concerns, or persistence behavior.
 
 Consequences: Astronomy remains responsible for producing positions, while the domain can compose chart snapshots and major aspects without Swiss Ephemeris coupling.
+
+## 2026-05-15: Keep Circular Chart Geometry Render-Independent
+
+Decision: Keep the first circular chart layout contracts in `NoxAeterna.Geometry`, using chart-space angles, normalized radius ratios, and plain numeric geometry models with no Avalonia types.
+
+Reason: Chart placement math must stay testable and reusable before any rendering code or UI surface is introduced.
+
+Consequences: Rendering will later consume `CircularChartLayout` output rather than computing placement directly, and geometry conventions such as `0°` at the top and clockwise rotation are now explicit.
+
+## 2026-05-15: Keep Localization and Preferences in Presentation
+
+Decision: Keep localization contracts, fallback resolution, theme identifiers, and language/theme preferences in `NoxAeterna.Presentation` rather than `NoxAeterna.Domain`.
+
+Reason: Domain models must remain language-neutral, while language selection, localization catalogs, and theme selection are application-facing concerns.
+
+Consequences: Future UI, interpretation, and symbolic text should resolve through localization keys and providers, with a deterministic MVP fallback chain of `selected language -> ru -> key`.

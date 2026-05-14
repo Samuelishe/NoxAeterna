@@ -111,6 +111,8 @@ Use readable naming, XML docs for public APIs, explicit value objects where usef
 
 Prefer small, reviewable changes. Keep implementation details honest: do not document features as implemented until code and tests exist.
 
+All user-facing text must use localization keys. Do not introduce raw UI strings into application code unless they are strictly test-only, diagnostic, or exception text.
+
 See `docs/CODING-GUIDELINES.md` for detailed rules.
 
 ## Attribution Rule
