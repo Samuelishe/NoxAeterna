@@ -1,0 +1,167 @@
+# Domain Model
+
+The domain model should express the product's symbolic and archival concepts without depending on UI, persistence, or external calculation libraries.
+
+## Core Entities and Value Objects
+
+### PersonalProfile
+
+Central product entity. Expected data:
+
+- Name.
+- Birth data.
+- Natal chart reference or calculated snapshot.
+- Saved Tarot sessions.
+- Saved interpretations.
+- Symbolic history.
+- Current transit snapshots.
+- Notes or reflective archive entries.
+
+### BirthData
+
+User-provided birth information. Expected fields:
+
+- Birth date.
+- Birth time, if known.
+- Birth place.
+- Timezone metadata.
+- Accuracy or confidence flags where needed.
+
+### BirthMoment
+
+Resolved time object produced from local birth data:
+
+- Local date/time.
+- Date/time zone.
+- Zoned date/time.
+- UTC instant.
+- Ambiguity or invalid-time resolution metadata.
+
+### BirthLocation
+
+Geographic and administrative location:
+
+- Display name.
+- Latitude.
+- Longitude.
+- Country/region identifiers where useful.
+- Timezone lookup metadata.
+
+### NatalChart
+
+Calculated chart snapshot for a profile:
+
+- Birth moment.
+- Planetary positions.
+- House system, if used.
+- Aspects.
+- Calculation settings.
+- Ephemeris/version metadata for reproducibility.
+
+### PlanetPosition
+
+Planetary body position:
+
+- Body identifier.
+- Ecliptic longitude.
+- Zodiac sign.
+- Degree within sign.
+- Retrograde state.
+- Optional speed and latitude.
+
+### ZodiacLongitude
+
+Value object for normalized ecliptic longitude.
+
+Rule: all ecliptic longitudes must be normalized to 0-360 degrees.
+
+### ZodiacSign
+
+Twelve-sign zodiac enum or value object. It should be derived from normalized longitude when appropriate.
+
+### House
+
+House number and cusp position. House system support should be explicit and reproducible.
+
+### Aspect
+
+Relationship between two positions:
+
+- Source body.
+- Target body.
+- Aspect type.
+- Exact angle.
+- Orb.
+- Applying/separating direction when available.
+
+Initial major aspects:
+
+- Conjunction: 0 degrees.
+- Sextile: 60 degrees.
+- Square: 90 degrees.
+- Trine: 120 degrees.
+- Opposition: 180 degrees.
+
+Default orb: 6 degrees.
+
+Angular delta:
+
+```text
+delta = min(abs(a - b), 360 - abs(a - b))
+```
+
+### TransitSnapshot
+
+Calculated planetary positions for a current or selected time, optionally compared to a natal chart.
+
+### TarotDeck
+
+Deck definition and card collection. Should support deck metadata and future alternate decks.
+
+### TarotCard
+
+Card identity:
+
+- Major/minor arcana.
+- Suit, where applicable.
+- Rank or name.
+- Upright and reversed symbolic meanings.
+- Visual asset reference.
+
+### TarotSpread
+
+Spread definition:
+
+- Name.
+- Positions.
+- Position meanings.
+- Card count.
+
+### TarotReading
+
+Saved reading session:
+
+- Date/time.
+- Deck.
+- Spread.
+- Drawn cards and orientations.
+- Context.
+- Interpretation blocks.
+- Profile link, if any.
+
+### InterpretationBlock
+
+Structured user-facing interpretation:
+
+- Title.
+- Factors.
+- Meaning fragments.
+- Tensions and reinforcements.
+- Optional prose.
+- Source or symbolic basis metadata.
+
+### SymbolicFactor
+
+Atomic symbolic input such as Mars, Scorpio, 8th house, square Saturn, lunar phase, or reversed Tarot card.
+
+Symbolic factors should be composable and typed, not plain unstructured strings.
