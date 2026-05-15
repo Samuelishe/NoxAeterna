@@ -767,3 +767,44 @@ Next actions:
 
 - Start the Swiss Ephemeris integration spike behind `IEphemerisCalculator`.
 - Keep houses, persistence, interpretation, and profile/session state work deferred until real planetary positions replace the demo calculation path.
+
+## 2026-05-15: First Swiss Ephemeris Integration Spike
+
+Summary:
+
+- Investigated current .NET integration options and adopted `SwissEphNet 2.8.0.2` as the first real ephemeris-backed spike, while documenting the wrapper age and license uncertainty relative to current upstream Swiss Ephemeris documentation.
+- Placed the first real `IEphemerisCalculator` implementation in `NoxAeterna.Infrastructure` as `SwissEphemerisCalculator`, keeping all Swiss-specific API usage inside the adapter boundary.
+- Wired the app's visible chart rebuild flow from validated birth input to the real ephemeris adapter, while keeping `DevelopmentEphemerisCalculator` available as a fallback or test tool.
+- Chose a minimal safe data-file strategy for the spike: no silent `.se1` bundling in the repository, current live app runs through SwissEphNet's built-in Moshier fallback until external ephemeris files are configured explicitly.
+- Updated localization, tests, README, third-party tracking, risks, and next-step docs to reflect that the visible chart now uses real positions but not yet the final Swiss-data setup.
+
+Changed files:
+
+- `NoxAeterna.Astronomy/NoxAeterna.Astronomy.csproj`
+- `NoxAeterna.App/Astrology/AstrologyWorkspaceControl.cs`
+- `NoxAeterna.App/Astrology/DevelopmentAstrologyChartCoordinator.cs`
+- `NoxAeterna.App/Astrology/DevelopmentAstrologyChartPipeline.cs`
+- `NoxAeterna.App/MainWindow.axaml.cs`
+- `NoxAeterna.Infrastructure/NoxAeterna.Infrastructure.csproj`
+- `NoxAeterna.Infrastructure/Ephemeris/SwissEphemerisCalculator.cs`
+- `NoxAeterna.Presentation/Astrology/AstrologyWorkspaceViewModel.cs`
+- `NoxAeterna.Tests/NoxAeterna.Tests.csproj`
+- `NoxAeterna.Tests/Infrastructure/InfrastructureBoundaryTests.cs`
+- `NoxAeterna.Tests/Infrastructure/SwissEphemerisCalculatorTests.cs`
+- `NoxAeterna.Tests/Presentation/AstrologyWorkspaceViewModelTests.cs`
+- `NoxAeterna.Tests/Presentation/JsonLocalizationCatalogLoaderTests.cs`
+- `resources/localization/ui/ru.json`
+- `resources/localization/ui/en.json`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/ASTRONOMY-ENGINE.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/KNOWN-PROBLEMS.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+- `docs/THIRD-PARTY.md`
+
+Next actions:
+
+- Add visible glyph labels and a positions table so the chart becomes readable with real planetary longitudes.
+- Define the explicit external `.se1` file setup path and resolve formal license alignment before release packaging.

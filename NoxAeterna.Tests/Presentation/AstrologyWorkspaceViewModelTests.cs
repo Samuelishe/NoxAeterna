@@ -25,8 +25,8 @@ public sealed class AstrologyWorkspaceViewModelTests
         var workspace = AstrologyWorkspaceViewModel.CreateFoundation();
 
         Assert.False(string.IsNullOrWhiteSpace(workspace.WorkspaceHintKey.Value));
-        Assert.False(string.IsNullOrWhiteSpace(workspace.DemoCalculationNoticeKey.Value));
-        Assert.NotEqual(workspace.WorkspaceHintKey, workspace.DemoCalculationNoticeKey);
+        Assert.False(string.IsNullOrWhiteSpace(workspace.CalculationStatusNoticeKey.Value));
+        Assert.NotEqual(workspace.WorkspaceHintKey, workspace.CalculationStatusNoticeKey);
         Assert.NotNull(workspace.BirthDataInput);
         Assert.All(workspace.Panels, panel =>
         {

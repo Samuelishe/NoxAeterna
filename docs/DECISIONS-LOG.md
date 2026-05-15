@@ -242,3 +242,11 @@ Decision: Connect validated birth-data input to the visible chart through `IBirt
 Reason: The app needs an honest end-to-end chart rebuild flow before Swiss Ephemeris integration, but that flow must stay visibly marked as demo-only and keep rendering isolated from calculation logic.
 
 Consequences: `NoxAeterna.App` now acts as the composition root for the current development chart pipeline and references `NoxAeterna.Astronomy`. The visible chart can rebuild from user input, while real astronomy, persistence, and geocoding remain deferred.
+
+## 2026-05-15: Place the First Real Swiss Ephemeris Adapter in Infrastructure
+
+Decision: Put the first real `IEphemerisCalculator` implementation in `NoxAeterna.Infrastructure` as `SwissEphemerisCalculator`, using `SwissEphNet` while keeping all package-specific types inside the adapter boundary.
+
+Reason: Swiss Ephemeris integration is an external dependency concern, not a domain, presentation, rendering, or geometry concern. The app already acts as the composition root and can swap implementations without changing core contracts.
+
+Consequences: The live chart path now uses real planetary positions through `IEphemerisCalculator`, while the old `DevelopmentEphemerisCalculator` remains available as a fallback or test tool. External ephemeris data-file setup and formal repository license alignment remain follow-up items.

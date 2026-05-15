@@ -14,9 +14,9 @@ Current implemented foundation includes:
 - Render-independent circular chart geometry.
 - Minimal rendering contracts and a technical chart renderer.
 - Thin presentation shell, JSON-backed UI localization, in-memory settings, and first dark/light theme switching.
-- First astrology workspace foundation hosted through the shell, now able to rebuild the visible chart from validated birth input through a development-only calculation flow.
+- First astrology workspace foundation hosted through the shell, now able to rebuild the visible chart from validated birth input through a real ephemeris-backed calculation flow.
 - Refined birth-data input with typed date/time controls, TZDB timezone selection, and offline manual coordinates.
-- Input-driven demo chart rebuilding through `IBirthMomentResolver`, a fake deterministic ephemeris calculator, and the existing geometry-to-rendering boundary.
+- Input-driven chart rebuilding through `IBirthMomentResolver`, a SwissEphNet-backed ephemeris adapter with current Moshier fallback behavior, and the existing geometry-to-rendering boundary.
 
 Large-scale planning passes should remain closed. The next work should stay implementation-led and boundary-aware.
 
@@ -90,7 +90,7 @@ Initial dependency direction for scaffold:
 - `NoxAeterna.Interpretation`: may depend on `NoxAeterna.Domain` and `NoxAeterna.Symbolics`; must not depend on Presentation or persistence infrastructure.
 - `NoxAeterna.Rendering`: may depend on `NoxAeterna.Geometry` and render models; must not contain astronomy or interpretation logic.
 - `NoxAeterna.Presentation`: may depend on domain-facing application contracts and presentation models; should not own core calculation logic.
-- `NoxAeterna.Infrastructure`: contains adapters to ephemeris, SQLite, logging, and external services; references core abstractions but should not redefine them.
+- `NoxAeterna.Infrastructure`: contains adapters to ephemeris, SQLite, logging, and external services; references core abstractions but should not redefine them. The first real ephemeris-backed calculator now lives here.
 - `NoxAeterna.App`: composition root only.
 - `NoxAeterna.Tests`: references whichever project each test actually exercises.
 

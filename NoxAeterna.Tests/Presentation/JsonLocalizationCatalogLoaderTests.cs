@@ -150,7 +150,7 @@ public sealed class JsonLocalizationCatalogLoaderTests
             "ui.shell.section.astrology",
             "ui.shell.section.settings",
             "ui.astrology.workspace.hint",
-            "ui.astrology.demo_calculation_notice",
+            "ui.astrology.calculation_status_notice",
             "ui.astrology.panel.chart.title",
             "ui.astrology.panel.birth_data.title",
             "ui.birth_data.birth_date",
@@ -190,7 +190,7 @@ public sealed class JsonLocalizationCatalogLoaderTests
         {
             var catalog = LoadRealUiCatalog(language);
             var subtitle = GetRequiredText(catalog, "ui.astrology.workspace.hint");
-            var demoWarning = GetRequiredText(catalog, "ui.astrology.demo_calculation_notice");
+            var demoWarning = GetRequiredText(catalog, "ui.astrology.calculation_status_notice");
 
             Assert.NotEqual(subtitle, demoWarning);
         }

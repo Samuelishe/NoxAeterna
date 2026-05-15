@@ -8,7 +8,7 @@ using NoxAeterna.Rendering.Charts;
 namespace NoxAeterna.App.Astrology;
 
 /// <summary>
-/// Composes the current development-only birth-data-to-chart pipeline for the astrology workspace.
+/// Composes the current birth-data-to-chart pipeline for the astrology workspace.
 /// </summary>
 public sealed class DevelopmentAstrologyChartPipeline
 {
@@ -27,7 +27,7 @@ public sealed class DevelopmentAstrologyChartPipeline
     }
 
     /// <summary>
-    /// Builds a development-only natal chart and render scene from validated birth data.
+    /// Builds a natal chart and render scene from validated birth data.
     /// </summary>
     public DevelopmentChartBuildResult Build(BirthData birthData, TimeSpan technicalBirthTimeFallback)
     {
@@ -38,8 +38,7 @@ public sealed class DevelopmentAstrologyChartPipeline
         var calculationRequest = new ChartCalculationRequest(
             calculationMoment,
             Enum.GetValues<CelestialBody>(),
-            locationContext: birthData.BirthLocation,
-            ephemerisSourceVersion: "development-demo");
+            locationContext: birthData.BirthLocation);
         var calculationResult = _ephemerisCalculator.Calculate(calculationRequest);
         var natalChart = NatalChart.Create(
             calculationMoment,

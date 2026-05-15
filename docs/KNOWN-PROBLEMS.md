@@ -2,9 +2,14 @@
 
 This file tracks open risks, unknowns, external dependency questions, and areas likely to become complex.
 
-## Swiss Ephemeris Package Choice
+## Swiss Ephemeris Packaging, Files, and License Alignment
 
-SwissEphNet or an equivalent package must be verified for availability, license fit, .NET 10 compatibility, native dependency behavior, and cross-platform packaging.
+The first spike now uses `SwissEphNet`, but several open items remain:
+
+- the current live app runs in built-in Moshier fallback mode because external `.se1` ephemeris files are not configured yet;
+- the repository still needs a formal project-license decision that is compatible with the chosen Swiss Ephemeris licensing path;
+- the exact redistribution strategy for any bundled ephemeris data files is still unresolved;
+- cross-platform packaging must be verified again if the integration later changes away from the current managed wrapper.
 
 ## Birth Place to Timezone Resolution
 

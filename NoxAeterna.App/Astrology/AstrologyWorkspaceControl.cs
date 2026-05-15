@@ -110,7 +110,7 @@ public sealed class AstrologyWorkspaceControl : UserControl
             {
                 new TextBlock
                 {
-                    Text = Localize(_viewModel.DemoCalculationNoticeKey),
+                    Text = Localize(_viewModel.CalculationStatusNoticeKey),
                     TextWrapping = TextWrapping.Wrap,
                     Foreground = ResolveBrush("WorkspacePanelSubtleForegroundBrush", new SolidColorBrush(Color.FromRgb(128, 128, 132)))
                 },

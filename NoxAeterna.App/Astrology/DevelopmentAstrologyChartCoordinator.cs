@@ -4,7 +4,7 @@ using NoxAeterna.Rendering.Charts;
 namespace NoxAeterna.App.Astrology;
 
 /// <summary>
-/// Holds the current development-only chart state for the astrology workspace and rebuilds it from validated input.
+/// Holds the current chart state for the astrology workspace and rebuilds it from validated input.
 /// </summary>
 public sealed class DevelopmentAstrologyChartCoordinator
 {

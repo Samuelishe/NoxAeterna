@@ -32,10 +32,11 @@ The repository now contains:
 - A first astrology workspace foundation that hosts the chart surface and placeholder side panels
 - A refined birth-data input foundation with date/time pickers, TZDB timezone selection, manual coordinates, and explicit mapping into domain birth data
 - Input-driven demo chart rebuilding through `IBirthMomentResolver`, a deterministic fake ephemeris flow, geometry layout, and the isolated renderer
+- Input-driven chart rebuilding through `IBirthMomentResolver`, a SwissEphNet-backed ephemeris adapter, geometry layout, and the isolated renderer
 - Development-only sample chart generation kept only as a fallback and verification path
 - xUnit test harness and repository-level build configuration
 
-The application is still in foundation mode. Real profile workflows, real ephemeris-backed calculations, persistence, Tarot UX, and final visual design are not implemented yet.
+The application is still in foundation mode. Real profile workflows, persistence, Tarot UX, and final visual design are not implemented yet. Real planetary positions now flow through a first SwissEphNet-backed spike, but external Swiss ephemeris data-file setup is not finished yet.
 
 ## Planned Architecture
 
@@ -122,9 +123,9 @@ Current birth-input note:
 
 - The astrology workspace now supports an offline-first birth-data input mode.
 - Date selection uses a picker, timezone selection comes from local TZDB IDs, and coordinates remain manual.
-- Valid input now rebuilds the visible chart through a deterministic development-only calculation pipeline.
+- Valid input now rebuilds the visible chart through `IBirthMomentResolver`, `SwissEphNet`, natal-chart composition, geometry layout, and the isolated renderer.
 - The right birth-data panel now scrolls instead of clipping at the default window size.
-- Real ephemeris integration is still not connected.
+- The current live calculation uses SwissEphNet in built-in Moshier mode because external `.se1` ephemeris files are not configured yet.
 
 ## Repository Structure Overview
 
@@ -181,6 +182,7 @@ Current scaffold dependencies include:
 - Avalonia.Desktop
 - Avalonia.Themes.Fluent
 - NodaTime
+- SwissEphNet
 - Microsoft.NET.Test.Sdk
 - xunit
 - xunit.runner.visualstudio
@@ -192,14 +194,14 @@ Additional planned directions, not yet added in code:
 - CommunityToolkit.Mvvm
 - Dapper
 - Serilog
-- SwissEphNet or equivalent Swiss Ephemeris wrapper
 
 Swiss Ephemeris note:
 
-- Swiss Ephemeris is not integrated yet.
-- If it is adopted, it must remain behind `IEphemerisCalculator`.
-- Authorship, license terms, packaging constraints, and any required ephemeris data files must be documented in `README.md` and `docs/THIRD-PARTY.md` in the same session as adoption.
-- Do not vendor Swiss Ephemeris binaries or data files silently.
+- The current spike uses `SwissEphNet` as a managed .NET port of Swiss Ephemeris.
+- The live app currently runs through the wrapper's built-in Moshier fallback because external Swiss ephemeris `.se1` data files are not configured yet.
+- External ephemeris data files must not be vendored silently. Their source, authorship, license terms, and installation strategy must be documented before bundling.
+- The upstream Swiss Ephemeris licensing position must be tracked explicitly. The wrapper package embeds an older dual-license notice, while current Astrodienst documentation describes AGPL or a professional license.
+- All ephemeris integration remains hidden behind `IEphemerisCalculator`.
 
 ## AI-Assisted Development Notes
 

@@ -7,6 +7,7 @@ using NoxAeterna.App.Astrology;
 using NoxAeterna.App.Debug;
 using NoxAeterna.App.Localization;
 using NoxAeterna.App.Samples;
+using NoxAeterna.Infrastructure.Ephemeris;
 using NoxAeterna.Presentation.Astrology;
 using NoxAeterna.Presentation.Localization;
 using NoxAeterna.Presentation.Preferences;
@@ -57,7 +58,7 @@ public partial class MainWindow : Window
         _astrologyChartCoordinator = new DevelopmentAstrologyChartCoordinator(
             new DevelopmentAstrologyChartPipeline(
                 new TzdbBirthMomentResolver(),
-                new DevelopmentEphemerisCalculator()),
+                new SwissEphemerisCalculator()),
             DevelopmentSampleChartSceneFactory.Create());
 
         RefreshShell();

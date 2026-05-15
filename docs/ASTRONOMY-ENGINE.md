@@ -39,7 +39,7 @@ Current implemented direction:
 - Birth-time domain types live in `NoxAeterna.Domain`.
 - A resolver contract exists as `IBirthMomentResolver`.
 - A first TZDB-based resolver implementation exists in `NoxAeterna.Astronomy`.
-- the astrology workspace input is now connected to `IBirthMomentResolver` through an app-level development pipeline.
+- the astrology workspace input is now connected to `IBirthMomentResolver` through an app-level chart pipeline.
 - The current deterministic resolver policy is:
   - ambiguous local times resolve to the earlier occurrence;
   - invalid local times shift forward by the gap duration.
@@ -68,11 +68,18 @@ Current contract direction:
 - `ChartCalculationResult`
 - `IEphemerisCalculator`
 - `DevelopmentEphemerisCalculator` as a temporary development-only implementation
+- `SwissEphemerisCalculator` in `NoxAeterna.Infrastructure` as the first real ephemeris-backed adapter using `SwissEphNet`
 
 The current contract is synchronous and deterministic. It does not expose Swiss Ephemeris package types.
-The current development-only implementation is intentionally fake and must not be presented as real astronomy.
+The development-only implementation remains intentionally fake and must not be presented as real astronomy.
 
-Package choice is not yet verified. See `KNOWN-PROBLEMS.md`.
+Current real-integration spike:
+
+- `SwissEphNet 2.8.0.2` is now wired behind `IEphemerisCalculator`.
+- The adapter currently requests Swiss Ephemeris calculation flags with speed data.
+- Because no external `.se1` data files are configured yet, the live app currently falls back to the built-in Moshier mode.
+- This still produces real astronomical positions and retrograde state, but it is not the final high-precision Swiss-data setup.
+- Formal project-license alignment and external ephemeris data packaging remain open follow-up items. See `KNOWN-PROBLEMS.md`.
 
 ## Coordinate Conventions
 
@@ -101,7 +108,22 @@ Current implemented direction:
 - `CelestialBody` lives in `NoxAeterna.Domain`.
 - `PlanetPosition` lives in `NoxAeterna.Domain`.
 - `ChartCalculationRequest` and `ChartCalculationResult` live in `NoxAeterna.Astronomy`.
-- `ChartCalculationRequest` can now carry optional location context so the current demo-only calculation can vary deterministically by input.
+- `ChartCalculationRequest` can now carry optional location context.
+- The live app now calculates Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, and Pluto through the SwissEphNet-backed adapter.
+
+## Ephemeris Data Files
+
+Current spike strategy:
+
+- Do not silently vendor large Swiss Ephemeris data files into the repository.
+- Keep the first live integration working without external files by allowing SwissEphNet to fall back to built-in Moshier mode.
+- Treat external `.se1` file support as a separate setup step with explicit documentation and attribution.
+
+Remaining work:
+
+- decide the installation or app-data strategy for optional `.se1` files;
+- document exact redistribution terms before bundling any ephemeris data;
+- make the active calculation mode more visible once multiple modes are configurable.
 
 ## Aspects
 

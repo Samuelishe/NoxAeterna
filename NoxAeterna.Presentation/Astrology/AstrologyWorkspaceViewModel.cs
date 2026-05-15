@@ -40,9 +40,9 @@ public sealed class AstrologyWorkspaceViewModel
     public IReadOnlyList<AstrologyWorkspacePanel> Panels { get; }
 
     /// <summary>
-    /// Gets the localized notice explaining that the current chart calculation is still demo-only.
+    /// Gets the localized notice explaining the current chart-calculation status.
     /// </summary>
-    public LocalizationKey DemoCalculationNoticeKey { get; } = new("ui.astrology.demo_calculation_notice");
+    public LocalizationKey CalculationStatusNoticeKey { get; } = new("ui.astrology.calculation_status_notice");
 
     /// <summary>
     /// Gets the current birth-data input foundation.
