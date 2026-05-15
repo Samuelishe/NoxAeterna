@@ -28,7 +28,7 @@ The repository now contains:
 - A minimal Avalonia rendering layer for technical chart drawing
 - A thin shell, JSON-backed UI localization, in-memory settings, and first real dark/light theme switching
 - A first astrology workspace foundation that hosts the chart surface and placeholder side panels
-- A first structured birth-data input foundation with basic validation and explicit mapping into domain birth data
+- A refined birth-data input foundation with date/time pickers, TZDB timezone selection, manual coordinates, and explicit mapping into domain birth data
 - Development-only sample chart generation used behind that workspace for current pipeline verification
 - xUnit test harness and repository-level build configuration
 
@@ -113,6 +113,12 @@ Current theme note:
 - Dark and light themes are applied in memory through `ThemeId` and Avalonia resource dictionaries.
 - Theme selection is not persisted yet.
 
+Current birth-input note:
+
+- The astrology workspace now supports an offline-first birth-data input mode.
+- Date selection uses a picker, timezone selection comes from local TZDB IDs, and coordinates remain manual.
+- Real chart recalculation is still not connected.
+
 ## Repository Structure Overview
 
 - `docs/`: architecture, vision, glossary, boundaries, roadmap, risks, and agent continuity documents
@@ -149,6 +155,7 @@ Task-specific documents cover astronomy, geometry, rendering, interpretation, sy
 - Desktop-first and reading-first product design.
 - No hidden architectural coupling.
 - No fake implementation claims in documentation or code.
+- No repository-local runtime storage for user data, caches, or preferences.
 
 ## Disclaimer
 

@@ -25,12 +25,13 @@ public static class BirthDataInputMapper
             return false;
         }
 
-        BirthDataInputValidator.TryParseDate(state.BirthDateText, out var date);
+        var selectedDate = state.BirthDate!.Value;
+        var date = new NodaTime.LocalDate(selectedDate.Year, selectedDate.Month, selectedDate.Day);
         var time = default(NodaTime.LocalTime?);
         if (state.BirthTimeAccuracy != BirthTimeAccuracy.UnknownTime)
         {
-            BirthDataInputValidator.TryParseTime(state.BirthTimeText, out var parsedTime);
-            time = parsedTime;
+            var selectedTime = state.BirthTime!.Value;
+            time = new NodaTime.LocalTime(selectedTime.Hours, selectedTime.Minutes);
         }
 
         BirthDataInputValidator.TryParseCoordinate(state.LatitudeText, out var latitude);
@@ -40,7 +41,7 @@ public static class BirthDataInputMapper
             new LocalBirthDateTime(date, time),
             state.BirthTimeAccuracy,
             new BirthLocation(state.BirthPlaceDisplayName, latitude, longitude),
-            new TimezoneId(state.TimezoneIdText));
+            new TimezoneId(state.TimezoneId));
         return true;
     }
 }

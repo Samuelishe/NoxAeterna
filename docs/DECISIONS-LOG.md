@@ -218,3 +218,11 @@ Decision: Keep the first structured birth-data input state, parsing, validation,
 Reason: Input parsing rules, field errors, and localization-key-based validation feedback are presentation concerns, while domain types should continue receiving clean value objects instead of UI-specific text state.
 
 Consequences: The astrology workspace can validate and map user input without leaking text parsing into domain models. Resolver and calculation wiring can be added later on top of already validated `BirthData`.
+
+## 2026-05-15: Keep Birth Input Offline-First and TZDB-Based
+
+Decision: Refine the initial birth-data input flow around an offline-first mode: date picker, constrained time input, manual coordinates, and timezone selection from the local TZDB list.
+
+Reason: The MVP must remain honest and usable without network access, while still preparing for future online lookup and AppData-backed recent-place storage.
+
+Consequences: Online geocoding, reverse lookup, and a bundled world-city database remain deferred. Manual coordinates stay as the current truthful fallback, and arbitrary timezone text is no longer accepted as the main UI path.

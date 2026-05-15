@@ -15,6 +15,7 @@ Current implemented foundation includes:
 - Minimal rendering contracts and a technical chart renderer.
 - Thin presentation shell, JSON-backed UI localization, in-memory settings, and first dark/light theme switching.
 - First astrology workspace foundation hosted through the shell, still using development-only sample chart data.
+- Refined birth-data input with typed date/time controls, TZDB timezone selection, and offline manual coordinates.
 
 Large-scale planning passes should remain closed. The next work should stay implementation-led and boundary-aware.
 
@@ -186,6 +187,8 @@ NoxAeterna.App/Themes/LightThemeResources.axaml
 These are application resource dictionaries, not a final design system.
 
 User preferences should eventually be persisted as JSON in a user app-data location. That persistence is not implemented yet.
+
+Local runtime data such as user preferences, saved profiles, recent places, caches, and generated user-specific artifacts must not live in the repository or next to the executable. Those belong in AppData or the equivalent platform-specific user data location once persistence is introduced.
 
 ## Timezone Strategy
 

@@ -85,6 +85,8 @@ When JSON-backed localization exists, prefer catalog loading over inline bootstr
 
 Theme switching should continue to flow through `ThemeId` and a small app-level theme controller or equivalent boundary. Do not reintroduce boolean dark-mode flags or scatter hardcoded product colors across shell controls when theme resources can carry them.
 
+User-specific runtime data must not be stored in the repository or next to the executable. When persistence arrives, route preferences, caches, saved places, and profile data into AppData or the equivalent platform-specific user data directory.
+
 ## Attribution and Provenance
 
 Every session that introduces external material must document:

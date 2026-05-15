@@ -25,6 +25,13 @@ Special attention:
 - Birth location and timezone lookup.
 - Reproducibility.
 
+Current input-mode direction:
+
+- the workspace birth-data panel now supports offline manual mode;
+- the user selects a TZDB timezone from a local list rather than typing arbitrary timezone text;
+- city or settlement name, coordinates, and timezone remain explicit until optional online lookup exists;
+- no online geocoding or bundled world-city database is used at this stage.
+
 The system must record how ambiguous or invalid local times are resolved. Silent conversion is not acceptable for birth data.
 
 Current implemented direction:

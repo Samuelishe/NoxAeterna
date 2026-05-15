@@ -1,5 +1,5 @@
 using System.Globalization;
-using NodaTime.Text;
+using NodaTime;
 using NoxAeterna.Domain.Birth;
 using NoxAeterna.Presentation.Localization;
 
@@ -10,8 +10,7 @@ namespace NoxAeterna.Presentation.Astrology;
 /// </summary>
 public static class BirthDataInputValidator
 {
-    private static readonly LocalDatePattern DatePattern = LocalDatePattern.CreateWithInvariantCulture("yyyy-MM-dd");
-    private static readonly LocalTimePattern TimePattern = LocalTimePattern.CreateWithInvariantCulture("HH:mm");
+    private static readonly HashSet<string> TimezoneIds = DateTimeZoneProviders.Tzdb.Ids.ToHashSet(StringComparer.Ordinal);
 
     /// <summary>
     /// Validates the provided birth-data input state.
@@ -24,29 +23,21 @@ public static class BirthDataInputValidator
 
         var errors = new List<BirthDataInputError>();
 
-        if (string.IsNullOrWhiteSpace(state.BirthDateText))
+        if (state.BirthDate is null)
         {
             errors.Add(new BirthDataInputError(BirthDataInputField.BirthDate, new LocalizationKey("ui.birth_data.validation.date_required")));
-        }
-        else if (!DatePattern.Parse(state.BirthDateText.Trim()).Success)
-        {
-            errors.Add(new BirthDataInputError(BirthDataInputField.BirthDate, new LocalizationKey("ui.birth_data.validation.date_invalid")));
         }
 
         if (state.BirthTimeAccuracy == BirthTimeAccuracy.UnknownTime)
         {
-            if (!string.IsNullOrWhiteSpace(state.BirthTimeText))
-            {
-                errors.Add(new BirthDataInputError(BirthDataInputField.BirthTime, new LocalizationKey("ui.birth_data.validation.time_must_be_empty_for_unknown")));
-            }
         }
         else
         {
-            if (string.IsNullOrWhiteSpace(state.BirthTimeText))
+            if (state.BirthTime is null)
             {
                 errors.Add(new BirthDataInputError(BirthDataInputField.BirthTime, new LocalizationKey("ui.birth_data.validation.time_required")));
             }
-            else if (!TimePattern.Parse(state.BirthTimeText.Trim()).Success)
+            else if (state.BirthTime < TimeSpan.Zero || state.BirthTime >= TimeSpan.FromDays(1))
             {
                 errors.Add(new BirthDataInputError(BirthDataInputField.BirthTime, new LocalizationKey("ui.birth_data.validation.time_invalid")));
             }
@@ -75,32 +66,16 @@ public static class BirthDataInputValidator
             new LocalizationKey("ui.birth_data.validation.longitude_invalid"),
             errors);
 
-        if (string.IsNullOrWhiteSpace(state.TimezoneIdText))
+        if (string.IsNullOrWhiteSpace(state.TimezoneId))
         {
             errors.Add(new BirthDataInputError(BirthDataInputField.TimezoneId, new LocalizationKey("ui.birth_data.validation.timezone_required")));
         }
+        else if (!TimezoneIds.Contains(state.TimezoneId.Trim()))
+        {
+            errors.Add(new BirthDataInputError(BirthDataInputField.TimezoneId, new LocalizationKey("ui.birth_data.validation.timezone_invalid")));
+        }
 
         return errors.Count == 0 ? BirthDataValidationResult.Success : new BirthDataValidationResult(errors);
-    }
-
-    /// <summary>
-    /// Attempts to parse a local date from input text.
-    /// </summary>
-    public static bool TryParseDate(string text, out NodaTime.LocalDate date)
-    {
-        var parseResult = DatePattern.Parse(text.Trim());
-        date = parseResult.Success ? parseResult.Value : default;
-        return parseResult.Success;
-    }
-
-    /// <summary>
-    /// Attempts to parse a local time from input text.
-    /// </summary>
-    public static bool TryParseTime(string text, out NodaTime.LocalTime time)
-    {
-        var parseResult = TimePattern.Parse(text.Trim());
-        time = parseResult.Success ? parseResult.Value : default;
-        return parseResult.Success;
     }
 
     /// <summary>

@@ -71,6 +71,13 @@ Current shell direction:
 - development-only sample data may still drive that workspace temporarily, but should stay out of the visible shell structure.
 - the astrology workspace may now host an initial birth-data input panel before real chart calculation is connected.
 
+Current birth-input direction:
+
+- date selection should use a real date picker instead of raw typed date strings;
+- time selection should use a constrained control and degrade honestly when the user marks time as unknown;
+- timezone selection should come from local TZDB data, not a raw free-text field;
+- manual coordinates remain the offline-first fallback and are required for honest calculation later.
+
 Current settings direction:
 
 - the shell may host a minimal settings section before persistence exists;

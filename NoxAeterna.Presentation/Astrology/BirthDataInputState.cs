@@ -6,10 +6,11 @@ namespace NoxAeterna.Presentation.Astrology;
 /// Represents editable birth-data input state in the astrology workspace.
 /// </summary>
 public sealed record BirthDataInputState(
-    string BirthDateText,
-    string BirthTimeText,
+    DateTimeOffset? BirthDate,
+    TimeSpan? BirthTime,
     BirthTimeAccuracy BirthTimeAccuracy,
     string BirthPlaceDisplayName,
     string LatitudeText,
     string LongitudeText,
-    string TimezoneIdText);
+    string TimezoneId,
+    LocationSource LocationSource);

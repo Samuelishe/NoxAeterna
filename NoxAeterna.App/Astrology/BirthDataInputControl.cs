@@ -16,14 +16,15 @@ public sealed class BirthDataInputControl : UserControl
     private readonly BirthDataInputViewModel _viewModel;
     private readonly ILocalizationProvider _localizationProvider;
     private readonly LanguageCode _applicationLanguage;
-    private TextBox? _birthDateTextBox;
-    private TextBox? _birthTimeTextBox;
+    private DatePicker? _birthDatePicker;
+    private TimePicker? _birthTimePicker;
     private ComboBox? _birthTimeAccuracyComboBox;
     private TextBox? _birthPlaceTextBox;
     private TextBox? _latitudeTextBox;
     private TextBox? _longitudeTextBox;
-    private TextBox? _timezoneTextBox;
+    private ComboBox? _timezoneComboBox;
     private TextBlock? _validationSummaryTextBlock;
+    private TextBlock? _unknownTimeHelperTextBlock;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BirthDataInputControl"/> class.
@@ -43,12 +44,46 @@ public sealed class BirthDataInputControl : UserControl
 
     private Control BuildContent()
     {
-        _birthDateTextBox = CreateTextBox(_viewModel.State.BirthDateText, "YYYY-MM-DD");
-        _birthTimeTextBox = CreateTextBox(_viewModel.State.BirthTimeText, "HH:mm");
-        _birthPlaceTextBox = CreateTextBox(_viewModel.State.BirthPlaceDisplayName, string.Empty);
+        _birthDatePicker = new DatePicker
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            SelectedDate = _viewModel.State.BirthDate
+        };
+        _birthDatePicker.PropertyChanged += (_, args) =>
+        {
+            if (args.Property == DatePicker.SelectedDateProperty)
+            {
+                SyncStateFromInputs();
+            }
+        };
+
+        _birthTimePicker = new TimePicker
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            ClockIdentifier = "24HourClock",
+            SelectedTime = _viewModel.State.BirthTime
+        };
+        _birthTimePicker.PropertyChanged += (_, args) =>
+        {
+            if (args.Property == TimePicker.SelectedTimeProperty)
+            {
+                SyncStateFromInputs();
+            }
+        };
+
+        _birthPlaceTextBox = CreateTextBox(
+            _viewModel.State.BirthPlaceDisplayName,
+            Localize(new LocalizationKey("ui.birth_data.birth_city_or_settlement_placeholder")));
         _latitudeTextBox = CreateTextBox(_viewModel.State.LatitudeText, string.Empty);
         _longitudeTextBox = CreateTextBox(_viewModel.State.LongitudeText, string.Empty);
-        _timezoneTextBox = CreateTextBox(_viewModel.State.TimezoneIdText, "Europe/Moscow");
+        _timezoneComboBox = new ComboBox
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            MaxDropDownHeight = 360,
+            ItemsSource = _viewModel.AvailableTimezones.ToArray(),
+            SelectedItem = _viewModel.AvailableTimezones.FirstOrDefault(option => option.TimezoneId == _viewModel.State.TimezoneId)
+        };
+        _timezoneComboBox.SelectionChanged += (_, _) => SyncStateFromInputs();
 
         _birthTimeAccuracyComboBox = new ComboBox
         {
@@ -62,7 +97,7 @@ public sealed class BirthDataInputControl : UserControl
         };
         _birthTimeAccuracyComboBox.SelectionChanged += (_, _) => SyncStateFromInputs();
 
-        AttachSync(_birthDateTextBox, _birthTimeTextBox, _birthPlaceTextBox, _latitudeTextBox, _longitudeTextBox, _timezoneTextBox);
+        AttachSync(_birthPlaceTextBox, _latitudeTextBox, _longitudeTextBox);
 
         var validateButton = new Button
         {
@@ -81,6 +116,14 @@ public sealed class BirthDataInputControl : UserControl
             TextWrapping = TextWrapping.Wrap,
             Foreground = ResolveBrush("WorkspaceValidationErrorBrush", new SolidColorBrush(Color.FromRgb(190, 110, 110)))
         };
+        _unknownTimeHelperTextBlock = new TextBlock
+        {
+            Text = string.Empty,
+            TextWrapping = TextWrapping.Wrap,
+            Foreground = ResolveBrush("WorkspacePanelSubtleForegroundBrush", new SolidColorBrush(Color.FromRgb(128, 128, 132)))
+        };
+
+        ApplyBirthTimeInputMode();
 
         return new ScrollViewer
         {
@@ -90,13 +133,26 @@ public sealed class BirthDataInputControl : UserControl
                 Spacing = 14,
                 Children =
                 {
-                    CreateSettingRow(Localize(_viewModel.BirthDateLabelKey), _birthDateTextBox),
-                    CreateSettingRow(Localize(_viewModel.BirthTimeLabelKey), _birthTimeTextBox),
+                    CreateSettingRow(Localize(_viewModel.BirthDateLabelKey), _birthDatePicker),
+                    CreateSettingRow(
+                        Localize(_viewModel.BirthTimeLabelKey),
+                        new StackPanel
+                        {
+                            Spacing = 6,
+                            Children =
+                            {
+                                _birthTimePicker,
+                                _unknownTimeHelperTextBlock
+                            }
+                        }),
                     CreateSettingRow(Localize(_viewModel.BirthTimeAccuracyLabelKey), _birthTimeAccuracyComboBox),
-                    CreateSettingRow(Localize(_viewModel.BirthPlaceLabelKey), _birthPlaceTextBox),
+                    CreateSettingRow(
+                        Localize(_viewModel.BirthPlaceLabelKey),
+                        _birthPlaceTextBox,
+                        Localize(_viewModel.BirthPlaceHelperKey)),
                     CreateSettingRow(Localize(_viewModel.LatitudeLabelKey), _latitudeTextBox),
                     CreateSettingRow(Localize(_viewModel.LongitudeLabelKey), _longitudeTextBox),
-                    CreateSettingRow(Localize(_viewModel.TimezoneLabelKey), _timezoneTextBox),
+                    CreateSettingRow(Localize(_viewModel.TimezoneLabelKey), _timezoneComboBox),
                     validateButton,
                     _validationSummaryTextBlock
                 }
@@ -123,17 +179,38 @@ public sealed class BirthDataInputControl : UserControl
         var selectedAccuracy = _birthTimeAccuracyComboBox?.SelectedItem is LocalizedBirthTimeAccuracyOption selected
             ? selected.Option.Accuracy
             : _viewModel.State.BirthTimeAccuracy;
+        var selectedTimezone = _timezoneComboBox?.SelectedItem is TimezoneOption timezoneOption
+            ? timezoneOption.TimezoneId
+            : string.Empty;
+        var selectedTime = selectedAccuracy == BirthTimeAccuracy.UnknownTime
+            ? null
+            : _birthTimePicker?.SelectedTime;
 
         _viewModel.UpdateState(
             new BirthDataInputState(
-                _birthDateTextBox?.Text ?? string.Empty,
-                _birthTimeTextBox?.Text ?? string.Empty,
+                _birthDatePicker?.SelectedDate,
+                selectedTime,
                 selectedAccuracy,
                 _birthPlaceTextBox?.Text ?? string.Empty,
                 _latitudeTextBox?.Text ?? string.Empty,
                 _longitudeTextBox?.Text ?? string.Empty,
-                _timezoneTextBox?.Text ?? string.Empty));
+                selectedTimezone,
+                _viewModel.State.LocationSource));
+        ApplyBirthTimeInputMode();
         RefreshValidationSummary();
+    }
+
+    private void ApplyBirthTimeInputMode()
+    {
+        if (_birthTimePicker is null || _unknownTimeHelperTextBlock is null)
+        {
+            return;
+        }
+
+        var isUnknownTime = _viewModel.State.BirthTimeAccuracy == BirthTimeAccuracy.UnknownTime;
+        _birthTimePicker.IsEnabled = !isUnknownTime;
+        _birthTimePicker.Opacity = isUnknownTime ? 0.55 : 1.0;
+        _unknownTimeHelperTextBlock.Text = isUnknownTime ? Localize(_viewModel.UnknownTimeHelperKey) : string.Empty;
     }
 
     private void RefreshValidationSummary()
@@ -162,20 +239,35 @@ public sealed class BirthDataInputControl : UserControl
         _validationSummaryTextBlock.Foreground = ResolveBrush("WorkspaceValidationErrorBrush", new SolidColorBrush(Color.FromRgb(190, 110, 110)));
     }
 
-    private static Control CreateSettingRow(string labelText, Control editor) =>
-        new StackPanel
+    private static Control CreateSettingRow(string labelText, Control editor, string? helperText = null)
+    {
+        var stackPanel = new StackPanel
         {
-            Spacing = 6,
-            Children =
+            Spacing = 6
+        };
+
+        stackPanel.Children.Add(
+            new TextBlock
             {
+                Text = labelText,
+                FontSize = 14
+            });
+        stackPanel.Children.Add(editor);
+
+        if (!string.IsNullOrWhiteSpace(helperText))
+        {
+            stackPanel.Children.Add(
                 new TextBlock
                 {
-                    Text = labelText,
-                    FontSize = 14
-                },
-                editor
-            }
-        };
+                    Text = helperText,
+                    FontSize = 12,
+                    TextWrapping = TextWrapping.Wrap,
+                    Opacity = 0.82
+                });
+        }
+
+        return stackPanel;
+    }
 
     private static TextBox CreateTextBox(string initialText, string watermark) =>
         new()

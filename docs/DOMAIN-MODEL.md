@@ -25,7 +25,7 @@ User-provided birth information. Expected fields:
 
 - Local birth date/time input.
 - Birth time accuracy.
-- Birth place.
+- Birth city or settlement display name.
 - Explicit timezone ID.
 - Optional source note or confidence metadata.
 
@@ -40,8 +40,9 @@ Current implemented direction:
 Current workspace integration:
 
 - the astrology workspace now has a presentation-side birth-data input foundation;
-- parsing and validation stay outside the domain layer;
+- parsing, TZDB timezone selection, and validation stay outside the domain layer;
 - valid presentation input is mapped explicitly into `BirthData`.
+- manual coordinates are currently the honest offline-first location mode.
 
 ### BirthMoment
 

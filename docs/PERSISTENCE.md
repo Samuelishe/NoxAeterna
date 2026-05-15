@@ -10,6 +10,27 @@ Persistence is important from early stages because the core UX depends on histor
 - Migrations should be considered after initial schema shape becomes clearer.
 - Domain models should not be polluted by database implementation details.
 
+## Local Runtime Data Rule
+
+All local or user-specific runtime data must eventually live under the user AppData directory or the equivalent platform-specific user data location.
+
+Do not:
+
+- store runtime state next to the executable;
+- store runtime state in the repository;
+- commit user-specific settings, recent places, caches, generated local data, or personal profile data to GitHub.
+
+Future AppData-only data includes:
+
+- user preferences;
+- saved birth profiles;
+- recent or saved birth places;
+- geocoding cache;
+- manually entered locations;
+- local interpretation history;
+- Tarot reading history;
+- generated or cached local assets where applicable.
+
 ## Responsibilities
 
 Persistence should eventually store:
@@ -62,6 +83,7 @@ Current implemented state:
 
 - language and theme preferences can exist in presentation and app memory;
 - dark/light theme switching can already be applied in memory through `ThemeId`;
+- birth-data input currently works in memory only and supports offline manual entry;
 - no `settings.json` writing exists yet;
 - no app-data path resolver exists yet;
 - no infrastructure settings adapter exists yet.

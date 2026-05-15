@@ -1,6 +1,6 @@
 # Next Steps
 
-The app now has a thin localized shell, JSON-backed UI localization, first dark/light theme switching, an astrology workspace foundation, and the first structured birth-data input state with basic validation.
+The app now has a thin localized shell, JSON-backed UI localization, first dark/light theme switching, an astrology workspace foundation, and a refined birth-data input flow with typed date/time controls, TZDB timezone selection, and offline manual mode.
 
 Immediate next steps:
 
@@ -8,8 +8,8 @@ Immediate next steps:
 
 2. Keep deterministic sample chart generation behind the scenes only as a fallback or development path while input-driven chart building is introduced.
 
-3. Keep settings persistence deferred until the workspace structure and preference flow are stable.
+3. Keep settings persistence and AppData storage implementation deferred until the input-driven chart flow is stable.
 
 4. Verify Swiss Ephemeris wrapper options before committing to a package and record the decision in `DECISIONS-LOG.md`.
 
-5. Keep real profile entry, houses, advanced collision avoidance, interpretation localization, persistence, and Swiss Ephemeris integration out of scope until the input-driven chart flow exists.
+5. Keep online geocoding, a bundled world-city database, real profile entry, houses, advanced collision avoidance, interpretation localization, persistence, and Swiss Ephemeris integration out of scope until the input-driven chart flow exists.

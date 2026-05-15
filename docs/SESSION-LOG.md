@@ -594,3 +594,41 @@ Next actions:
 
 - Connect validated birth-data input to `IBirthMomentResolver` and a deterministic or fake chart-calculation path.
 - Keep persistence, geocoding, Swiss Ephemeris, and real profile workflows deferred while input-driven chart flow is introduced.
+
+## 2026-05-15: Birth Data Input UX Refinement
+
+Summary:
+
+- Replaced the raw typed date and timezone path with a more honest typed input model: `DatePicker`, constrained time input, and timezone selection from the local TZDB list.
+- Added an explicit `LocationSource` model so the current offline/manual flow can distinguish name-only input from manual-coordinate input and evolve later toward online lookup or saved places.
+- Kept unknown birth time honest by allowing empty time input, disabling the time control in that mode, and preserving a separate technical noon fallback for later calculation work without changing `BirthTimeAccuracy.UnknownTime`.
+- Locked the rule that user-specific runtime data must eventually live under AppData or the platform-equivalent user data location rather than in the repository or next to the executable.
+- Updated localization resources, validation tests, and architecture/persistence/UI documentation to reflect the offline-first birth-input model and deferred online lookup.
+
+Changed files:
+
+- `NoxAeterna.Presentation/Astrology/LocationSource.cs`
+- `NoxAeterna.Presentation/Astrology/TimezoneOption.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataInputState.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataInputValidator.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataInputMapper.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataInputViewModel.cs`
+- `NoxAeterna.App/Astrology/BirthDataInputControl.cs`
+- `NoxAeterna.Tests/Presentation/BirthDataInputViewModelTests.cs`
+- `resources/localization/ui/ru.json`
+- `resources/localization/ui/en.json`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/ASTRONOMY-ENGINE.md`
+- `docs/CODING-GUIDELINES.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/DOMAIN-MODEL.md`
+- `docs/NEXT-STEPS.md`
+- `docs/PERSISTENCE.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Connect validated birth-data input to `IBirthMomentResolver` and a deterministic or fake chart-building flow.
+- Keep online lookup, persistence, AppData implementation, and Swiss Ephemeris integration deferred while input-driven chart rebuilding is introduced.
