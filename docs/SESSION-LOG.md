@@ -669,3 +669,47 @@ Next actions:
 
 - Connect validated birth-data input to `IBirthMomentResolver` and a deterministic or fake chart-building flow.
 - Keep sample chart rendering internal while the workspace starts rebuilding charts from user-entered data.
+
+## 2026-05-15: Input-Driven Demo Chart Rebuild Flow
+
+Summary:
+
+- Connected validated birth-data input to the visible chart through an app-level development pipeline: `BirthData` mapping, `TzdbBirthMomentResolver`, fake deterministic ephemeris calculation, `NatalChart`, geometry layout, and `ChartRenderScene`.
+- Added `DevelopmentEphemerisCalculator` in `NoxAeterna.Astronomy` as a clearly marked fake implementation of `IEphemerisCalculator`. It is deterministic, varies by input, and is explicitly not real astronomy.
+- Added app-level chart coordinator and pipeline classes so the astrology workspace can rebuild the chart on successful validation while leaving the previous chart unchanged on invalid input.
+- Kept the renderer isolated: the chart surface still consumes only prepared `ChartRenderScene`.
+- Added a localized honesty notice that the current chart uses a demo calculation and renamed the action button to build the chart explicitly.
+
+Changed files:
+
+- `NoxAeterna.Domain/Birth/BirthMoment.cs`
+- `NoxAeterna.Astronomy/Calculation/ChartCalculationRequest.cs`
+- `NoxAeterna.Astronomy/Calculation/DevelopmentEphemerisCalculator.cs`
+- `NoxAeterna.App/NoxAeterna.App.csproj`
+- `NoxAeterna.App/Astrology/AstrologyChartSurfaceControl.cs`
+- `NoxAeterna.App/Astrology/AstrologyWorkspaceControl.cs`
+- `NoxAeterna.App/Astrology/BirthDataInputControl.cs`
+- `NoxAeterna.App/Astrology/DevelopmentChartBuildResult.cs`
+- `NoxAeterna.App/Astrology/DevelopmentAstrologyChartPipeline.cs`
+- `NoxAeterna.App/Astrology/DevelopmentAstrologyChartCoordinator.cs`
+- `NoxAeterna.App/MainWindow.axaml.cs`
+- `NoxAeterna.Tests/App/AppBoundaryTests.cs`
+- `NoxAeterna.Tests/App/DevelopmentAstrologyChartCoordinatorTests.cs`
+- `NoxAeterna.Tests/Astronomy/ChartCalculationContractsTests.cs`
+- `NoxAeterna.Tests/Astronomy/DevelopmentEphemerisCalculatorTests.cs`
+- `NoxAeterna.Tests/Birth/BirthMomentTests.cs`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/ASTRONOMY-ENGINE.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/NEXT-STEPS.md`
+- `docs/RENDERING-ENGINE.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+- `resources/localization/ui/ru.json`
+- `resources/localization/ui/en.json`
+
+Next actions:
+
+- Add the first in-memory profile or session draft model for current unsaved birth data and chart state.
+- Keep persistence, real ephemerides, geocoding, and interpretation work deferred until that in-memory state model exists.

@@ -5,7 +5,7 @@ namespace NoxAeterna.Tests.App;
 public sealed class AppBoundaryTests
 {
     [Fact]
-    public void AppProject_DoesNotReferenceAstronomyProject()
+    public void AppProject_ReferencesAstronomyAsCompositionRoot()
     {
         var projectDocument = LoadProjectDocument("NoxAeterna.App", "NoxAeterna.App.csproj");
 
@@ -15,7 +15,7 @@ public sealed class AppBoundaryTests
             .Where(static value => value is not null)
             .ToArray();
 
-        Assert.DoesNotContain(projectReferences, path => path!.Contains("NoxAeterna.Astronomy", StringComparison.OrdinalIgnoreCase));
+        Assert.Contains(projectReferences, path => path!.Contains("NoxAeterna.Astronomy", StringComparison.OrdinalIgnoreCase));
     }
 
     private static XDocument LoadProjectDocument(string projectDirectory, string projectFileName)

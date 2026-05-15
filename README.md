@@ -29,10 +29,11 @@ The repository now contains:
 - A thin shell, JSON-backed UI localization, in-memory settings, and first real dark/light theme switching
 - A first astrology workspace foundation that hosts the chart surface and placeholder side panels
 - A refined birth-data input foundation with date/time pickers, TZDB timezone selection, manual coordinates, and explicit mapping into domain birth data
-- Development-only sample chart generation used behind that workspace for current pipeline verification
+- Input-driven demo chart rebuilding through `IBirthMomentResolver`, a deterministic fake ephemeris flow, geometry layout, and the isolated renderer
+- Development-only sample chart generation kept only as a fallback and verification path
 - xUnit test harness and repository-level build configuration
 
-The application is still in foundation mode. Real profile workflows, input-driven chart calculation, ephemeris-backed calculations, persistence, Tarot UX, and final visual design are not implemented yet.
+The application is still in foundation mode. Real profile workflows, real ephemeris-backed calculations, persistence, Tarot UX, and final visual design are not implemented yet.
 
 ## Planned Architecture
 
@@ -119,13 +120,14 @@ Current birth-input note:
 
 - The astrology workspace now supports an offline-first birth-data input mode.
 - Date selection uses a picker, timezone selection comes from local TZDB IDs, and coordinates remain manual.
+- Valid input now rebuilds the visible chart through a deterministic development-only calculation pipeline.
 - The right birth-data panel now scrolls instead of clipping at the default window size.
-- Real chart recalculation is still not connected.
+- Real ephemeris integration is still not connected.
 
 ## Repository Structure Overview
 
 - `docs/`: architecture, vision, glossary, boundaries, roadmap, risks, and agent continuity documents
-- `NoxAeterna.App/`: Avalonia app host, shell window, astrology workspace host, development-only sample scene wiring, and current theme application boundary
+- `NoxAeterna.App/`: Avalonia app host, shell window, astrology workspace host, demo chart-rebuild composition, fallback sample scene wiring, and current theme application boundary
 - `NoxAeterna.Presentation/`: shell, astrology workspace models, localization, preferences, settings, and theme metadata foundations
 - `NoxAeterna.Rendering/`: technical chart rendering contracts and Avalonia renderer
 - `NoxAeterna.Geometry/`: render-independent circular chart layout foundation

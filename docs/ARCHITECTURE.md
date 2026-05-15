@@ -14,8 +14,9 @@ Current implemented foundation includes:
 - Render-independent circular chart geometry.
 - Minimal rendering contracts and a technical chart renderer.
 - Thin presentation shell, JSON-backed UI localization, in-memory settings, and first dark/light theme switching.
-- First astrology workspace foundation hosted through the shell, still using development-only sample chart data.
+- First astrology workspace foundation hosted through the shell, now able to rebuild the visible chart from validated birth input through a development-only calculation flow.
 - Refined birth-data input with typed date/time controls, TZDB timezone selection, and offline manual coordinates.
+- Input-driven demo chart rebuilding through `IBirthMomentResolver`, a fake deterministic ephemeris calculator, and the existing geometry-to-rendering boundary.
 
 Large-scale planning passes should remain closed. The next work should stay implementation-led and boundary-aware.
 

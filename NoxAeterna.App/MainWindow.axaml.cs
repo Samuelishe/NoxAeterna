@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using NoxAeterna.Astronomy.Calculation;
+using NoxAeterna.Astronomy.Time;
 using NoxAeterna.App.Astrology;
 using NoxAeterna.App.Debug;
 using NoxAeterna.App.Localization;
@@ -21,6 +23,7 @@ public partial class MainWindow : Window
     private readonly ShellViewModel _shellViewModel;
     private readonly AstrologyWorkspaceViewModel _astrologyWorkspaceViewModel;
     private readonly SettingsViewModel _settingsViewModel;
+    private readonly DevelopmentAstrologyChartCoordinator _astrologyChartCoordinator;
     private readonly TextBlock _navigationTitleTextBlock;
     private readonly ListBox _navigationListBox;
     private readonly TextBlock _sectionTitleTextBlock;
@@ -51,6 +54,11 @@ public partial class MainWindow : Window
         _shellViewModel = ShellViewModel.CreateDefault();
         _astrologyWorkspaceViewModel = AstrologyWorkspaceViewModel.CreateFoundation();
         _settingsViewModel = SettingsViewModel.CreateDefault(_userPreferences);
+        _astrologyChartCoordinator = new DevelopmentAstrologyChartCoordinator(
+            new DevelopmentAstrologyChartPipeline(
+                new TzdbBirthMomentResolver(),
+                new DevelopmentEphemerisCalculator()),
+            DevelopmentSampleChartSceneFactory.Create());
 
         RefreshShell();
     }
@@ -81,7 +89,7 @@ public partial class MainWindow : Window
                 _astrologyWorkspaceViewModel,
                 _localizationProvider,
                 _userPreferences.ApplicationLanguage.Language,
-                DevelopmentSampleChartSceneFactory.Create());
+                _astrologyChartCoordinator);
             return;
         }
 

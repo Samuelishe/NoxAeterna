@@ -234,3 +234,11 @@ Decision: Keep `Nox Aeterna` and other intended Latin proper names untranslated 
 Reason: Product names should remain stable brand identifiers, while mixed-language date and time picker chrome becomes confusing if desktop controls do not follow the chosen UI language.
 
 Consequences: Localization catalogs must preserve `Nox Aeterna` verbatim across languages, and `App` is responsible for applying culture to date and time controls without leaking localization behavior into domain models.
+
+## 2026-05-15: Use an Input-Driven Demo Chart Pipeline Before Real Ephemerides
+
+Decision: Connect validated birth-data input to the visible chart through `IBirthMomentResolver`, a clearly named fake deterministic `IEphemerisCalculator` implementation, `NatalChart`, geometry layout, and the existing renderer.
+
+Reason: The app needs an honest end-to-end chart rebuild flow before Swiss Ephemeris integration, but that flow must stay visibly marked as demo-only and keep rendering isolated from calculation logic.
+
+Consequences: `NoxAeterna.App` now acts as the composition root for the current development chart pipeline and references `NoxAeterna.Astronomy`. The visible chart can rebuild from user input, while real astronomy, persistence, and geocoding remain deferred.

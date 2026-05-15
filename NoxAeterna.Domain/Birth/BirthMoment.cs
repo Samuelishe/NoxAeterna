@@ -16,7 +16,6 @@ public readonly record struct BirthMoment
     /// <param name="resolutionStatus">The way ambiguity or invalid local time was handled.</param>
     /// <param name="birthTimeAccuracy">The declared reliability of the birth time.</param>
     /// <param name="sourceNote">Optional source or confidence note carried from the original birth data.</param>
-    /// <exception cref="ArgumentException">Thrown when <paramref name="birthTimeAccuracy"/> is <see cref="Birth.BirthTimeAccuracy.UnknownTime"/>.</exception>
     public BirthMoment(
         LocalDateTime originalLocalDateTime,
         TimezoneId timezoneId,
@@ -25,11 +24,6 @@ public readonly record struct BirthMoment
         BirthTimeAccuracy birthTimeAccuracy,
         string? sourceNote = null)
     {
-        if (birthTimeAccuracy == BirthTimeAccuracy.UnknownTime)
-        {
-            throw new ArgumentException("BirthMoment requires a known birth time.", nameof(birthTimeAccuracy));
-        }
-
         OriginalLocalDateTime = originalLocalDateTime;
         TimezoneId = timezoneId;
         Instant = instant;

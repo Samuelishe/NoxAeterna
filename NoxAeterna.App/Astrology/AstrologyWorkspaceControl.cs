@@ -16,7 +16,8 @@ public sealed class AstrologyWorkspaceControl : UserControl
     private readonly AstrologyWorkspaceViewModel _viewModel;
     private readonly ILocalizationProvider _localizationProvider;
     private readonly LanguageCode _applicationLanguage;
-    private readonly ChartRenderScene _chartScene;
+    private readonly DevelopmentAstrologyChartCoordinator _chartCoordinator;
+    private AstrologyChartSurfaceControl? _chartSurfaceControl;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AstrologyWorkspaceControl"/> class.
@@ -29,12 +30,12 @@ public sealed class AstrologyWorkspaceControl : UserControl
         AstrologyWorkspaceViewModel viewModel,
         ILocalizationProvider localizationProvider,
         LanguageCode applicationLanguage,
-        ChartRenderScene chartScene)
+        DevelopmentAstrologyChartCoordinator chartCoordinator)
     {
         _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
         _localizationProvider = localizationProvider ?? throw new ArgumentNullException(nameof(localizationProvider));
         _applicationLanguage = applicationLanguage;
-        _chartScene = chartScene ?? throw new ArgumentNullException(nameof(chartScene));
+        _chartCoordinator = chartCoordinator ?? throw new ArgumentNullException(nameof(chartCoordinator));
 
         Content = BuildContent();
     }
@@ -54,7 +55,8 @@ public sealed class AstrologyWorkspaceControl : UserControl
                     new BirthDataInputControl(
                         _viewModel.BirthDataInput,
                         _localizationProvider,
-                        _applicationLanguage)),
+                        _applicationLanguage,
+                        TryBuildChartFromInput)),
                 CreatePlaceholderPanel(interpretationPanel)
             }
         };
@@ -84,12 +86,32 @@ public sealed class AstrologyWorkspaceControl : UserControl
     private Control CreateChartPanel(AstrologyWorkspacePanel panel) =>
         CreatePanelContainer(
             panel,
-            new AstrologyChartSurfaceControl(_chartScene)
+            CreateChartPanelBody());
+
+    private Control CreateChartPanelBody()
+    {
+        _chartSurfaceControl = new AstrologyChartSurfaceControl(_chartCoordinator.CurrentScene)
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            MinHeight = 460
+        };
+
+        return new StackPanel
+        {
+            Spacing = 10,
+            Children =
             {
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Stretch,
-                MinHeight = 460
-            });
+                new TextBlock
+                {
+                    Text = Localize("ui.astrology.demo_calculation_notice"),
+                    TextWrapping = TextWrapping.Wrap,
+                    Foreground = ResolveBrush("WorkspacePanelSubtleForegroundBrush", new SolidColorBrush(Color.FromRgb(128, 128, 132)))
+                },
+                _chartSurfaceControl
+            }
+        };
+    }
 
     private Control CreatePlaceholderPanel(AstrologyWorkspacePanel panel) =>
         CreatePanelContainer(
@@ -139,6 +161,19 @@ public sealed class AstrologyWorkspaceControl : UserControl
 
     private string Localize(LocalizationKey key) =>
         _localizationProvider.Get(LocalizationScope.Ui, _applicationLanguage, key).Text;
+
+    private string Localize(string key) => Localize(new LocalizationKey(key));
+
+    private bool TryBuildChartFromInput(BirthDataInputViewModel birthDataInput)
+    {
+        var rebuilt = _chartCoordinator.TryBuild(birthDataInput);
+        if (rebuilt)
+        {
+            _chartSurfaceControl?.SetScene(_chartCoordinator.CurrentScene);
+        }
+
+        return rebuilt;
+    }
 
     private IBrush ResolveBrush(string resourceKey, IBrush fallbackBrush) =>
         Application.Current is { } application &&

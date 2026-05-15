@@ -13,11 +13,13 @@ public sealed record ChartCalculationRequest
     /// </summary>
     /// <param name="calculationMoment">The calculation moment.</param>
     /// <param name="requestedBodies">The celestial bodies to calculate.</param>
+    /// <param name="locationContext">The optional location context carried with the request.</param>
     /// <param name="ephemerisSourceVersion">The optional source or ephemeris version hint.</param>
     /// <exception cref="ArgumentException">Thrown when <paramref name="requestedBodies"/> is empty.</exception>
     public ChartCalculationRequest(
         BirthMoment calculationMoment,
         IEnumerable<CelestialBody> requestedBodies,
+        BirthLocation? locationContext = null,
         string? ephemerisSourceVersion = null)
     {
         var bodies = requestedBodies?.Distinct().ToArray() ?? throw new ArgumentNullException(nameof(requestedBodies));
@@ -29,6 +31,7 @@ public sealed record ChartCalculationRequest
 
         CalculationMoment = calculationMoment;
         RequestedBodies = Array.AsReadOnly(bodies);
+        LocationContext = locationContext;
         EphemerisSourceVersion = string.IsNullOrWhiteSpace(ephemerisSourceVersion) ? null : ephemerisSourceVersion.Trim();
     }
 
@@ -41,6 +44,11 @@ public sealed record ChartCalculationRequest
     /// Gets the celestial bodies requested for calculation.
     /// </summary>
     public IReadOnlyList<CelestialBody> RequestedBodies { get; }
+
+    /// <summary>
+    /// Gets the optional location context carried with the request.
+    /// </summary>
+    public BirthLocation? LocationContext { get; }
 
     /// <summary>
     /// Gets the optional source or ephemeris version hint.

@@ -34,14 +34,18 @@ The current renderer is intentionally minimal and technical. It consumes prepare
 Current temporary verification path:
 
 ```text
-DevelopmentSampleNatalChartFactory
+BirthDataInput
+-> BirthData validation and mapping
+-> IBirthMomentResolver
+-> DevelopmentEphemerisCalculator
+-> NatalChart
 -> CircularChartLayoutBuilder
 -> ChartRenderScene
 -> CircularChartRenderer
 -> AstrologyChartSurfaceControl inside the first astrology workspace foundation in NoxAeterna.App
 ```
 
-This path still exists only to verify the current geometry-to-rendering boundary. It now sits inside a reusable astrology workspace foundation rather than a raw debug-only shell section. It is not the final UI architecture.
+The app still keeps a fallback sample-scene path for development, but the visible chart can now rebuild from validated input through this demo-only pipeline. This is still not the final UI architecture and still does not use real ephemerides.
 
 ## Boundaries
 

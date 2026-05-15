@@ -70,6 +70,7 @@ Current shell direction:
 - the first astrology workspace foundation can replace a raw debug-only host before full product screens exist;
 - development-only sample data may still drive that workspace temporarily, but should stay out of the visible shell structure.
 - the astrology workspace may now host an initial birth-data input panel before real chart calculation is connected.
+- validated birth-data input may now rebuild the visible chart through a clearly marked demo-only calculation flow before real ephemerides exist.
 - the current right-side birth-data panel should remain usable at the default window size through scrolling and responsive layout rather than requiring a maximized window.
 
 Current birth-input direction:
@@ -79,6 +80,7 @@ Current birth-input direction:
 - timezone selection should come from local TZDB data, not a raw free-text field;
 - manual coordinates remain the offline-first fallback and are required for honest calculation later.
 - helper text around time zone selection should explain TZDB/IANA identifiers without exposing raw technical jargon as the main field label.
+- the chart area should clearly disclose when demo-only calculation is being used instead of real ephemerides.
 
 Current settings direction:
 

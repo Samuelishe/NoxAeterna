@@ -16,6 +16,7 @@ public sealed class BirthDataInputControl : UserControl
     private readonly BirthDataInputViewModel _viewModel;
     private readonly ILocalizationProvider _localizationProvider;
     private readonly LanguageCode _applicationLanguage;
+    private readonly Func<BirthDataInputViewModel, bool>? _buildChartFromInput;
     private DatePicker? _birthDatePicker;
     private TimePicker? _birthTimePicker;
     private ComboBox? _birthTimeAccuracyComboBox;
@@ -32,11 +33,13 @@ public sealed class BirthDataInputControl : UserControl
     public BirthDataInputControl(
         BirthDataInputViewModel viewModel,
         ILocalizationProvider localizationProvider,
-        LanguageCode applicationLanguage)
+        LanguageCode applicationLanguage,
+        Func<BirthDataInputViewModel, bool>? buildChartFromInput = null)
     {
         _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
         _localizationProvider = localizationProvider ?? throw new ArgumentNullException(nameof(localizationProvider));
         _applicationLanguage = applicationLanguage;
+        _buildChartFromInput = buildChartFromInput;
 
         Content = BuildContent();
         RefreshValidationSummary();
@@ -112,7 +115,15 @@ public sealed class BirthDataInputControl : UserControl
         validateButton.Click += (_, _) =>
         {
             SyncStateFromInputs();
-            _viewModel.TryCreateBirthData(out _);
+            if (_buildChartFromInput is not null)
+            {
+                _buildChartFromInput(_viewModel);
+            }
+            else
+            {
+                _viewModel.TryCreateBirthData(out _);
+            }
+
             RefreshValidationSummary();
         };
 

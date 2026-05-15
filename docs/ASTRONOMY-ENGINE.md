@@ -39,10 +39,11 @@ Current implemented direction:
 - Birth-time domain types live in `NoxAeterna.Domain`.
 - A resolver contract exists as `IBirthMomentResolver`.
 - A first TZDB-based resolver implementation exists in `NoxAeterna.Astronomy`.
-- the astrology workspace now has a structured birth-data input foundation in presentation, but it is not yet connected to `IBirthMomentResolver`.
+- the astrology workspace input is now connected to `IBirthMomentResolver` through an app-level development pipeline.
 - The current deterministic resolver policy is:
   - ambiguous local times resolve to the earlier occurrence;
   - invalid local times shift forward by the gap duration.
+  - unknown birth time may still be resolved for the demo chart flow by applying a technical noon fallback while preserving `BirthTimeAccuracy.UnknownTime` in the final `BirthMoment`.
 
 This is an MVP resolution strategy, not the final breadth of time-resolution options.
 
@@ -66,8 +67,10 @@ Current contract direction:
 - `ChartCalculationRequest`
 - `ChartCalculationResult`
 - `IEphemerisCalculator`
+- `DevelopmentEphemerisCalculator` as a temporary development-only implementation
 
 The current contract is synchronous and deterministic. It does not expose Swiss Ephemeris package types.
+The current development-only implementation is intentionally fake and must not be presented as real astronomy.
 
 Package choice is not yet verified. See `KNOWN-PROBLEMS.md`.
 
@@ -98,6 +101,7 @@ Current implemented direction:
 - `CelestialBody` lives in `NoxAeterna.Domain`.
 - `PlanetPosition` lives in `NoxAeterna.Domain`.
 - `ChartCalculationRequest` and `ChartCalculationResult` live in `NoxAeterna.Astronomy`.
+- `ChartCalculationRequest` can now carry optional location context so the current demo-only calculation can vary deterministically by input.
 
 ## Aspects
 

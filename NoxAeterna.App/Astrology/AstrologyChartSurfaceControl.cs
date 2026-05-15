@@ -10,7 +10,7 @@ namespace NoxAeterna.App.Astrology;
 /// </summary>
 public sealed class AstrologyChartSurfaceControl : Control
 {
-    private readonly ChartRenderScene _scene;
+    private ChartRenderScene _scene;
     private readonly CircularChartRenderer _renderer;
     private readonly ChartRenderOptions _renderOptions;
 
@@ -23,6 +23,16 @@ public sealed class AstrologyChartSurfaceControl : Control
         _scene = scene ?? throw new ArgumentNullException(nameof(scene));
         _renderer = new CircularChartRenderer();
         _renderOptions = new ChartRenderOptions();
+    }
+
+    /// <summary>
+    /// Replaces the current prepared render scene and redraws the surface.
+    /// </summary>
+    /// <param name="scene">The prepared render scene.</param>
+    public void SetScene(ChartRenderScene scene)
+    {
+        _scene = scene ?? throw new ArgumentNullException(nameof(scene));
+        InvalidateVisual();
     }
 
     /// <inheritdoc />

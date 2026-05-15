@@ -25,4 +25,22 @@ public sealed class BirthMomentTests
         Assert.Equal(BirthTimeAccuracy.ExactTime, birthMoment.BirthTimeAccuracy);
         Assert.Equal("Birth certificate", birthMoment.SourceNote);
     }
+
+    [Fact]
+    public void BirthMoment_AllowsUnknownTimeAccuracyForTechnicalFallbackScenarios()
+    {
+        var localDateTime = new LocalDateTime(1990, 7, 14, 12, 0);
+        var instant = Instant.FromUtc(1990, 7, 14, 9, 0);
+
+        var birthMoment = new BirthMoment(
+            localDateTime,
+            new TimezoneId("Europe/Moscow"),
+            instant,
+            TimeResolutionStatus.Resolved,
+            BirthTimeAccuracy.UnknownTime,
+            "Technical fallback");
+
+        Assert.Equal(BirthTimeAccuracy.UnknownTime, birthMoment.BirthTimeAccuracy);
+        Assert.Equal("Technical fallback", birthMoment.SourceNote);
+    }
 }

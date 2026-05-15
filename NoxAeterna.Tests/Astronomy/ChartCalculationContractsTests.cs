@@ -20,6 +20,18 @@ public sealed class ChartCalculationContractsTests
     }
 
     [Fact]
+    public void ChartCalculationRequest_PreservesOptionalLocationContext()
+    {
+        var location = new BirthLocation("Prague, Czechia", 50.0755d, 14.4378d);
+        var request = new ChartCalculationRequest(
+            CreateBirthMoment(),
+            new[] { CelestialBody.Sun },
+            location);
+
+        Assert.Equal(location, request.LocationContext);
+    }
+
+    [Fact]
     public void ChartCalculationRequest_RejectsEmptyBodySet()
     {
         Assert.Throws<ArgumentException>(() =>
