@@ -91,7 +91,11 @@ Theme switching should continue to flow through `ThemeId` and a small app-level 
 
 User-specific runtime data must not be stored in the repository or next to the executable. When persistence arrives, route preferences, caches, saved places, and profile data into AppData or the equivalent platform-specific user data directory.
 
+Application-owned shipped assets belong in the repository. Do not route product icons, curated textures, Tarot art, theme resources, or future glyph assets into AppData just because they are visual files.
+
 When using native desktop picker controls, favor readable layouts over tight packing. Do not force `DatePicker` or `TimePicker` into narrow multi-column arrangements that clip or overlap their segmented UI.
+
+Prefer programmatic or vector-first chart visuals where possible. Do not add random internet images, unlicensed icon packs, or raw AI-generation dumps to solve basic chart readability problems.
 
 ## Attribution and Provenance
 

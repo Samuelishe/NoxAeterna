@@ -126,8 +126,15 @@ Current birth-input note:
 - Date selection uses a picker, timezone selection comes from local TZDB IDs, and coordinates remain manual.
 - Valid input now rebuilds the visible chart through `IBirthMomentResolver`, `SwissEphNet`, natal-chart composition, geometry layout, and the isolated renderer.
 - The visible chart is now readable enough to inspect: zodiac ring glyphs, planet glyphs, and a compact positions list are present.
+- Startup now uses a deterministic real-chart sample routed through the live SwissEphNet-backed pipeline rather than old integer-only placeholder positions.
 - The right birth-data panel now scrolls instead of clipping at the default window size.
 - The current live calculation uses SwissEphNet in built-in Moshier mode because external `.se1` ephemeris files are not configured yet.
+
+Current asset and runtime-data note:
+
+- shipped application assets belong in the repository and must stay attributed and reviewable;
+- user-specific runtime data belongs in AppData or the equivalent platform-specific user data directory;
+- random unlicensed internet images and raw AI-generation dumps must not be committed.
 
 ## Repository Structure Overview
 

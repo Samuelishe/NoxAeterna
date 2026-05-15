@@ -21,6 +21,8 @@ Open questions:
 - whether a dedicated open-source font should be adopted later for more reliable symbol display;
 - how far the current simple glyph placement can go before dense charts require stronger collision handling.
 
+Current mitigation is intentionally light: close-planet clusters now use deterministic radial band offsets, but dense charts can still look crowded.
+
 ## Birth Place to Timezone Resolution
 
 Birth location to timezone mapping needs design.

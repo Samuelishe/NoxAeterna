@@ -2,6 +2,36 @@
 
 The project may use AI-assisted visual asset generation, but the final application must feel curated, not like a random folder of generated images.
 
+## Repository vs Runtime Data
+
+Project-owned application assets belong in the repository and GitHub.
+
+This includes:
+
+- app icons;
+- UI icons;
+- custom glyph resources if they are later adopted;
+- chart ornaments;
+- theme resources;
+- textures and backgrounds;
+- Tarot card backs;
+- Tarot card illustrations;
+- curated generated imagery that is actually shipped with the app.
+
+User-specific or runtime data does not belong in the repository.
+
+This includes:
+
+- settings;
+- saved profiles;
+- saved charts;
+- recent places;
+- geocoding cache;
+- local history;
+- generated user-specific files.
+
+Those belong in AppData or the equivalent platform-specific user data directory.
+
 ## Asset Strategy Decision
 
 Programmatic rendering is the source of truth for technical visuals.
@@ -24,6 +54,8 @@ Curated or generated assets may be used for:
 
 Generated AI imagery must never become the source of technical chart rendering.
 
+Simple functional chart symbols should stay vector-first or programmatic whenever possible. Random image assets are not an acceptable substitute for chart glyphs, markers, rings, or aspect lines.
+
 ## Intended Pipeline
 
 1. Generate visual concepts.
@@ -33,6 +65,8 @@ Generated AI imagery must never become the source of technical chart rendering.
 5. Normalize palette.
 6. Store reusable assets.
 7. Maintain a visual style guide.
+
+Commit only curated, app-ready assets. Do not commit raw generation dumps or bulk output folders from image-generation workflows.
 
 ## Appropriate Generated Assets
 
@@ -79,6 +113,48 @@ Future style guide should define:
 - Tarot card framing.
 - Background and surface rules.
 - Export visual rules.
+
+## Future Resource Structure
+
+Future resource direction:
+
+```text
+resources/
+  localization/
+  themes/
+  assets/
+    shared/
+      icons/
+      glyphs/
+      ornaments/
+      textures/
+    astrology/
+      glyphs/
+      chart/
+      backgrounds/
+    tarot/
+      decks/
+        default/
+          backs/
+          cards/
+```
+
+Potential future metadata file:
+
+```text
+resources/assets/ASSET-MANIFEST.json
+```
+
+Likely manifest fields:
+
+- asset ID;
+- path;
+- type;
+- theme applicability;
+- provenance;
+- license;
+- dimensions;
+- intended usage.
 
 ## Attribution Rule
 

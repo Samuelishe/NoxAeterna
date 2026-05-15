@@ -74,6 +74,7 @@ Current shell direction:
 - the current right-side birth-data panel should remain usable at the default window size through scrolling and responsive layout rather than requiring a maximized window.
 - when native date or time picker controls are used, give them enough horizontal space to remain readable; do not compress them into tight multi-column groups that break segment layout.
 - workspace-level subtitles should stay product-oriented and future-facing, while temporary demo or technical status stays in separate local notices near the affected surface.
+- the current readable chart foundation should stay legible before it becomes ornate; chart readability takes priority over decorative treatment.
 
 Current birth-input direction:
 
@@ -84,6 +85,8 @@ Current birth-input direction:
 - helper text around time zone selection should explain TZDB/IANA identifiers without exposing raw technical jargon as the main field label.
 - the chart area should clearly disclose when demo-only calculation is being used instead of real ephemerides.
 - the chart area should now remain readable through zodiac and planetary glyph labeling plus a compact positions summary, even before houses and interpretation exist.
+- positions summaries should feel like compact chart tables rather than debug dumps: glyph or short label, localized body name, sign, degree, and retrograde marker where applicable.
+- if Unicode astrology glyphs render unreliably on a platform, fall back to consistent text abbreviations rather than emoji-style symbols or ad hoc image assets.
 - date/time controls may remain Avalonia-native for now, but surrounding spacing, helper text, and alignment should make them read as intentional desktop form controls rather than raw debug scaffolding.
 - readability takes priority over compactness in the birth-data form; date and time inputs should prefer full-width rows over dense side-by-side packing when control chrome becomes fragile.
 

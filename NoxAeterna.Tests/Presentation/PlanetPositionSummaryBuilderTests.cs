@@ -9,7 +9,7 @@ public sealed class PlanetPositionSummaryBuilderTests
 {
     [Theory]
     [InlineData(0, "00°00'")]
-    [InlineData(14.3833, "14°22'")]
+    [InlineData(14.3833, "14°23'")]
     [InlineData(29.999, "29°59'")]
     public void FormatDegree_FormatsReadableDegreeAndMinuteText(double value, string expected)
     {
@@ -41,7 +41,8 @@ public sealed class PlanetPositionSummaryBuilderTests
             rows,
             row =>
             {
-                Assert.Equal("☉", row.Glyph);
+                Assert.Equal("☉\uFE0E", row.Glyph);
+                Assert.Equal("♉\uFE0E", row.SignGlyph);
                 Assert.Equal("ui.planet.sun", row.BodyLabelKey.Value);
                 Assert.Equal("ui.zodiac.taurus", row.SignLabelKey.Value);
                 Assert.Equal("14°30'", row.DegreeText);
@@ -49,7 +50,8 @@ public sealed class PlanetPositionSummaryBuilderTests
             },
             row =>
             {
-                Assert.Equal("♂", row.Glyph);
+                Assert.Equal("♂\uFE0E", row.Glyph);
+                Assert.Equal("♏\uFE0E", row.SignGlyph);
                 Assert.Equal("ui.planet.mars", row.BodyLabelKey.Value);
                 Assert.Equal("ui.zodiac.scorpio", row.SignLabelKey.Value);
                 Assert.Equal("15°15'", row.DegreeText);

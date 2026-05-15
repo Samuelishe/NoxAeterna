@@ -76,3 +76,18 @@ Tarot interpretation should use the same structured interpretation principles as
 - Contextual modifiers.
 - Tensions and reinforcements.
 - Optional narrative prose from curated templates or lexicon.
+
+## Asset Direction
+
+Tarot assets that ship with the application belong in the repository and must be tracked with provenance, authorship, and license information.
+
+This includes future:
+
+- card backs;
+- card illustrations;
+- deck-specific ornaments;
+- spread-layout decorative assets.
+
+User-specific Tarot runtime data does not belong in the repository or next to the executable. Saved readings, reading history, local notes, and other per-user Tarot state belong in AppData or the equivalent platform-specific user data directory.
+
+AI-assisted asset generation is acceptable for Tarot visuals, but raw generation dumps must not be committed. Only selected, curated, app-ready assets should enter the repository.

@@ -258,3 +258,19 @@ Decision: Use universal Unicode zodiac and planetary glyphs inside the render sc
 Reason: The chart needs to become recognizable without leaking localization into rendering math or making the low-level renderer depend on human-language resource lookup.
 
 Consequences: Rendering stays scene-driven and language-agnostic, while the readable positions table is built from presentation models using localization keys. Future font validation remains an open follow-up item.
+
+## 2026-05-15: Use a Real Ephemeris-Backed Startup Chart Instead of Rounded Sample Positions
+
+Decision: Build the initial visible workspace chart from deterministic sample birth data resolved through the live SwissEphNet-backed pipeline instead of integer-only hardcoded sample longitudes.
+
+Reason: The previously visible rounded degree values looked like a formatting defect and obscured whether the real ephemeris adapter was actually active.
+
+Consequences: Startup charts now reflect the current live astronomy path, readable summaries can show meaningful within-sign minutes, and the old hardcoded sample chart remains only as a fallback or dev artifact rather than the visible default.
+
+## 2026-05-15: Keep Product Assets in the Repository and Runtime State in AppData
+
+Decision: Treat shipped application assets as repository-owned resources, while keeping user-specific runtime data in AppData or the equivalent platform-specific user data directory.
+
+Reason: Product resources must remain versioned, reviewable, and reproducible, while user settings, caches, history, and saved data must not leak into the repository or installation directory.
+
+Consequences: Future icons, textures, Tarot art, theme assets, and custom glyph resources belong under versioned `resources/` paths, while preferences, saved charts, readings, and caches stay outside the repository.

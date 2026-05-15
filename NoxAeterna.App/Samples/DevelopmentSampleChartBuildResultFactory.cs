@@ -1,6 +1,7 @@
-using NoxAeterna.Geometry.Charts;
 using NoxAeterna.App.Astrology;
-using NoxAeterna.Rendering.Charts;
+using NoxAeterna.Astronomy.Calculation;
+using NoxAeterna.Astronomy.Time;
+using NoxAeterna.Infrastructure.Ephemeris;
 
 namespace NoxAeterna.App.Samples;
 
@@ -14,10 +15,12 @@ public static class DevelopmentSampleChartBuildResultFactory
     /// </summary>
     public static DevelopmentChartBuildResult Create()
     {
-        var natalChart = DevelopmentSampleNatalChartFactory.Create();
-        var layout = new CircularChartLayoutBuilder().Build(natalChart);
-        var scene = ChartRenderScene.FromLayout(layout);
+        var pipeline = new DevelopmentAstrologyChartPipeline(
+            new TzdbBirthMomentResolver(),
+            new SwissEphemerisCalculator());
 
-        return new DevelopmentChartBuildResult(natalChart, scene);
+        return pipeline.Build(
+            DevelopmentSampleBirthDataFactory.Create(),
+            TimeSpan.FromHours(12));
     }
 }

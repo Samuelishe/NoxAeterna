@@ -6,10 +6,10 @@ Immediate next steps:
 
 1. Investigate and implement the explicit external `.se1` ephemeris file setup path so the app can move from current Moshier fallback to the higher-precision Swiss-data mode without silent bundling.
 
-2. Keep the current readable chart foundation stable while verifying cross-platform glyph rendering and deciding whether an open-source astrology-capable font is needed later.
+2. Keep the current readable chart foundation stable while verifying cross-platform glyph rendering and deciding whether an open-source astrology-capable font is needed later or whether compact text-label fallback is the safer default.
 
 3. Resolve formal license alignment for the repository before any release packaging or redistribution that depends on Swiss Ephemeris code or data files.
 
-4. Keep all ephemeris integration hidden behind `IEphemerisCalculator` and current astronomy contracts so UI, geometry, and rendering layers remain unchanged.
+4. Keep all ephemeris integration hidden behind `IEphemerisCalculator` and current astronomy contracts so UI, geometry, and rendering layers remain unchanged during `.se1` setup.
 
 5. Keep houses, online geocoding, persistence, interpretation, Tarot workflows, and profile/session draft persistence out of scope while ephemeris setup and chart readability are stabilized.

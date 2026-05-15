@@ -32,4 +32,14 @@ public sealed class DevelopmentSampleFactoriesTests
         Assert.Equal(firstScene.PlanetGlyphSlots, secondScene.PlanetGlyphSlots);
         Assert.Equal(firstScene.AspectLines, secondScene.AspectLines);
     }
+
+    [Fact]
+    public void ChartBuildResultFactory_ProducesRealCalculatedStartupChartWithNonRoundedPositions()
+    {
+        var buildResult = DevelopmentSampleChartBuildResultFactory.Create();
+        var summaryRows = NoxAeterna.Presentation.Astrology.PlanetPositionSummaryBuilder.Build(buildResult.NatalChart);
+
+        Assert.Contains("SwissEphNet", buildResult.NatalChart.EphemerisSourceVersion, StringComparison.Ordinal);
+        Assert.Contains(summaryRows, row => !row.DegreeText.EndsWith("00'", StringComparison.Ordinal));
+    }
 }

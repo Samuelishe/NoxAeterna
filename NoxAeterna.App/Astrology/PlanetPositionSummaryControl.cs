@@ -72,13 +72,14 @@ public sealed class PlanetPositionSummaryControl : UserControl
 
         return new Grid
         {
-            ColumnDefinitions = new ColumnDefinitions("Auto,*,Auto"),
+            ColumnDefinitions = new ColumnDefinitions("Auto,Auto,*,Auto"),
             ColumnSpacing = 10,
             Children =
             {
                 CreateCell(row.Glyph, 0, FontWeight.SemiBold),
-                CreateCell($"{Localize(row.BodyLabelKey)} {Localize(row.SignLabelKey)}", 1),
-                CreateCell($"{row.DegreeText}{retrogradeMarker}", 2, horizontalAlignment: HorizontalAlignment.Right)
+                CreateCell(Localize(row.BodyLabelKey), 1),
+                CreateCell($"{row.SignGlyph} {Localize(row.SignLabelKey)}", 2),
+                CreateCell($"{row.DegreeText}{retrogradeMarker}", 3, horizontalAlignment: HorizontalAlignment.Right)
             }
         };
     }

@@ -7,6 +7,9 @@ namespace NoxAeterna.Geometry.Charts;
 /// </summary>
 public sealed class CircularChartLayoutBuilder
 {
+    private const double ClusterThresholdDegrees = 7d;
+    private static readonly double[] PlanetBandOffsets = [0d, 0.035d, 0.07d];
+
     /// <summary>
     /// Initializes a new instance of the <see cref="CircularChartLayoutBuilder"/> class.
     /// </summary>
@@ -78,18 +81,21 @@ public sealed class CircularChartLayoutBuilder
                 ZodiacOuterRadiusRatio))
             .ToArray();
 
+        var radialBandsByBody = BuildRadialBands(chart.Positions);
         var glyphSlots = chart.Positions
             .OrderBy(static position => position.Body)
             .Select((position, index) =>
             {
                 var angle = AngularPosition.FromLongitude(position.EclipticLongitude);
+                var radialBandIndex = radialBandsByBody[position.Body];
+                var radiusRatio = Math.Min(0.98d, PlanetRadiusRatio + PlanetBandOffsets[radialBandIndex]);
                 return new PlanetGlyphSlot(
                     position.Body,
                     position.EclipticLongitude,
                     angle,
-                    new RadialPoint(angle, PlanetRadiusRatio),
+                    new RadialPoint(angle, radiusRatio),
                     index,
-                    radialBandIndex: 0);
+                    radialBandIndex);
             })
             .ToArray();
 
@@ -116,6 +122,34 @@ public sealed class CircularChartLayoutBuilder
             .ToArray();
 
         return new CircularChartLayout(zodiacSectors, glyphSlots, aspectLines);
+    }
+
+    private static IReadOnlyDictionary<CelestialBody, int> BuildRadialBands(IEnumerable<PlanetPosition> positions)
+    {
+        var ordered = positions
+            .OrderBy(static position => position.EclipticLongitude.Degrees)
+            .ThenBy(static position => position.Body)
+            .ToArray();
+
+        var radialBandsByBody = new Dictionary<CelestialBody, int>(ordered.Length);
+        var currentBandIndex = 0;
+
+        for (var index = 0; index < ordered.Length; index++)
+        {
+            if (index > 0)
+            {
+                var previousLongitude = ordered[index - 1].EclipticLongitude.Degrees;
+                var currentLongitude = ordered[index].EclipticLongitude.Degrees;
+                var delta = AspectMath.CalculateAngularDelta(new ZodiacLongitude(previousLongitude), new ZodiacLongitude(currentLongitude));
+                currentBandIndex = delta < ClusterThresholdDegrees
+                    ? (currentBandIndex + 1) % PlanetBandOffsets.Length
+                    : 0;
+            }
+
+            radialBandsByBody[ordered[index].Body] = currentBandIndex;
+        }
+
+        return radialBandsByBody;
     }
 
     private static void ValidateRadius(string parameterName, double radiusRatio, bool requirePositive)

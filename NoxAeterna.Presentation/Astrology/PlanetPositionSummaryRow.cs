@@ -8,6 +8,7 @@ namespace NoxAeterna.Presentation.Astrology;
 public sealed record PlanetPositionSummaryRow(
     string Glyph,
     LocalizationKey BodyLabelKey,
+    string SignGlyph,
     LocalizationKey SignLabelKey,
     string DegreeText,
     bool IsRetrograde);

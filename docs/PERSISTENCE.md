@@ -31,6 +31,24 @@ Future AppData-only data includes:
 - Tarot reading history;
 - generated or cached local assets where applicable.
 
+## Repository-Owned App Assets
+
+Application-owned resources that ship with the product belong in the repository rather than AppData.
+
+Examples:
+
+- app icons;
+- UI icons;
+- theme resource dictionaries;
+- curated astrology or Tarot visual assets;
+- custom glyph resources if they are later introduced;
+- textures, ornaments, and other shipped decorative assets.
+
+Keep the distinction clear:
+
+- repository = product-owned, versioned, reproducible application resources;
+- AppData = user-specific runtime state, caches, preferences, and saved content.
+
 ## Responsibilities
 
 Persistence should eventually store:

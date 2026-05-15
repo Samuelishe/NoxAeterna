@@ -855,3 +855,45 @@ Next actions:
 
 - Implement the explicit external `.se1` file setup path.
 - Verify whether a dedicated open-source font is needed for reliable astrology glyph display across platforms.
+
+## 2026-05-15: Readable Chart Correction and Asset-Strategy Pass
+
+Summary:
+
+- Verified that suspiciously rounded startup position values came from the old visible sample-chart path rather than from SwissEphNet precision loss, then switched startup to deterministic sample birth data resolved through the live SwissEphNet-backed chart pipeline.
+- Improved chart readability with text-presentation astrology glyphs and a small deterministic geometry-level radial-band offset strategy for close planet clusters.
+- Refined the compact position summary to include both planet and zodiac glyphs plus localized names, while preserving within-sign minute precision.
+- Documented the long-term distinction between repository-owned shipped assets and AppData-owned runtime or user data across assets, persistence, UI, and coding documents.
+- Reviewed git state to keep intended source, resource, and documentation files visible and avoid accidental tracking of generated outputs.
+
+Changed files:
+
+- `NoxAeterna.App/Astrology/PlanetPositionSummaryControl.cs`
+- `NoxAeterna.App/Samples/DevelopmentSampleBirthDataFactory.cs`
+- `NoxAeterna.App/Samples/DevelopmentSampleChartBuildResultFactory.cs`
+- `NoxAeterna.Geometry/Charts/CircularChartLayoutBuilder.cs`
+- `NoxAeterna.Presentation/Astrology/AstrologySymbolCatalog.cs`
+- `NoxAeterna.Presentation/Astrology/PlanetPositionSummaryBuilder.cs`
+- `NoxAeterna.Presentation/Astrology/PlanetPositionSummaryRow.cs`
+- `NoxAeterna.Rendering/Charts/ChartGlyphCatalog.cs`
+- `NoxAeterna.Rendering/Charts/ChartRenderScene.cs`
+- `NoxAeterna.Tests/App/DevelopmentSampleFactoriesTests.cs`
+- `NoxAeterna.Tests/Geometry/CircularChartLayoutBuilderTests.cs`
+- `NoxAeterna.Tests/Presentation/PlanetPositionSummaryBuilderTests.cs`
+- `README.md`
+- `docs/ASSETS-PIPELINE.md`
+- `docs/CODING-GUIDELINES.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/KNOWN-PROBLEMS.md`
+- `docs/NEXT-STEPS.md`
+- `docs/PERSISTENCE.md`
+- `docs/RENDERING-ENGINE.md`
+- `docs/SESSION-LOG.md`
+- `docs/TAROT-ENGINE.md`
+- `docs/THIRD-PARTY.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Investigate and implement explicit external `.se1` ephemeris file setup so the app can leave current Moshier fallback mode.
+- Verify whether a dedicated open-source astrology-capable font is needed or whether text-label fallback should remain the cross-platform strategy.

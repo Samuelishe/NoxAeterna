@@ -101,6 +101,27 @@ public sealed class CircularChartLayoutBuilderTests
         Assert.Equal(firstLayout.AspectLines, secondLayout.AspectLines);
     }
 
+    [Fact]
+    public void Build_AssignsDeterministicRadialBandsForClosePlanetClusters()
+    {
+        var chart = NatalChart.Create(
+            CreateBirthMoment(),
+            new[]
+            {
+                new PlanetPosition(CelestialBody.Sun, new ZodiacLongitude(10d), false),
+                new PlanetPosition(CelestialBody.Mercury, new ZodiacLongitude(12d), false),
+                new PlanetPosition(CelestialBody.Venus, new ZodiacLongitude(15d), false),
+                new PlanetPosition(CelestialBody.Mars, new ZodiacLongitude(40d), false)
+            });
+
+        var layout = new CircularChartLayoutBuilder().Build(chart);
+
+        Assert.Equal(0, layout.PlanetGlyphSlots.First(slot => slot.Body == CelestialBody.Sun).RadialBandIndex);
+        Assert.Equal(1, layout.PlanetGlyphSlots.First(slot => slot.Body == CelestialBody.Mercury).RadialBandIndex);
+        Assert.Equal(2, layout.PlanetGlyphSlots.First(slot => slot.Body == CelestialBody.Venus).RadialBandIndex);
+        Assert.Equal(0, layout.PlanetGlyphSlots.First(slot => slot.Body == CelestialBody.Mars).RadialBandIndex);
+    }
+
     private static NatalChart CreateChart() =>
         NatalChart.Create(
             CreateBirthMoment(),

@@ -7,36 +7,6 @@ namespace NoxAeterna.Rendering.Charts;
 /// </summary>
 public sealed record ChartRenderScene
 {
-    private static readonly IReadOnlyDictionary<NoxAeterna.Domain.Astrology.ZodiacSign, string> ZodiacGlyphs = new Dictionary<NoxAeterna.Domain.Astrology.ZodiacSign, string>
-    {
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Aries] = "♈",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Taurus] = "♉",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Gemini] = "♊",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Cancer] = "♋",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Leo] = "♌",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Virgo] = "♍",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Libra] = "♎",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Scorpio] = "♏",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Sagittarius] = "♐",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Capricorn] = "♑",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Aquarius] = "♒",
-        [NoxAeterna.Domain.Astrology.ZodiacSign.Pisces] = "♓"
-    };
-
-    private static readonly IReadOnlyDictionary<NoxAeterna.Domain.Astrology.CelestialBody, string> PlanetGlyphs = new Dictionary<NoxAeterna.Domain.Astrology.CelestialBody, string>
-    {
-        [NoxAeterna.Domain.Astrology.CelestialBody.Sun] = "☉",
-        [NoxAeterna.Domain.Astrology.CelestialBody.Moon] = "☽",
-        [NoxAeterna.Domain.Astrology.CelestialBody.Mercury] = "☿",
-        [NoxAeterna.Domain.Astrology.CelestialBody.Venus] = "♀",
-        [NoxAeterna.Domain.Astrology.CelestialBody.Mars] = "♂",
-        [NoxAeterna.Domain.Astrology.CelestialBody.Jupiter] = "♃",
-        [NoxAeterna.Domain.Astrology.CelestialBody.Saturn] = "♄",
-        [NoxAeterna.Domain.Astrology.CelestialBody.Uranus] = "♅",
-        [NoxAeterna.Domain.Astrology.CelestialBody.Neptune] = "♆",
-        [NoxAeterna.Domain.Astrology.CelestialBody.Pluto] = "♇"
-    };
-
     /// <summary>
     /// Initializes a new instance of the <see cref="ChartRenderScene"/> class.
     /// </summary>
@@ -95,7 +65,7 @@ public sealed record ChartRenderScene
                 var midAngle = new AngularPosition((sector.StartAngle.Degrees + sector.EndAngle.Degrees) / 2d);
                 var radius = sector.InnerRadiusRatio + ((sector.OuterRadiusRatio - sector.InnerRadiusRatio) * 0.48d);
                 return new ChartTextLabel(
-                    ZodiacGlyphs[sector.Sign],
+                    ChartGlyphCatalog.GetSignGlyph(sector.Sign),
                     new RadialPoint(midAngle, radius),
                     22d,
                     ChartTextLabelStyle.Zodiac);
@@ -105,8 +75,8 @@ public sealed record ChartRenderScene
     private static ChartTextLabel[] BuildPlanetLabels(IEnumerable<PlanetGlyphSlot> glyphSlots) =>
         glyphSlots
             .Select(slot => new ChartTextLabel(
-                PlanetGlyphs[slot.Body],
-                new RadialPoint(slot.Angle, Math.Min(0.96d, slot.AnchorPoint.RadiusRatio + 0.025d)),
+                ChartGlyphCatalog.GetBodyGlyph(slot.Body),
+                new RadialPoint(slot.Angle, Math.Min(0.98d, slot.AnchorPoint.RadiusRatio + 0.03d)),
                 18d,
                 ChartTextLabelStyle.Planet))
             .ToArray();

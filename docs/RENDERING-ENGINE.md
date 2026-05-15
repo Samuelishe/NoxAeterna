@@ -48,6 +48,13 @@ BirthDataInput
 
 The app still keeps a fallback sample-scene path for development, but the visible chart now rebuilds from validated input through the real SwissEphNet-backed path. The current live status is still limited by Moshier fallback mode because external Swiss ephemeris data files are not configured yet.
 
+Current readable-chart foundation details:
+
+- zodiac ring labels are derived from sector geometry and rendered from scene text labels;
+- planet glyph labels are derived from prepared glyph slots rather than astronomy services inside rendering;
+- the renderer currently prefers text-presentation Unicode glyphs to reduce emoji-style rendering where the platform font stack allows it;
+- simple label-overlap mitigation currently comes from geometry-level radial band offsets, not from a heavy rendering-side collision solver.
+
 ## Boundaries
 
 Rendering should receive prepared geometry and rendering models. It should not calculate planetary positions, interpret symbolic meaning, or query persistence.
@@ -97,6 +104,9 @@ Current placeholder strategy:
 - deterministic aspect line colors by aspect type;
 - no final art direction, dense-label collision handling, or final font strategy yet;
 - app-level theme switching may change preview surface resources around the renderer, but rendering still does not own shell-theme orchestration.
+- text-presentation selectors are now preferred for astrology glyphs to avoid emoji-style rendering where the platform font stack allows it.
+
+If platform font behavior still renders some astrology glyphs poorly, fall back to compact text labels before introducing custom image assets.
 
 ## DPI and Scaling
 

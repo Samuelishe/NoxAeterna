@@ -19,6 +19,7 @@ public static class PlanetPositionSummaryBuilder
             .Select(position => new PlanetPositionSummaryRow(
                 AstrologySymbolCatalog.GetBodyGlyph(position.Body),
                 AstrologySymbolCatalog.GetBodyLabelKey(position.Body),
+                AstrologySymbolCatalog.GetSignGlyph(position.Sign),
                 AstrologySymbolCatalog.GetSignLabelKey(position.Sign),
                 FormatDegree(position.DegreeWithinSign),
                 position.IsRetrograde))
@@ -35,9 +36,10 @@ public static class PlanetPositionSummaryBuilder
             throw new ArgumentOutOfRangeException(nameof(degreeWithinSign), "Degree within sign must be in the range [0, 30).");
         }
 
-        var totalMinutes = (int)Math.Floor((degreeWithinSign * 60d) + 0.0000001d);
-        var degrees = totalMinutes / 60;
-        var minutes = totalMinutes % 60;
+        var roundedTotalMinutes = (int)Math.Round(degreeWithinSign * 60d, MidpointRounding.AwayFromZero);
+        var boundedTotalMinutes = Math.Min(roundedTotalMinutes, (30 * 60) - 1);
+        var degrees = boundedTotalMinutes / 60;
+        var minutes = boundedTotalMinutes % 60;
 
         return $"{degrees:00}°{minutes:00}'";
     }

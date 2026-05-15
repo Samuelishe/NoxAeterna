@@ -46,3 +46,13 @@ Add future entries here for:
 - Adapted historical material
 
 No assets are locked yet.
+Project-owned application assets should live in the repository once selected and curated. User-specific runtime data such as saved charts, preferences, caches, and local history belong in AppData instead.
+
+Do not commit:
+
+- raw AI-generation dumps;
+- temporary export batches;
+- unverified internet images;
+- unlicensed fonts or icon packs.
+
+No custom assets or fonts are locked yet.
