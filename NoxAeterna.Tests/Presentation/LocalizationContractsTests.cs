@@ -18,7 +18,7 @@ public sealed class LocalizationContractsTests
             new LocalizationCatalog(
                 LocalizationScope.Ui,
                 new LanguageCode("ru"),
-                [new LocalizationEntry(new LocalizationKey("ui.app.title"), "Нокс Этерна")])
+                [new LocalizationEntry(new LocalizationKey("ui.app.title"), "Nox Aeterna")])
         ]);
 
         var result = provider.Get(LocalizationScope.Ui, new LanguageCode("en"), new LocalizationKey("ui.app.title"));
@@ -36,12 +36,12 @@ public sealed class LocalizationContractsTests
             new LocalizationCatalog(
                 LocalizationScope.Ui,
                 new LanguageCode("ru"),
-                [new LocalizationEntry(new LocalizationKey("ui.app.title"), "Нокс Этерна")])
+                [new LocalizationEntry(new LocalizationKey("ui.app.title"), "Nox Aeterna")])
         ]);
 
         var result = provider.Get(LocalizationScope.Ui, new LanguageCode("de"), new LocalizationKey("ui.app.title"));
 
-        Assert.Equal("Нокс Этерна", result.Text);
+        Assert.Equal("Nox Aeterna", result.Text);
         Assert.Equal(new LanguageCode("ru"), result.ResolvedLanguage);
         Assert.True(result.UsedFallback);
     }

@@ -137,6 +137,12 @@ Current localization contract direction:
 - `ILocalizationProvider`
 - `FallbackLocalizationProvider`
 
+Localization rules:
+
+- Product names such as `Nox Aeterna` must not be translated.
+- Intended Latin proper names stay unchanged across language catalogs unless a later product decision explicitly changes that rule.
+- Culture-sensitive desktop controls such as date and time pickers should follow the selected application language through an app-level culture boundary, not through domain logic.
+
 Current preferences and theme direction:
 
 - `ApplicationLanguagePreference`

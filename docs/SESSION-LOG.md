@@ -632,3 +632,40 @@ Next actions:
 
 - Connect validated birth-data input to `IBirthMomentResolver` and a deterministic or fake chart-building flow.
 - Keep online lookup, persistence, AppData implementation, and Swiss Ephemeris integration deferred while input-driven chart rebuilding is introduced.
+
+## 2026-05-15: UI Localization and Default-Window Layout Correction Pass
+
+Summary:
+
+- Corrected the visible product-name localization so `Nox Aeterna` now stays unchanged across UI languages instead of being translated in Russian catalogs.
+- Cleaned the current Russian UI catalogs to remove avoidable mixed English strings from workspace and birth-input copy, and replaced the main time-zone label with a user-facing `Часовой пояс` / `Time zone` plus helper text for TZDB/IANA identifiers.
+- Added an app-level culture controller so date and time pickers follow the selected application language more closely, while also configuring the date picker with neutral numeric formats.
+- Fixed the current default-window clipping path by making the right birth-data side panel scroll instead of relying on the whole workspace to fit without overflow.
+- Added focused tests for real localization catalogs, proper-name preservation, required UI keys, and deterministic culture resolution.
+
+Changed files:
+
+- `NoxAeterna.App/Localization/ApplicationCultureController.cs`
+- `NoxAeterna.App/MainWindow.axaml`
+- `NoxAeterna.App/MainWindow.axaml.cs`
+- `NoxAeterna.App/Astrology/AstrologyWorkspaceControl.cs`
+- `NoxAeterna.App/Astrology/BirthDataInputControl.cs`
+- `NoxAeterna.Presentation/Astrology/BirthDataInputViewModel.cs`
+- `NoxAeterna.Tests/App/ApplicationCultureControllerTests.cs`
+- `NoxAeterna.Tests/Presentation/BirthDataInputViewModelTests.cs`
+- `NoxAeterna.Tests/Presentation/JsonLocalizationCatalogLoaderTests.cs`
+- `NoxAeterna.Tests/Presentation/LocalizationContractsTests.cs`
+- `resources/localization/ui/ru.json`
+- `resources/localization/ui/en.json`
+- `README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/CODING-GUIDELINES.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Connect validated birth-data input to `IBirthMomentResolver` and a deterministic or fake chart-building flow.
+- Keep sample chart rendering internal while the workspace starts rebuilding charts from user-entered data.

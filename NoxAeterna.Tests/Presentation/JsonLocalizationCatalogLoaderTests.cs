@@ -114,4 +114,86 @@ public sealed class JsonLocalizationCatalogLoaderTests
         Assert.Equal("ui.missing.key", fallbackToKey.Text);
         Assert.Null(fallbackToKey.ResolvedLanguage);
     }
+
+    [Fact]
+    public void RealUiCatalogs_PreserveProductNameAcrossLanguages()
+    {
+        var ruCatalog = LoadRealUiCatalog("ru");
+        var enCatalog = LoadRealUiCatalog("en");
+
+        Assert.True(ruCatalog.TryGetText(new LocalizationKey("ui.shell.window_title"), out var ruTitle));
+        Assert.True(enCatalog.TryGetText(new LocalizationKey("ui.shell.window_title"), out var enTitle));
+        Assert.Equal("Nox Aeterna", ruTitle);
+        Assert.Equal("Nox Aeterna", enTitle);
+    }
+
+    [Fact]
+    public void RealRussianUiCatalog_UsesLocalizedBirthInputLabelsWithoutKnownMixedEnglishTerms()
+    {
+        var ruCatalog = LoadRealUiCatalog("ru");
+
+        Assert.Equal("Часовой пояс", GetRequiredText(ruCatalog, "ui.birth_data.timezone"));
+        Assert.Equal("Prague, Czechia", GetRequiredText(ruCatalog, "ui.birth_data.birth_city_or_settlement_placeholder"));
+        Assert.DoesNotContain("Timezone ID", GetRequiredText(ruCatalog, "ui.birth_data.timezone"));
+        Assert.DoesNotContain("workspace", GetRequiredText(ruCatalog, "ui.astrology.workspace.hint"), StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("sample", GetRequiredText(ruCatalog, "ui.astrology.panel.chart.description"), StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("chart pipeline", GetRequiredText(ruCatalog, "ui.astrology.workspace.hint"), StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void RealUiCatalogs_ContainVisibleShellWorkspaceAndSettingsKeys()
+    {
+        var requiredKeys = new[]
+        {
+            "ui.shell.window_title",
+            "ui.shell.navigation_title",
+            "ui.shell.section.astrology",
+            "ui.shell.section.settings",
+            "ui.astrology.workspace.hint",
+            "ui.astrology.panel.chart.title",
+            "ui.astrology.panel.birth_data.title",
+            "ui.birth_data.birth_date",
+            "ui.birth_data.birth_date_helper",
+            "ui.birth_data.birth_time",
+            "ui.birth_data.birth_time_helper",
+            "ui.birth_data.birth_time_accuracy",
+            "ui.birth_data.birth_city_or_settlement",
+            "ui.birth_data.birth_city_or_settlement_placeholder",
+            "ui.birth_data.birth_city_or_settlement_helper",
+            "ui.birth_data.latitude",
+            "ui.birth_data.longitude",
+            "ui.birth_data.timezone",
+            "ui.birth_data.timezone_helper",
+            "ui.birth_data.validate",
+            "ui.settings.title",
+            "ui.settings.application_language",
+            "ui.settings.interpretation_language",
+            "ui.settings.theme"
+        };
+
+        foreach (var language in new[] { "ru", "en" })
+        {
+            var catalog = LoadRealUiCatalog(language);
+
+            foreach (var key in requiredKeys)
+            {
+                Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(catalog, key)));
+            }
+        }
+    }
+
+    private static LocalizationCatalog LoadRealUiCatalog(string languageCode) =>
+        JsonLocalizationCatalogLoader.LoadFromFile(
+            LocalizationScope.Ui,
+            new LanguageCode(languageCode),
+            Path.GetFullPath(Path.Combine(
+                AppContext.BaseDirectory,
+                "..", "..", "..", "..",
+                "resources", "localization", "ui", $"{languageCode}.json")));
+
+    private static string GetRequiredText(LocalizationCatalog catalog, string key)
+    {
+        Assert.True(catalog.TryGetText(new LocalizationKey(key), out var text));
+        return text!;
+    }
 }

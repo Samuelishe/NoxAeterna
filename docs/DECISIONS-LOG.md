@@ -226,3 +226,11 @@ Decision: Refine the initial birth-data input flow around an offline-first mode:
 Reason: The MVP must remain honest and usable without network access, while still preparing for future online lookup and AppData-backed recent-place storage.
 
 Consequences: Online geocoding, reverse lookup, and a bundled world-city database remain deferred. Manual coordinates stay as the current truthful fallback, and arbitrary timezone text is no longer accepted as the main UI path.
+
+## 2026-05-15: Preserve Product Names Across Localizations and Apply App Language to Date-Time Controls
+
+Decision: Keep `Nox Aeterna` and other intended Latin proper names untranslated in user-facing localization catalogs, and apply the selected application language to culture-sensitive desktop controls through an app-level culture boundary.
+
+Reason: Product names should remain stable brand identifiers, while mixed-language date and time picker chrome becomes confusing if desktop controls do not follow the chosen UI language.
+
+Consequences: Localization catalogs must preserve `Nox Aeterna` verbatim across languages, and `App` is responsible for applying culture to date and time controls without leaking localization behavior into domain models.

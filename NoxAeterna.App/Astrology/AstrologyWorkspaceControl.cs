@@ -58,7 +58,16 @@ public sealed class AstrologyWorkspaceControl : UserControl
                 CreatePlaceholderPanel(interpretationPanel)
             }
         };
-        Grid.SetColumn(sidePanelStack, 1);
+
+        var sidePanelScrollViewer = new ScrollViewer
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
+            HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled,
+            Content = sidePanelStack
+        };
+        Grid.SetColumn(sidePanelScrollViewer, 1);
 
         return new Grid
         {
@@ -67,7 +76,7 @@ public sealed class AstrologyWorkspaceControl : UserControl
             Children =
             {
                 CreateChartPanel(chartPanel),
-                sidePanelStack
+                sidePanelScrollViewer
             }
         };
     }
@@ -79,7 +88,7 @@ public sealed class AstrologyWorkspaceControl : UserControl
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
-                MinHeight = 520
+                MinHeight = 460
             });
 
     private Control CreatePlaceholderPanel(AstrologyWorkspacePanel panel) =>

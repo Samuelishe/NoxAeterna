@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using NoxAeterna.App.Astrology;
 using NoxAeterna.App.Debug;
+using NoxAeterna.App.Localization;
 using NoxAeterna.App.Samples;
 using NoxAeterna.Presentation.Astrology;
 using NoxAeterna.Presentation.Localization;
@@ -45,6 +46,7 @@ public partial class MainWindow : Window
             new ApplicationLanguagePreference(new LanguageCode("ru")),
             new InterpretationLanguagePreference(new LanguageCode("ru")),
             new ThemeId("dark"));
+        ApplicationCultureController.Apply(_userPreferences.ApplicationLanguage.Language);
         _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
         _shellViewModel = ShellViewModel.CreateDefault();
         _astrologyWorkspaceViewModel = AstrologyWorkspaceViewModel.CreateFoundation();
@@ -105,6 +107,7 @@ public partial class MainWindow : Window
     private void ApplyUserPreferences(UserPreferences updatedPreferences)
     {
         _userPreferences = updatedPreferences;
+        ApplicationCultureController.Apply(_userPreferences.ApplicationLanguage.Language);
         _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
         if (Application.Current is App app)
         {

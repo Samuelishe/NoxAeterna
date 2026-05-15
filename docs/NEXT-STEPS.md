@@ -1,6 +1,6 @@
 # Next Steps
 
-The app now has a thin localized shell, JSON-backed UI localization, first dark/light theme switching, an astrology workspace foundation, and a refined birth-data input flow with typed date/time controls, TZDB timezone selection, and offline manual mode.
+The app now has a thin localized shell, JSON-backed UI localization, first dark/light theme switching, an astrology workspace foundation, a refined birth-data input flow with typed date/time controls, TZDB timezone selection, offline manual mode, and a corrected default-window layout/localization pass.
 
 Immediate next steps:
 

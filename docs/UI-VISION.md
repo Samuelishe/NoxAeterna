@@ -70,6 +70,7 @@ Current shell direction:
 - the first astrology workspace foundation can replace a raw debug-only host before full product screens exist;
 - development-only sample data may still drive that workspace temporarily, but should stay out of the visible shell structure.
 - the astrology workspace may now host an initial birth-data input panel before real chart calculation is connected.
+- the current right-side birth-data panel should remain usable at the default window size through scrolling and responsive layout rather than requiring a maximized window.
 
 Current birth-input direction:
 
@@ -77,6 +78,7 @@ Current birth-input direction:
 - time selection should use a constrained control and degrade honestly when the user marks time as unknown;
 - timezone selection should come from local TZDB data, not a raw free-text field;
 - manual coordinates remain the offline-first fallback and are required for honest calculation later.
+- helper text around time zone selection should explain TZDB/IANA identifiers without exposing raw technical jargon as the main field label.
 
 Current settings direction:
 
@@ -93,6 +95,8 @@ Current localization direction:
 - missing UI keys must degrade deterministically through fallback rather than disappearing.
 - interpretation and symbolic localization are still deferred.
 - validation feedback inside the astrology workspace must also resolve through localization keys.
+- the product name `Nox Aeterna` and intended Latin proper names should remain untranslated across all UI languages.
+- built-in date and time picker chrome should follow the selected application culture where possible; when that is insufficient, surrounding helper text should keep the UI understandable.
 
 Current theme direction:
 

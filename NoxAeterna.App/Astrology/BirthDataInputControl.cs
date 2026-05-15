@@ -47,6 +47,9 @@ public sealed class BirthDataInputControl : UserControl
         _birthDatePicker = new DatePicker
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
+            DayFormat = "dd",
+            MonthFormat = "MM",
+            YearFormat = "yyyy",
             SelectedDate = _viewModel.State.BirthDate
         };
         _birthDatePicker.PropertyChanged += (_, args) =>
@@ -61,6 +64,8 @@ public sealed class BirthDataInputControl : UserControl
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
             ClockIdentifier = "24HourClock",
+            MinuteIncrement = 1,
+            UseSeconds = false,
             SelectedTime = _viewModel.State.BirthTime
         };
         _birthTimePicker.PropertyChanged += (_, args) =>
@@ -134,6 +139,7 @@ public sealed class BirthDataInputControl : UserControl
                 Children =
                 {
                     CreateSettingRow(Localize(_viewModel.BirthDateLabelKey), _birthDatePicker),
+                    CreateHelperRow(Localize(_viewModel.BirthDateHelperKey)),
                     CreateSettingRow(
                         Localize(_viewModel.BirthTimeLabelKey),
                         new StackPanel
@@ -145,6 +151,7 @@ public sealed class BirthDataInputControl : UserControl
                                 _unknownTimeHelperTextBlock
                             }
                         }),
+                    CreateHelperRow(Localize(_viewModel.BirthTimeHelperKey)),
                     CreateSettingRow(Localize(_viewModel.BirthTimeAccuracyLabelKey), _birthTimeAccuracyComboBox),
                     CreateSettingRow(
                         Localize(_viewModel.BirthPlaceLabelKey),
@@ -152,7 +159,10 @@ public sealed class BirthDataInputControl : UserControl
                         Localize(_viewModel.BirthPlaceHelperKey)),
                     CreateSettingRow(Localize(_viewModel.LatitudeLabelKey), _latitudeTextBox),
                     CreateSettingRow(Localize(_viewModel.LongitudeLabelKey), _longitudeTextBox),
-                    CreateSettingRow(Localize(_viewModel.TimezoneLabelKey), _timezoneComboBox),
+                    CreateSettingRow(
+                        Localize(_viewModel.TimezoneLabelKey),
+                        _timezoneComboBox,
+                        Localize(_viewModel.TimezoneHelperKey)),
                     validateButton,
                     _validationSummaryTextBlock
                 }
@@ -268,6 +278,15 @@ public sealed class BirthDataInputControl : UserControl
 
         return stackPanel;
     }
+
+    private Control CreateHelperRow(string helperText) =>
+        new TextBlock
+        {
+            Text = helperText,
+            FontSize = 12,
+            TextWrapping = TextWrapping.Wrap,
+            Opacity = 0.82
+        };
 
     private static TextBox CreateTextBox(string initialText, string watermark) =>
         new()

@@ -107,6 +107,8 @@ Minimal desktop shell launch:
 Current app-localization note:
 
 - UI localization catalogs are loaded from flat JSON files copied to `resources/localization/ui` under the app output.
+- The product name `Nox Aeterna` remains unchanged in every language catalog and visible app title.
+- The app now applies the selected application language to culture-sensitive date and time controls.
 
 Current theme note:
 
@@ -117,6 +119,7 @@ Current birth-input note:
 
 - The astrology workspace now supports an offline-first birth-data input mode.
 - Date selection uses a picker, timezone selection comes from local TZDB IDs, and coordinates remain manual.
+- The right birth-data panel now scrolls instead of clipping at the default window size.
 - Real chart recalculation is still not connected.
 
 ## Repository Structure Overview
@@ -156,6 +159,7 @@ Task-specific documents cover astronomy, geometry, rendering, interpretation, sy
 - No hidden architectural coupling.
 - No fake implementation claims in documentation or code.
 - No repository-local runtime storage for user data, caches, or preferences.
+- The product name `Nox Aeterna` and other intended Latin proper names stay untranslated across all localizations.
 
 ## Disclaimer
 

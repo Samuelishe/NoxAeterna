@@ -262,9 +262,12 @@ public sealed class BirthDataInputViewModelTests
         Assert.Equal(new LocalizationKey("ui.birth_data.birth_time"), viewModel.BirthTimeLabelKey);
         Assert.Equal(new LocalizationKey("ui.birth_data.birth_time_accuracy"), viewModel.BirthTimeAccuracyLabelKey);
         Assert.Equal(new LocalizationKey("ui.birth_data.birth_city_or_settlement"), viewModel.BirthPlaceLabelKey);
+        Assert.Equal(new LocalizationKey("ui.birth_data.birth_date_helper"), viewModel.BirthDateHelperKey);
+        Assert.Equal(new LocalizationKey("ui.birth_data.birth_time_helper"), viewModel.BirthTimeHelperKey);
         Assert.Equal(new LocalizationKey("ui.birth_data.latitude"), viewModel.LatitudeLabelKey);
         Assert.Equal(new LocalizationKey("ui.birth_data.longitude"), viewModel.LongitudeLabelKey);
         Assert.Equal(new LocalizationKey("ui.birth_data.timezone"), viewModel.TimezoneLabelKey);
+        Assert.Equal(new LocalizationKey("ui.birth_data.timezone_helper"), viewModel.TimezoneHelperKey);
         Assert.Equal(new LocalizationKey("ui.birth_data.validate"), viewModel.ValidateActionKey);
         Assert.All(viewModel.AvailableTimeAccuracies, option => Assert.False(string.IsNullOrWhiteSpace(option.LabelKey.Value)));
     }

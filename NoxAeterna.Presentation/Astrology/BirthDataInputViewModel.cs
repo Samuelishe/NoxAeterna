@@ -34,9 +34,12 @@ public sealed class BirthDataInputViewModel
     public LocalizationKey BirthTimeAccuracyLabelKey { get; } = new("ui.birth_data.birth_time_accuracy");
     public LocalizationKey BirthPlaceLabelKey { get; } = new("ui.birth_data.birth_city_or_settlement");
     public LocalizationKey BirthPlaceHelperKey { get; } = new("ui.birth_data.birth_city_or_settlement_helper");
+    public LocalizationKey BirthDateHelperKey { get; } = new("ui.birth_data.birth_date_helper");
+    public LocalizationKey BirthTimeHelperKey { get; } = new("ui.birth_data.birth_time_helper");
     public LocalizationKey LatitudeLabelKey { get; } = new("ui.birth_data.latitude");
     public LocalizationKey LongitudeLabelKey { get; } = new("ui.birth_data.longitude");
     public LocalizationKey TimezoneLabelKey { get; } = new("ui.birth_data.timezone");
+    public LocalizationKey TimezoneHelperKey { get; } = new("ui.birth_data.timezone_helper");
     public LocalizationKey ValidateActionKey { get; } = new("ui.birth_data.validate");
     public LocalizationKey ValidationSuccessKey { get; } = new("ui.birth_data.validation.valid");
     public LocalizationKey UnknownTimeHelperKey { get; } = new("ui.birth_data.unknown_time_helper");
