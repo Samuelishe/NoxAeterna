@@ -7,7 +7,7 @@
   "ui.shell.section.settings": "Settings",
   "ui.shell.placeholder.caption": "Section scaffold only",
   "ui.shell.placeholder.hint": "This section is waiting for a later implementation step",
-  "ui.astrology.workspace.hint": "Foundation astrology workspace using a demo calculation flow and the isolated chart pipeline",
+  "ui.astrology.workspace.hint": "Workspace for natal chart construction and future interpretation panels.",
   "ui.astrology.panel.chart.title": "Chart",
   "ui.astrology.panel.chart.description": "The current chart surface rebuilds from entered data through a deterministic demo calculation until real ephemerides are connected.",
   "ui.astrology.demo_calculation_notice": "Demo calculation is currently used. Real ephemeris integration is not connected yet.",

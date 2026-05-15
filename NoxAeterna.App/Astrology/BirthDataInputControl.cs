@@ -110,6 +110,7 @@ public sealed class BirthDataInputControl : UserControl
         var validateButton = new Button
         {
             HorizontalAlignment = HorizontalAlignment.Left,
+            Margin = new Thickness(0, 4, 0, 0),
             Content = Localize(_viewModel.ValidateActionKey)
         };
         validateButton.Click += (_, _) =>
@@ -143,33 +144,35 @@ public sealed class BirthDataInputControl : UserControl
 
         return new ScrollViewer
         {
+            Padding = new Thickness(2, 2, 2, 0),
             VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
             Content = new StackPanel
             {
-                Spacing = 14,
+                Spacing = 16,
                 Children =
                 {
-                    CreateSettingRow(Localize(_viewModel.BirthDateLabelKey), _birthDatePicker),
-                    CreateHelperRow(Localize(_viewModel.BirthDateHelperKey)),
-                    CreateSettingRow(
-                        Localize(_viewModel.BirthTimeLabelKey),
-                        new StackPanel
-                        {
-                            Spacing = 6,
-                            Children =
+                    CreateTwoColumnGroup(
+                        CreateSettingRow(Localize(_viewModel.BirthDateLabelKey), _birthDatePicker, Localize(_viewModel.BirthDateHelperKey)),
+                        CreateSettingRow(
+                            Localize(_viewModel.BirthTimeLabelKey),
+                            new StackPanel
                             {
-                                _birthTimePicker,
-                                _unknownTimeHelperTextBlock
-                            }
-                        }),
-                    CreateHelperRow(Localize(_viewModel.BirthTimeHelperKey)),
+                                Spacing = 6,
+                                Children =
+                                {
+                                    _birthTimePicker,
+                                    _unknownTimeHelperTextBlock
+                                }
+                            },
+                            Localize(_viewModel.BirthTimeHelperKey))),
                     CreateSettingRow(Localize(_viewModel.BirthTimeAccuracyLabelKey), _birthTimeAccuracyComboBox),
                     CreateSettingRow(
                         Localize(_viewModel.BirthPlaceLabelKey),
                         _birthPlaceTextBox,
                         Localize(_viewModel.BirthPlaceHelperKey)),
-                    CreateSettingRow(Localize(_viewModel.LatitudeLabelKey), _latitudeTextBox),
-                    CreateSettingRow(Localize(_viewModel.LongitudeLabelKey), _longitudeTextBox),
+                    CreateTwoColumnGroup(
+                        CreateSettingRow(Localize(_viewModel.LatitudeLabelKey), _latitudeTextBox),
+                        CreateSettingRow(Localize(_viewModel.LongitudeLabelKey), _longitudeTextBox)),
                     CreateSettingRow(
                         Localize(_viewModel.TimezoneLabelKey),
                         _timezoneComboBox,
@@ -264,14 +267,15 @@ public sealed class BirthDataInputControl : UserControl
     {
         var stackPanel = new StackPanel
         {
-            Spacing = 6
+            Spacing = 7
         };
 
         stackPanel.Children.Add(
             new TextBlock
             {
                 Text = labelText,
-                FontSize = 14
+                FontSize = 14,
+                FontWeight = FontWeight.Medium
             });
         stackPanel.Children.Add(editor);
 
@@ -290,14 +294,22 @@ public sealed class BirthDataInputControl : UserControl
         return stackPanel;
     }
 
-    private Control CreateHelperRow(string helperText) =>
-        new TextBlock
+    private static Control CreateTwoColumnGroup(Control left, Control right)
+    {
+        Grid.SetColumn(left, 0);
+        Grid.SetColumn(right, 1);
+
+        return new Grid
         {
-            Text = helperText,
-            FontSize = 12,
-            TextWrapping = TextWrapping.Wrap,
-            Opacity = 0.82
+            ColumnDefinitions = new ColumnDefinitions("*,*"),
+            ColumnSpacing = 12,
+            Children =
+            {
+                left,
+                right
+            }
         };
+    }
 
     private static TextBox CreateTextBox(string initialText, string watermark) =>
         new()

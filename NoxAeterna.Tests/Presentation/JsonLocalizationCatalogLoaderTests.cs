@@ -150,6 +150,7 @@ public sealed class JsonLocalizationCatalogLoaderTests
             "ui.shell.section.astrology",
             "ui.shell.section.settings",
             "ui.astrology.workspace.hint",
+            "ui.astrology.demo_calculation_notice",
             "ui.astrology.panel.chart.title",
             "ui.astrology.panel.birth_data.title",
             "ui.birth_data.birth_date",
@@ -179,6 +180,19 @@ public sealed class JsonLocalizationCatalogLoaderTests
             {
                 Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(catalog, key)));
             }
+        }
+    }
+
+    [Fact]
+    public void RealUiCatalogs_KeepWorkspaceSubtitleSeparateFromDemoWarning()
+    {
+        foreach (var language in new[] { "ru", "en" })
+        {
+            var catalog = LoadRealUiCatalog(language);
+            var subtitle = GetRequiredText(catalog, "ui.astrology.workspace.hint");
+            var demoWarning = GetRequiredText(catalog, "ui.astrology.demo_calculation_notice");
+
+            Assert.NotEqual(subtitle, demoWarning);
         }
     }
 

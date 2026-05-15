@@ -63,18 +63,22 @@ public sealed class AstrologyWorkspaceControl : UserControl
 
         var sidePanelScrollViewer = new ScrollViewer
         {
+            Width = 404,
+            MinWidth = 388,
+            MaxWidth = 432,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
             VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
             HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled,
+            Padding = new Thickness(0, 2, 4, 2),
             Content = sidePanelStack
         };
         Grid.SetColumn(sidePanelScrollViewer, 1);
 
         return new Grid
         {
-            ColumnDefinitions = new ColumnDefinitions("2.2*,1.15*"),
-            ColumnSpacing = 16,
+            ColumnDefinitions = new ColumnDefinitions("*,Auto"),
+            ColumnSpacing = 20,
             Children =
             {
                 CreateChartPanel(chartPanel),
@@ -94,17 +98,19 @@ public sealed class AstrologyWorkspaceControl : UserControl
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
-            MinHeight = 460
+            MinHeight = 540
         };
+        Grid.SetRow(_chartSurfaceControl, 1);
 
-        return new StackPanel
+        return new Grid
         {
-            Spacing = 10,
+            RowDefinitions = new RowDefinitions("Auto,*"),
+            RowSpacing = 12,
             Children =
             {
                 new TextBlock
                 {
-                    Text = Localize("ui.astrology.demo_calculation_notice"),
+                    Text = Localize(_viewModel.DemoCalculationNoticeKey),
                     TextWrapping = TextWrapping.Wrap,
                     Foreground = ResolveBrush("WorkspacePanelSubtleForegroundBrush", new SolidColorBrush(Color.FromRgb(128, 128, 132)))
                 },
@@ -140,17 +146,17 @@ public sealed class AstrologyWorkspaceControl : UserControl
             BorderBrush = ResolveBrush("WorkspacePanelBorderBrush", new SolidColorBrush(Color.FromRgb(56, 56, 62))),
             BorderThickness = new Thickness(1),
             CornerRadius = new CornerRadius(6),
-            Padding = new Thickness(14),
+            Padding = new Thickness(18, 16, 18, 18),
             Child = new Grid
             {
                 RowDefinitions = new RowDefinitions("Auto,*"),
-                RowSpacing = 10,
+                RowSpacing = 12,
                 Children =
                 {
                     new TextBlock
                     {
                         Text = Localize(panel.TitleKey),
-                        FontSize = 15,
+                        FontSize = 16,
                         FontWeight = FontWeight.SemiBold
                     },
                     bodyHost

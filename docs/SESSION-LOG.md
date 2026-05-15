@@ -713,3 +713,32 @@ Next actions:
 
 - Add the first in-memory profile or session draft model for current unsaved birth data and chart state.
 - Keep persistence, real ephemerides, geocoding, and interpretation work deferred until that in-memory state model exists.
+
+## 2026-05-15: Astrology Workspace UI Sanity Pass
+
+Summary:
+
+- Reworked the current astrology workspace layout so the right birth-data column feels less cramped at the default window size and remains comfortably scrollable.
+- Increased effective chart usage of the available left-side area by widening the chart column and letting the chart surface fill a stronger vertical slot.
+- Replaced the workspace subtitle with a more product-oriented description while keeping the demo-calculation warning as a separate explicit localized notice near the chart.
+- Improved the birth-data form hierarchy with clearer spacing and compact two-column groups for date/time and latitude/longitude fields, without changing the underlying architecture or the Avalonia-native control choice.
+- Added tests that keep the workspace subtitle and demo warning as separate localization concepts.
+
+Changed files:
+
+- `NoxAeterna.App/Astrology/AstrologyWorkspaceControl.cs`
+- `NoxAeterna.App/Astrology/BirthDataInputControl.cs`
+- `NoxAeterna.Presentation/Astrology/AstrologyWorkspaceViewModel.cs`
+- `NoxAeterna.Tests/Presentation/AstrologyWorkspaceViewModelTests.cs`
+- `NoxAeterna.Tests/Presentation/JsonLocalizationCatalogLoaderTests.cs`
+- `resources/localization/ui/ru.json`
+- `resources/localization/ui/en.json`
+- `docs/CODING-GUIDELINES.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Add the first in-memory profile or session draft model for current unsaved birth data and chart state.
+- Keep persistence, real ephemerides, geocoding, and interpretation work deferred until that in-memory state model exists.
