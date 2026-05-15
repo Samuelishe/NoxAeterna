@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Media;
 using NoxAeterna.Domain.Astrology;
 using NoxAeterna.Geometry.Charts;
+using System.Globalization;
 
 namespace NoxAeterna.Rendering.Charts;
 
@@ -13,6 +14,8 @@ public sealed class CircularChartRenderer
     private static readonly IBrush OuterCircleBrush = Brushes.Gray;
     private static readonly IBrush SectorBrush = Brushes.DimGray;
     private static readonly IBrush PlanetMarkerBrush = Brushes.Gainsboro;
+    private static readonly IBrush ZodiacLabelBrush = Brushes.Gainsboro;
+    private static readonly IBrush PlanetLabelBrush = Brushes.Black;
     private static readonly IBrush ConjunctionAspectBrush = Brushes.SlateGray;
     private static readonly IBrush SextileAspectBrush = Brushes.SeaGreen;
     private static readonly IBrush SquareAspectBrush = Brushes.IndianRed;
@@ -54,6 +57,8 @@ public sealed class CircularChartRenderer
         DrawSectorSeparators(drawingContext, center, radius, scene.ZodiacSectors, options);
         DrawAspectLines(drawingContext, center, radius, scene.AspectLines, options);
         DrawPlanetMarkers(drawingContext, center, radius, scene.PlanetGlyphSlots, options);
+        DrawTextLabels(drawingContext, center, radius, scene.ZodiacLabels);
+        DrawTextLabels(drawingContext, center, radius, scene.PlanetLabels);
     }
 
     private static void DrawOuterCircle(
@@ -122,6 +127,31 @@ public sealed class CircularChartRenderer
         }
     }
 
+    private static void DrawTextLabels(
+        DrawingContext drawingContext,
+        Point center,
+        double radius,
+        IEnumerable<ChartTextLabel> labels)
+    {
+        foreach (var label in labels)
+        {
+            var anchor = ToPoint(center, radius, label.AnchorPoint);
+            var brush = GetLabelBrush(label.Style);
+            var formattedText = new FormattedText(
+                label.Text,
+                CultureInfo.InvariantCulture,
+                FlowDirection.LeftToRight,
+                Typeface.Default,
+                label.FontSize,
+                brush);
+            var origin = new Point(
+                anchor.X - (formattedText.Width / 2d),
+                anchor.Y - (formattedText.Height / 2d));
+
+            drawingContext.DrawText(formattedText, origin);
+        }
+    }
+
     private static Point ToPoint(Point center, double radius, RadialPoint radialPoint) =>
         new(
             center.X + radialPoint.X * radius,
@@ -136,5 +166,13 @@ public sealed class CircularChartRenderer
             AspectType.Trine => TrineAspectBrush,
             AspectType.Opposition => OppositionAspectBrush,
             _ => OuterCircleBrush
+        };
+
+    private static IBrush GetLabelBrush(ChartTextLabelStyle style) =>
+        style switch
+        {
+            ChartTextLabelStyle.Zodiac => ZodiacLabelBrush,
+            ChartTextLabelStyle.Planet => PlanetLabelBrush,
+            _ => PlanetMarkerBrush
         };
 }

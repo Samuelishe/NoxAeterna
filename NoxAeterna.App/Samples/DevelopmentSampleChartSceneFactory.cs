@@ -14,9 +14,6 @@ public static class DevelopmentSampleChartSceneFactory
     /// <returns>A render-ready chart scene.</returns>
     public static ChartRenderScene Create()
     {
-        var sampleChart = DevelopmentSampleNatalChartFactory.Create();
-        var layout = new CircularChartLayoutBuilder().Build(sampleChart);
-
-        return ChartRenderScene.FromLayout(layout);
+        return DevelopmentSampleChartBuildResultFactory.Create().RenderScene;
     }
 }

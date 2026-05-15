@@ -18,6 +18,7 @@ public sealed class AstrologyWorkspaceControl : UserControl
     private readonly LanguageCode _applicationLanguage;
     private readonly DevelopmentAstrologyChartCoordinator _chartCoordinator;
     private AstrologyChartSurfaceControl? _chartSurfaceControl;
+    private PlanetPositionSummaryControl? _positionSummaryControl;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AstrologyWorkspaceControl"/> class.
@@ -98,13 +99,19 @@ public sealed class AstrologyWorkspaceControl : UserControl
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
-            MinHeight = 540
+            MinHeight = 500
         };
         Grid.SetRow(_chartSurfaceControl, 1);
 
+        _positionSummaryControl = new PlanetPositionSummaryControl(
+            _localizationProvider,
+            _applicationLanguage,
+            PlanetPositionSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
+        Grid.SetRow(_positionSummaryControl, 2);
+
         return new Grid
         {
-            RowDefinitions = new RowDefinitions("Auto,*"),
+            RowDefinitions = new RowDefinitions("Auto,*,Auto"),
             RowSpacing = 12,
             Children =
             {
@@ -114,7 +121,8 @@ public sealed class AstrologyWorkspaceControl : UserControl
                     TextWrapping = TextWrapping.Wrap,
                     Foreground = ResolveBrush("WorkspacePanelSubtleForegroundBrush", new SolidColorBrush(Color.FromRgb(128, 128, 132)))
                 },
-                _chartSurfaceControl
+                _chartSurfaceControl,
+                _positionSummaryControl
             }
         };
     }
@@ -176,6 +184,7 @@ public sealed class AstrologyWorkspaceControl : UserControl
         if (rebuilt)
         {
             _chartSurfaceControl?.SetScene(_chartCoordinator.CurrentScene);
+            _positionSummaryControl?.SetRows(PlanetPositionSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
         }
 
         return rebuilt;

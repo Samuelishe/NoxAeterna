@@ -250,3 +250,11 @@ Decision: Put the first real `IEphemerisCalculator` implementation in `NoxAetern
 Reason: Swiss Ephemeris integration is an external dependency concern, not a domain, presentation, rendering, or geometry concern. The app already acts as the composition root and can swap implementations without changing core contracts.
 
 Consequences: The live chart path now uses real planetary positions through `IEphemerisCalculator`, while the old `DevelopmentEphemerisCalculator` remains available as a fallback or test tool. External ephemeris data-file setup and formal repository license alignment remain follow-up items.
+
+## 2026-05-15: Keep Chart Glyphs Universal and Localized Names in Presentation
+
+Decision: Use universal Unicode zodiac and planetary glyphs inside the render scene for the first readable chart, while keeping localized planet and zodiac names in presentation-side position-summary models.
+
+Reason: The chart needs to become recognizable without leaking localization into rendering math or making the low-level renderer depend on human-language resource lookup.
+
+Consequences: Rendering stays scene-driven and language-agnostic, while the readable positions table is built from presentation models using localization keys. Future font validation remains an open follow-up item.

@@ -808,3 +808,50 @@ Next actions:
 
 - Add visible glyph labels and a positions table so the chart becomes readable with real planetary longitudes.
 - Define the explicit external `.se1` file setup path and resolve formal license alignment before release packaging.
+
+## 2026-05-15: First Readable Chart Foundation
+
+Summary:
+
+- Made the chart readable by extending the render scene with universal zodiac and planetary glyph labels while keeping the renderer isolated from localization and SwissEphNet.
+- Added presentation-side symbol catalogs and a compact planet-position summary builder so the astrology workspace can show localized planet/sign names, formatted within-sign degrees, and retrograde markers.
+- Added an app-side positions summary control below the chart surface and initialized the workspace with a deterministic sample build result so the chart and positions list are readable on startup.
+- Kept current status messaging honest: the visible chart uses real SwissEphNet-backed planetary positions, but still in Moshier fallback mode because external `.se1` files are not configured yet.
+- Updated rendering, geometry, UI, README, risk, and next-step documentation to reflect the current readable chart state and glyph/font caveats.
+
+Changed files:
+
+- `NoxAeterna.App/Astrology/AstrologyWorkspaceControl.cs`
+- `NoxAeterna.App/Astrology/DevelopmentAstrologyChartCoordinator.cs`
+- `NoxAeterna.App/Astrology/PlanetPositionSummaryControl.cs`
+- `NoxAeterna.App/MainWindow.axaml.cs`
+- `NoxAeterna.App/Samples/DevelopmentSampleChartBuildResultFactory.cs`
+- `NoxAeterna.App/Samples/DevelopmentSampleChartSceneFactory.cs`
+- `NoxAeterna.Presentation/Astrology/AstrologySymbolCatalog.cs`
+- `NoxAeterna.Presentation/Astrology/PlanetPositionSummaryBuilder.cs`
+- `NoxAeterna.Presentation/Astrology/PlanetPositionSummaryRow.cs`
+- `NoxAeterna.Rendering/Charts/ChartRenderScene.cs`
+- `NoxAeterna.Rendering/Charts/ChartTextLabel.cs`
+- `NoxAeterna.Rendering/Charts/ChartTextLabelStyle.cs`
+- `NoxAeterna.Rendering/Charts/CircularChartRenderer.cs`
+- `NoxAeterna.Tests/App/DevelopmentAstrologyChartCoordinatorTests.cs`
+- `NoxAeterna.Tests/Presentation/AstrologySymbolCatalogTests.cs`
+- `NoxAeterna.Tests/Presentation/PlanetPositionSummaryBuilderTests.cs`
+- `NoxAeterna.Tests/Presentation/JsonLocalizationCatalogLoaderTests.cs`
+- `NoxAeterna.Tests/Rendering/ChartRenderSceneTests.cs`
+- `resources/localization/ui/ru.json`
+- `resources/localization/ui/en.json`
+- `README.md`
+- `docs/ASTRONOMY-ENGINE.md`
+- `docs/DECISIONS-LOG.md`
+- `docs/GEOMETRY-ENGINE.md`
+- `docs/KNOWN-PROBLEMS.md`
+- `docs/NEXT-STEPS.md`
+- `docs/RENDERING-ENGINE.md`
+- `docs/SESSION-LOG.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Implement the explicit external `.se1` file setup path.
+- Verify whether a dedicated open-source font is needed for reliable astrology glyph display across platforms.

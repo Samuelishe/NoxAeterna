@@ -29,7 +29,8 @@ The current renderer is intentionally minimal and technical. It consumes prepare
 - outer chart circle;
 - zodiac sector separators;
 - aspect lines;
-- planet marker placeholders.
+- zodiac glyph labels around the ring;
+- planetary glyph labels at planet slots.
 
 Current temporary verification path:
 
@@ -37,7 +38,7 @@ Current temporary verification path:
 BirthDataInput
 -> BirthData validation and mapping
 -> IBirthMomentResolver
--> DevelopmentEphemerisCalculator
+-> IEphemerisCalculator
 -> NatalChart
 -> CircularChartLayoutBuilder
 -> ChartRenderScene
@@ -45,7 +46,7 @@ BirthDataInput
 -> AstrologyChartSurfaceControl inside the first astrology workspace foundation in NoxAeterna.App
 ```
 
-The app still keeps a fallback sample-scene path for development, but the visible chart can now rebuild from validated input through this demo-only pipeline. This is still not the final UI architecture and still does not use real ephemerides.
+The app still keeps a fallback sample-scene path for development, but the visible chart now rebuilds from validated input through the real SwissEphNet-backed path. The current live status is still limited by Moshier fallback mode because external Swiss ephemeris data files are not configured yet.
 
 ## Boundaries
 
@@ -92,9 +93,9 @@ Exact astrological diagrams should be rendered programmatically. Generated image
 
 Current placeholder strategy:
 
-- small circular planet markers instead of final glyphs;
+- universal zodiac and planetary Unicode glyphs for the first readable chart foundation;
 - deterministic aspect line colors by aspect type;
-- no final art direction or text-based glyph rendering yet;
+- no final art direction, dense-label collision handling, or final font strategy yet;
 - app-level theme switching may change preview surface resources around the renderer, but rendering still does not own shell-theme orchestration.
 
 ## DPI and Scaling

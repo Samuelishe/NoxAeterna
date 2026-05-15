@@ -59,7 +59,7 @@ public partial class MainWindow : Window
             new DevelopmentAstrologyChartPipeline(
                 new TzdbBirthMomentResolver(),
                 new SwissEphemerisCalculator()),
-            DevelopmentSampleChartSceneFactory.Create());
+            DevelopmentSampleChartBuildResultFactory.Create());
 
         RefreshShell();
     }

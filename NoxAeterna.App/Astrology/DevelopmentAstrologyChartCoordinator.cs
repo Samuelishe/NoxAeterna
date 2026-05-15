@@ -15,10 +15,11 @@ public sealed class DevelopmentAstrologyChartCoordinator
     /// </summary>
     public DevelopmentAstrologyChartCoordinator(
         DevelopmentAstrologyChartPipeline chartPipeline,
-        ChartRenderScene initialScene)
+        DevelopmentChartBuildResult initialBuildResult)
     {
         _chartPipeline = chartPipeline ?? throw new ArgumentNullException(nameof(chartPipeline));
-        CurrentScene = initialScene ?? throw new ArgumentNullException(nameof(initialScene));
+        CurrentBuildResult = initialBuildResult ?? throw new ArgumentNullException(nameof(initialBuildResult));
+        CurrentScene = initialBuildResult.RenderScene;
     }
 
     /// <summary>
@@ -29,7 +30,7 @@ public sealed class DevelopmentAstrologyChartCoordinator
     /// <summary>
     /// Gets the last successfully built natal chart.
     /// </summary>
-    public DevelopmentChartBuildResult? CurrentBuildResult { get; private set; }
+    public DevelopmentChartBuildResult CurrentBuildResult { get; private set; }
 
     /// <summary>
     /// Attempts to rebuild the current chart from the supplied birth-data input state.

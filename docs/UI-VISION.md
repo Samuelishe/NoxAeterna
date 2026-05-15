@@ -70,7 +70,7 @@ Current shell direction:
 - the first astrology workspace foundation can replace a raw debug-only host before full product screens exist;
 - development-only sample data may still drive that workspace temporarily, but should stay out of the visible shell structure.
 - the astrology workspace may now host an initial birth-data input panel before real chart calculation is connected.
-- validated birth-data input may now rebuild the visible chart through a clearly marked demo-only calculation flow before real ephemerides exist.
+- validated birth-data input may now rebuild the visible chart through the real SwissEphNet-backed calculation path, while current status messaging remains honest about Moshier fallback mode and missing external `.se1` data files.
 - the current right-side birth-data panel should remain usable at the default window size through scrolling and responsive layout rather than requiring a maximized window.
 - when native date or time picker controls are used, give them enough horizontal space to remain readable; do not compress them into tight multi-column groups that break segment layout.
 - workspace-level subtitles should stay product-oriented and future-facing, while temporary demo or technical status stays in separate local notices near the affected surface.
@@ -83,6 +83,7 @@ Current birth-input direction:
 - manual coordinates remain the offline-first fallback and are required for honest calculation later.
 - helper text around time zone selection should explain TZDB/IANA identifiers without exposing raw technical jargon as the main field label.
 - the chart area should clearly disclose when demo-only calculation is being used instead of real ephemerides.
+- the chart area should now remain readable through zodiac and planetary glyph labeling plus a compact positions summary, even before houses and interpretation exist.
 - date/time controls may remain Avalonia-native for now, but surrounding spacing, helper text, and alignment should make them read as intentional desktop form controls rather than raw debug scaffolding.
 - readability takes priority over compactness in the birth-data form; date and time inputs should prefer full-width rows over dense side-by-side packing when control chrome becomes fragile.
 

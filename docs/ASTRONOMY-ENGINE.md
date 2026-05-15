@@ -80,6 +80,7 @@ Current real-integration spike:
 - Because no external `.se1` data files are configured yet, the live app currently falls back to the built-in Moshier mode.
 - This still produces real astronomical positions and retrograde state, but it is not the final high-precision Swiss-data setup.
 - Formal project-license alignment and external ephemeris data packaging remain open follow-up items. See `KNOWN-PROBLEMS.md`.
+- The visible astrology workspace now exposes these real positions through readable chart glyphs and a positions summary list.
 
 ## Coordinate Conventions
 

@@ -31,7 +31,7 @@ public sealed class DevelopmentAstrologyChartCoordinatorTests
 
         Assert.True(rebuilt);
         Assert.NotNull(coordinator.CurrentBuildResult);
-        Assert.Equal(BirthTimeAccuracy.ExactTime, coordinator.CurrentBuildResult!.NatalChart.BirthMoment.BirthTimeAccuracy);
+        Assert.Equal(BirthTimeAccuracy.ExactTime, coordinator.CurrentBuildResult.NatalChart.BirthMoment.BirthTimeAccuracy);
         Assert.Equal(10, coordinator.CurrentBuildResult.NatalChart.Positions.Count);
     }
 
@@ -55,33 +55,33 @@ public sealed class DevelopmentAstrologyChartCoordinatorTests
 
         Assert.True(rebuilt);
         Assert.NotNull(coordinator.CurrentBuildResult);
-        Assert.Equal(BirthTimeAccuracy.UnknownTime, coordinator.CurrentBuildResult!.NatalChart.BirthMoment.BirthTimeAccuracy);
+        Assert.Equal(BirthTimeAccuracy.UnknownTime, coordinator.CurrentBuildResult.NatalChart.BirthMoment.BirthTimeAccuracy);
         Assert.Equal(12, coordinator.CurrentBuildResult.NatalChart.BirthMoment.OriginalLocalDateTime.Hour);
     }
 
     [Fact]
     public void TryBuild_DoesNotReplaceCurrentSceneWhenInputIsInvalid()
     {
-        var initialScene = DevelopmentSampleChartSceneFactory.Create();
-        var coordinator = CreateCoordinator(initialScene);
+        var initialBuildResult = DevelopmentSampleChartBuildResultFactory.Create();
+        var coordinator = CreateCoordinator(initialBuildResult);
         var viewModel = BirthDataInputViewModel.CreateDefault();
 
         var rebuilt = coordinator.TryBuild(viewModel);
 
         Assert.False(rebuilt);
-        Assert.Null(coordinator.CurrentBuildResult);
-        Assert.Equal(initialScene, coordinator.CurrentScene);
+        Assert.Equal(initialBuildResult, coordinator.CurrentBuildResult);
+        Assert.Equal(initialBuildResult.RenderScene, coordinator.CurrentScene);
     }
 
     private static DevelopmentAstrologyChartCoordinator CreateCoordinator() =>
-        CreateCoordinator(DevelopmentSampleChartSceneFactory.Create());
+        CreateCoordinator(DevelopmentSampleChartBuildResultFactory.Create());
 
-    private static DevelopmentAstrologyChartCoordinator CreateCoordinator(NoxAeterna.Rendering.Charts.ChartRenderScene initialScene) =>
+    private static DevelopmentAstrologyChartCoordinator CreateCoordinator(DevelopmentChartBuildResult initialBuildResult) =>
         new(
             new DevelopmentAstrologyChartPipeline(
                 new TzdbBirthMomentResolver(),
                 new DevelopmentEphemerisCalculator()),
-            initialScene);
+            initialBuildResult);
 
     private static BirthTimeAccuracyOption[] CreateAccuracies() =>
     [

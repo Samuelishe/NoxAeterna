@@ -11,6 +11,16 @@ The first spike now uses `SwissEphNet`, but several open items remain:
 - the exact redistribution strategy for any bundled ephemeris data files is still unresolved;
 - cross-platform packaging must be verified again if the integration later changes away from the current managed wrapper.
 
+## Glyph and Font Reliability
+
+The first readable chart foundation now uses Unicode zodiac and planetary glyphs.
+
+Open questions:
+
+- whether the default Avalonia font stack renders every astrology glyph consistently across all target platforms;
+- whether a dedicated open-source font should be adopted later for more reliable symbol display;
+- how far the current simple glyph placement can go before dense charts require stronger collision handling.
+
 ## Birth Place to Timezone Resolution
 
 Birth location to timezone mapping needs design.

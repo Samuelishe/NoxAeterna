@@ -33,6 +33,7 @@ The repository now contains:
 - A refined birth-data input foundation with date/time pickers, TZDB timezone selection, manual coordinates, and explicit mapping into domain birth data
 - Input-driven demo chart rebuilding through `IBirthMomentResolver`, a deterministic fake ephemeris flow, geometry layout, and the isolated renderer
 - Input-driven chart rebuilding through `IBirthMomentResolver`, a SwissEphNet-backed ephemeris adapter, geometry layout, and the isolated renderer
+- First readable natal-chart foundation with zodiac glyphs, planet glyphs, and a compact planet-position summary
 - Development-only sample chart generation kept only as a fallback and verification path
 - xUnit test harness and repository-level build configuration
 
@@ -124,6 +125,7 @@ Current birth-input note:
 - The astrology workspace now supports an offline-first birth-data input mode.
 - Date selection uses a picker, timezone selection comes from local TZDB IDs, and coordinates remain manual.
 - Valid input now rebuilds the visible chart through `IBirthMomentResolver`, `SwissEphNet`, natal-chart composition, geometry layout, and the isolated renderer.
+- The visible chart is now readable enough to inspect: zodiac ring glyphs, planet glyphs, and a compact positions list are present.
 - The right birth-data panel now scrolls instead of clipping at the default window size.
 - The current live calculation uses SwissEphNet in built-in Moshier mode because external `.se1` ephemeris files are not configured yet.
 

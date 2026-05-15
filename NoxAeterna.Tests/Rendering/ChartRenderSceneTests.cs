@@ -19,6 +19,8 @@ public sealed class ChartRenderSceneTests
         Assert.Equal(firstScene.ZodiacSectors, secondScene.ZodiacSectors);
         Assert.Equal(firstScene.PlanetGlyphSlots, secondScene.PlanetGlyphSlots);
         Assert.Equal(firstScene.AspectLines, secondScene.AspectLines);
+        Assert.Equal(firstScene.ZodiacLabels, secondScene.ZodiacLabels);
+        Assert.Equal(firstScene.PlanetLabels, secondScene.PlanetLabels);
     }
 
     [Fact]
@@ -30,6 +32,8 @@ public sealed class ChartRenderSceneTests
         Assert.NotEmpty(scene.ZodiacSectors);
         Assert.NotEmpty(scene.PlanetGlyphSlots);
         Assert.NotEmpty(scene.AspectLines);
+        Assert.Equal(12, scene.ZodiacLabels.Count);
+        Assert.Equal(scene.PlanetGlyphSlots.Count, scene.PlanetLabels.Count);
     }
 
     private static CircularChartLayout CreateLayout()
