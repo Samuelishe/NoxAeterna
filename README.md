@@ -4,6 +4,8 @@ Nox Aeterna is a planned cross-platform desktop application for symbolic systems
 
 It is intended to feel like a digital esoteric cabinet, a personal occult archive, and an astrological observatory rather than a casual horoscope or novelty app.
 
+Project intent: Nox Aeterna is being developed as a fully open-source project. Commercial distribution is not part of the current plan.
+
 ## Product Philosophy
 
 - Serious, calm, atmospheric, and non-ironic.
@@ -191,6 +193,13 @@ Additional planned directions, not yet added in code:
 - Dapper
 - Serilog
 - SwissEphNet or equivalent Swiss Ephemeris wrapper
+
+Swiss Ephemeris note:
+
+- Swiss Ephemeris is not integrated yet.
+- If it is adopted, it must remain behind `IEphemerisCalculator`.
+- Authorship, license terms, packaging constraints, and any required ephemeris data files must be documented in `README.md` and `docs/THIRD-PARTY.md` in the same session as adoption.
+- Do not vendor Swiss Ephemeris binaries or data files silently.
 
 ## AI-Assisted Development Notes
 

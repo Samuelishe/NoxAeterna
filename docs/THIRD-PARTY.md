@@ -30,7 +30,7 @@ For each entry, record:
 | Microsoft.NET.Test.Sdk | Microsoft | MIT | Test host integration for `dotnet test` | https://github.com/microsoft/vstest | Added in `NoxAeterna.Tests`, version `17.14.1` |
 | xunit | xUnit contributors | Apache-2.0 | Unit test framework | https://github.com/xunit/xunit | Added in `NoxAeterna.Tests`, version `2.9.3` |
 | xunit.runner.visualstudio | xUnit contributors | Apache-2.0 | VSTest adapter for `dotnet test` and IDE test runners | https://github.com/xunit/visualstudio.xunit | Added in `NoxAeterna.Tests`, version `3.1.4` |
-| SwissEphNet or equivalent | To be verified | To be verified | Ephemeris access | To be verified | Package choice still open |
+| SwissEphNet or equivalent | To be verified | To be verified | Ephemeris access | To be verified | Package choice still open. Intended for a fully open-source, non-commercial project. When actually adopted, record exact authorship, license terms, packaging constraints, and any required data-file attribution. Keep integration behind `IEphemerisCalculator` and do not vendor binaries or ephemeris data silently. |
 
 ## Assets, Fonts, and Generated Material
 

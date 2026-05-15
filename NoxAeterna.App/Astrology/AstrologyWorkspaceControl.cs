@@ -63,14 +63,14 @@ public sealed class AstrologyWorkspaceControl : UserControl
 
         var sidePanelScrollViewer = new ScrollViewer
         {
-            Width = 404,
-            MinWidth = 388,
-            MaxWidth = 432,
+            Width = 428,
+            MinWidth = 408,
+            MaxWidth = 456,
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Stretch,
             VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
             HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled,
-            Padding = new Thickness(0, 2, 4, 2),
+            Padding = new Thickness(0, 4, 6, 4),
             Content = sidePanelStack
         };
         Grid.SetColumn(sidePanelScrollViewer, 1);
@@ -146,11 +146,11 @@ public sealed class AstrologyWorkspaceControl : UserControl
             BorderBrush = ResolveBrush("WorkspacePanelBorderBrush", new SolidColorBrush(Color.FromRgb(56, 56, 62))),
             BorderThickness = new Thickness(1),
             CornerRadius = new CornerRadius(6),
-            Padding = new Thickness(18, 16, 18, 18),
+            Padding = new Thickness(20, 18, 20, 20),
             Child = new Grid
             {
                 RowDefinitions = new RowDefinitions("Auto,*"),
-                RowSpacing = 12,
+                RowSpacing = 14,
                 Children =
                 {
                     new TextBlock

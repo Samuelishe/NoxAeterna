@@ -144,27 +144,26 @@ public sealed class BirthDataInputControl : UserControl
 
         return new ScrollViewer
         {
-            Padding = new Thickness(2, 2, 2, 0),
+            Padding = new Thickness(4, 6, 4, 0),
             VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
             Content = new StackPanel
             {
-                Spacing = 16,
+                Spacing = 18,
                 Children =
                 {
-                    CreateTwoColumnGroup(
-                        CreateSettingRow(Localize(_viewModel.BirthDateLabelKey), _birthDatePicker, Localize(_viewModel.BirthDateHelperKey)),
-                        CreateSettingRow(
-                            Localize(_viewModel.BirthTimeLabelKey),
-                            new StackPanel
+                    CreateSettingRow(Localize(_viewModel.BirthDateLabelKey), _birthDatePicker, Localize(_viewModel.BirthDateHelperKey)),
+                    CreateSettingRow(
+                        Localize(_viewModel.BirthTimeLabelKey),
+                        new StackPanel
+                        {
+                            Spacing = 6,
+                            Children =
                             {
-                                Spacing = 6,
-                                Children =
-                                {
-                                    _birthTimePicker,
-                                    _unknownTimeHelperTextBlock
-                                }
-                            },
-                            Localize(_viewModel.BirthTimeHelperKey))),
+                                _birthTimePicker,
+                                _unknownTimeHelperTextBlock
+                            }
+                        },
+                        Localize(_viewModel.BirthTimeHelperKey)),
                     CreateSettingRow(Localize(_viewModel.BirthTimeAccuracyLabelKey), _birthTimeAccuracyComboBox),
                     CreateSettingRow(
                         Localize(_viewModel.BirthPlaceLabelKey),
@@ -267,7 +266,7 @@ public sealed class BirthDataInputControl : UserControl
     {
         var stackPanel = new StackPanel
         {
-            Spacing = 7
+            Spacing = 8
         };
 
         stackPanel.Children.Add(

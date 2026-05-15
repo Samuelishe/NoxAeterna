@@ -742,3 +742,28 @@ Next actions:
 
 - Add the first in-memory profile or session draft model for current unsaved birth data and chart state.
 - Keep persistence, real ephemerides, geocoding, and interpretation work deferred until that in-memory state model exists.
+
+## 2026-05-15: Birth Input Layout Repair and Swiss Ephemeris Priority Shift
+
+Summary:
+
+- Repaired the astrology birth-data panel after the previous compact layout pass made Avalonia `DatePicker` and `TimePicker` segments unreadable.
+- Restored full-width rows for birth date and birth time, kept the panel scrollable, and slightly relaxed panel sizing and padding so the default window remains usable without clipped picker chrome.
+- Shifted the near-term roadmap away from in-memory profile or session draft work and toward a Swiss Ephemeris integration spike behind `IEphemerisCalculator`.
+- Documented the current intent that the project remains fully open-source, commercially unplanned, and that Swiss Ephemeris authorship, license terms, and packaging constraints must be tracked explicitly when the dependency is actually added.
+
+Changed files:
+
+- `NoxAeterna.App/Astrology/AstrologyWorkspaceControl.cs`
+- `NoxAeterna.App/Astrology/BirthDataInputControl.cs`
+- `README.md`
+- `docs/CODING-GUIDELINES.md`
+- `docs/NEXT-STEPS.md`
+- `docs/SESSION-LOG.md`
+- `docs/THIRD-PARTY.md`
+- `docs/UI-VISION.md`
+
+Next actions:
+
+- Start the Swiss Ephemeris integration spike behind `IEphemerisCalculator`.
+- Keep houses, persistence, interpretation, and profile/session state work deferred until real planetary positions replace the demo calculation path.
