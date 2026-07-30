@@ -28,8 +28,9 @@ public sealed class PlanetPositionSummaryControl : UserControl
         _applicationLanguage = applicationLanguage;
         _table = new Grid
         {
-            ColumnDefinitions = new ColumnDefinitions("2*,1.5*,Auto,Auto"),
-            ColumnSpacing = 16
+            ColumnDefinitions = new ColumnDefinitions("1.6*,1.35*,Auto,Auto"),
+            ColumnSpacing = 12,
+            HorizontalAlignment = HorizontalAlignment.Stretch
         };
 
         Content = new StackPanel
@@ -41,7 +42,8 @@ public sealed class PlanetPositionSummaryControl : UserControl
                 {
                     Text = Localize("ui.chart.positions.title"),
                     FontSize = 14,
-                    FontWeight = FontWeight.SemiBold
+                    FontWeight = FontWeight.SemiBold,
+                    Margin = new Thickness(0, 0, 0, 2)
                 },
                 _table
             }
@@ -70,27 +72,31 @@ public sealed class PlanetPositionSummaryControl : UserControl
     private void AddHeaderRow()
     {
         _table.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
-        AddCell(Localize("ui.chart.positions.header.planet"), 0, 0, FontWeight.SemiBold, fontSize: 12d);
-        AddCell(Localize("ui.chart.positions.header.sign"), 0, 1, FontWeight.SemiBold, fontSize: 12d);
+        AddSeparator(0, 0.48d);
+        AddCell(Localize("ui.chart.positions.header.planet"), 0, 0, FontWeight.SemiBold, fontSize: 11.5d, opacity: 0.72d);
+        AddCell(Localize("ui.chart.positions.header.sign"), 0, 1, FontWeight.SemiBold, fontSize: 11.5d, opacity: 0.72d);
         AddCell(
             Localize("ui.chart.positions.header.position"),
             0,
             2,
             FontWeight.SemiBold,
             HorizontalAlignment.Right,
-            12d);
+            11.5d,
+            0.72d);
         AddCell(
             Localize("ui.chart.positions.header.retrograde"),
             0,
             3,
             FontWeight.SemiBold,
             HorizontalAlignment.Center,
-            12d);
+            11.5d,
+            0.72d);
     }
 
     private void AddDataRow(PlanetPositionSummaryRow row, int rowIndex)
     {
         _table.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+        AddSeparator(rowIndex, 0.24d);
         AddCell(Localize(row.PlanetLabelKey), rowIndex, 0);
         AddCell(Localize(row.SignLabelKey), rowIndex, 1);
         AddCell(row.PositionText, rowIndex, 2, horizontalAlignment: HorizontalAlignment.Right);
@@ -107,14 +113,16 @@ public sealed class PlanetPositionSummaryControl : UserControl
         int column,
         FontWeight? fontWeight = null,
         HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
-        double? fontSize = null)
+        double? fontSize = null,
+        double opacity = 1d)
     {
         var textBlock = new TextBlock
         {
             Text = text,
             Margin = new Thickness(0, 4, 0, 4),
             HorizontalAlignment = horizontalAlignment,
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
+            Opacity = opacity
         };
 
         if (fontWeight is { } resolvedFontWeight)
@@ -132,9 +140,32 @@ public sealed class PlanetPositionSummaryControl : UserControl
         _table.Children.Add(textBlock);
     }
 
+    private void AddSeparator(int row, double opacity)
+    {
+        var separator = new Border
+        {
+            Height = 1d,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Background = ResolveBrush(
+                "WorkspacePanelBorderBrush",
+                new SolidColorBrush(Color.FromRgb(72, 72, 78))),
+            Opacity = opacity
+        };
+        Grid.SetRow(separator, row);
+        Grid.SetColumnSpan(separator, 4);
+        _table.Children.Add(separator);
+    }
+
     private string Localize(string key) => Localize(new LocalizationKey(key));
 
     private string Localize(LocalizationKey key) =>
         _localizationProvider.Get(LocalizationScope.Ui, _applicationLanguage, key).Text;
+
+    private IBrush ResolveBrush(string resourceKey, IBrush fallbackBrush) =>
+        Application.Current is { } application &&
+        application.TryGetResource(resourceKey, ActualThemeVariant, out var resource) &&
+        resource is IBrush brush
+            ? brush
+            : fallbackBrush;
 
 }

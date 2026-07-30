@@ -13,5 +13,4 @@
   <SolidColorBrush x:Key="WorkspaceValidationErrorBrush" Color="#D08B8B" />
   <SolidColorBrush x:Key="WorkspaceValidationSuccessBrush" Color="#93B38B" />
   <SolidColorBrush x:Key="PreviewSurfaceBackgroundBrush" Color="#131317" />
-  <SolidColorBrush x:Key="PreviewSurfaceBorderBrush" Color="#4A4A52" />
 </ResourceDictionary>

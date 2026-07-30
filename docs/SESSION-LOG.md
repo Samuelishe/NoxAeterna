@@ -923,3 +923,29 @@ Next actions:
 
 - Request a fresh screenshot and user visual confirmation.
 - Only after confirmation, choose between explicit external `.se1` setup and houses + ASC/MC + multi-ring geometry.
+
+## 2026-07-30: Chart Presentation Pass
+
+Summary:
+
+- Replaced the fixed 300 DIP chart preview with a width-driven square host that fills the left column, grows continuously during resize, and caps only at 1100 DIP on unusually wide displays.
+- Established one vertical scroll owner per workspace column and reserved an 18 DIP scrollbar gutter so the chart, table, panel borders, retrograde header, and values remain clear of overlay scrollbars.
+- Removed the chart-surface rectangle, persistent Moshier/onboarding copy, obvious form helper paragraphs, and obsolete localization/view-model contracts.
+- Added bounded radius-responsive glyph, stroke, ring, connector, and aspect metrics while preserving vector bounds in the render-safe viewport calculation.
+- Stopped visualizing collision lanes, the aspect-interior boundary, and the reserved house ring as debug circles; strengthened the matte-dark brass hierarchy, restrained zodiac band, and dark/light aspect contrast.
+- Kept Avalonia's typed date/time pickers and localized their Fluent dynamic segment resources for RU/EN switching.
+- Refined the four-column positions table with full-width shared columns, muted headers, row separators, and safe right-side spacing.
+
+Verification:
+
+- Baseline matched `7815ac6acc92a0baf3d59ebe909fcf9b80045bba`; the worktree was clean and 199/199 tests passed before edits.
+- Current build succeeds with no warnings and 208/208 tests pass.
+- Windows smoke covered `1180x760`, `1360x860`, approximately `1650x900`, maximized resize, dark/light themes, and RU/EN UI.
+- Standard and maximized screenshots were generated in the local temporary directory only and were not added to the repository.
+- The chart grows with the column, all glyphs remain inside the clipped square surface, table content stays clear of the scrollbar gutter, and RU picker segments no longer show English placeholders.
+- No external dependency, asset, `.se1` data, house, ASC/MC, or astronomy calculation was added.
+
+Next actions:
+
+- Request fresh standard and maximized screenshots from the user for presentation approval.
+- Do not choose between external `.se1` setup and houses + ASC/MC until that visual confirmation.

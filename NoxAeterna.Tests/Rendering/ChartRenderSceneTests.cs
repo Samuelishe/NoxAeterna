@@ -88,8 +88,8 @@ public sealed class ChartRenderSceneTests
         var zodiacOutermost =
             viewport.Center.X +
             (viewport.EffectiveRadius * lanes.ZodiacGlyphLane.MidpointRadiusRatio) +
-            (options.ZodiacGlyphSize / 2d) +
-            (options.GlyphStrokeThickness / 2d);
+            (viewport.VisualMetrics.ZodiacGlyphSize / 2d) +
+            (viewport.VisualMetrics.GlyphStrokeThickness / 2d);
         Assert.True(zodiacOutermost <= viewport.SafeDrawingBounds.Right + 1e-9);
     }
 

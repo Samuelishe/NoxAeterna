@@ -8,13 +8,19 @@ namespace NoxAeterna.Rendering.Charts;
 /// </summary>
 public readonly record struct ChartViewport
 {
-    private ChartViewport(Rect controlBounds, Rect chartBounds, Rect safeDrawingBounds, double effectiveRadius)
+    private ChartViewport(
+        Rect controlBounds,
+        Rect chartBounds,
+        Rect safeDrawingBounds,
+        double effectiveRadius,
+        ChartVisualMetrics visualMetrics)
     {
         ControlBounds = controlBounds;
         ChartBounds = chartBounds;
         SafeDrawingBounds = safeDrawingBounds;
         Center = chartBounds.Center;
         EffectiveRadius = effectiveRadius;
+        VisualMetrics = visualMetrics;
     }
 
     /// <summary>
@@ -41,6 +47,11 @@ public readonly record struct ChartViewport
     /// Gets the effective radius that keeps strokes and known glyph bounds inside the safe area.
     /// </summary>
     public double EffectiveRadius { get; }
+
+    /// <summary>
+    /// Gets the radius-responsive visual metrics reserved by this viewport.
+    /// </summary>
+    public ChartVisualMetrics VisualMetrics { get; }
 
     /// <summary>
     /// Attempts to create a safe viewport for the available control bounds.
@@ -76,23 +87,37 @@ public readonly record struct ChartViewport
         }
 
         var availableHalfSize = safeBounds.Width / 2d;
-        var outerBoundaryRadius =
-            (availableHalfSize - (options.OuterCircleStrokeThickness / 2d)) /
-            radialLanes.OuterBoundaryRadiusRatio;
-        var zodiacGlyphRadius =
-            (availableHalfSize - (options.ZodiacGlyphSize / 2d) - (options.GlyphStrokeThickness / 2d)) /
-            radialLanes.ZodiacGlyphLane.MidpointRadiusRatio;
-        var planetGlyphRadius =
-            (availableHalfSize - (options.PlanetGlyphSize / 2d) - (options.GlyphStrokeThickness / 2d)) /
-            radialLanes.PlanetGlyphLane.OuterRadiusRatio;
-        var effectiveRadius = Math.Min(outerBoundaryRadius, Math.Min(zodiacGlyphRadius, planetGlyphRadius));
+        var effectiveRadius = availableHalfSize / radialLanes.OuterBoundaryRadiusRatio;
+        var visualMetrics = ChartVisualMetrics.Calculate(effectiveRadius, options);
+
+        for (var iteration = 0; iteration < 4; iteration++)
+        {
+            var outerBoundaryRadius =
+                (availableHalfSize - (visualMetrics.OuterRingStrokeThickness / 2d)) /
+                radialLanes.OuterBoundaryRadiusRatio;
+            var zodiacGlyphRadius =
+                (availableHalfSize - (visualMetrics.ZodiacGlyphSize / 2d) - (visualMetrics.GlyphStrokeThickness / 2d)) /
+                radialLanes.ZodiacGlyphLane.MidpointRadiusRatio;
+            var planetGlyphRadius =
+                (availableHalfSize - (visualMetrics.PlanetGlyphSize / 2d) - (visualMetrics.GlyphStrokeThickness / 2d)) /
+                radialLanes.PlanetGlyphLane.OuterRadiusRatio;
+            var safeRadius = Math.Min(outerBoundaryRadius, Math.Min(zodiacGlyphRadius, planetGlyphRadius));
+
+            if (safeRadius >= effectiveRadius)
+            {
+                break;
+            }
+
+            effectiveRadius = safeRadius;
+            visualMetrics = ChartVisualMetrics.Calculate(effectiveRadius, options);
+        }
 
         if (!double.IsFinite(effectiveRadius) || effectiveRadius < options.MinimumEffectiveRadius)
         {
             return false;
         }
 
-        viewport = new ChartViewport(controlBounds, chartBounds, safeBounds, effectiveRadius);
+        viewport = new ChartViewport(controlBounds, chartBounds, safeBounds, effectiveRadius, visualMetrics);
         return true;
     }
 

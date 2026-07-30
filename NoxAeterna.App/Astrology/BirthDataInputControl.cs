@@ -142,43 +142,32 @@ public sealed class BirthDataInputControl : UserControl
 
         ApplyBirthTimeInputMode();
 
-        return new ScrollViewer
+        return new StackPanel
         {
-            Padding = new Thickness(4, 6, 4, 0),
-            VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
-            Content = new StackPanel
+            Margin = new Thickness(4, 2, 4, 0),
+            Spacing = 14,
+            Children =
             {
-                Spacing = 18,
-                Children =
-                {
-                    CreateSettingRow(Localize(_viewModel.BirthDateLabelKey), _birthDatePicker, Localize(_viewModel.BirthDateHelperKey)),
-                    CreateSettingRow(
-                        Localize(_viewModel.BirthTimeLabelKey),
-                        new StackPanel
+                CreateSettingRow(Localize(_viewModel.BirthDateLabelKey), _birthDatePicker),
+                CreateSettingRow(
+                    Localize(_viewModel.BirthTimeLabelKey),
+                    new StackPanel
+                    {
+                        Spacing = 5,
+                        Children =
                         {
-                            Spacing = 6,
-                            Children =
-                            {
-                                _birthTimePicker,
-                                _unknownTimeHelperTextBlock
-                            }
-                        },
-                        Localize(_viewModel.BirthTimeHelperKey)),
-                    CreateSettingRow(Localize(_viewModel.BirthTimeAccuracyLabelKey), _birthTimeAccuracyComboBox),
-                    CreateSettingRow(
-                        Localize(_viewModel.BirthPlaceLabelKey),
-                        _birthPlaceTextBox,
-                        Localize(_viewModel.BirthPlaceHelperKey)),
-                    CreateTwoColumnGroup(
-                        CreateSettingRow(Localize(_viewModel.LatitudeLabelKey), _latitudeTextBox),
-                        CreateSettingRow(Localize(_viewModel.LongitudeLabelKey), _longitudeTextBox)),
-                    CreateSettingRow(
-                        Localize(_viewModel.TimezoneLabelKey),
-                        _timezoneComboBox,
-                        Localize(_viewModel.TimezoneHelperKey)),
-                    validateButton,
-                    _validationSummaryTextBlock
-                }
+                            _birthTimePicker,
+                            _unknownTimeHelperTextBlock
+                        }
+                    }),
+                CreateSettingRow(Localize(_viewModel.BirthTimeAccuracyLabelKey), _birthTimeAccuracyComboBox),
+                CreateSettingRow(Localize(_viewModel.BirthPlaceLabelKey), _birthPlaceTextBox),
+                CreateTwoColumnGroup(
+                    CreateSettingRow(Localize(_viewModel.LatitudeLabelKey), _latitudeTextBox),
+                    CreateSettingRow(Localize(_viewModel.LongitudeLabelKey), _longitudeTextBox)),
+                CreateSettingRow(Localize(_viewModel.TimezoneLabelKey), _timezoneComboBox),
+                validateButton,
+                _validationSummaryTextBlock
             }
         };
     }
@@ -233,7 +222,7 @@ public sealed class BirthDataInputControl : UserControl
         var isUnknownTime = _viewModel.State.BirthTimeAccuracy == BirthTimeAccuracy.UnknownTime;
         _birthTimePicker.IsEnabled = !isUnknownTime;
         _birthTimePicker.Opacity = isUnknownTime ? 0.55 : 1.0;
-        _unknownTimeHelperTextBlock.Text = isUnknownTime ? Localize(_viewModel.UnknownTimeHelperKey) : string.Empty;
+        _unknownTimeHelperTextBlock.Text = isUnknownTime ? Localize(_viewModel.UnknownTimeStatusKey) : string.Empty;
     }
 
     private void RefreshValidationSummary()
@@ -262,11 +251,11 @@ public sealed class BirthDataInputControl : UserControl
         _validationSummaryTextBlock.Foreground = ResolveBrush("WorkspaceValidationErrorBrush", new SolidColorBrush(Color.FromRgb(190, 110, 110)));
     }
 
-    private static Control CreateSettingRow(string labelText, Control editor, string? helperText = null)
+    private static Control CreateSettingRow(string labelText, Control editor)
     {
         var stackPanel = new StackPanel
         {
-            Spacing = 8
+            Spacing = 6
         };
 
         stackPanel.Children.Add(
@@ -277,18 +266,6 @@ public sealed class BirthDataInputControl : UserControl
                 FontWeight = FontWeight.Medium
             });
         stackPanel.Children.Add(editor);
-
-        if (!string.IsNullOrWhiteSpace(helperText))
-        {
-            stackPanel.Children.Add(
-                new TextBlock
-                {
-                    Text = helperText,
-                    FontSize = 12,
-                    TextWrapping = TextWrapping.Wrap,
-                    Opacity = 0.82
-                });
-        }
 
         return stackPanel;
     }

@@ -16,19 +16,19 @@ public sealed record ChartRenderPalette(
     /// Gets the restrained palette for a dark preview surface.
     /// </summary>
     public static ChartRenderPalette Dark { get; } = new(
-        Color.FromRgb(130, 132, 140),
-        Color.FromRgb(86, 88, 96),
-        Color.FromRgb(202, 184, 145),
-        Color.FromRgb(224, 211, 180),
-        Color.FromRgb(139, 137, 132));
+        Color.FromRgb(184, 157, 103),
+        Color.FromRgb(116, 105, 88),
+        Color.FromRgb(211, 179, 116),
+        Color.FromRgb(238, 222, 190),
+        Color.FromRgb(169, 156, 132));
 
     /// <summary>
     /// Gets the restrained palette for a light preview surface.
     /// </summary>
     public static ChartRenderPalette Light { get; } = new(
-        Color.FromRgb(93, 88, 82),
-        Color.FromRgb(157, 147, 135),
-        Color.FromRgb(119, 91, 54),
-        Color.FromRgb(70, 61, 50),
-        Color.FromRgb(116, 107, 97));
+        Color.FromRgb(112, 83, 48),
+        Color.FromRgb(158, 139, 112),
+        Color.FromRgb(132, 91, 39),
+        Color.FromRgb(67, 52, 34),
+        Color.FromRgb(123, 102, 75));
 }

@@ -45,10 +45,8 @@ public sealed class AstrologyChartSurfaceControl : Control
 
         var bounds = new Rect(0d, 0d, Bounds.Width, Bounds.Height);
         var backgroundBrush = ResolveBrush("PreviewSurfaceBackgroundBrush", new SolidColorBrush(Color.FromRgb(18, 18, 20)));
-        var borderBrush = ResolveBrush("PreviewSurfaceBorderBrush", new SolidColorBrush(Color.FromRgb(64, 64, 70)));
 
         context.FillRectangle(backgroundBrush, bounds);
-        context.DrawRectangle(new Pen(borderBrush, 1d), bounds.Deflate(0.5d));
 
         var renderOptions = ActualThemeVariant == ThemeVariant.Light
             ? _lightRenderOptions

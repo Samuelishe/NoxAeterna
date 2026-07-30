@@ -24,14 +24,10 @@ public sealed class AstrologyWorkspaceViewModelTests
     {
         var workspace = AstrologyWorkspaceViewModel.CreateFoundation();
 
-        Assert.False(string.IsNullOrWhiteSpace(workspace.WorkspaceHintKey.Value));
-        Assert.False(string.IsNullOrWhiteSpace(workspace.CalculationStatusNoticeKey.Value));
-        Assert.NotEqual(workspace.WorkspaceHintKey, workspace.CalculationStatusNoticeKey);
         Assert.NotNull(workspace.BirthDataInput);
         Assert.All(workspace.Panels, panel =>
         {
             Assert.False(string.IsNullOrWhiteSpace(panel.TitleKey.Value));
-            Assert.False(string.IsNullOrWhiteSpace(panel.DescriptionKey.Value));
         });
     }
 }

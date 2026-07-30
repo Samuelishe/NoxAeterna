@@ -85,7 +85,8 @@ public partial class MainWindow : Window
 
         if (currentItem.Id == ShellSectionId.Astrology)
         {
-            _sectionHintTextBlock.Text = Localize(_astrologyWorkspaceViewModel.WorkspaceHintKey);
+            _sectionHintTextBlock.Text = string.Empty;
+            _sectionHintTextBlock.IsVisible = false;
             _sectionContentHost.Content = new AstrologyWorkspaceControl(
                 _astrologyWorkspaceViewModel,
                 _localizationProvider,
@@ -96,6 +97,7 @@ public partial class MainWindow : Window
 
         if (currentItem.Id == ShellSectionId.Settings)
         {
+            _sectionHintTextBlock.IsVisible = true;
             _sectionHintTextBlock.Text = Localize("ui.settings.hint");
             _sectionContentHost.Content = new DebugSettingsControl(
                 _settingsViewModel,
@@ -105,6 +107,7 @@ public partial class MainWindow : Window
             return;
         }
 
+        _sectionHintTextBlock.IsVisible = true;
         _sectionHintTextBlock.Text = $"{Localize("ui.shell.placeholder.caption")} • {Localize("ui.shell.placeholder.hint")}";
         _sectionContentHost.Content = new TextBlock
         {

@@ -71,10 +71,20 @@ public sealed class AstrologyWorkspaceControl : UserControl
             VerticalAlignment = VerticalAlignment.Stretch,
             VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
             HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled,
-            Padding = new Thickness(0, 4, 6, 4),
+            Padding = new Thickness(0, 4, 18, 4),
             Content = sidePanelStack
         };
         Grid.SetColumn(sidePanelScrollViewer, 1);
+
+        var chartPanelScrollViewer = new ScrollViewer
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
+            HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled,
+            Padding = new Thickness(0, 4, 18, 4),
+            Content = CreateChartPanel(chartPanel)
+        };
 
         return new Grid
         {
@@ -82,7 +92,7 @@ public sealed class AstrologyWorkspaceControl : UserControl
             ColumnSpacing = 20,
             Children =
             {
-                CreateChartPanel(chartPanel),
+                chartPanelScrollViewer,
                 sidePanelScrollViewer
             }
         };
@@ -97,8 +107,7 @@ public sealed class AstrologyWorkspaceControl : UserControl
     {
         _chartSurfaceControl = new AstrologyChartSurfaceControl(_chartCoordinator.CurrentScene)
         {
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Height = 300
+            HorizontalAlignment = HorizontalAlignment.Stretch
         };
 
         _positionSummaryControl = new PlanetPositionSummaryControl(
@@ -108,36 +117,28 @@ public sealed class AstrologyWorkspaceControl : UserControl
 
         var chartContent = new StackPanel
         {
-            Spacing = 12,
+            Spacing = 18,
             Children =
             {
-                new TextBlock
+                new WidthDrivenSquare
                 {
-                    Text = Localize(_viewModel.CalculationStatusNoticeKey),
-                    TextWrapping = TextWrapping.Wrap,
-                    Foreground = ResolveBrush("WorkspacePanelSubtleForegroundBrush", new SolidColorBrush(Color.FromRgb(128, 128, 132)))
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Child = _chartSurfaceControl
                 },
-                _chartSurfaceControl,
                 _positionSummaryControl
             }
         };
 
-        return new ScrollViewer
-        {
-            VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
-            HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled,
-            Content = chartContent
-        };
+        return chartContent;
     }
 
     private Control CreatePlaceholderPanel(AstrologyWorkspacePanel panel) =>
         CreatePanelContainer(
             panel,
-            new TextBlock
+            new Border
             {
-                Text = Localize(panel.DescriptionKey),
-                TextWrapping = TextWrapping.Wrap,
-                Foreground = ResolveBrush("WorkspacePanelSubtleForegroundBrush", new SolidColorBrush(Color.FromRgb(128, 128, 132)))
+                Height = 1,
+                Opacity = 0
             });
 
     private Control CreatePanelContainer(AstrologyWorkspacePanel panel, Control content) =>

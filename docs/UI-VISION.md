@@ -70,10 +70,12 @@ Current shell direction:
 - the first astrology workspace foundation can replace a raw debug-only host before full product screens exist;
 - development-only sample data may still drive that workspace temporarily, but should stay out of the visible shell structure.
 - the astrology workspace may now host an initial birth-data input panel before real chart calculation is connected.
-- validated birth-data input may now rebuild the visible chart through the real SwissEphNet-backed calculation path, while current status messaging remains honest about Moshier fallback mode and missing external `.se1` data files.
-- the current right-side birth-data panel should remain usable at the default window size through scrolling and responsive layout rather than requiring a maximized window.
+- validated birth-data input may now rebuild the visible chart through the real SwissEphNet-backed calculation path; Moshier fallback remains documented in project diagnostics and documentation instead of occupying the primary workspace.
+- the chart is the dominant object in the left column and uses a width-driven square surface that grows continuously with the column up to a deliberately high 1100 DIP ceiling.
+- each workspace column owns one vertical `ScrollViewer`; an explicit right gutter keeps overlay scrollbars away from chart graphics, table columns, and panel content.
+- the current right-side birth-data panel remains usable at the default window size through column-level scrolling rather than requiring a maximized window.
 - when native date or time picker controls are used, give them enough horizontal space to remain readable; do not compress them into tight multi-column groups that break segment layout.
-- workspace-level subtitles should stay product-oriented and future-facing, while temporary demo or technical status stays in separate local notices near the affected surface.
+- the main astrology workspace should be concise and tool-like; onboarding copy and persistent technical notices do not belong between the operator and the chart.
 - the current readable chart foundation should stay legible before it becomes ornate; chart readability takes priority over decorative treatment.
 
 Current birth-input direction:
@@ -82,14 +84,13 @@ Current birth-input direction:
 - time selection should use a constrained control and degrade honestly when the user marks time as unknown;
 - timezone selection should come from local TZDB data, not a raw free-text field;
 - manual coordinates remain the offline-first fallback and are required for honest calculation later.
-- helper text around time zone selection should explain TZDB/IANA identifiers without exposing raw technical jargon as the main field label.
-- the chart area should clearly disclose when demo-only calculation is being used instead of real ephemerides.
+- validation errors should appear after an attempted build, while obvious date, time, location, and TZDB instructions should not remain as permanent paragraphs.
 - the chart area should now remain readable through zodiac and planetary glyph labeling plus a compact positions summary, even before houses and interpretation exist.
 - positions summaries are one shared four-column grid with localized `Planet`, `Sign`, `Position`, and `Retrograde` headers; position values keep minute precision and align right, while retrograde state has its own centered column.
 - the main positions table intentionally relies on localized names rather than platform astrology glyphs, so it remains understandable without font fallback.
 - chart-local zodiac and planet symbols are original monochrome vector paths with deterministic bounds; they are functional technical graphics rather than a final artistic font.
-- chart, table, and form should fit the default window without row overlap; the chart host may scale down to its supported minimum while the birth-data panel remains independently scrollable.
-- date/time controls may remain Avalonia-native for now, but surrounding spacing, helper text, and alignment should make them read as intentional desktop form controls rather than raw debug scaffolding.
+- chart, table, and form should fit the default window without row overlap; the chart host follows available width while the table remains below it through left-column scrolling.
+- date/time controls remain typed Avalonia-native pickers; their Fluent segment resource strings are switched with the application language so RU never exposes English `day/month/year/hour/minute` placeholders.
 - readability takes priority over compactness in the birth-data form; date and time inputs should prefer full-width rows over dense side-by-side packing when control chrome becomes fragile.
 
 Current settings direction:
@@ -108,7 +109,7 @@ Current localization direction:
 - interpretation and symbolic localization are still deferred.
 - validation feedback inside the astrology workspace must also resolve through localization keys.
 - the product name `Nox Aeterna` and intended Latin proper names should remain untranslated across all UI languages.
-- built-in date and time picker chrome should follow the selected application culture where possible; when that is insufficient, surrounding helper text should keep the UI understandable.
+- built-in date and time picker chrome should follow the selected application culture; known Fluent segment placeholders are explicitly localized through their dynamic resource keys when culture alone is insufficient.
 
 Current theme direction:
 

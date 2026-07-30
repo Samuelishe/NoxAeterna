@@ -135,9 +135,7 @@ public sealed class JsonLocalizationCatalogLoaderTests
         Assert.Equal("Часовой пояс", GetRequiredText(ruCatalog, "ui.birth_data.timezone"));
         Assert.Equal("Prague, Czechia", GetRequiredText(ruCatalog, "ui.birth_data.birth_city_or_settlement_placeholder"));
         Assert.DoesNotContain("Timezone ID", GetRequiredText(ruCatalog, "ui.birth_data.timezone"));
-        Assert.DoesNotContain("workspace", GetRequiredText(ruCatalog, "ui.astrology.workspace.hint"), StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("sample", GetRequiredText(ruCatalog, "ui.astrology.panel.chart.description"), StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("chart pipeline", GetRequiredText(ruCatalog, "ui.astrology.workspace.hint"), StringComparison.OrdinalIgnoreCase);
+        Assert.Equal("Ввод времени отключён.", GetRequiredText(ruCatalog, "ui.birth_data.unknown_time_status"));
     }
 
     [Fact]
@@ -149,22 +147,17 @@ public sealed class JsonLocalizationCatalogLoaderTests
             "ui.shell.navigation_title",
             "ui.shell.section.astrology",
             "ui.shell.section.settings",
-            "ui.astrology.workspace.hint",
-            "ui.astrology.calculation_status_notice",
             "ui.astrology.panel.chart.title",
             "ui.astrology.panel.birth_data.title",
             "ui.birth_data.birth_date",
-            "ui.birth_data.birth_date_helper",
             "ui.birth_data.birth_time",
-            "ui.birth_data.birth_time_helper",
             "ui.birth_data.birth_time_accuracy",
             "ui.birth_data.birth_city_or_settlement",
             "ui.birth_data.birth_city_or_settlement_placeholder",
-            "ui.birth_data.birth_city_or_settlement_helper",
             "ui.birth_data.latitude",
             "ui.birth_data.longitude",
             "ui.birth_data.timezone",
-            "ui.birth_data.timezone_helper",
+            "ui.birth_data.unknown_time_status",
             "ui.birth_data.validate",
             "ui.chart.positions.title",
             "ui.chart.positions.header.planet",
@@ -208,19 +201,6 @@ public sealed class JsonLocalizationCatalogLoaderTests
             {
                 Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(catalog, key)));
             }
-        }
-    }
-
-    [Fact]
-    public void RealUiCatalogs_KeepWorkspaceSubtitleSeparateFromDemoWarning()
-    {
-        foreach (var language in new[] { "ru", "en" })
-        {
-            var catalog = LoadRealUiCatalog(language);
-            var subtitle = GetRequiredText(catalog, "ui.astrology.workspace.hint");
-            var demoWarning = GetRequiredText(catalog, "ui.astrology.calculation_status_notice");
-
-            Assert.NotEqual(subtitle, demoWarning);
         }
     }
 

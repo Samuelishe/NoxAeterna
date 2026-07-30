@@ -36,4 +36,24 @@ public sealed class ApplicationCultureControllerTests
             CultureInfo.DefaultThreadCurrentUICulture = originalUiCulture;
         }
     }
+
+    [Theory]
+    [InlineData("ru", "день", "месяц", "год", "час", "минута")]
+    [InlineData("en", "day", "month", "year", "hour", "minute")]
+    public void ResolvePickerSegmentLabels_ReturnsApplicationLanguageText(
+        string languageCode,
+        string day,
+        string month,
+        string year,
+        string hour,
+        string minute)
+    {
+        var labels = ApplicationCultureController.ResolvePickerSegmentLabels(new LanguageCode(languageCode));
+
+        Assert.Equal(day, labels.Day);
+        Assert.Equal(month, labels.Month);
+        Assert.Equal(year, labels.Year);
+        Assert.Equal(hour, labels.Hour);
+        Assert.Equal(minute, labels.Minute);
+    }
 }

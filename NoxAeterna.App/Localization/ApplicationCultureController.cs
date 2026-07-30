@@ -1,4 +1,6 @@
 using System.Globalization;
+using Avalonia;
+using Avalonia.Controls;
 using NoxAeterna.Presentation.Localization;
 
 namespace NoxAeterna.App.Localization;
@@ -20,6 +22,11 @@ public static class ApplicationCultureController
         CultureInfo.DefaultThreadCurrentUICulture = culture;
         CultureInfo.CurrentCulture = culture;
         CultureInfo.CurrentUICulture = culture;
+
+        if (Application.Current is { } application)
+        {
+            ApplyPickerSegmentResources(application.Resources, ResolvePickerSegmentLabels(language));
+        }
     }
 
     /// <summary>
@@ -55,6 +62,25 @@ public static class ApplicationCultureController
         return CultureInfo.InvariantCulture;
     }
 
+    /// <summary>
+    /// Resolves the Fluent picker segment labels not supplied by .NET culture.
+    /// </summary>
+    public static DateTimePickerSegmentLabels ResolvePickerSegmentLabels(LanguageCode language) =>
+        language.Value == "ru"
+            ? new("день", "месяц", "год", "час", "минута")
+            : new("day", "month", "year", "hour", "minute");
+
+    private static void ApplyPickerSegmentResources(
+        IResourceDictionary resources,
+        DateTimePickerSegmentLabels labels)
+    {
+        resources["StringDatePickerDayText"] = labels.Day;
+        resources["StringDatePickerMonthText"] = labels.Month;
+        resources["StringDatePickerYearText"] = labels.Year;
+        resources["StringTimePickerHourText"] = labels.Hour;
+        resources["StringTimePickerMinuteText"] = labels.Minute;
+    }
+
     private static string GetSpecificCultureCode(LanguageCode language) =>
         language.Value switch
         {
@@ -63,3 +89,13 @@ public static class ApplicationCultureController
             _ => language.Value
         };
 }
+
+/// <summary>
+/// Provides localized empty-state labels for Avalonia Fluent date/time picker segments.
+/// </summary>
+public sealed record DateTimePickerSegmentLabels(
+    string Day,
+    string Month,
+    string Year,
+    string Hour,
+    string Minute);

@@ -1,10 +1,10 @@
 # Next Steps
 
-The current chart now has render-independent visual lanes, deterministic circular cluster placement, source/display angle separation, project-owned vector glyphs, a clipped render-safe viewport, restrained aspect hierarchy, and a localized four-column positions table.
+The current chart now has render-independent visual lanes, deterministic circular cluster placement, source/display angle separation, project-owned vector glyphs, a clipped render-safe viewport, radius-responsive visual metrics, a chart-dominant width-driven square surface, one scroll owner per workspace column, concise form copy, localized picker segments, and a scrollbar-safe four-column positions table.
 
 Immediate next steps:
 
-1. Obtain a fresh user screenshot and explicit visual confirmation of the stabilized chart at the user's normal display scale.
+1. Obtain fresh standard-window and maximized-window screenshots from the user and explicit visual confirmation of the presentation pass at the user's normal display scale.
 
 2. Apply only focused optical tuning discovered from that screenshot, if needed; do not expand astrology scope during visual review.
 

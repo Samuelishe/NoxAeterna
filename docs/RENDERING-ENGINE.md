@@ -24,11 +24,10 @@ Current implemented direction:
 - `ChartRenderScene`
 - `CircularChartRenderer`
 
-The current renderer is intentionally minimal and technical. It consumes prepared chart geometry and draws:
+The current renderer consumes prepared chart geometry and draws:
 
 - outer chart circle;
-- explicit visual-zone boundaries;
-- zodiac sector separators;
+- zodiac inner boundary and sector separators;
 - aspect lines;
 - project-owned zodiac vector glyphs around the ring;
 - project-owned planetary vector glyphs at geometry-owned slots;
@@ -58,6 +57,10 @@ Current readable-chart foundation details:
 - planet glyphs render directly at geometry-owned display anchors; the previous extra rendering-side radial offset and large white marker circles are gone;
 - true longitude remains visible through a small neutral tick and connector without replacing the astronomical source angle;
 - `ChartViewport` derives a centered square from the complete control bounds, reserves known stroke and vector extents, exposes safe bounds/effective radius, and clips all chart drawing to that square;
+- `ChartVisualMetrics` derives bounded zodiac/planet glyph sizes, glyph/ring strokes, anchor/connector strokes, and an aspect scale from the effective radius;
+- visual geometry grows with the chart while known vector bounds continue to participate in the viewport safety calculation;
+- radial lanes remain geometry contracts, but collision-lane boundaries, aspect-interior bounds, and the reserved future house ring are not drawn as unconditional debug guides;
+- the zodiac band uses only a very low-opacity warm structural wash; dark/light palettes keep the outer rim and vector glyphs more prominent than aspects;
 - zero, non-finite, and too-small surfaces exit without drawing.
 
 ## Boundaries
@@ -117,7 +120,7 @@ Rendering must be DPI-aware and responsive. Chart visuals should scale without b
 
 Future rendering models should include stable dimensions and scale factors so export and on-screen display can share layout logic.
 
-The current options model carries the chart-local palette plus deterministic stroke, glyph-size, border-inset, safety-margin, and minimum-radius values. Known vector unit bounds participate in effective-radius calculation.
+The current options model carries the chart-local palette plus deterministic baseline stroke/glyph values, border inset, safety margin, and minimum radius. `ChartVisualMetrics` scales those visual values from the effective chart radius within explicit caps, and `ChartViewport` iteratively reserves the resulting known vector extents.
 
 ## Assets
 

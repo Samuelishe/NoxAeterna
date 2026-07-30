@@ -50,33 +50,31 @@ public sealed class CircularChartRenderer
         ChartRenderOptions options)
     {
         var structureBrush = new SolidColorBrush(options.Palette.StructureColor);
-        var subtleBrush = new SolidColorBrush(options.Palette.SubtleStructureColor, 0.62d);
+        var zodiacBandBrush = new SolidColorBrush(options.Palette.ZodiacGlyphColor, 0.045d);
+        var zodiacBandMidpoint =
+            (lanes.OuterBoundaryRadiusRatio + lanes.ZodiacRing.InnerRadiusRatio) / 2d;
+        var zodiacBandThickness =
+            (lanes.OuterBoundaryRadiusRatio - lanes.ZodiacRing.InnerRadiusRatio) *
+            viewport.EffectiveRadius;
+
+        DrawCircle(
+            drawingContext,
+            viewport,
+            zodiacBandMidpoint,
+            new Pen(zodiacBandBrush, zodiacBandThickness));
 
         DrawCircle(
             drawingContext,
             viewport,
             lanes.OuterBoundaryRadiusRatio,
-            new Pen(structureBrush, options.OuterCircleStrokeThickness));
+            new Pen(structureBrush, viewport.VisualMetrics.OuterRingStrokeThickness));
         DrawCircle(
             drawingContext,
             viewport,
             lanes.ZodiacRing.InnerRadiusRatio,
-            new Pen(structureBrush, options.SectorLineThickness));
-        DrawCircle(
-            drawingContext,
-            viewport,
-            lanes.PlanetGlyphLane.OuterRadiusRatio,
-            new Pen(subtleBrush, options.SectorLineThickness));
-        DrawCircle(
-            drawingContext,
-            viewport,
-            lanes.PlanetGlyphLane.InnerRadiusRatio,
-            new Pen(subtleBrush, options.SectorLineThickness));
-        DrawCircle(
-            drawingContext,
-            viewport,
-            lanes.AspectInteriorRadiusRatio,
-            new Pen(subtleBrush, options.SectorLineThickness));
+            new Pen(
+                new SolidColorBrush(options.Palette.SubtleStructureColor, 0.82d),
+                viewport.VisualMetrics.StructuralStrokeThickness));
     }
 
     private static void DrawSectorSeparators(
@@ -87,7 +85,7 @@ public sealed class CircularChartRenderer
     {
         var pen = new Pen(
             new SolidColorBrush(options.Palette.StructureColor, 0.8d),
-            options.SectorLineThickness);
+            viewport.VisualMetrics.StructuralStrokeThickness);
 
         foreach (var sector in sectors)
         {
@@ -113,7 +111,12 @@ public sealed class CircularChartRenderer
             var dashStyle = style.DashPattern is { Count: > 0 }
                 ? new DashStyle(style.DashPattern, 0d)
                 : null;
-            var pen = new Pen(brush, style.Thickness, dashStyle);
+            var pen = new Pen(
+                brush,
+                style.Thickness * viewport.VisualMetrics.AspectScale,
+                dashStyle,
+                PenLineCap.Round,
+                PenLineJoin.Round);
             var sourcePoint = ToPoint(viewport, aspectLine.SourcePoint);
             var targetPoint = ToPoint(viewport, aspectLine.TargetPoint);
 
@@ -122,7 +125,8 @@ public sealed class CircularChartRenderer
                 var midpoint = new Point(
                     (sourcePoint.X + targetPoint.X) / 2d,
                     (sourcePoint.Y + targetPoint.Y) / 2d);
-                drawingContext.DrawEllipse(null, pen, midpoint, 2.5d, 2.5d);
+                var markerRadius = 2.5d * viewport.VisualMetrics.AspectScale;
+                drawingContext.DrawEllipse(null, pen, midpoint, markerRadius, markerRadius);
                 continue;
             }
 
@@ -138,8 +142,8 @@ public sealed class CircularChartRenderer
         ChartRenderOptions options)
     {
         var brush = new SolidColorBrush(options.Palette.PlanetAnchorColor, 0.72d);
-        var tickPen = new Pen(brush, 1d);
-        var connectorPen = new Pen(brush, 0.65d);
+        var tickPen = new Pen(brush, viewport.VisualMetrics.AnchorStrokeThickness);
+        var connectorPen = new Pen(brush, viewport.VisualMetrics.ConnectorStrokeThickness);
         var tickInnerRadius = lanes.PlanetGlyphLane.OuterRadiusRatio + 0.012d;
         var tickOuterRadius = Math.Min(
             lanes.ZodiacRing.InnerRadiusRatio - 0.012d,
@@ -171,15 +175,15 @@ public sealed class CircularChartRenderer
             var anchor = ToPoint(viewport, placement.AnchorPoint);
             var unitBounds = placement.Glyph.UnitBounds;
             var targetSize = placement.Style == ChartGlyphStyle.Zodiac
-                ? options.ZodiacGlyphSize
-                : options.PlanetGlyphSize;
+                ? viewport.VisualMetrics.ZodiacGlyphSize
+                : viewport.VisualMetrics.PlanetGlyphSize;
             var scale = targetSize / Math.Max(unitBounds.Width, unitBounds.Height);
             var color = placement.Style == ChartGlyphStyle.Zodiac
                 ? options.Palette.ZodiacGlyphColor
                 : options.Palette.PlanetGlyphColor;
             var pen = new Pen(
                 new SolidColorBrush(color),
-                options.GlyphStrokeThickness / scale,
+                viewport.VisualMetrics.GlyphStrokeThickness / scale,
                 null,
                 PenLineCap.Round,
                 PenLineJoin.Round);
