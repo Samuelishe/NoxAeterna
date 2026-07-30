@@ -34,12 +34,19 @@ public sealed class CircularChartLayoutBuilder
     {
         ArgumentNullException.ThrowIfNull(chart);
 
+        var availableHouses = chart.Houses is { IsAvailable: true, Angles: not null }
+            ? chart.Houses
+            : null;
+        var orientation = availableHouses?.Angles is { } chartAngles
+            ? ChartOrientation.AscendantAtLeft(chartAngles.Ascendant)
+            : ChartOrientation.AriesAtTop;
+
         var zodiacSectors = Enum
             .GetValues<ZodiacSign>()
             .Select(sign => new ZodiacSectorGeometry(
                 sign,
-                new AngularPosition((int)sign * 30d),
-                new AngularPosition(((int)sign + 1) * 30d),
+                orientation.TransformDegrees((int)sign * 30d),
+                orientation.TransformDegrees(((int)sign + 1) * 30d),
                 RadialLanes.ZodiacRing.InnerRadiusRatio,
                 RadialLanes.ZodiacRing.OuterRadiusRatio))
             .ToArray();
@@ -49,9 +56,9 @@ public sealed class CircularChartLayoutBuilder
             .OrderBy(static position => position.Body)
             .Select((position, index) =>
             {
-                var sourceAngle = AngularPosition.FromLongitude(position.EclipticLongitude);
+                var sourceAngle = orientation.Transform(position.EclipticLongitude);
                 var placement = placementsByBody[position.Body];
-                var displayAngle = new AngularPosition(placement.DisplayLongitude);
+                var displayAngle = orientation.TransformDegrees(placement.DisplayLongitude);
                 var radiusRatio = RadialLanes.PlanetSubLaneRadiusRatios[placement.RadialLaneIndex];
                 return new PlanetGlyphSlot(
                     position.Body,
@@ -87,7 +94,103 @@ public sealed class CircularChartLayoutBuilder
             })
             .ToArray();
 
-        return new CircularChartLayout(RadialLanes, zodiacSectors, glyphSlots, aspectLines);
+        var houseCusps = availableHouses is null
+            ? Array.Empty<HouseCuspGeometry>()
+            : BuildHouseCusps(availableHouses, orientation);
+        var houseNumberAnchors = availableHouses is null
+            ? Array.Empty<HouseNumberAnchor>()
+            : BuildHouseNumberAnchors(availableHouses, orientation);
+        var angleAxes = availableHouses?.Angles is null
+            ? Array.Empty<ChartAngleAxisGeometry>()
+            : BuildAngleAxes(availableHouses.Angles, orientation);
+
+        return new CircularChartLayout(
+            RadialLanes,
+            orientation,
+            zodiacSectors,
+            glyphSlots,
+            aspectLines,
+            houseCusps,
+            houseNumberAnchors,
+            angleAxes);
+    }
+
+    private HouseCuspGeometry[] BuildHouseCusps(NatalHouses houses, ChartOrientation orientation) =>
+        houses.Cusps
+            .Select(cusp =>
+            {
+                var displayAngle = orientation.Transform(cusp.Longitude);
+                return new HouseCuspGeometry(
+                    cusp.HouseNumber,
+                    cusp.Longitude,
+                    displayAngle,
+                    new RadialPoint(displayAngle, RadialLanes.HouseRing.InnerRadiusRatio),
+                    new RadialPoint(displayAngle, RadialLanes.ZodiacRing.InnerRadiusRatio));
+            })
+            .ToArray();
+
+    private HouseNumberAnchor[] BuildHouseNumberAnchors(
+        NatalHouses houses,
+        ChartOrientation orientation)
+    {
+        var cusps = houses.Cusps;
+        var anchorRadius = (RadialLanes.HouseNumberLane.InnerRadiusRatio +
+                            RadialLanes.HouseNumberLane.OuterRadiusRatio) / 2d;
+        var anchors = new HouseNumberAnchor[cusps.Count];
+
+        for (var index = 0; index < cusps.Count; index++)
+        {
+            var current = cusps[index];
+            var next = cusps[(index + 1) % cusps.Count];
+            var span = ZodiacLongitude.Normalize(next.Longitude.Degrees - current.Longitude.Degrees);
+            var midpoint = orientation.TransformDegrees(current.Longitude.Degrees + (span / 2d));
+
+            anchors[index] = new HouseNumberAnchor(
+                current.HouseNumber,
+                midpoint,
+                new RadialPoint(midpoint, anchorRadius));
+        }
+
+        return anchors;
+    }
+
+    private ChartAngleAxisGeometry[] BuildAngleAxes(
+        ChartAngles angles,
+        ChartOrientation orientation)
+    {
+        return
+        [
+            BuildAngleAxis(
+                ChartAngleAxisType.AscendantDescendant,
+                angles.Ascendant,
+                angles.Descendant,
+                orientation),
+            BuildAngleAxis(
+                ChartAngleAxisType.MidheavenImumCoeli,
+                angles.Midheaven,
+                angles.ImumCoeli,
+                orientation)
+        ];
+    }
+
+    private ChartAngleAxisGeometry BuildAngleAxis(
+        ChartAngleAxisType axisType,
+        ZodiacLongitude primaryLongitude,
+        ZodiacLongitude oppositeLongitude,
+        ChartOrientation orientation)
+    {
+        var primaryAngle = orientation.Transform(primaryLongitude);
+        var oppositeAngle = orientation.Transform(oppositeLongitude);
+
+        return new ChartAngleAxisGeometry(
+            axisType,
+            primaryLongitude,
+            oppositeLongitude,
+            primaryAngle,
+            oppositeAngle,
+            new RadialPoint(primaryAngle, RadialLanes.ZodiacRing.InnerRadiusRatio),
+            new RadialPoint(oppositeAngle, RadialLanes.ZodiacRing.InnerRadiusRatio),
+            new RadialPoint(primaryAngle, RadialLanes.AngleLabelRadiusRatio));
     }
 
     private IReadOnlyDictionary<CelestialBody, PlanetPlacement> BuildPlanetPlacements(

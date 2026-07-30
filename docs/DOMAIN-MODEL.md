@@ -118,7 +118,7 @@ Calculated chart snapshot for a profile:
 - Birth moment.
 - Planetary positions.
 - Aspects.
-- House system, if used later.
+- Optional typed house structure and chart angles.
 - Ephemeris/version metadata for reproducibility.
 
 Current implemented direction:
@@ -133,8 +133,7 @@ The current `NatalChart` is intentionally minimal:
 - read-only `PlanetPosition` collection
 - read-only calculated major aspects
 - optional ephemeris source metadata
-
-Houses remain out of scope for the current model.
+- optional `NatalHouses`, including an explicit unavailable state when a chart has no trustworthy house calculation
 
 ### PlanetPosition
 
@@ -167,6 +166,17 @@ Twelve-sign zodiac enum or value object. It should be derived from normalized lo
 ### House
 
 House number and cusp position. House system support should be explicit and reproducible.
+
+Current implemented direction:
+
+- `HouseSystem` explicitly identifies Placidus as the first implemented system;
+- `HouseNumber` accepts only values 1 through 12;
+- `HouseCusp` combines a validated house number with normalized `ZodiacLongitude`;
+- `ChartAngles` stores ASC and MC and derives the exact opposite DSC and IC values;
+- `NatalHouses` owns exactly 12 unique cusps in deterministic numeric order, validates cusp 1 against ASC and cusp 10 against MC, and exposes read-only collections;
+- `NatalHousesAvailability` distinguishes complete data, unknown-time unavailability, and calculation unavailability.
+
+House cusps and angles are not celestial bodies and are not stored as `PlanetPosition`.
 
 ### Aspect
 

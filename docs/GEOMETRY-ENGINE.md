@@ -79,7 +79,7 @@ Geometry must not return Avalonia controls, brushes, pens, `DrawingContext`, or 
 
 Geometry prepares layout. Rendering decides visual materialization.
 
-The current builder consumes `NatalChart` and produces deterministic zodiac sectors, planet glyph slots, and aspect line geometry without Avalonia types.
+The current builder consumes `NatalChart` and produces deterministic zodiac sectors, planet glyph slots, aspect lines, house cusps, house-number anchors, and principal-angle axes without Avalonia types.
 
 ## Render Contract Handoff
 
@@ -118,13 +118,17 @@ Collision behavior should be tested with dense planet clusters.
 
 Current implemented status:
 
-- named non-overlapping zones for the outer boundary, zodiac ring, zodiac glyph lane, planet glyph lane, aspect interior, and a geometry-only reserved future house ring;
+- named non-overlapping zones for the outer boundary, zodiac ring, zodiac glyph lane, planet glyph lane, real house ring, house-number lane, and aspect interior;
 - four ordered planet sub-lanes that remain entirely inside the planet lane;
 - circular cluster detection by cutting the sorted longitude sequence after its largest gap, so clusters crossing `359°/0°` stay intact;
 - deterministic tie-breaking by `CelestialBody`, input-order independence, and stable repeated builds;
 - bounded symmetric angular spreading for close clusters, combined with ordered radial sub-lanes and minimum same-lane separation;
 - explicit source astronomical longitude/angle and separate display angle on `PlanetGlyphSlot`;
 - aspect endpoints always use source angles and stay inside `AspectInteriorRadiusRatio`.
+- `ChartOrientation` applies one source-longitude-to-chart-angle transform to zodiac sectors, planets, source ticks, aspects, house cusps, and axes;
+- available houses place the Ascendant at chart-space 270 degrees (9 o'clock), while unavailable or absent houses preserve Aries at chart-space 0 degrees;
+- source `ZodiacLongitude` values remain unchanged by both chart rotation and collision display nudges;
+- 12 cusp lines extend from the house-ring interior to the zodiac inner boundary, 12 numeric anchors sit inside `HouseNumberLane`, and two diameter axes represent ASC–DSC and MC–IC.
 
 The current solver is deliberately small and deterministic. It does not use viewport pixels, font metrics, physics, randomness, or a general-purpose optimizer.
 
@@ -133,7 +137,7 @@ The current solver is deliberately small and deterministic. It does not use view
 From the center outward:
 
 1. Aspect interior.
-2. Reserved future house-ring basis; no houses or cusps are implemented.
+2. House ring containing the dedicated house-number lane.
 3. Planet glyph lane with ordered sub-lanes.
 4. Zodiac ring containing a separate zodiac glyph lane.
 5. Outer chart boundary below normalized radius `0.98`.

@@ -949,3 +949,33 @@ Next actions:
 
 - Request fresh standard and maximized screenshots from the user for presentation approval.
 - Do not choose between external `.se1` setup and houses + ASC/MC until that visual confirmation.
+
+## 2026-07-30: Natal Houses Foundation
+
+Summary:
+
+- Added typed domain models for an explicit `HouseSystem`, validated house numbers and cusps, principal chart angles, complete read-only natal houses, and honest unavailable states.
+- Kept planet calculation behind `IEphemerisCalculator` and introduced a separate provider-independent `IHouseCalculator` boundary.
+- Verified the actual SwissEphNet 2.8.0.2 house API before changing contracts, then implemented explicit Placidus calculation in Infrastructure with Julian Day UT, geographic coordinates, cusp/angle validation, and strict rejection of high-latitude error/fallback arrays.
+- Extended the chart pipeline so ExactTime and ApproximateTime calculate houses, while UnknownTime retains the existing noon policy only for planets and never calls the house calculator.
+- Added one geometry-owned orientation transform: available Ascendants map to 9 o'clock, all chart layers rotate together, and charts without houses remain Aries-at-top.
+- Replaced the reserved future-house interval with a real house ring and house-number lane; added 12 cusp lines, 12 number anchors, ASC–DSC and MC–IC axes, and provider-independent scene contracts.
+- Rendered restrained house lines and stronger principal axes below project-owned vector glyphs, with compact `ASC`/`MC` labels and bounded responsive text/line metrics.
+- Added a localized ASC/MC degree-and-minute summary below the planet table, localized unavailable messages, and removed the empty `Context and interpretation` card from the current workspace.
+- Added focused domain, astronomy, Infrastructure, pipeline, UnknownTime, geometry, rendering, presentation, localization, and deterministic startup tests.
+
+Verification:
+
+- Baseline matched `93e145aa7607e28b94518179099a7bd269b3cb6e`; the worktree was clean and restore/build plus 208/208 tests passed before edits.
+- Current build succeeds with no warnings and 232/232 tests pass.
+- The real startup fixture produces 12 finite Placidus cusps, normalized ASC/MC, ASC at chart-space 270 degrees, and a matching localized summary.
+- Windows smoke covered the startup ExactTime chart, a rebuilt ApproximateTime chart, a rebuilt UnknownTime chart, `1180x760`, `1360x860`, maximized layout, RU/EN, dark/light themes, and left-column scrolling through the positions and angle summaries.
+- Known-time standard and maximized screenshots plus an UnknownTime screenshot were generated under the local temporary directory only and were not added to the repository.
+- UnknownTime retained planetary positions and aspects, rendered no house cusps or axes, and displayed the localized unavailable status.
+- A high-latitude Placidus fixture returned typed unavailability without exposing the provider's fallback cusp arrays.
+- No new dependency, external asset, `.se1` data, persistence, geocoding, interpretation, Tarot, transit, synastry, export, or animation work was added.
+
+Next actions:
+
+- Request user screenshots for both known-time and UnknownTime charts and obtain visual confirmation of house-line density, number placement, and angle labels.
+- Numerically compare ASC, MC, and twelve cusps for a known fixture against a trusted reference before selecting any later `.se1`, persistence, or interpretation stage.

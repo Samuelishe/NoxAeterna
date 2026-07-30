@@ -17,7 +17,9 @@ public sealed record ChartRadialLanes
         RadialLaneBounds planetGlyphLane,
         IEnumerable<double> planetSubLaneRadiusRatios,
         double aspectInteriorRadiusRatio,
-        RadialLaneBounds futureHouseRing)
+        RadialLaneBounds houseRing,
+        RadialLaneBounds houseNumberLane,
+        double angleLabelRadiusRatio)
     {
         if (!double.IsFinite(outerBoundaryRadiusRatio) ||
             outerBoundaryRadiusRatio <= 0d ||
@@ -35,6 +37,15 @@ public sealed record ChartRadialLanes
             throw new ArgumentOutOfRangeException(
                 nameof(aspectInteriorRadiusRatio),
                 "Aspect interior radius must be a finite number in the range (0, 1].");
+        }
+
+        if (!double.IsFinite(angleLabelRadiusRatio) ||
+            angleLabelRadiusRatio <= 0d ||
+            angleLabelRadiusRatio > 1d)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(angleLabelRadiusRatio),
+                "Angle label radius must be a finite number in the range (0, 1].");
         }
 
         var copiedSubLanes = (planetSubLaneRadiusRatios ??
@@ -61,8 +72,12 @@ public sealed record ChartRadialLanes
             zodiacGlyphLane.InnerRadiusRatio < zodiacRing.InnerRadiusRatio ||
             zodiacGlyphLane.OuterRadiusRatio > zodiacRing.OuterRadiusRatio ||
             planetGlyphLane.OuterRadiusRatio >= zodiacGlyphLane.InnerRadiusRatio ||
-            futureHouseRing.OuterRadiusRatio >= planetGlyphLane.InnerRadiusRatio ||
-            aspectInteriorRadiusRatio >= futureHouseRing.InnerRadiusRatio)
+            houseRing.OuterRadiusRatio >= planetGlyphLane.InnerRadiusRatio ||
+            houseNumberLane.InnerRadiusRatio < houseRing.InnerRadiusRatio ||
+            houseNumberLane.OuterRadiusRatio > houseRing.OuterRadiusRatio ||
+            aspectInteriorRadiusRatio >= houseRing.InnerRadiusRatio ||
+            angleLabelRadiusRatio <= planetGlyphLane.OuterRadiusRatio ||
+            angleLabelRadiusRatio >= zodiacRing.InnerRadiusRatio)
         {
             throw new ArgumentException("Chart radial zones must be ordered, contained, and non-overlapping.");
         }
@@ -73,7 +88,9 @@ public sealed record ChartRadialLanes
         PlanetGlyphLane = planetGlyphLane;
         PlanetSubLaneRadiusRatios = Array.AsReadOnly(copiedSubLanes);
         AspectInteriorRadiusRatio = aspectInteriorRadiusRatio;
-        FutureHouseRing = futureHouseRing;
+        HouseRing = houseRing;
+        HouseNumberLane = houseNumberLane;
+        AngleLabelRadiusRatio = angleLabelRadiusRatio;
     }
 
     /// <summary>
@@ -86,7 +103,9 @@ public sealed record ChartRadialLanes
         planetGlyphLane: new RadialLaneBounds(0.57d, 0.72d),
         planetSubLaneRadiusRatios: DefaultPlanetSubLaneRadii,
         aspectInteriorRadiusRatio: 0.47d,
-        futureHouseRing: new RadialLaneBounds(0.495d, 0.545d));
+        houseRing: new RadialLaneBounds(0.495d, 0.55d),
+        houseNumberLane: new RadialLaneBounds(0.505d, 0.54d),
+        angleLabelRadiusRatio: 0.755d);
 
     /// <summary>
     /// Gets the normalized outer chart boundary.
@@ -119,8 +138,17 @@ public sealed record ChartRadialLanes
     public double AspectInteriorRadiusRatio { get; }
 
     /// <summary>
-    /// Gets geometry reserved for a possible future house ring.
+    /// Gets the radial bounds of the house-number structure.
     /// </summary>
-    /// <remarks>No houses or house cusps are produced by the current layout.</remarks>
-    public RadialLaneBounds FutureHouseRing { get; }
+    public RadialLaneBounds HouseRing { get; }
+
+    /// <summary>
+    /// Gets the lane containing house-number anchors.
+    /// </summary>
+    public RadialLaneBounds HouseNumberLane { get; }
+
+    /// <summary>
+    /// Gets the radius used for compact ASC and MC labels between planet and zodiac lanes.
+    /// </summary>
+    public double AngleLabelRadiusRatio { get; }
 }

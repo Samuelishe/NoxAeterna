@@ -298,3 +298,35 @@ Decision: Render all current chart zodiac and planet symbols from original proje
 Reason: Unicode variation selectors and platform font fallback produced inconsistent emoji-style boxes and non-deterministic bounds.
 
 Consequences: The chart no longer depends on emoji fonts, external fonts, or image assets. The 22 current paths are functional technical graphics and can receive later optical refinement without changing geometry contracts.
+
+## 2026-07-30: Use Placidus as the Explicit First House System
+
+Decision: Model house systems explicitly and implement `HouseSystem.Placidus` as the only current option without adding a selector or a silent fallback.
+
+Reason: House results must be reproducible, and a provider error must not silently change the astrological method.
+
+Consequences: Every house request carries its system. Unsupported geographic conditions yield a typed unavailable result while the planetary chart remains usable.
+
+## 2026-07-30: Keep House Calculation Behind a Separate Astronomy Boundary
+
+Decision: Keep `IEphemerisCalculator` focused on celestial positions and introduce `IHouseCalculator` with provider-independent request and result contracts.
+
+Reason: Cusps and chart angles are location- and time-sensitive chart structure, not planets or synthetic celestial bodies.
+
+Consequences: SwissEphNet constants, array indexing, system codes, and calls remain inside Infrastructure. Domain, geometry, rendering, and presentation receive only project-owned types.
+
+## 2026-07-30: Orient House Charts With the Ascendant at Left
+
+Decision: Apply one geometry-owned transform that places an available Ascendant at chart-space 270 degrees, while charts without houses remain Aries-at-top.
+
+Reason: Zodiac sectors, planets, source ticks, aspects, cusps, and axes must rotate as one coherent chart instead of applying renderer-specific offsets.
+
+Consequences: MC remains at its calculated transformed angle and is not forced to the top. Original zodiac longitudes remain unchanged and distinct from rotated chart angles.
+
+## 2026-07-30: Unknown Birth Time Forbids Houses and Chart Angles
+
+Decision: Never use the technical noon fallback to calculate or orient houses, ASC, MC, DSC, or IC.
+
+Reason: Planet positions can use a documented approximation when time is absent, but houses and principal angles change too materially for noon data to be presented as natal structure.
+
+Consequences: `UnknownTime` keeps planetary positions, stores an explicit unavailable status, renders no house geometry, preserves Aries-at-top orientation, and shows a short localized UI message.

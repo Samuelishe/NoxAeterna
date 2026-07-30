@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Media;
+using System.Globalization;
 using NoxAeterna.Domain.Astrology;
 using NoxAeterna.Geometry.Charts;
 
@@ -37,10 +38,113 @@ public sealed class CircularChartRenderer
 
         DrawZoneBoundaries(drawingContext, viewport, scene.Layout.RadialLanes, options);
         DrawSectorSeparators(drawingContext, viewport, scene.ZodiacSectors, options);
-        DrawAspectLines(drawingContext, viewport, scene.AspectLines);
         DrawPlanetAnchors(drawingContext, viewport, scene.PlanetGlyphSlots, scene.Layout.RadialLanes, options);
+        DrawAspectLines(drawingContext, viewport, scene.AspectLines);
+        DrawHouseCusps(drawingContext, viewport, scene.HouseCusps, options);
+        DrawAngleAxes(drawingContext, viewport, scene.AngleAxes, options);
+        DrawHouseNumbers(drawingContext, viewport, scene.HouseNumberAnchors, options);
+        DrawAngleLabels(drawingContext, viewport, scene.AngleAxes, options);
         DrawVectorGlyphs(drawingContext, viewport, scene.ZodiacGlyphs, options);
         DrawVectorGlyphs(drawingContext, viewport, scene.PlanetGlyphs, options);
+    }
+
+    private static void DrawHouseCusps(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        IEnumerable<HouseCuspGeometry> houseCusps,
+        ChartRenderOptions options)
+    {
+        var style = ChartHouseStyleCatalog.GetCusp(options.Palette);
+        var pen = new Pen(
+            new SolidColorBrush(style.Color, style.Opacity),
+            viewport.VisualMetrics.HouseCuspStrokeThickness * style.ThicknessScale);
+
+        foreach (var cusp in houseCusps)
+        {
+            drawingContext.DrawLine(
+                pen,
+                ToPoint(viewport, cusp.InnerPoint),
+                ToPoint(viewport, cusp.OuterPoint));
+        }
+    }
+
+    private static void DrawAngleAxes(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        IEnumerable<ChartAngleAxisGeometry> angleAxes,
+        ChartRenderOptions options)
+    {
+        foreach (var axis in angleAxes)
+        {
+            var style = ChartHouseStyleCatalog.GetAxis(axis.AxisType, options.Palette);
+            var pen = new Pen(
+                new SolidColorBrush(style.Color, style.Opacity),
+                viewport.VisualMetrics.AngleAxisStrokeThickness * style.ThicknessScale,
+                null,
+                PenLineCap.Round,
+                PenLineJoin.Round);
+
+            drawingContext.DrawLine(
+                pen,
+                ToPoint(viewport, axis.PrimaryPoint),
+                ToPoint(viewport, axis.OppositePoint));
+        }
+    }
+
+    private static void DrawHouseNumbers(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        IEnumerable<HouseNumberAnchor> anchors,
+        ChartRenderOptions options)
+    {
+        foreach (var anchor in anchors)
+        {
+            DrawCenteredText(
+                drawingContext,
+                anchor.HouseNumber.ToString(),
+                ToPoint(viewport, anchor.AnchorPoint),
+                viewport.VisualMetrics.HouseNumberFontSize,
+                new SolidColorBrush(options.Palette.HouseLabelColor, 0.82d));
+        }
+    }
+
+    private static void DrawAngleLabels(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        IEnumerable<ChartAngleAxisGeometry> axes,
+        ChartRenderOptions options)
+    {
+        foreach (var axis in axes)
+        {
+            var label = axis.AxisType == ChartAngleAxisType.AscendantDescendant ? "ASC" : "MC";
+            DrawCenteredText(
+                drawingContext,
+                label,
+                ToPoint(viewport, axis.LabelAnchor),
+                viewport.VisualMetrics.AngleLabelFontSize,
+                new SolidColorBrush(options.Palette.AngleAxisColor, 0.94d));
+        }
+    }
+
+    private static void DrawCenteredText(
+        DrawingContext drawingContext,
+        string text,
+        Point anchor,
+        double fontSize,
+        IBrush brush)
+    {
+        var formattedText = new FormattedText(
+            text,
+            CultureInfo.InvariantCulture,
+            FlowDirection.LeftToRight,
+            Typeface.Default,
+            fontSize,
+            brush);
+        var origin = new Point(
+            anchor.X - (formattedText.Width / 2d),
+            anchor.Y - (formattedText.Height / 2d));
+
+        drawingContext.DrawText(formattedText, origin);
     }
 
     private static void DrawZoneBoundaries(

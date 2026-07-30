@@ -43,7 +43,8 @@ Current implemented direction:
 - The current deterministic resolver policy is:
   - ambiguous local times resolve to the earlier occurrence;
   - invalid local times shift forward by the gap duration.
-  - unknown birth time may still be resolved for the demo chart flow by applying a technical noon fallback while preserving `BirthTimeAccuracy.UnknownTime` in the final `BirthMoment`.
+  - unknown birth time may still be resolved for planet positions by applying a technical noon fallback while preserving `BirthTimeAccuracy.UnknownTime` in the final `BirthMoment`;
+  - that fallback is never used for houses, chart angles, or Ascendant-oriented chart rotation.
 
 This is an MVP resolution strategy, not the final breadth of time-resolution options.
 
@@ -69,6 +70,8 @@ Current contract direction:
 - `IEphemerisCalculator`
 - `DevelopmentEphemerisCalculator` as a temporary development-only implementation
 - `SwissEphemerisCalculator` in `NoxAeterna.Infrastructure` as the first real ephemeris-backed adapter using `SwissEphNet`
+- a separate `IHouseCalculator`, `HouseCalculationRequest`, and `HouseCalculationResult` boundary for house cusps and chart angles
+- `SwissEphemerisHouseCalculator` in Infrastructure as the first explicit Placidus implementation
 
 The current contract is synchronous and deterministic. It does not expose Swiss Ephemeris package types.
 The development-only implementation remains intentionally fake and must not be presented as real astronomy.
@@ -81,6 +84,26 @@ Current real-integration spike:
 - This still produces real astronomical positions and retrograde state, but it is not the final high-precision Swiss-data setup.
 - Formal project-license alignment and external ephemeris data packaging remain open follow-up items. See `KNOWN-PROBLEMS.md`.
 - The visible astrology workspace now exposes these real positions through readable chart glyphs and a positions summary list.
+
+## Natal Houses
+
+House calculation is deliberately separate from planetary ephemeris calculation:
+
+```text
+HouseCalculationRequest
+-> IHouseCalculator
+-> SwissEphemerisHouseCalculator
+-> HouseCalculationResult
+-> NatalHouses
+```
+
+The provider-independent request contains a resolved known or approximate `BirthMoment`, validated `BirthLocation`, and explicit `HouseSystem`. The first implementation maps `HouseSystem.Placidus` to Swiss Ephemeris inside Infrastructure only.
+
+The SwissEphNet adapter uses Julian Day UT, geographic latitude and east-positive longitude, reads cusps 1 through 12 plus ASC and MC, validates finite output, and rejects every non-success return code. This last check is essential because Swiss Ephemeris may fill result arrays with a fallback structure when Placidus itself is unavailable at high latitudes; those values are never exposed as Placidus houses.
+
+No silent fallback to another house system exists. A typed unavailable result preserves the planetary chart without fabricating cusps or angles.
+
+`BirthTimeAccuracy.UnknownTime` is a hard calculation boundary: the app does not call `IHouseCalculator`, stores `UnavailableUnknownTime`, keeps the existing planet-position policy, and renders an Aries-at-top chart without houses.
 
 ## Coordinate Conventions
 
@@ -152,7 +175,7 @@ Current implemented direction:
 - `PlanetaryAspectCalculator` lives in `NoxAeterna.Domain`.
 - `NatalChart` can be created from a resolved `BirthMoment` and calculated `PlanetPosition` values, then derive major aspects without any Swiss Ephemeris-specific types.
 
-This remains a minimal chart snapshot. Houses, transits, and ephemeris-backed astronomy calculations are still separate concerns.
+The chart snapshot now optionally carries typed natal houses and principal angles. Transits and additional astronomy calculations remain separate concerns.
 
 ## Retrogrades
 

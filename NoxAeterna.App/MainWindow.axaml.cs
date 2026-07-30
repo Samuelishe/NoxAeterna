@@ -58,7 +58,8 @@ public partial class MainWindow : Window
         _astrologyChartCoordinator = new DevelopmentAstrologyChartCoordinator(
             new DevelopmentAstrologyChartPipeline(
                 new TzdbBirthMomentResolver(),
-                new SwissEphemerisCalculator()),
+                new SwissEphemerisCalculator(),
+                new SwissEphemerisHouseCalculator()),
             DevelopmentSampleChartBuildResultFactory.Create());
 
         RefreshShell();

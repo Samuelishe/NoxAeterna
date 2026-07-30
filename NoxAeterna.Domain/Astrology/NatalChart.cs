@@ -14,12 +14,14 @@ public sealed record NatalChart
     /// <param name="positions">The calculated planetary positions.</param>
     /// <param name="aspects">The detected planetary aspects.</param>
     /// <param name="ephemerisSourceVersion">The optional ephemeris source metadata.</param>
+    /// <param name="houses">Optional house data or an explicit unavailable house status.</param>
     /// <exception cref="ArgumentException">Thrown when duplicate celestial bodies are present or an aspect references a body without a position.</exception>
     public NatalChart(
         BirthMoment birthMoment,
         IEnumerable<PlanetPosition> positions,
         IEnumerable<CalculatedAspect> aspects,
-        string? ephemerisSourceVersion = null)
+        string? ephemerisSourceVersion = null,
+        NatalHouses? houses = null)
     {
         var copiedPositions = (positions ?? throw new ArgumentNullException(nameof(positions)))
             .OrderBy(static position => position.Body)
@@ -58,6 +60,7 @@ public sealed record NatalChart
         Positions = Array.AsReadOnly(copiedPositions);
         Aspects = Array.AsReadOnly(copiedAspects);
         EphemerisSourceVersion = string.IsNullOrWhiteSpace(ephemerisSourceVersion) ? null : ephemerisSourceVersion.Trim();
+        Houses = houses;
     }
 
     /// <summary>
@@ -81,22 +84,29 @@ public sealed record NatalChart
     public string? EphemerisSourceVersion { get; }
 
     /// <summary>
+    /// Gets optional natal house data. Legacy and intentionally house-free charts may omit it.
+    /// </summary>
+    public NatalHouses? Houses { get; }
+
+    /// <summary>
     /// Creates a natal chart snapshot and calculates major aspects from the supplied positions.
     /// </summary>
     /// <param name="birthMoment">The resolved birth moment used for calculation.</param>
     /// <param name="positions">The calculated planetary positions.</param>
     /// <param name="aspectOrbDegrees">The allowed orb in degrees for aspect detection.</param>
     /// <param name="ephemerisSourceVersion">The optional ephemeris source metadata.</param>
+    /// <param name="houses">Optional house data or an explicit unavailable house status.</param>
     /// <returns>A new natal chart snapshot with detected major aspects.</returns>
     public static NatalChart Create(
         BirthMoment birthMoment,
         IEnumerable<PlanetPosition> positions,
         double aspectOrbDegrees = AspectMath.DefaultOrbDegrees,
-        string? ephemerisSourceVersion = null)
+        string? ephemerisSourceVersion = null,
+        NatalHouses? houses = null)
     {
         var copiedPositions = (positions ?? throw new ArgumentNullException(nameof(positions))).ToArray();
         var calculatedAspects = PlanetaryAspectCalculator.Calculate(copiedPositions, aspectOrbDegrees);
 
-        return new NatalChart(birthMoment, copiedPositions, calculatedAspects, ephemerisSourceVersion);
+        return new NatalChart(birthMoment, copiedPositions, calculatedAspects, ephemerisSourceVersion, houses);
     }
 }

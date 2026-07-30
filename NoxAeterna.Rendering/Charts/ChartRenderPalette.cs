@@ -10,7 +10,10 @@ public sealed record ChartRenderPalette(
     Color SubtleStructureColor,
     Color ZodiacGlyphColor,
     Color PlanetGlyphColor,
-    Color PlanetAnchorColor)
+    Color PlanetAnchorColor,
+    Color HouseCuspColor,
+    Color AngleAxisColor,
+    Color HouseLabelColor)
 {
     /// <summary>
     /// Gets the restrained palette for a dark preview surface.
@@ -20,7 +23,10 @@ public sealed record ChartRenderPalette(
         Color.FromRgb(116, 105, 88),
         Color.FromRgb(211, 179, 116),
         Color.FromRgb(238, 222, 190),
-        Color.FromRgb(169, 156, 132));
+        Color.FromRgb(169, 156, 132),
+        Color.FromRgb(132, 121, 101),
+        Color.FromRgb(203, 174, 117),
+        Color.FromRgb(192, 174, 139));
 
     /// <summary>
     /// Gets the restrained palette for a light preview surface.
@@ -30,5 +36,8 @@ public sealed record ChartRenderPalette(
         Color.FromRgb(158, 139, 112),
         Color.FromRgb(132, 91, 39),
         Color.FromRgb(67, 52, 34),
-        Color.FromRgb(123, 102, 75));
+        Color.FromRgb(123, 102, 75),
+        Color.FromRgb(151, 132, 105),
+        Color.FromRgb(112, 78, 39),
+        Color.FromRgb(99, 78, 52));
 }

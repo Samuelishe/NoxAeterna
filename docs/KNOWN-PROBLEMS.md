@@ -15,6 +15,12 @@ The first spike now uses `SwissEphNet`, but several open items remain:
 
 Chart symbols no longer depend on Unicode, emoji presentation, or platform font fallback. The current 22 project-owned paths are clean functional graphics, but they are not a final artistic glyph system and may need later optical refinement after user visual review.
 
+## Placidus Geographic Availability and Verification
+
+Placidus is the explicit first house system and may be unavailable at high geographic latitudes. The current adapter treats every Swiss Ephemeris error return as unavailable and deliberately ignores any fallback cusp arrays, preserving the planet chart without fake houses.
+
+The initial Prague fixture, chart rotation, and ASC/MC summary are deterministic and tested. Broader numerical comparison against trusted reference charts and cross-platform visual review remain required before treating the house presentation as fully validated.
+
 ## Birth Place to Timezone Resolution
 
 Birth location to timezone mapping needs design.

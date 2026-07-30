@@ -19,6 +19,7 @@ public sealed class AstrologyWorkspaceControl : UserControl
     private readonly DevelopmentAstrologyChartCoordinator _chartCoordinator;
     private AstrologyChartSurfaceControl? _chartSurfaceControl;
     private PlanetPositionSummaryControl? _positionSummaryControl;
+    private ChartAngleSummaryControl? _angleSummaryControl;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AstrologyWorkspaceControl"/> class.
@@ -45,10 +46,8 @@ public sealed class AstrologyWorkspaceControl : UserControl
     {
         var chartPanel = _viewModel.Panels.First(panel => panel.Id == AstrologyWorkspacePanelId.Chart);
         var birthDataPanel = _viewModel.Panels.First(panel => panel.Id == AstrologyWorkspacePanelId.BirthData);
-        var interpretationPanel = _viewModel.Panels.First(panel => panel.Id == AstrologyWorkspacePanelId.Interpretation);
         var sidePanelStack = new StackPanel
         {
-            Spacing = 16,
             Children =
             {
                 CreatePanelContainer(
@@ -57,8 +56,7 @@ public sealed class AstrologyWorkspaceControl : UserControl
                         _viewModel.BirthDataInput,
                         _localizationProvider,
                         _applicationLanguage,
-                        TryBuildChartFromInput)),
-                CreatePlaceholderPanel(interpretationPanel)
+                        TryBuildChartFromInput))
             }
         };
 
@@ -114,6 +112,10 @@ public sealed class AstrologyWorkspaceControl : UserControl
             _localizationProvider,
             _applicationLanguage,
             PlanetPositionSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
+        _angleSummaryControl = new ChartAngleSummaryControl(
+            _localizationProvider,
+            _applicationLanguage,
+            ChartAngleSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
 
         var chartContent = new StackPanel
         {
@@ -125,21 +127,13 @@ public sealed class AstrologyWorkspaceControl : UserControl
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     Child = _chartSurfaceControl
                 },
-                _positionSummaryControl
+                _positionSummaryControl,
+                _angleSummaryControl
             }
         };
 
         return chartContent;
     }
-
-    private Control CreatePlaceholderPanel(AstrologyWorkspacePanel panel) =>
-        CreatePanelContainer(
-            panel,
-            new Border
-            {
-                Height = 1,
-                Opacity = 0
-            });
 
     private Control CreatePanelContainer(AstrologyWorkspacePanel panel, Control content) =>
         CreatePanelContainerCore(panel, content);
@@ -189,6 +183,7 @@ public sealed class AstrologyWorkspaceControl : UserControl
         {
             _chartSurfaceControl?.SetScene(_chartCoordinator.CurrentScene);
             _positionSummaryControl?.SetRows(PlanetPositionSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
+            _angleSummaryControl?.SetSummary(ChartAngleSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
         }
 
         return rebuilt;

@@ -85,8 +85,11 @@ Current birth-input direction:
 - timezone selection should come from local TZDB data, not a raw free-text field;
 - manual coordinates remain the offline-first fallback and are required for honest calculation later.
 - validation errors should appear after an attempted build, while obvious date, time, location, and TZDB instructions should not remain as permanent paragraphs.
-- the chart area should now remain readable through zodiac and planetary glyph labeling plus a compact positions summary, even before houses and interpretation exist.
+- the chart area now combines the accepted responsive zodiac/planet presentation with a restrained house structure when a trustworthy time is available.
 - positions summaries are one shared four-column grid with localized `Planet`, `Sign`, `Position`, and `Retrograde` headers; position values keep minute precision and align right, while retrograde state has its own centered column.
+- a compact localized `Chart angles` block below the positions table shows Ascendant and Midheaven sign plus degree/minute values; unknown time shows only a short unavailable status.
+- the empty `Context and interpretation` card is not materialized until real content exists, although its future workspace metadata may remain.
+- known and approximate times calculate houses; unknown time disables the time control and never presents noon-fallback houses.
 - the main positions table intentionally relies on localized names rather than platform astrology glyphs, so it remains understandable without font fallback.
 - chart-local zodiac and planet symbols are original monochrome vector paths with deterministic bounds; they are functional technical graphics rather than a final artistic font.
 - chart, table, and form should fit the default window without row overlap; the chart host follows available width while the table remains below it through left-column scrolling.

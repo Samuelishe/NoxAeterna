@@ -14,16 +14,19 @@ public sealed class DevelopmentAstrologyChartPipeline
 {
     private readonly IBirthMomentResolver _birthMomentResolver;
     private readonly IEphemerisCalculator _ephemerisCalculator;
+    private readonly IHouseCalculator _houseCalculator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DevelopmentAstrologyChartPipeline"/> class.
     /// </summary>
     public DevelopmentAstrologyChartPipeline(
         IBirthMomentResolver birthMomentResolver,
-        IEphemerisCalculator ephemerisCalculator)
+        IEphemerisCalculator ephemerisCalculator,
+        IHouseCalculator houseCalculator)
     {
         _birthMomentResolver = birthMomentResolver ?? throw new ArgumentNullException(nameof(birthMomentResolver));
         _ephemerisCalculator = ephemerisCalculator ?? throw new ArgumentNullException(nameof(ephemerisCalculator));
+        _houseCalculator = houseCalculator ?? throw new ArgumentNullException(nameof(houseCalculator));
     }
 
     /// <summary>
@@ -40,15 +43,41 @@ public sealed class DevelopmentAstrologyChartPipeline
             Enum.GetValues<CelestialBody>(),
             locationContext: birthData.BirthLocation);
         var calculationResult = _ephemerisCalculator.Calculate(calculationRequest);
+        var houses = CalculateHouses(birthData, calculationMoment);
         var natalChart = NatalChart.Create(
             calculationMoment,
             calculationResult.Positions,
-            ephemerisSourceVersion: calculationResult.EphemerisSourceVersion);
+            ephemerisSourceVersion: calculationResult.EphemerisSourceVersion,
+            houses: houses);
 
         var layout = new CircularChartLayoutBuilder().Build(natalChart);
         var renderScene = ChartRenderScene.FromLayout(layout);
 
         return new DevelopmentChartBuildResult(natalChart, renderScene);
+    }
+
+    private NatalHouses CalculateHouses(BirthData birthData, BirthMoment calculationMoment)
+    {
+        const HouseSystem houseSystem = HouseSystem.Placidus;
+
+        if (birthData.BirthTimeAccuracy == BirthTimeAccuracy.UnknownTime)
+        {
+            return NatalHouses.CreateUnavailable(
+                houseSystem,
+                NatalHousesAvailability.UnavailableUnknownTime);
+        }
+
+        var result = _houseCalculator.Calculate(
+            new HouseCalculationRequest(
+                calculationMoment,
+                birthData.BirthLocation,
+                houseSystem));
+
+        return result.Houses ??
+               NatalHouses.CreateUnavailable(
+                   houseSystem,
+                   NatalHousesAvailability.UnavailableCalculation,
+                   result.SourceMetadata);
     }
 
     private static BirthData CreateResolvableBirthData(BirthData birthData, TimeSpan technicalBirthTimeFallback)

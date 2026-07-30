@@ -240,6 +240,117 @@ public sealed class CircularChartLayoutBuilderTests
             });
     }
 
+    [Fact]
+    public void Build_WithHousesPlacesAscendantAtLeftAndUsesOneRotationEverywhere()
+    {
+        var chart = CreateChartWithHouses();
+
+        var layout = new CircularChartLayoutBuilder().Build(chart);
+
+        Assert.True(layout.Orientation.IsAscendantOriented);
+        Assert.Equal(270d, layout.Orientation.Transform(new ZodiacLongitude(15d)).Degrees, precision: 10);
+        Assert.Equal(255d, layout.ZodiacSectors[0].StartAngle.Degrees, precision: 10);
+
+        var sunSlot = layout.PlanetGlyphSlots.Single(slot => slot.Body == CelestialBody.Sun);
+        Assert.Equal(10d, sunSlot.Longitude.Degrees, precision: 10);
+        Assert.Equal(265d, sunSlot.SourceAngle.Degrees, precision: 10);
+
+        var firstCusp = layout.HouseCusps.Single(cusp => cusp.HouseNumber.Value == 1);
+        Assert.Equal(15d, firstCusp.Longitude.Degrees, precision: 10);
+        Assert.Equal(270d, firstCusp.DisplayAngle.Degrees, precision: 10);
+
+        var ascendantAxis = layout.AngleAxes.Single(
+            axis => axis.AxisType == ChartAngleAxisType.AscendantDescendant);
+        Assert.Equal(270d, ascendantAxis.PrimaryDisplayAngle.Degrees, precision: 10);
+        Assert.Equal(90d, ascendantAxis.OppositeDisplayAngle.Degrees, precision: 10);
+
+        var midheavenAxis = layout.AngleAxes.Single(
+            axis => axis.AxisType == ChartAngleAxisType.MidheavenImumCoeli);
+        Assert.Equal(177d, midheavenAxis.PrimaryDisplayAngle.Degrees, precision: 10);
+
+        Assert.All(
+            layout.AspectLines,
+            line =>
+            {
+                Assert.Equal(
+                    layout.PlanetGlyphSlots.Single(slot => slot.Body == line.SourceBody).SourceAngle,
+                    line.SourceAngle);
+                Assert.Equal(
+                    layout.PlanetGlyphSlots.Single(slot => slot.Body == line.TargetBody).SourceAngle,
+                    line.TargetAngle);
+            });
+    }
+
+    [Fact]
+    public void Build_WithHousesCreatesDeterministicMultiRingGeometryInsideDeclaredLanes()
+    {
+        var chart = CreateChartWithHouses();
+        var builder = new CircularChartLayoutBuilder();
+
+        var first = builder.Build(chart);
+        var second = builder.Build(chart);
+
+        Assert.Equal(12, first.HouseCusps.Count);
+        Assert.Equal(12, first.HouseNumberAnchors.Count);
+        Assert.Equal(2, first.AngleAxes.Count);
+        Assert.Equal(first.HouseCusps, second.HouseCusps);
+        Assert.Equal(first.HouseNumberAnchors, second.HouseNumberAnchors);
+        Assert.Equal(first.AngleAxes, second.AngleAxes);
+        Assert.True(
+            first.RadialLanes.HouseRing.OuterRadiusRatio <
+            first.RadialLanes.PlanetGlyphLane.InnerRadiusRatio);
+        Assert.All(
+            first.HouseCusps,
+            cusp =>
+            {
+                Assert.Equal(
+                    first.RadialLanes.HouseRing.InnerRadiusRatio,
+                    cusp.InnerPoint.RadiusRatio,
+                    precision: 10);
+                Assert.Equal(
+                    first.RadialLanes.ZodiacRing.InnerRadiusRatio,
+                    cusp.OuterPoint.RadiusRatio,
+                    precision: 10);
+            });
+        Assert.All(
+            first.HouseNumberAnchors,
+            anchor => Assert.True(
+                first.RadialLanes.HouseNumberLane.Contains(anchor.AnchorPoint.RadiusRatio)));
+        Assert.All(
+            first.AngleAxes,
+            axis =>
+            {
+                Assert.Equal(
+                    first.RadialLanes.ZodiacRing.InnerRadiusRatio,
+                    axis.PrimaryPoint.RadiusRatio,
+                    precision: 10);
+                Assert.Equal(
+                    first.RadialLanes.ZodiacRing.InnerRadiusRatio,
+                    axis.OppositePoint.RadiusRatio,
+                    precision: 10);
+            });
+    }
+
+    [Fact]
+    public void Build_UnavailableHousesPreserveAriesAtTopAndProduceNoHouseGeometry()
+    {
+        var chart = NatalChart.Create(
+            CreateBirthMoment(),
+            [new PlanetPosition(CelestialBody.Sun, new ZodiacLongitude(10d), false)],
+            houses: NatalHouses.CreateUnavailable(
+                HouseSystem.Placidus,
+                NatalHousesAvailability.UnavailableUnknownTime));
+
+        var layout = new CircularChartLayoutBuilder().Build(chart);
+
+        Assert.False(layout.Orientation.IsAscendantOriented);
+        Assert.Equal(0d, layout.ZodiacSectors[0].StartAngle.Degrees, precision: 10);
+        Assert.Equal(10d, layout.PlanetGlyphSlots[0].SourceAngle.Degrees, precision: 10);
+        Assert.Empty(layout.HouseCusps);
+        Assert.Empty(layout.HouseNumberAnchors);
+        Assert.Empty(layout.AngleAxes);
+    }
+
     private static double CircularDelta(double first, double second)
     {
         var delta = Math.Abs(first - second);
@@ -261,6 +372,31 @@ public sealed class CircularChartLayoutBuilderTests
             CreateBirthMoment(),
             positions.Select(static item =>
                 new PlanetPosition(item.Body, new ZodiacLongitude(item.Longitude), false)));
+
+    private static NatalChart CreateChartWithHouses()
+    {
+        var cuspLongitudes = new[]
+        {
+            15d, 44d, 74d, 102d, 134d, 165d,
+            195d, 224d, 254d, 282d, 314d, 345d
+        };
+        var houses = NatalHouses.CreateAvailable(
+            HouseSystem.Placidus,
+            cuspLongitudes.Select((longitude, index) =>
+                new HouseCusp(new HouseNumber(index + 1), new ZodiacLongitude(longitude))),
+            new ChartAngles(new ZodiacLongitude(15d), new ZodiacLongitude(282d)),
+            "geometry-house-fixture");
+
+        return NatalChart.Create(
+            CreateBirthMoment(),
+            new[]
+            {
+                new PlanetPosition(CelestialBody.Sun, new ZodiacLongitude(10d), false),
+                new PlanetPosition(CelestialBody.Moon, new ZodiacLongitude(100d), false),
+                new PlanetPosition(CelestialBody.Mars, new ZodiacLongitude(220d), true)
+            },
+            houses: houses);
+    }
 
     private static BirthMoment CreateBirthMoment() =>
         new(

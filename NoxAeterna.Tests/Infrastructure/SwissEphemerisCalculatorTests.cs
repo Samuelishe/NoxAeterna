@@ -55,6 +55,54 @@ public sealed class SwissEphemerisCalculatorTests
         Assert.Contains("Moshier", result.EphemerisSourceVersion, StringComparison.OrdinalIgnoreCase);
     }
 
+    [Fact]
+    public void HouseCalculator_ReturnsTwelveFiniteNormalizedPlacidusCuspsAndAngles()
+    {
+        IHouseCalculator calculator = new SwissEphemerisHouseCalculator();
+        var request = new HouseCalculationRequest(
+            CreateBirthMoment(),
+            new BirthLocation("Prague, Czechia", 50.0755d, 14.4378d),
+            HouseSystem.Placidus);
+
+        var result = calculator.Calculate(request);
+
+        Assert.True(result.IsAvailable);
+        var houses = Assert.IsType<NatalHouses>(result.Houses);
+        Assert.Equal(HouseSystem.Placidus, houses.HouseSystem);
+        Assert.Equal(12, houses.Cusps.Count);
+        Assert.All(houses.Cusps, cusp =>
+        {
+            Assert.True(double.IsFinite(cusp.Longitude.Degrees));
+            Assert.InRange(cusp.Longitude.Degrees, 0d, 359.999999999999d);
+        });
+        Assert.NotNull(houses.Angles);
+        Assert.True(double.IsFinite(houses.Angles.Ascendant.Degrees));
+        Assert.True(double.IsFinite(houses.Angles.Midheaven.Degrees));
+        Assert.Equal(
+            houses.Cusps[0].Longitude.Degrees,
+            houses.Angles.Ascendant.Degrees,
+            precision: 8);
+        Assert.Contains("SwissEphNet", houses.SourceMetadata, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void HouseCalculator_HighLatitudePlacidusFailureDoesNotExposeSwissFallbackCusps()
+    {
+        IHouseCalculator calculator = new SwissEphemerisHouseCalculator();
+        var request = new HouseCalculationRequest(
+            CreateBirthMoment(),
+            new BirthLocation("High latitude fixture", 75d, 14.4378d),
+            HouseSystem.Placidus);
+
+        var result = calculator.Calculate(request);
+
+        Assert.False(result.IsAvailable);
+        Assert.Null(result.Houses);
+        Assert.Equal(
+            HouseCalculationFailureReason.UnsupportedGeographicConditions,
+            result.FailureReason);
+    }
+
     private static BirthMoment CreateBirthMoment() =>
         new(
             new LocalDateTime(1990, 7, 14, 13, 45),

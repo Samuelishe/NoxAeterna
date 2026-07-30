@@ -58,6 +58,58 @@ public sealed class ChartCalculationContractsTests
         Assert.Equal("test-fake", result.EphemerisSourceVersion);
     }
 
+    [Fact]
+    public void HouseCalculationRequest_RequiresLocationAndExplicitlyPreservesPlacidus()
+    {
+        Assert.Throws<ArgumentNullException>(() =>
+            new HouseCalculationRequest(
+                CreateBirthMoment(),
+                location: null,
+                HouseSystem.Placidus));
+
+        var location = new BirthLocation("Prague, Czechia", 50.0755d, 14.4378d);
+        var request = new HouseCalculationRequest(
+            CreateBirthMoment(),
+            location,
+            HouseSystem.Placidus);
+
+        Assert.Equal(location, request.Location);
+        Assert.Equal(HouseSystem.Placidus, request.HouseSystem);
+    }
+
+    [Fact]
+    public void HouseCalculationRequest_RejectsUnknownTime()
+    {
+        var knownMoment = CreateBirthMoment();
+        var unknownMoment = new BirthMoment(
+            knownMoment.OriginalLocalDateTime,
+            knownMoment.TimezoneId,
+            knownMoment.Instant,
+            knownMoment.ResolutionStatus,
+            BirthTimeAccuracy.UnknownTime);
+
+        Assert.Throws<ArgumentException>(() =>
+            new HouseCalculationRequest(
+                unknownMoment,
+                new BirthLocation("Prague, Czechia", 50.0755d, 14.4378d),
+                HouseSystem.Placidus));
+    }
+
+    [Fact]
+    public void UnavailableHouseCalculationResult_DoesNotCreateFakeHouses()
+    {
+        var result = HouseCalculationResult.Unavailable(
+            HouseSystem.Placidus,
+            HouseCalculationFailureReason.UnsupportedGeographicConditions,
+            "test-provider");
+
+        Assert.False(result.IsAvailable);
+        Assert.Null(result.Houses);
+        Assert.Equal(
+            HouseCalculationFailureReason.UnsupportedGeographicConditions,
+            result.FailureReason);
+    }
+
     private static BirthMoment CreateBirthMoment() =>
         new(
             new LocalDateTime(1990, 7, 14, 13, 45),

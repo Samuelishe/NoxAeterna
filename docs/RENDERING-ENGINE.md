@@ -40,6 +40,7 @@ BirthDataInput
 -> BirthData validation and mapping
 -> IBirthMomentResolver
 -> IEphemerisCalculator
+-> IHouseCalculator
 -> NatalChart
 -> CircularChartLayoutBuilder
 -> ChartRenderScene
@@ -59,7 +60,10 @@ Current readable-chart foundation details:
 - `ChartViewport` derives a centered square from the complete control bounds, reserves known stroke and vector extents, exposes safe bounds/effective radius, and clips all chart drawing to that square;
 - `ChartVisualMetrics` derives bounded zodiac/planet glyph sizes, glyph/ring strokes, anchor/connector strokes, and an aspect scale from the effective radius;
 - visual geometry grows with the chart while known vector bounds continue to participate in the viewport safety calculation;
-- radial lanes remain geometry contracts, but collision-lane boundaries, aspect-interior bounds, and the reserved future house ring are not drawn as unconditional debug guides;
+- radial lanes remain geometry contracts, but collision-lane boundaries and aspect-interior bounds are not drawn as unconditional debug guides;
+- available house geometry is rendered as 12 restrained cusp lines, small plain-text house numbers, stronger ASC–DSC and MC–IC axes, and compact `ASC`/`MC` labels;
+- house lines and aspects are drawn before project-owned zodiac and planet glyphs so the symbols remain the visual priority;
+- house digits and Latin angle abbreviations may use ordinary text rendering; astrology symbols remain project-owned vectors;
 - the zodiac band uses only a very low-opacity warm structural wash; dark/light palettes keep the outer rim and vector glyphs more prominent than aspects;
 - zero, non-finite, and too-small surfaces exit without drawing.
 
@@ -113,6 +117,8 @@ Current functional strategy:
 - every supported `AspectType` has an explicit restrained style using thickness, opacity, muted color, and optional dash pattern;
 - conjunctions render as compact local markers instead of arbitrary full chords;
 - aspect chords remain entirely inside the geometry-owned aspect interior.
+- `ChartHouseStyleCatalog` supplies deterministic cusp and axis hierarchy from chart-local dark/light palettes;
+- `ChartRenderScene` exposes provider-independent house geometry and never references SwissEphNet.
 
 ## DPI and Scaling
 

@@ -41,5 +41,10 @@ public sealed class DevelopmentSampleFactoriesTests
 
         Assert.Contains("SwissEphNet", buildResult.NatalChart.EphemerisSourceVersion, StringComparison.Ordinal);
         Assert.Contains(summaryRows, row => !row.PositionText.EndsWith("00'", StringComparison.Ordinal));
+        Assert.True(buildResult.NatalChart.Houses?.IsAvailable);
+        Assert.Equal(12, buildResult.RenderScene.HouseCusps.Count);
+        Assert.Equal(270d, buildResult.RenderScene.AngleAxes
+            .Single(axis => axis.AxisType == NoxAeterna.Geometry.Charts.ChartAngleAxisType.AscendantDescendant)
+            .PrimaryDisplayAngle.Degrees, precision: 10);
     }
 }

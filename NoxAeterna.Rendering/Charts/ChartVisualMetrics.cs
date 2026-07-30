@@ -11,7 +11,11 @@ public readonly record struct ChartVisualMetrics(
     double StructuralStrokeThickness,
     double AnchorStrokeThickness,
     double ConnectorStrokeThickness,
-    double AspectScale)
+    double AspectScale,
+    double HouseNumberFontSize,
+    double AngleLabelFontSize,
+    double HouseCuspStrokeThickness,
+    double AngleAxisStrokeThickness)
 {
     /// <summary>
     /// Calculates bounded, deterministic visual measurements for the supplied radius.
@@ -32,6 +36,10 @@ public readonly record struct ChartVisualMetrics(
             Math.Max(options.SectorLineThickness, Math.Clamp(radius * 0.0035d, 0.9d, 1.5d)),
             Math.Clamp(radius * 0.0032d, 0.9d, 1.4d),
             Math.Clamp(radius * 0.0024d, 0.65d, 1.05d),
-            Math.Clamp(radius / 230d, 0.9d, 1.45d));
+            Math.Clamp(radius / 230d, 0.9d, 1.45d),
+            Math.Clamp(radius * 0.043d, 11d, 17d),
+            Math.Clamp(radius * 0.046d, 11.5d, 18d),
+            Math.Clamp(radius * 0.0026d, 0.7d, 1.2d),
+            Math.Clamp(radius * 0.0042d, 1.15d, 2d));
     }
 }

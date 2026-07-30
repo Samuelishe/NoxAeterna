@@ -17,7 +17,8 @@ public static class DevelopmentSampleChartBuildResultFactory
     {
         var pipeline = new DevelopmentAstrologyChartPipeline(
             new TzdbBirthMomentResolver(),
-            new SwissEphemerisCalculator());
+            new SwissEphemerisCalculator(),
+            new SwissEphemerisHouseCalculator());
 
         return pipeline.Build(
             DevelopmentSampleBirthDataFactory.Create(),

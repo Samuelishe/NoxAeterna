@@ -20,6 +20,9 @@ public sealed class ChartRenderSceneTests
         Assert.Equal(firstScene.ZodiacSectors, secondScene.ZodiacSectors);
         Assert.Equal(firstScene.PlanetGlyphSlots, secondScene.PlanetGlyphSlots);
         Assert.Equal(firstScene.AspectLines, secondScene.AspectLines);
+        Assert.Equal(firstScene.HouseCusps, secondScene.HouseCusps);
+        Assert.Equal(firstScene.HouseNumberAnchors, secondScene.HouseNumberAnchors);
+        Assert.Equal(firstScene.AngleAxes, secondScene.AngleAxes);
         Assert.Equal(firstScene.ZodiacGlyphs, secondScene.ZodiacGlyphs);
         Assert.Equal(firstScene.PlanetGlyphs, secondScene.PlanetGlyphs);
     }
@@ -71,6 +74,37 @@ public sealed class ChartRenderSceneTests
     }
 
     [Fact]
+    public void RenderSceneExposesProviderIndependentHouseGeometry()
+    {
+        var scene = ChartRenderScene.FromLayout(CreateLayout(withHouses: true));
+
+        Assert.Equal(12, scene.HouseCusps.Count);
+        Assert.Equal(12, scene.HouseNumberAnchors.Count);
+        Assert.Equal(2, scene.AngleAxes.Count);
+        Assert.DoesNotContain(
+            scene.GetType().Assembly.GetReferencedAssemblies(),
+            assembly => assembly.Name?.Contains("SwissEph", StringComparison.OrdinalIgnoreCase) == true);
+    }
+
+    [Fact]
+    public void HouseStyleHierarchyIsDeterministicForCuspsAndBothAxes()
+    {
+        var firstCusp = ChartHouseStyleCatalog.GetCusp(ChartRenderPalette.Dark);
+        var secondCusp = ChartHouseStyleCatalog.GetCusp(ChartRenderPalette.Dark);
+
+        Assert.Equal(firstCusp, secondCusp);
+        Assert.True(firstCusp.Opacity > 0d);
+
+        foreach (var axisType in Enum.GetValues<ChartAngleAxisType>())
+        {
+            var first = ChartHouseStyleCatalog.GetAxis(axisType, ChartRenderPalette.Dark);
+            var second = ChartHouseStyleCatalog.GetAxis(axisType, ChartRenderPalette.Dark);
+            Assert.Equal(first, second);
+            Assert.True(first.ThicknessScale > firstCusp.ThicknessScale * 0.85d);
+        }
+    }
+
+    [Fact]
     public void ViewportCentersSquareAndKeepsKnownGlyphExtentsInsideSafeBounds()
     {
         var lanes = ChartRadialLanes.Default;
@@ -106,8 +140,17 @@ public sealed class ChartRenderSceneTests
                 out _));
     }
 
-    private static CircularChartLayout CreateLayout()
+    private static CircularChartLayout CreateLayout(bool withHouses = false)
     {
+        var houses = withHouses
+            ? NatalHouses.CreateAvailable(
+                HouseSystem.Placidus,
+                Enumerable.Range(1, 12).Select(index =>
+                    new HouseCusp(
+                        new HouseNumber(index),
+                        new ZodiacLongitude(15d + ((index - 1) * 30d)))),
+                new ChartAngles(new ZodiacLongitude(15d), new ZodiacLongitude(285d)))
+            : null;
         var chart = NatalChart.Create(
             new BirthMoment(
                 new LocalDateTime(1990, 7, 14, 13, 45),
@@ -121,7 +164,8 @@ public sealed class ChartRenderSceneTests
                 new PlanetPosition(CelestialBody.Sun, new ZodiacLongitude(10d), false),
                 new PlanetPosition(CelestialBody.Moon, new ZodiacLongitude(100d), false),
                 new PlanetPosition(CelestialBody.Mars, new ZodiacLongitude(220d), true)
-            });
+            },
+            houses: houses);
 
         return new CircularChartLayoutBuilder().Build(chart);
     }

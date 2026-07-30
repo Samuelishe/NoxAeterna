@@ -17,6 +17,9 @@ public sealed record ChartRenderScene
         ZodiacSectors = Layout.ZodiacSectors;
         PlanetGlyphSlots = Layout.PlanetGlyphSlots;
         AspectLines = Layout.AspectLines;
+        HouseCusps = Layout.HouseCusps;
+        HouseNumberAnchors = Layout.HouseNumberAnchors;
+        AngleAxes = Layout.AngleAxes;
         ZodiacGlyphs = Array.AsReadOnly(BuildZodiacGlyphs(Layout));
         PlanetGlyphs = Array.AsReadOnly(BuildPlanetGlyphs(Layout.PlanetGlyphSlots));
     }
@@ -40,6 +43,21 @@ public sealed record ChartRenderScene
     /// Gets the aspect lines to render.
     /// </summary>
     public IReadOnlyList<AspectLineGeometry> AspectLines { get; }
+
+    /// <summary>
+    /// Gets the house cusp geometry without any ephemeris-provider dependency.
+    /// </summary>
+    public IReadOnlyList<HouseCuspGeometry> HouseCusps { get; }
+
+    /// <summary>
+    /// Gets the house-number anchors.
+    /// </summary>
+    public IReadOnlyList<HouseNumberAnchor> HouseNumberAnchors { get; }
+
+    /// <summary>
+    /// Gets the principal chart axes.
+    /// </summary>
+    public IReadOnlyList<ChartAngleAxisGeometry> AngleAxes { get; }
 
     /// <summary>
     /// Gets the zodiac vector glyphs to render around the chart ring.
