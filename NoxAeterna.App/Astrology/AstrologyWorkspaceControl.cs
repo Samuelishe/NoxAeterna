@@ -17,6 +17,8 @@ public sealed class AstrologyWorkspaceControl : UserControl
     private readonly ILocalizationProvider _localizationProvider;
     private readonly LanguageCode _applicationLanguage;
     private readonly DevelopmentAstrologyChartCoordinator _chartCoordinator;
+    private ContentControl? _chartStateHost;
+    private ViewportFittedSquare? _chartSquareHost;
     private AstrologyChartSurfaceControl? _chartSurfaceControl;
     private PlanetPositionSummaryControl? _positionSummaryControl;
     private ChartAngleSummaryControl? _angleSummaryControl;
@@ -103,36 +105,74 @@ public sealed class AstrologyWorkspaceControl : UserControl
 
     private Control CreateChartPanelBody()
     {
-        _chartSurfaceControl = new AstrologyChartSurfaceControl(_chartCoordinator.CurrentScene)
+        _chartStateHost = new ContentControl
+        {
+            HorizontalContentAlignment = HorizontalAlignment.Stretch
+        };
+        RefreshChartStateContent();
+        return _chartStateHost;
+    }
+
+    private Control CreateReadyChartContent(
+        DevelopmentChartBuildResult buildResult,
+        ChartRenderScene scene)
+    {
+        _chartSurfaceControl = new AstrologyChartSurfaceControl(scene)
         {
             HorizontalAlignment = HorizontalAlignment.Stretch
         };
-
         _positionSummaryControl = new PlanetPositionSummaryControl(
             _localizationProvider,
             _applicationLanguage,
-            PlanetPositionSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
+            PlanetPositionSummaryBuilder.Build(buildResult.NatalChart));
         _angleSummaryControl = new ChartAngleSummaryControl(
             _localizationProvider,
             _applicationLanguage,
-            ChartAngleSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
+            ChartAngleSummaryBuilder.Build(buildResult.NatalChart));
+        _chartSquareHost = new ViewportFittedSquare
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Child = _chartSurfaceControl
+        };
 
-        var chartContent = new StackPanel
+        return new StackPanel
         {
             Spacing = 18,
             Children =
             {
-                new WidthDrivenSquare
-                {
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    Child = _chartSurfaceControl
-                },
+                _chartSquareHost,
                 _positionSummaryControl,
                 _angleSummaryControl
             }
         };
+    }
 
-        return chartContent;
+    private void RefreshChartStateContent()
+    {
+        if (_chartStateHost is null)
+        {
+            return;
+        }
+
+        if (_chartCoordinator.CurrentBuildResult is { } buildResult &&
+            _chartCoordinator.CurrentScene is { } scene)
+        {
+            _chartStateHost.Content = CreateReadyChartContent(buildResult, scene);
+            _chartSquareHost?.SetViewportHeightConstraint(Bounds.Height);
+            return;
+        }
+
+        _chartSquareHost = null;
+        _chartSurfaceControl = null;
+        _positionSummaryControl = null;
+        _angleSummaryControl = null;
+        _chartStateHost.Content = new TextBlock
+        {
+            Text = Localize("ui.chart.empty_state"),
+            Opacity = 0.68d,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 36)
+        };
     }
 
     private Control CreatePanelContainer(AstrologyWorkspacePanel panel, Control content) =>
@@ -181,12 +221,17 @@ public sealed class AstrologyWorkspaceControl : UserControl
         var rebuilt = _chartCoordinator.TryBuild(birthDataInput);
         if (rebuilt)
         {
-            _chartSurfaceControl?.SetScene(_chartCoordinator.CurrentScene);
-            _positionSummaryControl?.SetRows(PlanetPositionSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
-            _angleSummaryControl?.SetSummary(ChartAngleSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
+            RefreshChartStateContent();
         }
 
         return rebuilt;
+    }
+
+    /// <inheritdoc />
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        _chartSquareHost?.SetViewportHeightConstraint(availableSize.Height);
+        return base.MeasureOverride(availableSize);
     }
 
     private IBrush ResolveBrush(string resourceKey, IBrush fallbackBrush) =>

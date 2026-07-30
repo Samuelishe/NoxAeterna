@@ -4,7 +4,7 @@ using NoxAeterna.Domain.Birth;
 namespace NoxAeterna.App.Samples;
 
 /// <summary>
-/// Provides deterministic birth data for initial real-chart startup and non-user-driven verification.
+/// Provides deterministic birth data for tests, debug fixtures, and non-user-driven verification.
 /// </summary>
 public static class DevelopmentSampleBirthDataFactory
 {

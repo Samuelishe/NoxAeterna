@@ -6,7 +6,7 @@ using NoxAeterna.Infrastructure.Ephemeris;
 namespace NoxAeterna.App.Samples;
 
 /// <summary>
-/// Builds deterministic sample chart results for initial workspace startup.
+/// Builds deterministic sample chart results for tests and explicit debug verification.
 /// </summary>
 public static class DevelopmentSampleChartBuildResultFactory
 {

@@ -7,8 +7,8 @@ namespace NoxAeterna.Geometry.Charts;
 /// </summary>
 public sealed class CircularChartLayoutBuilder
 {
-    private const double ClusterThresholdDegrees = 7d;
-    private const double MinimumAdjacentDisplaySeparationDegrees = 12d;
+    private const double ClusterThresholdDegrees = 16d;
+    private const double MinimumAdjacentDisplaySeparationDegrees = 18d;
     private const double MaximumAngularNudgeDegrees = 55d;
 
     /// <summary>
@@ -66,6 +66,7 @@ public sealed class CircularChartLayoutBuilder
                     sourceAngle,
                     displayAngle,
                     new RadialPoint(displayAngle, radiusRatio),
+                    position.IsRetrograde,
                     index,
                     placement.RadialLaneIndex,
                     placement.ClusterIndex);
@@ -190,7 +191,8 @@ public sealed class CircularChartLayoutBuilder
             oppositeAngle,
             new RadialPoint(primaryAngle, RadialLanes.ZodiacRing.InnerRadiusRatio),
             new RadialPoint(oppositeAngle, RadialLanes.ZodiacRing.InnerRadiusRatio),
-            new RadialPoint(primaryAngle, RadialLanes.AngleLabelRadiusRatio));
+            new RadialPoint(primaryAngle, RadialLanes.AngleLabelRadiusRatio),
+            new RadialPoint(oppositeAngle, RadialLanes.AngleLabelRadiusRatio));
     }
 
     private IReadOnlyDictionary<CelestialBody, PlanetPlacement> BuildPlanetPlacements(

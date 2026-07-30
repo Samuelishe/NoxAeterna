@@ -5,7 +5,7 @@ namespace NoxAeterna.Geometry.Charts;
 /// </summary>
 public sealed record ChartRadialLanes
 {
-    private static readonly double[] DefaultPlanetSubLaneRadii = [0.715d, 0.665d, 0.615d, 0.575d];
+    private static readonly double[] DefaultPlanetSubLaneRadii = [0.715d, 0.672d, 0.63d, 0.59d];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChartRadialLanes"/> class.
@@ -76,8 +76,7 @@ public sealed record ChartRadialLanes
             houseNumberLane.InnerRadiusRatio < houseRing.InnerRadiusRatio ||
             houseNumberLane.OuterRadiusRatio > houseRing.OuterRadiusRatio ||
             aspectInteriorRadiusRatio >= houseRing.InnerRadiusRatio ||
-            angleLabelRadiusRatio <= planetGlyphLane.OuterRadiusRatio ||
-            angleLabelRadiusRatio >= zodiacRing.InnerRadiusRatio)
+            angleLabelRadiusRatio <= outerBoundaryRadiusRatio)
         {
             throw new ArgumentException("Chart radial zones must be ordered, contained, and non-overlapping.");
         }
@@ -98,14 +97,14 @@ public sealed record ChartRadialLanes
     /// </summary>
     public static ChartRadialLanes Default { get; } = new(
         outerBoundaryRadiusRatio: 0.94d,
-        zodiacRing: new RadialLaneBounds(0.78d, 0.94d),
+        zodiacRing: new RadialLaneBounds(0.775d, 0.94d),
         zodiacGlyphLane: new RadialLaneBounds(0.835d, 0.895d),
-        planetGlyphLane: new RadialLaneBounds(0.57d, 0.72d),
+        planetGlyphLane: new RadialLaneBounds(0.585d, 0.72d),
         planetSubLaneRadiusRatios: DefaultPlanetSubLaneRadii,
-        aspectInteriorRadiusRatio: 0.47d,
-        houseRing: new RadialLaneBounds(0.495d, 0.55d),
-        houseNumberLane: new RadialLaneBounds(0.505d, 0.54d),
-        angleLabelRadiusRatio: 0.755d);
+        aspectInteriorRadiusRatio: 0.455d,
+        houseRing: new RadialLaneBounds(0.47d, 0.565d),
+        houseNumberLane: new RadialLaneBounds(0.475d, 0.50d),
+        angleLabelRadiusRatio: 0.965d);
 
     /// <summary>
     /// Gets the normalized outer chart boundary.
@@ -148,7 +147,7 @@ public sealed record ChartRadialLanes
     public RadialLaneBounds HouseNumberLane { get; }
 
     /// <summary>
-    /// Gets the radius used for compact ASC and MC labels between planet and zodiac lanes.
+    /// Gets the radius used for compact principal-angle labels just outside the outer rim.
     /// </summary>
     public double AngleLabelRadiusRatio { get; }
 }

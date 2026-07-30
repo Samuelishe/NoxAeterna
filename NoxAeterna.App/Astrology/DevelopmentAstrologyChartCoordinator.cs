@@ -13,24 +13,25 @@ public sealed class DevelopmentAstrologyChartCoordinator
     /// <summary>
     /// Initializes a new instance of the <see cref="DevelopmentAstrologyChartCoordinator"/> class.
     /// </summary>
-    public DevelopmentAstrologyChartCoordinator(
-        DevelopmentAstrologyChartPipeline chartPipeline,
-        DevelopmentChartBuildResult initialBuildResult)
+    public DevelopmentAstrologyChartCoordinator(DevelopmentAstrologyChartPipeline chartPipeline)
     {
         _chartPipeline = chartPipeline ?? throw new ArgumentNullException(nameof(chartPipeline));
-        CurrentBuildResult = initialBuildResult ?? throw new ArgumentNullException(nameof(initialBuildResult));
-        CurrentScene = initialBuildResult.RenderScene;
     }
 
     /// <summary>
     /// Gets the current render scene.
     /// </summary>
-    public ChartRenderScene CurrentScene { get; private set; }
+    public ChartRenderScene? CurrentScene { get; private set; }
 
     /// <summary>
     /// Gets the last successfully built natal chart.
     /// </summary>
-    public DevelopmentChartBuildResult CurrentBuildResult { get; private set; }
+    public DevelopmentChartBuildResult? CurrentBuildResult { get; private set; }
+
+    /// <summary>
+    /// Gets whether a chart has been successfully built during the current application session.
+    /// </summary>
+    public bool HasChart => CurrentBuildResult is not null;
 
     /// <summary>
     /// Attempts to rebuild the current chart from the supplied birth-data input state.

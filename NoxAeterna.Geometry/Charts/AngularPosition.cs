@@ -21,10 +21,4 @@ public readonly record struct AngularPosition
     /// </summary>
     public double Degrees { get; }
 
-    /// <summary>
-    /// Creates a chart-space angle from a normalized ecliptic longitude.
-    /// </summary>
-    /// <param name="longitude">The source longitude.</param>
-    /// <returns>The corresponding chart-space angle.</returns>
-    public static AngularPosition FromLongitude(ZodiacLongitude longitude) => new(longitude.Degrees);
 }

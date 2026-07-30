@@ -19,7 +19,7 @@ Chart symbols no longer depend on Unicode, emoji presentation, or platform font 
 
 Placidus is the explicit first house system and may be unavailable at high geographic latitudes. The current adapter treats every Swiss Ephemeris error return as unavailable and deliberately ignores any fallback cusp arrays, preserving the planet chart without fake houses.
 
-The initial Prague fixture, chart rotation, and ASC/MC summary are deterministic and tested. Broader numerical comparison against trusted reference charts and cross-platform visual review remain required before treating the house presentation as fully validated.
+The Prague fixture now has golden-value coverage for its UTC instant, ten displayed planet positions, twelve cusps, ASC, and MC. Its counterclockwise screen projection and summary are also deterministic. Independent comparison against the user's trusted chart source and cross-platform visual review remain required before treating the house presentation as broadly validated.
 
 ## Birth Place to Timezone Resolution
 
@@ -49,7 +49,7 @@ The interpretation engine can become unmaintainable if it hardcodes every possib
 
 ## Extreme Planet Cluster Presentation
 
-Circular zero-crossing detection, ordered radial sub-lanes, and bounded symmetric angular spreading now cover the current ten-body chart deterministically. Extremely dense fixtures may require visibly longer connectors and wider display spreading; this is an intentional stable fallback, and any further tuning should wait for visual confirmation rather than replacing it with a heavy optimizer.
+Circular zero-crossing detection, ordered radial sub-lanes, and bounded symmetric angular spreading now cover the current ten-body chart deterministically. The current envelope includes glyph-plus-degree annotations and connectors appear only for actual displacement. Extremely dense fixtures may still require visibly longer connectors and wider display spreading; this is an intentional stable fallback, and any further tuning should wait for visual confirmation rather than replacing it with a heavy optimizer.
 
 Cross-platform visual smoke beyond the current Windows run is still outstanding.
 

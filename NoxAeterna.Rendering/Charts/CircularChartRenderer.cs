@@ -36,16 +36,19 @@ public sealed class CircularChartRenderer
 
         using var clip = drawingContext.PushClip(viewport.ChartBounds);
 
+        DrawZodiacSectorFills(drawingContext, viewport, scene.ZodiacSectors, options);
         DrawZoneBoundaries(drawingContext, viewport, scene.Layout.RadialLanes, options);
         DrawSectorSeparators(drawingContext, viewport, scene.ZodiacSectors, options);
-        DrawPlanetAnchors(drawingContext, viewport, scene.PlanetGlyphSlots, scene.Layout.RadialLanes, options);
-        DrawAspectLines(drawingContext, viewport, scene.AspectLines);
         DrawHouseCusps(drawingContext, viewport, scene.HouseCusps, options);
         DrawAngleAxes(drawingContext, viewport, scene.AngleAxes, options);
-        DrawHouseNumbers(drawingContext, viewport, scene.HouseNumberAnchors, options);
-        DrawAngleLabels(drawingContext, viewport, scene.AngleAxes, options);
+        DrawAspectCircle(drawingContext, viewport, scene.Layout.RadialLanes, options);
+        DrawAspectLines(drawingContext, viewport, scene.AspectLines);
+        DrawAspectEndpointMarkers(drawingContext, viewport, scene.AspectLines, options);
+        DrawPlanetAnchors(drawingContext, viewport, scene.PlanetGlyphSlots, scene.Layout.RadialLanes, options);
+        DrawPlanetAnnotations(drawingContext, viewport, scene.PlanetAnnotations, options);
         DrawVectorGlyphs(drawingContext, viewport, scene.ZodiacGlyphs, options);
-        DrawVectorGlyphs(drawingContext, viewport, scene.PlanetGlyphs, options);
+        DrawHouseNumbers(drawingContext, viewport, scene.HouseNumberAnchors, options);
+        DrawAngleLabels(drawingContext, viewport, scene.AngleLabels, options);
     }
 
     private static void DrawHouseCusps(
@@ -101,7 +104,7 @@ public sealed class CircularChartRenderer
         {
             DrawCenteredText(
                 drawingContext,
-                anchor.HouseNumber.ToString(),
+                FormatHouseNumber(anchor.HouseNumber.Value),
                 ToPoint(viewport, anchor.AnchorPoint),
                 viewport.VisualMetrics.HouseNumberFontSize,
                 new SolidColorBrush(options.Palette.HouseLabelColor, 0.82d));
@@ -111,16 +114,15 @@ public sealed class CircularChartRenderer
     private static void DrawAngleLabels(
         DrawingContext drawingContext,
         ChartViewport viewport,
-        IEnumerable<ChartAngleAxisGeometry> axes,
+        IEnumerable<ChartAngleLabelPlacement> labels,
         ChartRenderOptions options)
     {
-        foreach (var axis in axes)
+        foreach (var label in labels)
         {
-            var label = axis.AxisType == ChartAngleAxisType.AscendantDescendant ? "ASC" : "MC";
             DrawCenteredText(
                 drawingContext,
-                label,
-                ToPoint(viewport, axis.LabelAnchor),
+                label.Text,
+                ToPoint(viewport, label.AnchorPoint),
                 viewport.VisualMetrics.AngleLabelFontSize,
                 new SolidColorBrush(options.Palette.AngleAxisColor, 0.94d));
         }
@@ -154,18 +156,6 @@ public sealed class CircularChartRenderer
         ChartRenderOptions options)
     {
         var structureBrush = new SolidColorBrush(options.Palette.StructureColor);
-        var zodiacBandBrush = new SolidColorBrush(options.Palette.ZodiacGlyphColor, 0.045d);
-        var zodiacBandMidpoint =
-            (lanes.OuterBoundaryRadiusRatio + lanes.ZodiacRing.InnerRadiusRatio) / 2d;
-        var zodiacBandThickness =
-            (lanes.OuterBoundaryRadiusRatio - lanes.ZodiacRing.InnerRadiusRatio) *
-            viewport.EffectiveRadius;
-
-        DrawCircle(
-            drawingContext,
-            viewport,
-            zodiacBandMidpoint,
-            new Pen(zodiacBandBrush, zodiacBandThickness));
 
         DrawCircle(
             drawingContext,
@@ -181,6 +171,22 @@ public sealed class CircularChartRenderer
                 viewport.VisualMetrics.StructuralStrokeThickness));
     }
 
+    private static void DrawZodiacSectorFills(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        IEnumerable<ZodiacSectorGeometry> sectors,
+        ChartRenderOptions options)
+    {
+        foreach (var sector in sectors)
+        {
+            var color = GetElementSectorColor(sector.Sign, options.Palette);
+            drawingContext.DrawGeometry(
+                new SolidColorBrush(color, options.Palette.ZodiacSectorOpacity),
+                null,
+                CreateAnnularSectorGeometry(viewport, sector));
+        }
+    }
+
     private static void DrawSectorSeparators(
         DrawingContext drawingContext,
         ChartViewport viewport,
@@ -189,7 +195,7 @@ public sealed class CircularChartRenderer
     {
         var pen = new Pen(
             new SolidColorBrush(options.Palette.StructureColor, 0.8d),
-            viewport.VisualMetrics.StructuralStrokeThickness);
+            viewport.VisualMetrics.SectorSeparatorStrokeThickness);
 
         foreach (var sector in sectors)
         {
@@ -238,6 +244,42 @@ public sealed class CircularChartRenderer
         }
     }
 
+    private static void DrawAspectCircle(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        ChartRadialLanes lanes,
+        ChartRenderOptions options) =>
+        DrawCircle(
+            drawingContext,
+            viewport,
+            lanes.AspectInteriorRadiusRatio,
+            new Pen(
+                new SolidColorBrush(options.Palette.SubtleStructureColor, 0.82d),
+                viewport.VisualMetrics.AspectCircleStrokeThickness));
+
+    private static void DrawAspectEndpointMarkers(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        IEnumerable<AspectLineGeometry> aspectLines,
+        ChartRenderOptions options)
+    {
+        var brush = new SolidColorBrush(options.Palette.PlanetAnchorColor, 0.9d);
+        var points = aspectLines
+            .SelectMany(static line => new[] { line.SourcePoint, line.TargetPoint })
+            .Distinct()
+            .ToArray();
+
+        foreach (var point in points)
+        {
+            drawingContext.DrawEllipse(
+                brush,
+                null,
+                ToPoint(viewport, point),
+                viewport.VisualMetrics.AspectEndpointRadius,
+                viewport.VisualMetrics.AspectEndpointRadius);
+        }
+    }
+
     private static void DrawPlanetAnchors(
         DrawingContext drawingContext,
         ChartViewport viewport,
@@ -262,9 +304,46 @@ public sealed class CircularChartRenderer
                 ToPoint(viewport, tickInner),
                 ToPoint(viewport, tickOuter));
 
-            var sourceAnchor = ToPoint(viewport, tickInner);
-            var displayAnchor = ToPoint(viewport, glyphSlot.AnchorPoint);
-            drawingContext.DrawLine(connectorPen, sourceAnchor, displayAnchor);
+            if (CircularDelta(glyphSlot.SourceAngle.Degrees, glyphSlot.DisplayAngle.Degrees) > 0.01d)
+            {
+                var sourceAnchor = ToPoint(viewport, tickInner);
+                var displayAnchor = ToPoint(viewport, glyphSlot.AnchorPoint);
+                drawingContext.DrawLine(connectorPen, sourceAnchor, displayAnchor);
+            }
+        }
+    }
+
+    private static void DrawPlanetAnnotations(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        IEnumerable<ChartPlanetAnnotationPlacement> annotations,
+        ChartRenderOptions options)
+    {
+        foreach (var annotation in annotations)
+        {
+            var anchor = ToPoint(viewport, annotation.AnchorPoint);
+            DrawVectorGlyph(
+                drawingContext,
+                anchor,
+                annotation.Glyph,
+                viewport.VisualMetrics.PlanetGlyphSize,
+                options.Palette.PlanetGlyphColor,
+                viewport.VisualMetrics.GlyphStrokeThickness);
+
+            var label = annotation.IsRetrograde
+                ? $"{annotation.DegreeText} R"
+                : annotation.DegreeText;
+            var labelAnchor = new Point(
+                anchor.X,
+                anchor.Y +
+                (viewport.VisualMetrics.PlanetGlyphSize / 2d) +
+                (viewport.VisualMetrics.PlanetAnnotationFontSize * 0.72d));
+            DrawCenteredText(
+                drawingContext,
+                label,
+                labelAnchor,
+                viewport.VisualMetrics.PlanetAnnotationFontSize,
+                new SolidColorBrush(options.Palette.PlanetGlyphColor, 0.96d));
         }
     }
 
@@ -277,31 +356,88 @@ public sealed class CircularChartRenderer
         foreach (var placement in glyphs)
         {
             var anchor = ToPoint(viewport, placement.AnchorPoint);
-            var unitBounds = placement.Glyph.UnitBounds;
             var targetSize = placement.Style == ChartGlyphStyle.Zodiac
                 ? viewport.VisualMetrics.ZodiacGlyphSize
                 : viewport.VisualMetrics.PlanetGlyphSize;
-            var scale = targetSize / Math.Max(unitBounds.Width, unitBounds.Height);
             var color = placement.Style == ChartGlyphStyle.Zodiac
                 ? options.Palette.ZodiacGlyphColor
                 : options.Palette.PlanetGlyphColor;
-            var pen = new Pen(
-                new SolidColorBrush(color),
-                viewport.VisualMetrics.GlyphStrokeThickness / scale,
-                null,
-                PenLineCap.Round,
-                PenLineJoin.Round);
-
-            using var translateToAnchor = drawingContext.PushTransform(
-                Matrix.CreateTranslation(anchor.X, anchor.Y));
-            using var applyScale = drawingContext.PushTransform(
-                Matrix.CreateScale(scale, scale));
-            using var centerUnitBounds = drawingContext.PushTransform(
-                Matrix.CreateTranslation(-unitBounds.Center.X, -unitBounds.Center.Y));
-
-            drawingContext.DrawGeometry(null, pen, placement.Glyph.CreateGeometry());
+            DrawVectorGlyph(
+                drawingContext,
+                anchor,
+                placement.Glyph,
+                targetSize,
+                color,
+                viewport.VisualMetrics.GlyphStrokeThickness);
         }
     }
+
+    private static void DrawVectorGlyph(
+        DrawingContext drawingContext,
+        Point anchor,
+        ChartVectorGlyph glyph,
+        double targetSize,
+        Color color,
+        double strokeThickness)
+    {
+        var unitBounds = glyph.UnitBounds;
+        var scale = targetSize / Math.Max(unitBounds.Width, unitBounds.Height);
+        var pen = new Pen(
+            new SolidColorBrush(color),
+            strokeThickness / scale,
+            null,
+            PenLineCap.Round,
+            PenLineJoin.Round);
+
+        using var translateToAnchor = drawingContext.PushTransform(
+            Matrix.CreateTranslation(anchor.X, anchor.Y));
+        using var applyScale = drawingContext.PushTransform(
+            Matrix.CreateScale(scale, scale));
+        using var centerUnitBounds = drawingContext.PushTransform(
+            Matrix.CreateTranslation(-unitBounds.Center.X, -unitBounds.Center.Y));
+
+        drawingContext.DrawGeometry(null, pen, glyph.CreateGeometry());
+    }
+
+    private static StreamGeometry CreateAnnularSectorGeometry(
+        ChartViewport viewport,
+        ZodiacSectorGeometry sector)
+    {
+        const int ArcSegments = 8;
+        var geometry = new StreamGeometry();
+        using var context = geometry.Open();
+        context.BeginFigure(
+            ToPoint(viewport, new RadialPoint(sector.StartAngle, sector.OuterRadiusRatio)),
+            isFilled: true);
+
+        for (var index = 1; index <= ArcSegments; index++)
+        {
+            var angle = new AngularPosition(sector.StartAngle.Degrees - (30d * index / ArcSegments));
+            context.LineTo(ToPoint(viewport, new RadialPoint(angle, sector.OuterRadiusRatio)));
+        }
+
+        context.LineTo(ToPoint(viewport, new RadialPoint(sector.EndAngle, sector.InnerRadiusRatio)));
+        for (var index = ArcSegments - 1; index >= 0; index--)
+        {
+            var angle = new AngularPosition(sector.StartAngle.Degrees - (30d * index / ArcSegments));
+            context.LineTo(ToPoint(viewport, new RadialPoint(angle, sector.InnerRadiusRatio)));
+        }
+
+        context.EndFigure(isClosed: true);
+        return geometry;
+    }
+
+    private static Color GetElementSectorColor(
+        ZodiacSign sign,
+        ChartRenderPalette palette) =>
+        ((int)sign % 4) switch
+        {
+            0 => palette.FireSectorColor,
+            1 => palette.EarthSectorColor,
+            2 => palette.AirSectorColor,
+            3 => palette.WaterSectorColor,
+            _ => throw new ArgumentOutOfRangeException(nameof(sign), sign, "Unsupported zodiac sign.")
+        };
 
     private static void DrawCircle(
         DrawingContext drawingContext,
@@ -317,4 +453,28 @@ public sealed class CircularChartRenderer
         new(
             viewport.Center.X + (radialPoint.X * viewport.EffectiveRadius),
             viewport.Center.Y + (radialPoint.Y * viewport.EffectiveRadius));
+
+    private static double CircularDelta(double first, double second)
+    {
+        var delta = Math.Abs(first - second);
+        return Math.Min(delta, 360d - delta);
+    }
+
+    private static string FormatHouseNumber(int houseNumber) =>
+        houseNumber switch
+        {
+            1 => "I",
+            2 => "II",
+            3 => "III",
+            4 => "IV",
+            5 => "V",
+            6 => "VI",
+            7 => "VII",
+            8 => "VIII",
+            9 => "IX",
+            10 => "X",
+            11 => "XI",
+            12 => "XII",
+            _ => throw new ArgumentOutOfRangeException(nameof(houseNumber), houseNumber, "House number must be between 1 and 12.")
+        };
 }

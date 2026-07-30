@@ -25,6 +25,7 @@ public readonly record struct PlanetGlyphSlot
         AngularPosition sourceAngle,
         AngularPosition displayAngle,
         RadialPoint anchorPoint,
+        bool isRetrograde,
         int slotIndex,
         int radialLaneIndex,
         int clusterIndex)
@@ -49,6 +50,7 @@ public readonly record struct PlanetGlyphSlot
         SourceAngle = sourceAngle;
         DisplayAngle = displayAngle;
         AnchorPoint = anchorPoint;
+        IsRetrograde = isRetrograde;
         SlotIndex = slotIndex;
         RadialLaneIndex = radialLaneIndex;
         ClusterIndex = clusterIndex;
@@ -78,6 +80,11 @@ public readonly record struct PlanetGlyphSlot
     /// Gets the normalized radial anchor point.
     /// </summary>
     public RadialPoint AnchorPoint { get; }
+
+    /// <summary>
+    /// Gets whether the source planetary position is retrograde.
+    /// </summary>
+    public bool IsRetrograde { get; }
 
     /// <summary>
     /// Gets the deterministic slot index within the layout.

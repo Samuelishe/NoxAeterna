@@ -33,6 +33,9 @@ Current implemented convention:
 
 - chart-space `0°` is at the top of the circle;
 - angles increase clockwise;
+- source zodiac longitude is projected counterclockwise into chart space rather than being treated as a chart-space angle;
+- Aries-at-top uses `displayAngle = normalize(-sourceLongitude)`;
+- Ascendant-at-left uses `displayAngle = normalize(270° + ascendantLongitude - sourceLongitude)`;
 - radial coordinates are expressed as normalized radius ratios rather than pixels.
 
 ## Geometry Models
@@ -122,13 +125,13 @@ Current implemented status:
 - four ordered planet sub-lanes that remain entirely inside the planet lane;
 - circular cluster detection by cutting the sorted longitude sequence after its largest gap, so clusters crossing `359°/0°` stay intact;
 - deterministic tie-breaking by `CelestialBody`, input-order independence, and stable repeated builds;
-- bounded symmetric angular spreading for close clusters, combined with ordered radial sub-lanes and minimum same-lane separation;
+- bounded symmetric angular spreading for close clusters, combined with ordered radial sub-lanes and minimum same-lane separation sized for the glyph-plus-degree annotation envelope;
 - explicit source astronomical longitude/angle and separate display angle on `PlanetGlyphSlot`;
 - aspect endpoints always use source angles and stay inside `AspectInteriorRadiusRatio`.
-- `ChartOrientation` applies one source-longitude-to-chart-angle transform to zodiac sectors, planets, source ticks, aspects, house cusps, and axes;
+- `ChartOrientation` applies one counterclockwise source-longitude-to-chart-angle transform to zodiac sectors, glyph midpoints, planets, source ticks, aspects, house cusps, house numbers, and axes;
 - available houses place the Ascendant at chart-space 270 degrees (9 o'clock), while unavailable or absent houses preserve Aries at chart-space 0 degrees;
 - source `ZodiacLongitude` values remain unchanged by both chart rotation and collision display nudges;
-- 12 cusp lines extend from the house-ring interior to the zodiac inner boundary, 12 numeric anchors sit inside `HouseNumberLane`, and two diameter axes represent ASC–DSC and MC–IC.
+- 12 cusp lines extend from the house-ring interior to the zodiac inner boundary, 12 numeric anchors sit in a dedicated lane just outside the aspect circle, two diameter axes represent ASC–DSC and MC–IC, and their four label anchors sit just outside the outer rim.
 
 The current solver is deliberately small and deterministic. It does not use viewport pixels, font metrics, physics, randomness, or a general-purpose optimizer.
 

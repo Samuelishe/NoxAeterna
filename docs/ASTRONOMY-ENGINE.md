@@ -105,6 +105,8 @@ No silent fallback to another house system exists. A typed unavailable result pr
 
 `BirthTimeAccuracy.UnknownTime` is a hard calculation boundary: the app does not call `IHouseCalculator`, stores `UnavailableUnknownTime`, keeps the existing planet-position policy, and renders an Aries-at-top chart without houses.
 
+The deterministic Prague fixture (`1990-07-14 13:45 Europe/Prague`, `1990-07-14 11:45 UTC`, latitude `50.0755`, longitude `14.4378`) is now a numerical golden test for all ten displayed planets, all twelve Placidus cusps, ASC `203.4687440076°`, and MC `120.5684847742°`. Geometry and formatting tests do not substitute for these provider-output assertions.
+
 ## Coordinate Conventions
 
 All ecliptic longitudes must be normalized to 0-360 degrees.

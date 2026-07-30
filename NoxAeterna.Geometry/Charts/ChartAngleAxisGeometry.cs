@@ -13,4 +13,5 @@ public readonly record struct ChartAngleAxisGeometry(
     AngularPosition OppositeDisplayAngle,
     RadialPoint PrimaryPoint,
     RadialPoint OppositePoint,
-    RadialPoint LabelAnchor);
+    RadialPoint PrimaryLabelAnchor,
+    RadialPoint OppositeLabelAnchor);

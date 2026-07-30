@@ -48,7 +48,7 @@ BirthDataInput
 -> AstrologyChartSurfaceControl inside the first astrology workspace foundation in NoxAeterna.App
 ```
 
-The app still keeps a fallback sample-scene path for development, but the visible chart now rebuilds from validated input through the real SwissEphNet-backed path. The current live status is still limited by Moshier fallback mode because external Swiss ephemeris data files are not configured yet.
+Normal application startup is empty and materializes no synthetic chart, positions, or angle summary. Deterministic Prague sample factories remain available only to tests and explicit debug verification; the visible chart appears after validated input runs through the real SwissEphNet-backed path. The current live status is still limited by Moshier fallback mode because external Swiss ephemeris data files are not configured yet.
 
 Current readable-chart foundation details:
 
@@ -56,15 +56,17 @@ Current readable-chart foundation details:
 - chart symbols do not use Unicode, emoji presentation, `Typeface.Default`, external fonts, image downloads, or platform font fallback;
 - vector geometry is materialized only after Avalonia initializes its rendering backend, while deterministic path data and unit bounds remain testable without a graphics host;
 - planet glyphs render directly at geometry-owned display anchors; the previous extra rendering-side radial offset and large white marker circles are gone;
-- true longitude remains visible through a small neutral tick and connector without replacing the astronomical source angle;
+- true longitude remains visible through a small neutral tick; a restrained connector is drawn only when collision handling actually displaces the annotation;
 - `ChartViewport` derives a centered square from the complete control bounds, reserves known stroke and vector extents, exposes safe bounds/effective radius, and clips all chart drawing to that square;
-- `ChartVisualMetrics` derives bounded zodiac/planet glyph sizes, glyph/ring strokes, anchor/connector strokes, and an aspect scale from the effective radius;
+- `ChartVisualMetrics` derives bounded zodiac/planet glyph sizes, annotation text, readable minimum ring/cusp/axis/aspect strokes, anchor/connector strokes, and an aspect scale from the effective radius;
 - visual geometry grows with the chart while known vector bounds continue to participate in the viewport safety calculation;
 - radial lanes remain geometry contracts, but collision-lane boundaries and aspect-interior bounds are not drawn as unconditional debug guides;
-- available house geometry is rendered as 12 restrained cusp lines, small plain-text house numbers, stronger ASC–DSC and MC–IC axes, and compact `ASC`/`MC` labels;
-- house lines and aspects are drawn before project-owned zodiac and planet glyphs so the symbols remain the visual priority;
+- available house geometry is rendered as 12 readable cusp lines, higher-contrast plain-text house numbers, stronger ASC–DSC and MC–IC axes, and all four compact `ASC`/`DSC`/`MC`/`IC` labels;
+- one intentional inner circle anchors the aspect figure and its endpoint markers; technical radial-lane boundaries remain invisible;
+- planet annotation groups combine a project-owned vector glyph, two-digit degree-within-sign text, and an optional `R`, while minute precision remains in the table;
+- house lines and aspects are drawn before project-owned zodiac and planet glyphs and the primary labels remain above secondary structure;
 - house digits and Latin angle abbreviations may use ordinary text rendering; astrology symbols remain project-owned vectors;
-- the zodiac band uses only a very low-opacity warm structural wash; dark/light palettes keep the outer rim and vector glyphs more prominent than aspects;
+- the zodiac annulus uses visible, restrained element-coded sector fills with separate dark/light palettes, a strong outer rim, a readable inner boundary, and clear separators;
 - zero, non-finite, and too-small surfaces exit without drawing.
 
 ## Boundaries
@@ -116,7 +118,7 @@ Current functional strategy:
 - dark and light chart palettes are render-facing inputs selected by the App host, without renderer ownership of shell-theme orchestration;
 - every supported `AspectType` has an explicit restrained style using thickness, opacity, muted color, and optional dash pattern;
 - conjunctions render as compact local markers instead of arbitrary full chords;
-- aspect chords remain entirely inside the geometry-owned aspect interior.
+- aspect chords remain entirely inside the geometry-owned aspect interior and use readable, non-sub-pixel minimum weights;
 - `ChartHouseStyleCatalog` supplies deterministic cusp and axis hierarchy from chart-local dark/light palettes;
 - `ChartRenderScene` exposes provider-independent house geometry and never references SwissEphNet.
 

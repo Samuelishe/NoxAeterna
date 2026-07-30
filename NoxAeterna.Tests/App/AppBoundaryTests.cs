@@ -18,6 +18,22 @@ public sealed class AppBoundaryTests
         Assert.Contains(projectReferences, path => path!.Contains("NoxAeterna.Astronomy", StringComparison.OrdinalIgnoreCase));
     }
 
+    [Fact]
+    public void NormalMainWindowStartup_DoesNotMaterializeDevelopmentSampleChart()
+    {
+        var path = Path.Combine(
+            AppContext.BaseDirectory,
+            "..",
+            "..",
+            "..",
+            "..",
+            "NoxAeterna.App",
+            "MainWindow.axaml.cs");
+        var source = File.ReadAllText(Path.GetFullPath(path));
+
+        Assert.DoesNotContain("DevelopmentSampleChartBuildResultFactory", source, StringComparison.Ordinal);
+    }
+
     private static XDocument LoadProjectDocument(string projectDirectory, string projectFileName)
     {
         var path = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", projectDirectory, projectFileName);

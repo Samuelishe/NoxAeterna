@@ -149,6 +149,7 @@ public sealed class JsonLocalizationCatalogLoaderTests
             "ui.shell.section.settings",
             "ui.astrology.panel.chart.title",
             "ui.astrology.panel.birth_data.title",
+            "ui.chart.empty_state",
             "ui.birth_data.birth_date",
             "ui.birth_data.birth_time",
             "ui.birth_data.birth_time_accuracy",

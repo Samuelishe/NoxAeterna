@@ -979,3 +979,30 @@ Next actions:
 
 - Request user screenshots for both known-time and UnknownTime charts and obtain visual confirmation of house-line density, number placement, and angle labels.
 - Numerically compare ASC, MC, and twelve cusps for a known fixture against a trusted reference before selecting any later `.se1`, persistence, or interpretation stage.
+
+## 2026-07-30: Natal Chart Correctness and Readability Correction
+
+Summary:
+
+- Added numerical golden coverage for the exact Prague UTC instant, all ten displayed planet positions, twelve Placidus cusps, ASC `203.4687440076°`, and MC `120.5684847742°`.
+- Corrected the mirrored wheel by keeping clockwise chart-space coordinates while projecting source zodiac longitude counterclockwise through one geometry-owned transform shared by zodiac, planets, aspects, cusps, numbers, axes, and labels.
+- Replaced width-only chart sizing with a square constrained by both content width and finite column-viewport height, reserved panel chrome, and the existing 1100 DIP cap.
+- Removed the visible startup fixture: the coordinator now starts without a chart or scene, the empty form shows one localized empty state, and chart plus summaries appear together after a successful build.
+- Strengthened the render hierarchy with visible element-coded zodiac sectors, readable rim/separator/cusp/axis/aspect weights, one intentional aspect circle, endpoint markers, Roman house numerals, and all four principal-angle labels outside the rim with their extents reserved by `ChartViewport`.
+- Added compact glyph-plus-degree planet annotations with optional `R`, expanded deterministic cluster spacing for the full annotation envelope, and limited connectors to actual collision displacement.
+- Updated geometry, rendering, UI, astronomy, risk, next-step, and durable-decision documentation without adding dependencies or assets.
+
+Verification:
+
+- Baseline matched `53981a9d8ddd6b817dbe09383d8b9aeec9182486`; the worktree was clean and restore/build plus 232/232 tests passed before edits.
+- Current build succeeds with no warnings and 245/245 tests pass.
+- Windows smoke covered fresh empty startup, exact Prague input, approximate time, UnknownTime, `1180x760`, `1360x860`, `1650x900`, maximized `1920x1080`, live resize, dark/light themes, and RU/EN UI.
+- Standard and maximized known-time screenshots, empty startup, light-theme, and UnknownTime screenshots were generated under the local temporary directory only and were not added to the repository.
+- The full wheel remains visible at the top of the left viewport; table and angle summary remain available below through the single column scrollbar.
+- Exact Prague output shows Libra ASC left, DSC right, MC near the top, IC near the bottom, conventional counterclockwise zodiac order, the expected planet values, and no observed glyph/label clipping or overlap in compact and maximized smoke fixtures.
+- UnknownTime keeps planets and aspects, renders no houses or angle labels, preserves counterclockwise Aries-at-top orientation, and shows the localized unavailable summary.
+
+Next actions:
+
+- Request fresh empty-startup, standard known-time, maximized known-time, and UnknownTime screenshots from the user.
+- Confirm the golden Prague angles and cusps against the user's trusted external reference before selecting any later `.se1`, persistence, or interpretation work.

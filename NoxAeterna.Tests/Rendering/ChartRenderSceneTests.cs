@@ -23,8 +23,10 @@ public sealed class ChartRenderSceneTests
         Assert.Equal(firstScene.HouseCusps, secondScene.HouseCusps);
         Assert.Equal(firstScene.HouseNumberAnchors, secondScene.HouseNumberAnchors);
         Assert.Equal(firstScene.AngleAxes, secondScene.AngleAxes);
+        Assert.Equal(firstScene.AngleLabels, secondScene.AngleLabels);
         Assert.Equal(firstScene.ZodiacGlyphs, secondScene.ZodiacGlyphs);
         Assert.Equal(firstScene.PlanetGlyphs, secondScene.PlanetGlyphs);
+        Assert.Equal(firstScene.PlanetAnnotations, secondScene.PlanetAnnotations);
     }
 
     [Fact]
@@ -69,8 +71,35 @@ public sealed class ChartRenderSceneTests
             var style = ChartAspectStyleCatalog.Get(aspectType);
 
             Assert.True(style.Thickness > 0d);
-            Assert.InRange(style.Opacity, 0d, 1d);
+            Assert.InRange(style.Opacity, 0.70d, 1d);
         }
+    }
+
+    [Fact]
+    public void ZodiacSectorPalettesRemainVisibleInDarkAndLightThemes()
+    {
+        foreach (var palette in new[] { ChartRenderPalette.Dark, ChartRenderPalette.Light })
+        {
+            Assert.InRange(palette.ZodiacSectorOpacity, 0.35d, 0.65d);
+            Assert.NotEqual(palette.FireSectorColor, palette.EarthSectorColor);
+            Assert.NotEqual(palette.EarthSectorColor, palette.AirSectorColor);
+            Assert.NotEqual(palette.AirSectorColor, palette.WaterSectorColor);
+        }
+    }
+
+    [Fact]
+    public void PlanetAnnotationsCarryDegreeRetrogradeAndConditionalDisplacementState()
+    {
+        var scene = ChartRenderScene.FromLayout(CreateLayout());
+        var sun = scene.PlanetAnnotations.Single(annotation => annotation.Body == CelestialBody.Sun);
+        var mars = scene.PlanetAnnotations.Single(annotation => annotation.Body == CelestialBody.Mars);
+
+        Assert.Equal("10°", sun.DegreeText);
+        Assert.False(sun.IsRetrograde);
+        Assert.False(sun.HasDisplacement);
+        Assert.Equal("10°", mars.DegreeText);
+        Assert.True(mars.IsRetrograde);
+        Assert.False(mars.HasDisplacement);
     }
 
     [Fact]
@@ -81,6 +110,9 @@ public sealed class ChartRenderSceneTests
         Assert.Equal(12, scene.HouseCusps.Count);
         Assert.Equal(12, scene.HouseNumberAnchors.Count);
         Assert.Equal(2, scene.AngleAxes.Count);
+        Assert.Equal(
+            new[] { "ASC", "DSC", "MC", "IC" },
+            scene.AngleLabels.Select(static label => label.Text));
         Assert.DoesNotContain(
             scene.GetType().Assembly.GetReferencedAssemblies(),
             assembly => assembly.Name?.Contains("SwissEph", StringComparison.OrdinalIgnoreCase) == true);
@@ -93,7 +125,7 @@ public sealed class ChartRenderSceneTests
         var secondCusp = ChartHouseStyleCatalog.GetCusp(ChartRenderPalette.Dark);
 
         Assert.Equal(firstCusp, secondCusp);
-        Assert.True(firstCusp.Opacity > 0d);
+        Assert.True(firstCusp.Opacity >= 0.78d);
 
         foreach (var axisType in Enum.GetValues<ChartAngleAxisType>())
         {
@@ -125,6 +157,11 @@ public sealed class ChartRenderSceneTests
             (viewport.VisualMetrics.ZodiacGlyphSize / 2d) +
             (viewport.VisualMetrics.GlyphStrokeThickness / 2d);
         Assert.True(zodiacOutermost <= viewport.SafeDrawingBounds.Right + 1e-9);
+        var angleLabelOutermost =
+            viewport.Center.X +
+            (viewport.EffectiveRadius * lanes.AngleLabelRadiusRatio) +
+            (viewport.VisualMetrics.AngleLabelFontSize * 1.1d);
+        Assert.True(angleLabelOutermost <= viewport.SafeDrawingBounds.Right + 1e-9);
     }
 
     [Theory]

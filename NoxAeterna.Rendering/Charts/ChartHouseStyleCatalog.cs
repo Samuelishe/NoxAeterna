@@ -13,7 +13,7 @@ public static class ChartHouseStyleCatalog
     public static ChartHouseVisualStyle GetCusp(ChartRenderPalette palette)
     {
         ArgumentNullException.ThrowIfNull(palette);
-        return new ChartHouseVisualStyle(palette.HouseCuspColor, 0.58d, 1d);
+        return new ChartHouseVisualStyle(palette.HouseCuspColor, 0.82d, 1d);
     }
 
     /// <summary>
@@ -28,9 +28,9 @@ public static class ChartHouseStyleCatalog
         return axisType switch
         {
             ChartAngleAxisType.AscendantDescendant =>
-                new ChartHouseVisualStyle(palette.AngleAxisColor, 0.88d, 1d),
+                new ChartHouseVisualStyle(palette.AngleAxisColor, 0.96d, 1d),
             ChartAngleAxisType.MidheavenImumCoeli =>
-                new ChartHouseVisualStyle(palette.AngleAxisColor, 0.76d, 0.9d),
+                new ChartHouseVisualStyle(palette.AngleAxisColor, 0.90d, 0.92d),
             _ => throw new ArgumentOutOfRangeException(
                 nameof(axisType),
                 axisType,

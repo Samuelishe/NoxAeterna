@@ -8,6 +8,7 @@
   "ui.shell.placeholder.caption": "Section scaffold only",
   "ui.shell.placeholder.hint": "This section is waiting for a later implementation step",
   "ui.astrology.panel.chart.title": "Chart",
+  "ui.chart.empty_state": "No chart has been calculated",
   "ui.astrology.panel.birth_data.title": "Birth data",
   "ui.astrology.panel.interpretation.title": "Context and interpretation",
   "ui.birth_data.birth_date": "Birth date",

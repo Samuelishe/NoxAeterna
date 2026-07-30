@@ -13,6 +13,16 @@ namespace NoxAeterna.Tests.App;
 public sealed class DevelopmentAstrologyChartCoordinatorTests
 {
     [Fact]
+    public void Coordinator_StartsWithoutSyntheticChartOrScene()
+    {
+        var coordinator = CreateCoordinator();
+
+        Assert.False(coordinator.HasChart);
+        Assert.Null(coordinator.CurrentBuildResult);
+        Assert.Null(coordinator.CurrentScene);
+    }
+
+    [Fact]
     public void TryBuild_RebuildsChartFromValidInput()
     {
         var coordinator = CreateCoordinator();
@@ -32,19 +42,18 @@ public sealed class DevelopmentAstrologyChartCoordinatorTests
 
         Assert.True(rebuilt);
         Assert.NotNull(coordinator.CurrentBuildResult);
-        Assert.Equal(BirthTimeAccuracy.ExactTime, coordinator.CurrentBuildResult.NatalChart.BirthMoment.BirthTimeAccuracy);
-        Assert.Equal(10, coordinator.CurrentBuildResult.NatalChart.Positions.Count);
-        Assert.True(coordinator.CurrentBuildResult.NatalChart.Houses?.IsAvailable);
-        Assert.Equal(12, coordinator.CurrentBuildResult.RenderScene.HouseCusps.Count);
+        var buildResult = Assert.IsType<DevelopmentChartBuildResult>(coordinator.CurrentBuildResult);
+        Assert.Equal(BirthTimeAccuracy.ExactTime, buildResult.NatalChart.BirthMoment.BirthTimeAccuracy);
+        Assert.Equal(10, buildResult.NatalChart.Positions.Count);
+        Assert.True(buildResult.NatalChart.Houses?.IsAvailable);
+        Assert.Equal(12, buildResult.RenderScene.HouseCusps.Count);
     }
 
     [Fact]
     public void TryBuild_CalculatesHousesForApproximateTimeWithoutChangingAccuracy()
     {
         var houseCalculator = new FakeHouseCalculator();
-        var coordinator = CreateCoordinator(
-            DevelopmentSampleChartBuildResultFactory.Create(),
-            houseCalculator);
+        var coordinator = CreateCoordinator(houseCalculator);
         var viewModel = new BirthDataInputViewModel(
             new BirthDataInputState(
                 new DateTimeOffset(1990, 7, 14, 0, 0, 0, TimeSpan.Zero),
@@ -61,16 +70,14 @@ public sealed class DevelopmentAstrologyChartCoordinatorTests
         Assert.Equal(1, houseCalculator.CallCount);
         Assert.Equal(
             BirthTimeAccuracy.ApproximateTime,
-            coordinator.CurrentBuildResult.NatalChart.BirthMoment.BirthTimeAccuracy);
+            coordinator.CurrentBuildResult!.NatalChart.BirthMoment.BirthTimeAccuracy);
         Assert.True(coordinator.CurrentBuildResult.NatalChart.Houses?.IsAvailable);
     }
 
     [Fact]
     public void TryBuild_HouseProviderFailureKeepsPlanetChartWithoutFakeHouseGeometry()
     {
-        var coordinator = CreateCoordinator(
-            DevelopmentSampleChartBuildResultFactory.Create(),
-            new UnavailableHouseCalculator());
+        var coordinator = CreateCoordinator(new UnavailableHouseCalculator());
         var viewModel = new BirthDataInputViewModel(
             new BirthDataInputState(
                 new DateTimeOffset(1990, 7, 14, 0, 0, 0, TimeSpan.Zero),
@@ -84,21 +91,20 @@ public sealed class DevelopmentAstrologyChartCoordinatorTests
             CreateAccuracies());
 
         Assert.True(coordinator.TryBuild(viewModel));
-        Assert.Equal(10, coordinator.CurrentBuildResult.NatalChart.Positions.Count);
+        var buildResult = Assert.IsType<DevelopmentChartBuildResult>(coordinator.CurrentBuildResult);
+        Assert.Equal(10, buildResult.NatalChart.Positions.Count);
         Assert.Equal(
             NatalHousesAvailability.UnavailableCalculation,
-            coordinator.CurrentBuildResult.NatalChart.Houses?.Availability);
-        Assert.Empty(coordinator.CurrentBuildResult.RenderScene.HouseCusps);
-        Assert.Empty(coordinator.CurrentBuildResult.RenderScene.AngleAxes);
+            buildResult.NatalChart.Houses?.Availability);
+        Assert.Empty(buildResult.RenderScene.HouseCusps);
+        Assert.Empty(buildResult.RenderScene.AngleAxes);
     }
 
     [Fact]
     public void TryBuild_UsesTechnicalFallbackForUnknownTimeWhilePreservingAccuracy()
     {
         var houseCalculator = new FakeHouseCalculator();
-        var coordinator = CreateCoordinator(
-            DevelopmentSampleChartBuildResultFactory.Create(),
-            houseCalculator);
+        var coordinator = CreateCoordinator(houseCalculator);
         var viewModel = new BirthDataInputViewModel(
             new BirthDataInputState(
                 new DateTimeOffset(1990, 7, 14, 0, 0, 0, TimeSpan.Zero),
@@ -125,34 +131,28 @@ public sealed class DevelopmentAstrologyChartCoordinatorTests
     }
 
     [Fact]
-    public void TryBuild_DoesNotReplaceCurrentSceneWhenInputIsInvalid()
+    public void TryBuild_InvalidInputKeepsEmptyCoordinatorEmpty()
     {
-        var initialBuildResult = DevelopmentSampleChartBuildResultFactory.Create();
-        var coordinator = CreateCoordinator(initialBuildResult);
+        var coordinator = CreateCoordinator();
         var viewModel = BirthDataInputViewModel.CreateDefault();
 
         var rebuilt = coordinator.TryBuild(viewModel);
 
         Assert.False(rebuilt);
-        Assert.Equal(initialBuildResult, coordinator.CurrentBuildResult);
-        Assert.Equal(initialBuildResult.RenderScene, coordinator.CurrentScene);
+        Assert.Null(coordinator.CurrentBuildResult);
+        Assert.Null(coordinator.CurrentScene);
     }
 
     private static DevelopmentAstrologyChartCoordinator CreateCoordinator() =>
-        CreateCoordinator(DevelopmentSampleChartBuildResultFactory.Create());
-
-    private static DevelopmentAstrologyChartCoordinator CreateCoordinator(DevelopmentChartBuildResult initialBuildResult) =>
-        CreateCoordinator(initialBuildResult, new FakeHouseCalculator());
+        CreateCoordinator(new FakeHouseCalculator());
 
     private static DevelopmentAstrologyChartCoordinator CreateCoordinator(
-        DevelopmentChartBuildResult initialBuildResult,
         IHouseCalculator houseCalculator) =>
         new(
             new DevelopmentAstrologyChartPipeline(
                 new TzdbBirthMomentResolver(),
                 new DevelopmentEphemerisCalculator(),
-                houseCalculator),
-            initialBuildResult);
+                houseCalculator));
 
     private static BirthTimeAccuracyOption[] CreateAccuracies() =>
     [

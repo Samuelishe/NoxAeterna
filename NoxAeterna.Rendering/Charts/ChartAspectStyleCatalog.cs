@@ -9,19 +9,19 @@ namespace NoxAeterna.Rendering.Charts;
 public static class ChartAspectStyleCatalog
 {
     private static readonly ChartAspectVisualStyle Conjunction =
-        new(Color.FromRgb(128, 119, 109), 0.8d, 0.65d, null);
+        new(Color.FromRgb(185, 174, 156), 1d, 0.82d, null);
 
     private static readonly ChartAspectVisualStyle Sextile =
-        new(Color.FromRgb(82, 116, 99), 0.68d, 0.54d, [3d, 4d]);
+        new(Color.FromRgb(72, 139, 119), 1.15d, 0.74d, null);
 
     private static readonly ChartAspectVisualStyle Square =
-        new(Color.FromRgb(145, 75, 70), 0.92d, 0.70d, null);
+        new(Color.FromRgb(177, 76, 72), 1.4d, 0.84d, null);
 
     private static readonly ChartAspectVisualStyle Trine =
-        new(Color.FromRgb(70, 98, 127), 0.72d, 0.56d, [6d, 3d]);
+        new(Color.FromRgb(67, 119, 160), 1.2d, 0.76d, null);
 
     private static readonly ChartAspectVisualStyle Opposition =
-        new(Color.FromRgb(139, 91, 51), 1d, 0.74d, [8d, 3d]);
+        new(Color.FromRgb(186, 91, 73), 1.45d, 0.86d, null);
 
     /// <summary>
     /// Gets the visual style for a supported aspect type.

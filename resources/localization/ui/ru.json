@@ -8,6 +8,7 @@
   "ui.shell.placeholder.caption": "Раздел пока не реализован",
   "ui.shell.placeholder.hint": "Этот раздел пока ждёт следующего этапа реализации",
   "ui.astrology.panel.chart.title": "Карта",
+  "ui.chart.empty_state": "Карта не построена",
   "ui.astrology.panel.birth_data.title": "Данные рождения",
   "ui.astrology.panel.interpretation.title": "Контекст и интерпретация",
   "ui.birth_data.birth_date": "Дата рождения",

@@ -99,9 +99,17 @@ public readonly record struct ChartViewport
                 (availableHalfSize - (visualMetrics.ZodiacGlyphSize / 2d) - (visualMetrics.GlyphStrokeThickness / 2d)) /
                 radialLanes.ZodiacGlyphLane.MidpointRadiusRatio;
             var planetGlyphRadius =
-                (availableHalfSize - (visualMetrics.PlanetGlyphSize / 2d) - (visualMetrics.GlyphStrokeThickness / 2d)) /
+                (availableHalfSize -
+                 (visualMetrics.PlanetGlyphSize / 2d) -
+                 visualMetrics.PlanetAnnotationFontSize -
+                 (visualMetrics.GlyphStrokeThickness / 2d)) /
                 radialLanes.PlanetGlyphLane.OuterRadiusRatio;
-            var safeRadius = Math.Min(outerBoundaryRadius, Math.Min(zodiacGlyphRadius, planetGlyphRadius));
+            var angleLabelRadius =
+                (availableHalfSize - (visualMetrics.AngleLabelFontSize * 1.1d)) /
+                radialLanes.AngleLabelRadiusRatio;
+            var safeRadius = Math.Min(
+                Math.Min(outerBoundaryRadius, zodiacGlyphRadius),
+                Math.Min(planetGlyphRadius, angleLabelRadius));
 
             if (safeRadius >= effectiveRadius)
             {

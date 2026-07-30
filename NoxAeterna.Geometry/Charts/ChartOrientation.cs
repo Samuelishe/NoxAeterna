@@ -9,9 +9,9 @@ public readonly record struct ChartOrientation
 {
     private const double AscendantAtLeftChartAngle = 270d;
 
-    private ChartOrientation(double rotationDegrees, ZodiacLongitude? ascendant)
+    private ChartOrientation(double displayOriginDegrees, ZodiacLongitude? ascendant)
     {
-        RotationDegrees = ZodiacLongitude.Normalize(rotationDegrees);
+        DisplayOriginDegrees = ZodiacLongitude.Normalize(displayOriginDegrees);
         Ascendant = ascendant;
     }
 
@@ -21,9 +21,9 @@ public readonly record struct ChartOrientation
     public static ChartOrientation AriesAtTop { get; } = new(0d, null);
 
     /// <summary>
-    /// Gets the clockwise rotation added to every source longitude.
+    /// Gets the chart-space angle corresponding to source longitude zero.
     /// </summary>
-    public double RotationDegrees { get; }
+    public double DisplayOriginDegrees { get; }
 
     /// <summary>
     /// Gets the Ascendant that determined the orientation, when present.
@@ -39,7 +39,7 @@ public readonly record struct ChartOrientation
     /// Creates an orientation that places the Ascendant at the left (9 o'clock).
     /// </summary>
     public static ChartOrientation AscendantAtLeft(ZodiacLongitude ascendant) =>
-        new(AscendantAtLeftChartAngle - ascendant.Degrees, ascendant);
+        new(AscendantAtLeftChartAngle + ascendant.Degrees, ascendant);
 
     /// <summary>
     /// Transforms an immutable source longitude to a display angle.
@@ -51,5 +51,5 @@ public readonly record struct ChartOrientation
     /// Transforms a longitude-like degree value, including collision-adjusted display values.
     /// </summary>
     public AngularPosition TransformDegrees(double degrees) =>
-        new(degrees + RotationDegrees);
+        new(DisplayOriginDegrees - degrees);
 }

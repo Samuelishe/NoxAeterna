@@ -3,6 +3,7 @@ using NoxAeterna.Astronomy.Calculation;
 using NoxAeterna.Domain.Astrology;
 using NoxAeterna.Domain.Birth;
 using NoxAeterna.Infrastructure.Ephemeris;
+using NoxAeterna.Presentation.Astrology;
 
 namespace NoxAeterna.Tests.Infrastructure;
 
@@ -83,6 +84,97 @@ public sealed class SwissEphemerisCalculatorTests
             houses.Angles.Ascendant.Degrees,
             precision: 8);
         Assert.Contains("SwissEphNet", houses.SourceMetadata, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void PragueGoldenFixture_MatchesExpectedPlanetsCuspsAndPrincipalAngles()
+    {
+        var birthMoment = CreateBirthMoment();
+        Assert.Equal(Instant.FromUtc(1990, 7, 14, 11, 45), birthMoment.Instant);
+
+        IEphemerisCalculator ephemerisCalculator = new SwissEphemerisCalculator();
+        var planetResult = ephemerisCalculator.Calculate(
+            new ChartCalculationRequest(birthMoment, Enum.GetValues<CelestialBody>()));
+        var chart = NatalChart.Create(birthMoment, planetResult.Positions);
+        var positionRows = PlanetPositionSummaryBuilder.Build(chart);
+        var expectedPositions = new[]
+        {
+            (CelestialBody.Sun, ZodiacSign.Cancer, "21°47'", false),
+            (CelestialBody.Moon, ZodiacSign.Aries, "09°12'", false),
+            (CelestialBody.Mercury, ZodiacSign.Leo, "04°52'", false),
+            (CelestialBody.Venus, ZodiacSign.Gemini, "23°12'", false),
+            (CelestialBody.Mars, ZodiacSign.Taurus, "01°16'", false),
+            (CelestialBody.Jupiter, ZodiacSign.Cancer, "22°19'", false),
+            (CelestialBody.Saturn, ZodiacSign.Capricorn, "22°02'", true),
+            (CelestialBody.Uranus, ZodiacSign.Capricorn, "07°00'", true),
+            (CelestialBody.Neptune, ZodiacSign.Capricorn, "12°57'", true),
+            (CelestialBody.Pluto, ZodiacSign.Scorpio, "15°00'", true)
+        };
+
+        Assert.Equal(expectedPositions.Length, planetResult.Positions.Count);
+        for (var index = 0; index < expectedPositions.Length; index++)
+        {
+            var expected = expectedPositions[index];
+            var actualPosition = planetResult.Positions[index];
+            var actualRow = positionRows[index];
+            Assert.Equal(expected.Item1, actualPosition.Body);
+            Assert.Equal(expected.Item2, actualPosition.Sign);
+            Assert.Equal(expected.Item3, actualRow.PositionText);
+            Assert.Equal(expected.Item4, actualPosition.IsRetrograde);
+        }
+
+        IHouseCalculator houseCalculator = new SwissEphemerisHouseCalculator();
+        var houseResult = houseCalculator.Calculate(
+            new HouseCalculationRequest(
+                birthMoment,
+                new BirthLocation("Prague, Czechia", 50.0755d, 14.4378d),
+                HouseSystem.Placidus));
+        var houses = Assert.IsType<NatalHouses>(houseResult.Houses);
+        var expectedCusps = new[]
+        {
+            203.4687440076d,
+            230.1837604702d,
+            263.0854176255d,
+            300.5684847742d,
+            334.8680247028d,
+            2.2464963277d,
+            23.4687440076d,
+            50.1837604702d,
+            83.0854176255d,
+            120.5684847742d,
+            154.8680247028d,
+            182.2464963277d
+        };
+
+        Assert.Equal(12, houses.Cusps.Count);
+        for (var index = 0; index < expectedCusps.Length; index++)
+        {
+            Assert.Equal(index + 1, houses.Cusps[index].HouseNumber.Value);
+            Assert.InRange(
+                Math.Abs(houses.Cusps[index].Longitude.Degrees - expectedCusps[index]),
+                0d,
+                0.0000001d);
+        }
+
+        Assert.NotNull(houses.Angles);
+        Assert.InRange(
+            Math.Abs(houses.Angles.Ascendant.Degrees - 203.4687440076d),
+            0d,
+            0.0000001d);
+        Assert.InRange(
+            Math.Abs(houses.Angles.Midheaven.Degrees - 120.5684847742d),
+            0d,
+            0.0000001d);
+        Assert.Equal(houses.Cusps[0].Longitude, houses.Angles.Ascendant);
+        Assert.Equal(houses.Cusps[9].Longitude, houses.Angles.Midheaven);
+        Assert.Equal(
+            ZodiacLongitude.Normalize(houses.Angles.Ascendant.Degrees + 180d),
+            houses.Angles.Descendant.Degrees,
+            precision: 10);
+        Assert.Equal(
+            ZodiacLongitude.Normalize(houses.Angles.Midheaven.Degrees + 180d),
+            houses.Angles.ImumCoeli.Degrees,
+            precision: 10);
     }
 
     [Fact]

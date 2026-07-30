@@ -330,3 +330,27 @@ Decision: Never use the technical noon fallback to calculate or orient houses, A
 Reason: Planet positions can use a documented approximation when time is absent, but houses and principal angles change too materially for noon data to be presented as natal structure.
 
 Consequences: `UnknownTime` keeps planetary positions, stores an explicit unavailable status, renders no house geometry, preserves Aries-at-top orientation, and shows a short localized UI message.
+
+## 2026-07-30: Correct Zodiac Projection Direction Without Changing Chart-Space Convention
+
+Decision: Keep chart-space `0°` at the top with angles increasing clockwise, but project source zodiac longitude counterclockwise: Aries-at-top uses `normalize(-longitude)`, and Ascendant-at-left uses `normalize(270° + ascendant - longitude)`.
+
+Reason: The earlier Ascendant-at-left decision placed ASC correctly but incorrectly added source longitude in clockwise screen space, mirroring the zodiac, houses, planets, and aspects.
+
+Consequences: ASC remains left and MC remains at its calculated transformed angle, while zodiac longitude now increases in the conventional counterclockwise screen direction. The same geometry-owned transform applies to every chart layer, and all source longitudes remain unchanged.
+
+## 2026-07-30: Keep Normal Startup Empty and Restore Inputs With Chart State
+
+Decision: Normal startup must not materialize a deterministic sample chart when the birth-data form is empty.
+
+Reason: A real-looking Prague chart beside unrelated empty inputs falsely implies that the visible chart belongs to the current form.
+
+Consequences: The coordinator may start without a chart or scene, and chart plus summaries appear only after a successful build. Sample factories remain test/debug fixtures. If persistence is added later, corresponding birth inputs and chart state must be restored together.
+
+## 2026-07-30: Fit the Whole Wheel to Width and Viewport Height
+
+Decision: Size the chart square from the smaller of available content width, finite chart-column viewport height after reserved chrome, and the 1100 DIP large-monitor cap.
+
+Reason: Width-only sizing allowed a maximized window to create a wheel taller than the visible viewport.
+
+Consequences: The full wheel is visible at the top of the left column, while the existing single column scrollbar moves to the position and angle summaries below it. Radius-responsive rendering also enforces readable minimum line weights and contrast.

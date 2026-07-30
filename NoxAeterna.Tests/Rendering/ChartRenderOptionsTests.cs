@@ -33,8 +33,26 @@ public sealed class ChartRenderOptionsTests
         Assert.True(large.GlyphStrokeThickness > small.GlyphStrokeThickness);
         Assert.Equal(46d, huge.ZodiacGlyphSize);
         Assert.Equal(36d, huge.PlanetGlyphSize);
-        Assert.Equal(2.4d, huge.OuterRingStrokeThickness);
-        Assert.Equal(1.5d, huge.StructuralStrokeThickness);
+        Assert.Equal(3.4d, huge.OuterRingStrokeThickness);
+        Assert.Equal(2.2d, huge.StructuralStrokeThickness);
+        Assert.Equal(1.8d, huge.HouseCuspStrokeThickness);
+        Assert.Equal(3.2d, huge.AngleAxisStrokeThickness);
+    }
+
+    [Theory]
+    [InlineData(140d)]
+    [InlineData(300d)]
+    [InlineData(520d)]
+    public void ResponsiveMetrics_KeepPrimaryLinesReadableAtRepresentativeRadii(double radius)
+    {
+        var metrics = ChartVisualMetrics.Calculate(radius, new ChartRenderOptions());
+
+        Assert.True(metrics.OuterRingStrokeThickness >= 2.4d);
+        Assert.True(metrics.StructuralStrokeThickness >= 1.5d);
+        Assert.True(metrics.HouseCuspStrokeThickness >= 1.2d);
+        Assert.True(metrics.AngleAxisStrokeThickness >= 2.2d);
+        Assert.True(metrics.PlanetGlyphSize <= 36d);
+        Assert.True(metrics.ZodiacGlyphSize <= 46d);
     }
 
     [Fact]
