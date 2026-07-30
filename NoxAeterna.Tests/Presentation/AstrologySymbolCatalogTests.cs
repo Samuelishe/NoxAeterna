@@ -10,7 +10,6 @@ public sealed class AstrologySymbolCatalogTests
     {
         foreach (var body in Enum.GetValues<CelestialBody>())
         {
-            Assert.False(string.IsNullOrWhiteSpace(AstrologySymbolCatalog.GetBodyGlyph(body)));
             Assert.False(string.IsNullOrWhiteSpace(AstrologySymbolCatalog.GetBodyLabelKey(body).Value));
         }
     }
@@ -20,7 +19,6 @@ public sealed class AstrologySymbolCatalogTests
     {
         foreach (var sign in Enum.GetValues<ZodiacSign>())
         {
-            Assert.False(string.IsNullOrWhiteSpace(AstrologySymbolCatalog.GetSignGlyph(sign)));
             Assert.False(string.IsNullOrWhiteSpace(AstrologySymbolCatalog.GetSignLabelKey(sign).Value));
         }
     }

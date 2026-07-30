@@ -8,13 +8,13 @@ using NoxAeterna.Presentation.Localization;
 namespace NoxAeterna.App.Astrology;
 
 /// <summary>
-/// Renders a compact readable list of current planet positions.
+/// Renders current planet positions in one shared, aligned four-column table.
 /// </summary>
 public sealed class PlanetPositionSummaryControl : UserControl
 {
     private readonly ILocalizationProvider _localizationProvider;
     private readonly LanguageCode _applicationLanguage;
-    private readonly StackPanel _rowsPanel;
+    private readonly Grid _table;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PlanetPositionSummaryControl"/> class.
@@ -26,9 +26,10 @@ public sealed class PlanetPositionSummaryControl : UserControl
     {
         _localizationProvider = localizationProvider ?? throw new ArgumentNullException(nameof(localizationProvider));
         _applicationLanguage = applicationLanguage;
-        _rowsPanel = new StackPanel
+        _table = new Grid
         {
-            Spacing = 6
+            ColumnDefinitions = new ColumnDefinitions("2*,1.5*,Auto,Auto"),
+            ColumnSpacing = 16
         };
 
         Content = new StackPanel
@@ -42,7 +43,7 @@ public sealed class PlanetPositionSummaryControl : UserControl
                     FontSize = 14,
                     FontWeight = FontWeight.SemiBold
                 },
-                _rowsPanel
+                _table
             }
         };
 
@@ -50,51 +51,70 @@ public sealed class PlanetPositionSummaryControl : UserControl
     }
 
     /// <summary>
-    /// Replaces the currently visible rows.
+    /// Replaces the currently visible rows while preserving shared column definitions.
     /// </summary>
     public void SetRows(IReadOnlyList<PlanetPositionSummaryRow> rows)
     {
         ArgumentNullException.ThrowIfNull(rows);
 
-        _rowsPanel.Children.Clear();
+        _table.Children.Clear();
+        _table.RowDefinitions.Clear();
+        AddHeaderRow();
 
-        foreach (var row in rows)
+        for (var index = 0; index < rows.Count; index++)
         {
-            _rowsPanel.Children.Add(CreateRow(row));
+            AddDataRow(rows[index], index + 1);
         }
     }
 
-    private Control CreateRow(PlanetPositionSummaryRow row)
+    private void AddHeaderRow()
     {
-        var retrogradeMarker = row.IsRetrograde
-            ? $" {Localize("ui.chart.positions.retrograde_marker")}"
-            : string.Empty;
-
-        return new Grid
-        {
-            ColumnDefinitions = new ColumnDefinitions("Auto,Auto,*,Auto"),
-            ColumnSpacing = 10,
-            Children =
-            {
-                CreateCell(row.Glyph, 0, FontWeight.SemiBold),
-                CreateCell(Localize(row.BodyLabelKey), 1),
-                CreateCell($"{row.SignGlyph} {Localize(row.SignLabelKey)}", 2),
-                CreateCell($"{row.DegreeText}{retrogradeMarker}", 3, horizontalAlignment: HorizontalAlignment.Right)
-            }
-        };
+        _table.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+        AddCell(Localize("ui.chart.positions.header.planet"), 0, 0, FontWeight.SemiBold, fontSize: 12d);
+        AddCell(Localize("ui.chart.positions.header.sign"), 0, 1, FontWeight.SemiBold, fontSize: 12d);
+        AddCell(
+            Localize("ui.chart.positions.header.position"),
+            0,
+            2,
+            FontWeight.SemiBold,
+            HorizontalAlignment.Right,
+            12d);
+        AddCell(
+            Localize("ui.chart.positions.header.retrograde"),
+            0,
+            3,
+            FontWeight.SemiBold,
+            HorizontalAlignment.Center,
+            12d);
     }
 
-    private TextBlock CreateCell(
+    private void AddDataRow(PlanetPositionSummaryRow row, int rowIndex)
+    {
+        _table.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
+        AddCell(Localize(row.PlanetLabelKey), rowIndex, 0);
+        AddCell(Localize(row.SignLabelKey), rowIndex, 1);
+        AddCell(row.PositionText, rowIndex, 2, horizontalAlignment: HorizontalAlignment.Right);
+        AddCell(
+            row.IsRetrograde ? Localize("ui.chart.positions.retrograde_marker") : string.Empty,
+            rowIndex,
+            3,
+            horizontalAlignment: HorizontalAlignment.Center);
+    }
+
+    private void AddCell(
         string text,
+        int row,
         int column,
         FontWeight? fontWeight = null,
-        HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left)
+        HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
+        double? fontSize = null)
     {
         var textBlock = new TextBlock
         {
             Text = text,
+            Margin = new Thickness(0, 4, 0, 4),
             HorizontalAlignment = horizontalAlignment,
-            Foreground = ResolveBrush("WorkspacePanelForegroundBrush", Brushes.Gainsboro)
+            VerticalAlignment = VerticalAlignment.Center
         };
 
         if (fontWeight is { } resolvedFontWeight)
@@ -102,8 +122,14 @@ public sealed class PlanetPositionSummaryControl : UserControl
             textBlock.FontWeight = resolvedFontWeight;
         }
 
+        if (fontSize is { } resolvedFontSize)
+        {
+            textBlock.FontSize = resolvedFontSize;
+        }
+
+        Grid.SetRow(textBlock, row);
         Grid.SetColumn(textBlock, column);
-        return textBlock;
+        _table.Children.Add(textBlock);
     }
 
     private string Localize(string key) => Localize(new LocalizationKey(key));
@@ -111,10 +137,4 @@ public sealed class PlanetPositionSummaryControl : UserControl
     private string Localize(LocalizationKey key) =>
         _localizationProvider.Get(LocalizationScope.Ui, _applicationLanguage, key).Text;
 
-    private IBrush ResolveBrush(string resourceKey, IBrush fallbackBrush) =>
-        Application.Current is { } application &&
-        application.TryGetResource(resourceKey, ActualThemeVariant, out var resource) &&
-        resource is IBrush brush
-            ? brush
-            : fallbackBrush;
 }

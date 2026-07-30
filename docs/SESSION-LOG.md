@@ -897,3 +897,29 @@ Next actions:
 
 - Investigate and implement explicit external `.se1` ephemeris file setup so the app can leave current Moshier fallback mode.
 - Verify whether a dedicated open-source astrology-capable font is needed or whether text-label fallback should remain the cross-platform strategy.
+
+## 2026-07-30: Chart Stabilization and Vector Rendering Pass
+
+Summary:
+
+- Replaced the three-band cyclic offset with deterministic circular cluster detection, four ordered planet sub-lanes, symmetric angular spreading, stable body tie-breaking, and explicit source/display angles.
+- Added named non-overlapping radial zones for the outer boundary, zodiac, planet glyphs, aspect interior, and a geometry-only reserved future house ring without implementing houses.
+- Added a centered square render-safe viewport, effective-radius calculation from known vector extents, final clipping, dark/light chart palettes, neutral source ticks/connectors, and restrained per-aspect visual hierarchy.
+- Replaced chart Unicode/emoji text with 12 zodiac and 10 planet original project-owned monochrome path glyphs; removed large independent white marker circles and the rendering-side planet-label offset.
+- Rebuilt the position summary as one shared four-column table with localized headers, separate retrograde state, right-aligned minute-precision positions, and theme-inherited foreground.
+- Added focused zero-crossing, dense-cluster, determinism, lane-bound, source-angle, vector-catalog, viewport, aspect-style, presentation, and localization tests.
+- Updated the stale implementation-phase note and synchronized geometry, rendering, UI, assets, risks, decisions, and next-step documentation.
+
+Verification:
+
+- Baseline before edits: restore/build succeeded and 192/192 tests passed on .NET SDK 10.0.302.
+- Current build succeeds with no warnings and 199/199 tests pass.
+- Windows visual smoke confirmed all 22 chart glyphs, no emoji boxes or white button-like markers, no startup-sample planet overlap, aspect containment, readable RU/EN table headers and rows, and readable dark/light chart palettes.
+- The birth-data form was populated through the actual controls with Prague data and reported a successful chart rebuild; the declared `1180x760` minimum window keeps chart and table separated and exposes the remaining rows through chart-panel scrolling.
+- A parent-relative/local-coordinate mismatch in `AstrologyChartSurfaceControl` discovered during smoke was corrected so the renderer always receives the control-local rectangle.
+- No external dependency, font, asset, `.se1` file, house, ASC/MC, or new astronomy calculation was added.
+
+Next actions:
+
+- Request a fresh screenshot and user visual confirmation.
+- Only after confirmation, choose between explicit external `.se1` setup and houses + ASC/MC + multi-ring geometry.

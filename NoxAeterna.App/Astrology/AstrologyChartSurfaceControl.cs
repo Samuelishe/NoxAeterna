@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Styling;
 using NoxAeterna.Rendering.Charts;
 
 namespace NoxAeterna.App.Astrology;
@@ -12,7 +13,8 @@ public sealed class AstrologyChartSurfaceControl : Control
 {
     private ChartRenderScene _scene;
     private readonly CircularChartRenderer _renderer;
-    private readonly ChartRenderOptions _renderOptions;
+    private readonly ChartRenderOptions _darkRenderOptions;
+    private readonly ChartRenderOptions _lightRenderOptions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AstrologyChartSurfaceControl"/> class.
@@ -22,7 +24,8 @@ public sealed class AstrologyChartSurfaceControl : Control
     {
         _scene = scene ?? throw new ArgumentNullException(nameof(scene));
         _renderer = new CircularChartRenderer();
-        _renderOptions = new ChartRenderOptions();
+        _darkRenderOptions = new ChartRenderOptions(ChartRenderPalette.Dark);
+        _lightRenderOptions = new ChartRenderOptions(ChartRenderPalette.Light);
     }
 
     /// <summary>
@@ -40,14 +43,17 @@ public sealed class AstrologyChartSurfaceControl : Control
     {
         base.Render(context);
 
-        var bounds = Bounds;
+        var bounds = new Rect(0d, 0d, Bounds.Width, Bounds.Height);
         var backgroundBrush = ResolveBrush("PreviewSurfaceBackgroundBrush", new SolidColorBrush(Color.FromRgb(18, 18, 20)));
         var borderBrush = ResolveBrush("PreviewSurfaceBorderBrush", new SolidColorBrush(Color.FromRgb(64, 64, 70)));
 
         context.FillRectangle(backgroundBrush, bounds);
         context.DrawRectangle(new Pen(borderBrush, 1d), bounds.Deflate(0.5d));
 
-        _renderer.Render(context, bounds, _scene, _renderOptions);
+        var renderOptions = ActualThemeVariant == ThemeVariant.Light
+            ? _lightRenderOptions
+            : _darkRenderOptions;
+        _renderer.Render(context, bounds, _scene, renderOptions);
     }
 
     private IBrush ResolveBrush(string resourceKey, IBrush fallbackBrush) =>

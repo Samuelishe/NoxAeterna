@@ -27,10 +27,12 @@ Current implemented direction:
 The current renderer is intentionally minimal and technical. It consumes prepared chart geometry and draws:
 
 - outer chart circle;
+- explicit visual-zone boundaries;
 - zodiac sector separators;
 - aspect lines;
-- zodiac glyph labels around the ring;
-- planetary glyph labels at planet slots.
+- project-owned zodiac vector glyphs around the ring;
+- project-owned planetary vector glyphs at geometry-owned slots;
+- neutral source-longitude ticks and restrained connectors.
 
 Current temporary verification path:
 
@@ -50,10 +52,13 @@ The app still keeps a fallback sample-scene path for development, but the visibl
 
 Current readable-chart foundation details:
 
-- zodiac ring labels are derived from sector geometry and rendered from scene text labels;
-- planet glyph labels are derived from prepared glyph slots rather than astronomy services inside rendering;
-- the renderer currently prefers text-presentation Unicode glyphs to reduce emoji-style rendering where the platform font stack allows it;
-- simple label-overlap mitigation currently comes from geometry-level radial band offsets, not from a heavy rendering-side collision solver.
+- zodiac and planet symbols are original project-owned monochrome path definitions in one stable unit coordinate system;
+- chart symbols do not use Unicode, emoji presentation, `Typeface.Default`, external fonts, image downloads, or platform font fallback;
+- vector geometry is materialized only after Avalonia initializes its rendering backend, while deterministic path data and unit bounds remain testable without a graphics host;
+- planet glyphs render directly at geometry-owned display anchors; the previous extra rendering-side radial offset and large white marker circles are gone;
+- true longitude remains visible through a small neutral tick and connector without replacing the astronomical source angle;
+- `ChartViewport` derives a centered square from the complete control bounds, reserves known stroke and vector extents, exposes safe bounds/effective radius, and clips all chart drawing to that square;
+- zero, non-finite, and too-small surfaces exit without drawing.
 
 ## Boundaries
 
@@ -98,15 +103,13 @@ The chart renderer should eventually handle:
 
 Exact astrological diagrams should be rendered programmatically. Generated images must not be used for technical chart output.
 
-Current placeholder strategy:
+Current functional strategy:
 
-- universal zodiac and planetary Unicode glyphs for the first readable chart foundation;
-- deterministic aspect line colors by aspect type;
-- no final art direction, dense-label collision handling, or final font strategy yet;
-- app-level theme switching may change preview surface resources around the renderer, but rendering still does not own shell-theme orchestration.
-- text-presentation selectors are now preferred for astrology glyphs to avoid emoji-style rendering where the platform font stack allows it.
-
-If platform font behavior still renders some astrology glyphs poorly, fall back to compact text labels before introducing custom image assets.
+- 12 zodiac and 10 planet glyphs are original functional vector graphics, not a final artistic font;
+- dark and light chart palettes are render-facing inputs selected by the App host, without renderer ownership of shell-theme orchestration;
+- every supported `AspectType` has an explicit restrained style using thickness, opacity, muted color, and optional dash pattern;
+- conjunctions render as compact local markers instead of arbitrary full chords;
+- aspect chords remain entirely inside the geometry-owned aspect interior.
 
 ## DPI and Scaling
 
@@ -114,7 +117,7 @@ Rendering must be DPI-aware and responsive. Chart visuals should scale without b
 
 Future rendering models should include stable dimensions and scale factors so export and on-screen display can share layout logic.
 
-The current options model carries only numeric drawing parameters such as padding ratio and stroke thickness.
+The current options model carries the chart-local palette plus deterministic stroke, glyph-size, border-inset, safety-margin, and minimum-radius values. Known vector unit bounds participate in effective-radius calculation.
 
 ## Assets
 

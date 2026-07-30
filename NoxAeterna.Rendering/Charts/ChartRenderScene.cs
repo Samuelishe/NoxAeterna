@@ -17,8 +17,8 @@ public sealed record ChartRenderScene
         ZodiacSectors = Layout.ZodiacSectors;
         PlanetGlyphSlots = Layout.PlanetGlyphSlots;
         AspectLines = Layout.AspectLines;
-        ZodiacLabels = Array.AsReadOnly(BuildZodiacLabels(Layout.ZodiacSectors));
-        PlanetLabels = Array.AsReadOnly(BuildPlanetLabels(Layout.PlanetGlyphSlots));
+        ZodiacGlyphs = Array.AsReadOnly(BuildZodiacGlyphs(Layout));
+        PlanetGlyphs = Array.AsReadOnly(BuildPlanetGlyphs(Layout.PlanetGlyphSlots));
     }
 
     /// <summary>
@@ -42,14 +42,14 @@ public sealed record ChartRenderScene
     public IReadOnlyList<AspectLineGeometry> AspectLines { get; }
 
     /// <summary>
-    /// Gets the zodiac labels to render around the chart ring.
+    /// Gets the zodiac vector glyphs to render around the chart ring.
     /// </summary>
-    public IReadOnlyList<ChartTextLabel> ZodiacLabels { get; }
+    public IReadOnlyList<ChartGlyphPlacement> ZodiacGlyphs { get; }
 
     /// <summary>
-    /// Gets the planetary labels to render at planetary marker slots.
+    /// Gets the planetary vector glyphs to render at geometry-owned anchors.
     /// </summary>
-    public IReadOnlyList<ChartTextLabel> PlanetLabels { get; }
+    public IReadOnlyList<ChartGlyphPlacement> PlanetGlyphs { get; }
 
     /// <summary>
     /// Creates a chart render scene from prepared circular chart geometry.
@@ -58,26 +58,25 @@ public sealed record ChartRenderScene
     /// <returns>A render-ready chart scene.</returns>
     public static ChartRenderScene FromLayout(CircularChartLayout layout) => new(layout);
 
-    private static ChartTextLabel[] BuildZodiacLabels(IEnumerable<ZodiacSectorGeometry> sectors) =>
-        sectors
+    private static ChartGlyphPlacement[] BuildZodiacGlyphs(CircularChartLayout layout) =>
+        layout.ZodiacSectors
             .Select(sector =>
             {
-                var midAngle = new AngularPosition((sector.StartAngle.Degrees + sector.EndAngle.Degrees) / 2d);
-                var radius = sector.InnerRadiusRatio + ((sector.OuterRadiusRatio - sector.InnerRadiusRatio) * 0.48d);
-                return new ChartTextLabel(
+                var midAngle = new AngularPosition(sector.StartAngle.Degrees + 15d);
+                return new ChartGlyphPlacement(
                     ChartGlyphCatalog.GetSignGlyph(sector.Sign),
-                    new RadialPoint(midAngle, radius),
-                    22d,
-                    ChartTextLabelStyle.Zodiac);
+                    new RadialPoint(midAngle, layout.RadialLanes.ZodiacGlyphLane.MidpointRadiusRatio),
+                    24d,
+                    ChartGlyphStyle.Zodiac);
             })
             .ToArray();
 
-    private static ChartTextLabel[] BuildPlanetLabels(IEnumerable<PlanetGlyphSlot> glyphSlots) =>
+    private static ChartGlyphPlacement[] BuildPlanetGlyphs(IEnumerable<PlanetGlyphSlot> glyphSlots) =>
         glyphSlots
-            .Select(slot => new ChartTextLabel(
+            .Select(slot => new ChartGlyphPlacement(
                 ChartGlyphCatalog.GetBodyGlyph(slot.Body),
-                new RadialPoint(slot.Angle, Math.Min(0.98d, slot.AnchorPoint.RadiusRatio + 0.03d)),
-                18d,
-                ChartTextLabelStyle.Planet))
+                slot.AnchorPoint,
+                17d,
+                ChartGlyphStyle.Planet))
             .ToArray();
 }

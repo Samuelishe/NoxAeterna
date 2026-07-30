@@ -1,15 +1,15 @@
 # Next Steps
 
-The app now has a thin localized shell, JSON-backed UI localization, first dark/light theme switching, an astrology workspace foundation, a refined birth-data input flow with typed date/time controls, TZDB timezone selection, offline manual mode, a visible chart rebuild pipeline that uses SwissEphNet behind `IEphemerisCalculator` with current Moshier fallback behavior, and a first readable chart with zodiac/planet glyphs plus a positions summary.
+The current chart now has render-independent visual lanes, deterministic circular cluster placement, source/display angle separation, project-owned vector glyphs, a clipped render-safe viewport, restrained aspect hierarchy, and a localized four-column positions table.
 
 Immediate next steps:
 
-1. Investigate and implement the explicit external `.se1` ephemeris file setup path so the app can move from current Moshier fallback to the higher-precision Swiss-data mode without silent bundling.
+1. Obtain a fresh user screenshot and explicit visual confirmation of the stabilized chart at the user's normal display scale.
 
-2. Keep the current readable chart foundation stable while verifying cross-platform glyph rendering and deciding whether an open-source astrology-capable font is needed later or whether compact text-label fallback is the safer default.
+2. Apply only focused optical tuning discovered from that screenshot, if needed; do not expand astrology scope during visual review.
 
-3. Resolve formal license alignment for the repository before any release packaging or redistribution that depends on Swiss Ephemeris code or data files.
+3. After visual confirmation, choose one next track rather than assuming it in advance:
+   - option A: explicit external `.se1` setup and license-aligned data-file workflow;
+   - option B: houses + ASC/MC + multi-ring geometry.
 
-4. Keep all ephemeris integration hidden behind `IEphemerisCalculator` and current astronomy contracts so UI, geometry, and rendering layers remain unchanged during `.se1` setup.
-
-5. Keep houses, online geocoding, persistence, interpretation, Tarot workflows, and profile/session draft persistence out of scope while ephemeris setup and chart readability are stabilized.
+4. Keep online geocoding, persistence, interpretation, Tarot workflows, and profile/session persistence deferred until a later selected stage.

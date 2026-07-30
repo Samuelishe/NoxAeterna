@@ -17,9 +17,7 @@ public static class PlanetPositionSummaryBuilder
         return chart.Positions
             .OrderBy(static position => position.Body)
             .Select(position => new PlanetPositionSummaryRow(
-                AstrologySymbolCatalog.GetBodyGlyph(position.Body),
                 AstrologySymbolCatalog.GetBodyLabelKey(position.Body),
-                AstrologySymbolCatalog.GetSignGlyph(position.Sign),
                 AstrologySymbolCatalog.GetSignLabelKey(position.Sign),
                 FormatDegree(position.DegreeWithinSign),
                 position.IsRetrograde))

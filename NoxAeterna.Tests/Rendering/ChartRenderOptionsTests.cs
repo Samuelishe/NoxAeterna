@@ -6,18 +6,17 @@ public sealed class ChartRenderOptionsTests
 {
     [Theory]
     [InlineData(-0.01)]
-    [InlineData(0.5)]
-    [InlineData(1)]
-    public void Constructor_RejectsInvalidPaddingRatio(double paddingRatio)
+    [InlineData(double.NaN)]
+    public void Constructor_RejectsInvalidSafetyMargin(double safetyMargin)
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new ChartRenderOptions(paddingRatio: paddingRatio));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new ChartRenderOptions(safetyMargin: safetyMargin));
     }
 
     [Theory]
     [InlineData(0)]
     [InlineData(-1)]
-    public void Constructor_RejectsInvalidMarkerRadius(double markerRadius)
+    public void Constructor_RejectsInvalidPlanetGlyphSize(double glyphSize)
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new ChartRenderOptions(planetMarkerRadius: markerRadius));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new ChartRenderOptions(planetGlyphSize: glyphSize));
     }
 }

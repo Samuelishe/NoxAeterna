@@ -6,9 +6,7 @@ namespace NoxAeterna.Presentation.Astrology;
 /// Represents one readable planet-position summary row for the current chart.
 /// </summary>
 public sealed record PlanetPositionSummaryRow(
-    string Glyph,
-    LocalizationKey BodyLabelKey,
-    string SignGlyph,
+    LocalizationKey PlanetLabelKey,
     LocalizationKey SignLabelKey,
-    string DegreeText,
+    string PositionText,
     bool IsRetrograde);

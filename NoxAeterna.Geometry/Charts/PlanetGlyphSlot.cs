@@ -12,35 +12,46 @@ public readonly record struct PlanetGlyphSlot
     /// </summary>
     /// <param name="body">The celestial body.</param>
     /// <param name="longitude">The source zodiac longitude.</param>
-    /// <param name="angle">The chart-space angle.</param>
+    /// <param name="sourceAngle">The source astronomical chart-space angle.</param>
+    /// <param name="displayAngle">The collision-safe display angle.</param>
     /// <param name="anchorPoint">The normalized radial anchor point.</param>
     /// <param name="slotIndex">The deterministic slot index within the layout.</param>
-    /// <param name="radialBandIndex">The radial band index reserved for future collision handling.</param>
+    /// <param name="radialLaneIndex">The ordered planet sub-lane index.</param>
+    /// <param name="clusterIndex">The deterministic circular cluster index.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when slot indices are negative.</exception>
     public PlanetGlyphSlot(
         CelestialBody body,
         ZodiacLongitude longitude,
-        AngularPosition angle,
+        AngularPosition sourceAngle,
+        AngularPosition displayAngle,
         RadialPoint anchorPoint,
         int slotIndex,
-        int radialBandIndex)
+        int radialLaneIndex,
+        int clusterIndex)
     {
         if (slotIndex < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index must be non-negative.");
         }
 
-        if (radialBandIndex < 0)
+        if (radialLaneIndex < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(radialBandIndex), "Radial band index must be non-negative.");
+            throw new ArgumentOutOfRangeException(nameof(radialLaneIndex), "Radial lane index must be non-negative.");
+        }
+
+        if (clusterIndex < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(clusterIndex), "Cluster index must be non-negative.");
         }
 
         Body = body;
         Longitude = longitude;
-        Angle = angle;
+        SourceAngle = sourceAngle;
+        DisplayAngle = displayAngle;
         AnchorPoint = anchorPoint;
         SlotIndex = slotIndex;
-        RadialBandIndex = radialBandIndex;
+        RadialLaneIndex = radialLaneIndex;
+        ClusterIndex = clusterIndex;
     }
 
     /// <summary>
@@ -54,9 +65,14 @@ public readonly record struct PlanetGlyphSlot
     public ZodiacLongitude Longitude { get; }
 
     /// <summary>
-    /// Gets the chart-space angle.
+    /// Gets the source astronomical chart-space angle.
     /// </summary>
-    public AngularPosition Angle { get; }
+    public AngularPosition SourceAngle { get; }
+
+    /// <summary>
+    /// Gets the collision-safe display angle without changing the source longitude.
+    /// </summary>
+    public AngularPosition DisplayAngle { get; }
 
     /// <summary>
     /// Gets the normalized radial anchor point.
@@ -69,7 +85,12 @@ public readonly record struct PlanetGlyphSlot
     public int SlotIndex { get; }
 
     /// <summary>
-    /// Gets the reserved radial band index for future collision-safe placement.
+    /// Gets the ordered planet sub-lane index.
     /// </summary>
-    public int RadialBandIndex { get; }
+    public int RadialLaneIndex { get; }
+
+    /// <summary>
+    /// Gets the deterministic circular cluster index.
+    /// </summary>
+    public int ClusterIndex { get; }
 }

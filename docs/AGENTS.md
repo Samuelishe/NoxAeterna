@@ -14,9 +14,9 @@ Avoid: joke generation, fake AI magic, meme occult aesthetics, TikTok witchcore,
 
 ## Current Phase
 
-Current phase: Stage 1 scaffold initialized.
+Current phase: chart rendering stabilization on the implemented application foundation.
 
-The architecture is documented but not implemented. Do not claim that projects, engines, renderers, persistence, or UI flows exist until they are created in code.
+The solution projects, astronomy pipeline, circular geometry, scene-based renderer, localized shell, and first astrology workspace already exist. Keep documentation honest about the implemented subset; persistence and later product flows remain deferred.
 
 ## Start Here
 

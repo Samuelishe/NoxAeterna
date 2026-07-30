@@ -85,8 +85,10 @@ Current birth-input direction:
 - helper text around time zone selection should explain TZDB/IANA identifiers without exposing raw technical jargon as the main field label.
 - the chart area should clearly disclose when demo-only calculation is being used instead of real ephemerides.
 - the chart area should now remain readable through zodiac and planetary glyph labeling plus a compact positions summary, even before houses and interpretation exist.
-- positions summaries should feel like compact chart tables rather than debug dumps: glyph or short label, localized body name, sign, degree, and retrograde marker where applicable.
-- if Unicode astrology glyphs render unreliably on a platform, fall back to consistent text abbreviations rather than emoji-style symbols or ad hoc image assets.
+- positions summaries are one shared four-column grid with localized `Planet`, `Sign`, `Position`, and `Retrograde` headers; position values keep minute precision and align right, while retrograde state has its own centered column.
+- the main positions table intentionally relies on localized names rather than platform astrology glyphs, so it remains understandable without font fallback.
+- chart-local zodiac and planet symbols are original monochrome vector paths with deterministic bounds; they are functional technical graphics rather than a final artistic font.
+- chart, table, and form should fit the default window without row overlap; the chart host may scale down to its supported minimum while the birth-data panel remains independently scrollable.
 - date/time controls may remain Avalonia-native for now, but surrounding spacing, helper text, and alignment should make them read as intentional desktop form controls rather than raw debug scaffolding.
 - readability takes priority over compactness in the birth-data form; date and time inputs should prefer full-width rows over dense side-by-side packing when control chrome becomes fragile.
 

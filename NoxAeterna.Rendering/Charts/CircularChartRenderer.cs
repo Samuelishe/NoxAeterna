@@ -2,31 +2,19 @@ using Avalonia;
 using Avalonia.Media;
 using NoxAeterna.Domain.Astrology;
 using NoxAeterna.Geometry.Charts;
-using System.Globalization;
 
 namespace NoxAeterna.Rendering.Charts;
 
 /// <summary>
-/// Draws a minimal circular chart preview from prepared geometry.
+/// Draws a circular chart scene inside an explicit render-safe viewport.
 /// </summary>
 public sealed class CircularChartRenderer
 {
-    private static readonly IBrush OuterCircleBrush = Brushes.Gray;
-    private static readonly IBrush SectorBrush = Brushes.DimGray;
-    private static readonly IBrush PlanetMarkerBrush = Brushes.Gainsboro;
-    private static readonly IBrush ZodiacLabelBrush = Brushes.Gainsboro;
-    private static readonly IBrush PlanetLabelBrush = Brushes.Black;
-    private static readonly IBrush ConjunctionAspectBrush = Brushes.SlateGray;
-    private static readonly IBrush SextileAspectBrush = Brushes.SeaGreen;
-    private static readonly IBrush SquareAspectBrush = Brushes.IndianRed;
-    private static readonly IBrush TrineAspectBrush = Brushes.SteelBlue;
-    private static readonly IBrush OppositionAspectBrush = Brushes.Goldenrod;
-
     /// <summary>
     /// Renders the supplied chart scene into an Avalonia drawing context.
     /// </summary>
     /// <param name="drawingContext">The target drawing context.</param>
-    /// <param name="bounds">The chart drawing bounds.</param>
+    /// <param name="bounds">The complete control bounds.</param>
     /// <param name="scene">The render-ready chart scene.</param>
     /// <param name="options">The rendering options.</param>
     public void Render(
@@ -38,141 +26,187 @@ public sealed class CircularChartRenderer
         ArgumentNullException.ThrowIfNull(drawingContext);
         ArgumentNullException.ThrowIfNull(scene);
 
-        if (bounds.Width <= 0d || bounds.Height <= 0d)
-        {
-            return;
-        }
-
         options ??= new ChartRenderOptions();
 
-        var center = new Point(bounds.X + bounds.Width / 2d, bounds.Y + bounds.Height / 2d);
-        var radius = (Math.Min(bounds.Width, bounds.Height) / 2d) * (1d - options.PaddingRatio * 2d);
-
-        if (radius <= 0d)
+        if (!ChartViewport.TryCreate(bounds, scene.Layout.RadialLanes, options, out var viewport))
         {
             return;
         }
 
-        DrawOuterCircle(drawingContext, center, radius, options);
-        DrawSectorSeparators(drawingContext, center, radius, scene.ZodiacSectors, options);
-        DrawAspectLines(drawingContext, center, radius, scene.AspectLines, options);
-        DrawPlanetMarkers(drawingContext, center, radius, scene.PlanetGlyphSlots, options);
-        DrawTextLabels(drawingContext, center, radius, scene.ZodiacLabels);
-        DrawTextLabels(drawingContext, center, radius, scene.PlanetLabels);
+        using var clip = drawingContext.PushClip(viewport.ChartBounds);
+
+        DrawZoneBoundaries(drawingContext, viewport, scene.Layout.RadialLanes, options);
+        DrawSectorSeparators(drawingContext, viewport, scene.ZodiacSectors, options);
+        DrawAspectLines(drawingContext, viewport, scene.AspectLines);
+        DrawPlanetAnchors(drawingContext, viewport, scene.PlanetGlyphSlots, scene.Layout.RadialLanes, options);
+        DrawVectorGlyphs(drawingContext, viewport, scene.ZodiacGlyphs, options);
+        DrawVectorGlyphs(drawingContext, viewport, scene.PlanetGlyphs, options);
     }
 
-    private static void DrawOuterCircle(
+    private static void DrawZoneBoundaries(
         DrawingContext drawingContext,
-        Point center,
-        double radius,
+        ChartViewport viewport,
+        ChartRadialLanes lanes,
         ChartRenderOptions options)
     {
-        drawingContext.DrawEllipse(
-            brush: null,
-            pen: new Pen(OuterCircleBrush, options.OuterCircleStrokeThickness),
-            center,
-            radius,
-            radius);
+        var structureBrush = new SolidColorBrush(options.Palette.StructureColor);
+        var subtleBrush = new SolidColorBrush(options.Palette.SubtleStructureColor, 0.62d);
+
+        DrawCircle(
+            drawingContext,
+            viewport,
+            lanes.OuterBoundaryRadiusRatio,
+            new Pen(structureBrush, options.OuterCircleStrokeThickness));
+        DrawCircle(
+            drawingContext,
+            viewport,
+            lanes.ZodiacRing.InnerRadiusRatio,
+            new Pen(structureBrush, options.SectorLineThickness));
+        DrawCircle(
+            drawingContext,
+            viewport,
+            lanes.PlanetGlyphLane.OuterRadiusRatio,
+            new Pen(subtleBrush, options.SectorLineThickness));
+        DrawCircle(
+            drawingContext,
+            viewport,
+            lanes.PlanetGlyphLane.InnerRadiusRatio,
+            new Pen(subtleBrush, options.SectorLineThickness));
+        DrawCircle(
+            drawingContext,
+            viewport,
+            lanes.AspectInteriorRadiusRatio,
+            new Pen(subtleBrush, options.SectorLineThickness));
     }
 
     private static void DrawSectorSeparators(
         DrawingContext drawingContext,
-        Point center,
-        double radius,
+        ChartViewport viewport,
         IEnumerable<ZodiacSectorGeometry> sectors,
         ChartRenderOptions options)
     {
-        var pen = new Pen(SectorBrush, options.SectorLineThickness);
+        var pen = new Pen(
+            new SolidColorBrush(options.Palette.StructureColor, 0.8d),
+            options.SectorLineThickness);
 
         foreach (var sector in sectors)
         {
-            var startPoint = ToPoint(center, radius, new RadialPoint(sector.StartAngle, sector.InnerRadiusRatio));
-            var endPoint = ToPoint(center, radius, new RadialPoint(sector.StartAngle, sector.OuterRadiusRatio));
+            var startPoint = ToPoint(
+                viewport,
+                new RadialPoint(sector.StartAngle, sector.InnerRadiusRatio));
+            var endPoint = ToPoint(
+                viewport,
+                new RadialPoint(sector.StartAngle, sector.OuterRadiusRatio));
             drawingContext.DrawLine(pen, startPoint, endPoint);
         }
     }
 
     private static void DrawAspectLines(
         DrawingContext drawingContext,
-        Point center,
-        double radius,
-        IEnumerable<AspectLineGeometry> aspectLines,
-        ChartRenderOptions options)
+        ChartViewport viewport,
+        IEnumerable<AspectLineGeometry> aspectLines)
     {
         foreach (var aspectLine in aspectLines)
         {
-            var pen = new Pen(GetAspectBrush(aspectLine.AspectType), options.AspectLineThickness);
-            var sourcePoint = ToPoint(center, radius, aspectLine.SourcePoint);
-            var targetPoint = ToPoint(center, radius, aspectLine.TargetPoint);
+            var style = ChartAspectStyleCatalog.Get(aspectLine.AspectType);
+            var brush = new SolidColorBrush(style.Color, style.Opacity);
+            var dashStyle = style.DashPattern is { Count: > 0 }
+                ? new DashStyle(style.DashPattern, 0d)
+                : null;
+            var pen = new Pen(brush, style.Thickness, dashStyle);
+            var sourcePoint = ToPoint(viewport, aspectLine.SourcePoint);
+            var targetPoint = ToPoint(viewport, aspectLine.TargetPoint);
+
+            if (aspectLine.AspectType == AspectType.Conjunction)
+            {
+                var midpoint = new Point(
+                    (sourcePoint.X + targetPoint.X) / 2d,
+                    (sourcePoint.Y + targetPoint.Y) / 2d);
+                drawingContext.DrawEllipse(null, pen, midpoint, 2.5d, 2.5d);
+                continue;
+            }
+
             drawingContext.DrawLine(pen, sourcePoint, targetPoint);
         }
     }
 
-    private static void DrawPlanetMarkers(
+    private static void DrawPlanetAnchors(
         DrawingContext drawingContext,
-        Point center,
-        double radius,
+        ChartViewport viewport,
         IEnumerable<PlanetGlyphSlot> glyphSlots,
+        ChartRadialLanes lanes,
         ChartRenderOptions options)
     {
+        var brush = new SolidColorBrush(options.Palette.PlanetAnchorColor, 0.72d);
+        var tickPen = new Pen(brush, 1d);
+        var connectorPen = new Pen(brush, 0.65d);
+        var tickInnerRadius = lanes.PlanetGlyphLane.OuterRadiusRatio + 0.012d;
+        var tickOuterRadius = Math.Min(
+            lanes.ZodiacRing.InnerRadiusRatio - 0.012d,
+            tickInnerRadius + 0.018d);
+
         foreach (var glyphSlot in glyphSlots)
         {
-            var point = ToPoint(center, radius, glyphSlot.AnchorPoint);
-            drawingContext.DrawEllipse(
-                brush: PlanetMarkerBrush,
-                pen: null,
-                point,
-                options.PlanetMarkerRadius,
-                options.PlanetMarkerRadius);
+            var tickInner = new RadialPoint(glyphSlot.SourceAngle, tickInnerRadius);
+            var tickOuter = new RadialPoint(glyphSlot.SourceAngle, tickOuterRadius);
+            drawingContext.DrawLine(
+                tickPen,
+                ToPoint(viewport, tickInner),
+                ToPoint(viewport, tickOuter));
+
+            var sourceAnchor = ToPoint(viewport, tickInner);
+            var displayAnchor = ToPoint(viewport, glyphSlot.AnchorPoint);
+            drawingContext.DrawLine(connectorPen, sourceAnchor, displayAnchor);
         }
     }
 
-    private static void DrawTextLabels(
+    private static void DrawVectorGlyphs(
         DrawingContext drawingContext,
-        Point center,
-        double radius,
-        IEnumerable<ChartTextLabel> labels)
+        ChartViewport viewport,
+        IEnumerable<ChartGlyphPlacement> glyphs,
+        ChartRenderOptions options)
     {
-        foreach (var label in labels)
+        foreach (var placement in glyphs)
         {
-            var anchor = ToPoint(center, radius, label.AnchorPoint);
-            var brush = GetLabelBrush(label.Style);
-            var formattedText = new FormattedText(
-                label.Text,
-                CultureInfo.InvariantCulture,
-                FlowDirection.LeftToRight,
-                Typeface.Default,
-                label.FontSize,
-                brush);
-            var origin = new Point(
-                anchor.X - (formattedText.Width / 2d),
-                anchor.Y - (formattedText.Height / 2d));
+            var anchor = ToPoint(viewport, placement.AnchorPoint);
+            var unitBounds = placement.Glyph.UnitBounds;
+            var targetSize = placement.Style == ChartGlyphStyle.Zodiac
+                ? options.ZodiacGlyphSize
+                : options.PlanetGlyphSize;
+            var scale = targetSize / Math.Max(unitBounds.Width, unitBounds.Height);
+            var color = placement.Style == ChartGlyphStyle.Zodiac
+                ? options.Palette.ZodiacGlyphColor
+                : options.Palette.PlanetGlyphColor;
+            var pen = new Pen(
+                new SolidColorBrush(color),
+                options.GlyphStrokeThickness / scale,
+                null,
+                PenLineCap.Round,
+                PenLineJoin.Round);
 
-            drawingContext.DrawText(formattedText, origin);
+            using var translateToAnchor = drawingContext.PushTransform(
+                Matrix.CreateTranslation(anchor.X, anchor.Y));
+            using var applyScale = drawingContext.PushTransform(
+                Matrix.CreateScale(scale, scale));
+            using var centerUnitBounds = drawingContext.PushTransform(
+                Matrix.CreateTranslation(-unitBounds.Center.X, -unitBounds.Center.Y));
+
+            drawingContext.DrawGeometry(null, pen, placement.Glyph.CreateGeometry());
         }
     }
 
-    private static Point ToPoint(Point center, double radius, RadialPoint radialPoint) =>
+    private static void DrawCircle(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        double radiusRatio,
+        Pen pen)
+    {
+        var radius = viewport.EffectiveRadius * radiusRatio;
+        drawingContext.DrawEllipse(null, pen, viewport.Center, radius, radius);
+    }
+
+    private static Point ToPoint(ChartViewport viewport, RadialPoint radialPoint) =>
         new(
-            center.X + radialPoint.X * radius,
-            center.Y + radialPoint.Y * radius);
-
-    private static IBrush GetAspectBrush(AspectType aspectType) =>
-        aspectType switch
-        {
-            AspectType.Conjunction => ConjunctionAspectBrush,
-            AspectType.Sextile => SextileAspectBrush,
-            AspectType.Square => SquareAspectBrush,
-            AspectType.Trine => TrineAspectBrush,
-            AspectType.Opposition => OppositionAspectBrush,
-            _ => OuterCircleBrush
-        };
-
-    private static IBrush GetLabelBrush(ChartTextLabelStyle style) =>
-        style switch
-        {
-            ChartTextLabelStyle.Zodiac => ZodiacLabelBrush,
-            ChartTextLabelStyle.Planet => PlanetLabelBrush,
-            _ => PlanetMarkerBrush
-        };
+            viewport.Center.X + (radialPoint.X * viewport.EffectiveRadius),
+            viewport.Center.Y + (radialPoint.Y * viewport.EffectiveRadius));
 }

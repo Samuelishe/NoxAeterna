@@ -12,14 +12,21 @@ public sealed record CircularChartLayout
     /// <param name="planetGlyphSlots">The planetary glyph slots.</param>
     /// <param name="aspectLines">The aspect line geometry.</param>
     public CircularChartLayout(
+        ChartRadialLanes radialLanes,
         IEnumerable<ZodiacSectorGeometry> zodiacSectors,
         IEnumerable<PlanetGlyphSlot> planetGlyphSlots,
         IEnumerable<AspectLineGeometry> aspectLines)
     {
+        RadialLanes = radialLanes ?? throw new ArgumentNullException(nameof(radialLanes));
         ZodiacSectors = Array.AsReadOnly((zodiacSectors ?? throw new ArgumentNullException(nameof(zodiacSectors))).ToArray());
         PlanetGlyphSlots = Array.AsReadOnly((planetGlyphSlots ?? throw new ArgumentNullException(nameof(planetGlyphSlots))).ToArray());
         AspectLines = Array.AsReadOnly((aspectLines ?? throw new ArgumentNullException(nameof(aspectLines))).ToArray());
     }
+
+    /// <summary>
+    /// Gets the named radial zones used by this layout.
+    /// </summary>
+    public ChartRadialLanes RadialLanes { get; }
 
     /// <summary>
     /// Gets the zodiac sector geometry.

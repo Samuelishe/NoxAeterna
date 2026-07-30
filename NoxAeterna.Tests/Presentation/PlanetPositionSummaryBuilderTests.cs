@@ -41,20 +41,16 @@ public sealed class PlanetPositionSummaryBuilderTests
             rows,
             row =>
             {
-                Assert.Equal("☉\uFE0E", row.Glyph);
-                Assert.Equal("♉\uFE0E", row.SignGlyph);
-                Assert.Equal("ui.planet.sun", row.BodyLabelKey.Value);
+                Assert.Equal("ui.planet.sun", row.PlanetLabelKey.Value);
                 Assert.Equal("ui.zodiac.taurus", row.SignLabelKey.Value);
-                Assert.Equal("14°30'", row.DegreeText);
+                Assert.Equal("14°30'", row.PositionText);
                 Assert.False(row.IsRetrograde);
             },
             row =>
             {
-                Assert.Equal("♂\uFE0E", row.Glyph);
-                Assert.Equal("♏\uFE0E", row.SignGlyph);
-                Assert.Equal("ui.planet.mars", row.BodyLabelKey.Value);
+                Assert.Equal("ui.planet.mars", row.PlanetLabelKey.Value);
                 Assert.Equal("ui.zodiac.scorpio", row.SignLabelKey.Value);
-                Assert.Equal("15°15'", row.DegreeText);
+                Assert.Equal("15°15'", row.PositionText);
                 Assert.True(row.IsRetrograde);
             });
     }

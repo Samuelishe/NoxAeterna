@@ -274,3 +274,27 @@ Decision: Treat shipped application assets as repository-owned resources, while 
 Reason: Product resources must remain versioned, reviewable, and reproducible, while user settings, caches, history, and saved data must not leak into the repository or installation directory.
 
 Consequences: Future icons, textures, Tarot art, theme assets, and custom glyph resources belong under versioned `resources/` paths, while preferences, saved charts, readings, and caches stay outside the repository.
+
+## 2026-07-30: Separate Named Chart Radial Lanes
+
+Decision: Make the circular geometry contract explicitly own non-overlapping zodiac, planet, aspect, and reserved future-house radial zones, including ordered planet sub-lanes.
+
+Reason: Incidental radius constants allowed labels, glyphs, and aspect chords to compete for the same visual space and left rendering without safe semantic boundaries.
+
+Consequences: Geometry remains viewport-independent but now guarantees zone ordering and anchor containment. Houses are not implemented; only their future ring interval is reserved.
+
+## 2026-07-30: Preserve Source Angle Separately From Display Placement
+
+Decision: Store source astronomical angle and collision-safe display angle separately on every planet glyph slot.
+
+Reason: Deterministic cluster spreading must never rewrite the longitude used by astronomy summaries or aspect endpoint geometry.
+
+Consequences: Planet glyphs may move within bounded display lanes, while source ticks and all aspect endpoints continue to use the original longitude.
+
+## 2026-07-30: Own Functional Chart Glyphs as Project Vector Graphics
+
+Decision: Render all current chart zodiac and planet symbols from original project-owned monochrome path definitions.
+
+Reason: Unicode variation selectors and platform font fallback produced inconsistent emoji-style boxes and non-deterministic bounds.
+
+Consequences: The chart no longer depends on emoji fonts, external fonts, or image assets. The 22 current paths are functional technical graphics and can receive later optical refinement without changing geometry contracts.

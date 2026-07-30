@@ -8,39 +8,65 @@ public sealed record ChartRenderOptions
     /// <summary>
     /// Initializes a new instance of the <see cref="ChartRenderOptions"/> class.
     /// </summary>
-    /// <param name="paddingRatio">The normalized padding ratio applied to the chart radius.</param>
+    /// <param name="palette">The chart-local palette.</param>
+    /// <param name="controlBorderInset">The control-border inset in device-independent pixels.</param>
+    /// <param name="safetyMargin">The final safety margin inside the clip.</param>
+    /// <param name="minimumEffectiveRadius">The minimum useful effective radius.</param>
     /// <param name="outerCircleStrokeThickness">The outer circle stroke thickness.</param>
     /// <param name="sectorLineThickness">The zodiac sector separator thickness.</param>
-    /// <param name="aspectLineThickness">The aspect line thickness.</param>
-    /// <param name="planetMarkerRadius">The planet marker radius in device-independent pixels.</param>
+    /// <param name="glyphStrokeThickness">The vector glyph stroke thickness.</param>
+    /// <param name="zodiacGlyphSize">The zodiac vector glyph size.</param>
+    /// <param name="planetGlyphSize">The planet vector glyph size.</param>
     public ChartRenderOptions(
-        double paddingRatio = 0.06d,
+        ChartRenderPalette? palette = null,
+        double controlBorderInset = 1d,
+        double safetyMargin = 3d,
+        double minimumEffectiveRadius = 24d,
         double outerCircleStrokeThickness = 2d,
-        double sectorLineThickness = 1d,
-        double aspectLineThickness = 1d,
-        double planetMarkerRadius = 6d)
+        double sectorLineThickness = 0.8d,
+        double glyphStrokeThickness = 1.55d,
+        double zodiacGlyphSize = 24d,
+        double planetGlyphSize = 17d)
     {
+        ValidateFiniteNonNegative(nameof(controlBorderInset), controlBorderInset);
+        ValidateFiniteNonNegative(nameof(safetyMargin), safetyMargin);
         ValidateFinitePositive(nameof(outerCircleStrokeThickness), outerCircleStrokeThickness);
         ValidateFinitePositive(nameof(sectorLineThickness), sectorLineThickness);
-        ValidateFinitePositive(nameof(aspectLineThickness), aspectLineThickness);
-        ValidateFinitePositive(nameof(planetMarkerRadius), planetMarkerRadius);
+        ValidateFinitePositive(nameof(minimumEffectiveRadius), minimumEffectiveRadius);
+        ValidateFinitePositive(nameof(glyphStrokeThickness), glyphStrokeThickness);
+        ValidateFinitePositive(nameof(zodiacGlyphSize), zodiacGlyphSize);
+        ValidateFinitePositive(nameof(planetGlyphSize), planetGlyphSize);
 
-        if (double.IsNaN(paddingRatio) || double.IsInfinity(paddingRatio) || paddingRatio < 0d || paddingRatio >= 0.5d)
-        {
-            throw new ArgumentOutOfRangeException(nameof(paddingRatio), "Padding ratio must be a finite number in the range [0, 0.5).");
-        }
-
-        PaddingRatio = paddingRatio;
+        Palette = palette ?? ChartRenderPalette.Dark;
+        ControlBorderInset = controlBorderInset;
+        SafetyMargin = safetyMargin;
+        MinimumEffectiveRadius = minimumEffectiveRadius;
         OuterCircleStrokeThickness = outerCircleStrokeThickness;
         SectorLineThickness = sectorLineThickness;
-        AspectLineThickness = aspectLineThickness;
-        PlanetMarkerRadius = planetMarkerRadius;
+        GlyphStrokeThickness = glyphStrokeThickness;
+        ZodiacGlyphSize = zodiacGlyphSize;
+        PlanetGlyphSize = planetGlyphSize;
     }
 
     /// <summary>
-    /// Gets the normalized padding ratio applied to the chart radius.
+    /// Gets the chart-local palette.
     /// </summary>
-    public double PaddingRatio { get; }
+    public ChartRenderPalette Palette { get; }
+
+    /// <summary>
+    /// Gets the control-border inset.
+    /// </summary>
+    public double ControlBorderInset { get; }
+
+    /// <summary>
+    /// Gets the final safety margin.
+    /// </summary>
+    public double SafetyMargin { get; }
+
+    /// <summary>
+    /// Gets the minimum useful effective radius.
+    /// </summary>
+    public double MinimumEffectiveRadius { get; }
 
     /// <summary>
     /// Gets the outer circle stroke thickness.
@@ -53,20 +79,33 @@ public sealed record ChartRenderOptions
     public double SectorLineThickness { get; }
 
     /// <summary>
-    /// Gets the aspect line thickness.
+    /// Gets the vector glyph stroke thickness.
     /// </summary>
-    public double AspectLineThickness { get; }
+    public double GlyphStrokeThickness { get; }
 
     /// <summary>
-    /// Gets the planet marker radius in device-independent pixels.
+    /// Gets the zodiac vector glyph size.
     /// </summary>
-    public double PlanetMarkerRadius { get; }
+    public double ZodiacGlyphSize { get; }
+
+    /// <summary>
+    /// Gets the planet vector glyph size.
+    /// </summary>
+    public double PlanetGlyphSize { get; }
 
     private static void ValidateFinitePositive(string parameterName, double value)
     {
         if (double.IsNaN(value) || double.IsInfinity(value) || value <= 0d)
         {
             throw new ArgumentOutOfRangeException(parameterName, "Value must be a finite positive number.");
+        }
+    }
+
+    private static void ValidateFiniteNonNegative(string parameterName, double value)
+    {
+        if (!double.IsFinite(value) || value < 0d)
+        {
+            throw new ArgumentOutOfRangeException(parameterName, "Value must be a finite non-negative number.");
         }
     }
 }

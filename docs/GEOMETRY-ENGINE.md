@@ -50,6 +50,8 @@ Current implemented direction:
 
 - `AngularPosition`
 - `RadialPoint`
+- `RadialLaneBounds`
+- `ChartRadialLanes`
 - `ZodiacSectorGeometry`
 - `PlanetGlyphSlot`
 - `AspectLineGeometry`
@@ -96,7 +98,7 @@ Likely render-facing handoff objects:
 Current implemented handoff:
 
 - `CircularChartLayout` is the geometry output consumed by rendering.
-- `ChartRenderScene` is the first rendering-side wrapper over that layout and now derives deterministic zodiac-label and planet-label anchor points from the layout data.
+- `ChartRenderScene` is the rendering-side wrapper over that layout and materializes vector-glyph placements at geometry-owned anchors.
 - Geometry still does not know Avalonia points, brushes, pens, or `DrawingContext`.
 - The current astrology workspace host receives rendering-side scene data, while development-only sample scene creation remains outside presentation models.
 
@@ -116,6 +118,24 @@ Collision behavior should be tested with dense planet clusters.
 
 Current implemented status:
 
-- fixed single-ring glyph slots;
-- reserved `RadialBandIndex` on `PlanetGlyphSlot` for later collision-safe refinement;
-- no advanced collision avoidance yet.
+- named non-overlapping zones for the outer boundary, zodiac ring, zodiac glyph lane, planet glyph lane, aspect interior, and a geometry-only reserved future house ring;
+- four ordered planet sub-lanes that remain entirely inside the planet lane;
+- circular cluster detection by cutting the sorted longitude sequence after its largest gap, so clusters crossing `359°/0°` stay intact;
+- deterministic tie-breaking by `CelestialBody`, input-order independence, and stable repeated builds;
+- bounded symmetric angular spreading for close clusters, combined with ordered radial sub-lanes and minimum same-lane separation;
+- explicit source astronomical longitude/angle and separate display angle on `PlanetGlyphSlot`;
+- aspect endpoints always use source angles and stay inside `AspectInteriorRadiusRatio`.
+
+The current solver is deliberately small and deterministic. It does not use viewport pixels, font metrics, physics, randomness, or a general-purpose optimizer.
+
+## Current Radial Zone Order
+
+From the center outward:
+
+1. Aspect interior.
+2. Reserved future house-ring basis; no houses or cusps are implemented.
+3. Planet glyph lane with ordered sub-lanes.
+4. Zodiac ring containing a separate zodiac glyph lane.
+5. Outer chart boundary below normalized radius `0.98`.
+
+Rendering is still responsible for fitting known vector bounds into the actual viewport, but it must not move the geometry-owned anchors.

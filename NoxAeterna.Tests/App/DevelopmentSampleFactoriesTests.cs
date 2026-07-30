@@ -40,6 +40,6 @@ public sealed class DevelopmentSampleFactoriesTests
         var summaryRows = NoxAeterna.Presentation.Astrology.PlanetPositionSummaryBuilder.Build(buildResult.NatalChart);
 
         Assert.Contains("SwissEphNet", buildResult.NatalChart.EphemerisSourceVersion, StringComparison.Ordinal);
-        Assert.Contains(summaryRows, row => !row.DegreeText.EndsWith("00'", StringComparison.Ordinal));
+        Assert.Contains(summaryRows, row => !row.PositionText.EndsWith("00'", StringComparison.Ordinal));
     }
 }

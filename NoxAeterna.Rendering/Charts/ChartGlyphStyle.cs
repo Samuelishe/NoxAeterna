@@ -1,17 +1,17 @@
 namespace NoxAeterna.Rendering.Charts;
 
 /// <summary>
-/// Identifies a text-label role inside the chart render scene.
+/// Identifies a vector-glyph role inside a chart scene.
 /// </summary>
-public enum ChartTextLabelStyle
+public enum ChartGlyphStyle
 {
     /// <summary>
-    /// A zodiac-ring label.
+    /// A zodiac-ring symbol.
     /// </summary>
     Zodiac,
 
     /// <summary>
-    /// A planetary glyph or marker label.
+    /// A planetary symbol.
     /// </summary>
     Planet
 }

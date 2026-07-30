@@ -56,6 +56,8 @@ Generated AI imagery must never become the source of technical chart rendering.
 
 Simple functional chart symbols should stay vector-first or programmatic whenever possible. Random image assets are not an acceptable substitute for chart glyphs, markers, rings, or aspect lines.
 
+Current implementation uses 22 original project-owned functional path definitions in `NoxAeterna.Rendering`: 12 zodiac symbols and 10 planet symbols. They are monochrome programmatic graphics with stable unit bounds, introduce no external asset or font provenance, and remain intentionally simpler than a future artistic typeface.
+
 ## Intended Pipeline
 
 1. Generate visual concepts.

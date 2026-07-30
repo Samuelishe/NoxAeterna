@@ -11,17 +11,9 @@ The first spike now uses `SwissEphNet`, but several open items remain:
 - the exact redistribution strategy for any bundled ephemeris data files is still unresolved;
 - cross-platform packaging must be verified again if the integration later changes away from the current managed wrapper.
 
-## Glyph and Font Reliability
+## Functional Vector Glyph Art Direction
 
-The first readable chart foundation now uses Unicode zodiac and planetary glyphs.
-
-Open questions:
-
-- whether the default Avalonia font stack renders every astrology glyph consistently across all target platforms;
-- whether a dedicated open-source font should be adopted later for more reliable symbol display;
-- how far the current simple glyph placement can go before dense charts require stronger collision handling.
-
-Current mitigation is intentionally light: close-planet clusters now use deterministic radial band offsets, but dense charts can still look crowded.
+Chart symbols no longer depend on Unicode, emoji presentation, or platform font fallback. The current 22 project-owned paths are clean functional graphics, but they are not a final artistic glyph system and may need later optical refinement after user visual review.
 
 ## Birth Place to Timezone Resolution
 
@@ -49,9 +41,11 @@ A full 78-card deck is large. MVP should avoid committing to full illustrated de
 
 The interpretation engine can become unmaintainable if it hardcodes every possible factor combination. It must stay layered and compositional.
 
-## Chart Label Collision Avoidance
+## Extreme Planet Cluster Presentation
 
-Planet glyphs and labels can cluster tightly. Collision avoidance may become a significant geometry problem.
+Circular zero-crossing detection, ordered radial sub-lanes, and bounded symmetric angular spreading now cover the current ten-body chart deterministically. Extremely dense fixtures may require visibly longer connectors and wider display spreading; this is an intentional stable fallback, and any further tuning should wait for visual confirmation rather than replacing it with a heavy optimizer.
+
+Cross-platform visual smoke beyond the current Windows run is still outstanding.
 
 ## Historical Symbolic Sources
 

@@ -98,21 +98,17 @@ public sealed class AstrologyWorkspaceControl : UserControl
         _chartSurfaceControl = new AstrologyChartSurfaceControl(_chartCoordinator.CurrentScene)
         {
             HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch,
-            MinHeight = 500
+            Height = 300
         };
-        Grid.SetRow(_chartSurfaceControl, 1);
 
         _positionSummaryControl = new PlanetPositionSummaryControl(
             _localizationProvider,
             _applicationLanguage,
             PlanetPositionSummaryBuilder.Build(_chartCoordinator.CurrentBuildResult.NatalChart));
-        Grid.SetRow(_positionSummaryControl, 2);
 
-        return new Grid
+        var chartContent = new StackPanel
         {
-            RowDefinitions = new RowDefinitions("Auto,*,Auto"),
-            RowSpacing = 12,
+            Spacing = 12,
             Children =
             {
                 new TextBlock
@@ -124,6 +120,13 @@ public sealed class AstrologyWorkspaceControl : UserControl
                 _chartSurfaceControl,
                 _positionSummaryControl
             }
+        };
+
+        return new ScrollViewer
+        {
+            VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
+            HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled,
+            Content = chartContent
         };
     }
 
