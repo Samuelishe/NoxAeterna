@@ -115,6 +115,8 @@ public sealed class BirthDataInputControl : UserControl
             Margin = new Thickness(0, 4, 0, 0),
             Content = Localize(_viewModel.ValidateActionKey)
         };
+        validateButton.Classes.Add("accent");
+        validateButton.Classes.Add("primary-action");
         validateButton.Click += (_, _) =>
         {
             SyncStateFromInputs();
@@ -132,15 +134,15 @@ public sealed class BirthDataInputControl : UserControl
 
         _validationSummaryTextBlock = new TextBlock
         {
-            TextWrapping = TextWrapping.Wrap,
-            Foreground = ResolveBrush("WorkspaceValidationErrorBrush", new SolidColorBrush(Color.FromRgb(190, 110, 110)))
+            TextWrapping = TextWrapping.Wrap
         };
+        _validationSummaryTextBlock.Classes.Add("validation-error");
         _unknownTimeHelperTextBlock = new TextBlock
         {
             Text = string.Empty,
-            TextWrapping = TextWrapping.Wrap,
-            Foreground = ResolveBrush("WorkspacePanelSubtleForegroundBrush", new SolidColorBrush(Color.FromRgb(128, 128, 132)))
+            TextWrapping = TextWrapping.Wrap
         };
+        _unknownTimeHelperTextBlock.Classes.Add("supporting");
 
         ApplyBirthTimeInputMode();
 
@@ -225,7 +227,6 @@ public sealed class BirthDataInputControl : UserControl
         {
             _birthTimePicker.SelectedTime = _viewModel.BirthTimeEditorValue;
             _birthTimePicker.IsEnabled = !isUnknownTime;
-            _birthTimePicker.Opacity = isUnknownTime ? 0.55 : 1.0;
             _unknownTimeHelperTextBlock.Text = isUnknownTime
                 ? Localize(_viewModel.UnknownTimeStatusKey)
                 : string.Empty;
@@ -252,14 +253,27 @@ public sealed class BirthDataInputControl : UserControl
         if (_viewModel.ValidationResult.IsValid)
         {
             _validationSummaryTextBlock.Text = Localize(_viewModel.ValidationSuccessKey);
-            _validationSummaryTextBlock.Foreground = ResolveBrush("WorkspaceValidationSuccessBrush", new SolidColorBrush(Color.FromRgb(120, 150, 120)));
+            SetValidationClass("validation-success");
             return;
         }
 
         _validationSummaryTextBlock.Text = string.Join(
             Environment.NewLine,
             _viewModel.ValidationResult.Errors.Select(error => Localize(error.MessageKey)));
-        _validationSummaryTextBlock.Foreground = ResolveBrush("WorkspaceValidationErrorBrush", new SolidColorBrush(Color.FromRgb(190, 110, 110)));
+        SetValidationClass("validation-error");
+    }
+
+    private void SetValidationClass(string className)
+    {
+        if (_validationSummaryTextBlock is null)
+        {
+            return;
+        }
+
+        _validationSummaryTextBlock.Classes.Remove("validation-success");
+        _validationSummaryTextBlock.Classes.Remove("validation-error");
+        _validationSummaryTextBlock.Classes.Remove("validation-warning");
+        _validationSummaryTextBlock.Classes.Add(className);
     }
 
     private static Control CreateSettingRow(string labelText, Control editor)
@@ -308,13 +322,6 @@ public sealed class BirthDataInputControl : UserControl
 
     private string Localize(LocalizationKey key) =>
         _localizationProvider.Get(LocalizationScope.Ui, _applicationLanguage, key).Text;
-
-    private IBrush ResolveBrush(string resourceKey, IBrush fallbackBrush) =>
-        Application.Current is { } application &&
-        application.TryGetResource(resourceKey, ActualThemeVariant, out var resource) &&
-        resource is IBrush brush
-            ? brush
-            : fallbackBrush;
 
     private sealed record LocalizedBirthTimeAccuracyOption(BirthTimeAccuracyOption Option, string Label)
     {

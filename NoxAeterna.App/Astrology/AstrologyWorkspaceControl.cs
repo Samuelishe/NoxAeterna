@@ -166,13 +166,14 @@ public sealed class AstrologyWorkspaceControl : UserControl
         _chartSurfaceControl = null;
         _positionSummaryControl = null;
         _angleSummaryControl = null;
-        _chartStateHost.Content = new TextBlock
+        var emptyState = new TextBlock
         {
             Text = Localize("ui.chart.empty_state"),
-            Opacity = 0.68d,
             HorizontalAlignment = HorizontalAlignment.Center,
             Margin = new Thickness(0, 36)
         };
+        emptyState.Classes.Add("subtle");
+        _chartStateHost.Content = emptyState;
     }
 
     private Control CreatePanelContainer(AstrologyWorkspacePanel panel, Control content) =>
@@ -186,12 +187,8 @@ public sealed class AstrologyWorkspaceControl : UserControl
         };
         Grid.SetRow(bodyHost, 1);
 
-        return new Border
+        var panelContainer = new Border
         {
-            Background = ResolveBrush("WorkspacePanelBackgroundBrush", new SolidColorBrush(Color.FromRgb(20, 20, 24))),
-            BorderBrush = ResolveBrush("WorkspacePanelBorderBrush", new SolidColorBrush(Color.FromRgb(56, 56, 62))),
-            BorderThickness = new Thickness(1),
-            CornerRadius = new CornerRadius(6),
             Padding = new Thickness(20, 18, 20, 20),
             Child = new Grid
             {
@@ -209,6 +206,8 @@ public sealed class AstrologyWorkspaceControl : UserControl
                 }
             }
         };
+        panelContainer.Classes.Add("surface-card");
+        return panelContainer;
     }
 
     private string Localize(LocalizationKey key) =>
@@ -234,10 +233,4 @@ public sealed class AstrologyWorkspaceControl : UserControl
         return base.MeasureOverride(availableSize);
     }
 
-    private IBrush ResolveBrush(string resourceKey, IBrush fallbackBrush) =>
-        Application.Current is { } application &&
-        application.TryGetResource(resourceKey, ActualThemeVariant, out var resource) &&
-        resource is IBrush brush
-            ? brush
-            : fallbackBrush;
 }

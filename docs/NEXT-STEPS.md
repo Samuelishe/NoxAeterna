@@ -1,15 +1,15 @@
 # Next Steps
 
-The current V1 chart has transparent measured planet annotations, physical line-segment occlusion, boundary-terminated connectors, theme-aware aspects, and the paired Astral Archive chart palette. Golden Prague values, orientation, viewport fitting, empty startup, and UnknownTime contracts remain unchanged.
+V2 now maps the shell, navigation, workspace cards, settings, controls, popup selections, focus, disabled states, validation, and scrollbars to the paired Astral Archive semantic application roles. The accepted V1 chart palette, geometry, occlusion, astronomy, viewport fitting, empty startup, and UnknownTime contracts remain unchanged.
 
 Immediate next steps:
 
-1. Obtain final V1 ExactTime dark maximized, ExactTime light maximized, and UnknownTime light screenshots from the user at their normal display scale. Confirm transparent annotations, natural line interruptions, cluster readability, palette balance, and principal-angle labels.
+1. Obtain five final V2 screenshots from the user at their normal display scale: ExactTime dark maximized, ExactTime light maximized, UnknownTime light with the time-accuracy ComboBox open, Settings dark, and validation error light.
 
-2. Do not begin V2 app-wide semantic theme migration until those V1 screenshots receive explicit user approval.
+2. Confirm that no red/salmon platform accent or beige/brown shell remains, popup and navigation states are project-owned, disabled/focus/validation states are readable, and the V1 chart has not regressed.
 
-3. After approval, V2 may map the existing shell, workspace, controls, and states to the canonical application semantic tokens in `VISUAL-DESIGN-SYSTEM.md`.
+3. After visual approval, decide whether a small V3 optical-polish pass is necessary. If no concrete optical defect remains, proceed directly to T1 repository foundation.
 
-4. Repository tooling T1/T2 remains after the visual wave; do not mix tooling foundation into V1 or V2 visual review.
+4. Do not start V3 or repository tooling T1/T2 before V2 visual confirmation.
 
 5. Keep `.se1`, persistence, profiles, interpretation, geocoding, transits, synastry, export, animation, Tarot, repository stats, RAG, and CI/tooling implementation out of the current visual confirmation.

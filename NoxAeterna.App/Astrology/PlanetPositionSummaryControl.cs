@@ -73,8 +73,22 @@ public sealed class PlanetPositionSummaryControl : UserControl
     {
         _table.RowDefinitions.Add(new RowDefinition(GridLength.Auto));
         AddSeparator(0, 0.48d);
-        AddCell(Localize("ui.chart.positions.header.planet"), 0, 0, FontWeight.SemiBold, fontSize: 11.5d, opacity: 0.72d);
-        AddCell(Localize("ui.chart.positions.header.sign"), 0, 1, FontWeight.SemiBold, fontSize: 11.5d, opacity: 0.72d);
+        AddCell(
+            Localize("ui.chart.positions.header.planet"),
+            0,
+            0,
+            FontWeight.SemiBold,
+            fontSize: 11.5d,
+            opacity: 0.72d,
+            styleClass: "table-header");
+        AddCell(
+            Localize("ui.chart.positions.header.sign"),
+            0,
+            1,
+            FontWeight.SemiBold,
+            fontSize: 11.5d,
+            opacity: 0.72d,
+            styleClass: "table-header");
         AddCell(
             Localize("ui.chart.positions.header.position"),
             0,
@@ -82,7 +96,8 @@ public sealed class PlanetPositionSummaryControl : UserControl
             FontWeight.SemiBold,
             HorizontalAlignment.Right,
             11.5d,
-            0.72d);
+            0.72d,
+            "table-header");
         AddCell(
             Localize("ui.chart.positions.header.retrograde"),
             0,
@@ -90,7 +105,8 @@ public sealed class PlanetPositionSummaryControl : UserControl
             FontWeight.SemiBold,
             HorizontalAlignment.Center,
             11.5d,
-            0.72d);
+            0.72d,
+            "table-header");
     }
 
     private void AddDataRow(PlanetPositionSummaryRow row, int rowIndex)
@@ -114,7 +130,8 @@ public sealed class PlanetPositionSummaryControl : UserControl
         FontWeight? fontWeight = null,
         HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left,
         double? fontSize = null,
-        double opacity = 1d)
+        double opacity = 1d,
+        string? styleClass = null)
     {
         var textBlock = new TextBlock
         {
@@ -135,6 +152,11 @@ public sealed class PlanetPositionSummaryControl : UserControl
             textBlock.FontSize = resolvedFontSize;
         }
 
+        if (styleClass is not null)
+        {
+            textBlock.Classes.Add(styleClass);
+        }
+
         Grid.SetRow(textBlock, row);
         Grid.SetColumn(textBlock, column);
         _table.Children.Add(textBlock);
@@ -146,11 +168,9 @@ public sealed class PlanetPositionSummaryControl : UserControl
         {
             Height = 1d,
             VerticalAlignment = VerticalAlignment.Bottom,
-            Background = ResolveBrush(
-                "WorkspacePanelBorderBrush",
-                new SolidColorBrush(Color.FromRgb(72, 72, 78))),
             Opacity = opacity
         };
+        separator.Classes.Add("table-separator");
         Grid.SetRow(separator, row);
         Grid.SetColumnSpan(separator, 4);
         _table.Children.Add(separator);
@@ -160,12 +180,5 @@ public sealed class PlanetPositionSummaryControl : UserControl
 
     private string Localize(LocalizationKey key) =>
         _localizationProvider.Get(LocalizationScope.Ui, _applicationLanguage, key).Text;
-
-    private IBrush ResolveBrush(string resourceKey, IBrush fallbackBrush) =>
-        Application.Current is { } application &&
-        application.TryGetResource(resourceKey, ActualThemeVariant, out var resource) &&
-        resource is IBrush brush
-            ? brush
-            : fallbackBrush;
 
 }

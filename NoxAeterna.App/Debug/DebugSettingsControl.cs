@@ -96,16 +96,26 @@ public sealed class DebugSettingsControl : UserControl
             _preferencesChanged(_viewModel.CurrentPreferences);
         };
 
-        return new StackPanel
+        var settingsCard = new Border
         {
-            Spacing = 16,
-            Children =
+            Padding = new Avalonia.Thickness(20),
+            Width = 440,
+            MaxWidth = 560,
+            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left,
+            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top,
+            Child = new StackPanel
             {
-                CreateSettingRow(Localize(_viewModel.ApplicationLanguageLabelKey), applicationLanguageComboBox),
-                CreateSettingRow(Localize(_viewModel.InterpretationLanguageLabelKey), interpretationLanguageComboBox),
-                CreateSettingRow(Localize(_viewModel.ThemeLabelKey), themeComboBox)
+                Spacing = 16,
+                Children =
+                {
+                    CreateSettingRow(Localize(_viewModel.ApplicationLanguageLabelKey), applicationLanguageComboBox),
+                    CreateSettingRow(Localize(_viewModel.InterpretationLanguageLabelKey), interpretationLanguageComboBox),
+                    CreateSettingRow(Localize(_viewModel.ThemeLabelKey), themeComboBox)
+                }
             }
         };
+        settingsCard.Classes.Add("surface-card");
+        return settingsCard;
     }
 
     private static Control CreateSettingRow(string labelText, Control editor) =>

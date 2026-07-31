@@ -110,7 +110,7 @@ Current settings direction:
 - real settings UX can arrive incrementally rather than all at once;
 - localization now loads from JSON UI catalogs;
 - dark/light theme switching now works through `ThemeId`-driven Avalonia resource dictionaries;
-- persistence and richer theme resources remain deferred.
+- persistence remains deferred; settings use the same semantic cards, editors, popup states, and focus language as the main workspace.
 
 Current localization direction:
 
@@ -123,12 +123,13 @@ Current localization direction:
 
 Current theme direction:
 
-- shell and preview surfaces should use theme resources rather than hardcoded product colors where practical;
-- the first real theme scope is intentionally small: window, panel, border, foreground-hint, and preview-surface brushes;
-- workspace panels may use the same theme resource approach for basic structure and separation;
-- chart rendering remains isolated and should not absorb app-level theme orchestration.
-- V1 establishes the paired Obsidian/Porcelain semantic tokens and applies the Astral Archive palette to the chart renderer;
-- app-wide migration of existing shell brushes to semantic roles is a separate V2 stage and must wait for V1 screenshot approval.
+- V1 established the paired Obsidian/Porcelain chart palette and transparent annotation treatment;
+- V2 applies the same semantic families to the shell, navigation, workspace cards, settings, editors, popups, buttons, validation, disabled states, focus, and scrollbars;
+- application surfaces use project-owned semantic brushes rather than independent shell literals or the platform accent;
+- navigation selection uses restrained amethyst support and a left rail rather than a dominant solid accent block;
+- the right content region avoids an unnecessary outer frame when real workspace cards already provide structure;
+- chart rendering remains isolated and does not absorb application-level brush orchestration;
+- exact roles belong to [`VISUAL-DESIGN-SYSTEM.md`](VISUAL-DESIGN-SYSTEM.md), while Avalonia dictionary and style implementation belongs to [`THEMES.md`](THEMES.md).
 
 ## Controls
 

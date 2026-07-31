@@ -55,17 +55,49 @@ Dark and light themes share semantic roles and hue families, but never assume id
 | Warning | `#8C5A00` |
 | Error | `#B8344D` |
 
-The Avalonia dark/light dictionaries expose these values as `Design*Color` resources. Existing shell brushes are not migrated to those roles in V1; app-wide semantic theme migration belongs to V2.
+The Avalonia dark/light dictionaries expose these values as paired `Design*Color` and `Design*Brush` resources. V2 applies those roles across the application shell and controls; Avalonia topology and style ownership belong to [`THEMES.md`](THEMES.md).
 
 ## Component States
 
+### Dark — Obsidian
+
+| Token | Value |
+| --- | --- |
+| SurfaceSunken | `#0D1424` |
+| BorderStrong | `#3A476A` |
+| AccentPrimarySoft | `#2E2759` |
+| AccentSecondarySoft | `#123A46` |
+| ControlFill | `#0D1424` |
+| ControlFillHover | `#151F35` |
+| ControlFillPressed | `#1D2944` |
+| DisabledFill | `#141A29` |
+| DisabledText | `#68718E` |
+| SelectionForeground | `#FFFFFF` |
+| FocusRing | `#45C7D9` |
+
+### Light — Porcelain
+
+| Token | Value |
+| --- | --- |
+| SurfaceSunken | `#F2EFF8` |
+| BorderStrong | `#B7AEC9` |
+| AccentPrimarySoft | `#E9E3FF` |
+| AccentSecondarySoft | `#DDF3F6` |
+| ControlFill | `#FFFFFF` |
+| ControlFillHover | `#F1EDF9` |
+| ControlFillPressed | `#E5DFF1` |
+| DisabledFill | `#EEEAF3` |
+| DisabledText | `#9A93A8` |
+| SelectionForeground | `#FFFFFF` |
+| FocusRing | `#147F91` |
+
 - Default content uses `Surface`, `Border`, `TextPrimary`, and `TextSecondary`.
 - Raised or hoverable regions may move to `SurfaceRaised`; hover must remain restrained and must not simulate illumination.
-- Selected state uses `AccentPrimary`; a stronger selected or pressed state may use `AccentPrimaryStrong`.
-- Keyboard focus and exceptional celestial markers may use `SolarAccent`. Solar gold is not a general decoration color.
+- Selected state uses `AccentPrimarySoft` with a restrained `AccentPrimaryStrong` indicator; primary actions use `AccentPrimaryStrong`.
+- Keyboard focus uses `FocusRing`. Exceptional celestial markers may use `SolarAccent`; solar gold is not a general focus or decoration color.
 - Informational secondary emphasis uses `AccentSecondary`.
 - Validation and operation states use `Success`, `Warning`, and `Error`; do not substitute these roles for decorative accents.
-- Disabled text may use a lower-contrast treatment derived from `TextMuted`, but it must not look like active data.
+- Disabled controls use the explicit `DisabledFill` and `DisabledText` pair and must not look like active data.
 
 ## Chart Palette V1
 
@@ -202,4 +234,4 @@ Forbidden:
 - Preserve the semantic mapping of elements, aspects, state colors, and solar emphasis.
 - Focused chart tuning may adjust hue or lightness by roughly 5–8% only when smoke evidence shows insufficient contrast, color collision, or layer dominance.
 - Update this document, implementation tokens, focused tests, and dark/light acceptance screenshots in the same visual-system change.
-- Do not begin app-wide semantic brush migration until V1 chart screenshots are approved.
+- Keep application resource topology and Fluent integration details in `THEMES.md`; keep exact values here and in the paired dictionaries.

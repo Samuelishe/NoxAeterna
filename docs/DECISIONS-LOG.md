@@ -378,3 +378,19 @@ Decision: Preserve measured annotation envelopes as invisible render geometry an
 Reason: Background-colored glyph and label rectangles erased radial structure beyond the actual line intersection and appeared as opaque stickers, especially in the light theme.
 
 Consequences: No annotation rectangle, pill, card, glow, or shadow is drawn. House cusps, principal axes, source ticks, and connectors use a small deterministic segment occluder; aspect chords remain unchanged while they stay inside the aspect circle. Rectangle order cannot affect the result, and Geometry receives no Avalonia measurement types.
+
+## 2026-07-31: Own Application Themes Through Semantic Brushes and Narrow Avalonia Styles
+
+Decision: Materialize every application semantic color as a paired project-owned brush, apply shell and control states through one application style resource, and map only verified public Fluent resource seams back to those semantic owners.
+
+Reason: Independent shell literals and platform accent defaults made the application visually unrelated to the accepted chart palette and allowed red/salmon selection to leak into navigation and popups. Replacing native control templates broadly would create unnecessary accessibility and interaction risk.
+
+Consequences: Obsidian and Porcelain dictionaries have exact role parity, views do not contain raw product colors, navigation/editors/buttons/pickers/popups/scrollbars share one state language, and platform accent cannot become a second palette. Native control behavior remains owned by Avalonia Fluent, while Nox Aeterna owns its visual surface.
+
+## 2026-07-31: Separate Visual Design Ownership From Avalonia Theme Implementation
+
+Decision: Keep `VISUAL-DESIGN-SYSTEM.md` authoritative for exact semantic values and visual rules, and make `THEMES.md` authoritative for Avalonia resource topology, style/class strategy, switching lifecycle, and theme tests.
+
+Reason: Palette decisions and framework implementation evolve at different rates and should not be duplicated across product mood prose, XAML integration notes, and status logs.
+
+Consequences: `UI-VISION.md` remains the high-level product direction, palette changes update the design-system owner and paired dictionaries, and Avalonia implementation changes update `THEMES.md` without redefining colors. Domain, Presentation, and chart Rendering remain free of shell color decisions.

@@ -1063,3 +1063,33 @@ Next actions:
 
 - Request the three final V1 screenshots from the user at their display scale and obtain explicit visual approval.
 - Do not start V2 app-wide semantic theme migration or repository tooling T1/T2 until V1 is approved.
+
+## 2026-07-31: V2 Application Theme Migration
+
+Summary:
+
+- Inspected the supplied ExactTime dark/light and UnknownTime light popup screenshots before editing and confirmed that the V1 chart was cohesive while the shell still used neutral-black or beige/brown surfaces, red/salmon selections, and default Fluent control states.
+- Expanded both Avalonia theme dictionaries to the complete paired Obsidian/Porcelain semantic color contract and added one project-owned brush for every semantic role.
+- Removed the independent legacy `Shell*`, `Workspace*`, and `PreviewSurface*` brush system; production App views now consume semantic roles or reusable semantic classes without raw UI color literals.
+- Added `SemanticControlStyles.axaml` after `FluentTheme` for project-owned navigation, button, editor, popup, picker, focus, disabled, validation, card, table, and scrollbar treatment while preserving native templates and behavior.
+- Mapped verified public Avalonia Fluent 12.0.2 accent, ComboBox popup, DatePicker/TimePicker presenter, and scrollbar resource seams back to project semantic owners, preventing platform red/salmon leakage.
+- Reworked the shell composition around Canvas plus real Surface cards, removed the redundant right-side outer frame, added restrained selected-navigation rails, styled the primary chart-build action, and applied the same card/control language to Settings.
+- Kept the renderer-owned V1 chart palette, line occlusion, geometry, astronomy, Placidus, viewport fitting, and UnknownTime calculation behavior unchanged.
+- Created `THEMES.md` as the Avalonia implementation owner while retaining `UI-VISION.md` for product direction and `VISUAL-DESIGN-SYSTEM.md` for exact semantic values.
+
+Verification:
+
+- Baseline matched `22939be1b4b2f78444038087bdf7aa28aa2802bf`; the worktree was clean and restore/build plus 273/273 tests passed before edits.
+- Current restore/build succeeds without warnings and 281/281 tests pass.
+- Focused coverage checks exact dark/light resource parity, component-state values, brush/color consistency, contrast, legacy-palette removal, unique XAML keys, semantic Fluent mappings, required control styles, repeated theme switching, resource resolution, and the absence of raw App-view color literals.
+- Windows Avalonia smoke covered empty startup, Prague ExactTime and UnknownTime in dark/light themes, maximized layout, live shell/theme rematerialization, navigation selection/focus, primary actions, ComboBox and picker popups, disabled UnknownTime input, success/error validation, scrollbars, Settings, and RU/EN switching.
+- Popup smoke shows no red or salmon selection; light surfaces are Porcelain rather than beige/brown, dark surfaces are Obsidian rather than unrelated neutral black, and focus uses the astral-cyan role.
+- ExactTime and UnknownTime screenshots confirm that V1 chart colors, orientations, houses/angle policy, line occlusion, numerical values, and viewport fitting did not regress.
+- Five requested V2 screenshots were generated only under the local temporary directory and were not added to Git.
+- No dependency, font, asset, README, THIRD-PARTY, `.se1`, persistence, profile, interpretation, Tarot, geocoding, transit, synastry, repository-tooling, or CI change was introduced.
+
+Next actions:
+
+- Request the five final V2 screenshots from the user at their display scale and obtain explicit visual approval.
+- After approval, decide whether concrete screenshot evidence warrants a small V3 optical pass; otherwise proceed directly to T1 repository foundation.
+- Do not begin V3 or repository tooling before V2 confirmation.

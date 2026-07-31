@@ -3,46 +3,42 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Nox Aeterna"
-    Background="{DynamicResource ShellWindowBackgroundBrush}"
+    Background="{DynamicResource DesignCanvasBrush}"
+    Foreground="{DynamicResource DesignTextPrimaryBrush}"
     Width="1360"
     Height="860"
     MinWidth="1180"
     MinHeight="760">
-  <Grid ColumnDefinitions="240,*" Margin="20">
+  <Grid ColumnDefinitions="240,*" ColumnSpacing="20" Margin="20">
     <Border Grid.Column="0"
             Padding="16"
-            Background="{DynamicResource ShellNavigationPanelBackgroundBrush}"
-            BorderBrush="{DynamicResource ShellPanelBorderBrush}"
+            Background="{DynamicResource DesignSurfaceBrush}"
+            BorderBrush="{DynamicResource DesignBorderBrush}"
             BorderThickness="1"
-            CornerRadius="6">
+            CornerRadius="12">
       <StackPanel Spacing="12">
         <TextBlock x:Name="NavigationTitleTextBlock"
                    FontSize="16"
                    FontWeight="SemiBold" />
         <ListBox x:Name="NavigationListBox"
+                 Classes="navigation-list"
                  SelectionChanged="OnNavigationSelectionChanged" />
       </StackPanel>
     </Border>
 
-    <Border Grid.Column="1"
-            Margin="16,0,0,0"
-            Padding="16"
-            Background="{DynamicResource ShellContentPanelBackgroundBrush}"
-            BorderBrush="{DynamicResource ShellPanelBorderBrush}"
-            BorderThickness="1"
-            CornerRadius="6">
-      <Grid RowDefinitions="Auto,Auto,*">
-        <TextBlock x:Name="SectionTitleTextBlock"
-                   FontSize="20"
-                   FontWeight="SemiBold" />
-        <TextBlock x:Name="SectionHintTextBlock"
-                   Grid.Row="1"
-                   Margin="0,6,0,0"
-                   Foreground="{DynamicResource ShellSecondaryForegroundBrush}" />
-        <ContentControl x:Name="SectionContentHost"
-                        Grid.Row="2"
-                        Margin="0,16,0,0" />
-      </Grid>
-    </Border>
+    <Grid Grid.Column="1"
+          Margin="4,8,0,0"
+          RowDefinitions="Auto,Auto,*">
+      <TextBlock x:Name="SectionTitleTextBlock"
+                 FontSize="21"
+                 FontWeight="SemiBold" />
+      <TextBlock x:Name="SectionHintTextBlock"
+                 Grid.Row="1"
+                 Classes="supporting"
+                 Margin="0,6,0,0" />
+      <ContentControl x:Name="SectionContentHost"
+                      Grid.Row="2"
+                      Margin="0,16,0,0" />
+    </Grid>
   </Grid>
 </Window>

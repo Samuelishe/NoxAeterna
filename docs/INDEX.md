@@ -21,6 +21,7 @@ Use this file to decide what to read next without opening every document.
 | `PERSISTENCE.md` | SQLite direction, repository principles, archive/history needs, migration concerns. | Designing storage, repositories, or migrations. |
 | `UI-VISION.md` | Visual identity, UX rhythm, typography, layout principles, anti-patterns. | Designing Avalonia screens and interaction flows. |
 | `VISUAL-DESIGN-SYSTEM.md` | Authoritative semantic color roles, paired dark/light palettes, chart hierarchy, component states, contrast, effects, and palette evolution rules. | Choosing or implementing exact colors and visual-system behavior. |
+| `THEMES.md` | Avalonia theme dictionary topology, semantic brush mapping, control-style ownership, switching lifecycle, parity tests, and manual smoke matrix. | Implementing or reviewing application themes and control states. |
 | `ASSETS-PIPELINE.md` | Asset pipeline, programmatic-vs-generated asset strategy, curation rules, attribution expectations. | Creating visual assets or style guide material. |
 | `CODING-GUIDELINES.md` | Naming, XML docs, type safety, testing, coupling rules, provenance rules. | Writing or reviewing code. |
 | `DECISIONS-LOG.md` | Lightweight ADR-style decisions with reasons and consequences. | Checking or recording architectural decisions. |

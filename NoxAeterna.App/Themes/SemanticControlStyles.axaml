@@ -1,0 +1,180 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Style Selector="Window">
+    <Setter Property="Background" Value="{DynamicResource DesignCanvasBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextPrimaryBrush}" />
+    <Setter Property="FontSize" Value="13.5" />
+  </Style>
+
+  <Style Selector="TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextPrimaryBrush}" />
+  </Style>
+  <Style Selector="TextBlock.supporting">
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextSecondaryBrush}" />
+    <Setter Property="FontSize" Value="12.5" />
+  </Style>
+  <Style Selector="TextBlock.subtle">
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextMutedBrush}" />
+    <Setter Property="FontSize" Value="12" />
+  </Style>
+  <Style Selector="TextBlock.table-header">
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextSecondaryBrush}" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+  <Style Selector="TextBlock.validation-success">
+    <Setter Property="Foreground" Value="{DynamicResource DesignSuccessBrush}" />
+  </Style>
+  <Style Selector="TextBlock.validation-error">
+    <Setter Property="Foreground" Value="{DynamicResource DesignErrorBrush}" />
+  </Style>
+  <Style Selector="TextBlock.validation-warning">
+    <Setter Property="Foreground" Value="{DynamicResource DesignWarningBrush}" />
+  </Style>
+
+  <Style Selector="Border.surface-card">
+    <Setter Property="Background" Value="{DynamicResource DesignSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="10" />
+  </Style>
+  <Style Selector="Border.table-separator">
+    <Setter Property="Background" Value="{DynamicResource DesignBorderBrush}" />
+  </Style>
+
+  <Style Selector="ListBox.navigation-list">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="ListBox.navigation-list ListBoxItem">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="4,0,0,0" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextPrimaryBrush}" />
+    <Setter Property="Margin" Value="0,2" />
+    <Setter Property="Padding" Value="12,8" />
+  </Style>
+  <Style Selector="ListBox.navigation-list ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource DesignSurfaceRaisedBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextPrimaryBrush}" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="4,0,0,0" />
+    <Setter Property="CornerRadius" Value="6" />
+  </Style>
+  <Style Selector="ListBox.navigation-list ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource DesignAccentPrimarySoftBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextPrimaryBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignAccentPrimaryStrongBrush}" />
+    <Setter Property="BorderThickness" Value="4,0,0,0" />
+    <Setter Property="CornerRadius" Value="6" />
+  </Style>
+  <Style Selector="ListBox.navigation-list ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource DesignSurfaceRaisedBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignAccentPrimaryStrongBrush}" />
+  </Style>
+  <Style Selector="ListBox.navigation-list ListBoxItem:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+
+  <Style Selector="Button">
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="MinHeight" Value="34" />
+    <Setter Property="Padding" Value="14,6" />
+    <Setter Property="FontSize" Value="13.5" />
+  </Style>
+  <Style Selector="Button:focus-visible">
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="Button.primary-action">
+    <Setter Property="MinHeight" Value="36" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+
+  <Style Selector="TextBox">
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="MinHeight" Value="34" />
+    <Setter Property="FontSize" Value="13.5" />
+  </Style>
+  <Style Selector="TextBox:focus-visible">
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+
+  <Style Selector="ComboBox">
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="MinHeight" Value="34" />
+    <Setter Property="FontSize" Value="13.5" />
+  </Style>
+  <Style Selector="ComboBox:focus-visible">
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="ComboBox:dropdownopen">
+    <Setter Property="Background" Value="{DynamicResource DesignControlFillPressedBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
+  </Style>
+  <Style Selector="ComboBox:dropdownopen /template/ Border#PopupBorder">
+    <Setter Property="Background" Value="{DynamicResource DesignSurfaceBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignBorderStrongBrush}" />
+    <Setter Property="CornerRadius" Value="8" />
+  </Style>
+
+  <Style Selector="ComboBoxItem">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextPrimaryBrush}" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Margin" Value="4,1" />
+  </Style>
+  <Style Selector="ComboBoxItem:pointerover">
+    <Setter Property="Background" Value="{DynamicResource DesignSurfaceRaisedBrush}" />
+  </Style>
+  <Style Selector="ComboBoxItem:selected">
+    <Setter Property="Background" Value="{DynamicResource DesignAccentPrimarySoftBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignAccentPrimaryStrongBrush}" />
+    <Setter Property="BorderThickness" Value="3,0,0,0" />
+  </Style>
+  <Style Selector="ComboBoxItem:focus-visible">
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="ComboBoxItem:disabled">
+    <Setter Property="Background" Value="{DynamicResource DesignDisabledFillBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource DesignDisabledTextBrush}" />
+  </Style>
+
+  <Style Selector="DatePicker">
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="MinHeight" Value="34" />
+    <Setter Property="FontSize" Value="13.5" />
+  </Style>
+  <Style Selector="DatePicker:focus-visible">
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="TimePicker">
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="MinHeight" Value="34" />
+    <Setter Property="FontSize" Value="13.5" />
+  </Style>
+  <Style Selector="TimePicker:focus-visible">
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+
+  <Style Selector="ScrollBar">
+    <Setter Property="Background" Value="{DynamicResource DesignSurfaceSunkenBrush}" />
+  </Style>
+  <Style Selector="ScrollBar Thumb">
+    <Setter Property="Background" Value="{DynamicResource DesignBorderStrongBrush}" />
+  </Style>
+  <Style Selector="ScrollBar Thumb:pointerover">
+    <Setter Property="Background" Value="{DynamicResource DesignAccentPrimarySoftBrush}" />
+  </Style>
+  <Style Selector="ScrollBar Thumb:pressed">
+    <Setter Property="Background" Value="{DynamicResource DesignAccentSecondarySoftBrush}" />
+  </Style>
+</Styles>

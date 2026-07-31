@@ -34,9 +34,9 @@ public sealed class ChartAngleSummaryControl : UserControl
         };
         _statusText = new TextBlock
         {
-            Opacity = 0.72d,
             TextWrapping = TextWrapping.Wrap
         };
+        _statusText.Classes.Add("supporting");
 
         Content = new StackPanel
         {

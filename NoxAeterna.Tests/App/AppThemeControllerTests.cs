@@ -40,30 +40,51 @@ public sealed class AppThemeControllerTests
     }
 
     [Fact]
-    public void DarkAndLightResourcesExposeCanonicalSemanticColorRoles()
+    public void DarkAndLightResourcesExposeCanonicalSemanticColorAndBrushRoles()
     {
         var dark = new DarkThemeResources();
         var light = new LightThemeResources();
-        var keys = new[]
+        var colorKeys = new[]
         {
             "DesignCanvasColor",
             "DesignSurfaceColor",
             "DesignSurfaceRaisedColor",
+            "DesignSurfaceSunkenColor",
             "DesignBorderColor",
+            "DesignBorderStrongColor",
             "DesignTextPrimaryColor",
             "DesignTextSecondaryColor",
             "DesignTextMutedColor",
             "DesignAccentPrimaryColor",
             "DesignAccentPrimaryStrongColor",
+            "DesignAccentPrimarySoftColor",
             "DesignAccentSecondaryColor",
+            "DesignAccentSecondarySoftColor",
             "DesignSolarAccentColor",
             "DesignSuccessColor",
             "DesignWarningColor",
-            "DesignErrorColor"
+            "DesignErrorColor",
+            "DesignControlFillColor",
+            "DesignControlFillHoverColor",
+            "DesignControlFillPressedColor",
+            "DesignDisabledFillColor",
+            "DesignDisabledTextColor",
+            "DesignSelectionForegroundColor",
+            "DesignFocusRingColor"
         };
 
-        Assert.All(keys, key => Assert.IsType<Color>(dark[key]));
-        Assert.All(keys, key => Assert.IsType<Color>(light[key]));
+        Assert.All(colorKeys, key => Assert.IsType<Color>(dark[key]));
+        Assert.All(colorKeys, key => Assert.IsType<Color>(light[key]));
+        Assert.All(
+            colorKeys,
+            colorKey =>
+            {
+                var brushKey = colorKey[..^"Color".Length] + "Brush";
+                var darkBrush = Assert.IsType<SolidColorBrush>(dark[brushKey]);
+                var lightBrush = Assert.IsType<SolidColorBrush>(light[brushKey]);
+                Assert.Equal(GetColor(dark, colorKey), darkBrush.Color);
+                Assert.Equal(GetColor(light, colorKey), lightBrush.Color);
+            });
         Assert.Equal(Color.Parse("#090D18"), dark["DesignCanvasColor"]);
         Assert.Equal(Color.Parse("#F7F5FC"), light["DesignCanvasColor"]);
     }
@@ -78,6 +99,36 @@ public sealed class AppThemeControllerTests
         Assert.True(Contrast(GetColor(dark, "DesignTextSecondaryColor"), GetColor(dark, "DesignCanvasColor")) >= 4.5d);
         Assert.True(Contrast(GetColor(light, "DesignTextPrimaryColor"), GetColor(light, "DesignCanvasColor")) >= 7d);
         Assert.True(Contrast(GetColor(light, "DesignTextSecondaryColor"), GetColor(light, "DesignCanvasColor")) >= 4.5d);
+    }
+
+    [Fact]
+    public void RepeatedThemeSwitchingMaintainsOneThemeDictionaryAndResolvableRoles()
+    {
+        var app = new global::NoxAeterna.App.App();
+        app.Initialize();
+        var controller = new AppThemeController(app, ThemeRegistry.CreateDefault());
+        var originalDictionaryCount = app.Resources.MergedDictionaries.Count;
+
+        controller.ApplyTheme(new ThemeId("dark"));
+        Assert.Equal(originalDictionaryCount + 1, app.Resources.MergedDictionaries.Count);
+
+        controller.ApplyTheme(new ThemeId("light"));
+        controller.ApplyTheme(new ThemeId("dark"));
+        controller.ApplyTheme(new ThemeId("dark"));
+
+        Assert.Equal(originalDictionaryCount + 1, app.Resources.MergedDictionaries.Count);
+        Assert.IsType<DarkThemeResources>(controller.CurrentThemeResources);
+        Assert.Equal(ThemeVariant.Dark, app.RequestedThemeVariant);
+        Assert.True(app.TryGetResource(
+            "DesignControlFillBrush",
+            ThemeVariant.Dark,
+            out var controlFill));
+        Assert.IsType<SolidColorBrush>(controlFill);
+        Assert.True(app.TryGetResource(
+            "DesignFocusRingBrush",
+            ThemeVariant.Dark,
+            out var focusRing));
+        Assert.IsType<SolidColorBrush>(focusRing);
     }
 
     private static Color GetColor(Avalonia.Controls.ResourceDictionary resources, string key) =>

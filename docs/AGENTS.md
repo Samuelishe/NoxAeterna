@@ -14,7 +14,7 @@ Avoid: joke generation, fake AI magic, meme occult aesthetics, TikTok witchcore,
 
 ## Current Phase
 
-Current phase: chart rendering stabilization on the implemented application foundation.
+Current phase: application-theme visual confirmation on the implemented chart and application foundation.
 
 The solution projects, astronomy pipeline, circular geometry, scene-based renderer, localized shell, and first astrology workspace already exist. Keep documentation honest about the implemented subset; persistence and later product flows remain deferred.
 
@@ -40,7 +40,9 @@ Then read task-specific files:
 - Symbolic knowledge: `docs/SYMBOLICS.md`
 - Tarot: `docs/TAROT-ENGINE.md`
 - Storage: `docs/PERSISTENCE.md`
-- UI: `docs/UI-VISION.md`
+- UI product direction: `docs/UI-VISION.md`
+- Exact visual semantics: `docs/VISUAL-DESIGN-SYSTEM.md`
+- Avalonia theme implementation: `docs/THEMES.md`
 - Code style: `docs/CODING-GUIDELINES.md`
 
 ## Intended Technology Direction
