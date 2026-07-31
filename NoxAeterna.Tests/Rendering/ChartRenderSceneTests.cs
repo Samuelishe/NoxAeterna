@@ -25,7 +25,6 @@ public sealed class ChartRenderSceneTests
         Assert.Equal(firstScene.AngleAxes, secondScene.AngleAxes);
         Assert.Equal(firstScene.AngleLabels, secondScene.AngleLabels);
         Assert.Equal(firstScene.ZodiacGlyphs, secondScene.ZodiacGlyphs);
-        Assert.Equal(firstScene.PlanetGlyphs, secondScene.PlanetGlyphs);
         Assert.Equal(firstScene.PlanetAnnotations, secondScene.PlanetAnnotations);
     }
 
@@ -52,15 +51,16 @@ public sealed class ChartRenderSceneTests
     }
 
     [Fact]
-    public void RenderSceneUsesVectorGlyphsAtGeometryOwnedAnchors()
+    public void RenderSceneUsesOneCanonicalPlanetAnnotationPipelineAtGeometryOwnedAnchors()
     {
         var scene = ChartRenderScene.FromLayout(CreateLayout());
 
         Assert.Equal(12, scene.ZodiacGlyphs.Count);
-        Assert.Equal(scene.PlanetGlyphSlots.Count, scene.PlanetGlyphs.Count);
+        Assert.Equal(scene.PlanetGlyphSlots.Count, scene.PlanetAnnotations.Count);
         Assert.Equal(
             scene.PlanetGlyphSlots.Select(static slot => slot.AnchorPoint),
-            scene.PlanetGlyphs.Select(static glyph => glyph.AnchorPoint));
+            scene.PlanetAnnotations.Select(static annotation => annotation.AnchorPoint));
+        Assert.Null(scene.GetType().GetProperty("PlanetGlyphs"));
     }
 
     [Fact]

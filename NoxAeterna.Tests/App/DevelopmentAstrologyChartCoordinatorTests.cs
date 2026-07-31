@@ -128,6 +128,13 @@ public sealed class DevelopmentAstrologyChartCoordinatorTests
             NatalHousesAvailability.UnavailableUnknownTime,
             coordinator.CurrentBuildResult.NatalChart.Houses?.Availability);
         Assert.Empty(coordinator.CurrentBuildResult.RenderScene.HouseCusps);
+        Assert.Empty(coordinator.CurrentBuildResult.RenderScene.AngleAxes);
+        Assert.False(coordinator.CurrentBuildResult.RenderScene.Layout.Orientation.IsAscendantOriented);
+
+        var firstPositions = coordinator.CurrentBuildResult.NatalChart.Positions.ToArray();
+        Assert.True(coordinator.TryBuild(viewModel));
+        Assert.Equal(firstPositions, coordinator.CurrentBuildResult!.NatalChart.Positions);
+        Assert.Empty(coordinator.CurrentBuildResult.RenderScene.AngleAxes);
     }
 
     [Fact]

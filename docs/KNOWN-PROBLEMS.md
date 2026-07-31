@@ -49,9 +49,9 @@ The interpretation engine can become unmaintainable if it hardcodes every possib
 
 ## Extreme Planet Cluster Presentation
 
-Circular zero-crossing detection, ordered radial sub-lanes, and bounded symmetric angular spreading now cover the current ten-body chart deterministically. The current envelope includes glyph-plus-degree annotations and connectors appear only for actual displacement. Extremely dense fixtures may still require visibly longer connectors and wider display spreading; this is an intentional stable fallback, and any further tuning should wait for visual confirmation rather than replacing it with a heavy optimizer.
+Circular zero-crossing detection, ordered radial sub-lanes, bounded symmetric geometry spreading, and measured render-owned protected envelopes now cover the current ten-body chart deterministically. The current complete visual includes glyph, degree text, optional `R`, minimal background knockout, and a connector that terminates at the protected boundary. The Prague lower and upper clusters remain disjoint at compact, standard, and maximized representative sizes. Extremely dense fixtures may still require visibly longer connectors and the bounded render-side angular fallback; any further tuning should wait for visual confirmation rather than replacing it with a heavy optimizer.
 
-Cross-platform visual smoke beyond the current Windows run is still outstanding.
+Windows dark/light smoke now confirms protected annotations at standard and maximized sizes, including UnknownTime and live resize. Cross-platform visual smoke remains outstanding.
 
 ## Historical Symbolic Sources
 

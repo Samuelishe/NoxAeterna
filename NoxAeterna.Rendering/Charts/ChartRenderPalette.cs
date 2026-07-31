@@ -6,6 +6,7 @@ namespace NoxAeterna.Rendering.Charts;
 /// Defines chart-local structural and glyph colors without coupling rendering to shell themes.
 /// </summary>
 public sealed record ChartRenderPalette(
+    Color InteriorBackgroundColor,
     Color StructureColor,
     Color SubtleStructureColor,
     Color FireSectorColor,
@@ -24,6 +25,7 @@ public sealed record ChartRenderPalette(
     /// Gets the restrained palette for a dark preview surface.
     /// </summary>
     public static ChartRenderPalette Dark { get; } = new(
+        Color.FromRgb(19, 19, 23),
         Color.FromRgb(207, 174, 108),
         Color.FromRgb(133, 119, 94),
         Color.FromRgb(132, 65, 52),
@@ -42,6 +44,7 @@ public sealed record ChartRenderPalette(
     /// Gets the restrained palette for a light preview surface.
     /// </summary>
     public static ChartRenderPalette Light { get; } = new(
+        Color.FromRgb(245, 241, 234),
         Color.FromRgb(103, 70, 35),
         Color.FromRgb(139, 116, 84),
         Color.FromRgb(177, 106, 88),

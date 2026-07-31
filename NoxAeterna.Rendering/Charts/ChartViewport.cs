@@ -104,9 +104,12 @@ public readonly record struct ChartViewport
                  visualMetrics.PlanetAnnotationFontSize -
                  (visualMetrics.GlyphStrokeThickness / 2d)) /
                 radialLanes.PlanetGlyphLane.OuterRadiusRatio;
+            var angleLabelMargin = Math.Clamp(effectiveRadius * 0.01d, 3d, 5d);
             var angleLabelRadius =
-                (availableHalfSize - (visualMetrics.AngleLabelFontSize * 1.1d)) /
-                radialLanes.AngleLabelRadiusRatio;
+                (availableHalfSize -
+                 (visualMetrics.AngleLabelFontSize * 1.75d) -
+                 angleLabelMargin) /
+                radialLanes.OuterBoundaryRadiusRatio;
             var safeRadius = Math.Min(
                 Math.Min(outerBoundaryRadius, zodiacGlyphRadius),
                 Math.Min(planetGlyphRadius, angleLabelRadius));

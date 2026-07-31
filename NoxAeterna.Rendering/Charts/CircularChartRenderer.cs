@@ -35,7 +35,12 @@ public sealed class CircularChartRenderer
         }
 
         using var clip = drawingContext.PushClip(viewport.ChartBounds);
+        var annotationLayouts = ChartPlanetAnnotationLayoutBuilder.Build(scene, viewport, MeasureText);
+        var angleLabelLayouts = ChartAngleLabelLayoutBuilder.Build(scene, viewport, MeasureText);
 
+        drawingContext.FillRectangle(
+            new SolidColorBrush(options.Palette.InteriorBackgroundColor),
+            viewport.ChartBounds);
         DrawZodiacSectorFills(drawingContext, viewport, scene.ZodiacSectors, options);
         DrawZoneBoundaries(drawingContext, viewport, scene.Layout.RadialLanes, options);
         DrawSectorSeparators(drawingContext, viewport, scene.ZodiacSectors, options);
@@ -44,11 +49,13 @@ public sealed class CircularChartRenderer
         DrawAspectCircle(drawingContext, viewport, scene.Layout.RadialLanes, options);
         DrawAspectLines(drawingContext, viewport, scene.AspectLines);
         DrawAspectEndpointMarkers(drawingContext, viewport, scene.AspectLines, options);
-        DrawPlanetAnchors(drawingContext, viewport, scene.PlanetGlyphSlots, scene.Layout.RadialLanes, options);
-        DrawPlanetAnnotations(drawingContext, viewport, scene.PlanetAnnotations, options);
+        DrawPlanetSourceTicks(drawingContext, viewport, scene.PlanetGlyphSlots, scene.Layout.RadialLanes, options);
+        DrawPlanetConnectors(drawingContext, viewport, annotationLayouts, options);
+        DrawAnnotationKnockouts(drawingContext, annotationLayouts, options);
+        DrawPlanetAnnotations(drawingContext, viewport, annotationLayouts, options);
         DrawVectorGlyphs(drawingContext, viewport, scene.ZodiacGlyphs, options);
         DrawHouseNumbers(drawingContext, viewport, scene.HouseNumberAnchors, options);
-        DrawAngleLabels(drawingContext, viewport, scene.AngleLabels, options);
+        DrawAngleLabels(drawingContext, viewport, angleLabelLayouts, options);
     }
 
     private static void DrawHouseCusps(
@@ -114,15 +121,15 @@ public sealed class CircularChartRenderer
     private static void DrawAngleLabels(
         DrawingContext drawingContext,
         ChartViewport viewport,
-        IEnumerable<ChartAngleLabelPlacement> labels,
+        IEnumerable<ChartAngleLabelLayout> labels,
         ChartRenderOptions options)
     {
         foreach (var label in labels)
         {
             DrawCenteredText(
                 drawingContext,
-                label.Text,
-                ToPoint(viewport, label.AnchorPoint),
+                label.Label.Text,
+                label.Anchor,
                 viewport.VisualMetrics.AngleLabelFontSize,
                 new SolidColorBrush(options.Palette.AngleAxisColor, 0.94d));
         }
@@ -148,6 +155,21 @@ public sealed class CircularChartRenderer
 
         drawingContext.DrawText(formattedText, origin);
     }
+
+    private static Size MeasureText(string text, double fontSize)
+    {
+        var formattedText = CreateFormattedText(text, fontSize, Brushes.Transparent);
+        return new Size(formattedText.Width, formattedText.Height);
+    }
+
+    private static FormattedText CreateFormattedText(string text, double fontSize, IBrush brush) =>
+        new(
+            text,
+            CultureInfo.InvariantCulture,
+            FlowDirection.LeftToRight,
+            Typeface.Default,
+            fontSize,
+            brush);
 
     private static void DrawZoneBoundaries(
         DrawingContext drawingContext,
@@ -280,7 +302,7 @@ public sealed class CircularChartRenderer
         }
     }
 
-    private static void DrawPlanetAnchors(
+    private static void DrawPlanetSourceTicks(
         DrawingContext drawingContext,
         ChartViewport viewport,
         IEnumerable<PlanetGlyphSlot> glyphSlots,
@@ -289,7 +311,6 @@ public sealed class CircularChartRenderer
     {
         var brush = new SolidColorBrush(options.Palette.PlanetAnchorColor, 0.72d);
         var tickPen = new Pen(brush, viewport.VisualMetrics.AnchorStrokeThickness);
-        var connectorPen = new Pen(brush, viewport.VisualMetrics.ConnectorStrokeThickness);
         var tickInnerRadius = lanes.PlanetGlyphLane.OuterRadiusRatio + 0.012d;
         var tickOuterRadius = Math.Min(
             lanes.ZodiacRing.InnerRadiusRatio - 0.012d,
@@ -303,47 +324,80 @@ public sealed class CircularChartRenderer
                 tickPen,
                 ToPoint(viewport, tickInner),
                 ToPoint(viewport, tickOuter));
+        }
+    }
 
-            if (CircularDelta(glyphSlot.SourceAngle.Degrees, glyphSlot.DisplayAngle.Degrees) > 0.01d)
+    private static void DrawPlanetConnectors(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        IEnumerable<ChartPlanetAnnotationLayout> layouts,
+        ChartRenderOptions options)
+    {
+        var brush = new SolidColorBrush(options.Palette.PlanetAnchorColor, 0.72d);
+        var connectorPen = new Pen(
+            brush,
+            viewport.VisualMetrics.ConnectorStrokeThickness,
+            null,
+            PenLineCap.Round,
+            PenLineJoin.Round);
+
+        foreach (var layout in layouts)
+        {
+            if (layout.HasDisplacement && layout.ConnectorEndpoint is { } endpoint)
             {
-                var sourceAnchor = ToPoint(viewport, tickInner);
-                var displayAnchor = ToPoint(viewport, glyphSlot.AnchorPoint);
-                drawingContext.DrawLine(connectorPen, sourceAnchor, displayAnchor);
+                drawingContext.DrawLine(connectorPen, layout.ConnectorStart, endpoint);
             }
+        }
+    }
+
+    private static void DrawAnnotationKnockouts(
+        DrawingContext drawingContext,
+        IEnumerable<ChartPlanetAnnotationLayout> layouts,
+        ChartRenderOptions options)
+    {
+        var brush = new SolidColorBrush(options.Palette.InteriorBackgroundColor);
+
+        foreach (var layout in layouts)
+        {
+            drawingContext.DrawRectangle(
+                brush,
+                null,
+                layout.GlyphProtectedBounds,
+                6d,
+                6d);
+            drawingContext.DrawRectangle(
+                brush,
+                null,
+                layout.LabelProtectedBounds,
+                2d,
+                2d);
         }
     }
 
     private static void DrawPlanetAnnotations(
         DrawingContext drawingContext,
         ChartViewport viewport,
-        IEnumerable<ChartPlanetAnnotationPlacement> annotations,
+        IEnumerable<ChartPlanetAnnotationLayout> layouts,
         ChartRenderOptions options)
     {
-        foreach (var annotation in annotations)
+        foreach (var layout in layouts)
         {
-            var anchor = ToPoint(viewport, annotation.AnchorPoint);
+            var annotation = layout.Annotation;
             DrawVectorGlyph(
                 drawingContext,
-                anchor,
+                layout.FinalAnchor,
                 annotation.Glyph,
                 viewport.VisualMetrics.PlanetGlyphSize,
                 options.Palette.PlanetGlyphColor,
                 viewport.VisualMetrics.GlyphStrokeThickness);
 
-            var label = annotation.IsRetrograde
-                ? $"{annotation.DegreeText} R"
-                : annotation.DegreeText;
-            var labelAnchor = new Point(
-                anchor.X,
-                anchor.Y +
-                (viewport.VisualMetrics.PlanetGlyphSize / 2d) +
-                (viewport.VisualMetrics.PlanetAnnotationFontSize * 0.72d));
-            DrawCenteredText(
-                drawingContext,
-                label,
-                labelAnchor,
+            var formattedText = CreateFormattedText(
+                ChartPlanetAnnotationLayoutBuilder.GetLabelText(annotation),
                 viewport.VisualMetrics.PlanetAnnotationFontSize,
                 new SolidColorBrush(options.Palette.PlanetGlyphColor, 0.96d));
+            drawingContext.DrawText(
+                formattedText,
+                new Point(layout.LabelBounds.X, layout.LabelBounds.Y));
         }
     }
 
@@ -453,12 +507,6 @@ public sealed class CircularChartRenderer
         new(
             viewport.Center.X + (radialPoint.X * viewport.EffectiveRadius),
             viewport.Center.Y + (radialPoint.Y * viewport.EffectiveRadius));
-
-    private static double CircularDelta(double first, double second)
-    {
-        var delta = Math.Abs(first - second);
-        return Math.Min(delta, 360d - delta);
-    }
 
     private static string FormatHouseNumber(int houseNumber) =>
         houseNumber switch

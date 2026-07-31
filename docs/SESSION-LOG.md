@@ -1006,3 +1006,31 @@ Next actions:
 
 - Request fresh empty-startup, standard known-time, maximized known-time, and UnknownTime screenshots from the user.
 - Confirm the golden Prague angles and cusps against the user's trusted external reference before selecting any later `.se1`, persistence, or interpretation work.
+
+## 2026-07-31: Annotation-Safe Chart Polish and UnknownTime Editor Correction
+
+Summary:
+
+- Inspected the supplied Prague dark/light known-time screenshots and the light UnknownTime screenshot before editing; confirmed MC–IC, cusp, and connector intrusion in the lower annotation cluster plus the misleading disabled `13:45` display.
+- Added a render-owned `ChartPlanetAnnotationLayout` pipeline with measured glyph/text bounds, combined visual and padded protected envelopes, final anchors, displacement state, and connector endpoints.
+- Kept geometry source/display anchors, `ChartOrientation`, radial lanes, astronomy, Placidus, viewport fitting, and UnknownTime calculation policy unchanged.
+- Made collision handling reuse the existing sub-lanes before a bounded deterministic angular adjustment, and kept the Prague lower and upper protected envelopes disjoint at representative sizes.
+- Split minimal chart-background knockout between glyph and label bounds, drew it above cusps, axes, aspects, markers, ticks, and connectors, and terminated connectors at the protected envelope rather than its center.
+- Added measured safe inset placement for ASC/DSC/MC/IC and removed the obsolete duplicate `ChartRenderScene.PlanetGlyphs` contract.
+- Changed UnknownTime presentation so the disabled time editor is visually empty, while switching back to ExactTime or ApproximateTime restores the last entered session time.
+- Added focused deterministic rendering, cluster, connector, angle-label, UnknownTime transition, pipeline, and Prague noon-fallback sanity coverage without raster screenshot tests.
+
+Verification:
+
+- Baseline matched `14f808e5cbf779d8759ba103e7a52330e69714e8`; the worktree was clean and restore/build plus 245/245 tests passed before edits.
+- Current build succeeds without warnings and 255/255 tests pass.
+- Windows Avalonia smoke covered fresh empty startup, Prague ExactTime at standard and maximized sizes in dark/light themes, Prague UnknownTime in dark/light themes, live resize through `1180x760`, `1650x900`, and `1360x860`, and ExactTime -> UnknownTime -> ExactTime restoration.
+- Known-time smoke shows readable Sun/Jupiter/Venus/Mercury and Uranus/Neptune/Saturn clusters; MC–IC is hidden only under Saturn, connectors stop before annotations, and MC/IC remain inset from the rim and viewport.
+- UnknownTime smoke shows no houses or angle axes, retains Aries-at-top orientation and the technical-noon planetary snapshot, displays neutral disabled time placeholders, and restores `13:45` when ExactTime returns.
+- Temporary screenshots were written only under the local temp directory and were not added to the repository.
+- No dependency, external asset, README, THIRD-PARTY, `.se1`, persistence, or interpretation changes were introduced.
+
+Next actions:
+
+- Request final known-time dark/light and UnknownTime screenshots from the user at their display scale.
+- Do not advance to `.se1`, persistence, or interpretation until that final visual confirmation and the existing Prague numerical confirmation are explicit.

@@ -22,7 +22,6 @@ public sealed record ChartRenderScene
         AngleAxes = Layout.AngleAxes;
         AngleLabels = Array.AsReadOnly(BuildAngleLabels(Layout.AngleAxes));
         ZodiacGlyphs = Array.AsReadOnly(BuildZodiacGlyphs(Layout));
-        PlanetGlyphs = Array.AsReadOnly(BuildPlanetGlyphs(Layout.PlanetGlyphSlots));
         PlanetAnnotations = Array.AsReadOnly(BuildPlanetAnnotations(Layout.PlanetGlyphSlots));
     }
 
@@ -72,11 +71,6 @@ public sealed record ChartRenderScene
     public IReadOnlyList<ChartGlyphPlacement> ZodiacGlyphs { get; }
 
     /// <summary>
-    /// Gets the planetary vector glyphs to render at geometry-owned anchors.
-    /// </summary>
-    public IReadOnlyList<ChartGlyphPlacement> PlanetGlyphs { get; }
-
-    /// <summary>
     /// Gets render-ready planet annotation groups with degrees, retrograde state, and displacement state.
     /// </summary>
     public IReadOnlyList<ChartPlanetAnnotationPlacement> PlanetAnnotations { get; }
@@ -99,15 +93,6 @@ public sealed record ChartRenderScene
                     24d,
                     ChartGlyphStyle.Zodiac);
             })
-            .ToArray();
-
-    private static ChartGlyphPlacement[] BuildPlanetGlyphs(IEnumerable<PlanetGlyphSlot> glyphSlots) =>
-        glyphSlots
-            .Select(slot => new ChartGlyphPlacement(
-                ChartGlyphCatalog.GetBodyGlyph(slot.Body),
-                slot.AnchorPoint,
-                17d,
-                ChartGlyphStyle.Planet))
             .ToArray();
 
     private static ChartPlanetAnnotationPlacement[] BuildPlanetAnnotations(

@@ -9,6 +9,8 @@ namespace NoxAeterna.Presentation.Astrology;
 /// </summary>
 public sealed class BirthDataInputViewModel
 {
+    private TimeSpan? _preservedKnownBirthTime;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="BirthDataInputViewModel"/> class.
     /// </summary>
@@ -25,6 +27,9 @@ public sealed class BirthDataInputViewModel
         }
 
         State = state ?? throw new ArgumentNullException(nameof(state));
+        _preservedKnownBirthTime = state.BirthTimeAccuracy == BirthTimeAccuracy.UnknownTime
+            ? null
+            : state.BirthTime;
         AvailableTimeAccuracies = Array.AsReadOnly(accuracies);
         ValidationResult = BirthDataValidationResult.Success;
     }
@@ -83,11 +88,42 @@ public sealed class BirthDataInputViewModel
             : State.BirthTime ?? UnknownTimeTechnicalFallback;
 
     /// <summary>
+    /// Gets the value that the time editor may display for the current accuracy mode.
+    /// </summary>
+    public TimeSpan? BirthTimeEditorValue =>
+        State.BirthTimeAccuracy == BirthTimeAccuracy.UnknownTime
+            ? null
+            : State.BirthTime;
+
+    /// <summary>
     /// Replaces the editable input state.
     /// </summary>
     public void UpdateState(BirthDataInputState state)
     {
         ArgumentNullException.ThrowIfNull(state);
+
+        if (state.BirthTimeAccuracy == BirthTimeAccuracy.UnknownTime)
+        {
+            if (state.BirthTime is { } knownTime)
+            {
+                _preservedKnownBirthTime = knownTime;
+            }
+
+            state = state with { BirthTime = null };
+        }
+        else
+        {
+            var restoredTime = state.BirthTime ??
+                               (State.BirthTimeAccuracy == BirthTimeAccuracy.UnknownTime
+                                   ? _preservedKnownBirthTime
+                                   : null);
+            if (restoredTime is { } knownTime)
+            {
+                _preservedKnownBirthTime = knownTime;
+            }
+
+            state = state with { BirthTime = restoredTime };
+        }
 
         State = state with
         {

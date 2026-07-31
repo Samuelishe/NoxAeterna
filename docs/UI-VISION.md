@@ -91,6 +91,8 @@ Current birth-input direction:
 - a compact localized `Chart angles` block below the positions table shows Ascendant and Midheaven sign plus degree/minute values; unknown time shows only a short unavailable status.
 - the empty `Context and interpretation` card is not materialized until real content exists, although its future workspace metadata may remain.
 - known and approximate times calculate houses; unknown time disables the time control and never presents noon-fallback houses.
+- unknown time also clears the disabled time editor visually while preserving the last entered session value in memory; returning to exact or approximate time restores that value, while the short `Ввод времени отключён.` status remains the only explanatory copy.
+- the UnknownTime wheel is intentionally distinct: it has no houses or principal angles, keeps the technical-noon planetary snapshot, and uses counterclockwise Aries-at-top orientation rather than retaining a false Ascendant orientation.
 - the main positions table intentionally relies on localized names rather than platform astrology glyphs, so it remains understandable without font fallback.
 - chart-local zodiac and planet symbols are original monochrome vector paths with deterministic bounds; they are functional technical graphics rather than a final artistic font.
 - chart, table, and form should fit the default window without row overlap; the chart host follows the smaller of available width and reserved viewport height while the table remains below it through left-column scrolling.

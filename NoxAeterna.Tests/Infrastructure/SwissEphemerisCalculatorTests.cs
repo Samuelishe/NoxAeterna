@@ -43,6 +43,51 @@ public sealed class SwissEphemerisCalculatorTests
     }
 
     [Fact]
+    public void PragueNoonFallback_RemainsPhysicallyPlausibleAgainstKnownTimeSnapshot()
+    {
+        IEphemerisCalculator calculator = new SwissEphemerisCalculator();
+        var knownTime = CreateBirthMoment();
+        var noonFallback = new BirthMoment(
+            new LocalDateTime(1990, 7, 14, 12, 0),
+            new TimezoneId("Europe/Prague"),
+            Instant.FromUtc(1990, 7, 14, 10, 0),
+            TimeResolutionStatus.Resolved,
+            BirthTimeAccuracy.UnknownTime,
+            "UnknownTime noon sanity fixture");
+        var bodies = Enum.GetValues<CelestialBody>();
+
+        var known = calculator.Calculate(new ChartCalculationRequest(knownTime, bodies));
+        var firstFallback = calculator.Calculate(new ChartCalculationRequest(noonFallback, bodies));
+        var secondFallback = calculator.Calculate(new ChartCalculationRequest(noonFallback, bodies));
+
+        Assert.Equal(firstFallback.Positions, secondFallback.Positions);
+        Assert.All(
+            firstFallback.Positions,
+            position =>
+            {
+                Assert.True(double.IsFinite(position.EclipticLongitude.Degrees));
+                Assert.InRange(position.EclipticLongitude.Degrees, 0d, 359.999999999999d);
+            });
+
+        foreach (var fallbackPosition in firstFallback.Positions)
+        {
+            var knownPosition = known.Positions.Single(position => position.Body == fallbackPosition.Body);
+            var delta = CircularDelta(
+                knownPosition.EclipticLongitude.Degrees,
+                fallbackPosition.EclipticLongitude.Degrees);
+
+            if (fallbackPosition.Body == CelestialBody.Moon)
+            {
+                Assert.InRange(delta, 0.5d, 2d);
+            }
+            else
+            {
+                Assert.InRange(delta, 0d, 0.25d);
+            }
+        }
+    }
+
+    [Fact]
     public void Calculate_UsesSwissEphNetMetadataAndCanFallbackWithoutExternalFiles()
     {
         IEphemerisCalculator calculator = new SwissEphemerisCalculator();
@@ -203,4 +248,10 @@ public sealed class SwissEphemerisCalculatorTests
             TimeResolutionStatus.Resolved,
             BirthTimeAccuracy.ExactTime,
             "Swiss ephemeris test fixture");
+
+    private static double CircularDelta(double first, double second)
+    {
+        var delta = Math.Abs(first - second);
+        return Math.Min(delta, 360d - delta);
+    }
 }

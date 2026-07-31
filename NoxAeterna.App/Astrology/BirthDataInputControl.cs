@@ -26,6 +26,7 @@ public sealed class BirthDataInputControl : UserControl
     private ComboBox? _timezoneComboBox;
     private TextBlock? _validationSummaryTextBlock;
     private TextBlock? _unknownTimeHelperTextBlock;
+    private bool _isApplyingBirthTimeInputMode;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BirthDataInputControl"/> class.
@@ -69,11 +70,12 @@ public sealed class BirthDataInputControl : UserControl
             ClockIdentifier = "24HourClock",
             MinuteIncrement = 1,
             UseSeconds = false,
-            SelectedTime = _viewModel.State.BirthTime
+            SelectedTime = _viewModel.BirthTimeEditorValue
         };
         _birthTimePicker.PropertyChanged += (_, args) =>
         {
-            if (args.Property == TimePicker.SelectedTimeProperty)
+            if (!_isApplyingBirthTimeInputMode &&
+                args.Property == TimePicker.SelectedTimeProperty)
             {
                 SyncStateFromInputs();
             }
@@ -194,9 +196,7 @@ public sealed class BirthDataInputControl : UserControl
         var selectedTimezone = _timezoneComboBox?.SelectedItem is TimezoneOption timezoneOption
             ? timezoneOption.TimezoneId
             : string.Empty;
-        var selectedTime = selectedAccuracy == BirthTimeAccuracy.UnknownTime
-            ? null
-            : _birthTimePicker?.SelectedTime;
+        var selectedTime = _birthTimePicker?.SelectedTime;
 
         _viewModel.UpdateState(
             new BirthDataInputState(
@@ -220,9 +220,20 @@ public sealed class BirthDataInputControl : UserControl
         }
 
         var isUnknownTime = _viewModel.State.BirthTimeAccuracy == BirthTimeAccuracy.UnknownTime;
-        _birthTimePicker.IsEnabled = !isUnknownTime;
-        _birthTimePicker.Opacity = isUnknownTime ? 0.55 : 1.0;
-        _unknownTimeHelperTextBlock.Text = isUnknownTime ? Localize(_viewModel.UnknownTimeStatusKey) : string.Empty;
+        _isApplyingBirthTimeInputMode = true;
+        try
+        {
+            _birthTimePicker.SelectedTime = _viewModel.BirthTimeEditorValue;
+            _birthTimePicker.IsEnabled = !isUnknownTime;
+            _birthTimePicker.Opacity = isUnknownTime ? 0.55 : 1.0;
+            _unknownTimeHelperTextBlock.Text = isUnknownTime
+                ? Localize(_viewModel.UnknownTimeStatusKey)
+                : string.Empty;
+        }
+        finally
+        {
+            _isApplyingBirthTimeInputMode = false;
+        }
     }
 
     private void RefreshValidationSummary()

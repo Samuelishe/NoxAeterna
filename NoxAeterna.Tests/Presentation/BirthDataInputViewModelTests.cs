@@ -176,6 +176,39 @@ public sealed class BirthDataInputViewModelTests
     }
 
     [Fact]
+    public void UnknownTime_HidesEditorValueAndRestoresPreviouslyEnteredTime()
+    {
+        var originalTime = new TimeSpan(13, 45, 0);
+        var viewModel = CreateViewModel(
+            new BirthDataInputState(
+                new DateTimeOffset(1990, 7, 14, 0, 0, 0, TimeSpan.Zero),
+                originalTime,
+                BirthTimeAccuracy.ExactTime,
+                "Prague, Czechia",
+                "50.0755",
+                "14.4378",
+                "Europe/Prague",
+                LocationSource.ManualCoordinates));
+
+        viewModel.UpdateState(viewModel.State with
+        {
+            BirthTimeAccuracy = BirthTimeAccuracy.UnknownTime
+        });
+
+        Assert.Null(viewModel.State.BirthTime);
+        Assert.Null(viewModel.BirthTimeEditorValue);
+        Assert.Equal(TimeSpan.FromHours(12), viewModel.EffectiveTechnicalBirthTime);
+
+        viewModel.UpdateState(viewModel.State with
+        {
+            BirthTimeAccuracy = BirthTimeAccuracy.ExactTime
+        });
+
+        Assert.Equal(originalTime, viewModel.State.BirthTime);
+        Assert.Equal(originalTime, viewModel.BirthTimeEditorValue);
+    }
+
+    [Fact]
     public void ExactTime_RequiresValidTime()
     {
         var viewModel = CreateViewModel(

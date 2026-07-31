@@ -354,3 +354,11 @@ Decision: Size the chart square from the smaller of available content width, fin
 Reason: Width-only sizing allowed a maximized window to create a wheel taller than the visible viewport.
 
 Consequences: The full wheel is visible at the top of the left column, while the existing single column scrollbar moves to the position and angle summaries below it. Radius-responsive rendering also enforces readable minimum line weights and contrast.
+
+## 2026-07-31: Keep Measured Planet Annotation Protection in Rendering
+
+Decision: Treat each planet glyph, degree label, and optional retrograde marker as one render-owned protected visual whose measured DIP bounds control collision checks, background knockout, and connector termination.
+
+Reason: Geometry must continue to own astronomical source/display anchors without depending on Avalonia text metrics, while the renderer is the first layer that knows the responsive glyph size, font size, measured text, viewport, and chart-background color required for exact visual protection.
+
+Consequences: Geometry and `ChartOrientation` contracts remain unchanged. Rendering may reuse existing radial sub-lanes and apply a small bounded deterministic angular correction, secondary lines are hidden only under measured glyph/label bounds, connectors stop at the protected envelope, and `ChartRenderScene.PlanetAnnotations` is the single canonical planet visual pipeline.

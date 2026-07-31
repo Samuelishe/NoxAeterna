@@ -64,6 +64,11 @@ Current readable-chart foundation details:
 - available house geometry is rendered as 12 readable cusp lines, higher-contrast plain-text house numbers, stronger ASC–DSC and MC–IC axes, and all four compact `ASC`/`DSC`/`MC`/`IC` labels;
 - one intentional inner circle anchors the aspect figure and its endpoint markers; technical radial-lane boundaries remain invisible;
 - planet annotation groups combine a project-owned vector glyph, two-digit degree-within-sign text, and an optional `R`, while minute precision remains in the table;
+- each planet annotation is now one render-owned viewport visual with measured glyph bounds, measured degree/retrograde text bounds, a combined visual envelope, and a minimally padded protected envelope; Avalonia text and DIP measurement remain outside Geometry;
+- deterministic render-side placement first respects the geometry-owned display anchor and existing radial sub-lanes, then permits only a small bounded angular correction when measured annotation envelopes would overlap;
+- house cusps, principal axes, aspects, endpoint markers, source ticks, and connectors are drawn before small chart-background knockouts for the glyph and label bounds, so secondary structure never remains visible through a planet annotation;
+- displaced-planet connectors terminate at the nearest protected-envelope boundary instead of the glyph center; a connector is absent when neither geometry nor final render placement displaced the annotation;
+- principal-angle labels receive a measured render-side safe inset from the outer rim and remain inside the viewport-safe drawing bounds without changing their source angles;
 - house lines and aspects are drawn before project-owned zodiac and planet glyphs and the primary labels remain above secondary structure;
 - house digits and Latin angle abbreviations may use ordinary text rendering; astrology symbols remain project-owned vectors;
 - the zodiac annulus uses visible, restrained element-coded sector fills with separate dark/light palettes, a strong outer rim, a readable inner boundary, and clear separators;
@@ -79,7 +84,7 @@ Current boundary handoff:
 CircularChartLayout -> ChartRenderScene -> CircularChartRenderer
 ```
 
-`CircularChartRenderer` accepts `ChartRenderScene`, `Rect`, and Avalonia `DrawingContext`. It does not accept `NatalChart` directly.
+`CircularChartRenderer` accepts `ChartRenderScene`, `Rect`, and Avalonia `DrawingContext`. It does not accept `NatalChart` directly. `ChartRenderScene.PlanetAnnotations` is the canonical planet visual input; the obsolete duplicate standalone `PlanetGlyphs` layer has been removed.
 
 Allowed responsibilities:
 
