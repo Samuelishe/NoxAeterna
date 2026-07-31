@@ -1,6 +1,8 @@
 {
   "ui.shell.window_title": "Nox Aeterna",
   "ui.shell.navigation_title": "Sections",
+  "ui.shell.navigation.expand": "Expand navigation",
+  "ui.shell.navigation.collapse": "Collapse navigation",
   "ui.shell.section.astrology": "Astrology",
   "ui.shell.section.tarot": "Tarot",
   "ui.shell.section.archive": "Archive",

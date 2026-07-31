@@ -16,13 +16,14 @@
 - The same-day session-log rollover is complete; finished July 31 evidence is retained in indexed partial-day archive part 01.
 - T2-A Project Stats and the T2-A.1 host-independent MSBuild path repair are complete. Hosted checkpoint commit `9791d672c87c06c71e365d5433b4f847d6917046` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs; the Unix parsing blocker is removed.
 - T2-B deterministic RAG-lite context routing is complete. Hosted checkpoint commit `28c895c366d9a8e451b8ed5c34c998322e3986fc` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs; the repository-foundation wave is complete.
-- P1 planet semantic anchoring is implemented locally: exact source markers remain authoritative, glyph movement is radial-first and sign/house bounded, labels are independent, and house boundaries are visually subordinate to principal axes.
+- P1 planet semantic anchoring is accepted at checkpoint commit `6d7b02444bd44ad5cb1846e871d7170871a9d3e1`. Hosted run `30633659249` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs, and the owner accepted the four visual-evidence screenshots.
+- S1 adaptive shell navigation is implemented locally: the desktop shell now has an in-memory expanded preference, a compact icon rail, responsive forced collapse, project-owned vector icons, and preserved workspace selection.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-Visual confirmation through the four P1 screenshots, followed by hosted P1 CI confirmation after commit and push.
+Visual confirmation through the four S1 shell-navigation screenshots, followed by hosted S1 CI confirmation after commit and push.
 
 ## Preserved Contracts
 
@@ -35,5 +36,5 @@ Visual confirmation through the four P1 screenshots, followed by hosted P1 CI co
 
 ## Active Blockers
 
-- P1 screenshot approval is pending.
-- Hosted P1 CI is pending after commit and push.
+- S1 screenshot approval is pending.
+- Hosted S1 CI is pending after commit and push.

@@ -55,6 +55,13 @@
     <Setter Property="Foreground" Value="{DynamicResource DesignTextPrimaryBrush}" />
     <Setter Property="Margin" Value="0,2" />
     <Setter Property="Padding" Value="12,8" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="ToolTip.Tip" Value="{ReflectionBinding Label}" />
+    <Setter Property="AutomationProperties.Name" Value="{ReflectionBinding Label}" />
+  </Style>
+  <Style Selector="ListBox.navigation-list.compact ListBoxItem">
+    <Setter Property="Padding" Value="8" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
   </Style>
   <Style Selector="ListBox.navigation-list ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource DesignSurfaceRaisedBrush}" />
@@ -77,6 +84,28 @@
   <Style Selector="ListBox.navigation-list ListBoxItem:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
     <Setter Property="BorderThickness" Value="2" />
+  </Style>
+
+  <Style Selector="Button.navigation-toggle">
+    <Setter Property="MinWidth" Value="36" />
+    <Setter Property="MinHeight" Value="36" />
+    <Setter Property="Padding" Value="8" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+  </Style>
+  <Style Selector="Button.navigation-toggle:pointerover">
+    <Setter Property="Background" Value="{DynamicResource DesignSurfaceRaisedBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignBorderBrush}" />
+  </Style>
+  <Style Selector="Button.navigation-toggle:pressed">
+    <Setter Property="Background" Value="{DynamicResource DesignControlFillPressedBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignBorderStrongBrush}" />
+  </Style>
+  <Style Selector="Button.navigation-toggle:disabled">
+    <Setter Property="Background" Value="{DynamicResource DesignDisabledFillBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignBorderBrush}" />
+    <Setter Property="Foreground" Value="{DynamicResource DesignDisabledTextBrush}" />
+    <Setter Property="Opacity" Value="1" />
   </Style>
 
   <Style Selector="Button">

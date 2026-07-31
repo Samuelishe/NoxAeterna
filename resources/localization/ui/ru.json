@@ -1,6 +1,8 @@
 {
   "ui.shell.window_title": "Nox Aeterna",
   "ui.shell.navigation_title": "Разделы",
+  "ui.shell.navigation.expand": "Развернуть навигацию",
+  "ui.shell.navigation.collapse": "Свернуть навигацию",
   "ui.shell.section.astrology": "Астрология",
   "ui.shell.section.tarot": "Таро",
   "ui.shell.section.archive": "Архив",

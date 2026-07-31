@@ -33,6 +33,7 @@ public sealed class ShellViewModel
         WindowTitleKey = windowTitleKey;
         NavigationItems = Array.AsReadOnly(copiedItems);
         SelectedSectionId = selectedSectionId;
+        NavigationState = new ShellNavigationState();
     }
 
     /// <summary>
@@ -51,6 +52,11 @@ public sealed class ShellViewModel
     public ShellSectionId SelectedSectionId { get; set; }
 
     /// <summary>
+    /// Gets the session-only adaptive navigation state.
+    /// </summary>
+    public ShellNavigationState NavigationState { get; }
+
+    /// <summary>
     /// Creates the current default shell state.
     /// </summary>
     /// <returns>A minimal shell view model.</returns>
@@ -59,10 +65,22 @@ public sealed class ShellViewModel
             new LocalizationKey("ui.shell.window_title"),
             new[]
             {
-                new ShellNavigationItem(ShellSectionId.Astrology, new LocalizationKey("ui.shell.section.astrology")),
-                new ShellNavigationItem(ShellSectionId.Tarot, new LocalizationKey("ui.shell.section.tarot")),
-                new ShellNavigationItem(ShellSectionId.Archive, new LocalizationKey("ui.shell.section.archive")),
-                new ShellNavigationItem(ShellSectionId.Settings, new LocalizationKey("ui.shell.section.settings"))
+                new ShellNavigationItem(
+                    ShellSectionId.Astrology,
+                    new LocalizationKey("ui.shell.section.astrology"),
+                    ShellNavigationIconId.Astrology),
+                new ShellNavigationItem(
+                    ShellSectionId.Tarot,
+                    new LocalizationKey("ui.shell.section.tarot"),
+                    ShellNavigationIconId.Tarot),
+                new ShellNavigationItem(
+                    ShellSectionId.Archive,
+                    new LocalizationKey("ui.shell.section.archive"),
+                    ShellNavigationIconId.Archive),
+                new ShellNavigationItem(
+                    ShellSectionId.Settings,
+                    new LocalizationKey("ui.shell.section.settings"),
+                    ShellNavigationIconId.Settings)
             },
             ShellSectionId.Astrology);
 }

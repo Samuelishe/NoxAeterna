@@ -12,14 +12,17 @@ public sealed record ShellNavigationItem
     /// </summary>
     /// <param name="id">The shell section identifier.</param>
     /// <param name="labelKey">The localization key for the visible label.</param>
+    /// <param name="iconId">The project-owned navigation icon identifier.</param>
     /// <param name="isTemporary">A value indicating whether the section is temporary infrastructure.</param>
     public ShellNavigationItem(
         ShellSectionId id,
         LocalizationKey labelKey,
+        ShellNavigationIconId iconId,
         bool isTemporary = false)
     {
         Id = id;
         LabelKey = labelKey;
+        IconId = iconId;
         IsTemporary = isTemporary;
     }
 
@@ -32,6 +35,11 @@ public sealed record ShellNavigationItem
     /// Gets the localization key for the visible label.
     /// </summary>
     public LocalizationKey LabelKey { get; }
+
+    /// <summary>
+    /// Gets the project-owned navigation icon identifier.
+    /// </summary>
+    public ShellNavigationIconId IconId { get; }
 
     /// <summary>
     /// Gets a value indicating whether the section is temporary infrastructure rather than product UI.

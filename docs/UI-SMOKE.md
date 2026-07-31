@@ -45,6 +45,9 @@ Select relevant cases that cover:
 - UnknownTime hiding/restoring the entered time as specified;
 - chart annotation, axis, aspect, and viewport readability when rendering changed.
 - authoritative source markers, source-to-glyph leaders, sign/house membership, independent labels, and crowded-cluster readability when planet layout changed.
+- expanded and collapsed shell navigation, pointer and keyboard toggle activation, selection preservation, localized compact tooltips/accessibility, and forced-collapse restoration across the responsive threshold when shell navigation changed.
+
+For adaptive-shell changes, select every section through the real navigation control, toggle through pointer and keyboard paths, resize below and back above the compact threshold, and verify the previous wide preference returns. Inspect both themes and both UI languages; the compact rail must leave the active workspace and its own vertical scroll ownership intact without creating horizontal clipping.
 
 For planet-semantic changes, verify the wheel without relying on the summary table first. The marker must identify exact longitude, the glyph must remain in the source sign and available source house, the label must stay visibly associated, and aspect chords must still terminate at their source-coordinate interior points.
 

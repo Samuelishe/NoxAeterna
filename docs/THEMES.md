@@ -53,6 +53,7 @@ Verified Fluent mappings such as `SystemAccentColor`, `ComboBoxDropDownBackgroun
 
 - windows and common text roles;
 - navigation `ListBoxItem` states;
+- the adaptive shell `SplitView`, compact navigation-item alignment, and navigation-toggle states;
 - primary and secondary buttons;
 - `TextBox`, `ComboBox`, `ComboBoxItem`, `DatePicker`, and `TimePicker`;
 - ComboBox popup chrome;
@@ -64,6 +65,7 @@ Styles change visual properties while retaining Fluent control templates, keyboa
 Reusable classes express local role rather than color:
 
 - `navigation-list`;
+- `compact` on the navigation list and `navigation-toggle` on the pane toggle;
 - `surface-card`;
 - `primary-action` together with the verified Fluent `accent` behavior;
 - `supporting`, `subtle`, and `table-header`;
@@ -86,6 +88,7 @@ The application state language is:
 | Primary action | `AccentPrimaryStrong`, `SelectionForeground` |
 | Navigation hover | `SurfaceRaised` |
 | Navigation selected | `AccentPrimarySoft` plus `AccentPrimaryStrong` left rail |
+| Navigation toggle | `SurfaceRaised`/transparent treatment with `TextSecondary`, semantic hover/pressed/focus states |
 | Popup selected item | `AccentPrimarySoft` plus a restrained strong indicator |
 | Success / warning / error | Matching semantic validation role only |
 
@@ -98,6 +101,8 @@ Focus never uses glow. Selected and focused states remain independently recogniz
 Applying the already active theme is a no-op. Repeated dark/light switching must retain exactly one project theme dictionary and must resolve every required semantic brush after each switch.
 
 The current settings flow remains in-memory. Persistence is outside this theme lifecycle.
+
+Shell navigation follows the same session-only rule. `ShellNavigationState` owns the last wide-mode expanded preference and the effective compact state; `ShellNavigationLayout` owns pane lengths and the compact threshold. `MainWindow` maps that presentation state to native `SplitView` properties and semantic style classes. Theme switching changes brushes without reconstructing the selected workspace or navigation state.
 
 ## Chart/Application Boundary
 
@@ -129,6 +134,8 @@ Check both dark and light variants:
 - ExactTime and UnknownTime astrology charts;
 - standard, maximized, and live-resized windows;
 - navigation default, hover, selected, and keyboard focus;
+- expanded, user-collapsed, forced-compact, and restored-wide shell navigation;
+- localized navigation tooltips and accessible names in compact mode;
 - primary button default, hover, pressed, focus, and disabled;
 - focused text input;
 - DatePicker and TimePicker presenters;

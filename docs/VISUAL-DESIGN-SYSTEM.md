@@ -99,6 +99,12 @@ The Avalonia dark/light dictionaries expose these values as paired `Design*Color
 - Validation and operation states use `Success`, `Warning`, and `Error`; do not substitute these roles for decorative accents.
 - Disabled controls use the explicit `DisabledFill` and `DisabledText` pair and must not look like active data.
 
+## Adaptive Navigation Rail
+
+The shell navigation uses the existing semantic roles rather than a dedicated palette. Its pane is a `Surface` region with a `Border` edge; hover uses `SurfaceRaised`, selection uses `AccentPrimarySoft` with an `AccentPrimaryStrong` left rail, and keyboard focus uses `FocusRing`.
+
+Expanded navigation presents project-owned vector icons with localized labels. Collapsed navigation keeps the same icon order, centers the icons, removes label and heading layout space, and preserves localized tooltip and accessible-name text. Navigation icons share one normalized 24-by-24 coordinate system, use semantic foreground brushes, and remain functional rather than decorative. Unicode arrows, emoji, external icon fonts, downloaded icons, glow, and platform-accent selection are not part of this language.
+
 ## Chart Palette V1
 
 Chart colors are renderer-owned semantic roles. The chart palette follows the application hue families while using chart-specific tones against its own interior.

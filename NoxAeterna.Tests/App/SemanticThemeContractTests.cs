@@ -122,6 +122,9 @@ public sealed class SemanticThemeContractTests
             Assert.Contains($"Selector=\"{selector}", source, StringComparison.Ordinal));
         Assert.Contains("DesignFocusRingBrush", source, StringComparison.Ordinal);
         Assert.Contains("ComboBox:dropdownopen /template/ Border#PopupBorder", source, StringComparison.Ordinal);
+        Assert.Contains("Button.navigation-toggle", source, StringComparison.Ordinal);
+        Assert.Contains("ListBox.navigation-list.compact ListBoxItem", source, StringComparison.Ordinal);
+        Assert.Contains("DesignControlFillPressedBrush", source, StringComparison.Ordinal);
         Assert.DoesNotContain("Red", source, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("Salmon", source, StringComparison.OrdinalIgnoreCase);
     }

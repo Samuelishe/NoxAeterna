@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.Automation;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using NoxAeterna.Astronomy.Calculation;
@@ -6,6 +7,7 @@ using NoxAeterna.Astronomy.Time;
 using NoxAeterna.App.Astrology;
 using NoxAeterna.App.Debug;
 using NoxAeterna.App.Localization;
+using NoxAeterna.App.Shell;
 using NoxAeterna.Infrastructure.Ephemeris;
 using NoxAeterna.Presentation.Astrology;
 using NoxAeterna.Presentation.Localization;
@@ -13,6 +15,7 @@ using NoxAeterna.Presentation.Preferences;
 using NoxAeterna.Presentation.Settings;
 using NoxAeterna.Presentation.Shell;
 using NoxAeterna.Presentation.Theming;
+using ShapePath = Avalonia.Controls.Shapes.Path;
 
 namespace NoxAeterna.App;
 
@@ -24,18 +27,28 @@ public partial class MainWindow : Window
     private readonly AstrologyWorkspaceViewModel _astrologyWorkspaceViewModel;
     private readonly SettingsViewModel _settingsViewModel;
     private readonly DevelopmentAstrologyChartCoordinator _astrologyChartCoordinator;
+    private readonly SplitView _shellSplitView;
     private readonly TextBlock _navigationTitleTextBlock;
+    private readonly Button _navigationToggleButton;
+    private readonly ShapePath _navigationToggleIcon;
     private readonly ListBox _navigationListBox;
     private readonly TextBlock _sectionTitleTextBlock;
     private readonly TextBlock _sectionHintTextBlock;
     private readonly ContentControl _sectionContentHost;
+    private ShellNavigationItemView[] _navigationItemViews = [];
 
     public MainWindow()
     {
         InitializeComponent();
 
+        _shellSplitView = this.FindControl<SplitView>("ShellSplitView")
+            ?? throw new InvalidOperationException("ShellSplitView was not found.");
         _navigationTitleTextBlock = this.FindControl<TextBlock>("NavigationTitleTextBlock")
             ?? throw new InvalidOperationException("NavigationTitleTextBlock was not found.");
+        _navigationToggleButton = this.FindControl<Button>("NavigationToggleButton")
+            ?? throw new InvalidOperationException("NavigationToggleButton was not found.");
+        _navigationToggleIcon = this.FindControl<ShapePath>("NavigationToggleIcon")
+            ?? throw new InvalidOperationException("NavigationToggleIcon was not found.");
         _navigationListBox = this.FindControl<ListBox>("NavigationListBox")
             ?? throw new InvalidOperationException("NavigationListBox was not found.");
         _sectionTitleTextBlock = this.FindControl<TextBlock>("SectionTitleTextBlock")
@@ -52,6 +65,10 @@ public partial class MainWindow : Window
         ApplicationCultureController.Apply(_userPreferences.ApplicationLanguage.Language);
         _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
         _shellViewModel = ShellViewModel.CreateDefault();
+        _shellViewModel.NavigationState.UpdateViewportWidth(
+            double.IsFinite(Width) && Width > 0d
+                ? Width
+                : ShellNavigationLayout.CompactViewportThreshold);
         _astrologyWorkspaceViewModel = AstrologyWorkspaceViewModel.CreateFoundation();
         _settingsViewModel = SettingsViewModel.CreateDefault(_userPreferences);
         _astrologyChartCoordinator = new DevelopmentAstrologyChartCoordinator(
@@ -60,6 +77,10 @@ public partial class MainWindow : Window
                 new SwissEphemerisCalculator(),
                 new SwissEphemerisHouseCalculator()));
 
+        _shellSplitView.OpenPaneLength = ShellNavigationLayout.ExpandedPaneLength;
+        _shellSplitView.CompactPaneLength = ShellNavigationLayout.CompactPaneLength;
+        SizeChanged += OnWindowSizeChanged;
+
         RefreshShell();
     }
 
@@ -67,13 +88,25 @@ public partial class MainWindow : Window
 
     private void OnNavigationSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        if (_navigationListBox.SelectedItem is not LocalizedShellNavigationItem selectedItem)
+        if (_navigationListBox.SelectedItem is not ShellNavigationItemView selectedItem)
         {
             return;
         }
 
         _shellViewModel.SelectedSectionId = selectedItem.Item.Id;
         UpdateShellSection();
+    }
+
+    private void OnNavigationToggleClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        _shellViewModel.NavigationState.Toggle();
+        ApplyNavigationVisualState();
+    }
+
+    private void OnWindowSizeChanged(object? sender, SizeChangedEventArgs e)
+    {
+        _shellViewModel.NavigationState.UpdateViewportWidth(e.NewSize.Width);
+        ApplyNavigationVisualState();
     }
 
     private void UpdateShellSection()
@@ -133,14 +166,48 @@ public partial class MainWindow : Window
         Title = Localize(_shellViewModel.WindowTitleKey);
         _navigationTitleTextBlock.Text = Localize("ui.shell.navigation_title");
 
-        var navigationItems = _shellViewModel.NavigationItems
-            .Select(item => new LocalizedShellNavigationItem(item, Localize(item.LabelKey)))
+        _navigationItemViews = _shellViewModel.NavigationItems
+            .Select(item => new ShellNavigationItemView(
+                item,
+                Localize(item.LabelKey),
+                _shellViewModel.NavigationState.IsExpanded))
             .ToArray();
 
-        _navigationListBox.ItemsSource = navigationItems;
-        _navigationListBox.SelectedItem = navigationItems.First(item => item.Item.Id == _shellViewModel.SelectedSectionId);
+        _navigationListBox.ItemsSource = _navigationItemViews;
+        _navigationListBox.SelectedItem = _navigationItemViews.First(
+            item => item.Item.Id == _shellViewModel.SelectedSectionId);
 
+        ApplyNavigationVisualState();
         UpdateShellSection();
+    }
+
+    private void ApplyNavigationVisualState()
+    {
+        var navigationState = _shellViewModel.NavigationState;
+        var isExpanded = navigationState.IsExpanded;
+
+        _shellSplitView.IsPaneOpen = isExpanded;
+        _navigationTitleTextBlock.IsVisible = isExpanded;
+        _navigationToggleButton.HorizontalAlignment = isExpanded
+            ? Avalonia.Layout.HorizontalAlignment.Right
+            : Avalonia.Layout.HorizontalAlignment.Center;
+        _navigationToggleButton.IsEnabled = !navigationState.IsCompactViewport;
+        _navigationListBox.Classes.Set("compact", !isExpanded);
+
+        foreach (var item in _navigationItemViews)
+        {
+            item.IsLabelVisible = isExpanded;
+        }
+
+        var toggleIcon = isExpanded
+            ? ShellNavigationIconId.Collapse
+            : ShellNavigationIconId.Expand;
+        var toggleLabel = Localize(isExpanded
+            ? "ui.shell.navigation.collapse"
+            : "ui.shell.navigation.expand");
+        _navigationToggleIcon.Data = ShellNavigationIconCatalog.CreateGeometry(toggleIcon);
+        ToolTip.SetTip(_navigationToggleButton, toggleLabel);
+        AutomationProperties.SetName(_navigationToggleButton, toggleLabel);
     }
 
     private string Localize(string key) => Localize(new LocalizationKey(key));
@@ -148,8 +215,4 @@ public partial class MainWindow : Window
     private string Localize(LocalizationKey key) =>
         _localizationProvider.Get(LocalizationScope.Ui, _userPreferences.ApplicationLanguage.Language, key).Text;
 
-    private sealed record LocalizedShellNavigationItem(ShellNavigationItem Item, string Label)
-    {
-        public override string ToString() => Item.IsTemporary ? $"{Label} [temp]" : Label;
-    }
 }

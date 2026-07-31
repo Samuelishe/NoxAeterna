@@ -145,6 +145,8 @@ public sealed class JsonLocalizationCatalogLoaderTests
         {
             "ui.shell.window_title",
             "ui.shell.navigation_title",
+            "ui.shell.navigation.expand",
+            "ui.shell.navigation.collapse",
             "ui.shell.section.astrology",
             "ui.shell.section.settings",
             "ui.astrology.panel.chart.title",

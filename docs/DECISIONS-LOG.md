@@ -474,3 +474,11 @@ Decision: Treat each exact source dot/notch as the planet coordinate, while the 
 Reason: A technically exact tick is insufficient when a distant combined glyph/label group can imply another sign, house, or aspect origin. Rendering is the first layer that knows measured viewport bounds, but source longitude, house membership, and aspect endpoints must remain geometry/domain facts.
 
 Consequences: Geometry supplies exact source angles, deterministic clusters, preferred radial lanes, and source-house metadata without pixel collision spreading. Rendering always draws an exact marker and source-to-glyph leader, uses an optional quieter glyph-to-label leader only for non-adjacent labels, preserves source-based aspects, and accepts controlled crowding before violating sign/house semantics or hiding a planet.
+
+## 2026-07-31: Keep Shell Navigation Adaptive, Session-Scoped, and Workspace-Neutral
+
+Decision: Use a native compact-inline Avalonia `SplitView` with a user-controlled wide-mode preference, a forced compact viewport mode, and project-owned vector navigation icons shared by every workspace.
+
+Reason: A permanently labeled 240-DIP pane spends scarce horizontal space that future Tarot and other workspaces need, while mobile bottom navigation or a top dropdown would weaken the desktop information architecture.
+
+Consequences: Presentation owns navigation preference and viewport state, App maps it to the real control, compact mode retains localized tooltips and accessibility names, and returning to a wide window restores the prior preference. State remains in memory, section order and selection are preserved, and no Tarot-specific dependency enters the shell.

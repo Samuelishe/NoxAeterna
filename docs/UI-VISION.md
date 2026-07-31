@@ -129,6 +129,7 @@ Current theme direction:
 - V2 applies the same semantic families to the shell, navigation, workspace cards, settings, editors, popups, buttons, validation, disabled states, focus, and scrollbars;
 - application surfaces use project-owned semantic brushes rather than independent shell literals or the platform accent;
 - navigation selection uses restrained amethyst support and a left rail rather than a dominant solid accent block;
+- shell navigation adapts between a labeled desktop pane and a compact icon rail so workspaces retain horizontal room without changing section order or selection semantics;
 - the right content region avoids an unnecessary outer frame when real workspace cards already provide structure;
 - chart rendering remains isolated and does not absorb application-level brush orchestration;
 - exact roles belong to [`VISUAL-DESIGN-SYSTEM.md`](VISUAL-DESIGN-SYSTEM.md), while Avalonia dictionary and style implementation belongs to [`THEMES.md`](THEMES.md).
@@ -143,6 +144,8 @@ Use familiar desktop controls for serious work:
 - Toggles and segmented controls for display modes.
 - Sliders or numeric inputs for numeric settings.
 - Context menus where useful.
+
+The primary section navigation remains a left-side desktop rail. On wide windows it may show localized labels; on compact widths it collapses to centered project-owned icons with localized tooltips and accessible names. A user wide-mode preference is restored after temporary forced collapse, and navigation must never introduce a shell-level horizontal scrollbar.
 
 ## Localization and Themes
 

@@ -100,3 +100,21 @@ Verification:
 - Geometry, Rendering, Chart-Rendering, Desktop-UI, and Repository-Verification named routes
 - Full milestone: 510 passed, 0 failed, 0 skipped
 - real-control Fryazino and Prague dark/light, UnknownTime, compact/maximized, transition, and live-resize smoke with four untracked temporary screenshots
+
+## 2026-07-31: S1 Adaptive Collapsible Shell Navigation Rail
+
+Summary:
+
+- Confirmed accepted P1 checkpoint `6d7b02444bd44ad5cb1846e871d7170871a9d3e1` in hosted run `30633659249`: Documentation, Windows, Ubuntu, macOS, and diagnostic coverage all succeeded.
+- Replaced the fixed 240-DIP shell column with a native compact-inline `SplitView`, centralized expanded/compact dimensions and threshold, and added an in-memory wide-mode preference restored after forced compact layout.
+- Added original project-owned normalized vector icons for Astrology, Tarot, Archive, Settings, and the toggle, with localized tooltips, accessible names, keyboard operation, and unchanged section ordering/selection.
+- Preserved workspace instances during toggles, left chart rendering and astrology untouched, and extended semantic navigation styles without new colors, fonts, dependencies, or assets.
+
+Verification:
+
+- `pwsh eng/doc-check.ps1` and all 15 context evaluations
+- `dotnet build NoxAeterna.sln -c Debug`
+- Presentation, Localization, App-Workspace, Theme-Resources, Desktop-UI, and Repository-Verification named routes
+- Full milestone: 520 passed, 0 failed, 0 skipped
+- real-control pointer/keyboard toggle, all-section selection, responsive restore, theme switch, RU/EN, compact/maximized smoke
+- four untracked temporary S1 screenshots
