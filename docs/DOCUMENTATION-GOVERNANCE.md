@@ -66,7 +66,9 @@ Dynamic branch, HEAD, parent, operation markers, and worktree state belong to Gi
 
 ## Active Chronology and Archive
 
-`SESSION-LOG.md` contains only the current wave. Completed dated ranges move intact to indexed chunks under `docs/archive/session-log/`. Archiving retains evidence; it does not summarize, rewrite, or delete history. Archived ranges must be parseable, indexed, and non-overlapping with one another and with active dated headings.
+`SESSION-LOG.md` contains only the current wave. Completed entries move intact to indexed chunks under `docs/archive/session-log/`; archiving retains exact headings and evidence rather than summarizing, rewriting, or deleting history.
+
+Use full-date or full-range chunks only when every entry in those dates is closed; their ranges cannot overlap one another or active dated headings. Use a partial-day chunk when several meaningful stages share a calendar date and later active entries may use that same date. Partial parts are contiguous from 01, contain only headings for their named date, and cannot fall inside a full archived range. Exact normalized session headings have one owner across the active log and every archive chunk, while different headings on the same partial date may remain active. `eng/doc-check.ps1` owns the executable filename and validation details.
 
 ## Compactness
 

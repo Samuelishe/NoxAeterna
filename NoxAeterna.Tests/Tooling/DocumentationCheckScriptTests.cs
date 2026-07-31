@@ -108,6 +108,183 @@ public sealed class DocumentationCheckScriptTests
     }
 
     [Fact]
+    public void ExistingFullRangeArchiveRemainsValid()
+    {
+        using var fixture = DocumentationFixture.Create();
+
+        var result = fixture.Run();
+
+        Assert.Equal(0, result.ExitCode);
+    }
+
+    [Fact]
+    public void OneValidPartialDayChunkPasses()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-02-10", 1, "## 2026-02-10: Archived");
+
+        var result = fixture.Run();
+
+        Assert.Equal(0, result.ExitCode);
+    }
+
+    [Fact]
+    public void TwoContiguousPartialDayChunksPass()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-02-10", 1, "## 2026-02-10: First");
+        fixture.AddPartialChunk("2026-02-10", 2, "## 2026-02-10: Second");
+
+        var result = fixture.Run();
+
+        Assert.Equal(0, result.ExitCode);
+    }
+
+    [Fact]
+    public void PartialDaySequenceMissingPartOneFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-02-10", 2, "## 2026-02-10: Second");
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("contiguous from 01", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void PartialDayPartZeroFailsPositivePartContract()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-02-10", 0, "## 2026-02-10: Invalid Part");
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("positive two-digit number", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void PartialDaySequenceGapFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-02-10", 1, "## 2026-02-10: First");
+        fixture.AddPartialChunk("2026-02-10", 3, "## 2026-02-10: Third");
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("expected part 02", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void DuplicatePartialDayPartOwnershipFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        var fileName = fixture.AddPartialChunk("2026-02-10", 1, "## 2026-02-10: Archived");
+        fixture.DuplicateArchiveIndexReference(fileName);
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("must be unique and indexed exactly once", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void PartialDayHeadingWithWrongDateFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-02-10", 1, "## 2026-02-11: Wrong Day");
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("does not match partial-day date", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ExactHeadingDuplicatedBetweenActiveAndArchiveFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-02-10", 1, "## 2026-02-10: Active");
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("already owned", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void NormalizedHeadingWhitespaceDuplicatedBetweenActiveAndArchiveFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.SetActiveHeadings("## 2026-02-10: Active   Entry");
+        fixture.AddPartialChunk("2026-02-10", 1, "## 2026-02-10: Active Entry");
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("already owned", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ExactHeadingDuplicatedBetweenArchiveChunksFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-02-10", 1, "## 2026-02-10: Duplicate");
+        fixture.AddPartialChunk("2026-02-10", 2, "## 2026-02-10: Duplicate");
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("is already owned", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void DifferentHeadingsWithSameDateInActiveAndArchivePass()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-02-10", 1, "## 2026-02-10: Archived");
+
+        var result = fixture.Run();
+
+        Assert.Equal(0, result.ExitCode);
+    }
+
+    [Fact]
+    public void PartialDayChunkInsideFullRangeFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-01-15", 1, "## 2026-01-15: Partial");
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("falls inside full archive range", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void JsonDiagnosticsIdentifyFullRangeAndPartialDayChunks()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.AddPartialChunk("2026-02-10", 1, "## 2026-02-10: Archived");
+
+        var result = fixture.Run("-Json");
+
+        Assert.Equal(0, result.ExitCode);
+        using var document = JsonDocument.Parse(result.StandardOutput);
+        var diagnostics = document.RootElement.GetProperty("archiveDiagnostics").EnumerateArray().ToArray();
+        var fullRange = Assert.Single(diagnostics, item =>
+            item.GetProperty("kind").GetString() == "full-range");
+        Assert.Equal("2026-01-01", fullRange.GetProperty("start").GetString());
+        Assert.Equal("2026-01-31", fullRange.GetProperty("end").GetString());
+        var partialDay = Assert.Single(diagnostics, item =>
+            item.GetProperty("kind").GetString() == "partial-day");
+        Assert.Equal("2026-02-10", partialDay.GetProperty("date").GetString());
+        Assert.Equal(1, partialDay.GetProperty("part").GetInt32());
+    }
+
+    [Fact]
     public void InvalidRouteRegistryFails()
     {
         using var fixture = DocumentationFixture.Create();
@@ -396,12 +573,37 @@ public sealed class DocumentationCheckScriptTests
                 JsonSerializer.Serialize(manifest, new JsonSerializerOptions { WriteIndented = true }));
         }
 
-        public void AddArchiveChunk(string fileName)
+        public void AddArchiveChunk(string fileName, params string[] headings)
         {
-            Write(Root, $"docs/archive/session-log/{fileName}", "# Archive");
+            var content = headings.Length == 0
+                ? "# Archive"
+                : $"# Archive{Environment.NewLine}{Environment.NewLine}{string.Join(Environment.NewLine + Environment.NewLine, headings)}";
+            Write(Root, $"docs/archive/session-log/{fileName}", content);
             File.AppendAllText(
                 Path.Combine(Root, "docs", "archive", "README.md"),
                 $"{Environment.NewLine}[Overlap](session-log/{fileName}){Environment.NewLine}");
+        }
+
+        public string AddPartialChunk(string date, int part, params string[] headings)
+        {
+            var fileName = $"SESSION-LOG_{date}_part-{part:00}.md";
+            AddArchiveChunk(fileName, headings);
+            return fileName;
+        }
+
+        public void SetActiveHeadings(params string[] headings)
+        {
+            Write(
+                Root,
+                "docs/SESSION-LOG.md",
+                $"# Session Log{Environment.NewLine}{Environment.NewLine}{string.Join(Environment.NewLine + Environment.NewLine, headings)}");
+        }
+
+        public void DuplicateArchiveIndexReference(string fileName)
+        {
+            File.AppendAllText(
+                Path.Combine(Root, "docs", "archive", "README.md"),
+                $"{Environment.NewLine}[Duplicate](session-log/{fileName}){Environment.NewLine}");
         }
 
         public ScriptResult Run(params string[] arguments)

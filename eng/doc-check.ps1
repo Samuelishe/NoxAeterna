@@ -82,6 +82,20 @@ function Get-MarkdownDestinations {
     }
 }
 
+function Get-SessionLogHeadings {
+    param([string]$Content)
+
+    foreach ($match in [Regex]::Matches(
+            $Content,
+            '(?im)^##\s+(?<date>\d{4}-\d{2}-\d{2})\s*:\s*(?<title>[^\r\n]+?)\s*$')) {
+        $title = [Regex]::Replace($match.Groups['title'].Value.Trim(), '\s+', ' ')
+        [ordered]@{
+            date = $match.Groups['date'].Value
+            canonical = "## $($match.Groups['date'].Value): $title"
+        }
+    }
+}
+
 $warnings = [Collections.Generic.List[object]]::new()
 $errors = [Collections.Generic.List[object]]::new()
 $measurements = [Collections.Generic.List[object]]::new()
@@ -350,35 +364,111 @@ if ($null -ne $repositoryRoot) {
     $archiveIndexPath = Join-Path $repositoryRoot 'docs/archive/README.md'
     $sessionArchivePath = Join-Path $repositoryRoot 'docs/archive/session-log'
     $ranges = [Collections.Generic.List[object]]::new()
+    $partialChunks = [Collections.Generic.List[object]]::new()
+    $seenPartialKeys = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    $archiveHeadingOwners = [Collections.Generic.Dictionary[string, string]]::new([StringComparer]::Ordinal)
     if (Test-Path -LiteralPath $sessionArchivePath -PathType Container) {
         $archiveIndex = if (Test-Path -LiteralPath $archiveIndexPath -PathType Leaf) {
             Get-Content -LiteralPath $archiveIndexPath -Raw
         } else { '' }
 
         foreach ($chunk in (Get-ChildItem -LiteralPath $sessionArchivePath -Filter 'SESSION-LOG_*.md' -File | Sort-Object -Property Name)) {
-            $match = [Regex]::Match(
+            $relativeChunkPath = Get-RelativePath $repositoryRoot $chunk.FullName
+            $fullRangeMatch = [Regex]::Match(
                 $chunk.Name,
                 '^SESSION-LOG_(?<start>\d{4}-\d{2}-\d{2})_to_(?<end>\d{4}-\d{2}-\d{2})\.md$')
-            if (-not $match.Success) {
-                $errors.Add((New-Diagnostic 'archive.filename' (Get-RelativePath $repositoryRoot $chunk.FullName) 'Session archive filename does not contain a parseable date range.'))
+            $partialMatch = [Regex]::Match(
+                $chunk.Name,
+                '^SESSION-LOG_(?<date>\d{4}-\d{2}-\d{2})_part-(?<part>\d{2})\.md$')
+            if (-not $fullRangeMatch.Success -and -not $partialMatch.Success) {
+                $errors.Add((New-Diagnostic 'archive.filename' $relativeChunkPath 'Session archive filename is neither a parseable full range nor a partial-day chunk.'))
                 continue
             }
 
-            $start = [DateTime]::ParseExact($match.Groups['start'].Value, 'yyyy-MM-dd', [Globalization.CultureInfo]::InvariantCulture)
-            $end = [DateTime]::ParseExact($match.Groups['end'].Value, 'yyyy-MM-dd', [Globalization.CultureInfo]::InvariantCulture)
-            if ($end -lt $start) {
-                $errors.Add((New-Diagnostic 'archive.range-order' (Get-RelativePath $repositoryRoot $chunk.FullName) 'Archive end date precedes its start date.'))
+            $indexReferenceCount = [Regex]::Matches(
+                $archiveIndex,
+                [Regex]::Escape($chunk.Name),
+                [Text.RegularExpressions.RegexOptions]::IgnoreCase).Count
+            if ($indexReferenceCount -eq 0) {
+                $errors.Add((New-Diagnostic 'archive.not-indexed' $relativeChunkPath 'Archive chunk is not indexed by docs/archive/README.md.'))
+            }
+
+            $chunkContent = Get-Content -LiteralPath $chunk.FullName -Raw
+            $chunkHeadings = @(Get-SessionLogHeadings -Content $chunkContent)
+            foreach ($heading in $chunkHeadings) {
+                if ($archiveHeadingOwners.ContainsKey($heading.canonical)) {
+                    $errors.Add((New-Diagnostic 'archive.heading-duplicate' $relativeChunkPath "Session heading '$($heading.canonical)' is already owned by '$($archiveHeadingOwners[$heading.canonical])'."))
+                }
+                else {
+                    $archiveHeadingOwners.Add($heading.canonical, $relativeChunkPath)
+                }
+            }
+
+            if ($fullRangeMatch.Success) {
+                $start = [DateTime]::MinValue
+                $end = [DateTime]::MinValue
+                $startValid = [DateTime]::TryParseExact(
+                    $fullRangeMatch.Groups['start'].Value,
+                    'yyyy-MM-dd',
+                    [Globalization.CultureInfo]::InvariantCulture,
+                    [Globalization.DateTimeStyles]::None,
+                    [ref]$start)
+                $endValid = [DateTime]::TryParseExact(
+                    $fullRangeMatch.Groups['end'].Value,
+                    'yyyy-MM-dd',
+                    [Globalization.CultureInfo]::InvariantCulture,
+                    [Globalization.DateTimeStyles]::None,
+                    [ref]$end)
+                if (-not $startValid -or -not $endValid) {
+                    $errors.Add((New-Diagnostic 'archive.filename' $relativeChunkPath 'Full-range archive filename contains an invalid calendar date.'))
+                    continue
+                }
+                if ($end -lt $start) {
+                    $errors.Add((New-Diagnostic 'archive.range-order' $relativeChunkPath 'Archive end date precedes its start date.'))
+                    continue
+                }
+
+                $ranges.Add([ordered]@{
+                    kind = 'full-range'
+                    path = $relativeChunkPath
+                    start = $start
+                    end = $end
+                })
                 continue
             }
 
-            if ($archiveIndex -notmatch [Regex]::Escape($chunk.Name)) {
-                $errors.Add((New-Diagnostic 'archive.not-indexed' (Get-RelativePath $repositoryRoot $chunk.FullName) 'Archive chunk is not indexed by docs/archive/README.md.'))
+            $partialDate = [DateTime]::MinValue
+            if (-not [DateTime]::TryParseExact(
+                    $partialMatch.Groups['date'].Value,
+                    'yyyy-MM-dd',
+                    [Globalization.CultureInfo]::InvariantCulture,
+                    [Globalization.DateTimeStyles]::None,
+                    [ref]$partialDate)) {
+                $errors.Add((New-Diagnostic 'archive.filename' $relativeChunkPath 'Partial-day archive filename contains an invalid calendar date.'))
+                continue
             }
 
-            $ranges.Add([ordered]@{
-                path = Get-RelativePath $repositoryRoot $chunk.FullName
-                start = $start
-                end = $end
+            $part = [int]$partialMatch.Groups['part'].Value
+            if ($part -lt 1) {
+                $errors.Add((New-Diagnostic 'archive.partial-part' $relativeChunkPath 'Partial-day part number must be a positive two-digit number.'))
+            }
+
+            $partialKey = "$($partialDate.ToString('yyyy-MM-dd'))/$part"
+            if (-not $seenPartialKeys.Add($partialKey) -or $indexReferenceCount -gt 1) {
+                $errors.Add((New-Diagnostic 'archive.partial-duplicate' $relativeChunkPath "Partial-day date/part '$partialKey' must be unique and indexed exactly once."))
+            }
+
+            foreach ($heading in $chunkHeadings) {
+                if ($heading.date -ne $partialDate.ToString('yyyy-MM-dd')) {
+                    $errors.Add((New-Diagnostic 'archive.partial-heading-date' $relativeChunkPath "Session heading '$($heading.canonical)' does not match partial-day date $($partialDate.ToString('yyyy-MM-dd'))."))
+                }
+            }
+
+            $partialChunks.Add([ordered]@{
+                kind = 'partial-day'
+                path = $relativeChunkPath
+                date = $partialDate
+                part = $part
             })
         }
     }
@@ -390,24 +480,64 @@ if ($null -ne $repositoryRoot) {
         }
     }
 
+    $orderedPartials = @($partialChunks | Sort-Object -Property @{ Expression = { $_.date } }, @{ Expression = { $_.part } })
+    foreach ($group in ($orderedPartials | Group-Object -Property { $_.date.ToString('yyyy-MM-dd') })) {
+        $expectedPart = 1
+        foreach ($partial in @($group.Group | Sort-Object -Property part)) {
+            if ($partial.part -ne $expectedPart) {
+                $errors.Add((New-Diagnostic 'archive.partial-sequence' $partial.path "Partial-day parts for $($group.Name) must be contiguous from 01; expected part $($expectedPart.ToString('00'))."))
+                $expectedPart = $partial.part + 1
+            }
+            else {
+                $expectedPart++
+            }
+        }
+    }
+
+    foreach ($partial in $orderedPartials) {
+        foreach ($range in $orderedRanges) {
+            if ($partial.date -ge $range.start -and $partial.date -le $range.end) {
+                $errors.Add((New-Diagnostic 'archive.partial-full-overlap' $partial.path "Partial-day chunk falls inside full archive range '$($range.path)'."))
+            }
+        }
+    }
+
     $activeSessionPath = Join-Path $repositoryRoot 'docs/SESSION-LOG.md'
     if (Test-Path -LiteralPath $activeSessionPath -PathType Leaf) {
         $activeContent = Get-Content -LiteralPath $activeSessionPath -Raw
-        foreach ($headingMatch in [Regex]::Matches($activeContent, '(?im)^##\s+(?<date>\d{4}-\d{2}-\d{2})(?::|\s|$)')) {
-            $date = [DateTime]::ParseExact($headingMatch.Groups['date'].Value, 'yyyy-MM-dd', [Globalization.CultureInfo]::InvariantCulture)
+        $activeHeadings = @(Get-SessionLogHeadings -Content $activeContent)
+        $seenActiveHeadings = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+        foreach ($heading in $activeHeadings) {
+            $date = [DateTime]::ParseExact($heading.date, 'yyyy-MM-dd', [Globalization.CultureInfo]::InvariantCulture)
             foreach ($range in $orderedRanges) {
                 if ($date -ge $range.start -and $date -le $range.end) {
                     $errors.Add((New-Diagnostic 'archive.active-overlap' 'docs/SESSION-LOG.md' "Active heading $($date.ToString('yyyy-MM-dd')) overlaps '$($range.path)'."))
                 }
+            }
+
+            if (-not $seenActiveHeadings.Add($heading.canonical)) {
+                $errors.Add((New-Diagnostic 'archive.heading-duplicate' 'docs/SESSION-LOG.md' "Session heading '$($heading.canonical)' appears more than once in the active log."))
+            }
+            elseif ($archiveHeadingOwners.ContainsKey($heading.canonical)) {
+                $errors.Add((New-Diagnostic 'archive.heading-duplicate' 'docs/SESSION-LOG.md' "Session heading '$($heading.canonical)' is already owned by '$($archiveHeadingOwners[$heading.canonical])'."))
             }
         }
     }
 
     foreach ($range in $orderedRanges) {
         $archiveDiagnostics.Add([ordered]@{
+            kind = $range.kind
             path = $range.path
             start = $range.start.ToString('yyyy-MM-dd')
             end = $range.end.ToString('yyyy-MM-dd')
+        })
+    }
+    foreach ($partial in $orderedPartials) {
+        $archiveDiagnostics.Add([ordered]@{
+            kind = $partial.kind
+            path = $partial.path
+            date = $partial.date.ToString('yyyy-MM-dd')
+            part = $partial.part
         })
     }
 }

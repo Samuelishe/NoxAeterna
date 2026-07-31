@@ -12,12 +12,14 @@
 - V1 chart visual design is accepted.
 - V2 semantic shell and theme migration is accepted.
 - T1-A repository documentation foundation is complete at checkpoint commit `77538a6157e269cde20b26ae3fa72764231a3858`.
+- T1-B implementation is complete, and hosted run `30619151450` passed documentation validation, Windows/Linux/macOS milestone tests, and diagnostic coverage with four expected artifacts.
+- The same-day session-log rollover is complete; finished July 31 evidence is retained in indexed partial-day archive part 01.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-T1-B repository verification foundation and its first hosted CI activation are complete. The next stage is T2: Project Stats and RAG-lite routing/context planning, after the required bounded session-log rollover.
+T1-B repository verification foundation, its first hosted CI activation, and the bounded session-log rollover are complete. The next stage is T2: Project Stats and RAG-lite routing/context planning.
 
 ## Preserved Contracts
 
@@ -31,5 +33,4 @@ T1-B repository verification foundation and its first hosted CI activation are c
 ## Active Blockers
 
 - Project Stats, RAG-lite exact routing, context planning, and retrieval evaluation are not implemented.
-- Hosted CI run `30619151450` passed documentation validation, Windows/Linux/macOS milestone tests, and diagnostic coverage for T1-B checkpoint `f61184df0fe395b846bcd66334104fbad409e971`.
 - No product feature is selected for implementation during the repository-foundation wave.

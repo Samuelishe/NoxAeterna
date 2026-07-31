@@ -54,7 +54,7 @@ public sealed class DocumentationGovernanceTests
     }
 
     [Fact]
-    public void ActiveAndArchivedSessionRangesDoNotOverlapAndChunkIsIndexed()
+    public void ActiveAndArchivedSessionChunksRespectRangeAndIndexContracts()
     {
         var archiveDirectory = Path.Combine(
             ToolingTestSupport.RepositoryRoot,
@@ -69,16 +69,26 @@ public sealed class DocumentationGovernanceTests
         var rangePattern = new Regex(
             @"^SESSION-LOG_(?<start>\d{4}-\d{2}-\d{2})_to_(?<end>\d{4}-\d{2}-\d{2})\.md$",
             RegexOptions.CultureInvariant);
-        var ranges = Directory.EnumerateFiles(archiveDirectory, "SESSION-LOG_*.md")
-            .Select(path =>
+        var partialPattern = new Regex(
+            @"^SESSION-LOG_(?<date>\d{4}-\d{2}-\d{2})_part-(?<part>\d{2})\.md$",
+            RegexOptions.CultureInvariant);
+        var archivePaths = Directory.EnumerateFiles(archiveDirectory, "SESSION-LOG_*.md").ToArray();
+        Assert.NotEmpty(archivePaths);
+        Assert.All(
+            archivePaths,
+            path =>
             {
-                var match = rangePattern.Match(Path.GetFileName(path));
-                Assert.True(match.Success, path);
-                Assert.Contains(Path.GetFileName(path), archiveIndex, StringComparison.Ordinal);
-                return (
-                    Start: DateOnly.ParseExact(match.Groups["start"].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture),
-                    End: DateOnly.ParseExact(match.Groups["end"].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture));
-            })
+                var fileName = Path.GetFileName(path);
+                Assert.True(rangePattern.IsMatch(fileName) || partialPattern.IsMatch(fileName), path);
+                Assert.Contains(fileName, archiveIndex, StringComparison.Ordinal);
+            });
+
+        var ranges = archivePaths
+            .Select(path => rangePattern.Match(Path.GetFileName(path)))
+            .Where(static match => match.Success)
+            .Select(match => (
+                Start: DateOnly.ParseExact(match.Groups["start"].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                End: DateOnly.ParseExact(match.Groups["end"].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture)))
             .OrderBy(static range => range.Start)
             .ToArray();
 
@@ -87,6 +97,22 @@ public sealed class DocumentationGovernanceTests
         {
             Assert.True(ranges[index - 1].End < ranges[index].Start);
         }
+
+
+        var partials = archivePaths
+            .Select(path => partialPattern.Match(Path.GetFileName(path)))
+            .Where(static match => match.Success)
+            .Select(match => (
+                Date: DateOnly.ParseExact(match.Groups["date"].Value, "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                Part: int.Parse(match.Groups["part"].Value, CultureInfo.InvariantCulture)))
+            .ToArray();
+        Assert.All(
+            partials,
+            partial =>
+            {
+                Assert.True(partial.Part > 0);
+                Assert.DoesNotContain(ranges, range => partial.Date >= range.Start && partial.Date <= range.End);
+            });
 
         var activeLog = File.ReadAllText(Path.Combine(
             ToolingTestSupport.RepositoryRoot,
@@ -104,4 +130,3 @@ public sealed class DocumentationGovernanceTests
             date => Assert.DoesNotContain(ranges, range => date >= range.Start && date <= range.End));
     }
 }
-

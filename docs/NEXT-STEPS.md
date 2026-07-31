@@ -4,12 +4,12 @@ T1-A and T1-B established repository agent/documentation governance, named verif
 
 Immediate next steps:
 
-1. Perform the required bounded `SESSION-LOG` rollover before T2; the active log is already above its soft threshold.
-
-2. T2:
+1. T2:
    - Project Stats;
    - RAG-lite exact routes;
    - context planner;
    - retrieval evaluations.
 
-3. Do not select a new product feature before the repository foundation is complete unless the user explicitly changes priority.
+2. Do not select a new product feature automatically; wait for an explicit priority after the repository foundation work.
+
+3. Recheck hosted CI after the T2 commit before treating that stage as complete.

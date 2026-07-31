@@ -25,7 +25,7 @@ pwsh eng/doc-check.ps1
 pwsh eng/doc-check.ps1 -Json
 ```
 
-The documentation check validates budgets, owners, local links, archive ranges, named-route and UI-smoke registries, CI presence, and coverage collector declaration. Warnings do not fail; errors do.
+The documentation check validates budgets, owners, local links, full-range and partial-day archive chunks, named-route and UI-smoke registries, CI presence, and coverage collector declaration. Full archives close complete dates; bounded partial-day parts preserve exact completed entries while allowing new active headings on the same date. Duplicate heading ownership, sequence gaps, and full/partial overlap fail validation. Warnings do not fail; errors do.
 
 Both scripts are read-only. They do not mutate Git, edit documentation, run the application or tests, or read AppData.
 
