@@ -136,3 +136,9 @@ Verification:
 Next actions:
 
 - Confirm the workflow on its first hosted post-commit run, then begin T2 Project Stats and RAG-lite only on explicit continuation.
+
+## 2026-07-31: T1-B.1 Hosted CI Activation Verification
+
+- Rechecked official stable releases and confirmed `actions/checkout@v7`, `actions/setup-dotnet@v6`, and `actions/upload-artifact@v7`; no workflow rollback was required.
+- Verified hosted push run `30619151450` for checkpoint `f61184df0fe395b846bcd66334104fbad409e971`: documentation, Windows/Linux/macOS milestone tests, and diagnostic coverage all passed and published their expected artifacts.
+- Kept workflow topology and focused contracts unchanged; session-log rollover is required before T2.

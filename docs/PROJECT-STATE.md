@@ -17,7 +17,7 @@
 
 ## Current Focus
 
-T1-B repository verification foundation is complete. The next stage is T2: Project Stats and RAG-lite routing/context planning.
+T1-B repository verification foundation and its first hosted CI activation are complete. The next stage is T2: Project Stats and RAG-lite routing/context planning, after the required bounded session-log rollover.
 
 ## Preserved Contracts
 
@@ -31,5 +31,5 @@ T1-B repository verification foundation is complete. The next stage is T2: Proje
 ## Active Blockers
 
 - Project Stats, RAG-lite exact routing, context planning, and retrieval evaluation are not implemented.
-- GitHub Actions needs its first post-commit hosted-run confirmation across Windows, Linux, and macOS.
+- Hosted CI run `30619151450` passed documentation validation, Windows/Linux/macOS milestone tests, and diagnostic coverage for T1-B checkpoint `f61184df0fe395b846bcd66334104fbad409e971`.
 - No product feature is selected for implementation during the repository-foundation wave.

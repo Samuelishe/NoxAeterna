@@ -4,7 +4,7 @@ T1-A and T1-B established repository agent/documentation governance, named verif
 
 Immediate next steps:
 
-1. Confirm the new GitHub Actions workflow on its first post-commit hosted run.
+1. Perform the required bounded `SESSION-LOG` rollover before T2; the active log is already above its soft threshold.
 
 2. T2:
    - Project Stats;
