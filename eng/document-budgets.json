@@ -39,8 +39,18 @@
       "archiveDestination": "docs/archive/session-log"
     },
     {
+      "path": "docs/TEST-EXECUTION.md",
+      "hardLimit": 16000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
       "path": "docs/THEMES.md",
       "hardLimit": 18000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
+      "path": "docs/UI-SMOKE.md",
+      "hardLimit": 14000,
       "overflowStrategy": "manual-reconcile"
     },
     {

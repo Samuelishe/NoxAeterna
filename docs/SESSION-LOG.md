@@ -116,3 +116,23 @@ Next actions:
 
 - Implement T1-B named test routes, real-control UI smoke catalog, coverage, and CI.
 - Do not begin T2 or a new product feature automatically.
+
+## 2026-07-31: T1-B Repository Verification Foundation
+
+Summary:
+
+- Added the test-execution owner, responsibility-oriented leaf/composite registry, and a PowerShell runner that accepts registered names only, enforces bounded timeouts, stops only its own process tree, and requires explicit milestone authorization for `Full`.
+- Added a real-control UI smoke owner and validated case catalog with temporary untracked evidence filenames.
+- Added private Coverlet collection, unique diagnostic coverage output, and read-only GitHub Actions jobs for documentation, Windows/Linux/macOS milestone tests, and coverage.
+- Extended documentation validation to routes, UI cases, CI, and coverage; corrected `PROJECT-STATE.md` so dynamic Git state belongs to the baseline tool.
+- Added focused registry, resolution, runner, catalog, coverage, CI, and checker contract tests without changing production behavior.
+
+Verification:
+
+- Baseline and documentation checks pass; named focused/area plans resolve deterministically.
+- Debug restore/build, Repository-Verification, relevant area routes, Full milestone suite, and Release coverage complete successfully.
+- Generated route, TRX, and coverage artifacts remain ignored.
+
+Next actions:
+
+- Confirm the workflow on its first hosted post-commit run, then begin T2 Project Stats and RAG-lite only on explicit continuation.

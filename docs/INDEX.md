@@ -25,6 +25,8 @@ Use this file to decide what to read next without opening every document.
 | `UI-VISION.md` | Visual identity, UX rhythm, typography, layout principles, anti-patterns. | Designing Avalonia screens and interaction flows. |
 | `VISUAL-DESIGN-SYSTEM.md` | Authoritative semantic color roles, paired dark/light palettes, chart hierarchy, component states, contrast, effects, and palette evolution rules. | Choosing or implementing exact colors and visual-system behavior. |
 | `THEMES.md` | Avalonia theme dictionary topology, semantic brush mapping, control-style ownership, switching lifecycle, parity tests, and manual smoke matrix. | Implementing or reviewing application themes and control states. |
+| [`TEST-EXECUTION.md`](TEST-EXECUTION.md) | Validation tiers, named-route usage, timeouts, evidence boundaries, coverage, and CI policy. | Selecting or changing automated verification. |
+| [`UI-SMOKE.md`](UI-SMOKE.md) | Real-control manual UI smoke, visual evidence, screenshot handling, and reporting policy. | Accepting meaningful UI/rendering changes. |
 | `ASSETS-PIPELINE.md` | Asset pipeline, programmatic-vs-generated asset strategy, curation rules, attribution expectations. | Creating visual assets or style guide material. |
 | `CODING-GUIDELINES.md` | Naming, XML docs, type safety, testing, coupling rules, provenance rules. | Writing or reviewing code. |
 | `DECISIONS-LOG.md` | Lightweight ADR-style decisions with reasons and consequences. | Checking or recording architectural decisions. |
@@ -34,4 +36,4 @@ Use this file to decide what to read next without opening every document.
 | `THIRD-PARTY.md` | License, authorship, and provenance tracking for dependencies, assets, fonts, datasets, and borrowed material. | When adding or reviewing any external material. |
 | `NEXT-STEPS.md` | Immediate forward queue. | Choosing what to do next. |
 | [`archive/README.md`](archive/README.md) | Index of retained historical documentation chunks and their exact ranges. | Explicit historical provenance only. |
-| [`../eng/README.md`](../eng/README.md) | Implemented read-only repository baseline and documentation-check commands. | Running repository checks. |
+| [`../eng/README.md`](../eng/README.md) | Implemented baseline, documentation, named test-route, and coverage commands. | Running repository verification. |

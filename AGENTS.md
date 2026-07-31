@@ -38,7 +38,8 @@ Read this file and `docs/PROJECT-STATE.md` first, then use the smallest applicab
 | Avalonia, UI, or theme | `docs/UI-VISION.md` + `docs/VISUAL-DESIGN-SYSTEM.md` + `docs/THEMES.md` |
 | Persistence | `docs/PERSISTENCE.md` + `docs/ARCHITECTURAL-BOUNDARIES.md` |
 | Documentation or tooling | `docs/DOCUMENTATION-GOVERNANCE.md` |
-| Tests | Until T1-B creates `docs/TEST-EXECUTION.md`, use the explicit prompt route or the full solution suite. |
+| Tests | `docs/TEST-EXECUTION.md`; executable names from `eng/test-routes.json` via `eng/test-route.ps1` |
+| UI smoke | `docs/UI-SMOKE.md` + `eng/ui-smoke-cases.json` |
 
 `docs/AGENTS.md` contains extended product identity, tone, domain navigation, and attribution guidance. `docs/INDEX.md` is the broader navigation map.
 
@@ -55,12 +56,13 @@ The complete rules belong to `docs/ARCHITECTURAL-BOUNDARIES.md`; do not duplicat
 
 ## Verification
 
-- Start with checks proportional to the changed owner, then run the full requested route.
+- Use named focused and area routes proportional to the changed owner. The full suite is milestone/CI evidence, not an automatic response to every small edit.
 - For meaningful UI or rendering changes, run the real application and interact with real controls.
 - Relevant visual smoke covers dark/light, RU/EN, resize, and affected default/hover/focus/selected/disabled/error states.
 - Calling coordinator methods or rendering isolated internals does not replace real-control smoke.
 - Store temporary screenshots under an ignored scoped output or the system temporary directory; never track them.
 - Baseline and documentation scripts are read-only. They do not replace build, tests, or application smoke.
+- Follow `docs/TEST-EXECUTION.md` for route tiers and `docs/UI-SMOKE.md` for relevant real-control evidence.
 
 ## Documentation Updates
 
@@ -79,4 +81,3 @@ Respond to the project owner in Russian with:
 1. A short summary of the completed work and verification.
 2. An English commit description of one or two sentences.
 3. The proposed next step in Russian.
-

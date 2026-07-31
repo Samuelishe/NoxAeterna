@@ -1,17 +1,12 @@
 # Next Steps
 
-T1-A established the compact operational entry point, current-state handoff, explicit documentation ownership, bounded active chronology, machine-readable budgets, and read-only repository checks. V1/V2 remain accepted and unchanged.
+T1-A and T1-B established repository agent/documentation governance, named verification routes, real-control UI smoke policy, diagnostic coverage, and cross-platform CI. V1/V2 remain accepted and unchanged.
 
 Immediate next steps:
 
-1. T1-B repository verification foundation:
-   - create `TEST-EXECUTION.md`;
-   - add named test routes and their registry;
-   - define the real-control UI smoke catalog;
-   - add coverage reporting;
-   - add CI.
+1. Confirm the new GitHub Actions workflow on its first post-commit hosted run.
 
-2. T2 after T1-B:
+2. T2:
    - Project Stats;
    - RAG-lite exact routes;
    - context planner;

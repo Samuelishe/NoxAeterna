@@ -37,6 +37,8 @@ These guidelines apply once application code begins.
 
 ## Tests
 
+Select and execute repository tests through the named-route policy in [`TEST-EXECUTION.md`](TEST-EXECUTION.md); exact filters remain in the registry rather than in coding guidance.
+
 Add tests early for:
 
 - Longitude normalization.

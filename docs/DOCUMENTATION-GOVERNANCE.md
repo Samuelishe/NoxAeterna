@@ -21,6 +21,8 @@
 | `docs/UI-VISION.md` | Product mood and UX direction | Exact palette | UI design |
 | `docs/VISUAL-DESIGN-SYSTEM.md` | Semantic visual roles and exact palette | Avalonia implementation | Visual decisions |
 | `docs/THEMES.md` | Avalonia theme implementation | Exact palette values | Theme/resource work |
+| `docs/TEST-EXECUTION.md` | Test tiers, execution policy, and evidence boundaries | Exact filters and current totals | Test selection or runner work |
+| `docs/UI-SMOKE.md` | Real-control manual UI smoke policy | Exact case data and automated filters | UI acceptance work |
 | `docs/ASTRONOMY-ENGINE.md` | Astronomy contracts | UI and layout | Astronomy |
 | `docs/GEOMETRY-ENGINE.md` | Render-independent chart geometry | Avalonia styling | Geometry |
 | `docs/RENDERING-ENGINE.md` | Renderer contracts | Astronomy | Rendering |
@@ -33,10 +35,14 @@
 | `docs/THIRD-PARTY.md` | Provenance and licenses | Implementation status | External material |
 | `eng/document-budgets.json` | Exact budgets and overflow strategies | Human ownership policy | Validation |
 | `eng/doc-check.ps1` | Read-only documentation validation | Budget values and content fixes | Documentation validation |
+| `eng/test-routes.json` | Exact named test filters and route graph | Human execution policy | Test-route execution |
+| `eng/ui-smoke-cases.json` | Exact manual smoke case data | UI smoke policy | Manual UI evidence |
 
 ## Conflict Resolution
 
 The user prompt and verified current code or runtime evidence override stale documentation. Among documents, prefer the canonical owner in the table above. Correct a non-owner to link to the owner instead of preserving two competing policies.
+
+Dynamic branch, HEAD, parent, operation markers, and worktree state belong to Git and `eng/repo-baseline.ps1`. `PROJECT-STATE.md` may cite a completed checkpoint SHA as historical provenance, but it must not claim to own the current remote or local HEAD.
 
 ## Selective Reading
 
@@ -54,6 +60,8 @@ The user prompt and verified current code or runtime evidence override stale doc
 - A visual semantic-role change updates `VISUAL-DESIGN-SYSTEM.md`.
 - An Avalonia resource-topology change updates `THEMES.md`.
 - A dependency or shipped-asset change updates `README.md` and `THIRD-PARTY.md`.
+- Test-route policy changes update `TEST-EXECUTION.md`; exact route/filter changes update only the registry.
+- Manual smoke policy changes update `UI-SMOKE.md`; exact case changes update only the catalog.
 - `NEXT-STEPS.md` changes only when the immediate queue changes.
 
 ## Active Chronology and Archive
@@ -68,4 +76,3 @@ The user prompt and verified current code or runtime evidence override stale doc
 - Stable, single-purpose references may be larger than active chronology.
 - Soft and hard thresholds are defined only by the machine-readable manifest.
 - A hard overflow requires owner-guided reconciliation or an intentional archive rollover, never silent limit inflation.
-

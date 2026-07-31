@@ -11,13 +11,13 @@
 
 - V1 chart visual design is accepted.
 - V2 semantic shell and theme migration is accepted.
-- Current remote baseline: `f01bd5f0d7a83c57a445ad5ec3c9e1e7287ceeba`.
+- T1-A repository documentation foundation is complete at checkpoint commit `77538a6157e269cde20b26ae3fa72764231a3858`.
+- The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
-- The V2 report recorded 281 passing tests. That historical total is evidence, not a permanent acceptance rule.
 
 ## Current Focus
 
-T1-A documentation and agent foundation is complete. The next repository stage is T1-B: executable test routing, real-control UI smoke catalog, coverage, and CI.
+T1-B repository verification foundation is complete. The next stage is T2: Project Stats and RAG-lite routing/context planning.
 
 ## Preserved Contracts
 
@@ -30,7 +30,6 @@ T1-A documentation and agent foundation is complete. The next repository stage i
 
 ## Active Blockers
 
-- T1-B test routes, UI smoke catalog, coverage, and CI are not implemented yet.
-- T2 Project Stats, RAG-lite routing, context planning, and retrieval evaluation remain deferred until T1-B is complete.
+- Project Stats, RAG-lite exact routing, context planning, and retrieval evaluation are not implemented.
+- GitHub Actions needs its first post-commit hosted-run confirmation across Windows, Linux, and macOS.
 - No product feature is selected for implementation during the repository-foundation wave.
-

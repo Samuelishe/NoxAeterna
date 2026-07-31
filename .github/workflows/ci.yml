@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  documentation:
+    name: Documentation contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validate documentation and registries
+        shell: pwsh
+        run: pwsh eng/doc-check.ps1
+
+  build-test:
+    name: Build and test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - windows-latest
+          - ubuntu-latest
+          - macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: ga
+      - name: Restore
+        run: dotnet restore NoxAeterna.sln
+      - name: Build
+        run: dotnet build NoxAeterna.sln -c Release --no-restore
+      - name: Run milestone suite
+        shell: pwsh
+        run: pwsh eng/test-route.ps1 run Full -Configuration Release -NoBuild -AllowMilestone
+      - name: Upload route evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: repo-routes-${{ matrix.os }}
+          path: TestResults/RepoRoutes/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  coverage:
+    name: Diagnostic coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: ga
+      - name: Restore
+        run: dotnet restore NoxAeterna.sln
+      - name: Build
+        run: dotnet build NoxAeterna.sln -c Release --no-restore
+      - name: Collect coverage
+        shell: pwsh
+        run: pwsh eng/coverage.ps1 -Configuration Release -NoBuild
+      - name: Upload coverage evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: diagnostic-coverage
+          path: TestResults/Coverage/
+          if-no-files-found: ignore
+          retention-days: 7

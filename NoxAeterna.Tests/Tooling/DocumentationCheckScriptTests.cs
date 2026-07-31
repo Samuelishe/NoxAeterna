@@ -108,6 +108,88 @@ public sealed class DocumentationCheckScriptTests
     }
 
     [Fact]
+    public void InvalidRouteRegistryFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        File.WriteAllText(
+            Path.Combine(fixture.Root, "eng", "test-routes.json"),
+            """{"schemaVersion":1,"routes":[]}""");
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("test route registry", result.CombinedOutput, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void InvalidUiSmokeCatalogFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        var catalogPath = Path.Combine(fixture.Root, "eng", "ui-smoke-cases.json");
+        File.WriteAllText(
+            catalogPath,
+            File.ReadAllText(catalogPath).Replace(
+                "\"trackScreenshot\": false",
+                "\"trackScreenshot\": true",
+                StringComparison.Ordinal));
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("trackScreenshot", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void DuplicateUiSmokeScreenshotWithinEvidenceSetFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        File.WriteAllText(
+            Path.Combine(fixture.Root, "eng", "ui-smoke-cases.json"),
+            """
+            {
+              "schemaVersion": 1,
+              "cases": [
+                {
+                  "id": "first",
+                  "title": "First",
+                  "area": "fixture",
+                  "requiredFor": ["milestone"],
+                  "preconditions": ["Ready."],
+                  "input": {},
+                  "actions": ["Act."],
+                  "expected": ["Observe."],
+                  "themes": ["dark"],
+                  "languages": ["en"],
+                  "windowModes": ["standard"],
+                  "screenshotFileName": "duplicate.png",
+                  "trackScreenshot": false
+                },
+                {
+                  "id": "second",
+                  "title": "Second",
+                  "area": "fixture",
+                  "requiredFor": ["milestone"],
+                  "preconditions": ["Ready."],
+                  "input": {},
+                  "actions": ["Act."],
+                  "expected": ["Observe."],
+                  "themes": ["light"],
+                  "languages": ["ru"],
+                  "windowModes": ["maximized"],
+                  "screenshotFileName": "duplicate.png",
+                  "trackScreenshot": false
+                }
+              ]
+            }
+            """);
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("duplicated in evidence set", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void JsonOutputIsParseableAndDeterministic()
     {
         using var fixture = DocumentationFixture.Create();
@@ -172,6 +254,8 @@ public sealed class DocumentationCheckScriptTests
 
             Write(root, "AGENTS.md", $"# Agents{Environment.NewLine}{Environment.NewLine}{Metadata}");
             Write(root, "docs/AGENTS.md", $"# Extended Guide{Environment.NewLine}{Environment.NewLine}{Metadata}");
+            Write(root, "docs/TEST-EXECUTION.md", $"# Test Execution{Environment.NewLine}{Environment.NewLine}{Metadata}");
+            Write(root, "docs/UI-SMOKE.md", $"# UI Smoke{Environment.NewLine}{Environment.NewLine}{Metadata}");
             Write(
                 root,
                 "docs/PROJECT-STATE.md",
@@ -213,6 +297,71 @@ public sealed class DocumentationCheckScriptTests
                 "docs/archive/session-log/SESSION-LOG_2026-01-01_to_2026-01-31.md",
                 "# Archived Session Log");
             Write(root, "docs/BUDGET.md", new string('x', 120));
+            Write(
+                root,
+                "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+                """
+                <Project Sdk="Microsoft.NET.Sdk">
+                  <ItemGroup>
+                    <PackageReference Include="coverlet.collector" Version="10.0.1" />
+                  </ItemGroup>
+                </Project>
+                """);
+            Write(
+                root,
+                ".github/workflows/ci.yml",
+                "name: Fixture CI");
+            File.Copy(
+                Path.Combine(ToolingTestSupport.RepositoryRoot, "eng", "RepoVerification.psm1"),
+                Path.Combine(root, "eng", "RepoVerification.psm1"));
+            Write(
+                root,
+                "eng/test-routes.json",
+                """
+                {
+                  "schemaVersion": 1,
+                  "unsupportedFilters": [],
+                  "routes": [
+                    {
+                      "name": "Fixture",
+                      "description": "Fixture route.",
+                      "kind": "leaf",
+                      "category": "fixture",
+                      "tags": ["offline"],
+                      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+                      "filter": "FullyQualifiedName~Fixture",
+                      "defaultTimeoutSeconds": 30,
+                      "hardwareEvidence": false,
+                      "milestoneOnly": false
+                    }
+                  ]
+                }
+                """);
+            Write(
+                root,
+                "eng/ui-smoke-cases.json",
+                """
+                {
+                  "schemaVersion": 1,
+                  "cases": [
+                    {
+                      "id": "fixture",
+                      "title": "Fixture",
+                      "area": "fixture",
+                      "requiredFor": ["fixture"],
+                      "preconditions": ["Ready."],
+                      "input": {},
+                      "actions": ["Act."],
+                      "expected": ["Observe."],
+                      "themes": ["dark"],
+                      "languages": ["en"],
+                      "windowModes": ["standard"],
+                      "screenshotFileName": "fixture.png",
+                      "trackScreenshot": false
+                    }
+                  ]
+                }
+                """);
 
             var fixture = new DocumentationFixture(root);
             fixture.SetBudget();

@@ -28,10 +28,20 @@ For each entry, record:
 | Dapper | Dapper contributors | To be verified at adoption time | Lightweight data access | https://github.com/DapperLib/Dapper | Planned |
 | Serilog | Serilog contributors | To be verified at adoption time | Logging | https://github.com/serilog/serilog | Planned |
 | Microsoft.NET.Test.Sdk | Microsoft | MIT | Test host integration for `dotnet test` | https://github.com/microsoft/vstest | Added in `NoxAeterna.Tests`, version `17.14.1` |
+| coverlet.collector | Coverlet contributors / .NET Foundation | MIT | VSTest data collector for diagnostic Cobertura coverage | https://github.com/coverlet-coverage/coverlet | Added as a private test dependency in `NoxAeterna.Tests`, version `10.0.1`; coverage has no percentage gate |
 | xunit | xUnit contributors | Apache-2.0 | Unit test framework | https://github.com/xunit/xunit | Added in `NoxAeterna.Tests`, version `2.9.3` |
 | xunit.runner.visualstudio | xUnit contributors | Apache-2.0 | VSTest adapter for `dotnet test` and IDE test runners | https://github.com/xunit/visualstudio.xunit | Added in `NoxAeterna.Tests`, version `3.1.4` |
 | SwissEphNet | Yan Grenier | Package embeds the upstream Swiss Ephemeris dual-license notice (GPL-2.0-or-later or professional license) | First real .NET ephemeris adapter package used behind `IEphemerisCalculator` | https://github.com/ygrenier/SwissEphNet | Added in `NoxAeterna.Infrastructure`, version `2.8.0.2`. Last NuGet update is from 2019. The package is a managed C# port and currently runs without native DLL setup. |
 | Swiss Ephemeris | Astrodienst AG; authors Dieter Koch and Alois Treindl | Official documentation currently describes dual licensing via AGPL or Swiss Ephemeris Professional License | Upstream astronomical calculation engine underlying the wrapper | https://www.astro.com/swisseph-download | Current app spike uses SwissEphNet with built-in Moshier fallback because external `.se1` files are not configured yet. Exact project-license alignment and redistribution terms for any bundled data files remain open and must be resolved before release packaging. |
+
+## Repository Verification Services and Actions
+
+| Name | Author or organization | License | Purpose in project | Official repository or site | Notes |
+| --- | --- | --- | --- | --- | --- |
+| GitHub Actions | GitHub | Service terms | Hosted cross-platform repository verification | https://docs.github.com/actions | CI uses no secrets, deployment, or write permission |
+| actions/checkout | GitHub | MIT | Checkout workflow source | https://github.com/actions/checkout | CI uses major line `v7` |
+| actions/setup-dotnet | GitHub | MIT | Install .NET 10 SDK on hosted runners | https://github.com/actions/setup-dotnet | CI uses major line `v6` |
+| actions/upload-artifact | GitHub | MIT | Upload short-lived TRX, route logs, and coverage evidence | https://github.com/actions/upload-artifact | CI uses major line `v7` with seven-day retention; no screenshots |
 
 ## Assets, Fonts, and Generated Material
 

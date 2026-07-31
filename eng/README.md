@@ -2,10 +2,10 @@
 
 | Metadata | Definition |
 | --- | --- |
-| Role | Operator guide for implemented repository checks. |
-| Read when | Running the T1-A repository baseline or documentation validation. |
-| Authoritative for | Available T1-A commands and their execution contract. |
-| Not authoritative for | Product status, documentation budgets, test routes, or future tooling behavior. |
+| Role | Operator guide for implemented repository verification commands. |
+| Read when | Running the baseline, documentation validation, named tests, or diagnostic coverage. |
+| Authoritative for | Available commands and their operator-facing execution contract. |
+| Not authoritative for | Product status, documentation budgets, exact route filters, or future tooling behavior. |
 
 PowerShell 7 is required.
 
@@ -25,12 +25,32 @@ pwsh eng/doc-check.ps1
 pwsh eng/doc-check.ps1 -Json
 ```
 
-The documentation check validates the machine-readable budget manifest, required owners and metadata, relative Markdown links, archive ranges, and current-state headings. Warnings do not fail; errors do.
+The documentation check validates budgets, owners, local links, archive ranges, named-route and UI-smoke registries, CI presence, and coverage collector declaration. Warnings do not fail; errors do.
 
-Both scripts are read-only. They do not mutate Git, edit documentation, run the application or tests, or read AppData. Generated console or JSON output is operational evidence, not product documentation.
+Both scripts are read-only. They do not mutate Git, edit documentation, run the application or tests, or read AppData.
 
-## Planned, Not Implemented
+## Named Test Routes
 
-- Named tests, UI smoke routes, coverage, and CI belong to T1-B.
-- Project Stats and context planning belong to T2.
+```powershell
+pwsh eng/test-route.ps1 list
+pwsh eng/test-route.ps1 list -Json
+pwsh eng/test-route.ps1 resolve Chart-Rendering
+pwsh eng/test-route.ps1 run Geometry
+pwsh eng/test-route.ps1 run Desktop-UI -NoBuild
+pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone
+```
 
+The runner accepts registered names only, applies bounded leaf timeouts, writes ignored logs below `TestResults/RepoRoutes/`, and stops only the process tree it starts. `resolve` and `-DryRun` never execute tests. Exact filters belong to `test-routes.json`; policy belongs to [`docs/TEST-EXECUTION.md`](../docs/TEST-EXECUTION.md).
+
+## Coverage
+
+```powershell
+pwsh eng/coverage.ps1
+pwsh eng/coverage.ps1 -NoBuild -Json
+```
+
+Coverage runs the full suite with `XPlat Code Coverage`, producing TRX and Cobertura beneath a unique ignored `TestResults/Coverage/` directory. It is diagnostic and has no percentage gate.
+
+The real-control UI catalog is in `ui-smoke-cases.json`; it is manual and is not launched by repository checks or CI. See [`docs/UI-SMOKE.md`](../docs/UI-SMOKE.md).
+
+Generated output is operational evidence, not product documentation. Project Stats and context planning remain planned for T2.

@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "unsupportedFilters": [],
+  "routes": [
+    {
+      "name": "Domain",
+      "description": "Astrology domain value objects and chart contracts.",
+      "kind": "leaf",
+      "category": "core",
+      "tags": ["domain", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.Astrology",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Birth-Time",
+      "description": "Birth-time normalization, accuracy, and time-zone policy.",
+      "kind": "leaf",
+      "category": "core",
+      "tags": ["birth-time", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.Birth",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Astronomy",
+      "description": "Astronomy orchestration and chart calculation contracts.",
+      "kind": "leaf",
+      "category": "astronomy",
+      "tags": ["astronomy", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.Astronomy&FullyQualifiedName!~ProjectBoundaryTests",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Infrastructure-Ephemeris",
+      "description": "Swiss Ephemeris adapter and infrastructure calculation fixtures.",
+      "kind": "leaf",
+      "category": "astronomy",
+      "tags": ["infrastructure", "ephemeris", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.Infrastructure&FullyQualifiedName!~InfrastructureBoundaryTests",
+      "defaultTimeoutSeconds": 240,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Geometry",
+      "description": "Render-independent circular chart geometry.",
+      "kind": "leaf",
+      "category": "chart",
+      "tags": ["geometry", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.Geometry",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Rendering",
+      "description": "Chart scene, palette, glyph, viewport, and occlusion contracts.",
+      "kind": "leaf",
+      "category": "chart",
+      "tags": ["rendering", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.Rendering&FullyQualifiedName!~RenderingBoundaryTests",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Presentation",
+      "description": "Presentation view models and application-independent state.",
+      "kind": "leaf",
+      "category": "desktop",
+      "tags": ["presentation", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.Presentation&FullyQualifiedName!~JsonLocalizationCatalogLoaderTests&FullyQualifiedName!~LocalizationContractsTests&FullyQualifiedName!~ThemeRegistryTests&FullyQualifiedName!~ProjectBoundaryTests",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Localization",
+      "description": "Localization catalogs and culture-independent resource contracts.",
+      "kind": "leaf",
+      "category": "desktop",
+      "tags": ["localization", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "(FullyQualifiedName~JsonLocalizationCatalogLoaderTests|FullyQualifiedName~LocalizationContractsTests)",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "App-Workspace",
+      "description": "Application workspace composition, coordinators, and sizing contracts.",
+      "kind": "leaf",
+      "category": "desktop",
+      "tags": ["app", "workspace", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.App&FullyQualifiedName!~AppBoundaryTests&FullyQualifiedName!~AppThemeControllerTests&FullyQualifiedName!~SemanticThemeContractTests",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Theme-Resources",
+      "description": "Semantic theme resources, materialization, and theme registry.",
+      "kind": "leaf",
+      "category": "desktop",
+      "tags": ["theme", "resources", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "(FullyQualifiedName~AppThemeControllerTests|FullyQualifiedName~SemanticThemeContractTests|FullyQualifiedName~ThemeRegistryTests)",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Architecture-Boundaries",
+      "description": "Layering and repository production-boundary guards.",
+      "kind": "leaf",
+      "category": "repository",
+      "tags": ["architecture", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~BoundaryTests",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Repository-Tooling",
+      "description": "Documentation and repository verification tooling contracts.",
+      "kind": "leaf",
+      "category": "repository",
+      "tags": ["tooling", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.Tooling",
+      "defaultTimeoutSeconds": 300,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Full",
+      "description": "Complete NoxAeterna.Tests milestone suite.",
+      "kind": "leaf",
+      "category": "milestone",
+      "tags": ["full", "milestone", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "defaultTimeoutSeconds": 900,
+      "hardwareEvidence": false,
+      "milestoneOnly": true
+    },
+    {
+      "name": "Astrology-Core",
+      "description": "Domain, birth-time, astronomy, and ephemeris integration area.",
+      "kind": "composite",
+      "category": "core",
+      "tags": ["area"],
+      "children": ["Domain", "Birth-Time", "Astronomy", "Infrastructure-Ephemeris"],
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Chart-Rendering",
+      "description": "Chart geometry and renderer area.",
+      "kind": "composite",
+      "category": "chart",
+      "tags": ["area"],
+      "children": ["Geometry", "Rendering"],
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Desktop-UI",
+      "description": "Presentation, localization, workspace, and theme contract area.",
+      "kind": "composite",
+      "category": "desktop",
+      "tags": ["area"],
+      "children": ["Presentation", "Localization", "App-Workspace", "Theme-Resources"],
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
+      "name": "Repository-Verification",
+      "description": "Architecture boundaries and repository tooling area.",
+      "kind": "composite",
+      "category": "repository",
+      "tags": ["area"],
+      "children": ["Architecture-Boundaries", "Repository-Tooling"],
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    }
+  ]
+}

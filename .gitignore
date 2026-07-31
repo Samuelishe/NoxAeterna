@@ -6,6 +6,7 @@
 /publish/
 /TestResults/
 .codex-cache/
+.testagent/
 project-stats.md
 project-stats.json
 artifacts/ui-smoke/

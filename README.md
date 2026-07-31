@@ -90,14 +90,21 @@ Minimal desktop shell launch:
 
 - `dotnet run --project NoxAeterna.App`
 
-## Repository Checks
+## Repository Verification
 
-The T1-A checks require PowerShell 7 and are read-only:
+Repository tooling requires PowerShell 7. Start with the read-only checks:
 
 - `pwsh eng/repo-baseline.ps1`
 - `pwsh eng/doc-check.ps1`
 
-JSON output is available through `-Json`. See [`eng/README.md`](eng/README.md) for the implemented scope; these checks do not run the application or test suite.
+Run named verification or diagnostic coverage:
+
+- `pwsh eng/test-route.ps1 list`
+- `pwsh eng/test-route.ps1 run Repository-Verification`
+- `pwsh eng/test-route.ps1 run Full -AllowMilestone`
+- `pwsh eng/coverage.ps1`
+
+JSON output is available for tooling commands. See [`docs/TEST-EXECUTION.md`](docs/TEST-EXECUTION.md), [`docs/UI-SMOKE.md`](docs/UI-SMOKE.md), and [`eng/README.md`](eng/README.md). Manual real-control smoke remains separate from automated tests and CI.
 
 Current app-localization note:
 
@@ -184,6 +191,7 @@ Current scaffold dependencies include:
 - NodaTime
 - SwissEphNet
 - Microsoft.NET.Test.Sdk
+- coverlet.collector
 - xunit
 - xunit.runner.visualstudio
 

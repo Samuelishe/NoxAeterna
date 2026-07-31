@@ -418,3 +418,35 @@ Decision: Store exact documentation budgets and overflow strategies only in `eng
 Reason: Exact thresholds need one deterministic owner, while observability tooling must not rewrite history, raise limits, alter Git, or turn a dirty worktree into an error condition.
 
 Consequences: Soft overflow warns, hard overflow and broken contracts fail, archive rollover remains an explicit human-owned operation, and both scripts expose stable console and JSON reports suitable for focused tests and later CI.
+
+## 2026-07-31: Own Exact Test Selection Through Named Routes
+
+Decision: Keep exact filters in `eng/test-routes.json`, human execution and evidence policy in `TEST-EXECUTION.md`, and execution in `test-route.ps1`.
+
+Reason: Responsibility names remain stable and reviewable while raw shell filters, duplicated commands, and hidden full-suite runs are unsafe and prone to drift.
+
+Consequences: Focused and area routes are deterministic and sequential. `Full` is milestone/CI evidence requiring explicit authorization, historical test totals are never acceptance gates, and runner timeouts terminate only the launched process tree.
+
+## 2026-07-31: Keep UI Smoke as Real-Control Manual Evidence
+
+Decision: Own manual interaction policy in `UI-SMOKE.md` and exact case data in `eng/ui-smoke-cases.json`; do not execute that catalog in headless T1-B CI.
+
+Reason: Unit tests and golden fixtures cannot prove popup, focus, hover, DPI, resizing, theme switching, or perceived visual quality, while manual smoke cannot prove deterministic numerical contracts.
+
+Consequences: Operators launch the actual Avalonia app and use real controls. Screenshots remain temporary untracked visual evidence, and reports distinguish automated, numerical, interaction, and screenshot evidence.
+
+## 2026-07-31: Treat Coverage as Diagnostic and CI as Cross-Platform Evidence
+
+Decision: Collect Cobertura through private `coverlet.collector` without a percentage gate, and run the Full registered route on Windows, Linux, and macOS with read-only GitHub Actions permissions.
+
+Reason: Coverage identifies exercised paths but is not a correctness proof; the supported desktop target families need repeatable hosted evidence without deployment, secrets, or UI-smoke simulation.
+
+Consequences: Coverage artifacts are unique and retained only as operational evidence. CI uses official actions, uploads short-lived TRX/log/coverage artifacts, and does not launch the application.
+
+## 2026-07-31: Keep Dynamic Git State Out of Project Handoff
+
+Decision: Branch, current HEAD, parent, operations, and worktree status belong to Git and `repo-baseline.ps1`; `PROJECT-STATE.md` may cite only completed checkpoint commits as provenance.
+
+Reason: A committed document that claims to own a dynamic HEAD becomes stale immediately after the next commit.
+
+Consequences: Session startup observes Git directly, while the handoff remains stable across commits and owns only checkpoint meaning, focus, preserved contracts, and blockers.

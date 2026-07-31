@@ -87,6 +87,8 @@ $errors = [Collections.Generic.List[object]]::new()
 $measurements = [Collections.Generic.List[object]]::new()
 $brokenLinks = [Collections.Generic.List[object]]::new()
 $archiveDiagnostics = [Collections.Generic.List[object]]::new()
+$routeDiagnostics = [Collections.Generic.List[object]]::new()
+$uiSmokeDiagnostics = [Collections.Generic.List[object]]::new()
 $repositoryRoot = $null
 $manifest = $null
 
@@ -208,7 +210,9 @@ if ($null -ne $repositoryRoot) {
         'docs/DOCUMENTATION-GOVERNANCE.md',
         'docs/INDEX.md',
         'docs/SESSION-LOG.md',
-        'docs/archive/README.md'
+        'docs/archive/README.md',
+        'docs/TEST-EXECUTION.md',
+        'docs/UI-SMOKE.md'
     )
     foreach ($path in $requiredDocuments) {
         if (-not (Test-Path -LiteralPath (Join-Path $repositoryRoot $path) -PathType Leaf)) {
@@ -223,6 +227,8 @@ if ($null -ne $repositoryRoot) {
         'docs/DOCUMENTATION-GOVERNANCE.md',
         'docs/VISUAL-DESIGN-SYSTEM.md',
         'docs/THEMES.md',
+        'docs/TEST-EXECUTION.md',
+        'docs/UI-SMOKE.md',
         'docs/archive/README.md',
         'eng/README.md'
     )
@@ -248,6 +254,51 @@ if ($null -ne $repositoryRoot) {
                 $errors.Add((New-Diagnostic 'project-state.heading' 'docs/PROJECT-STATE.md' "Required heading '$heading' is missing."))
             }
         }
+    }
+
+    $verificationModulePath = Join-Path $repositoryRoot 'eng/RepoVerification.psm1'
+    if (-not (Test-Path -LiteralPath $verificationModulePath -PathType Leaf)) {
+        $errors.Add((New-Diagnostic 'verification.module-missing' 'eng/RepoVerification.psm1' 'Shared repository verification module does not exist.'))
+    }
+    else {
+        try {
+            Import-Module $verificationModulePath -Force
+            $routeRegistry = Read-TestRouteRegistry -Root $repositoryRoot -RegistryPath 'eng/test-routes.json'
+            foreach ($route in @($routeRegistry.routes | Sort-Object -Property name)) {
+                $routeDiagnostics.Add([pscustomobject][ordered]@{
+                    name = [string]$route.name
+                    kind = [string]$route.kind
+                    milestoneOnly = [bool]$route.milestoneOnly
+                })
+            }
+        }
+        catch {
+            $errors.Add((New-Diagnostic 'test-routes.invalid' 'eng/test-routes.json' $_.Exception.Message))
+        }
+
+        try {
+            $uiSmokeCatalog = Read-UiSmokeCatalog -Root $repositoryRoot
+            foreach ($case in @($uiSmokeCatalog.cases | Sort-Object -Property id)) {
+                $uiSmokeDiagnostics.Add([pscustomobject][ordered]@{
+                    id = [string]$case.id
+                    screenshotFileName = [string]$case.screenshotFileName
+                })
+            }
+        }
+        catch {
+            $errors.Add((New-Diagnostic 'ui-smoke.invalid' 'eng/ui-smoke-cases.json' $_.Exception.Message))
+        }
+    }
+
+    $ciWorkflowPath = Join-Path $repositoryRoot '.github/workflows/ci.yml'
+    if (-not (Test-Path -LiteralPath $ciWorkflowPath -PathType Leaf)) {
+        $errors.Add((New-Diagnostic 'ci.workflow-missing' '.github/workflows/ci.yml' 'CI workflow does not exist.'))
+    }
+
+    $testProjectPath = Join-Path $repositoryRoot 'NoxAeterna.Tests/NoxAeterna.Tests.csproj'
+    if (-not (Test-Path -LiteralPath $testProjectPath -PathType Leaf) -or
+        (Get-Content -LiteralPath $testProjectPath -Raw) -notmatch 'PackageReference\s+Include="coverlet\.collector"') {
+        $errors.Add((New-Diagnostic 'coverage.collector-missing' 'NoxAeterna.Tests/NoxAeterna.Tests.csproj' 'coverlet.collector is not declared.'))
     }
 
     $excludedDirectoryNames = @('.git', 'bin', 'obj', 'TestResults', '.codex-cache')
@@ -375,6 +426,8 @@ $report = [ordered]@{
     measuredDocuments = $orderedMeasurements
     brokenLinks = $orderedBrokenLinks
     archiveDiagnostics = @($archiveDiagnostics)
+    routeDiagnostics = @($routeDiagnostics | Sort-Object -Property name)
+    uiSmokeDiagnostics = @($uiSmokeDiagnostics | Sort-Object -Property id)
 }
 
 if ($Json) {
