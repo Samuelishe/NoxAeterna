@@ -27,6 +27,7 @@ Use this file to decide what to read next without opening every document.
 | `THEMES.md` | Avalonia theme dictionary topology, semantic brush mapping, control-style ownership, switching lifecycle, parity tests, and manual smoke matrix. | Implementing or reviewing application themes and control states. |
 | [`TEST-EXECUTION.md`](TEST-EXECUTION.md) | Validation tiers, named-route usage, timeouts, evidence boundaries, coverage, and CI policy. | Selecting or changing automated verification. |
 | [`UI-SMOKE.md`](UI-SMOKE.md) | Real-control manual UI smoke, visual evidence, screenshot handling, and reporting policy. | Accepting meaningful UI/rendering changes. |
+| [`PROJECT-STATS.md`](PROJECT-STATS.md) | Factual repository inventory, structural/test metrics, exclusions, output formats, and interpretation rules. | Measuring repository structure or maintaining Project Stats. |
 | `ASSETS-PIPELINE.md` | Asset pipeline, programmatic-vs-generated asset strategy, curation rules, attribution expectations. | Creating visual assets or style guide material. |
 | `CODING-GUIDELINES.md` | Naming, XML docs, type safety, testing, coupling rules, provenance rules. | Writing or reviewing code. |
 | `DECISIONS-LOG.md` | Lightweight ADR-style decisions with reasons and consequences. | Checking or recording architectural decisions. |

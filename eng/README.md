@@ -51,6 +51,16 @@ pwsh eng/coverage.ps1 -NoBuild -Json
 
 Coverage runs the full suite with `XPlat Code Coverage`, producing TRX and Cobertura beneath a unique ignored `TestResults/Coverage/` directory. It is diagnostic and has no percentage gate.
 
+## Project Stats
+
+```powershell
+dotnet run --project NoxAeterna.Tools.Repository -- stats .
+dotnet run --project NoxAeterna.Tools.Repository -- stats . --json
+dotnet run --project NoxAeterna.Tools.Repository -- stats . --markdown --output project-stats.md
+```
+
+Project Stats is a BCL-only, on-demand factual report over Git-visible public files. It does not read AppData or private/sensitive paths, does not infer code quality, and does not generate CI artifacts. See [`docs/PROJECT-STATS.md`](../docs/PROJECT-STATS.md).
+
 The real-control UI catalog is in `ui-smoke-cases.json`; it is manual and is not launched by repository checks or CI. See [`docs/UI-SMOKE.md`](../docs/UI-SMOKE.md).
 
-Generated output is operational evidence, not product documentation. Project Stats and context planning remain planned for T2.
+Generated output is operational evidence, not product documentation. Context routes and planning remain planned for T2-B.

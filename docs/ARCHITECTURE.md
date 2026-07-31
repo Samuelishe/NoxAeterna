@@ -28,6 +28,7 @@ Starting assumption:
 - `NoxAeterna.Interpretation`
 - `NoxAeterna.Domain`
 - `NoxAeterna.Infrastructure`
+- `NoxAeterna.Tools.Repository`
 - `NoxAeterna.Tests`
 
 This may evolve as implementation reveals better boundaries.
@@ -69,6 +70,10 @@ Contains concrete adapters: Swiss Ephemeris wrapper, SQLite data access, logging
 ### App
 
 Application composition root, Avalonia startup, dependency injection, configuration, top-level shell, and current workspace host wiring.
+
+### Repository Tooling
+
+`NoxAeterna.Tools.Repository` is a standalone BCL-only executable for factual public-file inventory and structural diagnostics. It has no references to product layers, does not infer semantic dependencies, and remains separate from future context-selection policy.
 
 ### Tests
 

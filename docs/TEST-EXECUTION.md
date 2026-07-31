@@ -36,6 +36,7 @@ Run a focused or area route:
 
 ```powershell
 pwsh eng/test-route.ps1 run Geometry
+pwsh eng/test-route.ps1 run Project-Stats
 pwsh eng/test-route.ps1 run Repository-Verification -NoBuild
 ```
 
@@ -46,6 +47,8 @@ pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone
 ```
 
 The registry is responsibility-oriented, not stage-oriented. A leaf route must remain bounded and non-overlapping with its peers. A composite is an ordered plan, not a parallel scheduler.
+
+`Project-Stats` owns the separate `NoxAeterna.Tests.ProjectStats` namespace. `Repository-Verification` executes architecture boundaries, existing repository tooling, and Project Stats in that order.
 
 ## Build and `-NoBuild`
 

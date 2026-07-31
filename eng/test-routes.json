@@ -147,6 +147,18 @@
       "milestoneOnly": false
     },
     {
+      "name": "Project-Stats",
+      "description": "Factual public-file inventory, repository metrics, project graph, and report contracts.",
+      "kind": "leaf",
+      "category": "repository",
+      "tags": ["project-stats", "tooling", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.ProjectStats",
+      "defaultTimeoutSeconds": 300,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
       "name": "Full",
       "description": "Complete NoxAeterna.Tests milestone suite.",
       "kind": "leaf",
@@ -193,7 +205,7 @@
       "kind": "composite",
       "category": "repository",
       "tags": ["area"],
-      "children": ["Architecture-Boundaries", "Repository-Tooling"],
+      "children": ["Architecture-Boundaries", "Repository-Tooling", "Project-Stats"],
       "hardwareEvidence": false,
       "milestoneOnly": false
     }

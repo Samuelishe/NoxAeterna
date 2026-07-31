@@ -7,10 +7,16 @@
 /TestResults/
 .codex-cache/
 .testagent/
-project-stats.md
-project-stats.json
+/project-stats.md
+/project-stats.json
 artifacts/ui-smoke/
 TestResults/RepoRoutes/
+docs/private/
+docs/sensitive/
+docs/**/*.local.*
+*.local.json
+*.local.yaml
+*.local.yml
 
 # User-specific files
 *.user

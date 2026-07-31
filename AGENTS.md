@@ -38,6 +38,7 @@ Read this file and `docs/PROJECT-STATE.md` first, then use the smallest applicab
 | Avalonia, UI, or theme | `docs/UI-VISION.md` + `docs/VISUAL-DESIGN-SYSTEM.md` + `docs/THEMES.md` |
 | Persistence | `docs/PERSISTENCE.md` + `docs/ARCHITECTURAL-BOUNDARIES.md` |
 | Documentation or tooling | `docs/DOCUMENTATION-GOVERNANCE.md` |
+| Repository stats | `docs/PROJECT-STATS.md`; implementation in `NoxAeterna.Tools.Repository` |
 | Tests | `docs/TEST-EXECUTION.md`; executable names from `eng/test-routes.json` via `eng/test-route.ps1` |
 | UI smoke | `docs/UI-SMOKE.md` + `eng/ui-smoke-cases.json` |
 

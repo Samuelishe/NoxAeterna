@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoxAeterna.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoxAeterna.Tests", "NoxAeterna.Tests\NoxAeterna.Tests.csproj", "{AB98C280-8C99-4981-AA29-B6B631C41BC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoxAeterna.Tools.Repository", "NoxAeterna.Tools.Repository\NoxAeterna.Tools.Repository.csproj", "{F4737962-FB95-4BE1-8CAC-874B785A6EAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -150,6 +152,18 @@ Global
 		{AB98C280-8C99-4981-AA29-B6B631C41BC8}.Release|x64.Build.0 = Release|Any CPU
 		{AB98C280-8C99-4981-AA29-B6B631C41BC8}.Release|x86.ActiveCfg = Release|Any CPU
 		{AB98C280-8C99-4981-AA29-B6B631C41BC8}.Release|x86.Build.0 = Release|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Debug|x64.Build.0 = Debug|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Debug|x86.Build.0 = Debug|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Release|x64.ActiveCfg = Release|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Release|x64.Build.0 = Release|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Release|x86.ActiveCfg = Release|Any CPU
+		{F4737962-FB95-4BE1-8CAC-874B785A6EAB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

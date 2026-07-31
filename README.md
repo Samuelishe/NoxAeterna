@@ -103,6 +103,7 @@ Run named verification or diagnostic coverage:
 - `pwsh eng/test-route.ps1 run Repository-Verification`
 - `pwsh eng/test-route.ps1 run Full -AllowMilestone`
 - `pwsh eng/coverage.ps1`
+- `dotnet run --project NoxAeterna.Tools.Repository -- stats .`
 
 JSON output is available for tooling commands. See [`docs/TEST-EXECUTION.md`](docs/TEST-EXECUTION.md), [`docs/UI-SMOKE.md`](docs/UI-SMOKE.md), and [`eng/README.md`](eng/README.md). Manual real-control smoke remains separate from automated tests and CI.
 
@@ -145,6 +146,7 @@ Current asset and runtime-data note:
 - `NoxAeterna.Interpretation/`: interpretation layer scaffold
 - `NoxAeterna.Domain/`: domain layer scaffold
 - `NoxAeterna.Infrastructure/`: infrastructure layer scaffold
+- `NoxAeterna.Tools.Repository/`: BCL-only factual repository inventory and Project Stats CLI
 - `NoxAeterna.Tests/`: xUnit test scaffold
 - `Directory.Build.props`: repository-level compiler defaults
 - `NoxAeterna.sln`: solution root

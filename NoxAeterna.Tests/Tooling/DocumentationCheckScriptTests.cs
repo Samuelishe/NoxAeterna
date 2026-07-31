@@ -433,6 +433,7 @@ public sealed class DocumentationCheckScriptTests
             Write(root, "docs/AGENTS.md", $"# Extended Guide{Environment.NewLine}{Environment.NewLine}{Metadata}");
             Write(root, "docs/TEST-EXECUTION.md", $"# Test Execution{Environment.NewLine}{Environment.NewLine}{Metadata}");
             Write(root, "docs/UI-SMOKE.md", $"# UI Smoke{Environment.NewLine}{Environment.NewLine}{Metadata}");
+            Write(root, "docs/PROJECT-STATS.md", $"# Project Stats{Environment.NewLine}{Environment.NewLine}{Metadata}");
             Write(
                 root,
                 "docs/PROJECT-STATE.md",

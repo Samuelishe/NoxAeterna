@@ -33,6 +33,11 @@
       "overflowStrategy": "manual-reconcile"
     },
     {
+      "path": "docs/PROJECT-STATS.md",
+      "hardLimit": 16000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
       "path": "docs/SESSION-LOG.md",
       "hardLimit": 14000,
       "overflowStrategy": "rollover-archive",

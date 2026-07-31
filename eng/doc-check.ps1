@@ -221,6 +221,7 @@ if ($null -ne $repositoryRoot) {
     $requiredDocuments = @(
         'AGENTS.md',
         'docs/PROJECT-STATE.md',
+        'docs/PROJECT-STATS.md',
         'docs/DOCUMENTATION-GOVERNANCE.md',
         'docs/INDEX.md',
         'docs/SESSION-LOG.md',
@@ -238,6 +239,7 @@ if ($null -ne $repositoryRoot) {
         'AGENTS.md',
         'docs/AGENTS.md',
         'docs/PROJECT-STATE.md',
+        'docs/PROJECT-STATS.md',
         'docs/DOCUMENTATION-GOVERNANCE.md',
         'docs/VISUAL-DESIGN-SYSTEM.md',
         'docs/THEMES.md',

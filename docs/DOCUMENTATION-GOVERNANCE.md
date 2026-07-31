@@ -23,6 +23,7 @@
 | `docs/THEMES.md` | Avalonia theme implementation | Exact palette values | Theme/resource work |
 | `docs/TEST-EXECUTION.md` | Test tiers, execution policy, and evidence boundaries | Exact filters and current totals | Test selection or runner work |
 | `docs/UI-SMOKE.md` | Real-control manual UI smoke policy | Exact case data and automated filters | UI acceptance work |
+| `docs/PROJECT-STATS.md` | Project Stats purpose, report semantics, exclusions, and interpretation | Documentation budgets, architecture, context routing, and RAG | Repository analysis |
 | `docs/ASTRONOMY-ENGINE.md` | Astronomy contracts | UI and layout | Astronomy |
 | `docs/GEOMETRY-ENGINE.md` | Render-independent chart geometry | Avalonia styling | Geometry |
 | `docs/RENDERING-ENGINE.md` | Renderer contracts | Astronomy | Rendering |
@@ -37,6 +38,7 @@
 | `eng/doc-check.ps1` | Read-only documentation validation | Budget values and content fixes | Documentation validation |
 | `eng/test-routes.json` | Exact named test filters and route graph | Human execution policy | Test-route execution |
 | `eng/ui-smoke-cases.json` | Exact manual smoke case data | UI smoke policy | Manual UI evidence |
+| `NoxAeterna.Tools.Repository` | Factual public-file inventory and report implementation | Context selection, quality verdicts, and product behavior | Repository diagnostics |
 
 ## Conflict Resolution
 
@@ -62,6 +64,7 @@ Dynamic branch, HEAD, parent, operation markers, and worktree state belong to Gi
 - A dependency or shipped-asset change updates `README.md` and `THIRD-PARTY.md`.
 - Test-route policy changes update `TEST-EXECUTION.md`; exact route/filter changes update only the registry.
 - Manual smoke policy changes update `UI-SMOKE.md`; exact case changes update only the catalog.
+- Project Stats semantics or exclusions update `PROJECT-STATS.md`; factual implementation changes update the standalone tool without creating competing context policy.
 - `NEXT-STEPS.md` changes only when the immediate queue changes.
 
 ## Active Chronology and Archive

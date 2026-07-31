@@ -450,3 +450,11 @@ Decision: Branch, current HEAD, parent, operations, and worktree status belong t
 Reason: A committed document that claims to own a dynamic HEAD becomes stale immediately after the next commit.
 
 Consequences: Session startup observes Git directly, while the handoff remains stable across commits and owns only checkpoint meaning, focus, preserved contracts, and blockers.
+
+## 2026-07-31: Separate Factual Repository Inventory From Context Policy
+
+Decision: Keep one BCL-only `NoxAeterna.Tools.Repository` executable as the reusable owner of Git-visible public-file inventory and diagnostic Project Stats, while reserving context routes, ranking, and character-budget policy for T2-B.
+
+Reason: File metadata, project references, and lexical topology are reusable facts, but turning those facts into agent context is a separate policy problem. Splitting the tool into several projects or embedding RAG decisions now would create premature architecture.
+
+Consequences: Reports are on-demand diagnostic signals rather than quality gates or automatic refactoring verdicts. Private/sensitive and generated/runtime paths are never read, output reports remain ignored, CI gains coverage through the normal test suite without publishing a new artifact, and future context planning reuses the factual inventory instead of creating another scanner.

@@ -24,3 +24,22 @@ Verification:
 - `pwsh eng/doc-check.ps1 -Json`
 - `dotnet build NoxAeterna.sln -c Debug`
 - `pwsh eng/test-route.ps1 run Repository-Verification -NoBuild`
+
+## 2026-07-31: T2-A Project Stats and Factual Repository Analysis
+
+Summary:
+
+- Added one standalone BCL-only `NoxAeterna.Tools.Repository` executable with reusable Git-visible public-file inventory, deterministic text metadata, path classification, project XML/reference analysis, lexical test topology, and read-only documentation-budget snapshots.
+- Added bounded console, schema-1 camelCase JSON, and Markdown output with repository-relative paths, safe output-target exclusion, controlled diagnostics, and no volatile timestamp.
+- Enforced privacy-before-read and generated/runtime exclusions without filesystem fallback, network access, AppData access, semantic dependency inference, or quality verdicts.
+- Added the non-overlapping `Project-Stats` leaf and placed it last in `Repository-Verification`; CI topology and product projects remain unchanged.
+- Established `PROJECT-STATS.md` as report-semantics owner while reserving context routes, rankings, and character budgets for T2-B.
+
+Verification:
+
+- `pwsh eng/doc-check.ps1`
+- `dotnet build NoxAeterna.sln -c Debug`
+- `pwsh eng/test-route.ps1 run Project-Stats -NoBuild`
+- `pwsh eng/test-route.ps1 run Repository-Verification -NoBuild`
+- console, JSON, and Markdown CLI smoke against the current repository
+- `pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone`
