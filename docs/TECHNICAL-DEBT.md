@@ -4,13 +4,10 @@ This file tracks known shortcuts, unresolved questions, and deferred cleanup. It
 
 ## Current Debt
 
-No implementation debt yet. The project is in documentation foundation stage.
+No intentionally accepted implementation shortcut is currently recorded here. Add only concrete debt with an owner and cleanup condition; unresolved external risks belong in `KNOWN-PROBLEMS.md`.
 
 ## Deferred Questions
 
-- Exact project reference graph is not finalized.
-- Initial planetary body list is not finalized.
-- Initial house system is not finalized.
 - Migration tool is not selected.
 - Tarot art scope is not finalized.
 - Symbolic source bibliography is not curated.

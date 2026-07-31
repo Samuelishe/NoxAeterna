@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "warningRatio": 0.85,
+  "documents": [
+    {
+      "path": "AGENTS.md",
+      "hardLimit": 6500,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
+      "path": "docs/AGENTS.md",
+      "hardLimit": 14000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
+      "path": "docs/DOCUMENTATION-GOVERNANCE.md",
+      "hardLimit": 16000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
+      "path": "docs/INDEX.md",
+      "hardLimit": 16000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
+      "path": "docs/NEXT-STEPS.md",
+      "hardLimit": 9000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
+      "path": "docs/PROJECT-STATE.md",
+      "hardLimit": 9000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
+      "path": "docs/SESSION-LOG.md",
+      "hardLimit": 14000,
+      "overflowStrategy": "rollover-archive",
+      "archiveDestination": "docs/archive/session-log"
+    },
+    {
+      "path": "docs/THEMES.md",
+      "hardLimit": 18000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
+      "path": "docs/VISUAL-DESIGN-SYSTEM.md",
+      "hardLimit": 22000,
+      "overflowStrategy": "manual-reconcile"
+    }
+  ]
+}

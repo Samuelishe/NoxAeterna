@@ -18,26 +18,7 @@ See `docs/DEVELOPMENT-PHILOSOPHY.md` for the durable decision style behind the p
 
 ## Current Status
 
-Current status: the repository has moved beyond pure scaffold and now contains the first implementation foundations.
-
-The repository now contains:
-
-- Solution and project structure
-- Initial project reference graph
-- Domain primitives for zodiac math, birth-time modeling, positions, aspects, and natal-chart snapshots
-- Astronomy contracts without Swiss Ephemeris binding
-- Render-independent circular chart geometry
-- A minimal Avalonia rendering layer for technical chart drawing
-- A thin shell, JSON-backed UI localization, in-memory settings, and first real dark/light theme switching
-- A first astrology workspace foundation that hosts the chart surface and placeholder side panels
-- A refined birth-data input foundation with date/time pickers, TZDB timezone selection, manual coordinates, and explicit mapping into domain birth data
-- Input-driven demo chart rebuilding through `IBirthMomentResolver`, a deterministic fake ephemeris flow, geometry layout, and the isolated renderer
-- Input-driven chart rebuilding through `IBirthMomentResolver`, a SwissEphNet-backed ephemeris adapter, geometry layout, and the isolated renderer
-- First readable natal-chart foundation with zodiac glyphs, planet glyphs, and a compact planet-position summary
-- Development-only sample chart generation kept only as a fallback and verification path
-- xUnit test harness and repository-level build configuration
-
-The application is still in foundation mode. Real profile workflows, persistence, Tarot UX, and final visual design are not implemented yet. Real planetary positions now flow through a first SwissEphNet-backed spike, but external Swiss ephemeris data-file setup is not finished yet.
+The current checkpoint and one active focus are maintained in [`docs/PROJECT-STATE.md`](docs/PROJECT-STATE.md). Operational repository rules begin in [`AGENTS.md`](AGENTS.md).
 
 ## Planned Architecture
 
@@ -109,6 +90,15 @@ Minimal desktop shell launch:
 
 - `dotnet run --project NoxAeterna.App`
 
+## Repository Checks
+
+The T1-A checks require PowerShell 7 and are read-only:
+
+- `pwsh eng/repo-baseline.ps1`
+- `pwsh eng/doc-check.ps1`
+
+JSON output is available through `-Json`. See [`eng/README.md`](eng/README.md) for the implemented scope; these checks do not run the application or test suite.
+
 Current app-localization note:
 
 - UI localization catalogs are loaded from flat JSON files copied to `resources/localization/ui` under the app output.
@@ -156,7 +146,8 @@ Current asset and runtime-data note:
 
 Start with:
 
-- `docs/AGENTS.md`
+- `AGENTS.md`
+- `docs/PROJECT-STATE.md`
 - `docs/INDEX.md`
 - `docs/ARCHITECTURE.md`
 - `docs/DEVELOPMENT-PHILOSOPHY.md`
@@ -216,7 +207,7 @@ Swiss Ephemeris note:
 
 Future AI-assisted sessions must:
 
-- Respect `docs/AGENTS.md` and `docs/ARCHITECTURAL-BOUNDARIES.md`.
-- Update `docs/SESSION-LOG.md`, `docs/DECISIONS-LOG.md`, and `docs/NEXT-STEPS.md` when material changes occur.
+- Respect root `AGENTS.md`, `docs/PROJECT-STATE.md`, and `docs/ARCHITECTURAL-BOUNDARIES.md`.
+- Follow `docs/DOCUMENTATION-GOVERNANCE.md` and update only the owners affected by material changes.
 - Update `README.md` and `docs/THIRD-PARTY.md` whenever external dependencies, assets, fonts, datasets, borrowed code, adapted code, or generated assets are introduced.
 - Avoid another large planning pass before scaffold unless a real blocker appears.

@@ -1,6 +1,13 @@
 # Nox Aeterna Agent Guide
 
-This is the primary operational guide for Codex and future autonomous coding agents working on Nox Aeterna.
+| Metadata | Definition |
+| --- | --- |
+| Role | Extended product and agent guide for Nox Aeterna. |
+| Read when | Product identity, tone, detailed domain navigation, or attribution policy is relevant. |
+| Authoritative for | Product identity, product tone, detailed domain navigation, attribution requirements, and project-specific non-goals. |
+| Not authoritative for | Git operations, current project status, documentation ownership, executable test routes, or exact documentation budgets. |
+
+Operational repository rules belong to the root [`AGENTS.md`](../AGENTS.md). The current checkpoint belongs to [`PROJECT-STATE.md`](PROJECT-STATE.md), and documentation ownership belongs to [`DOCUMENTATION-GOVERNANCE.md`](DOCUMENTATION-GOVERNANCE.md).
 
 ## Project Identity
 
@@ -12,38 +19,26 @@ Tone: serious, calm, atmospheric, intelligent, restrained, premium, non-ironic.
 
 Avoid: joke generation, fake AI magic, meme occult aesthetics, TikTok witchcore, cheap glow effects, cartoon magic, shallow daily horoscope features, and invented systems unless explicitly documented as fictional or experimental.
 
-## Current Phase
+## Product and Domain Navigation
 
-Current phase: application-theme visual confirmation on the implemented chart and application foundation.
-
-The solution projects, astronomy pipeline, circular geometry, scene-based renderer, localized shell, and first astrology workspace already exist. Keep documentation honest about the implemented subset; persistence and later product flows remain deferred.
-
-## Start Here
-
-Read these first:
-
-1. `docs/INDEX.md` for efficient navigation.
-2. `docs/PROJECT-VISION.md` for product identity and non-goals.
-3. `docs/ARCHITECTURE.md` for layer boundaries and expected solution structure.
-4. `docs/NEXT-STEPS.md` for the immediate work queue.
-5. `docs/SESSION-LOG.md` for continuity from previous agent sessions.
+Use [`INDEX.md`](INDEX.md) for discovery and open only the documents relevant to the task.
 
 Then read task-specific files:
 
-- Decision style and product philosophy: `docs/DEVELOPMENT-PHILOSOPHY.md`
-- Canonical terminology: `docs/GLOSSARY.md`
-- Hard layer rules: `docs/ARCHITECTURAL-BOUNDARIES.md`
-- Astrology or time work: `docs/ASTRONOMY-ENGINE.md`
-- Chart layout: `docs/GEOMETRY-ENGINE.md`
-- Rendering: `docs/RENDERING-ENGINE.md`
-- Interpretation: `docs/INTERPRETATION-ENGINE.md`
-- Symbolic knowledge: `docs/SYMBOLICS.md`
-- Tarot: `docs/TAROT-ENGINE.md`
-- Storage: `docs/PERSISTENCE.md`
-- UI product direction: `docs/UI-VISION.md`
-- Exact visual semantics: `docs/VISUAL-DESIGN-SYSTEM.md`
-- Avalonia theme implementation: `docs/THEMES.md`
-- Code style: `docs/CODING-GUIDELINES.md`
+- Decision style and product philosophy: [`DEVELOPMENT-PHILOSOPHY.md`](DEVELOPMENT-PHILOSOPHY.md)
+- Canonical terminology: [`GLOSSARY.md`](GLOSSARY.md)
+- Hard layer rules: [`ARCHITECTURAL-BOUNDARIES.md`](ARCHITECTURAL-BOUNDARIES.md)
+- Astrology or time work: [`ASTRONOMY-ENGINE.md`](ASTRONOMY-ENGINE.md)
+- Chart layout: [`GEOMETRY-ENGINE.md`](GEOMETRY-ENGINE.md)
+- Rendering: [`RENDERING-ENGINE.md`](RENDERING-ENGINE.md)
+- Interpretation: [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md)
+- Symbolic knowledge: [`SYMBOLICS.md`](SYMBOLICS.md)
+- Tarot: [`TAROT-ENGINE.md`](TAROT-ENGINE.md)
+- Storage: [`PERSISTENCE.md`](PERSISTENCE.md)
+- UI product direction: [`UI-VISION.md`](UI-VISION.md)
+- Exact visual semantics: [`VISUAL-DESIGN-SYSTEM.md`](VISUAL-DESIGN-SYSTEM.md)
+- Avalonia theme implementation: [`THEMES.md`](THEMES.md)
+- Code style: [`CODING-GUIDELINES.md`](CODING-GUIDELINES.md)
 
 ## Intended Technology Direction
 
@@ -77,7 +72,7 @@ Starting assumption, subject to revision:
 - `NoxAeterna.Infrastructure`
 - `NoxAeterna.Tests`
 
-Do not add application code during documentation-only tasks. When scaffolding starts, keep project references aligned with the documented boundaries.
+Keep project references aligned with the documented boundaries.
 
 ## Architectural Boundaries
 
@@ -134,29 +129,6 @@ Every future session must explicitly document any introduced:
 
 Track authorship, license, purpose, and official source in `README.md` and `docs/THIRD-PARTY.md`. If a session adds external material and does not update attribution tracking, the task is incomplete.
 
-## Documentation Rules
-
-Update docs when a decision, boundary, module responsibility, or known risk changes.
-
-Use:
-
-- `docs/DECISIONS-LOG.md` for durable architecture and product decisions.
-- `docs/SESSION-LOG.md` for what happened in each agent session.
-- `docs/TECHNICAL-DEBT.md` for known shortcuts and deferred cleanup.
-- `docs/KNOWN-PROBLEMS.md` for risks, unknowns, and external dependencies.
-- `docs/NEXT-STEPS.md` for the next actionable queue.
-- `docs/THIRD-PARTY.md` for provenance and license tracking.
-
-Keep docs practical and agent-readable. Prefer concrete constraints, ownership, and next actions over aspirational prose.
-
-## Final Response Format
-
-Every final response to the project owner must be in Russian and include:
-
-1. A short summary in Russian of what was created or changed.
-2. An English commit message description, 1-2 sentences, ready to paste.
-3. A proposed next step in Russian.
-
 ## What Not To Do
 
 - Do not create fake implementation details.
@@ -165,17 +137,4 @@ Every final response to the project owner must be in Russian and include:
 - Do not use LLM-generated prose as the source of symbolic logic.
 - Do not make the app feel like a joke, meme, shallow horoscope app, or AI mysticism assistant.
 - Do not rely on generated images for exact charts, glyphs, small icons, text inside images, UI layout, or technical rendering.
-- Do not start another large planning pass before scaffold unless a hard blocker appears.
-
-## Preserving Continuity
-
-At the end of each meaningful session:
-
-1. Update `docs/SESSION-LOG.md`.
-2. Update `docs/NEXT-STEPS.md` if priorities changed.
-3. Add decisions to `docs/DECISIONS-LOG.md`.
-4. Add unresolved risks to `docs/KNOWN-PROBLEMS.md`.
-5. Add shortcuts to `docs/TECHNICAL-DEBT.md`.
-6. Update `docs/THIRD-PARTY.md` and `README.md` if external dependencies, assets, or borrowed material were introduced.
-
-If uncertain, choose a safe minimal direction, document the uncertainty, and continue.
+- Do not expand scope beyond the current verified task without explicit authorization.

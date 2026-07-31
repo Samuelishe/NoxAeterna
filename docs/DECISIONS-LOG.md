@@ -394,3 +394,27 @@ Decision: Keep `VISUAL-DESIGN-SYSTEM.md` authoritative for exact semantic values
 Reason: Palette decisions and framework implementation evolve at different rates and should not be duplicated across product mood prose, XAML integration notes, and status logs.
 
 Consequences: `UI-VISION.md` remains the high-level product direction, palette changes update the design-system owner and paired dictionaries, and Avalonia implementation changes update `THEMES.md` without redefining colors. Domain, Presentation, and chart Rendering remain free of shell color decisions.
+
+## 2026-07-31: Establish a Compact Operational Repository Entry Point
+
+Decision: Make root `AGENTS.md` the canonical operational entry point and keep `docs/AGENTS.md` as the extended product, domain-navigation, and attribution guide.
+
+Reason: Automatically discovered session rules must be short and unambiguous, while product identity and detailed navigation need a stable home without competing Git or status policy.
+
+Consequences: Every session starts with the read-only baseline and `PROJECT-STATE.md`; Git/privacy/verification rules belong at the root, and product guidance links back to that owner.
+
+## 2026-07-31: Separate Current State, Ownership, and History
+
+Decision: Give current handoff to `PROJECT-STATE.md`, documentation ownership to `DOCUMENTATION-GOVERNANCE.md`, recent chronology to a bounded `SESSION-LOG.md`, and completed chronology to indexed archive chunks.
+
+Reason: Current truth, durable policy, and historical evidence have different reading and update costs and must not compete as interchangeable sources.
+
+Consequences: Owners link rather than duplicate status, archived evidence is retained intact, ranges are machine-checked for overlap, and the active log remains current-wave context.
+
+## 2026-07-31: Keep Documentation Budgets Machine-Readable and Checks Read-Only
+
+Decision: Store exact documentation budgets and overflow strategies only in `eng/document-budgets.json`, and validate them plus repository state through read-only PowerShell scripts that never auto-fix.
+
+Reason: Exact thresholds need one deterministic owner, while observability tooling must not rewrite history, raise limits, alter Git, or turn a dirty worktree into an error condition.
+
+Consequences: Soft overflow warns, hard overflow and broken contracts fail, archive rollover remains an explicit human-owned operation, and both scripts expose stable console and JSON reports suitable for focused tests and later CI.

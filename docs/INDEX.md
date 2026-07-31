@@ -4,7 +4,10 @@ Use this file to decide what to read next without opening every document.
 
 | File | Contains | Read When |
 | --- | --- | --- |
-| `AGENTS.md` | Operational guide for Codex and future agents: project identity, rules, boundaries, attribution requirements, update process, final response format. | Starting any autonomous session. |
+| [`../AGENTS.md`](../AGENTS.md) | Canonical operational entry point: baseline, Git/privacy safety, task routing, verification, and final response. | Starting every repository session. |
+| [`PROJECT-STATE.md`](PROJECT-STATE.md) | Compact current checkpoint, focus, preserved contracts, and active blockers. | Starting every nontrivial task. |
+| [`DOCUMENTATION-GOVERNANCE.md`](DOCUMENTATION-GOVERNANCE.md) | Canonical document ownership, reading routes, update triggers, archive, and compactness policy. | Documentation or repository-tooling work. |
+| [`AGENTS.md`](AGENTS.md) | Extended product and agent guide: identity, tone, domain navigation, attribution, and project non-goals. | Product/domain orientation or attribution review. |
 | `DEVELOPMENT-PHILOSOPHY.md` | Decision style for the repository: clarity, atmosphere, determinism, desktop-first UX, maintainability. | Choosing between competing implementation or design approaches. |
 | `GLOSSARY.md` | Canonical project terminology. | When naming concepts or resolving ambiguity between domain, rendering, and symbolic terms. |
 | `ARCHITECTURAL-BOUNDARIES.md` | Brutally explicit non-negotiable layer rules. | Before adding dependencies, services, render contracts, or persistence integrations. |
@@ -29,4 +32,6 @@ Use this file to decide what to read next without opening every document.
 | `TECHNICAL-DEBT.md` | Known shortcuts, deferred cleanup, unresolved design debt. | Planning cleanup or evaluating risk. |
 | `KNOWN-PROBLEMS.md` | Open risks and unknowns. | Before choosing dependencies or implementing risky areas. |
 | `THIRD-PARTY.md` | License, authorship, and provenance tracking for dependencies, assets, fonts, datasets, and borrowed material. | When adding or reviewing any external material. |
-| `NEXT-STEPS.md` | Immediate implementation-start queue after architecture lock. | Choosing what to do next. |
+| `NEXT-STEPS.md` | Immediate forward queue. | Choosing what to do next. |
+| [`archive/README.md`](archive/README.md) | Index of retained historical documentation chunks and their exact ranges. | Explicit historical provenance only. |
+| [`../eng/README.md`](../eng/README.md) | Implemented read-only repository baseline and documentation-check commands. | Running repository checks. |

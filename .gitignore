@@ -5,6 +5,11 @@
 /artifacts/
 /publish/
 /TestResults/
+.codex-cache/
+project-stats.md
+project-stats.json
+artifacts/ui-smoke/
+TestResults/RepoRoutes/
 
 # User-specific files
 *.user

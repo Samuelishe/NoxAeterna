@@ -1,0 +1,82 @@
+# Repository Agent Guide
+
+| Metadata | Definition |
+| --- | --- |
+| Role | Compact operational entry point for Codex and other repository agents. |
+| Read when | At the beginning of every repository session. |
+| Authoritative for | Baseline sequence, Git and privacy safety, task routing, architecture entry rules, verification routing, documentation updates, and the final response format. |
+| Not authoritative for | Current project status, roadmap, implementation chronology, exact test filters, visual palette values, or astronomy algorithms. |
+
+## Baseline
+
+1. Run `pwsh eng/repo-baseline.ps1` before changing files.
+2. Treat the result as an observability snapshot, not as a clean-worktree requirement.
+3. If changes already exist, inspect and preserve them; do not overwrite user work.
+4. Read `docs/PROJECT-STATE.md`, then read only the owners required by the task.
+
+Do not use destructive Git operations, including `git reset`, `git clean`, or `git checkout --`. Commit, push, pull, fetch, merge, and rebase are allowed only when the user explicitly requests them. Never discard unrelated changes to make verification easier.
+
+## Privacy and Repository Ownership
+
+- Settings, profiles, saved charts, history, caches, and recent places belong in AppData or the platform user-data location.
+- Shipped application assets belong in the repository and must remain reviewable and attributed.
+- Manual-smoke screenshots are temporary evidence and must not be committed.
+- Do not read or publish private local user data without explicit permission.
+- Do not add absolute machine paths, local logs, IDE state, or machine-specific artifacts.
+- Runtime state must never be stored in the repository or beside the executable.
+
+## Documentation Routing
+
+Read this file and `docs/PROJECT-STATE.md` first, then use the smallest applicable route:
+
+| Task | Required documents |
+| --- | --- |
+| Domain | `docs/DOMAIN-MODEL.md` + `docs/ARCHITECTURAL-BOUNDARIES.md` |
+| Astronomy or time | `docs/ASTRONOMY-ENGINE.md` + `docs/ARCHITECTURAL-BOUNDARIES.md` |
+| Geometry | `docs/GEOMETRY-ENGINE.md` |
+| Rendering or chart | `docs/RENDERING-ENGINE.md` + `docs/VISUAL-DESIGN-SYSTEM.md` |
+| Avalonia, UI, or theme | `docs/UI-VISION.md` + `docs/VISUAL-DESIGN-SYSTEM.md` + `docs/THEMES.md` |
+| Persistence | `docs/PERSISTENCE.md` + `docs/ARCHITECTURAL-BOUNDARIES.md` |
+| Documentation or tooling | `docs/DOCUMENTATION-GOVERNANCE.md` |
+| Tests | Until T1-B creates `docs/TEST-EXECUTION.md`, use the explicit prompt route or the full solution suite. |
+
+`docs/AGENTS.md` contains extended product identity, tone, domain navigation, and attribution guidance. `docs/INDEX.md` is the broader navigation map.
+
+## Architecture Entry Rules
+
+- Domain does not depend on App or Infrastructure and remains UI- and persistence-independent.
+- Astronomy and Geometry do not depend on Avalonia.
+- Rendering consumes prepared geometry/render contracts; it does not calculate astronomy.
+- SwissEphNet remains isolated in Infrastructure behind project-owned interfaces.
+- Presentation coordinates view state but does not own astronomy or chart math.
+- Runtime and user state do not belong in the repository.
+
+The complete rules belong to `docs/ARCHITECTURAL-BOUNDARIES.md`; do not duplicate or weaken them here.
+
+## Verification
+
+- Start with checks proportional to the changed owner, then run the full requested route.
+- For meaningful UI or rendering changes, run the real application and interact with real controls.
+- Relevant visual smoke covers dark/light, RU/EN, resize, and affected default/hover/focus/selected/disabled/error states.
+- Calling coordinator methods or rendering isolated internals does not replace real-control smoke.
+- Store temporary screenshots under an ignored scoped output or the system temporary directory; never track them.
+- Baseline and documentation scripts are read-only. They do not replace build, tests, or application smoke.
+
+## Documentation Updates
+
+- Update only documents whose owned contract changed.
+- Current status belongs only to `docs/PROJECT-STATE.md`.
+- Recent chronology belongs to `docs/SESSION-LOG.md`; older evidence belongs under `docs/archive/`.
+- Durable decisions belong to `docs/DECISIONS-LOG.md`.
+- Exact document budgets and overflow strategies belong only to `eng/document-budgets.json`.
+- Prefer links to copied policy. Never publish the same status or rule as competing truth in several files.
+- Follow `docs/DOCUMENTATION-GOVERNANCE.md` for ownership, conflict resolution, archive, and compactness rules.
+
+## Final Response
+
+Respond to the project owner in Russian with:
+
+1. A short summary of the completed work and verification.
+2. An English commit description of one or two sentences.
+3. The proposed next step in Russian.
+

@@ -2,23 +2,18 @@
 
 Nox Aeterna should follow clean architecture principles without enterprise overengineering. The goal is clear boundaries, testable components, and a stable core that can support astronomy, symbolic systems, rendering, persistence, and UI without coupling them together.
 
-## Repository State
+## Architectural Baseline
 
-The repository is already past the initial scaffold stage.
+The current checkpoint belongs to [`PROJECT-STATE.md`](PROJECT-STATE.md). The stable implemented shape relevant to architecture includes:
 
-Current implemented foundation includes:
-
-- .NET 10 solution and project graph.
+- The .NET 10 solution and project graph.
 - Core domain primitives for longitudes, signs, aspects, birth-time modeling, positions, and natal-chart snapshots.
-- Astronomy contracts without Swiss Ephemeris binding.
+- Astronomy contracts with Swiss Ephemeris isolated behind the Infrastructure adapter.
 - Render-independent circular chart geometry.
-- Minimal rendering contracts and a technical chart renderer.
-- Thin presentation shell, JSON-backed UI localization, in-memory settings, and first dark/light theme switching.
-- First astrology workspace foundation hosted through the shell, now able to rebuild the visible chart from validated birth input through a real ephemeris-backed calculation flow.
-- Refined birth-data input with typed date/time controls, TZDB timezone selection, and offline manual coordinates.
-- Input-driven chart rebuilding through `IBirthMomentResolver`, a SwissEphNet-backed ephemeris adapter with current Moshier fallback behavior, and the existing geometry-to-rendering boundary.
-
-Large-scale planning passes should remain closed. The next work should stay implementation-led and boundary-aware.
+- Scene-based rendering and an Avalonia application/presentation boundary.
+- JSON-backed UI localization and ThemeId-driven application themes.
+- An astrology workspace that rebuilds prepared chart scenes from validated birth input.
+- Typed date/time controls, TZDB timezone selection, and offline manual coordinates.
 
 ## Expected Solution Structure
 

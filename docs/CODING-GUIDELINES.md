@@ -64,7 +64,8 @@ Prefer clarity over abstraction when a boundary is not yet proven.
 
 ## Documentation
 
-When behavior changes, update relevant docs in the same session. Record major decisions in `DECISIONS-LOG.md`.
+When behavior changes, update the canonical owner in the same session. Follow
+[`DOCUMENTATION-GOVERNANCE.md`](DOCUMENTATION-GOVERNANCE.md) instead of duplicating status or policy, and record durable decisions in `DECISIONS-LOG.md`.
 
 ## User-Facing Text Rule
 
