@@ -5,16 +5,20 @@ using NoxAeterna.Geometry.Charts;
 namespace NoxAeterna.Rendering.Charts;
 
 /// <summary>
-/// Builds deterministic viewport-specific bounds for complete planet annotation visuals.
+/// Builds deterministic viewport-specific source, glyph, and label visuals for planet annotations.
 /// </summary>
 public static class ChartPlanetAnnotationLayoutBuilder
 {
+    /// <summary>
+    /// Gets the largest longitude adjustment allowed for a glyph annotation.
+    /// </summary>
+    public const double MaximumGlyphAngularAdjustmentDegrees = 8d;
+
+    private const double AngularAdjustmentStepDegrees = 1d;
     private const double DisplacementThreshold = 0.01d;
-    private const double MaximumAngularAdjustmentDegrees = 14d;
-    private const double AngularAdjustmentStepDegrees = 2d;
 
     /// <summary>
-    /// Builds the final glyph, label, protected-envelope, and connector geometry.
+    /// Builds exact source markers, bounded glyph placements, and independent label placements.
     /// </summary>
     public static IReadOnlyList<ChartPlanetAnnotationLayout> Build(
         ChartRenderScene scene,
@@ -25,26 +29,26 @@ public static class ChartPlanetAnnotationLayoutBuilder
         ArgumentNullException.ThrowIfNull(measureText);
 
         var slotsByBody = scene.PlanetGlyphSlots.ToDictionary(static slot => slot.Body);
-        var accepted = new List<ChartPlanetAnnotationLayout>(scene.PlanetAnnotations.Count);
+        var glyphs = new List<GlyphLayout>(scene.PlanetAnnotations.Count);
 
         foreach (var annotation in scene.PlanetAnnotations.OrderBy(static item => item.Body))
         {
             var slot = slotsByBody[annotation.Body];
-            var labelText = GetLabelText(annotation);
-            var labelSize = measureText(labelText, viewport.VisualMetrics.PlanetAnnotationFontSize);
-            ValidateTextSize(labelSize);
-
-            var selected = FindPlacement(
-                annotation,
-                slot,
-                labelSize,
-                viewport,
-                scene.Layout.RadialLanes,
-                accepted);
-            accepted.Add(selected);
+            glyphs.Add(FindGlyphLayout(annotation, slot, scene, viewport, glyphs));
         }
 
-        return accepted.AsReadOnly();
+        var labels = new List<LabelLayout>(glyphs.Count);
+        foreach (var glyph in glyphs)
+        {
+            var labelText = GetLabelText(glyph.Annotation);
+            var labelSize = measureText(labelText, viewport.VisualMetrics.PlanetAnnotationFontSize);
+            ValidateTextSize(labelSize);
+            labels.Add(FindLabelLayout(glyph, labelSize, viewport, scene.Layout.RadialLanes, glyphs, labels));
+        }
+
+        return glyphs
+            .Zip(labels, (glyph, label) => CreateLayout(glyph, label, viewport, scene.Layout.RadialLanes))
+            .ToArray();
     }
 
     /// <summary>
@@ -58,178 +62,343 @@ public static class ChartPlanetAnnotationLayoutBuilder
             : annotation.DegreeText;
     }
 
-    private static ChartPlanetAnnotationLayout FindPlacement(
+    private static GlyphLayout FindGlyphLayout(
         ChartPlanetAnnotationPlacement annotation,
         PlanetGlyphSlot slot,
-        Size labelSize,
+        ChartRenderScene scene,
         ChartViewport viewport,
-        ChartRadialLanes lanes,
-        IReadOnlyCollection<ChartPlanetAnnotationLayout> accepted)
+        IReadOnlyCollection<GlyphLayout> accepted)
     {
-        foreach (var candidate in EnumerateCandidates(slot, lanes))
+        var candidates = EnumerateGlyphCandidates(slot, scene.Layout)
+            .Select((candidate, index) => CreateGlyphCandidate(
+                annotation,
+                slot,
+                candidate,
+                index,
+                viewport,
+                scene.Layout.RadialLanes))
+            .ToArray();
+
+        foreach (var candidate in candidates)
         {
-            var layout = CreateLayout(annotation, slot, candidate, labelSize, viewport, lanes);
-            if (Contains(viewport.SafeDrawingBounds, layout.ProtectedBounds) &&
-                IsInsidePlanetAnnotationCircle(layout, viewport, lanes) &&
-                accepted.All(existing => !Overlaps(existing.ProtectedBounds, layout.ProtectedBounds)))
+            if (candidate.IsSafe && accepted.All(existing => !Overlaps(existing.CollisionBounds, candidate.CollisionBounds)))
             {
-                return layout;
+                return candidate.ToLayout(isCrowded: false, overlapArea: 0d);
             }
         }
 
-        var fallback = CreateLayout(
-            annotation,
-            slot,
-            slot.AnchorPoint,
-            labelSize,
-            viewport,
-            lanes);
-        return TranslateInside(fallback, viewport.SafeDrawingBounds);
+        var fallback = candidates
+            .Select(candidate => new
+            {
+                Candidate = candidate,
+                OverlapArea = accepted.Sum(existing => IntersectionArea(existing.CollisionBounds, candidate.CollisionBounds))
+            })
+            .OrderByDescending(static item => item.Candidate.IsSafe)
+            .ThenBy(static item => item.Candidate.AngularDisplacement)
+            .ThenBy(static item => item.OverlapArea)
+            .ThenBy(static item => item.Candidate.RadialRank)
+            .ThenBy(static item => item.Candidate.Sequence)
+            .First();
+
+        return fallback.Candidate.ToLayout(
+            isCrowded: fallback.OverlapArea > 0.5d || !fallback.Candidate.IsSafe,
+            overlapArea: fallback.OverlapArea);
     }
 
-    private static IEnumerable<RadialPoint> EnumerateCandidates(
+    private static IEnumerable<GlyphCandidateDefinition> EnumerateGlyphCandidates(
         PlanetGlyphSlot slot,
-        ChartRadialLanes lanes)
+        CircularChartLayout layout)
     {
-        var radii = new[] { slot.AnchorPoint.RadiusRatio }
-            .Concat(lanes.PlanetSubLaneRadiusRatios.Where(radius =>
-                Math.Abs(radius - slot.AnchorPoint.RadiusRatio) > 1e-9))
-            .ToArray();
+        var radii = BuildRadialCandidates(slot, layout.RadialLanes);
 
         foreach (var radius in radii)
         {
-            yield return new RadialPoint(slot.DisplayAngle, radius);
+            yield return CreateDefinition(slot, layout, slot.Longitude, radius.Radius, 0d, radius.Rank);
         }
 
         for (var adjustment = AngularAdjustmentStepDegrees;
-             adjustment <= MaximumAngularAdjustmentDegrees;
+             adjustment <= MaximumGlyphAngularAdjustmentDegrees;
              adjustment += AngularAdjustmentStepDegrees)
         {
             foreach (var direction in new[] { -1d, 1d })
             {
-                var angle = new AngularPosition(slot.DisplayAngle.Degrees + (adjustment * direction));
+                var longitude = new ZodiacLongitude(slot.Longitude.Degrees + (adjustment * direction));
+                if (longitude.Sign != slot.Longitude.Sign ||
+                    !RemainsInSourceHouse(longitude, slot, layout.HouseCusps))
+                {
+                    continue;
+                }
+
                 foreach (var radius in radii)
                 {
-                    yield return new RadialPoint(angle, radius);
+                    yield return CreateDefinition(
+                        slot,
+                        layout,
+                        longitude,
+                        radius.Radius,
+                        adjustment,
+                        radius.Rank);
                 }
             }
         }
     }
 
-    private static ChartPlanetAnnotationLayout CreateLayout(
+    private static GlyphCandidateDefinition CreateDefinition(
+        PlanetGlyphSlot slot,
+        CircularChartLayout layout,
+        ZodiacLongitude longitude,
+        double radius,
+        double angularDisplacement,
+        int radialRank) =>
+        new(
+            longitude,
+            new RadialPoint(layout.Orientation.Transform(longitude), radius),
+            angularDisplacement,
+            radialRank);
+
+    private static IReadOnlyList<(double Radius, int Rank)> BuildRadialCandidates(
+        PlanetGlyphSlot slot,
+        ChartRadialLanes lanes)
+    {
+        var ordered = new List<double> { slot.PreferredGlyphAnchor.RadiusRatio };
+        ordered.AddRange(lanes.PlanetSubLaneRadiusRatios);
+
+        var sorted = lanes.PlanetSubLaneRadiusRatios.OrderByDescending(static radius => radius).ToArray();
+        for (var index = 0; index < sorted.Length - 1; index++)
+        {
+            ordered.Add((sorted[index] + sorted[index + 1]) / 2d);
+        }
+
+        ordered.Add(lanes.PlanetGlyphLane.OuterRadiusRatio - 0.012d);
+        ordered.Add(lanes.PlanetGlyphLane.InnerRadiusRatio + 0.012d);
+
+        return ordered
+            .Where(lanes.PlanetGlyphLane.Contains)
+            .DistinctBy(static radius => Math.Round(radius, 9))
+            .Select((radius, index) => (radius, index))
+            .ToArray();
+    }
+
+    private static bool RemainsInSourceHouse(
+        ZodiacLongitude candidate,
+        PlanetGlyphSlot slot,
+        IReadOnlyList<HouseCuspGeometry> cusps)
+    {
+        if (slot.SourceHouseNumber is null)
+        {
+            return true;
+        }
+
+        return ChartHouseMembership.Find(candidate, cusps)?.Value == slot.SourceHouseNumber.Value;
+    }
+
+    private static GlyphCandidate CreateGlyphCandidate(
         ChartPlanetAnnotationPlacement annotation,
         PlanetGlyphSlot slot,
-        RadialPoint finalRadialPoint,
+        GlyphCandidateDefinition definition,
+        int sequence,
+        ChartViewport viewport,
+        ChartRadialLanes lanes)
+    {
+        var anchor = ToPoint(viewport, definition.RadialPoint);
+        var metrics = viewport.VisualMetrics;
+        var glyphScale = metrics.PlanetGlyphSize /
+                         Math.Max(annotation.Glyph.UnitBounds.Width, annotation.Glyph.UnitBounds.Height);
+        var glyphSize = new Size(
+            (annotation.Glyph.UnitBounds.Width * glyphScale) + metrics.GlyphStrokeThickness,
+            (annotation.Glyph.UnitBounds.Height * glyphScale) + metrics.GlyphStrokeThickness);
+        var bounds = CenteredRect(anchor, glyphSize);
+        var padding = AnnotationPadding(viewport);
+        var protectedBounds = Inflate(bounds, padding);
+        var collisionBounds = Inflate(bounds, 0.5d);
+        var maximumRadius =
+            (viewport.EffectiveRadius * lanes.ZodiacRing.InnerRadiusRatio) -
+            (viewport.VisualMetrics.StructuralStrokeThickness / 2d) - 1d;
+        var isSafe = Contains(viewport.SafeDrawingBounds, protectedBounds) &&
+                     IsInsideCircle(protectedBounds, viewport, maximumRadius);
+
+        return new GlyphCandidate(
+            annotation,
+            slot,
+            definition.Longitude,
+            definition.RadialPoint,
+            anchor,
+            bounds,
+            protectedBounds,
+            collisionBounds,
+            definition.AngularDisplacement,
+            definition.RadialRank,
+            sequence,
+            isSafe);
+    }
+
+    private static LabelLayout FindLabelLayout(
+        GlyphLayout glyph,
+        Size labelSize,
+        ChartViewport viewport,
+        ChartRadialLanes lanes,
+        IReadOnlyList<GlyphLayout> glyphs,
+        IReadOnlyCollection<LabelLayout> accepted)
+    {
+        var candidates = EnumerateLabelAnchors(glyph, labelSize, viewport)
+            .Select((anchor, index) => CreateLabelCandidate(
+                glyph,
+                anchor,
+                index,
+                labelSize,
+                viewport,
+                lanes))
+            .ToArray();
+
+        foreach (var candidate in candidates)
+        {
+            if (candidate.IsSafe && !candidate.IntersectsSourceLeader &&
+                glyphs.All(other => other.Annotation.Body == glyph.Annotation.Body ||
+                                    !Overlaps(other.ProtectedBounds, candidate.ProtectedBounds)) &&
+                !Overlaps(glyph.ProtectedBounds, candidate.ProtectedBounds) &&
+                accepted.All(existing => !Overlaps(existing.ProtectedBounds, candidate.ProtectedBounds)))
+            {
+                return candidate.ToLayout();
+            }
+        }
+
+        return candidates
+            .Select(candidate => new
+            {
+                Candidate = candidate,
+                Overlap = glyphs.Sum(other => IntersectionArea(other.ProtectedBounds, candidate.ProtectedBounds)) +
+                          accepted.Sum(other => IntersectionArea(other.ProtectedBounds, candidate.ProtectedBounds))
+            })
+            .OrderByDescending(static item => item.Candidate.IsSafe)
+            .ThenBy(static item => item.Candidate.IntersectsSourceLeader)
+            .ThenBy(static item => item.Overlap)
+            .ThenBy(static item => item.Candidate.Sequence)
+            .First()
+            .Candidate
+            .ToLayout();
+    }
+
+    private static IEnumerable<Point> EnumerateLabelAnchors(
+        GlyphLayout glyph,
+        Size labelSize,
+        ChartViewport viewport)
+    {
+        var gap = Math.Clamp(viewport.EffectiveRadius * 0.010d, 3d, 5d);
+        var vertical = (glyph.Bounds.Height / 2d) + (labelSize.Height / 2d) + gap;
+        var horizontal = (glyph.Bounds.Width / 2d) + (labelSize.Width / 2d) + gap;
+        var radial = UnitVector(viewport.Center, glyph.Anchor);
+        var tangent = new Vector(-radial.Y, radial.X);
+        var radialDistance = Math.Max(vertical, horizontal * 0.72d);
+        var tangentDistance = Math.Max(horizontal, vertical * 0.72d);
+
+        yield return glyph.Anchor + new Vector(0d, vertical);
+        yield return glyph.Anchor + new Vector(0d, -vertical);
+        yield return glyph.Anchor - (radial * radialDistance);
+        yield return glyph.Anchor + (radial * radialDistance);
+        yield return glyph.Anchor + (tangent * tangentDistance);
+        yield return glyph.Anchor - (tangent * tangentDistance);
+        yield return glyph.Anchor - (radial * radialDistance) + (tangent * (tangentDistance * 0.55d));
+        yield return glyph.Anchor - (radial * radialDistance) - (tangent * (tangentDistance * 0.55d));
+        yield return glyph.Anchor + (radial * radialDistance) + (tangent * (tangentDistance * 0.55d));
+        yield return glyph.Anchor + (radial * radialDistance) - (tangent * (tangentDistance * 0.55d));
+    }
+
+    private static LabelCandidate CreateLabelCandidate(
+        GlyphLayout glyph,
+        Point anchor,
+        int sequence,
         Size labelSize,
         ChartViewport viewport,
         ChartRadialLanes lanes)
     {
-        var anchor = ToPoint(viewport, finalRadialPoint);
-        var metrics = viewport.VisualMetrics;
-        var glyphScale = metrics.PlanetGlyphSize /
-                         Math.Max(annotation.Glyph.UnitBounds.Width, annotation.Glyph.UnitBounds.Height);
-        var glyphWidth = (annotation.Glyph.UnitBounds.Width * glyphScale) + metrics.GlyphStrokeThickness;
-        var glyphHeight = (annotation.Glyph.UnitBounds.Height * glyphScale) + metrics.GlyphStrokeThickness;
-        var glyphBounds = CenteredRect(anchor, new Size(glyphWidth, glyphHeight));
-        var labelAnchor = new Point(
-            anchor.X,
-            anchor.Y +
-            (metrics.PlanetGlyphSize / 2d) +
-            (metrics.PlanetAnnotationFontSize * 0.72d));
-        var labelBounds = CenteredRect(labelAnchor, labelSize);
-        var visualBounds = Union(glyphBounds, labelBounds);
-        var padding = Math.Clamp(viewport.EffectiveRadius * 0.008d, 2d, 3.5d);
-        var glyphProtectedBounds = Inflate(glyphBounds, padding);
-        var labelProtectedBounds = Inflate(labelBounds, padding);
-        var protectedBounds = Union(glyphProtectedBounds, labelProtectedBounds);
-        var tickInnerRadius = lanes.PlanetGlyphLane.OuterRadiusRatio + 0.012d;
-        var tickOuterRadius = Math.Min(
-            lanes.ZodiacRing.InnerRadiusRatio - 0.012d,
-            tickInnerRadius + 0.018d);
-        var rawConnectorStart = ToPoint(
-            viewport,
-            new RadialPoint(slot.SourceAngle, tickOuterRadius));
-        var renderAdjustment = Distance(anchor, ToPoint(viewport, slot.AnchorPoint)) > 0.25d;
-        var hasDisplacement = annotation.HasDisplacement || renderAdjustment;
-        var connector = hasDisplacement
-            ? CreateConnector(rawConnectorStart, protectedBounds, padding + 2d)
-            : (Start: rawConnectorStart, Endpoint: (Point?)null);
+        var bounds = CenteredRect(anchor, labelSize);
+        var protectedBounds = Inflate(bounds, AnnotationPadding(viewport));
+        var maximumRadius =
+            (viewport.EffectiveRadius * lanes.ZodiacRing.InnerRadiusRatio) -
+            (viewport.VisualMetrics.StructuralStrokeThickness / 2d) - 1d;
+        var isSafe = Contains(viewport.SafeDrawingBounds, protectedBounds) &&
+                     IsInsideCircle(protectedBounds, viewport, maximumRadius);
+        var sourceRadius = Math.Min(
+            lanes.ZodiacRing.InnerRadiusRatio - 0.014d,
+            lanes.PlanetGlyphLane.OuterRadiusRatio + 0.040d);
+        var sourceAnchor = ToPoint(viewport, new RadialPoint(glyph.Slot.SourceAngle, sourceRadius));
+        var leaderStart = MoveTowards(
+            sourceAnchor,
+            glyph.Anchor,
+            viewport.VisualMetrics.PlanetSourceMarkerRadius + 1d);
+        var leaderEndpoint = IntersectRayWithBounds(sourceAnchor, glyph.Bounds);
+        var intersectsSourceLeader = SegmentIntersectsBounds(
+            leaderStart,
+            leaderEndpoint,
+            protectedBounds);
+        return new LabelCandidate(
+            anchor,
+            bounds,
+            protectedBounds,
+            sequence,
+            isSafe,
+            intersectsSourceLeader);
+    }
+
+    private static ChartPlanetAnnotationLayout CreateLayout(
+        GlyphLayout glyph,
+        LabelLayout label,
+        ChartViewport viewport,
+        ChartRadialLanes lanes)
+    {
+        var sourceRadius = Math.Min(
+            lanes.ZodiacRing.InnerRadiusRatio - 0.014d,
+            lanes.PlanetGlyphLane.OuterRadiusRatio + 0.040d);
+        var sourceRadialPoint = new RadialPoint(glyph.Slot.SourceAngle, sourceRadius);
+        var sourceAnchor = ToPoint(viewport, sourceRadialPoint);
+        var markerRadius = viewport.VisualMetrics.PlanetSourceMarkerRadius;
+        var sourceMarkerBounds = CenteredRect(sourceAnchor, new Size(markerRadius * 2d, markerRadius * 2d));
+        var sourceLeaderStart = MoveTowards(sourceAnchor, glyph.Anchor, markerRadius + 1d);
+        var sourceLeaderEndpoint = IntersectRayWithBounds(sourceAnchor, glyph.Bounds);
+        var labelGap = DistanceBetween(glyph.Bounds, label.Bounds);
+        var hasLabelDisplacement = label.Sequence > 0;
+        var labelLeaderThreshold = Math.Clamp(viewport.EffectiveRadius * 0.010d, 3d, 5d);
+        var labelOffset = label.Anchor - glyph.Anchor;
+        var hasLabelLeader = hasLabelDisplacement &&
+                             labelGap >= labelLeaderThreshold - 1e-6 &&
+                             Math.Abs(labelOffset.Y) >= Math.Abs(labelOffset.X) * 0.5d;
+        var labelLeaderStart = hasLabelLeader
+            ? IntersectRayWithBounds(label.Anchor, glyph.Bounds)
+            : (Point?)null;
+        var labelLeaderEndpoint = hasLabelLeader
+            ? IntersectRayWithBounds(glyph.Anchor, label.Bounds)
+            : (Point?)null;
+        var visualBounds = Union(Union(sourceMarkerBounds, glyph.Bounds), label.Bounds);
+        var protectedBounds = Union(Union(Inflate(sourceMarkerBounds, 1d), glyph.ProtectedBounds), label.ProtectedBounds);
+        var hasGlyphDisplacement =
+            CircularDelta(glyph.Slot.SourceAngle.Degrees, glyph.RadialPoint.Angle.Degrees) > DisplacementThreshold ||
+            Math.Abs(glyph.Slot.PreferredGlyphAnchor.RadiusRatio - glyph.RadialPoint.RadiusRatio) > 1e-9;
 
         return new ChartPlanetAnnotationLayout(
-            annotation,
-            anchor,
-            glyphBounds,
-            labelBounds,
-            glyphProtectedBounds,
-            labelProtectedBounds,
+            glyph.Annotation,
+            sourceRadialPoint,
+            sourceAnchor,
+            sourceMarkerBounds,
+            glyph.Longitude,
+            glyph.RadialPoint,
+            glyph.Anchor,
+            glyph.Bounds,
+            glyph.ProtectedBounds,
+            label.Anchor,
+            label.Bounds,
+            label.ProtectedBounds,
             visualBounds,
             protectedBounds,
-            connector.Start,
-            connector.Endpoint,
-            hasDisplacement);
-    }
-
-    private static ChartPlanetAnnotationLayout TranslateInside(
-        ChartPlanetAnnotationLayout layout,
-        Rect safeBounds)
-    {
-        var offsetX = layout.ProtectedBounds.Left < safeBounds.Left
-            ? safeBounds.Left - layout.ProtectedBounds.Left
-            : layout.ProtectedBounds.Right > safeBounds.Right
-                ? safeBounds.Right - layout.ProtectedBounds.Right
-                : 0d;
-        var offsetY = layout.ProtectedBounds.Top < safeBounds.Top
-            ? safeBounds.Top - layout.ProtectedBounds.Top
-            : layout.ProtectedBounds.Bottom > safeBounds.Bottom
-                ? safeBounds.Bottom - layout.ProtectedBounds.Bottom
-                : 0d;
-
-        if (Math.Abs(offsetX) <= 1e-9 && Math.Abs(offsetY) <= 1e-9)
-        {
-            return layout;
-        }
-
-        var offset = new Vector(offsetX, offsetY);
-        var protectedBounds = Translate(layout.ProtectedBounds, offset);
-        var connector = CreateConnector(layout.ConnectorStart, protectedBounds, 5d);
-
-        return layout with
-        {
-            FinalAnchor = layout.FinalAnchor + offset,
-            GlyphBounds = Translate(layout.GlyphBounds, offset),
-            LabelBounds = Translate(layout.LabelBounds, offset),
-            GlyphProtectedBounds = Translate(layout.GlyphProtectedBounds, offset),
-            LabelProtectedBounds = Translate(layout.LabelProtectedBounds, offset),
-            VisualBounds = Translate(layout.VisualBounds, offset),
-            ProtectedBounds = protectedBounds,
-            ConnectorStart = connector.Start,
-            ConnectorEndpoint = connector.Endpoint,
-            HasDisplacement = true
-        };
-    }
-
-    private static (Point Start, Point? Endpoint) CreateConnector(
-        Point source,
-        Rect protectedBounds,
-        double outsideOffset)
-    {
-        var endpoint = IntersectRayWithBounds(source, protectedBounds);
-        if (!ContainsInclusive(protectedBounds, source))
-        {
-            return (source, endpoint);
-        }
-
-        var direction = endpoint - protectedBounds.Center;
-        var length = Math.Sqrt((direction.X * direction.X) + (direction.Y * direction.Y));
-        if (length <= 1e-9)
-        {
-            return (source, endpoint);
-        }
-
-        var start = endpoint + new Vector(
-            direction.X * outsideOffset / length,
-            direction.Y * outsideOffset / length);
-        return (start, endpoint);
+            sourceLeaderStart,
+            sourceLeaderEndpoint,
+            labelLeaderStart,
+            labelLeaderEndpoint,
+            hasGlyphDisplacement,
+            hasLabelDisplacement,
+            glyph.IsCrowded,
+            glyph.OverlapArea,
+            glyph.Slot.Longitude.Sign,
+            glyph.Slot.SourceHouseNumber);
     }
 
     private static Point IntersectRayWithBounds(Point source, Rect bounds)
@@ -237,28 +406,38 @@ public static class ChartPlanetAnnotationLayoutBuilder
         var center = bounds.Center;
         var deltaX = source.X - center.X;
         var deltaY = source.Y - center.Y;
-        var halfWidth = bounds.Width / 2d;
-        var halfHeight = bounds.Height / 2d;
-        var scaleX = Math.Abs(deltaX) > 1e-9 ? halfWidth / Math.Abs(deltaX) : double.PositiveInfinity;
-        var scaleY = Math.Abs(deltaY) > 1e-9 ? halfHeight / Math.Abs(deltaY) : double.PositiveInfinity;
+        var scaleX = Math.Abs(deltaX) > 1e-9 ? (bounds.Width / 2d) / Math.Abs(deltaX) : double.PositiveInfinity;
+        var scaleY = Math.Abs(deltaY) > 1e-9 ? (bounds.Height / 2d) / Math.Abs(deltaY) : double.PositiveInfinity;
         var scale = Math.Min(scaleX, scaleY);
-
-        if (!double.IsFinite(scale))
-        {
-            return new Point(center.X, bounds.Top);
-        }
-
-        return new Point(
-            center.X + (deltaX * scale),
-            center.Y + (deltaY * scale));
+        return double.IsFinite(scale)
+            ? new Point(center.X + (deltaX * scale), center.Y + (deltaY * scale))
+            : new Point(center.X, bounds.Top);
     }
 
+    private static Point MoveTowards(Point source, Point target, double distance)
+    {
+        var direction = target - source;
+        var length = Math.Sqrt((direction.X * direction.X) + (direction.Y * direction.Y));
+        return length <= 1e-9
+            ? source
+            : source + new Vector(direction.X * distance / length, direction.Y * distance / length);
+    }
+
+    private static Vector UnitVector(Point source, Point target)
+    {
+        var direction = target - source;
+        var length = Math.Sqrt((direction.X * direction.X) + (direction.Y * direction.Y));
+        return length <= 1e-9 ? new Vector(0d, -1d) : direction / length;
+    }
+
+    private static double AnnotationPadding(ChartViewport viewport) =>
+        Math.Clamp(viewport.EffectiveRadius * 0.006d, 1.5d, 2.75d);
+
     private static Rect CenteredRect(Point center, Size size) =>
-        new(
-            center.X - (size.Width / 2d),
-            center.Y - (size.Height / 2d),
-            size.Width,
-            size.Height);
+        new(center.X - (size.Width / 2d), center.Y - (size.Height / 2d), size.Width, size.Height);
+
+    private static Rect Inflate(Rect bounds, double padding) =>
+        new(bounds.X - padding, bounds.Y - padding, bounds.Width + (padding * 2d), bounds.Height + (padding * 2d));
 
     private static Rect Union(Rect first, Rect second)
     {
@@ -269,64 +448,55 @@ public static class ChartPlanetAnnotationLayoutBuilder
         return new Rect(left, top, right - left, bottom - top);
     }
 
-    private static Rect Inflate(Rect bounds, double padding) =>
-        new(
-            bounds.X - padding,
-            bounds.Y - padding,
-            bounds.Width + (padding * 2d),
-            bounds.Height + (padding * 2d));
-
-    private static Rect Translate(Rect bounds, Vector offset) =>
-        new(bounds.X + offset.X, bounds.Y + offset.Y, bounds.Width, bounds.Height);
-
     private static bool Contains(Rect outer, Rect inner) =>
-        inner.Left >= outer.Left - 1e-9 &&
-        inner.Top >= outer.Top - 1e-9 &&
-        inner.Right <= outer.Right + 1e-9 &&
-        inner.Bottom <= outer.Bottom + 1e-9;
+        inner.Left >= outer.Left - 1e-9 && inner.Top >= outer.Top - 1e-9 &&
+        inner.Right <= outer.Right + 1e-9 && inner.Bottom <= outer.Bottom + 1e-9;
 
-    private static bool ContainsInclusive(Rect bounds, Point point) =>
-        point.X >= bounds.Left &&
-        point.X <= bounds.Right &&
-        point.Y >= bounds.Top &&
-        point.Y <= bounds.Bottom;
-
-    private static bool IsInsidePlanetAnnotationCircle(
-        ChartPlanetAnnotationLayout layout,
-        ChartViewport viewport,
-        ChartRadialLanes lanes)
+    private static bool IsInsideCircle(Rect bounds, ChartViewport viewport, double maximumRadius)
     {
-        var maximumRadius =
-            (viewport.EffectiveRadius * lanes.ZodiacRing.InnerRadiusRatio) -
-            (viewport.VisualMetrics.StructuralStrokeThickness / 2d) -
-            1d;
         var maximumRadiusSquared = maximumRadius * maximumRadius;
-
-        return GetCorners(layout.LabelProtectedBounds).All(point =>
-        {
-            var deltaX = point.X - viewport.Center.X;
-            var deltaY = point.Y - viewport.Center.Y;
-            return ((deltaX * deltaX) + (deltaY * deltaY)) <= maximumRadiusSquared + 1e-8;
-        });
+        return new[] { bounds.TopLeft, bounds.TopRight, bounds.BottomRight, bounds.BottomLeft }
+            .All(point =>
+            {
+                var deltaX = point.X - viewport.Center.X;
+                var deltaY = point.Y - viewport.Center.Y;
+                return ((deltaX * deltaX) + (deltaY * deltaY)) <= maximumRadiusSquared + 1e-8;
+            });
     }
 
-    private static IEnumerable<Point> GetCorners(Rect bounds)
+    private static bool Overlaps(Rect first, Rect second) => IntersectionArea(first, second) > 0.5d;
+
+    private static double IntersectionArea(Rect first, Rect second) =>
+        Math.Max(0d, Math.Min(first.Right, second.Right) - Math.Max(first.Left, second.Left)) *
+        Math.Max(0d, Math.Min(first.Bottom, second.Bottom) - Math.Max(first.Top, second.Top));
+
+    private static double DistanceBetween(Rect first, Rect second)
     {
-        yield return bounds.TopLeft;
-        yield return bounds.TopRight;
-        yield return bounds.BottomRight;
-        yield return bounds.BottomLeft;
+        var deltaX = Math.Max(0d, Math.Max(first.Left - second.Right, second.Left - first.Right));
+        var deltaY = Math.Max(0d, Math.Max(first.Top - second.Bottom, second.Top - first.Bottom));
+        return Math.Sqrt((deltaX * deltaX) + (deltaY * deltaY));
     }
 
-    private static bool Overlaps(Rect first, Rect second) =>
-        Math.Min(first.Right, second.Right) - Math.Max(first.Left, second.Left) > 0.5d &&
-        Math.Min(first.Bottom, second.Bottom) - Math.Max(first.Top, second.Top) > 0.5d;
+    private static bool SegmentIntersectsBounds(Point source, Point target, Rect bounds)
+    {
+        var originalLength = Distance(source, target);
+        var visibleLength = ChartLineOcclusion
+            .GetVisibleSegments(source, target, [bounds], 0d)
+            .Sum(segment => Distance(segment.Source, segment.Target));
+        return visibleLength < originalLength - 0.01d;
+    }
 
     private static double Distance(Point first, Point second)
     {
         var deltaX = first.X - second.X;
         var deltaY = first.Y - second.Y;
         return Math.Sqrt((deltaX * deltaX) + (deltaY * deltaY));
+    }
+
+    private static double CircularDelta(double first, double second)
+    {
+        var delta = Math.Abs(first - second);
+        return Math.Min(delta, 360d - delta);
     }
 
     private static Point ToPoint(ChartViewport viewport, RadialPoint radialPoint) =>
@@ -336,12 +506,58 @@ public static class ChartPlanetAnnotationLayoutBuilder
 
     private static void ValidateTextSize(Size size)
     {
-        if (!double.IsFinite(size.Width) ||
-            !double.IsFinite(size.Height) ||
-            size.Width < 0d ||
-            size.Height <= 0d)
+        if (!double.IsFinite(size.Width) || !double.IsFinite(size.Height) || size.Width < 0d || size.Height <= 0d)
         {
             throw new ArgumentException("Measured annotation text size must be finite and non-negative.");
         }
     }
+
+    private readonly record struct GlyphCandidateDefinition(
+        ZodiacLongitude Longitude,
+        RadialPoint RadialPoint,
+        double AngularDisplacement,
+        int RadialRank);
+
+    private sealed record GlyphCandidate(
+        ChartPlanetAnnotationPlacement Annotation,
+        PlanetGlyphSlot Slot,
+        ZodiacLongitude Longitude,
+        RadialPoint RadialPoint,
+        Point Anchor,
+        Rect Bounds,
+        Rect ProtectedBounds,
+        Rect CollisionBounds,
+        double AngularDisplacement,
+        int RadialRank,
+        int Sequence,
+        bool IsSafe)
+    {
+        public GlyphLayout ToLayout(bool isCrowded, double overlapArea) =>
+            new(Annotation, Slot, Longitude, RadialPoint, Anchor, Bounds, ProtectedBounds, CollisionBounds, isCrowded, overlapArea);
+    }
+
+    private sealed record GlyphLayout(
+        ChartPlanetAnnotationPlacement Annotation,
+        PlanetGlyphSlot Slot,
+        ZodiacLongitude Longitude,
+        RadialPoint RadialPoint,
+        Point Anchor,
+        Rect Bounds,
+        Rect ProtectedBounds,
+        Rect CollisionBounds,
+        bool IsCrowded,
+        double OverlapArea);
+
+    private sealed record LabelCandidate(
+        Point Anchor,
+        Rect Bounds,
+        Rect ProtectedBounds,
+        int Sequence,
+        bool IsSafe,
+        bool IntersectsSourceLeader)
+    {
+        public LabelLayout ToLayout() => new(Anchor, Bounds, ProtectedBounds, Sequence);
+    }
+
+    private sealed record LabelLayout(Point Anchor, Rect Bounds, Rect ProtectedBounds, int Sequence);
 }

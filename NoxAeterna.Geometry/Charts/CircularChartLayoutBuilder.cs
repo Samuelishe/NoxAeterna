@@ -8,8 +8,6 @@ namespace NoxAeterna.Geometry.Charts;
 public sealed class CircularChartLayoutBuilder
 {
     private const double ClusterThresholdDegrees = 16d;
-    private const double MinimumAdjacentDisplaySeparationDegrees = 18d;
-    private const double MaximumAngularNudgeDegrees = 55d;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CircularChartLayoutBuilder"/> class.
@@ -58,18 +56,19 @@ public sealed class CircularChartLayoutBuilder
             {
                 var sourceAngle = orientation.Transform(position.EclipticLongitude);
                 var placement = placementsByBody[position.Body];
-                var displayAngle = orientation.TransformDegrees(placement.DisplayLongitude);
                 var radiusRatio = RadialLanes.PlanetSubLaneRadiusRatios[placement.RadialLaneIndex];
                 return new PlanetGlyphSlot(
                     position.Body,
                     position.EclipticLongitude,
                     sourceAngle,
-                    displayAngle,
-                    new RadialPoint(displayAngle, radiusRatio),
+                    new RadialPoint(sourceAngle, radiusRatio),
                     position.IsRetrograde,
                     index,
                     placement.RadialLaneIndex,
-                    placement.ClusterIndex);
+                    placement.ClusterIndex,
+                    availableHouses is null
+                        ? null
+                        : ChartHouseMembership.Find(position.EclipticLongitude, availableHouses.Cusps));
             })
             .ToArray();
 
@@ -126,7 +125,9 @@ public sealed class CircularChartLayoutBuilder
                     cusp.Longitude,
                     displayAngle,
                     new RadialPoint(displayAngle, RadialLanes.HouseRing.InnerRadiusRatio),
-                    new RadialPoint(displayAngle, RadialLanes.ZodiacRing.InnerRadiusRatio));
+                    new RadialPoint(displayAngle, RadialLanes.ZodiacRing.InnerRadiusRatio),
+                    new RadialPoint(displayAngle, RadialLanes.HouseNumberLane.OuterRadiusRatio + 0.006d),
+                    new RadialPoint(displayAngle, RadialLanes.HouseNumberLane.OuterRadiusRatio + 0.034d));
             })
             .ToArray();
 
@@ -216,12 +217,10 @@ public sealed class CircularChartLayoutBuilder
         for (var clusterIndex = 0; clusterIndex < clusters.Count; clusterIndex++)
         {
             var cluster = clusters[clusterIndex];
-            var displayLongitudes = BuildDisplayLongitudes(cluster);
 
             for (var index = 0; index < cluster.Count; index++)
             {
                 placements[cluster[index].Position.Body] = new PlanetPlacement(
-                    displayLongitudes[index],
                     index % RadialLanes.PlanetSubLaneRadiusRatios.Count,
                     clusterIndex);
             }
@@ -298,57 +297,9 @@ public sealed class CircularChartLayoutBuilder
         return clusters;
     }
 
-    private IReadOnlyList<double> BuildDisplayLongitudes(IReadOnlyList<UnwrappedPosition> cluster)
-    {
-        var sourceLongitudes = cluster.Select(static item => item.Longitude).ToArray();
-
-        if (cluster.Count == 1)
-        {
-            return sourceLongitudes;
-        }
-
-        var minimumAdjacentSeparation = MinimumAdjacentDisplaySeparationDegrees;
-        var displayLongitudes = new double[sourceLongitudes.Length];
-        displayLongitudes[0] = sourceLongitudes[0];
-
-        for (var index = 1; index < sourceLongitudes.Length; index++)
-        {
-            displayLongitudes[index] = Math.Max(
-                sourceLongitudes[index],
-                displayLongitudes[index - 1] + minimumAdjacentSeparation);
-        }
-
-        var centeringOffset = displayLongitudes
-            .Select((display, index) => display - sourceLongitudes[index])
-            .Average();
-
-        for (var index = 0; index < displayLongitudes.Length; index++)
-        {
-            displayLongitudes[index] -= centeringOffset;
-        }
-
-        var maximumNudge = displayLongitudes
-            .Select((display, index) => Math.Abs(display - sourceLongitudes[index]))
-            .Max();
-
-        if (maximumNudge > MaximumAngularNudgeDegrees)
-        {
-            var center = sourceLongitudes.Average();
-            var first = center - (minimumAdjacentSeparation * (sourceLongitudes.Length - 1) / 2d);
-
-            for (var index = 0; index < displayLongitudes.Length; index++)
-            {
-                displayLongitudes[index] = first + (index * minimumAdjacentSeparation);
-            }
-        }
-
-        return displayLongitudes;
-    }
-
     private readonly record struct UnwrappedPosition(PlanetPosition Position, double Longitude);
 
     private readonly record struct PlanetPlacement(
-        double DisplayLongitude,
         int RadialLaneIndex,
         int ClusterIndex);
 }

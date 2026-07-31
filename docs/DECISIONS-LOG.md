@@ -466,3 +466,11 @@ Decision: Build RAG-lite from one task kind, concrete repository-relative target
 Reason: Repository navigation needs repeatable precision and progressive disclosure, not embeddings, semantic guesses, background indexes, or a second scanner. The existing Git-visible factual inventory already owns public file discovery and character counts.
 
 Consequences: Plans are read-only paths and metadata rather than file contents, archives are never implicit, mandatory evidence cannot be silently dropped to fit, and evals detect route inclusion/exclusion regressions. Planner output is navigation rather than a quality gate or permission to ignore code and architecture owners.
+
+## 2026-07-31: Make Planet Source Markers Authoritative and Annotations Semantically Bounded
+
+Decision: Treat each exact source dot/notch as the planet coordinate, while the glyph and degree/retrograde label are separate render-owned annotations. Place glyphs radial-first, limit longitude adjustment to eight degrees, forbid crossing the source sign or reliable source house, and lay out labels independently without Cartesian glyph fallback.
+
+Reason: A technically exact tick is insufficient when a distant combined glyph/label group can imply another sign, house, or aspect origin. Rendering is the first layer that knows measured viewport bounds, but source longitude, house membership, and aspect endpoints must remain geometry/domain facts.
+
+Consequences: Geometry supplies exact source angles, deterministic clusters, preferred radial lanes, and source-house metadata without pixel collision spreading. Rendering always draws an exact marker and source-to-glyph leader, uses an optional quieter glyph-to-label leader only for non-adjacent labels, preserves source-based aspects, and accepts controlled crowding before violating sign/house semantics or hiding a planet.

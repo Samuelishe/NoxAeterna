@@ -44,6 +44,9 @@ Select relevant cases that cover:
 - ComboBox popup ownership without platform accent leakage;
 - UnknownTime hiding/restoring the entered time as specified;
 - chart annotation, axis, aspect, and viewport readability when rendering changed.
+- authoritative source markers, source-to-glyph leaders, sign/house membership, independent labels, and crowded-cluster readability when planet layout changed.
+
+For planet-semantic changes, verify the wheel without relying on the summary table first. The marker must identify exact longitude, the glyph must remain in the source sign and available source house, the label must stay visibly associated, and aspect chords must still terminate at their source-coordinate interior points.
 
 ## Acceptance and Reporting
 

@@ -30,8 +30,8 @@ The current renderer consumes prepared chart geometry and draws:
 - zodiac inner boundary and sector separators;
 - aspect lines;
 - project-owned zodiac vector glyphs around the ring;
-- project-owned planetary vector glyphs at geometry-owned slots;
-- neutral source-longitude ticks and restrained connectors.
+- project-owned planetary vector glyphs near geometry-owned source slots;
+- authoritative source dots/notches and restrained source-to-glyph leaders.
 
 Current temporary verification path:
 
@@ -55,24 +55,28 @@ Current readable-chart foundation details:
 - zodiac and planet symbols are original project-owned monochrome path definitions in one stable unit coordinate system;
 - chart symbols do not use Unicode, emoji presentation, `Typeface.Default`, external fonts, image downloads, or platform font fallback;
 - vector geometry is materialized only after Avalonia initializes its rendering backend, while deterministic path data and unit bounds remain testable without a graphics host;
-- planet glyphs render directly at geometry-owned display anchors; the previous extra rendering-side radial offset and large white marker circles are gone;
-- true longitude remains visible through a small neutral tick; a restrained connector is drawn only when collision handling actually displaces the annotation;
+- every planet renders an authoritative exact-angle source dot and radial notch, whether or not it participates in an aspect;
+- a cool, restrained source-to-glyph leader always makes the coordinate/annotation relationship explicit and terminates at the glyph bounds;
 - `ChartViewport` derives a centered square from the complete control bounds, reserves known stroke and vector extents, exposes safe bounds/effective radius, and clips all chart drawing to that square;
 - `ChartVisualMetrics` derives bounded zodiac/planet glyph sizes, annotation text, readable minimum ring/cusp/axis/aspect strokes, anchor/connector strokes, and an aspect scale from the effective radius;
 - visual geometry grows with the chart while known vector bounds continue to participate in the viewport safety calculation;
 - radial lanes remain geometry contracts, but collision-lane boundaries and aspect-interior bounds are not drawn as unconditional debug guides;
 - available house geometry is rendered as 12 readable cusp lines, higher-contrast plain-text house numbers, stronger ASC–DSC and MC–IC axes, and all four compact `ASC`/`DSC`/`MC`/`IC` labels;
 - one intentional inner circle anchors the aspect figure and its endpoint markers; technical radial-lane boundaries remain invisible;
-- planet annotation groups combine a project-owned vector glyph, two-digit degree-within-sign text, and an optional `R`, while minute precision remains in the table;
-- each planet annotation is now one render-owned viewport visual with measured glyph bounds, measured degree/retrograde text bounds, a combined visual envelope, and a minimally padded protected envelope; Avalonia text and DIP measurement remain outside Geometry;
-- deterministic render-side placement first respects the geometry-owned display anchor and existing radial sub-lanes, then permits only a small bounded angular correction when measured annotation envelopes would overlap;
+- planet annotation aggregates explicitly separate source marker, glyph, and degree/optional-`R` label visuals, while minute precision remains in the table;
+- glyph and label bounds have independent protected geometry; Avalonia text and DIP measurement remain outside Geometry;
+- deterministic glyph placement tries the exact source angle across preferred, existing, and intermediate radial candidates before longitude adjustments in one-degree steps, with an absolute eight-degree ceiling;
+- every glyph candidate remains in the source zodiac sign and, when houses are reliable, the source house; UnknownTime keeps the sign constraint without inventing a house;
+- if semantic candidates remain crowded, the deterministic fallback minimizes overlap without increasing the angular ceiling, crossing a sign/house, hiding a body, or applying Cartesian translation;
+- degree/retrograde labels have their own nearby candidate layout. A thinner glyph-to-label leader appears only when a displaced label is no longer adjacent, and label movement never changes glyph/source semantics;
 - protected annotation bounds remain invisible; planet glyphs and labels render directly on the transparent chart background without rectangles, pills, cards, shadows, or background-colored patches;
 - the small render-owned `ChartLineOcclusion` utility converts each straight segment into visible parameter intervals outside measured annotation rectangles, independent of rectangle order;
-- ordinary house cusps, principal axes, source ticks, and displacement connectors omit protected annotation intervals physically rather than hiding them with a later fill;
+- ordinary house cusps, principal axes, source notches, source leaders, and label leaders omit protected visual intervals physically rather than hiding them with a later fill;
 - aspect chords remain inside the aspect circle and do not enter the planet lane, so they are not routed through annotation occlusion without evidence of an intersection;
-- displaced-planet connectors terminate at the nearest protected-envelope boundary instead of the glyph center; a connector is absent when neither geometry nor final render placement displaced the annotation;
+- source leaders terminate at the glyph boundary rather than its center and are visually stronger than optional label leaders while remaining distinct from aspects;
 - principal-angle labels receive a measured render-side safe inset from the outer rim and remain inside the viewport-safe drawing bounds without changing their source angles;
-- house lines and aspects are drawn before project-owned zodiac and planet glyphs and the primary labels remain above secondary structure;
+- house lines and aspects are drawn before source leaders, source markers, project-owned glyphs, and labels;
+- Roman house numbers use a smaller, quieter metric while short exact-angle cusp notches clarify the actual boundaries; principal axes remain stronger than ordinary cusps;
 - house digits and Latin angle abbreviations may use ordinary text rendering; astrology symbols remain project-owned vectors;
 - the zodiac annulus uses saturated final element-coded sector fills with separate dark/light tones at full opacity, one high-contrast zodiac-glyph role, a strong outer rim, a readable inner boundary, and clear separators;
 - zero, non-finite, and too-small surfaces exit without drawing.

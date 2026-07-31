@@ -1,4 +1,6 @@
 using Avalonia;
+using NoxAeterna.Domain.Astrology;
+using NoxAeterna.Geometry.Charts;
 
 namespace NoxAeterna.Rendering.Charts;
 
@@ -7,13 +9,26 @@ namespace NoxAeterna.Rendering.Charts;
 /// </summary>
 public sealed record ChartPlanetAnnotationLayout(
     ChartPlanetAnnotationPlacement Annotation,
-    Point FinalAnchor,
+    RadialPoint SourceRadialPoint,
+    Point SourceAnchor,
+    Rect SourceMarkerBounds,
+    ZodiacLongitude GlyphLongitude,
+    RadialPoint GlyphRadialPoint,
+    Point GlyphAnchor,
     Rect GlyphBounds,
-    Rect LabelBounds,
     Rect GlyphProtectedBounds,
+    Point LabelAnchor,
+    Rect LabelBounds,
     Rect LabelProtectedBounds,
     Rect VisualBounds,
     Rect ProtectedBounds,
-    Point ConnectorStart,
-    Point? ConnectorEndpoint,
-    bool HasDisplacement);
+    Point SourceLeaderStart,
+    Point SourceLeaderEndpoint,
+    Point? LabelLeaderStart,
+    Point? LabelLeaderEndpoint,
+    bool HasGlyphDisplacement,
+    bool HasLabelDisplacement,
+    bool IsCrowded,
+    double OverlapArea,
+    ZodiacSign SourceSign,
+    HouseNumber? SourceHouseNumber);

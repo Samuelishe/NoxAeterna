@@ -13,31 +13,31 @@ public readonly record struct PlanetGlyphSlot
     /// <param name="body">The celestial body.</param>
     /// <param name="longitude">The source zodiac longitude.</param>
     /// <param name="sourceAngle">The source astronomical chart-space angle.</param>
-    /// <param name="displayAngle">The collision-safe display angle.</param>
-    /// <param name="anchorPoint">The normalized radial anchor point.</param>
+    /// <param name="preferredGlyphAnchor">The preferred exact-angle radial glyph anchor.</param>
     /// <param name="slotIndex">The deterministic slot index within the layout.</param>
-    /// <param name="radialLaneIndex">The ordered planet sub-lane index.</param>
+    /// <param name="preferredRadialLaneIndex">The ordered preferred planet sub-lane index.</param>
     /// <param name="clusterIndex">The deterministic circular cluster index.</param>
+    /// <param name="sourceHouseNumber">The exact source house when houses are available.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when slot indices are negative.</exception>
     public PlanetGlyphSlot(
         CelestialBody body,
         ZodiacLongitude longitude,
         AngularPosition sourceAngle,
-        AngularPosition displayAngle,
-        RadialPoint anchorPoint,
+        RadialPoint preferredGlyphAnchor,
         bool isRetrograde,
         int slotIndex,
-        int radialLaneIndex,
-        int clusterIndex)
+        int preferredRadialLaneIndex,
+        int clusterIndex,
+        HouseNumber? sourceHouseNumber)
     {
         if (slotIndex < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index must be non-negative.");
         }
 
-        if (radialLaneIndex < 0)
+        if (preferredRadialLaneIndex < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(radialLaneIndex), "Radial lane index must be non-negative.");
+            throw new ArgumentOutOfRangeException(nameof(preferredRadialLaneIndex), "Radial lane index must be non-negative.");
         }
 
         if (clusterIndex < 0)
@@ -48,12 +48,12 @@ public readonly record struct PlanetGlyphSlot
         Body = body;
         Longitude = longitude;
         SourceAngle = sourceAngle;
-        DisplayAngle = displayAngle;
-        AnchorPoint = anchorPoint;
+        PreferredGlyphAnchor = preferredGlyphAnchor;
         IsRetrograde = isRetrograde;
         SlotIndex = slotIndex;
-        RadialLaneIndex = radialLaneIndex;
+        PreferredRadialLaneIndex = preferredRadialLaneIndex;
         ClusterIndex = clusterIndex;
+        SourceHouseNumber = sourceHouseNumber;
     }
 
     /// <summary>
@@ -72,14 +72,9 @@ public readonly record struct PlanetGlyphSlot
     public AngularPosition SourceAngle { get; }
 
     /// <summary>
-    /// Gets the collision-safe display angle without changing the source longitude.
+    /// Gets the preferred normalized radial glyph anchor at the exact source angle.
     /// </summary>
-    public AngularPosition DisplayAngle { get; }
-
-    /// <summary>
-    /// Gets the normalized radial anchor point.
-    /// </summary>
-    public RadialPoint AnchorPoint { get; }
+    public RadialPoint PreferredGlyphAnchor { get; }
 
     /// <summary>
     /// Gets whether the source planetary position is retrograde.
@@ -94,10 +89,15 @@ public readonly record struct PlanetGlyphSlot
     /// <summary>
     /// Gets the ordered planet sub-lane index.
     /// </summary>
-    public int RadialLaneIndex { get; }
+    public int PreferredRadialLaneIndex { get; }
 
     /// <summary>
     /// Gets the deterministic circular cluster index.
     /// </summary>
     public int ClusterIndex { get; }
+
+    /// <summary>
+    /// Gets the exact source house when reliable houses are available.
+    /// </summary>
+    public HouseNumber? SourceHouseNumber { get; }
 }

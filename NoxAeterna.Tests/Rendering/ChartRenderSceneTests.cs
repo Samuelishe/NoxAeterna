@@ -51,15 +51,18 @@ public sealed class ChartRenderSceneTests
     }
 
     [Fact]
-    public void RenderSceneUsesOneCanonicalPlanetAnnotationPipelineAtGeometryOwnedAnchors()
+    public void RenderSceneUsesOneCanonicalPlanetAnnotationPipelineWithoutPrecomputedVisualAnchors()
     {
         var scene = ChartRenderScene.FromLayout(CreateLayout());
 
         Assert.Equal(12, scene.ZodiacGlyphs.Count);
         Assert.Equal(scene.PlanetGlyphSlots.Count, scene.PlanetAnnotations.Count);
-        Assert.Equal(
-            scene.PlanetGlyphSlots.Select(static slot => slot.AnchorPoint),
-            scene.PlanetAnnotations.Select(static annotation => annotation.AnchorPoint));
+        Assert.All(
+            scene.PlanetGlyphSlots,
+            slot => Assert.Equal(slot.SourceAngle, slot.PreferredGlyphAnchor.Angle));
+        Assert.DoesNotContain(
+            scene.PlanetAnnotations,
+            annotation => annotation.GetType().GetProperty("AnchorPoint") is not null);
         Assert.Null(scene.GetType().GetProperty("PlanetGlyphs"));
     }
 
@@ -91,7 +94,7 @@ public sealed class ChartRenderSceneTests
     }
 
     [Fact]
-    public void PlanetAnnotationsCarryDegreeRetrogradeAndConditionalDisplacementState()
+    public void PlanetAnnotationsCarryDegreeAndRetrogradeWithoutOwningDisplacementState()
     {
         var scene = ChartRenderScene.FromLayout(CreateLayout());
         var sun = scene.PlanetAnnotations.Single(annotation => annotation.Body == CelestialBody.Sun);
@@ -99,10 +102,9 @@ public sealed class ChartRenderSceneTests
 
         Assert.Equal("10°", sun.DegreeText);
         Assert.False(sun.IsRetrograde);
-        Assert.False(sun.HasDisplacement);
         Assert.Equal("10°", mars.DegreeText);
         Assert.True(mars.IsRetrograde);
-        Assert.False(mars.HasDisplacement);
+        Assert.Null(sun.GetType().GetProperty("HasDisplacement"));
     }
 
     [Fact]

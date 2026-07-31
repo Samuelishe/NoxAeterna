@@ -82,4 +82,21 @@ Verification:
 - `pwsh eng/test-route.ps1 run Repository-Verification -NoBuild`
 - `pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone`
 
-Hosted confirmation remains pending after commit and push.
+Hosted checkpoint `28c895c366d9a8e451b8ed5c34c998322e3986fc` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs.
+
+## 2026-07-31: P1 Planet Semantic Anchoring
+
+Summary:
+
+- Confirmed the T2-B checkpoint passed all five hosted jobs, completing the repository-foundation wave before product rendering work resumed.
+- Removed geometry-owned angular spreading and replaced the misleading display-angle contract with exact source angles, deterministic clusters, preferred radial lanes, and source-house membership.
+- Split render-owned planet visuals into exact source markers, radial-first glyph placement with an eight-degree sign/house-safe ceiling, and independently measured labels with optional quieter association leaders.
+- Removed Cartesian glyph fallback, retained source-based aspect endpoints, added controlled crowding diagnostics, and clarified house boundaries with smaller Roman numerals plus exact-angle number-lane cusp notches.
+- Added synthetic Capricorn, sign-boundary, house-cusp, zero-wrap, UnknownTime, and extreme-crowding coverage together with source/leader/label/viewport contracts.
+
+Verification:
+
+- `pwsh eng/doc-check.ps1` and all 15 context evaluations
+- Geometry, Rendering, Chart-Rendering, Desktop-UI, and Repository-Verification named routes
+- Full milestone: 510 passed, 0 failed, 0 skipped
+- real-control Fryazino and Prague dark/light, UnknownTime, compact/maximized, transition, and live-resize smoke with four untracked temporary screenshots

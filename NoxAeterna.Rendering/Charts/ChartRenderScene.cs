@@ -101,10 +101,8 @@ public sealed record ChartRenderScene
             .Select(slot => new ChartPlanetAnnotationPlacement(
                 slot.Body,
                 ChartGlyphCatalog.GetBodyGlyph(slot.Body),
-                slot.AnchorPoint,
                 $"{(int)Math.Floor(slot.Longitude.Degrees % 30d):00}°",
-                slot.IsRetrograde,
-                CircularDelta(slot.SourceAngle.Degrees, slot.DisplayAngle.Degrees) > 0.01d))
+                slot.IsRetrograde))
             .ToArray();
 
     private static ChartAngleLabelPlacement[] BuildAngleLabels(
@@ -130,9 +128,4 @@ public sealed record ChartRenderScene
             })
             .ToArray();
 
-    private static double CircularDelta(double first, double second)
-    {
-        var delta = Math.Abs(first - second);
-        return Math.Min(delta, 360d - delta);
-    }
 }

@@ -31,6 +31,7 @@ public sealed class ChartPlanetAnnotationLayoutTests
             {
                 AssertFinite(layout.GlyphBounds);
                 AssertFinite(layout.LabelBounds);
+                AssertFinite(layout.SourceMarkerBounds);
                 AssertFinite(layout.GlyphProtectedBounds);
                 AssertFinite(layout.LabelProtectedBounds);
                 AssertFinite(layout.VisualBounds);
@@ -46,35 +47,35 @@ public sealed class ChartPlanetAnnotationLayoutTests
                 AssertInsidePlanetCircle(layout.LabelProtectedBounds, viewport, scene.Layout.RadialLanes);
             });
 
-        AssertNoOverlaps(first);
+        AssertNoGlyphOrLabelOverlaps(first);
     }
 
     [Fact]
-    public void ConnectorsAreConditionalAndTerminateOnProtectedEnvelopeBoundary()
+    public void ExactSourceMarkersAndLeadersExistAndTerminateAtGlyphBounds()
     {
         var scene = CreatePragueScene();
         var viewport = CreateViewport(scene, 760d);
         var layouts = ChartPlanetAnnotationLayoutBuilder.Build(scene, viewport, DeterministicTextMeasure);
 
-        Assert.Contains(layouts, static layout => !layout.HasDisplacement && layout.ConnectorEndpoint is null);
-        var displaced = layouts.Where(static layout => layout.HasDisplacement).ToArray();
-        Assert.NotEmpty(displaced);
-
         Assert.All(
-            displaced,
+            layouts,
             layout =>
             {
-                var endpoint = Assert.IsType<Point>(layout.ConnectorEndpoint);
-                Assert.True(IsOnBoundary(endpoint, layout.ProtectedBounds));
-                Assert.NotEqual(layout.FinalAnchor, endpoint);
-                Assert.False(IsInside(layout.GlyphBounds, endpoint));
+                var slot = scene.PlanetGlyphSlots.Single(slot => slot.Body == layout.Annotation.Body);
+                Assert.Equal(slot.SourceAngle, layout.SourceRadialPoint.Angle);
+                Assert.Equal(ToPoint(viewport, layout.SourceRadialPoint), layout.SourceAnchor);
+                Assert.True(IsOnBoundary(layout.SourceLeaderEndpoint, layout.GlyphBounds));
+                Assert.NotEqual(layout.GlyphAnchor, layout.SourceLeaderEndpoint);
+                Assert.False(IsInside(layout.GlyphBounds, layout.SourceLeaderEndpoint));
                 Assert.False(SegmentIntersectsInterior(
-                    layout.ConnectorStart,
-                    endpoint,
+                    layout.SourceLeaderStart,
+                    layout.SourceLeaderEndpoint,
                     layout.LabelBounds));
-                Assert.True(double.IsFinite(endpoint.X));
-                Assert.True(double.IsFinite(endpoint.Y));
+                Assert.True(double.IsFinite(layout.SourceLeaderEndpoint.X));
+                Assert.True(double.IsFinite(layout.SourceLeaderEndpoint.Y));
             });
+
+        Assert.Contains(layouts, static layout => layout.HasGlyphDisplacement);
     }
 
     [Fact]
@@ -86,8 +87,8 @@ public sealed class ChartPlanetAnnotationLayoutTests
         var second = ChartPlanetAnnotationLayoutBuilder.Build(scene, viewport, DeterministicTextMeasure);
 
         Assert.Equal(first, second);
-        AssertNoOverlaps(Get(first, CelestialBody.Uranus, CelestialBody.Neptune, CelestialBody.Saturn));
-        AssertNoOverlaps(Get(
+        AssertNoGlyphOrLabelOverlaps(Get(first, CelestialBody.Uranus, CelestialBody.Neptune, CelestialBody.Saturn));
+        AssertNoGlyphOrLabelOverlaps(Get(
             first,
             CelestialBody.Sun,
             CelestialBody.Jupiter,
@@ -104,16 +105,24 @@ public sealed class ChartPlanetAnnotationLayoutTests
         var visibleSegments = ChartLineOcclusion.GetVisibleSegments(
             axisStart,
             axisEnd,
-            first.Select(static layout => layout.ProtectedBounds),
+            first.SelectMany(static layout => new[]
+            {
+                layout.SourceMarkerBounds,
+                layout.GlyphProtectedBounds,
+                layout.LabelProtectedBounds
+            }),
             0.75d);
 
         Assert.True(visibleSegments.Count >= 2);
         Assert.DoesNotContain(
             visibleSegments,
-            segment => first.Any(layout => SegmentIntersectsInterior(
-                segment.Source,
-                segment.Target,
-                layout.ProtectedBounds)));
+            segment => first.SelectMany(static layout => new[]
+                {
+                    layout.SourceMarkerBounds,
+                    layout.GlyphProtectedBounds,
+                    layout.LabelProtectedBounds
+                })
+                .Any(bounds => SegmentIntersectsInterior(segment.Source, segment.Target, bounds)));
     }
 
     [Theory]
@@ -165,15 +174,34 @@ public sealed class ChartPlanetAnnotationLayoutTests
         params CelestialBody[] bodies) =>
         layouts.Where(layout => bodies.Contains(layout.Annotation.Body)).ToArray();
 
-    private static void AssertNoOverlaps(IReadOnlyList<ChartPlanetAnnotationLayout> layouts)
+    private static void AssertNoGlyphOrLabelOverlaps(IReadOnlyList<ChartPlanetAnnotationLayout> layouts)
     {
         for (var first = 0; first < layouts.Count; first++)
         {
             for (var second = first + 1; second < layouts.Count; second++)
             {
+                var firstBounds = new[]
+                {
+                    layouts[first].GlyphBounds,
+                    layouts[first].LabelBounds
+                };
+                var secondBounds = new[]
+                {
+                    layouts[second].GlyphBounds,
+                    layouts[second].LabelBounds
+                };
                 Assert.False(
-                    Overlaps(layouts[first].ProtectedBounds, layouts[second].ProtectedBounds),
-                    $"{layouts[first].Annotation.Body} overlaps {layouts[second].Annotation.Body}.");
+                    firstBounds.Any(firstBound =>
+                        secondBounds.Any(secondBound => Overlaps(firstBound, secondBound))),
+                    $"{layouts[first].Annotation.Body} glyph/label overlaps " +
+                    $"{layouts[second].Annotation.Body} glyph/label: " +
+                    $"gg={Overlaps(firstBounds[0], secondBounds[0])}, " +
+                    $"gl={Overlaps(firstBounds[0], secondBounds[1])}, " +
+                    $"lg={Overlaps(firstBounds[1], secondBounds[0])}, " +
+                    $"ll={Overlaps(firstBounds[1], secondBounds[1])}; " +
+                    $"first={layouts[first].GlyphLongitude.Degrees:F2}@{layouts[first].GlyphRadialPoint.RadiusRatio:F3} " +
+                    $"crowded={layouts[first].IsCrowded}, second={layouts[second].GlyphLongitude.Degrees:F2}@" +
+                    $"{layouts[second].GlyphRadialPoint.RadiusRatio:F3} crowded={layouts[second].IsCrowded}.");
             }
         }
     }

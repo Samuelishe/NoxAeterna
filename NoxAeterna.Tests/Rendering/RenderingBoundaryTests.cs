@@ -72,12 +72,13 @@ public sealed class RenderingBoundaryTests
             "CircularChartRenderer.cs"));
 
         Assert.DoesNotContain("DrawAnnotationKnockouts", source, StringComparison.Ordinal);
-        Assert.DoesNotContain("GlyphProtectedBounds", source, StringComparison.Ordinal);
-        Assert.DoesNotContain("LabelProtectedBounds", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("DrawRoundedRectangle", source, StringComparison.Ordinal);
+        Assert.Contains("GlyphProtectedBounds", source, StringComparison.Ordinal);
+        Assert.Contains("LabelProtectedBounds", source, StringComparison.Ordinal);
         Assert.Contains("ChartLineOcclusion.GetVisibleSegments", source, StringComparison.Ordinal);
         Assert.Contains("DrawHouseCusps(", source, StringComparison.Ordinal);
         Assert.Contains("DrawAngleAxes(", source, StringComparison.Ordinal);
-        Assert.Contains("DrawPlanetConnectors(", source, StringComparison.Ordinal);
+        Assert.Contains("DrawPlanetLeaders(", source, StringComparison.Ordinal);
     }
 
     private static XDocument LoadProjectDocument(string projectDirectory, string projectFileName)

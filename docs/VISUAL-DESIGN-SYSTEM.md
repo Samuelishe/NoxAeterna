@@ -178,14 +178,16 @@ From background to foreground:
 4. House cusps with annotation intervals physically omitted.
 5. Principal axes with annotation intervals physically omitted.
 6. Aspect circle, aspect lines, and endpoint markers.
-7. Planet source ticks and displaced connectors, occluded by protected annotation bounds.
-8. Transparent planet vector glyphs.
-9. Transparent degree and retrograde text.
+7. Exact planet source dots/notches and source-to-glyph leaders, occluded by protected visual bounds.
+8. Transparent planet vector glyphs kept near their source longitude.
+9. Transparent degree and retrograde text plus any quieter glyph-to-label leader.
 10. Zodiac glyphs.
 11. House numbers.
 12. ASC, DSC, MC, and IC labels.
 
 Planet annotation envelopes are invisible measurement contracts. They may control collision, line occlusion, connector termination, and viewport validation, but must never materialize as rectangles, rounded rectangles, circles, pills, cards, shadows, or background-colored patches.
+
+The source marker is the coordinate; the glyph and label are annotations. Source leaders use `PlanetAnchor`, while optional label leaders use the quieter degree role and a lower line weight. Neither treatment may resemble an aspect, glow, card, or negative sign attached to degree text.
 
 ## Contrast
 

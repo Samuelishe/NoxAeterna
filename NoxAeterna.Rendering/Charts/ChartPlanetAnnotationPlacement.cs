@@ -1,5 +1,4 @@
 using NoxAeterna.Domain.Astrology;
-using NoxAeterna.Geometry.Charts;
 
 namespace NoxAeterna.Rendering.Charts;
 
@@ -9,7 +8,5 @@ namespace NoxAeterna.Rendering.Charts;
 public sealed record ChartPlanetAnnotationPlacement(
     CelestialBody Body,
     ChartVectorGlyph Glyph,
-    RadialPoint AnchorPoint,
     string DegreeText,
-    bool IsRetrograde,
-    bool HasDisplacement);
+    bool IsRetrograde);

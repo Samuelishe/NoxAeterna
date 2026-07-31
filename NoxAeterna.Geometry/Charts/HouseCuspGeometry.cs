@@ -10,4 +10,6 @@ public readonly record struct HouseCuspGeometry(
     ZodiacLongitude Longitude,
     AngularPosition DisplayAngle,
     RadialPoint InnerPoint,
-    RadialPoint OuterPoint);
+    RadialPoint OuterPoint,
+    RadialPoint NumberLaneMarkerInnerPoint,
+    RadialPoint NumberLaneMarkerOuterPoint);

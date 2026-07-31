@@ -49,7 +49,9 @@ The interpretation engine can become unmaintainable if it hardcodes every possib
 
 ## Extreme Planet Cluster Presentation
 
-Circular zero-crossing detection, ordered radial sub-lanes, bounded symmetric geometry spreading, and measured render-owned protected envelopes now cover the current ten-body chart deterministically. The complete visual includes a transparent glyph, degree text, optional `R`, and a connector that terminates at the protected boundary. Protected envelopes never materialize as background shapes; straight cusp, principal-axis, tick, and connector segments are physically omitted inside them. The Prague lower and upper clusters remain disjoint at compact, standard, and maximized representative sizes. Extremely dense fixtures may still require visibly longer connectors and the bounded render-side angular fallback; any further tuning should wait for visual confirmation rather than replacing it with a heavy optimizer.
+Circular zero-crossing detection and deterministic preferred radial lanes now preserve exact source semantics without geometry-owned angular spreading. Rendering separates exact source markers, bounded glyphs, and independently placed labels; glyph candidates stay inside the source sign and available source house with an eight-degree absolute ceiling and no Cartesian fallback. Protected bounds remain invisible and straight secondary lines are physically interrupted.
+
+Synthetic extreme crowding can still require controlled visual overlap after all semantic candidates are exhausted. The renderer keeps every planet visible and reports this state internally rather than crossing a sign/house or hiding a body. Any future improvement should be driven by concrete screenshot evidence rather than an unbounded optimizer.
 
 Automated coverage confirms deterministic line occlusion and cluster bounds. V1 and V2 Windows dark/light and UnknownTime screenshots were visually accepted. Cross-platform visual smoke remains outstanding but does not justify an unbounded visual-polish stage without a concrete defect.
 

@@ -80,6 +80,8 @@ Current shell direction:
 - when native date or time picker controls are used, give them enough horizontal space to remain readable; do not compress them into tight multi-column groups that break segment layout.
 - the main astrology workspace should be concise and tool-like; onboarding copy and persistent technical notices do not belong between the operator and the chart.
 - the current readable chart foundation should stay legible before it becomes ornate; chart readability takes priority over decorative treatment.
+- a planet's source dot/notch is the authoritative coordinate; its glyph and degree/retrograde label are annotations whose leaders must make the relationship legible without implying that aspects originate at displaced glyph centers.
+- planet glyph movement should prefer radial stacking and remain inside the source sign and reliable source house; labels may move independently when measured text collides.
 
 Current birth-input direction:
 

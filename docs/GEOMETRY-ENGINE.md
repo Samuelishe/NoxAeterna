@@ -11,7 +11,7 @@ The geometry engine should eventually handle:
 - House cusp placement.
 - Planet glyph radial positions.
 - Aspect line endpoints.
-- Label and glyph collision avoidance.
+- Render-independent cluster and radial-lane preferences.
 - Radial positioning.
 - Scaling models.
 - Hit-test geometry.
@@ -101,7 +101,7 @@ Likely render-facing handoff objects:
 Current implemented handoff:
 
 - `CircularChartLayout` is the geometry output consumed by rendering.
-- `ChartRenderScene` is the rendering-side wrapper over that layout and materializes vector-glyph placements at geometry-owned anchors.
+- `ChartRenderScene` is the rendering-side wrapper over that layout. Geometry provides exact source angles and preferred radial anchors; Rendering owns measured final glyph and label placement.
 - Geometry still does not know Avalonia points, brushes, pens, or `DrawingContext`.
 - The current astrology workspace host receives rendering-side scene data, while development-only sample scene creation remains outside presentation models.
 
@@ -125,13 +125,14 @@ Current implemented status:
 - four ordered planet sub-lanes that remain entirely inside the planet lane;
 - circular cluster detection by cutting the sorted longitude sequence after its largest gap, so clusters crossing `359°/0°` stay intact;
 - deterministic tie-breaking by `CelestialBody`, input-order independence, and stable repeated builds;
-- bounded symmetric angular spreading for close clusters, combined with ordered radial sub-lanes and minimum same-lane separation sized for the glyph-plus-degree annotation envelope;
-- explicit source astronomical longitude/angle and separate display angle on `PlanetGlyphSlot`;
+- exact source longitude and chart-space angle on every `PlanetGlyphSlot`, plus deterministic cluster membership and a preferred radial sub-lane at that exact angle;
+- no geometry-owned angular spreading: Geometry cannot know responsive glyph or measured text bounds and therefore does not claim a collision-safe display angle;
+- source-house membership is derived from start-inclusive circular cusp spans when reliable houses exist, including `359°/0°` wrap;
 - aspect endpoints always use source angles and stay inside `AspectInteriorRadiusRatio`.
 - `ChartOrientation` applies one counterclockwise source-longitude-to-chart-angle transform to zodiac sectors, glyph midpoints, planets, source ticks, aspects, house cusps, house numbers, and axes;
 - available houses place the Ascendant at chart-space 270 degrees (9 o'clock), while unavailable or absent houses preserve Aries at chart-space 0 degrees;
-- source `ZodiacLongitude` values remain unchanged by both chart rotation and collision display nudges;
-- 12 cusp lines extend from the house-ring interior to the zodiac inner boundary, 12 numeric anchors sit in a dedicated lane just outside the aspect circle, two diameter axes represent ASC–DSC and MC–IC, and their four label anchors sit just outside the outer rim.
+- source `ZodiacLongitude` values remain unchanged by chart rotation and all rendering annotations;
+- 12 cusp lines extend from the house-ring interior to the zodiac inner boundary, with exact-angle number-lane notches; 12 Roman-numeral anchors remain at house midpoints, two diameter axes represent ASC–DSC and MC–IC, and their four label anchors sit just outside the outer rim.
 
 The current solver is deliberately small and deterministic. It does not use viewport pixels, font metrics, physics, randomness, or a general-purpose optimizer.
 
@@ -145,4 +146,4 @@ From the center outward:
 4. Zodiac ring containing a separate zodiac glyph lane.
 5. Outer chart boundary below normalized radius `0.98`.
 
-Rendering is still responsible for fitting known vector bounds into the actual viewport, but it must not move the geometry-owned anchors.
+Rendering is responsible for fitting measured vector and text bounds into the actual viewport. It may move annotation glyphs only within the bounded semantic contract while the source coordinate and aspect endpoints remain exact.

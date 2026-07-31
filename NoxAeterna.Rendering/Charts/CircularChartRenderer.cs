@@ -38,7 +38,12 @@ public sealed class CircularChartRenderer
         var annotationLayouts = ChartPlanetAnnotationLayoutBuilder.Build(scene, viewport, MeasureText);
         var angleLabelLayouts = ChartAngleLabelLayoutBuilder.Build(scene, viewport, MeasureText);
         var protectedAnnotationBounds = annotationLayouts
-            .Select(static layout => layout.ProtectedBounds)
+            .SelectMany(static layout => new[]
+            {
+                layout.SourceMarkerBounds,
+                layout.GlyphProtectedBounds,
+                layout.LabelProtectedBounds
+            })
             .ToArray();
 
         drawingContext.FillRectangle(
@@ -62,14 +67,13 @@ public sealed class CircularChartRenderer
         DrawAspectCircle(drawingContext, viewport, scene.Layout.RadialLanes, options);
         DrawAspectLines(drawingContext, viewport, scene.AspectLines, options);
         DrawAspectEndpointMarkers(drawingContext, viewport, scene.AspectLines, options);
-        DrawPlanetSourceTicks(
+        DrawPlanetLeaders(drawingContext, viewport, annotationLayouts, options);
+        DrawPlanetSourceMarkers(
             drawingContext,
             viewport,
-            scene.PlanetGlyphSlots,
+            annotationLayouts,
             scene.Layout.RadialLanes,
-            protectedAnnotationBounds,
             options);
-        DrawPlanetConnectors(drawingContext, viewport, annotationLayouts, options);
         DrawPlanetAnnotations(drawingContext, viewport, annotationLayouts, options);
         DrawVectorGlyphs(drawingContext, viewport, scene.ZodiacGlyphs, options);
         DrawHouseNumbers(drawingContext, viewport, scene.HouseNumberAnchors, options);
@@ -87,6 +91,12 @@ public sealed class CircularChartRenderer
         var pen = new Pen(
             new SolidColorBrush(style.Color, style.Opacity),
             viewport.VisualMetrics.HouseCuspStrokeThickness * style.ThicknessScale);
+        var markerPen = new Pen(
+            new SolidColorBrush(style.Color, Math.Min(1d, style.Opacity + 0.12d)),
+            viewport.VisualMetrics.HouseCuspMarkerStrokeThickness * style.ThicknessScale,
+            null,
+            PenLineCap.Round,
+            PenLineJoin.Round);
 
         foreach (var cusp in houseCusps)
         {
@@ -95,6 +105,12 @@ public sealed class CircularChartRenderer
                 pen,
                 ToPoint(viewport, cusp.InnerPoint),
                 ToPoint(viewport, cusp.OuterPoint),
+                protectedAnnotationBounds);
+            DrawOccludedLine(
+                drawingContext,
+                markerPen,
+                ToPoint(viewport, cusp.NumberLaneMarkerInnerPoint),
+                ToPoint(viewport, cusp.NumberLaneMarkerOuterPoint),
                 protectedAnnotationBounds);
         }
     }
@@ -138,7 +154,9 @@ public sealed class CircularChartRenderer
                 FormatHouseNumber(anchor.HouseNumber.Value),
                 ToPoint(viewport, anchor.AnchorPoint),
                 viewport.VisualMetrics.HouseNumberFontSize,
-                new SolidColorBrush(options.Palette.HouseLabelColor, 0.82d));
+                new SolidColorBrush(
+                    options.Palette.HouseLabelColor,
+                    viewport.VisualMetrics.HouseNumberOpacity));
         }
     }
 
@@ -327,60 +345,89 @@ public sealed class CircularChartRenderer
         }
     }
 
-    private static void DrawPlanetSourceTicks(
+    private static void DrawPlanetSourceMarkers(
         DrawingContext drawingContext,
         ChartViewport viewport,
-        IEnumerable<PlanetGlyphSlot> glyphSlots,
+        IEnumerable<ChartPlanetAnnotationLayout> layouts,
         ChartRadialLanes lanes,
-        IReadOnlyList<Rect> protectedAnnotationBounds,
         ChartRenderOptions options)
     {
-        var brush = new SolidColorBrush(options.Palette.PlanetAnchorColor, 0.72d);
-        var tickPen = new Pen(brush, viewport.VisualMetrics.AnchorStrokeThickness);
-        var tickInnerRadius = lanes.PlanetGlyphLane.OuterRadiusRatio + 0.012d;
-        var tickOuterRadius = Math.Min(
-            lanes.ZodiacRing.InnerRadiusRatio - 0.012d,
-            tickInnerRadius + 0.018d);
-
-        foreach (var glyphSlot in glyphSlots)
-        {
-            var tickInner = new RadialPoint(glyphSlot.SourceAngle, tickInnerRadius);
-            var tickOuter = new RadialPoint(glyphSlot.SourceAngle, tickOuterRadius);
-            DrawOccludedLine(
-                drawingContext,
-                tickPen,
-                ToPoint(viewport, tickInner),
-                ToPoint(viewport, tickOuter),
-                protectedAnnotationBounds);
-        }
-    }
-
-    private static void DrawPlanetConnectors(
-        DrawingContext drawingContext,
-        ChartViewport viewport,
-        IReadOnlyList<ChartPlanetAnnotationLayout> layouts,
-        ChartRenderOptions options)
-    {
-        var brush = new SolidColorBrush(options.Palette.PlanetAnchorColor, 0.72d);
-        var connectorPen = new Pen(
+        var brush = new SolidColorBrush(options.Palette.PlanetAnchorColor, 0.94d);
+        var notchPen = new Pen(
             brush,
-            viewport.VisualMetrics.ConnectorStrokeThickness,
+            viewport.VisualMetrics.AnchorStrokeThickness,
             null,
             PenLineCap.Round,
             PenLineJoin.Round);
 
         foreach (var layout in layouts)
         {
-            if (layout.HasDisplacement && layout.ConnectorEndpoint is { } endpoint)
+            var inner = new RadialPoint(
+                layout.SourceRadialPoint.Angle,
+                layout.SourceRadialPoint.RadiusRatio - 0.012d);
+            var outer = new RadialPoint(
+                layout.SourceRadialPoint.Angle,
+                Math.Min(lanes.ZodiacRing.InnerRadiusRatio - 0.008d,
+                    layout.SourceRadialPoint.RadiusRatio + 0.012d));
+            drawingContext.DrawLine(notchPen, ToPoint(viewport, inner), ToPoint(viewport, outer));
+            drawingContext.DrawEllipse(
+                brush,
+                null,
+                layout.SourceAnchor,
+                viewport.VisualMetrics.PlanetSourceMarkerRadius,
+                viewport.VisualMetrics.PlanetSourceMarkerRadius);
+        }
+    }
+
+    private static void DrawPlanetLeaders(
+        DrawingContext drawingContext,
+        ChartViewport viewport,
+        IReadOnlyList<ChartPlanetAnnotationLayout> layouts,
+        ChartRenderOptions options)
+    {
+        var sourcePen = new Pen(
+            new SolidColorBrush(options.Palette.PlanetAnchorColor, 0.88d),
+            viewport.VisualMetrics.ConnectorStrokeThickness,
+            null,
+            PenLineCap.Round,
+            PenLineJoin.Round);
+        var labelPen = new Pen(
+            new SolidColorBrush(options.Palette.PlanetDegreeColor, 0.58d),
+            viewport.VisualMetrics.LabelLeaderStrokeThickness,
+            null,
+            PenLineCap.Round,
+            PenLineJoin.Round);
+
+        foreach (var layout in layouts)
+        {
+            var sourceOccluders = layouts
+                .Select(static other => other.LabelProtectedBounds)
+                .Concat(layouts
+                    .Where(other => other.Annotation.Body != layout.Annotation.Body)
+                    .Select(static other => other.GlyphProtectedBounds));
+            DrawOccludedLine(
+                drawingContext,
+                sourcePen,
+                layout.SourceLeaderStart,
+                layout.SourceLeaderEndpoint,
+                sourceOccluders);
+
+            if (layout.LabelLeaderStart is { } labelStart &&
+                layout.LabelLeaderEndpoint is { } labelEndpoint)
             {
                 var foreignProtectedBounds = layouts
                     .Where(other => other.Annotation.Body != layout.Annotation.Body)
-                    .Select(static other => other.ProtectedBounds);
+                    .SelectMany(static other => new[]
+                    {
+                        other.SourceMarkerBounds,
+                        other.GlyphProtectedBounds,
+                        other.LabelProtectedBounds
+                    });
                 DrawOccludedLine(
                     drawingContext,
-                    connectorPen,
-                    layout.ConnectorStart,
-                    endpoint,
+                    labelPen,
+                    labelStart,
+                    labelEndpoint,
                     foreignProtectedBounds);
             }
         }
@@ -397,7 +444,7 @@ public sealed class CircularChartRenderer
             var annotation = layout.Annotation;
             DrawVectorGlyph(
                 drawingContext,
-                layout.FinalAnchor,
+                layout.GlyphAnchor,
                 annotation.Glyph,
                 viewport.VisualMetrics.PlanetGlyphSize,
                 options.Palette.PlanetGlyphColor,

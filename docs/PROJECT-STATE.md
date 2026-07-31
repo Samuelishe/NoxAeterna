@@ -15,13 +15,14 @@
 - T1-B implementation is complete, and hosted run `30619151450` passed documentation validation, Windows/Linux/macOS milestone tests, and diagnostic coverage with four expected artifacts.
 - The same-day session-log rollover is complete; finished July 31 evidence is retained in indexed partial-day archive part 01.
 - T2-A Project Stats and the T2-A.1 host-independent MSBuild path repair are complete. Hosted checkpoint commit `9791d672c87c06c71e365d5433b4f847d6917046` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs; the Unix parsing blocker is removed.
-- T2-B deterministic RAG-lite context routing, bounded planning, wrappers, and retrieval evaluations are implemented locally without embeddings, network access, or a second repository scanner.
+- T2-B deterministic RAG-lite context routing is complete. Hosted checkpoint commit `28c895c366d9a8e451b8ed5c34c998322e3986fc` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs; the repository-foundation wave is complete.
+- P1 planet semantic anchoring is implemented locally: exact source markers remain authoritative, glyph movement is radial-first and sign/house bounded, labels are independent, and house boundaries are visually subordinate to principal axes.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-Hosted T2-B confirmation across Documentation, Windows, Ubuntu, macOS, and diagnostic coverage.
+Visual confirmation through the four P1 screenshots, followed by hosted P1 CI confirmation after commit and push.
 
 ## Preserved Contracts
 
@@ -34,5 +35,5 @@ Hosted T2-B confirmation across Documentation, Windows, Ubuntu, macOS, and diagn
 
 ## Active Blockers
 
-- The local T2-B implementation has not yet received replacement hosted CI confirmation.
-- No product feature is selected for implementation during the repository-foundation wave.
+- P1 screenshot approval is pending.
+- Hosted P1 CI is pending after commit and push.
