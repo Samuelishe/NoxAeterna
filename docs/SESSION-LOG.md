@@ -62,3 +62,24 @@ Verification:
 - `pwsh eng/doc-check.ps1`
 
 Hosted confirmation remains pending after commit and push.
+
+## 2026-07-31: T2-B RAG-Lite Context Routing
+
+Summary:
+
+- Confirmed the T2-A.1 checkpoint passed all five hosted jobs, then extended the existing BCL repository tool with deterministic task/path context planning instead of adding a scanner, service, embeddings, or network dependency.
+- Added exact additive route and retrieval-evaluation registries, project-owned cross-platform glob matching, mandatory/recommended character and file bounds, planned/directory/binary target semantics, privacy refusal, and named-test-route joins.
+- Added read-only PowerShell wrappers, compact/indented JSON and console plans without contents or machine paths, and 15 retrieval cases covering engines, UI, assets, documentation, tooling, persistence planning, and multi-target work.
+- Added the non-overlapping `Agent-Context` leaf to `Repository-Verification`, basic doc-check integration, focused negative/boundary coverage, and canonical context-routing documentation.
+
+Verification:
+
+- `pwsh eng/doc-check.ps1`
+- `dotnet build NoxAeterna.sln -c Debug`
+- `pwsh eng/context-plan.ps1 ...`
+- `pwsh eng/context-eval.ps1`
+- `pwsh eng/test-route.ps1 run Agent-Context -NoBuild`
+- `pwsh eng/test-route.ps1 run Repository-Verification -NoBuild`
+- `pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone`
+
+Hosted confirmation remains pending after commit and push.

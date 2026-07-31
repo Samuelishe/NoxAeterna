@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "name": "domain-code-change", "task": "CodeChange",
+      "paths": ["NoxAeterna.Domain/Astrology/NatalChart.cs"], "budgetChars": 70000,
+      "mustInclude": ["NoxAeterna.Domain/Astrology/NatalChart.cs", "docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/DOMAIN-MODEL.md", "docs/ARCHITECTURAL-BOUNDARIES.md"],
+      "mustExclude": ["docs/archive/**", "docs/TAROT-ENGINE.md"],
+      "expectedMatchedRules": ["domain-astrology"], "expectedTestRoutes": ["Domain"], "forbiddenTestRoutes": ["Rendering"],
+      "maxSelectedFiles": 8, "maxSelectedChars": 70000
+    },
+    {
+      "name": "birth-time-test-change", "task": "TestChange",
+      "paths": ["NoxAeterna.Tests/Birth/BirthMomentTests.cs"], "budgetChars": 70000,
+      "mustInclude": ["NoxAeterna.Tests/Birth/BirthMomentTests.cs", "docs/PROJECT-STATE.md", "docs/TEST-EXECUTION.md", "docs/DOMAIN-MODEL.md", "docs/ASTRONOMY-ENGINE.md"],
+      "mustExclude": ["docs/archive/**", "docs/RENDERING-ENGINE.md"],
+      "expectedMatchedRules": ["birth-time"], "expectedTestRoutes": ["Birth-Time"], "forbiddenTestRoutes": ["Rendering"],
+      "maxSelectedFiles": 8, "maxSelectedChars": 70000
+    },
+    {
+      "name": "astronomy-code-change", "task": "CodeChange",
+      "paths": ["NoxAeterna.Astronomy/Calculation/ChartCalculationRequest.cs"], "budgetChars": 70000,
+      "mustInclude": ["NoxAeterna.Astronomy/Calculation/ChartCalculationRequest.cs", "docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/ASTRONOMY-ENGINE.md", "docs/ARCHITECTURAL-BOUNDARIES.md"],
+      "mustExclude": ["docs/archive/**", "docs/THEMES.md"],
+      "expectedMatchedRules": ["astronomy"], "expectedTestRoutes": ["Astronomy"], "forbiddenTestRoutes": ["Infrastructure-Ephemeris"],
+      "maxSelectedFiles": 8, "maxSelectedChars": 70000
+    },
+    {
+      "name": "ephemeris-adapter-change", "task": "CodeChange",
+      "paths": ["NoxAeterna.Infrastructure/Ephemeris/SwissEphemerisCalculator.cs"], "budgetChars": 80000,
+      "mustInclude": ["NoxAeterna.Infrastructure/Ephemeris/SwissEphemerisCalculator.cs", "docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/ASTRONOMY-ENGINE.md", "docs/THIRD-PARTY.md", "docs/ARCHITECTURAL-BOUNDARIES.md"],
+      "mustExclude": ["docs/archive/**", "docs/TAROT-ENGINE.md"],
+      "expectedMatchedRules": ["infrastructure-ephemeris"], "expectedTestRoutes": ["Infrastructure-Ephemeris"], "forbiddenTestRoutes": ["Rendering"],
+      "maxSelectedFiles": 9, "maxSelectedChars": 80000
+    },
+    {
+      "name": "geometry-code-change", "task": "CodeChange",
+      "paths": ["NoxAeterna.Geometry/Charts/CircularChartLayoutBuilder.cs"], "budgetChars": 70000,
+      "mustInclude": ["NoxAeterna.Geometry/Charts/CircularChartLayoutBuilder.cs", "docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/GEOMETRY-ENGINE.md"],
+      "mustExclude": ["docs/archive/**", "docs/PERSISTENCE.md"],
+      "expectedMatchedRules": ["chart-geometry"], "expectedTestRoutes": ["Geometry"], "forbiddenTestRoutes": ["Infrastructure-Ephemeris"],
+      "maxSelectedFiles": 7, "maxSelectedChars": 70000
+    },
+    {
+      "name": "rendering-code-change", "task": "CodeChange",
+      "paths": ["NoxAeterna.Rendering/Charts/CircularChartRenderer.cs"], "budgetChars": 70000,
+      "mustInclude": ["NoxAeterna.Rendering/Charts/CircularChartRenderer.cs", "docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/RENDERING-ENGINE.md", "docs/VISUAL-DESIGN-SYSTEM.md"],
+      "mustExclude": ["docs/archive/**", "docs/TAROT-ENGINE.md", "docs/PERSISTENCE.md"],
+      "expectedMatchedRules": ["chart-rendering"], "expectedTestRoutes": ["Rendering"], "forbiddenTestRoutes": ["Infrastructure-Ephemeris"],
+      "maxSelectedFiles": 8, "maxSelectedChars": 70000
+    },
+    {
+      "name": "astrology-workspace-ui-change", "task": "UiChange",
+      "paths": ["NoxAeterna.App/Astrology/AstrologyWorkspaceControl.cs"], "budgetChars": 100000,
+      "mustInclude": ["NoxAeterna.App/Astrology/AstrologyWorkspaceControl.cs", "docs/PROJECT-STATE.md", "docs/UI-VISION.md", "docs/VISUAL-DESIGN-SYSTEM.md", "docs/THEMES.md", "docs/UI-SMOKE.md"],
+      "mustExclude": ["docs/archive/**", "docs/PERSISTENCE.md"],
+      "expectedMatchedRules": ["app-astrology-workspace"], "expectedTestRoutes": ["App-Workspace"], "forbiddenTestRoutes": ["Infrastructure-Ephemeris"],
+      "maxSelectedFiles": 9, "maxSelectedChars": 100000
+    },
+    {
+      "name": "theme-ui-change", "task": "UiChange",
+      "paths": ["NoxAeterna.App/Themes/SemanticControlStyles.axaml"], "budgetChars": 100000,
+      "mustInclude": ["NoxAeterna.App/Themes/SemanticControlStyles.axaml", "docs/PROJECT-STATE.md", "docs/UI-VISION.md", "docs/VISUAL-DESIGN-SYSTEM.md", "docs/THEMES.md", "docs/UI-SMOKE.md"],
+      "mustExclude": ["docs/archive/**", "docs/ASTRONOMY-ENGINE.md"],
+      "expectedMatchedRules": ["themes"], "expectedTestRoutes": ["Theme-Resources"], "forbiddenTestRoutes": ["Astronomy"],
+      "maxSelectedFiles": 9, "maxSelectedChars": 100000
+    },
+    {
+      "name": "localization-change", "task": "CodeChange",
+      "paths": ["NoxAeterna.Presentation/Localization/LocalizationCatalog.cs"], "budgetChars": 70000,
+      "mustInclude": ["NoxAeterna.Presentation/Localization/LocalizationCatalog.cs", "docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/UI-VISION.md"],
+      "mustExclude": ["docs/archive/**", "docs/GEOMETRY-ENGINE.md"],
+      "expectedMatchedRules": ["localization"], "expectedTestRoutes": ["Localization"], "forbiddenTestRoutes": ["Geometry"],
+      "maxSelectedFiles": 7, "maxSelectedChars": 70000
+    },
+    {
+      "name": "project-stats-tooling", "task": "Tooling",
+      "paths": ["NoxAeterna.Tools.Repository/Stats/ProjectStatsAnalyzer.cs"], "budgetChars": 100000,
+      "mustInclude": ["NoxAeterna.Tools.Repository/Stats/ProjectStatsAnalyzer.cs", "docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/TEST-EXECUTION.md", "docs/DOCUMENTATION-GOVERNANCE.md", "docs/PROJECT-STATS.md"],
+      "mustExclude": ["docs/archive/**", "docs/TAROT-ENGINE.md"],
+      "expectedMatchedRules": ["project-stats"], "expectedTestRoutes": ["Project-Stats"], "forbiddenTestRoutes": ["Rendering"],
+      "maxSelectedFiles": 9, "maxSelectedChars": 100000
+    },
+    {
+      "name": "agent-context-tooling", "task": "Tooling",
+      "paths": ["NoxAeterna.Tools.Repository/Context/ContextPlanner.cs"], "budgetChars": 110000,
+      "mustInclude": ["NoxAeterna.Tools.Repository/Context/ContextPlanner.cs", "docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/TEST-EXECUTION.md", "docs/DOCUMENTATION-GOVERNANCE.md", "docs/CONTEXT-ROUTING.md", "docs/PROJECT-STATS.md"],
+      "mustExclude": ["docs/archive/**", "docs/INTERPRETATION-ENGINE.md"],
+      "expectedMatchedRules": ["agent-context"], "expectedTestRoutes": ["Agent-Context"], "forbiddenTestRoutes": ["Rendering"],
+      "maxSelectedFiles": 10, "maxSelectedChars": 110000
+    },
+    {
+      "name": "documentation-governance", "task": "Documentation",
+      "paths": ["docs/DOCUMENTATION-GOVERNANCE.md"], "budgetChars": 80000,
+      "mustInclude": ["docs/DOCUMENTATION-GOVERNANCE.md", "docs/PROJECT-STATE.md"],
+      "mustExclude": ["docs/archive/**", "docs/RENDERING-ENGINE.md"],
+      "expectedMatchedRules": ["documentation"], "expectedTestRoutes": [], "forbiddenTestRoutes": ["Rendering"],
+      "maxSelectedFiles": 6, "maxSelectedChars": 80000
+    },
+    {
+      "name": "asset-change", "task": "AssetChange",
+      "paths": ["resources/tarot/cards/major-00.png"], "budgetChars": 70000,
+      "mustInclude": ["docs/PROJECT-STATE.md", "docs/ASSETS-PIPELINE.md", "docs/THIRD-PARTY.md", "docs/VISUAL-DESIGN-SYSTEM.md"],
+      "mustExclude": ["docs/archive/**", "docs/ASTRONOMY-ENGINE.md"],
+      "expectedMatchedRules": ["assets-resources"], "expectedTestRoutes": [], "forbiddenTestRoutes": ["Astronomy"],
+      "maxSelectedFiles": 7, "maxSelectedChars": 70000
+    },
+    {
+      "name": "planned-persistence-path", "task": "CodeChange",
+      "paths": ["NoxAeterna.Persistence/Charts/ChartRepository.cs"], "budgetChars": 80000,
+      "mustInclude": ["docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/PERSISTENCE.md", "docs/ARCHITECTURAL-BOUNDARIES.md"],
+      "mustExclude": ["docs/archive/**", "docs/TAROT-ENGINE.md"],
+      "expectedMatchedRules": ["persistence-production"], "expectedTestRoutes": ["Architecture-Boundaries"], "forbiddenTestRoutes": ["Rendering"],
+      "maxSelectedFiles": 7, "maxSelectedChars": 80000
+    },
+    {
+      "name": "multi-target-rendering-app-change", "task": "CodeChange",
+      "paths": ["NoxAeterna.Rendering/Charts/CircularChartRenderer.cs", "NoxAeterna.App/Astrology/AstrologyChartSurfaceControl.cs"], "budgetChars": 100000,
+      "mustInclude": ["NoxAeterna.Rendering/Charts/CircularChartRenderer.cs", "NoxAeterna.App/Astrology/AstrologyChartSurfaceControl.cs", "docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/RENDERING-ENGINE.md", "docs/VISUAL-DESIGN-SYSTEM.md", "docs/UI-VISION.md", "docs/UI-SMOKE.md"],
+      "mustExclude": ["docs/archive/**", "docs/PERSISTENCE.md"],
+      "expectedMatchedRules": ["chart-rendering", "app-astrology-workspace"], "expectedTestRoutes": ["Rendering", "App-Workspace"], "forbiddenTestRoutes": ["Infrastructure-Ephemeris"],
+      "maxSelectedFiles": 11, "maxSelectedChars": 100000
+    }
+  ]
+}

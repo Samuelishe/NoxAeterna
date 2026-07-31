@@ -2,7 +2,7 @@
 
 | Metadata | Definition |
 | --- | --- |
-| Role | Compact operational entry point for Codex and other repository agents. |
+| Role | Operational repository entry point. |
 | Read when | At the beginning of every repository session. |
 | Authoritative for | Baseline sequence, Git and privacy safety, task routing, architecture entry rules, verification routing, documentation updates, and the final response format. |
 | Not authoritative for | Current project status, roadmap, implementation chronology, exact test filters, visual palette values, or astronomy algorithms. |
@@ -14,15 +14,16 @@
 3. If changes already exist, inspect and preserve them; do not overwrite user work.
 4. Read `docs/PROJECT-STATE.md`, then read only the owners required by the task.
 
+For nontrivial work, run `pwsh eng/context-plan.ps1 -Task <TaskKind> -Path <TargetPath...> -BudgetChars <Budget>` with one task, concrete paths, and a small budget. Read selected paths first; run returned tests through `eng/test-route.ps1`. If unavailable, retain its diagnostic and use this guide, `PROJECT-STATE.md`, owner routes, and bounded `rg`/Git discovery—never the whole repository. It does not replace architecture ownership or UI smoke; see `docs/CONTEXT-ROUTING.md`.
+
 Do not use destructive Git operations, including `git reset`, `git clean`, or `git checkout --`. Commit, push, pull, fetch, merge, and rebase are allowed only when the user explicitly requests them. Never discard unrelated changes to make verification easier.
 
 ## Privacy and Repository Ownership
 
-- Settings, profiles, saved charts, history, caches, and recent places belong in AppData or the platform user-data location.
-- Shipped application assets belong in the repository and must remain reviewable and attributed.
-- Manual-smoke screenshots are temporary evidence and must not be committed.
-- Do not read or publish private local user data without explicit permission.
-- Do not add absolute machine paths, local logs, IDE state, or machine-specific artifacts.
+- Settings, profiles, saved charts, history, caches, and recent places belong in platform user data.
+- Shipped assets belong in the repository and remain reviewable and attributed.
+- Manual-smoke screenshots are temporary and untracked; never read or publish private local data without permission.
+- Do not add machine paths, logs, IDE state, or machine-specific artifacts.
 - Runtime state must never be stored in the repository or beside the executable.
 
 ## Documentation Routing
@@ -39,6 +40,7 @@ Read this file and `docs/PROJECT-STATE.md` first, then use the smallest applicab
 | Persistence | `docs/PERSISTENCE.md` + `docs/ARCHITECTURAL-BOUNDARIES.md` |
 | Documentation or tooling | `docs/DOCUMENTATION-GOVERNANCE.md` |
 | Repository stats | `docs/PROJECT-STATS.md`; implementation in `NoxAeterna.Tools.Repository` |
+| Context routing | `docs/CONTEXT-ROUTING.md`; exact mappings/evals in `eng/context-routes.json` and `eng/context-evals.json` |
 | Tests | `docs/TEST-EXECUTION.md`; executable names from `eng/test-routes.json` via `eng/test-route.ps1` |
 | UI smoke | `docs/UI-SMOKE.md` + `eng/ui-smoke-cases.json` |
 
@@ -61,7 +63,7 @@ The complete rules belong to `docs/ARCHITECTURAL-BOUNDARIES.md`; do not duplicat
 - For meaningful UI or rendering changes, run the real application and interact with real controls.
 - Relevant visual smoke covers dark/light, RU/EN, resize, and affected default/hover/focus/selected/disabled/error states.
 - Calling coordinator methods or rendering isolated internals does not replace real-control smoke.
-- Store temporary screenshots under an ignored scoped output or the system temporary directory; never track them.
+- Store screenshots in an ignored scope or system temporary directory.
 - Baseline and documentation scripts are read-only. They do not replace build, tests, or application smoke.
 - Follow `docs/TEST-EXECUTION.md` for route tiers and `docs/UI-SMOKE.md` for relevant real-control evidence.
 

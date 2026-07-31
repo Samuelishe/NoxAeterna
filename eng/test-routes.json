@@ -159,6 +159,18 @@
       "milestoneOnly": false
     },
     {
+      "name": "Agent-Context",
+      "description": "Exact context routing, bounded planning, wrappers, and retrieval evaluation contracts.",
+      "kind": "leaf",
+      "category": "repository",
+      "tags": ["agent-context", "tooling", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.AgentContext",
+      "defaultTimeoutSeconds": 300,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
       "name": "Full",
       "description": "Complete NoxAeterna.Tests milestone suite.",
       "kind": "leaf",
@@ -205,7 +217,7 @@
       "kind": "composite",
       "category": "repository",
       "tags": ["area"],
-      "children": ["Architecture-Boundaries", "Repository-Tooling", "Project-Stats"],
+      "children": ["Architecture-Boundaries", "Repository-Tooling", "Project-Stats", "Agent-Context"],
       "hardwareEvidence": false,
       "milestoneOnly": false
     }

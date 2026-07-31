@@ -14,13 +14,14 @@
 - T1-A repository documentation foundation is complete at checkpoint commit `77538a6157e269cde20b26ae3fa72764231a3858`.
 - T1-B implementation is complete, and hosted run `30619151450` passed documentation validation, Windows/Linux/macOS milestone tests, and diagnostic coverage with four expected artifacts.
 - The same-day session-log rollover is complete; finished July 31 evidence is retained in indexed partial-day archive part 01.
-- T2-A Project Stats is implemented as a standalone factual public-file inventory and structural reporting tool. Hosted run `30624650769` exposed a Unix-only MSBuild project-reference parsing defect; the host-independent repair is implemented locally, but T2-A remains pending until the replacement hosted run is green.
+- T2-A Project Stats and the T2-A.1 host-independent MSBuild path repair are complete. Hosted checkpoint commit `9791d672c87c06c71e365d5433b4f847d6917046` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs; the Unix parsing blocker is removed.
+- T2-B deterministic RAG-lite context routing, bounded planning, wrappers, and retrieval evaluations are implemented locally without embeddings, network access, or a second repository scanner.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-T2-A.1 cross-platform project-reference repair is complete locally. Current focus is hosted confirmation across Documentation, Windows, Ubuntu, macOS, and diagnostic coverage; T2-B must not begin before all five jobs are green.
+Hosted T2-B confirmation across Documentation, Windows, Ubuntu, macOS, and diagnostic coverage.
 
 ## Preserved Contracts
 
@@ -33,6 +34,5 @@ T2-A.1 cross-platform project-reference repair is complete locally. Current focu
 
 ## Active Blockers
 
-- The repaired T2-A project graph has not yet received replacement hosted CI confirmation on Ubuntu and macOS.
-- Exact context routes, the context planner, and retrieval evaluations are not implemented.
+- The local T2-B implementation has not yet received replacement hosted CI confirmation.
 - No product feature is selected for implementation during the repository-foundation wave.

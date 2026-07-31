@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "taskKinds": [
+    {
+      "name": "CodeChange",
+      "mandatoryDocuments": [
+        { "path": "docs/PROJECT-STATE.md", "priority": 10 },
+        { "path": "docs/CODING-GUIDELINES.md", "priority": 20 }
+      ],
+      "recommendedDocuments": [],
+      "maxSelectedFiles": 14
+    },
+    {
+      "name": "StructuralRefactor",
+      "mandatoryDocuments": [
+        { "path": "docs/PROJECT-STATE.md", "priority": 10 },
+        { "path": "docs/ARCHITECTURE.md", "priority": 20 },
+        { "path": "docs/ARCHITECTURAL-BOUNDARIES.md", "priority": 30 }
+      ],
+      "recommendedDocuments": [
+        { "path": "docs/CODING-GUIDELINES.md", "priority": 40 }
+      ],
+      "maxSelectedFiles": 16
+    },
+    {
+      "name": "TestChange",
+      "mandatoryDocuments": [
+        { "path": "docs/PROJECT-STATE.md", "priority": 10 },
+        { "path": "docs/TEST-EXECUTION.md", "priority": 20 }
+      ],
+      "recommendedDocuments": [],
+      "maxSelectedFiles": 14
+    },
+    {
+      "name": "UiChange",
+      "mandatoryDocuments": [
+        { "path": "docs/PROJECT-STATE.md", "priority": 10 },
+        { "path": "docs/UI-VISION.md", "priority": 20 },
+        { "path": "docs/VISUAL-DESIGN-SYSTEM.md", "priority": 30 },
+        { "path": "docs/THEMES.md", "priority": 40 },
+        { "path": "docs/UI-SMOKE.md", "priority": 50 }
+      ],
+      "recommendedDocuments": [],
+      "maxSelectedFiles": 16
+    },
+    {
+      "name": "Documentation",
+      "mandatoryDocuments": [
+        { "path": "docs/PROJECT-STATE.md", "priority": 10 },
+        { "path": "docs/DOCUMENTATION-GOVERNANCE.md", "priority": 20 }
+      ],
+      "recommendedDocuments": [],
+      "maxSelectedFiles": 10
+    },
+    {
+      "name": "Tooling",
+      "mandatoryDocuments": [
+        { "path": "docs/PROJECT-STATE.md", "priority": 10 },
+        { "path": "docs/CODING-GUIDELINES.md", "priority": 20 },
+        { "path": "docs/TEST-EXECUTION.md", "priority": 30 },
+        { "path": "docs/DOCUMENTATION-GOVERNANCE.md", "priority": 40 }
+      ],
+      "recommendedDocuments": [],
+      "maxSelectedFiles": 16
+    },
+    {
+      "name": "AssetChange",
+      "mandatoryDocuments": [
+        { "path": "docs/PROJECT-STATE.md", "priority": 10 },
+        { "path": "docs/ASSETS-PIPELINE.md", "priority": 20 },
+        { "path": "docs/THIRD-PARTY.md", "priority": 30 },
+        { "path": "docs/VISUAL-DESIGN-SYSTEM.md", "priority": 40 }
+      ],
+      "recommendedDocuments": [],
+      "maxSelectedFiles": 12
+    }
+  ],
+  "pathRules": [
+    {
+      "name": "domain-astrology", "priority": 100,
+      "patterns": ["NoxAeterna.Domain/Astrology/**", "NoxAeterna.Tests/Astrology/**"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange"],
+      "documents": ["docs/DOMAIN-MODEL.md", "docs/ARCHITECTURAL-BOUNDARIES.md"],
+      "testRoutes": ["Domain"]
+    },
+    {
+      "name": "birth-time", "priority": 100,
+      "patterns": ["NoxAeterna.Domain/Birth/**", "NoxAeterna.Tests/Birth/**"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange"],
+      "documents": ["docs/DOMAIN-MODEL.md", "docs/ASTRONOMY-ENGINE.md"],
+      "testRoutes": ["Birth-Time"]
+    },
+    {
+      "name": "astronomy", "priority": 100,
+      "patterns": ["NoxAeterna.Astronomy/**", "NoxAeterna.Tests/Astronomy/**"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange"],
+      "documents": ["docs/ASTRONOMY-ENGINE.md", "docs/ARCHITECTURAL-BOUNDARIES.md"],
+      "testRoutes": ["Astronomy"]
+    },
+    {
+      "name": "infrastructure-ephemeris", "priority": 100,
+      "patterns": ["NoxAeterna.Infrastructure/Ephemeris/**", "NoxAeterna.Tests/Infrastructure/SwissEphemeris*"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange"],
+      "documents": ["docs/ASTRONOMY-ENGINE.md", "docs/THIRD-PARTY.md", "docs/ARCHITECTURAL-BOUNDARIES.md"],
+      "testRoutes": ["Infrastructure-Ephemeris"]
+    },
+    {
+      "name": "chart-geometry", "priority": 100,
+      "patterns": ["NoxAeterna.Geometry/**", "NoxAeterna.Tests/Geometry/**"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange"],
+      "documents": ["docs/GEOMETRY-ENGINE.md"],
+      "testRoutes": ["Geometry"]
+    },
+    {
+      "name": "chart-rendering", "priority": 100,
+      "patterns": ["NoxAeterna.Rendering/**", "NoxAeterna.Tests/Rendering/**"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "UiChange"],
+      "documents": ["docs/RENDERING-ENGINE.md", "docs/VISUAL-DESIGN-SYSTEM.md"],
+      "testRoutes": ["Rendering"]
+    },
+    {
+      "name": "astrology-presentation", "priority": 100,
+      "patterns": ["NoxAeterna.Presentation/Astrology/**", "NoxAeterna.Tests/Presentation/*Astrology*", "NoxAeterna.Tests/Presentation/BirthData*"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "UiChange"],
+      "documents": ["docs/UI-VISION.md", "docs/DOMAIN-MODEL.md"],
+      "testRoutes": ["Presentation"]
+    },
+    {
+      "name": "app-astrology-workspace", "priority": 100,
+      "patterns": ["NoxAeterna.App/Astrology/**", "NoxAeterna.Tests/App/DevelopmentAstrology*", "NoxAeterna.Tests/App/AstrologyWorkspace*"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "UiChange"],
+      "documents": ["docs/UI-VISION.md", "docs/UI-SMOKE.md"],
+      "testRoutes": ["App-Workspace"]
+    },
+    {
+      "name": "themes", "priority": 100,
+      "patterns": ["NoxAeterna.App/Themes/**", "NoxAeterna.Presentation/Theming/**", "NoxAeterna.Tests/App/*Theme*", "NoxAeterna.Tests/Presentation/ThemeRegistryTests.cs"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "UiChange"],
+      "documents": ["docs/THEMES.md", "docs/VISUAL-DESIGN-SYSTEM.md"],
+      "testRoutes": ["Theme-Resources"]
+    },
+    {
+      "name": "localization", "priority": 100,
+      "patterns": ["NoxAeterna.Presentation/Localization/**", "resources/localization/**", "NoxAeterna.Tests/Presentation/*Localization*"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "UiChange"],
+      "documents": ["docs/UI-VISION.md", "docs/CODING-GUIDELINES.md"],
+      "testRoutes": ["Localization"]
+    },
+    {
+      "name": "symbolics", "priority": 100,
+      "patterns": ["NoxAeterna.Symbolics/**"],
+      "taskKinds": ["CodeChange", "StructuralRefactor"],
+      "documents": ["docs/SYMBOLICS.md", "docs/DOMAIN-MODEL.md"],
+      "testRoutes": []
+    },
+    {
+      "name": "interpretation", "priority": 100,
+      "patterns": ["NoxAeterna.Interpretation/**"],
+      "taskKinds": ["CodeChange", "StructuralRefactor"],
+      "documents": ["docs/INTERPRETATION-ENGINE.md", "docs/SYMBOLICS.md"],
+      "testRoutes": []
+    },
+    {
+      "name": "persistence-production", "priority": 100,
+      "patterns": ["NoxAeterna.Persistence/**", "NoxAeterna.Tests/Persistence/**"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange"],
+      "documents": ["docs/PERSISTENCE.md", "docs/ARCHITECTURAL-BOUNDARIES.md"],
+      "testRoutes": ["Architecture-Boundaries"]
+    },
+    {
+      "name": "persistence-documentation", "priority": 110,
+      "patterns": ["docs/PERSISTENCE.md"],
+      "taskKinds": ["Documentation"],
+      "documents": ["docs/PERSISTENCE.md", "docs/ARCHITECTURAL-BOUNDARIES.md"],
+      "testRoutes": []
+    },
+    {
+      "name": "assets-resources", "priority": 100,
+      "patterns": ["resources/**", "NoxAeterna.App/Assets/**"],
+      "taskKinds": ["AssetChange", "UiChange"],
+      "documents": ["docs/ASSETS-PIPELINE.md", "docs/THIRD-PARTY.md", "docs/VISUAL-DESIGN-SYSTEM.md"],
+      "testRoutes": []
+    },
+    {
+      "name": "project-stats", "priority": 100,
+      "patterns": ["NoxAeterna.Tools.Repository/Analysis/**", "NoxAeterna.Tools.Repository/Stats/**", "NoxAeterna.Tools.Repository/Cli/ProjectStats*", "NoxAeterna.Tests/ProjectStats/**", "docs/PROJECT-STATS.md"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "Tooling", "Documentation"],
+      "documents": ["docs/PROJECT-STATS.md"],
+      "testRoutes": ["Project-Stats"]
+    },
+    {
+      "name": "agent-context", "priority": 90,
+      "patterns": ["NoxAeterna.Tools.Repository/Context/**", "NoxAeterna.Tests/AgentContext/**", "eng/context-*", "docs/CONTEXT-ROUTING.md"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "Tooling", "Documentation"],
+      "documents": ["docs/CONTEXT-ROUTING.md", "docs/PROJECT-STATS.md"],
+      "testRoutes": ["Agent-Context"]
+    },
+    {
+      "name": "repository-tooling", "priority": 500,
+      "patterns": ["eng/**", ".github/workflows/**", "NoxAeterna.Tests/Tooling/**"],
+      "taskKinds": ["Tooling", "TestChange", "Documentation"],
+      "documents": ["docs/DOCUMENTATION-GOVERNANCE.md", "docs/TEST-EXECUTION.md"],
+      "testRoutes": ["Repository-Tooling"]
+    },
+    {
+      "name": "documentation", "priority": 500,
+      "patterns": ["docs/**", "AGENTS.md", "README.md"],
+      "taskKinds": ["Documentation"],
+      "documents": ["docs/DOCUMENTATION-GOVERNANCE.md"],
+      "testRoutes": []
+    }
+  ]
+}

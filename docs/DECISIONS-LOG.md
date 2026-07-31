@@ -458,3 +458,11 @@ Decision: Keep one BCL-only `NoxAeterna.Tools.Repository` executable as the reus
 Reason: File metadata, project references, and lexical topology are reusable facts, but turning those facts into agent context is a separate policy problem. Splitting the tool into several projects or embedding RAG decisions now would create premature architecture.
 
 Consequences: Reports are on-demand diagnostic signals rather than quality gates or automatic refactoring verdicts. Private/sensitive and generated/runtime paths are never read, output reports remain ignored, CI gains coverage through the normal test suite without publishing a new artifact, and future context planning reuses the factual inventory instead of creating another scanner.
+
+## 2026-07-31: Use Exact Deterministic Routes for Bounded Agent Context
+
+Decision: Build RAG-lite from one task kind, concrete repository-relative targets, exact additive path rules, canonical owners, named test routes, and an explicit character/file budget. Keep exact mappings in `eng/context-routes.json` and retrieval regressions in `eng/context-evals.json`.
+
+Reason: Repository navigation needs repeatable precision and progressive disclosure, not embeddings, semantic guesses, background indexes, or a second scanner. The existing Git-visible factual inventory already owns public file discovery and character counts.
+
+Consequences: Plans are read-only paths and metadata rather than file contents, archives are never implicit, mandatory evidence cannot be silently dropped to fit, and evals detect route inclusion/exclusion regressions. Planner output is navigation rather than a quality gate or permission to ignore code and architecture owners.

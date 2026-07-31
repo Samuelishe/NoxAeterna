@@ -80,4 +80,4 @@ When changing the tool:
 4. Run the CLI in console, JSON, and Markdown modes against the real repository.
 5. Do not add automatic refactoring conclusions or CI artifact generation.
 
-T2-B may reuse the factual `RepositoryFileEntry` inventory for context planning. It must add its own exact route, ranking, and budget policy rather than embedding that policy into Project Stats; T2-B is not implemented here.
+Context planning reuses the factual `RepositoryFileEntry` inventory but owns exact routes, selection, and budgets in [`CONTEXT-ROUTING.md`](CONTEXT-ROUTING.md) and its registries. Project Stats remains factual diagnostics and does not select agent context.

@@ -222,12 +222,17 @@ if ($null -ne $repositoryRoot) {
         'AGENTS.md',
         'docs/PROJECT-STATE.md',
         'docs/PROJECT-STATS.md',
+        'docs/CONTEXT-ROUTING.md',
         'docs/DOCUMENTATION-GOVERNANCE.md',
         'docs/INDEX.md',
         'docs/SESSION-LOG.md',
         'docs/archive/README.md',
         'docs/TEST-EXECUTION.md',
-        'docs/UI-SMOKE.md'
+        'docs/UI-SMOKE.md',
+        'eng/context-routes.json',
+        'eng/context-evals.json',
+        'eng/context-plan.ps1',
+        'eng/context-eval.ps1'
     )
     foreach ($path in $requiredDocuments) {
         if (-not (Test-Path -LiteralPath (Join-Path $repositoryRoot $path) -PathType Leaf)) {
@@ -240,6 +245,7 @@ if ($null -ne $repositoryRoot) {
         'docs/AGENTS.md',
         'docs/PROJECT-STATE.md',
         'docs/PROJECT-STATS.md',
+        'docs/CONTEXT-ROUTING.md',
         'docs/DOCUMENTATION-GOVERNANCE.md',
         'docs/VISUAL-DESIGN-SYSTEM.md',
         'docs/THEMES.md',
@@ -287,6 +293,9 @@ if ($null -ne $repositoryRoot) {
                     milestoneOnly = [bool]$route.milestoneOnly
                 })
             }
+            if (-not @($routeRegistry.routes | Where-Object { [string]$_.name -eq 'Agent-Context' })) {
+                $errors.Add((New-Diagnostic 'context.test-route-missing' 'eng/test-routes.json' 'Agent-Context route does not exist.'))
+            }
         }
         catch {
             $errors.Add((New-Diagnostic 'test-routes.invalid' 'eng/test-routes.json' $_.Exception.Message))
@@ -303,6 +312,21 @@ if ($null -ne $repositoryRoot) {
         }
         catch {
             $errors.Add((New-Diagnostic 'ui-smoke.invalid' 'eng/ui-smoke-cases.json' $_.Exception.Message))
+        }
+    }
+
+    foreach ($contextRegistryPath in @('eng/context-routes.json', 'eng/context-evals.json')) {
+        $absoluteContextRegistry = Join-Path $repositoryRoot $contextRegistryPath
+        if (Test-Path -LiteralPath $absoluteContextRegistry -PathType Leaf) {
+            try {
+                $contextRegistry = Get-Content -LiteralPath $absoluteContextRegistry -Raw | ConvertFrom-Json
+                if ($contextRegistry.schemaVersion -ne 1) {
+                    $errors.Add((New-Diagnostic 'context.schema-version' $contextRegistryPath 'Only schemaVersion 1 is supported.'))
+                }
+            }
+            catch {
+                $errors.Add((New-Diagnostic 'context.invalid-json' $contextRegistryPath $_.Exception.Message))
+            }
         }
     }
 

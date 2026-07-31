@@ -63,4 +63,15 @@ Project Stats is a BCL-only, on-demand factual report over Git-visible public fi
 
 The real-control UI catalog is in `ui-smoke-cases.json`; it is manual and is not launched by repository checks or CI. See [`docs/UI-SMOKE.md`](../docs/UI-SMOKE.md).
 
-Generated output is operational evidence, not product documentation. Context routes and planning remain planned for T2-B.
+## Context Routing
+
+```powershell
+pwsh eng/context-plan.ps1 -Task CodeChange -Path NoxAeterna.Rendering/Charts/CircularChartRenderer.cs -BudgetChars 50000
+pwsh eng/context-plan.ps1 -Task Tooling -Path NoxAeterna.Tools.Repository/Context/ContextPlanner.cs -BudgetChars 70000 -CompactJson
+pwsh eng/context-eval.ps1
+pwsh eng/context-eval.ps1 -Case rendering-code-change -Json
+```
+
+The wrappers build only the BCL repository tool with `--no-restore` unless `-NoBuild` is supplied. They are read-only, emit no caches or plans, and use the shared factual public-file inventory. Exact mappings and evaluations live in `context-routes.json` and `context-evals.json`; policy belongs to [`docs/CONTEXT-ROUTING.md`](../docs/CONTEXT-ROUTING.md).
+
+Generated output is operational evidence, not product documentation.

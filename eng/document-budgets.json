@@ -13,6 +13,11 @@
       "overflowStrategy": "manual-reconcile"
     },
     {
+      "path": "docs/CONTEXT-ROUTING.md",
+      "hardLimit": 18000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
       "path": "docs/DOCUMENTATION-GOVERNANCE.md",
       "hardLimit": 16000,
       "overflowStrategy": "manual-reconcile"

@@ -399,6 +399,32 @@ public sealed class DocumentationCheckScriptTests
         Assert.DoesNotContain("git reset", source, StringComparison.OrdinalIgnoreCase);
     }
 
+    [Fact]
+    public void InvalidContextRegistryJsonFailsBasicDocumentationContract()
+    {
+        using var fixture = DocumentationFixture.Create();
+        File.WriteAllText(Path.Combine(fixture.Root, "eng", "context-routes.json"), "{ invalid");
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("eng/context-routes.json", result.CombinedOutput, StringComparison.Ordinal);
+        Assert.Contains("ERROR", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void MissingAgentContextTestRouteFailsBasicDocumentationContract()
+    {
+        using var fixture = DocumentationFixture.Create();
+        var path = Path.Combine(fixture.Root, "eng", "test-routes.json");
+        File.WriteAllText(path, File.ReadAllText(path).Replace("Agent-Context", "Other-Context", StringComparison.Ordinal));
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("Agent-Context route does not exist", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
     private sealed class DocumentationFixture : IDisposable
     {
         private const string Metadata = """
@@ -434,6 +460,7 @@ public sealed class DocumentationCheckScriptTests
             Write(root, "docs/TEST-EXECUTION.md", $"# Test Execution{Environment.NewLine}{Environment.NewLine}{Metadata}");
             Write(root, "docs/UI-SMOKE.md", $"# UI Smoke{Environment.NewLine}{Environment.NewLine}{Metadata}");
             Write(root, "docs/PROJECT-STATS.md", $"# Project Stats{Environment.NewLine}{Environment.NewLine}{Metadata}");
+            Write(root, "docs/CONTEXT-ROUTING.md", $"# Context Routing{Environment.NewLine}{Environment.NewLine}{Metadata}");
             Write(
                 root,
                 "docs/PROJECT-STATE.md",
@@ -512,9 +539,26 @@ public sealed class DocumentationCheckScriptTests
                       "hardwareEvidence": false,
                       "milestoneOnly": false
                     }
+                    ,
+                    {
+                      "name": "Agent-Context",
+                      "description": "Context fixture route.",
+                      "kind": "leaf",
+                      "category": "fixture",
+                      "tags": ["offline"],
+                      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+                      "filter": "FullyQualifiedName~AgentContext",
+                      "defaultTimeoutSeconds": 30,
+                      "hardwareEvidence": false,
+                      "milestoneOnly": false
+                    }
                   ]
                 }
                 """);
+            Write(root, "eng/context-routes.json", "{\"schemaVersion\":1}");
+            Write(root, "eng/context-evals.json", "{\"schemaVersion\":1}");
+            Write(root, "eng/context-plan.ps1", "# fixture");
+            Write(root, "eng/context-eval.ps1", "# fixture");
             Write(
                 root,
                 "eng/ui-smoke-cases.json",

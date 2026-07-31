@@ -6,7 +6,7 @@ namespace NoxAeterna.Tests.ProjectStats;
 public sealed class ProjectStatsRouteContractTests
 {
     [Fact]
-    public void DedicatedLeafIsNonOverlappingAndOrderedLastInRepositoryComposite()
+    public void DedicatedLeafIsNonOverlappingAndPrecedesAgentContextInRepositoryComposite()
     {
         var path = Path.Combine(ProjectStatsTestFixture.RepositoryRoot, "eng", "test-routes.json");
         using var document = JsonDocument.Parse(File.ReadAllText(path));
@@ -18,7 +18,7 @@ public sealed class ProjectStatsRouteContractTests
         Assert.Equal("FullyQualifiedName~NoxAeterna.Tests.ProjectStats", leaf.GetProperty("filter").GetString());
         Assert.False(leaf.GetProperty("milestoneOnly").GetBoolean());
         Assert.Equal(
-            new[] { "Architecture-Boundaries", "Repository-Tooling", "Project-Stats" },
+            new[] { "Architecture-Boundaries", "Repository-Tooling", "Project-Stats", "Agent-Context" },
             composite.GetProperty("children").EnumerateArray().Select(static child => child.GetString()).ToArray());
     }
 
