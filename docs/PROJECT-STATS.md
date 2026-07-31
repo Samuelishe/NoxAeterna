@@ -62,7 +62,9 @@ Schema version 1 contains:
 - a read-only snapshot of `eng/document-budgets.json`;
 - controlled diagnostics.
 
-Project references come only from project XML. Missing references, self-references, cycles, and malformed projects are diagnostics; existing architecture tests remain the quality gate.
+Project references come only from project XML. MSBuild `/` and `\` separators are interpreted lexically and independently of the host OS, then emitted as canonical repository-relative `/` paths. Raw `Include` values are never passed directly to host path-combination APIs. References that escape the repository or use unsupported MSBuild expressions produce controlled diagnostics rather than guessed paths. Property expansion, conditional item evaluation, imports, and a full MSBuild graph remain out of scope.
+
+Missing references, self-references, cycles, and malformed projects are diagnostics; existing architecture tests remain the quality gate.
 
 `[Fact]`, `[Theory]`, and test-class counts are lexical statistics. A theory may create multiple runtime cases, and executable evidence continues to belong to named routes in [`TEST-EXECUTION.md`](TEST-EXECUTION.md). Documentation budget values remain owned and validated by `eng/document-budgets.json` and `eng/doc-check.ps1`; Project Stats only displays their current snapshot.
 

@@ -43,3 +43,22 @@ Verification:
 - `pwsh eng/test-route.ps1 run Repository-Verification -NoBuild`
 - console, JSON, and Markdown CLI smoke against the current repository
 - `pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone`
+
+## 2026-07-31: T2-A.1 Cross-Platform Project Reference Repair
+
+Summary:
+
+- Inspected hosted workflow run `30624650769`: Ubuntu and macOS milestone jobs plus Ubuntu coverage failed only in `CurrentRepositoryReportDiscoversExpectedProjectsWithoutUnsafeRankings`, where all 25 project references retained host-dependent parent/separator forms.
+- Replaced host-filesystem combination of raw MSBuild `ProjectReference` values with a lexical resolver that accepts `/`, `\`, and mixed separators, collapses dot and parent segments, and emits canonical repository-relative `/` paths.
+- Added controlled diagnostics for repository escape, absolute references, and unsupported MSBuild expressions without exposing machine paths or attempting full MSBuild evaluation.
+- Added pure host-independent regression cases plus a current-repository edge assertion; coverage collection and CI topology remain unchanged.
+
+Verification:
+
+- `dotnet build NoxAeterna.sln -c Debug`
+- `pwsh eng/test-route.ps1 run Project-Stats -NoBuild`
+- `pwsh eng/test-route.ps1 run Repository-Verification -NoBuild`
+- `pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone`
+- `pwsh eng/doc-check.ps1`
+
+Hosted confirmation remains pending after commit and push.

@@ -14,13 +14,13 @@
 - T1-A repository documentation foundation is complete at checkpoint commit `77538a6157e269cde20b26ae3fa72764231a3858`.
 - T1-B implementation is complete, and hosted run `30619151450` passed documentation validation, Windows/Linux/macOS milestone tests, and diagnostic coverage with four expected artifacts.
 - The same-day session-log rollover is complete; finished July 31 evidence is retained in indexed partial-day archive part 01.
-- T2-A Project Stats is implemented as a standalone factual public-file inventory and structural reporting tool; the accepted T1 hosted CI foundation is preserved.
+- T2-A Project Stats is implemented as a standalone factual public-file inventory and structural reporting tool. Hosted run `30624650769` exposed a Unix-only MSBuild project-reference parsing defect; the host-independent repair is implemented locally, but T2-A remains pending until the replacement hosted run is green.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-T2-A factual repository analysis is complete. The next stage is T2-B: exact RAG-lite context routes, deterministic context planning, character budgets, and retrieval evaluations.
+T2-A.1 cross-platform project-reference repair is complete locally. Current focus is hosted confirmation across Documentation, Windows, Ubuntu, macOS, and diagnostic coverage; T2-B must not begin before all five jobs are green.
 
 ## Preserved Contracts
 
@@ -33,5 +33,6 @@ T2-A factual repository analysis is complete. The next stage is T2-B: exact RAG-
 
 ## Active Blockers
 
+- The repaired T2-A project graph has not yet received replacement hosted CI confirmation on Ubuntu and macOS.
 - Exact context routes, the context planner, and retrieval evaluations are not implemented.
 - No product feature is selected for implementation during the repository-foundation wave.

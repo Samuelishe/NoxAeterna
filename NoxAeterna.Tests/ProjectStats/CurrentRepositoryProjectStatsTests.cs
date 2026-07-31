@@ -18,6 +18,16 @@ public sealed class CurrentRepositoryProjectStatsTests
         Assert.Contains(report.Projects, project => project.Name == "NoxAeterna.Tools.Repository");
         Assert.All(report.Projects.SelectMany(static project => project.ProjectReferences), reference =>
             Assert.Contains(report.Projects, project => project.Path == reference));
+        Assert.All(report.ProjectGraph, edge =>
+        {
+            Assert.DoesNotContain('\\', edge.From);
+            Assert.DoesNotContain('\\', edge.To);
+            Assert.DoesNotContain("../", edge.From, StringComparison.Ordinal);
+            Assert.DoesNotContain("../", edge.To, StringComparison.Ordinal);
+        });
+        Assert.Contains(report.ProjectGraph, edge =>
+            edge.From == "NoxAeterna.Tests/NoxAeterna.Tests.csproj" &&
+            edge.To == "NoxAeterna.Tools.Repository/NoxAeterna.Tools.Repository.csproj");
         Assert.DoesNotContain(AllRankedPaths(report), RepositoryPathPolicy.IsGenerated);
         Assert.DoesNotContain(AllRankedPaths(report), RepositoryPathPolicy.IsPrivateOrSensitive);
         Assert.DoesNotContain(report.Diagnostics, diagnostic =>

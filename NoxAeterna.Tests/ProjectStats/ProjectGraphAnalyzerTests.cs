@@ -33,6 +33,59 @@ public sealed class ProjectGraphAnalyzerTests
     }
 
     [Fact]
+    public void WindowsAndUnixIncludesProduceTheSameCanonicalEdge()
+    {
+        using var fixture = ProjectStatsTestFixture.Create();
+        fixture.Write(
+            "A/A.csproj",
+            "<Project><ItemGroup><ProjectReference Include=\"..\\B\\B.csproj\" /><ProjectReference Include=\"../B/B.csproj\" /></ItemGroup></Project>");
+        fixture.Write("B/B.csproj", "<Project />");
+
+        var result = new ProjectGraphAnalyzer().Analyze(
+            fixture.Root,
+            [Entry("A/A.csproj"), Entry("B/B.csproj")]);
+
+        var edge = Assert.Single(result.Edges);
+        Assert.Equal("A/A.csproj", edge.From);
+        Assert.Equal("B/B.csproj", edge.To);
+        Assert.Empty(result.Diagnostics);
+    }
+
+    [Theory]
+    [InlineData("../../../Outside/Outside.csproj", "project-reference-outside-root")]
+    [InlineData("/Outside/Outside.csproj", "project-reference-outside-root")]
+    [InlineData("$(ProjectRoot)/B/B.csproj", "project-reference-unsupported")]
+    public void UnsafeOrUnsupportedReferenceProducesControlledDiagnostic(string include, string expectedCode)
+    {
+        using var fixture = ProjectStatsTestFixture.Create();
+        fixture.Write("A/A.csproj", $"<Project><ItemGroup><ProjectReference Include=\"{include}\" /></ItemGroup></Project>");
+
+        var result = new ProjectGraphAnalyzer().Analyze(fixture.Root, [Entry("A/A.csproj")]);
+
+        Assert.Empty(result.Edges);
+        var diagnostic = Assert.Single(result.Diagnostics);
+        Assert.Equal(expectedCode, diagnostic.Code);
+        Assert.Equal("A/A.csproj", diagnostic.Path);
+        Assert.DoesNotContain(fixture.Root, diagnostic.Message, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("Outside", diagnostic.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void ProjectMatchingUsesCanonicalCaseRatherThanHostFilesystemRules()
+    {
+        using var fixture = ProjectStatsTestFixture.Create();
+        fixture.Write("A/A.csproj", "<Project><ItemGroup><ProjectReference Include=\"../b/B.csproj\" /></ItemGroup></Project>");
+        fixture.Write("B/B.csproj", "<Project />");
+
+        var result = new ProjectGraphAnalyzer().Analyze(
+            fixture.Root,
+            [Entry("A/A.csproj"), Entry("B/B.csproj")]);
+
+        Assert.Empty(result.Edges);
+        Assert.Contains(result.Diagnostics, diagnostic => diagnostic.Code == "project-reference-missing");
+    }
+
+    [Fact]
     public void MissingProjectReferenceProducesDiagnosticAndReportSurvives()
     {
         using var fixture = ProjectStatsTestFixture.Create();

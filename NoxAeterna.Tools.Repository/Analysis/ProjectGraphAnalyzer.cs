@@ -33,7 +33,7 @@ public sealed class ProjectGraphAnalyzer
             {
                 var absolutePath = Path.Combine(root, file.Path.Replace('/', Path.DirectorySeparatorChar));
                 var document = XDocument.Load(absolutePath, LoadOptions.None);
-                parsed.Add(ParseProject(root, file.Path, document, files));
+                parsed.Add(ParseProject(file.Path, document, files, diagnostics));
             }
             catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or System.Xml.XmlException)
             {
@@ -42,13 +42,13 @@ public sealed class ProjectGraphAnalyzer
             }
         }
 
-        var known = parsed.Select(static project => project.Path).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var known = parsed.Select(static project => project.Path).ToHashSet(StringComparer.Ordinal);
         var edges = new List<ProjectReferenceEdge>();
         foreach (var project in parsed)
         {
             foreach (var reference in project.References)
             {
-                if (reference.Equals(project.Path, StringComparison.OrdinalIgnoreCase))
+                if (reference.Equals(project.Path, StringComparison.Ordinal))
                 {
                     diagnostics.Add(new RepositoryDiagnostic(
                         "project-self-reference", "warning", project.Path, "Project references itself."));
@@ -79,10 +79,10 @@ public sealed class ProjectGraphAnalyzer
     }
 
     private static ParsedProject ParseProject(
-        string root,
         string relativePath,
         XDocument document,
-        IReadOnlyList<RepositoryFileEntry> files)
+        IReadOnlyList<RepositoryFileEntry> files,
+        ICollection<RepositoryDiagnostic> diagnostics)
     {
         var directory = RepositoryPathPolicy.Normalize(Path.GetDirectoryName(relativePath) ?? string.Empty).TrimEnd('/');
         var frameworks = document.Descendants()
@@ -95,15 +95,15 @@ public sealed class ProjectGraphAnalyzer
             .FirstOrDefault(static element => element.Name.LocalName == "OutputType")?.Value.Trim();
         var references = document.Descendants()
             .Where(static element => element.Name.LocalName == "ProjectReference")
-            .Select(element => NormalizeReference(root, relativePath, (string?)element.Attribute("Include")))
+            .Select(element => ResolveReference(relativePath, (string?)element.Attribute("Include"), diagnostics))
             .Where(static path => path is not null)
             .Cast<string>()
-            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Distinct(StringComparer.Ordinal)
             .OrderBy(static value => value, StringComparer.Ordinal)
             .ToArray();
         var sources = files.Where(file =>
                 file.Extension == ".cs" &&
-                file.Path.StartsWith(directory + "/", StringComparison.OrdinalIgnoreCase))
+                file.Path.StartsWith(directory + "/", StringComparison.Ordinal))
             .ToArray();
         return new ParsedProject(
             Path.GetFileNameWithoutExtension(relativePath),
@@ -116,17 +116,31 @@ public sealed class ProjectGraphAnalyzer
             sources.Sum(static source => source.Lines ?? 0));
     }
 
-    private static string? NormalizeReference(string root, string projectPath, string? include)
+    private static string? ResolveReference(
+        string projectPath,
+        string? include,
+        ICollection<RepositoryDiagnostic> diagnostics)
     {
-        if (string.IsNullOrWhiteSpace(include))
+        var resolution = MsBuildProjectPathResolver.Resolve(projectPath, include);
+        if (resolution.Succeeded)
         {
-            return null;
+            return resolution.Path;
         }
 
-        var projectDirectory = Path.GetDirectoryName(Path.Combine(root, projectPath.Replace('/', Path.DirectorySeparatorChar)))!;
-        var absolute = Path.GetFullPath(Path.Combine(projectDirectory, include));
-        var relative = Path.GetRelativePath(root, absolute);
-        return RepositoryPathPolicy.Normalize(relative);
+        var (code, message) = resolution.Failure switch
+        {
+            MsBuildProjectPathFailure.UnsupportedExpression => (
+                "project-reference-unsupported",
+                "Project reference uses an unsupported MSBuild expression and was not evaluated."),
+            MsBuildProjectPathFailure.AbsolutePath or MsBuildProjectPathFailure.RepositoryEscape => (
+                "project-reference-outside-root",
+                "Project reference is absolute or escapes the repository and was not resolved."),
+            _ => (
+                "project-reference-invalid",
+                "Project reference does not contain a resolvable repository-relative path.")
+        };
+        diagnostics.Add(new RepositoryDiagnostic(code, "warning", projectPath, message));
+        return null;
     }
 
     private static void DetectCycles(
@@ -134,13 +148,13 @@ public sealed class ProjectGraphAnalyzer
         IReadOnlyList<ProjectReferenceEdge> edges,
         ICollection<RepositoryDiagnostic> diagnostics)
     {
-        var adjacency = edges.GroupBy(static edge => edge.From, StringComparer.OrdinalIgnoreCase)
+        var adjacency = edges.GroupBy(static edge => edge.From, StringComparer.Ordinal)
             .ToDictionary(
                 static group => group.Key,
                 static group => group.Select(static edge => edge.To).ToArray(),
-                StringComparer.OrdinalIgnoreCase);
-        var visiting = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var visited = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                StringComparer.Ordinal);
+        var visiting = new HashSet<string>(StringComparer.Ordinal);
+        var visited = new HashSet<string>(StringComparer.Ordinal);
 
         bool Visit(string project)
         {
