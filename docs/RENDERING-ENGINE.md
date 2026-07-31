@@ -66,12 +66,15 @@ Current readable-chart foundation details:
 - planet annotation groups combine a project-owned vector glyph, two-digit degree-within-sign text, and an optional `R`, while minute precision remains in the table;
 - each planet annotation is now one render-owned viewport visual with measured glyph bounds, measured degree/retrograde text bounds, a combined visual envelope, and a minimally padded protected envelope; Avalonia text and DIP measurement remain outside Geometry;
 - deterministic render-side placement first respects the geometry-owned display anchor and existing radial sub-lanes, then permits only a small bounded angular correction when measured annotation envelopes would overlap;
-- house cusps, principal axes, aspects, endpoint markers, source ticks, and connectors are drawn before small chart-background knockouts for the glyph and label bounds, so secondary structure never remains visible through a planet annotation;
+- protected annotation bounds remain invisible; planet glyphs and labels render directly on the transparent chart background without rectangles, pills, cards, shadows, or background-colored patches;
+- the small render-owned `ChartLineOcclusion` utility converts each straight segment into visible parameter intervals outside measured annotation rectangles, independent of rectangle order;
+- ordinary house cusps, principal axes, source ticks, and displacement connectors omit protected annotation intervals physically rather than hiding them with a later fill;
+- aspect chords remain inside the aspect circle and do not enter the planet lane, so they are not routed through annotation occlusion without evidence of an intersection;
 - displaced-planet connectors terminate at the nearest protected-envelope boundary instead of the glyph center; a connector is absent when neither geometry nor final render placement displaced the annotation;
 - principal-angle labels receive a measured render-side safe inset from the outer rim and remain inside the viewport-safe drawing bounds without changing their source angles;
 - house lines and aspects are drawn before project-owned zodiac and planet glyphs and the primary labels remain above secondary structure;
 - house digits and Latin angle abbreviations may use ordinary text rendering; astrology symbols remain project-owned vectors;
-- the zodiac annulus uses visible, restrained element-coded sector fills with separate dark/light palettes, a strong outer rim, a readable inner boundary, and clear separators;
+- the zodiac annulus uses saturated final element-coded sector fills with separate dark/light tones at full opacity, one high-contrast zodiac-glyph role, a strong outer rim, a readable inner boundary, and clear separators;
 - zero, non-finite, and too-small surfaces exit without drawing.
 
 ## Boundaries
@@ -120,8 +123,8 @@ Exact astrological diagrams should be rendered programmatically. Generated image
 Current functional strategy:
 
 - 12 zodiac and 10 planet glyphs are original functional vector graphics, not a final artistic font;
-- dark and light chart palettes are render-facing inputs selected by the App host, without renderer ownership of shell-theme orchestration;
-- every supported `AspectType` has an explicit restrained style using thickness, opacity, muted color, and optional dash pattern;
+- dark and light chart palettes expose role-based colors selected by the App host, without renderer ownership of shell-theme orchestration; exact roles and values belong to `VISUAL-DESIGN-SYSTEM.md`;
+- every supported `AspectType` has an explicit theme-aware style: hard aspects use rose/red, trines use blue, sextiles use teal, and conjunctions use a neutral tone alongside line/marker form;
 - conjunctions render as compact local markers instead of arbitrary full chords;
 - aspect chords remain entirely inside the geometry-owned aspect interior and use readable, non-sub-pixel minimum weights;
 - `ChartHouseStyleCatalog` supplies deterministic cusp and axis hierarchy from chart-local dark/light palettes;
@@ -133,7 +136,7 @@ Rendering must be DPI-aware and responsive. Chart visuals should scale without b
 
 Future rendering models should include stable dimensions and scale factors so export and on-screen display can share layout logic.
 
-The current options model carries the chart-local palette plus deterministic baseline stroke/glyph values, border inset, safety margin, and minimum radius. `ChartVisualMetrics` scales those visual values from the effective chart radius within explicit caps, and `ChartViewport` iteratively reserves the resulting known vector extents.
+The current options model carries the chart-local semantic palette plus deterministic baseline stroke/glyph values, border inset, safety margin, and minimum radius. `ChartVisualMetrics` scales those visual values from the effective chart radius within explicit caps, and `ChartViewport` iteratively reserves the resulting known vector extents.
 
 ## Assets
 

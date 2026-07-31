@@ -63,9 +63,40 @@ public sealed class RenderingBoundaryTests
             parameter => Assert.Equal(typeof(ChartRenderOptions), parameter.ParameterType));
     }
 
+    [Fact]
+    public void RendererUsesInvisibleProtectedBoundsWithoutAnnotationBackgroundVisuals()
+    {
+        var source = File.ReadAllText(GetProjectFilePath(
+            "NoxAeterna.Rendering",
+            "Charts",
+            "CircularChartRenderer.cs"));
+
+        Assert.DoesNotContain("DrawAnnotationKnockouts", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("GlyphProtectedBounds", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("LabelProtectedBounds", source, StringComparison.Ordinal);
+        Assert.Contains("ChartLineOcclusion.GetVisibleSegments", source, StringComparison.Ordinal);
+        Assert.Contains("DrawHouseCusps(", source, StringComparison.Ordinal);
+        Assert.Contains("DrawAngleAxes(", source, StringComparison.Ordinal);
+        Assert.Contains("DrawPlanetConnectors(", source, StringComparison.Ordinal);
+    }
+
     private static XDocument LoadProjectDocument(string projectDirectory, string projectFileName)
     {
         var path = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", projectDirectory, projectFileName);
         return XDocument.Load(Path.GetFullPath(path));
+    }
+
+    private static string GetProjectFilePath(string projectDirectory, params string[] segments)
+    {
+        var pathSegments = new[]
+        {
+            AppContext.BaseDirectory,
+            "..",
+            "..",
+            "..",
+            "..",
+            projectDirectory
+        }.Concat(segments).ToArray();
+        return Path.GetFullPath(Path.Combine(pathSegments));
     }
 }

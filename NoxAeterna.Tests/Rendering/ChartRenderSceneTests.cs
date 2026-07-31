@@ -66,12 +66,15 @@ public sealed class ChartRenderSceneTests
     [Fact]
     public void AspectStyleExistsForEveryAspectType()
     {
-        foreach (var aspectType in Enum.GetValues<AspectType>())
+        foreach (var palette in new[] { ChartRenderPalette.Dark, ChartRenderPalette.Light })
         {
-            var style = ChartAspectStyleCatalog.Get(aspectType);
+            foreach (var aspectType in Enum.GetValues<AspectType>())
+            {
+                var style = ChartAspectStyleCatalog.Get(aspectType, palette);
 
-            Assert.True(style.Thickness > 0d);
-            Assert.InRange(style.Opacity, 0.70d, 1d);
+                Assert.True(style.Thickness > 0d);
+                Assert.InRange(style.Opacity, 0.70d, 1d);
+            }
         }
     }
 
@@ -80,7 +83,7 @@ public sealed class ChartRenderSceneTests
     {
         foreach (var palette in new[] { ChartRenderPalette.Dark, ChartRenderPalette.Light })
         {
-            Assert.InRange(palette.ZodiacSectorOpacity, 0.35d, 0.65d);
+            Assert.InRange(palette.ZodiacSectorOpacity, 0.82d, 1d);
             Assert.NotEqual(palette.FireSectorColor, palette.EarthSectorColor);
             Assert.NotEqual(palette.EarthSectorColor, palette.AirSectorColor);
             Assert.NotEqual(palette.AirSectorColor, palette.WaterSectorColor);

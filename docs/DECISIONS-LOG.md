@@ -357,8 +357,24 @@ Consequences: The full wheel is visible at the top of the left column, while the
 
 ## 2026-07-31: Keep Measured Planet Annotation Protection in Rendering
 
-Decision: Treat each planet glyph, degree label, and optional retrograde marker as one render-owned protected visual whose measured DIP bounds control collision checks, background knockout, and connector termination.
+Decision: Treat each planet glyph, degree label, and optional retrograde marker as one render-owned protected visual whose measured DIP bounds control collision checks, line occlusion, and connector termination.
 
-Reason: Geometry must continue to own astronomical source/display anchors without depending on Avalonia text metrics, while the renderer is the first layer that knows the responsive glyph size, font size, measured text, viewport, and chart-background color required for exact visual protection.
+Reason: Geometry must continue to own astronomical source/display anchors without depending on Avalonia text metrics, while the renderer is the first layer that knows the responsive glyph size, font size, measured text, and viewport required for exact visual protection.
 
-Consequences: Geometry and `ChartOrientation` contracts remain unchanged. Rendering may reuse existing radial sub-lanes and apply a small bounded deterministic angular correction, secondary lines are hidden only under measured glyph/label bounds, connectors stop at the protected envelope, and `ChartRenderScene.PlanetAnnotations` is the single canonical planet visual pipeline.
+Consequences: Geometry and `ChartOrientation` contracts remain unchanged. Rendering may reuse existing radial sub-lanes and apply a small bounded deterministic angular correction. Planet annotations remain transparent, straight secondary lines omit measured protected intervals physically, connectors stop at the protected envelope, and `ChartRenderScene.PlanetAnnotations` remains the single canonical planet visual pipeline.
+
+## 2026-07-31: Own Exact Visual Semantics in One Design-System Document
+
+Decision: Make `VISUAL-DESIGN-SYSTEM.md` the canonical owner of semantic color roles, paired dark/light tone systems, chart hierarchy, component states, contrast principles, effects, and palette evolution.
+
+Reason: Product mood and UX direction belong in `UI-VISION.md`, but exact palette tables duplicated across visual prose, resource dictionaries, and renderer notes would drift and leave later theme work without a stable owner.
+
+Consequences: Obsidian and Porcelain use the same semantic roles and related hue families with theme-specific RGB values. Implementation names colors by purpose, focused tests enforce critical contrast and role coverage, and later palette changes update the design-system owner and both theme variants together.
+
+## 2026-07-31: Keep Planet Annotations Transparent and Occlude Straight Lines
+
+Decision: Preserve measured annotation envelopes as invisible render geometry and draw only the complementary visible intervals of straight structural lines outside those envelopes.
+
+Reason: Background-colored glyph and label rectangles erased radial structure beyond the actual line intersection and appeared as opaque stickers, especially in the light theme.
+
+Consequences: No annotation rectangle, pill, card, glow, or shadow is drawn. House cusps, principal axes, source ticks, and connectors use a small deterministic segment occluder; aspect chords remain unchanged while they stay inside the aspect circle. Rectangle order cannot affect the result, and Geometry receives no Avalonia measurement types.

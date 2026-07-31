@@ -2,6 +2,8 @@
 
 Nox Aeterna should feel like a serious desktop instrument and personal archive, not a mobile entertainment app.
 
+This document owns product mood, UX rhythm, and high-level visual direction. Exact semantic colors, paired dark/light tones, chart hierarchy, component-state colors, contrast rules, and allowed effects belong to [`VISUAL-DESIGN-SYSTEM.md`](VISUAL-DESIGN-SYSTEM.md).
+
 ## Visual Identity
 
 References:
@@ -125,6 +127,8 @@ Current theme direction:
 - the first real theme scope is intentionally small: window, panel, border, foreground-hint, and preview-surface brushes;
 - workspace panels may use the same theme resource approach for basic structure and separation;
 - chart rendering remains isolated and should not absorb app-level theme orchestration.
+- V1 establishes the paired Obsidian/Porcelain semantic tokens and applies the Astral Archive palette to the chart renderer;
+- app-wide migration of existing shell brushes to semantic roles is a separate V2 stage and must wait for V1 screenshot approval.
 
 ## Controls
 

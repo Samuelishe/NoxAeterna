@@ -78,7 +78,7 @@ public sealed class ChartPlanetAnnotationLayoutTests
     }
 
     [Fact]
-    public void PragueLowerAndUpperClustersRemainSeparatedAndMidheavenAxisIsKnockedOutAtSaturn()
+    public void PragueLowerAndUpperClustersRemainSeparatedAndMidheavenAxisIsOccludedAtSaturn()
     {
         var scene = CreatePragueScene();
         var viewport = CreateViewport(scene, 760d);
@@ -100,6 +100,20 @@ public sealed class ChartPlanetAnnotationLayoutTests
         var axisStart = ToPoint(viewport, midheavenAxis.PrimaryPoint);
         var axisEnd = ToPoint(viewport, midheavenAxis.OppositePoint);
         Assert.True(SegmentIntersectsInterior(axisStart, axisEnd, saturn.ProtectedBounds));
+
+        var visibleSegments = ChartLineOcclusion.GetVisibleSegments(
+            axisStart,
+            axisEnd,
+            first.Select(static layout => layout.ProtectedBounds),
+            0.75d);
+
+        Assert.True(visibleSegments.Count >= 2);
+        Assert.DoesNotContain(
+            visibleSegments,
+            segment => first.Any(layout => SegmentIntersectsInterior(
+                segment.Source,
+                segment.Target,
+                layout.ProtectedBounds)));
     }
 
     [Theory]

@@ -49,9 +49,9 @@ The interpretation engine can become unmaintainable if it hardcodes every possib
 
 ## Extreme Planet Cluster Presentation
 
-Circular zero-crossing detection, ordered radial sub-lanes, bounded symmetric geometry spreading, and measured render-owned protected envelopes now cover the current ten-body chart deterministically. The current complete visual includes glyph, degree text, optional `R`, minimal background knockout, and a connector that terminates at the protected boundary. The Prague lower and upper clusters remain disjoint at compact, standard, and maximized representative sizes. Extremely dense fixtures may still require visibly longer connectors and the bounded render-side angular fallback; any further tuning should wait for visual confirmation rather than replacing it with a heavy optimizer.
+Circular zero-crossing detection, ordered radial sub-lanes, bounded symmetric geometry spreading, and measured render-owned protected envelopes now cover the current ten-body chart deterministically. The complete visual includes a transparent glyph, degree text, optional `R`, and a connector that terminates at the protected boundary. Protected envelopes never materialize as background shapes; straight cusp, principal-axis, tick, and connector segments are physically omitted inside them. The Prague lower and upper clusters remain disjoint at compact, standard, and maximized representative sizes. Extremely dense fixtures may still require visibly longer connectors and the bounded render-side angular fallback; any further tuning should wait for visual confirmation rather than replacing it with a heavy optimizer.
 
-Windows dark/light smoke now confirms protected annotations at standard and maximized sizes, including UnknownTime and live resize. Cross-platform visual smoke remains outstanding.
+Automated coverage confirms deterministic line occlusion and cluster bounds. V1 Windows dark/light and UnknownTime screenshots still require user visual confirmation at the user's display scale; cross-platform visual smoke remains outstanding.
 
 ## Historical Symbolic Sources
 

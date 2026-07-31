@@ -2,6 +2,21 @@
     x:Class="NoxAeterna.App.Themes.LightThemeResources"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Color x:Key="DesignCanvasColor">#F7F5FC</Color>
+  <Color x:Key="DesignSurfaceColor">#FFFFFF</Color>
+  <Color x:Key="DesignSurfaceRaisedColor">#EEEAF7</Color>
+  <Color x:Key="DesignBorderColor">#D6D1E3</Color>
+  <Color x:Key="DesignTextPrimaryColor">#1C1930</Color>
+  <Color x:Key="DesignTextSecondaryColor">#67617B</Color>
+  <Color x:Key="DesignTextMutedColor">#8A849A</Color>
+  <Color x:Key="DesignAccentPrimaryColor">#7357D9</Color>
+  <Color x:Key="DesignAccentPrimaryStrongColor">#5E3FC4</Color>
+  <Color x:Key="DesignAccentSecondaryColor">#147F91</Color>
+  <Color x:Key="DesignSolarAccentColor">#8C5A00</Color>
+  <Color x:Key="DesignSuccessColor">#137A55</Color>
+  <Color x:Key="DesignWarningColor">#8C5A00</Color>
+  <Color x:Key="DesignErrorColor">#B8344D</Color>
+
   <SolidColorBrush x:Key="ShellWindowBackgroundBrush" Color="#F2EFEA" />
   <SolidColorBrush x:Key="ShellNavigationPanelBackgroundBrush" Color="#E9E2D8" />
   <SolidColorBrush x:Key="ShellContentPanelBackgroundBrush" Color="#FAF7F2" />

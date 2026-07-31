@@ -1,15 +1,15 @@
 # Next Steps
 
-The current chart now has golden numerical coverage for the Prague Placidus fixture, corrected counterclockwise projection, viewport-fitted whole-wheel sizing, protected measured planet annotations with boundary-terminated connectors, safe principal-angle labels, an honest empty startup, and an UnknownTime editor that hides unused time without losing the current session value.
+The current V1 chart has transparent measured planet annotations, physical line-segment occlusion, boundary-terminated connectors, theme-aware aspects, and the paired Astral Archive chart palette. Golden Prague values, orientation, viewport fitting, empty startup, and UnknownTime contracts remain unchanged.
 
 Immediate next steps:
 
-1. Obtain final known-time dark/light and UnknownTime screenshots from the user at their normal display scale and confirm the protected lower/upper clusters and principal-angle insets.
+1. Obtain final V1 ExactTime dark maximized, ExactTime light maximized, and UnknownTime light screenshots from the user at their normal display scale. Confirm transparent annotations, natural line interruptions, cluster readability, palette balance, and principal-angle labels.
 
-2. Confirm that the displayed Prague ASC `203.4687440076°`, MC `120.5684847742°`, and twelve golden cusps agree with the user's trusted reference.
+2. Do not begin V2 app-wide semantic theme migration until those V1 screenshots receive explicit user approval.
 
-3. Apply only focused optical or numerical corrections discovered by that final review; do not expand astrology scope during validation.
+3. After approval, V2 may map the existing shell, workspace, controls, and states to the canonical application semantic tokens in `VISUAL-DESIGN-SYSTEM.md`.
 
-4. Do not proceed to external `.se1` setup, persistence, or interpretation until the final visual and numerical confirmation is explicit.
+4. Repository tooling T1/T2 remains after the visual wave; do not mix tooling foundation into V1 or V2 visual review.
 
-5. Keep online geocoding, profiles, transits, synastry, export, animation, and Tarot workflows deferred.
+5. Keep `.se1`, persistence, profiles, interpretation, geocoding, transits, synastry, export, animation, Tarot, repository stats, RAG, and CI/tooling implementation out of the current visual confirmation.

@@ -1034,3 +1034,32 @@ Next actions:
 
 - Request final known-time dark/light and UnknownTime screenshots from the user at their display scale.
 - Do not advance to `.se1`, persistence, or interpretation until that final visual confirmation and the existing Prague numerical confirmation are explicit.
+
+## 2026-07-31: V1 Visual Design Foundation
+
+Summary:
+
+- Inspected the supplied light-theme screenshot before editing and confirmed that glyph/label background rectangles appeared as opaque stickers across cusps, the planet lane, and the inner ring.
+- Removed the annotation-background drawing stage while preserving measured glyph, label, visual, and protected bounds for collision, viewport, and connector contracts.
+- Added a small render-owned parameter-interval occluder that returns deterministic visible portions of a straight segment outside protected rectangles, including ordered merging for multiple annotations.
+- Routed ordinary house cusps, ASC–DSC and MC–IC axes, planet source ticks, and displacement connectors around measured annotation envelopes; aspect chords remain unchanged because they stop at the inner aspect circle.
+- Replaced khaki/sepia chart colors with the role-based Astral Archive V1 palette: cool structure, amethyst/astral element tones, luminous planet annotations, solar principal axes, and theme-aware hard/trine/sextile/conjunction colors.
+- Added canonical Obsidian and Porcelain semantic application colors to the Avalonia dictionaries without migrating the existing shell brushes; that app-wide migration remains V2.
+- Created `VISUAL-DESIGN-SYSTEM.md` as the authoritative owner of exact semantic roles, paired dark/light tones, chart hierarchy, component states, contrast, effects, and palette evolution.
+- Kept astronomy, SwissEphNet, Placidus, orientation, circular collision placement, measured annotation layout, viewport fitting, connector endpoints, empty startup, and UnknownTime policy unchanged.
+
+Verification:
+
+- Baseline matched `2bc87730c28f037a2edb820e9a99edd0f8372d89`; the worktree was clean and restore/build plus 255/255 tests passed before edits.
+- Current build succeeds without warnings and 273/273 tests pass.
+- Focused tests cover no intersection, single and multiple occluders, fully covered and zero-length segments, boundary contact, overlap merging, order independence, horizontal/vertical/diagonal lines, Prague MC–IC protection, transparent annotation rendering contracts, semantic palette completeness, exact chart colors, theme-aware aspects, and text/chart contrast targets.
+- Windows Avalonia smoke covered empty startup, Prague ExactTime in dark/light, Prague UnknownTime in dark/light, standard and maximized windows, live resize through `1180x760`, `1360x860`, and `1650x900`, plus ExactTime -> UnknownTime -> ExactTime restoration.
+- ExactTime smoke shows no annotation background shapes; cusp and principal-axis gaps remain local to measured annotations, connectors stay outside foreign annotations, both Prague clusters remain readable, and the full wheel stays fitted.
+- UnknownTime smoke keeps Aries at the top, no houses or principal axes, an empty disabled time editor, the technical-noon planet snapshot, and restored `13:45` after returning to ExactTime.
+- ExactTime dark maximized, ExactTime light maximized, and UnknownTime light screenshots were generated only in the local temporary directory and were not added to Git.
+- No dependency, external asset, README, THIRD-PARTY, `.se1`, persistence, profile, interpretation, Tarot, transit, synastry, geocoding, repository-tooling, or CI change was introduced.
+
+Next actions:
+
+- Request the three final V1 screenshots from the user at their display scale and obtain explicit visual approval.
+- Do not start V2 app-wide semantic theme migration or repository tooling T1/T2 until V1 is approved.
