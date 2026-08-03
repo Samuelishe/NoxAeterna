@@ -147,6 +147,33 @@
       "sha256": "f9c75b034362b396c00f616240cfa4548bb0efbdfe7633b012e54e34af54c222",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/wands/page.md"
+    },
+    {
+      "cardId": "major.justice",
+      "assetPath": "cards/major/justice.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "8dd09f388b84dad0cd69f2c4d97f7f3e7daf916b003a49dee2928d646b51ef27",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/justice.md"
+    },
+    {
+      "cardId": "minor.pentacles.five",
+      "assetPath": "cards/minor/pentacles/five.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "ef50bb642d36f1cc78fb4f97429f03c31ea5a0ca78d43acde2d3d3df18163829",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/five.md"
+    },
+    {
+      "cardId": "minor.cups.queen",
+      "assetPath": "cards/minor/cups/queen.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "34e54fe087a9eebc554d47b7080a28451552a84ab729764b6fd4d8894b2774bd",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/queen.md"
     }
   ]
 }

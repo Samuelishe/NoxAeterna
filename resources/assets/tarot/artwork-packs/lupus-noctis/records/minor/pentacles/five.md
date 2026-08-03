@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.pentacles.five`
 - Study: A8 justice / hardship / emotional stewardship batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -79,13 +79,14 @@ Direct Rider-Waite church-window copy, sentimental charity advertisement, beauti
 
 Exactly five circular tokens; no sixth coin or medallion; no church-window copy; no begging toward viewer; no physical wolf; no picturesque winter glamour; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A8/five-of-pentacles.png`
+- Path: `cards/minor/pentacles/five.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `ef50bb642d36f1cc78fb4f97429f03c31ea5a0ca78d43acde2d3d3df18163829`
 - Generation count: **1** initial text-only generation
 - Targeted correction prompt: none
 - Technical review: Exactly five circular bronze guild tokens appear in one elevated vertical institutional row, with no sixth coin, medallion, shield, round sign, or count-confusing metal object. The older woman's splinted leg, the boy's physical support and damaged tool case, inaccessible warm guild rooms, closed entrance, wet cold street, and small distant aid light make hardship and structural exclusion readable without a begging pose or church-window copy. Bodies, supporting hands, clothing, splint, leather, bronze, timber, slush, and stone remain legible with no physical wolf, embedded text, pseudo-runes, accidental tattoos, repeated global texture, obvious anatomy defect, frame, watermark, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner visual acceptance: the owner accepted the A8 candidate for production without regeneration or pixel changes.
+- Owner acceptance: **Accepted**

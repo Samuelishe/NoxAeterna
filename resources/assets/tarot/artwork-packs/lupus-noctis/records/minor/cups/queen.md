@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.cups.queen`
 - Study: A8 justice / hardship / emotional stewardship batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -94,12 +94,13 @@ Preserve the narrative requirements in a fresh text-only generation: a mature ha
 Absolute constraints: exactly one vessel in the entire image. No second cup, bowl, pot, bottle, jar, mug, pitcher, goblet, bucket, vase, cup-shaped lantern, tableware, shelf object, or container silhouette. No text, title, frame, border, watermark, signature, logo, pseudo-runes, throne, crown, crystal ball, magical water, mermaid, psychic spectacle, physical wolf, passive beauty pose, photorealism, 3D, anime, comic cel shading, old-master stiffness, faux-antique filter, engraving, mosaic, crackle, or universal texture noise.
 ```
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A8/queen-of-cups.png`
+- Path: `cards/minor/cups/queen.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `34e54fe087a9eebc554d47b7080a28451552a84ab729764b6fd4d8894b2774bd`
 - Generation count: **2** (one initial text-only generation and one targeted text-only corrective regeneration)
 - Technical review: The initial generation added a bowl-like background container on a shelf, violating the one-vessel contract. The single permitted correction removed that container and the shelf clutter. The final candidate contains exactly one cup-like vessel, the ceremonial cup receiving the survivor's recovered token; the fixed wall sconce is architectural lighting rather than tableware or a portable vessel. The steward's attentive posture, survivor's guarded expression, irregular route stones, built-in water channel, and clearing harbor make practical emotional stewardship readable without magic, throne, or beauty-pose staging. Faces, hands, limbs, cloth, stone, water, metal, and recovered token remain distinct with safe margins and no extra tableware, physical wolf, embedded text, pseudo-runes, accidental tattoos, repeated global texture, obvious anatomy defect, frame, watermark, or logo. The final generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner visual acceptance: the owner accepted the corrected A8 candidate for production without further regeneration or pixel changes.
+- Owner acceptance: **Accepted**

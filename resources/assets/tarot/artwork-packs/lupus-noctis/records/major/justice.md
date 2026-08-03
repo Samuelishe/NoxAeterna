@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.justice`
 - Study: A8 justice / hardship / emotional stewardship batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -76,13 +76,14 @@ Blindfolded justice goddess, scales-and-sword poster, courtroom throne, authorit
 
 No blindfold; no decorative scales; no sword; no throne; no seated ruler; exactly two measurement jars; no physical wolf; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A8/justice.png`
+- Path: `cards/major/justice.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `8dd09f388b84dad0cd69f2c4d97f7f3e7daf916b003a49dee2928d646b51ef27`
 - Generation count: **1** initial text-only generation
 - Targeted correction prompt: none
 - Technical review: Exactly two sealed measurement jars are visible, one beside each disputant, with no extra vessel. The standing magistrate, two channels, central bronze gate-weight, records, engineer, orchard keeper, and two witnesses make evidence-based proportional judgement readable without repeating the seated Emperor staging. Faces, hands, limbs, jars, paper, bronze, dry stone, and water remain distinct at card size with safe margins. No blindfold, sword, scales, throne, physical wolf, embedded writing, pseudo-runes, accidental tattoos, repeated global texture, obvious anatomy defect, frame, watermark, or logo was found. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner visual acceptance: the owner accepted the A8 candidate for production without regeneration or pixel changes.
+- Owner acceptance: **Accepted**
