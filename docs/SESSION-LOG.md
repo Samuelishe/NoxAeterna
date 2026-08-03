@@ -163,3 +163,8 @@ Summary:
 - Audited the accepted A3 manifest, built-in loader/catalog, partial fallback, selection state, raster composition, resource packaging, and focused tests without changing runtime code or images.
 - Established `ASSET-PACK-RUNTIME.md` as the owner for repository seed to AppData synchronization, exact-stem discovery, separate fingerprint state, normalization cache, user import, Assets tooling, and publish/installer handoff.
 - Kept ART-LN independent from AP1–AP5 and PKG1, and recorded T-UX1, S2, and BRAND1 as separate later stages.
+
+## 2026-08-03: A4 Lupus Noctis Contrast Batch
+
+- Generated independent text-only Pending candidates under `studies/A4/`: Sun (2 generations; corrected dominant wolf ornament), Five of Swords (1; exactly five blades), and Moon (2; corrected lantern light, extra warm lights, and weak hound direction). No image references, manifest, runtime, or UI changes were introduced.
+- Normalized all three to decoded `952 × 1632` PNGs; exact hashes and technical reviews are recorded in `LUPUS-NOCTIS.md`. Image checks and documentation verification succeeded; owner acceptance remains Pending.

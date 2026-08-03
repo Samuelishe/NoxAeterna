@@ -21,12 +21,13 @@
 - T0-A Tarot semantic foundation is accepted at checkpoint commit `e8cb628d5dbbfb2a5fdc16b87fc4c3247bfb861f`. Hosted run `30788655353` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - T1 first playable Tarot workspace is complete at checkpoint commit `4e7e3d61bc11b875af9fb5591f5a10ed986c8962`: real single-card and three-card in-memory readings, explicit reversal preference, responsive programmatic prototype cards, two selectable backs, localized inspection, and presentation-owned session state are ready for owner visual review. Hosted run `30791606505` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - A3 partial-pack integration is functionally and visually accepted at commit `4977852287051c95945b55f78d18c263dc35de20`: Lupus Noctis contributes three accepted raster cards over the unchanged semantic reading, with Classic first, controlled fallback, localized overlays, and validated built-in resources. Single-card scale remains deferred to T-UX1 and native title-bar replacement to S2.
+- AP0 asset-pack runtime architecture is complete at checkpoint commit `37dc91e24a8c73ec949312c21a684f5e2998398d`; hosted run `30806291467` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-Checkpoint the AP0 asset-pack runtime architecture, then continue meaning-first Lupus Noctis production without starting AP1 automatically.
+Continue ART-LN through owner review of the three A4 meaning-first candidates. The post-A4 art batch remains unselected, and AP1 does not start automatically.
 
 ## Preserved Contracts
 
@@ -42,4 +43,4 @@ Checkpoint the AP0 asset-pack runtime architecture, then continue meaning-first 
 
 ## Active Blockers
 
-- The next Lupus Noctis generation cards remain deliberately unselected; AP1–AP5 and PKG1 are staged work, not blockers for ART-LN.
+- Sun, Five of Swords, and Moon are A4 review candidates with owner acceptance Pending; the next post-A4 generation cards remain deliberately unselected. AP1–AP5 and PKG1 are staged work, not blockers for ART-LN.
