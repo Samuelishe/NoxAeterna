@@ -166,6 +166,6 @@ Summary:
 
 ## 2026-08-03: A4 / A4-P Lupus Noctis Contrast Batch
 
-- Generated independent text-only Sun (2 calls), Five of Swords (1), and Moon (2) candidates without image references; exact prompts, corrections, hashes, and reviews remain in `LUPUS-NOCTIS.md`.
-- The owner accepted all three. A4-P moved them from `studies/A4/` to canonical production paths without duplicate copies and expanded the partial manifest from 3 to 6 cards.
-- Updated focused pack tests without loader, runtime, UI, or rendering redesign. Documentation, 0-warning Debug build, Tarot, Desktop-UI, Repository-Verification, and direct six-asset source/output checks succeeded; UI smoke was not required.
+- Generated text-only Sun (2 calls), Five of Swords (1), and Moon (2) without image references; prompts, corrections, hashes, and reviews remain in `LUPUS-NOCTIS.md`.
+- The owner accepted all three; A4-P moved them from `studies/A4/` to canonical production paths, removed study copies, and expanded the partial manifest from 3 to 6 cards.
+- Updated focused pack tests without runtime, UI, or rendering changes; docs, Debug build, Tarot, Desktop-UI, Repository-Verification, and six-asset checks passed; no UI smoke was required.
