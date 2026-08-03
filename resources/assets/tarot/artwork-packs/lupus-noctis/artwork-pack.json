@@ -309,6 +309,33 @@
       "sha256": "c315ddd92003346435ac649ce52c4a0f59b7ba0c095cce20f47d32e274e67023",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/pentacles/ace.md"
+    },
+    {
+      "cardId": "major.judgement",
+      "assetPath": "cards/major/judgement.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "9616c30803a93fe87f0ade3152d86cee2bb54b0a33cac887f5baa9bef8431ed0",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/judgement.md"
+    },
+    {
+      "cardId": "minor.swords.six",
+      "assetPath": "cards/minor/swords/six.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "47e59cda725d1f126b1ebbc7711e1f6a874490ac2e94a8aad652ef5e63384be9",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/swords/six.md"
+    },
+    {
+      "cardId": "minor.wands.two",
+      "assetPath": "cards/minor/wands/two.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "cd992efac6d41001d0bd0dcb115a94d7f1b98efaccae9a7893d86ec91ab20e2a",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/two.md"
     }
   ]
 }

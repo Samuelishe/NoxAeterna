@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.swords.six`
 - Study: A14 reckoning / passage / foresight batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -112,12 +112,12 @@ Contemporary painted narrative fantasy, exact 7:12 portrait intent, borderless i
 No text, letters, numbers, frame, title, watermark, signature, logo, pseudo-runes, physical wolf, spirit wolf, gore, battle, heroic refugee-poster staging, photorealism, 3D render, anime, or comic cel shading.
 ```
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A14/six-of-swords.png`
+- Path: `cards/minor/swords/six.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `47e59cda725d1f126b1ebbc7711e1f6a874490ac2e94a8aad652ef5e63384be9`
 - Generation count: **2** text-only generations: one initial generation and one targeted correction; neither used an image reference
 - Technical review: The initial generation contained exactly five fully sheathed swords—five distinct pommels, five sheath bodies, and five sheath tips—even though the record and prior Codex summary incorrectly documented six. The owner identified the visual miscount during review. The single targeted independent regeneration replaces that candidate with an unambiguous `2 × 3` bundle: the upper row contains three complete sheathed swords and the lower row contains three complete sheathed swords. Direct enlarged inspection confirms six separate pommels on the left, six separate sheath bodies, six separate tips on the right, and zero additional blades or sheaths. Wooden separators and rope keep the rows distinct at card size. The older ferrymaster uses one ordinary oar while the parent, child, and exhausted medic travel toward the island through pale mist; anatomy, hands, cloth, satchel, wood, rope, sheath leather, fittings, water, and atmosphere remain readable with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, frame, watermark, signature, or logo. The generated `957 × 1643 px` source was decoded and center-cropped without stretching to `952 × 1632 px`.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review of the corrected `3 + 3 = 6` bundle; promoted byte-for-byte without pixel changes or regeneration.

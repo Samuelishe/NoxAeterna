@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **33/78**.
+- Accepted production cards: **36/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -84,16 +84,22 @@
   - [`major.hermit`](records/major/hermit.md) — owner acceptance: **Accepted**.
   - [`major.fool`](records/major/fool.md) — owner acceptance: **Accepted**.
   - [`minor.pentacles.ace`](records/minor/pentacles/ace.md) — owner acceptance: **Accepted**.
-- A14: **Pending** reckoning / passage / foresight batch.
+- A14: **Accepted** as the twelfth production wave.
 - A14 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A14 card was used as an image reference.
-- A14 review candidates:
-  - [`major.judgement`](records/major/judgement.md) — owner acceptance: **Pending**.
-  - [`minor.swords.six`](records/minor/swords/six.md) — owner acceptance: **Pending**.
-  - [`minor.wands.two`](records/minor/wands/two.md) — owner acceptance: **Pending**.
+- A14 production cards:
+  - [`major.judgement`](records/major/judgement.md) — owner acceptance: **Accepted**.
+  - [`minor.swords.six`](records/minor/swords/six.md) — owner acceptance: **Accepted** after the owner caught the initial five-sword miscount and a targeted independent regeneration produced the accepted `3 + 3 = 6` bundle; cumulative generation count **2**.
+  - [`minor.wands.two`](records/minor/wands/two.md) — owner acceptance: **Accepted**.
+- A15: **Pending** hidden knowledge / covert strategy / first trust batch.
+- A15 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A15 card was used as an image reference.
+- A15 review candidates:
+  - [`major.high-priestess`](records/major/high-priestess.md) — owner acceptance: **Pending**.
+  - [`minor.swords.seven`](records/minor/swords/seven.md) — owner acceptance: **Pending**.
+  - [`minor.cups.ace`](records/minor/cups/ace.md) — owner acceptance: **Pending**.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, and A13 images are shipped production assets listed by `artwork-pack.json`. A14 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A14 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, and A14 images are shipped production assets listed by `artwork-pack.json`. A15 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A15 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **33/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **36/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 

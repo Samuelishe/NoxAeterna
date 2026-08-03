@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.wands.two`
 - Study: A14 reckoning / passage / foresight batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -87,12 +87,12 @@ Exactly two staffs; no third pole; no walking stick; no spear; no banner; no con
 TARGETED TEXT-ONLY REGENERATION. Do not use the previous image as a reference. Rebuild the scene from text with exactly two completely plain, undecorated long wooden survey staffs. Both staffs must have smooth raw wood surfaces with no paint, carvings, symbols, glyphs, stripes, letters, numbers, runes, notches, emblems, or markings of any kind. Preserve the seated or half-kneeling planner, the scout whose erosion evidence changes the route choice, the physical coastal relief model, one non-circular route marker, two separated route alternatives, solid low parapet, borderless exact 7:12 portrait intent, safe margins, and all original no-third-pole, no-text, no-wolf, no-conqueror constraints.
 ```
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A14/two-of-wands.png`
+- Path: `cards/minor/wands/two.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `cd992efac6d41001d0bd0dcb115a94d7f1b98efaccae9a7893d86ec91ab20e2a`
 - Generation count: **2** text-only generations: one initial and one targeted correction
 - Technical review: The initial generation correctly showed two staffs and the planning event but added white glyph-like markings to both, violating the no-pseudo-runes contract; it was not retained. The targeted independent regeneration succeeds with exactly two complete, plain, undecorated wooden survey staffs and no third pole-like silhouette. The seated planner moves a rectangular marker while the scout points to erosion on the shared relief model, so evidence-based foresight and the changed route decision read without conqueror or empire staging. Anatomy, hands, cloth, plain wood, relief terrain, stone, settlement, sea, and haze remain distinct at card size with safe margins and no embedded text, glyphs, accidental tattoos, repeated global texture, wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted byte-for-byte without pixel changes or regeneration.

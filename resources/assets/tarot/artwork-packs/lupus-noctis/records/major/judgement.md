@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.judgement`
 - Study: A14 reckoning / passage / foresight batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -81,13 +81,13 @@ Direct Rider-Waite angel-and-rising-dead copy, courtroom punishment, propaganda 
 
 Exactly one bell; no trumpet; no angel; no graves; no resurrection scene; no mob; no public humiliation; no physical wolf; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A14/judgement.png`
+- Path: `cards/major/judgement.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `9616c30803a93fe87f0ade3152d86cee2bb54b0a33cac887f5baa9bef8431ed0`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: Exactly one civic bell hangs above the opened record gate. The archivist visibly presents the fractured bronze decree seal while the former official surrenders the key and returning households cross the threshold between residents who make room, so public acknowledgement, accountability, and restored belonging read without revenge or triumph. Group anatomy, hands, restrained faces, cloth, bronze, wet timber, stone, baggage, and dawn reflections remain distinct at card size with safe margins and no angel, trumpet, grave, resurrection spectacle, mob, public humiliation, embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted byte-for-byte without pixel changes or regeneration.
