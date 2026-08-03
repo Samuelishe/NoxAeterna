@@ -86,7 +86,7 @@ public sealed class TarotBoundaryTests
             path.EndsWith(".otf", StringComparison.OrdinalIgnoreCase) ||
             path.EndsWith(".woff", StringComparison.OrdinalIgnoreCase) ||
             path.EndsWith(".woff2", StringComparison.OrdinalIgnoreCase));
-        Assert.Equal(3, relativePaths.Count(path => path.EndsWith(".png", StringComparison.OrdinalIgnoreCase)));
+        Assert.Equal(6, relativePaths.Count(path => path.EndsWith(".png", StringComparison.OrdinalIgnoreCase)));
     }
 
     private static string[] GetPackageReferences(XDocument document) => document

@@ -39,6 +39,33 @@
       "sha256": "79cb0c40e926c2acafffd80fa622385b5a6d7534518d8050114027bb7be5ee95",
       "status": "accepted",
       "generationProvenanceReference": "LUPUS-NOCTIS.md#major-star"
+    },
+    {
+      "cardId": "major.sun",
+      "assetPath": "cards/major/sun.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "d4b0e233f966b60c9541184a59e7e591ffba3f0117902557e0832ad52342b034",
+      "status": "accepted",
+      "generationProvenanceReference": "LUPUS-NOCTIS.md#major-sun"
+    },
+    {
+      "cardId": "minor.swords.five",
+      "assetPath": "cards/minor/swords/five.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "0fffd6ec8c95f9ded1fe566e46e9a2340190261e4e678ea3d17684a46e58a124",
+      "status": "accepted",
+      "generationProvenanceReference": "LUPUS-NOCTIS.md#minorswordsfive"
+    },
+    {
+      "cardId": "major.moon",
+      "assetPath": "cards/major/moon.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "5bf8f1d8436249b5a14791794cf062181e4050556fe2685f9567d60550a79b50",
+      "status": "accepted",
+      "generationProvenanceReference": "LUPUS-NOCTIS.md#major-moon"
     }
   ]
 }

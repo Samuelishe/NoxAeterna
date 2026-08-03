@@ -1,4 +1,5 @@
 using System.Buffers.Binary;
+using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -10,9 +11,48 @@ namespace NoxAeterna.Tests.App;
 public sealed class TarotArtworkPackTests
 {
     [Fact]
-    public void LupusNoctisManifest_DeclaresVersionedPartialPackWithThreeAcceptedStandardCards()
+    public void LupusNoctisManifest_DeclaresVersionedPartialPackWithSixExactAcceptedStandardCards()
     {
         var definition = TarotArtworkPackTestData.LoadRepositoryPack();
+        (string CardId, string AssetPath, int Width, int Height, string Sha256)[] expectedCards =
+        [
+            (
+                "major.death",
+                "cards/major/death.png",
+                952,
+                1632,
+                "b5bb6ea0d42adc2d195494bb737b03d72a3c950ce90b2878bee974c9213dadc5"),
+            (
+                "minor.cups.six",
+                "cards/minor/cups/six.png",
+                952,
+                1632,
+                "ad71eb1e48abe8155aa6272164607c3005d7e4ad08569856274fd3f49557c0d5"),
+            (
+                "major.star",
+                "cards/major/star.png",
+                952,
+                1632,
+                "79cb0c40e926c2acafffd80fa622385b5a6d7534518d8050114027bb7be5ee95"),
+            (
+                "major.sun",
+                "cards/major/sun.png",
+                952,
+                1632,
+                "d4b0e233f966b60c9541184a59e7e591ffba3f0117902557e0832ad52342b034"),
+            (
+                "minor.swords.five",
+                "cards/minor/swords/five.png",
+                952,
+                1632,
+                "0fffd6ec8c95f9ded1fe566e46e9a2340190261e4e678ea3d17684a46e58a124"),
+            (
+                "major.moon",
+                "cards/major/moon.png",
+                952,
+                1632,
+                "5bf8f1d8436249b5a14791794cf062181e4050556fe2685f9567d60550a79b50")
+        ];
 
         Assert.Equal(1, definition.SchemaVersion);
         Assert.Equal("lupus-noctis", definition.Id.Value);
@@ -22,12 +62,18 @@ public sealed class TarotArtworkPackTests
         Assert.Equal((952, 1632), (definition.SourceWidth, definition.SourceHeight));
         Assert.True(definition.IsPartial);
         Assert.Equal(
-            ["major.death", "minor.cups.six", "major.star"],
-            definition.Cards.Select(static asset => asset.Card.Id.Value));
+            expectedCards,
+            definition.Cards.Select(static asset => (
+                asset.Card.Id.Value,
+                asset.AssetPath,
+                asset.Width,
+                asset.Height,
+                asset.Sha256)));
         Assert.All(definition.Cards, asset =>
         {
             Assert.Equal("accepted", asset.Status);
             Assert.Contains(asset.Card, StandardTarotCatalog.Deck.Cards);
+            Assert.Equal(7 * asset.Height, 12 * asset.Width);
             Assert.False(string.IsNullOrWhiteSpace(asset.GenerationProvenanceReference));
         });
         Assert.True(((IList<TarotArtworkPackCardAsset>)definition.Cards).IsReadOnly);
@@ -48,6 +94,20 @@ public sealed class TarotArtworkPackTests
             Assert.True(File.Exists(Path.Combine(
                 TarotArtworkPackTestData.PackRoot,
                 asset.AssetPath.Replace('/', Path.DirectorySeparatorChar))));
+        });
+    }
+
+    [Fact]
+    public void LupusNoctisManifest_AllSixProductionPngsDecodeAtExpectedDimensions()
+    {
+        var definition = TarotArtworkPackTestData.LoadRepositoryPack();
+
+        Assert.Equal(6, definition.Cards.Count);
+        Assert.All(definition.Cards, asset =>
+        {
+            using var content = asset.OpenRead();
+            var decodedSize = TarotArtworkPackTestData.DecodeRgbaPng(content);
+            Assert.Equal((952, 1632), decodedSize);
         });
     }
 
@@ -273,7 +333,10 @@ public sealed class TarotArtworkPackTests
     [InlineData("major.death", "cards/major/death.png")]
     [InlineData("minor.cups.six", "cards/minor/cups/six.png")]
     [InlineData("major.star", "cards/major/star.png")]
-    public void PartialPackResolver_AcceptedCardsResolveRasterArtwork(string cardId, string assetPath)
+    [InlineData("major.sun", "cards/major/sun.png")]
+    [InlineData("minor.swords.five", "cards/minor/swords/five.png")]
+    [InlineData("major.moon", "cards/major/moon.png")]
+    public void PartialPackResolver_AllSixAcceptedCardsResolveRasterArtwork(string cardId, string assetPath)
     {
         var catalog = TarotArtworkPackCatalog.CreateForTests(TarotArtworkPackTestData.LoadRepositoryPack());
         var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == cardId);
@@ -295,8 +358,8 @@ public sealed class TarotArtworkPackTests
             .Select(card => catalog.Resolve(new TarotArtworkPackId("lupus-noctis"), card))
             .ToArray();
 
-        Assert.Equal(3, resolutions.Count(static resolution => resolution.Kind == TarotArtworkResolutionKind.Raster));
-        Assert.Equal(75, resolutions.Count(static resolution => resolution.IsPartialPackFallback));
+        Assert.Equal(6, resolutions.Count(static resolution => resolution.Kind == TarotArtworkResolutionKind.Raster));
+        Assert.Equal(72, resolutions.Count(static resolution => resolution.IsPartialPackFallback));
         Assert.All(resolutions, resolution =>
         {
             Assert.Contains(resolution.Card, StandardTarotCatalog.Deck.Cards);
@@ -309,6 +372,21 @@ public sealed class TarotArtworkPackTests
         Assert.Equal(
             StandardTarotCatalog.Deck.Cards.Select(static card => card.Id),
             resolutions.Select(static resolution => resolution.Card.Id));
+    }
+
+    [Fact]
+    public void PartialPackResolver_OmittedSeventhCardStillUsesPrototypeFallback()
+    {
+        var catalog = TarotArtworkPackCatalog.CreateForTests(TarotArtworkPackTestData.LoadRepositoryPack());
+        var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == "major.fool");
+
+        var resolution = catalog.Resolve(new TarotArtworkPackId("lupus-noctis"), card);
+
+        Assert.Same(card, resolution.Card);
+        Assert.Equal("major.fool", resolution.Card.Id.Value);
+        Assert.Equal(TarotArtworkResolutionKind.Prototype, resolution.Kind);
+        Assert.True(resolution.IsPartialPackFallback);
+        Assert.Null(resolution.RasterAsset);
     }
 
     [Fact]
@@ -385,6 +463,140 @@ internal static class TarotArtworkPackTestData
         BinaryPrimitives.WriteInt32BigEndian(content.AsSpan(16, 4), width);
         BinaryPrimitives.WriteInt32BigEndian(content.AsSpan(20, 4), height);
         return content;
+    }
+
+    public static (int Width, int Height) DecodeRgbaPng(Stream stream)
+    {
+        using var encoded = new MemoryStream();
+        stream.CopyTo(encoded);
+        var content = encoded.ToArray();
+        ReadOnlySpan<byte> pngSignature = [137, 80, 78, 71, 13, 10, 26, 10];
+        if (content.Length < 33 || !content.AsSpan(0, 8).SequenceEqual(pngSignature))
+        {
+            throw new InvalidDataException("The artwork is not a PNG stream.");
+        }
+
+        var offset = 8;
+        var width = 0;
+        var height = 0;
+        var foundHeader = false;
+        var foundEnd = false;
+        using var compressedPixels = new MemoryStream();
+        while (offset <= content.Length - 12)
+        {
+            var chunkLength = BinaryPrimitives.ReadInt32BigEndian(content.AsSpan(offset, 4));
+            if (chunkLength < 0 || offset + 12L + chunkLength > content.Length)
+            {
+                throw new InvalidDataException("The PNG contains a truncated chunk.");
+            }
+
+            var chunkType = content.AsSpan(offset + 4, 4);
+            var chunkData = content.AsSpan(offset + 8, chunkLength);
+            if (chunkType.SequenceEqual("IHDR"u8))
+            {
+                if (foundHeader || chunkLength != 13)
+                {
+                    throw new InvalidDataException("The PNG must contain one 13-byte IHDR chunk.");
+                }
+
+                foundHeader = true;
+                width = BinaryPrimitives.ReadInt32BigEndian(chunkData[..4]);
+                height = BinaryPrimitives.ReadInt32BigEndian(chunkData.Slice(4, 4));
+                if (width <= 0 || height <= 0 ||
+                    chunkData[8] != 8 || chunkData[9] != 6 ||
+                    chunkData[10] != 0 || chunkData[11] != 0 || chunkData[12] != 0)
+                {
+                    throw new InvalidDataException("The artwork must be a non-interlaced 8-bit RGBA PNG.");
+                }
+            }
+            else if (chunkType.SequenceEqual("IDAT"u8))
+            {
+                compressedPixels.Write(chunkData);
+            }
+            else if (chunkType.SequenceEqual("IEND"u8))
+            {
+                if (chunkLength != 0)
+                {
+                    throw new InvalidDataException("The PNG IEND chunk must be empty.");
+                }
+
+                foundEnd = true;
+                break;
+            }
+
+            offset += 12 + chunkLength;
+        }
+
+        if (!foundHeader || !foundEnd || compressedPixels.Length == 0)
+        {
+            throw new InvalidDataException("The PNG is missing required image chunks.");
+        }
+
+        var bytesPerPixel = 4;
+        var stride = checked(width * bytesPerPixel);
+        var scanlineLength = checked(stride + 1);
+        var filteredPixels = new byte[checked(scanlineLength * height)];
+        compressedPixels.Position = 0;
+        using (var inflater = new ZLibStream(compressedPixels, CompressionMode.Decompress, leaveOpen: true))
+        {
+            inflater.ReadExactly(filteredPixels);
+            if (inflater.ReadByte() != -1)
+            {
+                throw new InvalidDataException("The PNG contains excess decompressed pixel data.");
+            }
+        }
+
+        var decodedPixels = new byte[checked(stride * height)];
+        for (var row = 0; row < height; row++)
+        {
+            var filter = filteredPixels[row * scanlineLength];
+            if (filter > 4)
+            {
+                throw new InvalidDataException($"The PNG scanline uses unsupported filter '{filter}'.");
+            }
+
+            var sourceOffset = row * scanlineLength + 1;
+            var destinationOffset = row * stride;
+            for (var column = 0; column < stride; column++)
+            {
+                var raw = filteredPixels[sourceOffset + column];
+                var left = column >= bytesPerPixel
+                    ? decodedPixels[destinationOffset + column - bytesPerPixel]
+                    : 0;
+                var above = row > 0
+                    ? decodedPixels[destinationOffset - stride + column]
+                    : 0;
+                var upperLeft = row > 0 && column >= bytesPerPixel
+                    ? decodedPixels[destinationOffset - stride + column - bytesPerPixel]
+                    : 0;
+                var predictor = filter switch
+                {
+                    0 => 0,
+                    1 => left,
+                    2 => above,
+                    3 => (left + above) / 2,
+                    4 => PaethPredictor(left, above, upperLeft),
+                    _ => throw new InvalidDataException("Unsupported PNG filter.")
+                };
+                decodedPixels[destinationOffset + column] = unchecked((byte)(raw + predictor));
+            }
+        }
+
+        return (width, height);
+    }
+
+    private static int PaethPredictor(int left, int above, int upperLeft)
+    {
+        var prediction = left + above - upperLeft;
+        var leftDistance = Math.Abs(prediction - left);
+        var aboveDistance = Math.Abs(prediction - above);
+        var upperLeftDistance = Math.Abs(prediction - upperLeft);
+        if (leftDistance <= aboveDistance && leftDistance <= upperLeftDistance)
+        {
+            return left;
+        }
+
+        return aboveDistance <= upperLeftDistance ? above : upperLeft;
     }
 
     public static object Entry(

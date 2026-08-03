@@ -99,7 +99,7 @@ Astrological charts should be rendered programmatically.
 
 The full 78-card deck is a large art commitment. The first built-in partial pack proves the controlled scope without presenting an unfinished pack as complete:
 
-- `Lupus Noctis` currently ships three owner-accepted `952 × 1632` (`7:12`) inner illustrations mapped by a versioned pack-local manifest;
+- `Lupus Noctis` currently ships six owner-accepted `952 × 1632` (`7:12`) inner illustrations mapped by a versioned pack-local manifest;
 - omitted semantic cards resolve to the honest programmatic prototype face while retaining their identity and localized overlay;
 - programmatic frame, selection state, title, and reversal transform remain separate from the raster illustration;
 - the pack owner document retains meaning briefs, full prompts, review decisions, hashes, and provenance.

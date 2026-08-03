@@ -4,7 +4,7 @@ The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted 
 
 Immediate next steps:
 
-1. **ART-LN:** review the meaning-first Sun, Five of Swords, and Moon A4 candidates; select no later batch until the owner decides their status. Art production in the stable repository structure does not wait for runtime import infrastructure.
+1. **ART-LN:** select the next compact meaning-first Lupus Noctis batch after the owner's acceptance of Sun, Five of Swords, and Moon; no next batch is chosen yet. Art production in the stable repository structure does not wait for runtime import infrastructure.
 2. **AP1:** app-data path service, built-in no-delete seed synchronization, and Settings action to open application data.
 3. **AP2:** runtime registry, validation fingerprints, exact-stem extension audit/fallback, normalized PNG cache, and placeholders.
 4. **AP3–AP5:** separate Assets tool, manual user-pack discovery, then Settings import wizard.

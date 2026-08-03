@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **3/78**.
+- Accepted production cards: **6/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -24,15 +24,15 @@
   - `major.death` — owner acceptance: **Accepted**.
   - `minor.cups.six` — owner acceptance: **Accepted**.
   - `major.star` — owner acceptance: **Accepted**.
-- A4: **Meaning-first contrast study generated for owner review**; no candidate is a production asset.
-- A4 review candidates:
-  - `major.sun` — owner acceptance: **Pending**.
-  - `minor.swords.five` — owner acceptance: **Pending**.
-  - `major.moon` — owner acceptance: **Pending**.
+- A4: **Accepted** as the second production wave.
+- A4 production cards:
+  - `major.sun` — owner acceptance: **Accepted**.
+  - `minor.swords.five` — owner acceptance: **Accepted**.
+  - `major.moon` — owner acceptance: **Accepted**.
 
-The accepted A2 images are shipped production assets listed by `artwork-pack.json`. A4 exists only under `studies/A4/` for owner review, and the next post-A4 generation cards remain unselected. No contact sheets belong to this pack.
+The accepted A2 and A4 images are shipped production assets listed by `artwork-pack.json`. No A4 study copies remain, the next generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack remains at **3/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **6/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 
@@ -149,7 +149,7 @@ Avoid: Skeleton or grim reaper, literal corpse as focal point, static monster po
 
 ## A4 Card Records
 
-A4 is a text-only contrast batch. No attachment, external image, accepted production card, rejected A0/A1 image, or newly generated A4 card is an image reference for any candidate. The records below use the historical sources already identified in [Research Sources](#research-sources), together with project-authored paraphrases and narrative briefs. All three candidates remain review studies until the owner makes an explicit acceptance decision.
+A4 is a text-only contrast batch. No attachment, external image, accepted production card, rejected A0/A1 image, or newly generated A4 card was an image reference for any generated card. The records below use the historical sources already identified in [Research Sources](#research-sources), together with project-authored paraphrases and narrative briefs. The owner explicitly accepted all three A4 cards for production; their independent casting does not establish recurring characters.
 
 ### `major.sun`
 
@@ -238,13 +238,13 @@ Large wolf head or wolf sculpture, prominent wolf banner, Rider-Waite child on a
 
 **Negative constraints.** No embedded typography; no border; no giant sun face; no white horse; no generic sunrise composition; no steampunk; no pseudo-runes; no accidental extra fingers or limbs; no antique or universal-texture treatment; no photoreal, 3D, anime, or cel shading.
 
-- Study path: `studies/A4/sun.png`.
+- Production path: `cards/major/sun.png`.
 - Generation method: built-in `imagegen`, text-only; no image reference.
 - Actual dimensions: `952 × 1632 px` (exact `7:12`).
 - SHA-256: `d4b0e233f966b60c9541184a59e7e591ffba3f0117902557e0832ad52342b034`.
 - Generation count: **2** (one initial text-only generation and one targeted text-only regeneration; neither used an image reference).
 - Technical review: The first generation made a large bronze wolf head a competing focal point, violating the restrained indirect-motif contract. The one allowed targeted regeneration reduced the motif to a small stone relief while preserving the apprentice's decisive lever action, the master, diagonal beam, lit communal beacon, opening gate, multi-age city response, post-winter color contrast, and distinct material treatment. In the selected candidate, faces, hands, limbs, mechanism, and background figures show no obvious technical malformation; no embedded text, pseudo-runes, universal texture, or living wolf is visible. The generated source was losslessly decoded and high-quality normalized from `958 × 1642` to the required `952 × 1632` review size.
-- Owner acceptance: **Pending**.
+- Owner acceptance: **Accepted**.
 
 ### `minor.swords.five`
 
@@ -311,13 +311,13 @@ Heroic duel, active battle climax, triumphant conqueror pose, evil grin, mountai
 
 **Negative constraints.** Exactly five swords; no sixth sword or sword-like object; no action battle; no gore; no cartoon villain; no heroic victory pose; no embedded text; no border; no antique texture; no global gray-blue wash; no photoreal, 3D, anime, or cel shading.
 
-- Study path: `studies/A4/five-of-swords.png`.
+- Production path: `cards/minor/swords/five.png`.
 - Generation method: built-in `imagegen`, text-only; no image reference.
 - Actual dimensions: `952 × 1632 px` (exact `7:12`).
 - SHA-256: `0fffd6ec8c95f9ded1fe566e46e9a2340190261e4e678ea3d17684a46e58a124`.
 - Generation count: **1** (text-only; no image reference).
 - Technical review: The first generation passed the exact inventory gate: one point-down sword is held by the officer, two surrendered swords lie on the broken table, one sword lies on wet stone, and one visibly broken sword lies at the bridge edge—exactly five, with no belt, background, rack, spear-like, or other additional blade visible. The post-conflict withdrawal, isolated victor, commander, medic with a medical satchel, civilian consequences, wet materials, and restrained heraldic setting are readable. No obvious malformed hands, faces, or limbs, embedded text, pseudo-runes, gore, active-battle staging, or universal texture was found. The generated source was losslessly decoded and high-quality normalized from `958 × 1642` to the required `952 × 1632` review size.
-- Owner acceptance: **Pending**.
+- Owner acceptance: **Accepted**.
 
 ### `major.moon`
 
@@ -409,13 +409,13 @@ Giant moon behind a howling wolf, classic two-tower composition, dog-and-wolf li
 
 **Negative constraints.** No physical wolf; no wolf pack; no howling wolf under a giant moon; no classic two-tower composition; no generic blue forest; no horror attack; no embedded text; no occult pseudo-writing; no border; no global blue wash; no antique texture; no photoreal, 3D, anime, or cel shading.
 
-- Study path: `studies/A4/moon.png`.
+- Production path: `cards/major/moon.png`.
 - Generation method: built-in `imagegen`, text-only; no image reference.
 - Actual dimensions: `952 × 1632 px` (exact `7:12`).
 - SHA-256: `5bf8f1d8436249b5a14791794cf062181e4050556fe2685f9567d60550a79b50`.
 - Generation count: **2** (one initial text-only generation and one targeted text-only regeneration; neither used an image reference).
 - Technical review: The first generation incorrectly lit the physical floating lantern, introduced multiple warm lights, and did not make the hound's directional pull sufficiently clear. The one allowed targeted regeneration leaves the physical lantern dark while its reflection glows, limits warm light to one distant destination window, shows the impassable bridge gap, places the water-only wolf form in reflection, and makes the hound pull on a taut leash toward the side passage. Human face, hands, dog limbs, medicine equipment, water, stone, cloth, leather, and reflection hierarchy show no obvious technical malformation; no embedded text, pseudo-runes, physical wolf, attack, or repeated global texture was found. The generated source was losslessly decoded and high-quality normalized from `958 × 1641` to the required `952 × 1632` review size.
-- Owner acceptance: **Pending**.
+- Owner acceptance: **Accepted**.
 
 ## A2 Card Records (continued)
 
