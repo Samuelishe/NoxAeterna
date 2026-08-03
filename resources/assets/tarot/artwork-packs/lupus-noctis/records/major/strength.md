@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.strength`
 - Study: A11 compassionate power / disengagement / material stewardship batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -76,13 +76,13 @@ Direct Rider-Waite woman-and-lion copy, beauty-and-beast romance, chained werewo
 
 No lion; no chains; no weapon; no physical wolf; no furry costume; no domination pose; no magical glow; no standing hero; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A11/strength.png`
+- Path: `cards/major/strength.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `8115c48e41e372d9e596a472199a71329baa92d80a065bd839f27e553ce99537`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: The handler and partially transformed guardian remain kneeling at a low, nearly equal eye line. Her open palm supports the guardian's deliberately relaxing clawed hand while the other hand tends the injured jaw, making compassion and returning self-command readable without chains, weapon, restraint, domination, or magic. The guardian retains serious recognizably human lycanthropic anatomy rather than costume or mascot treatment; no additional wolf appears. Faces, hands, skin, charcoal fur, cloth, leather satchel, medical fabric, wet stone, and lamp light remain distinct with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, anatomy defect, frame, watermark, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.

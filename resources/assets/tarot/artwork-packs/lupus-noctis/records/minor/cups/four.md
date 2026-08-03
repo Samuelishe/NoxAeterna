@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.cups.four`
 - Study: A11 compassionate power / disengagement / material stewardship batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -79,13 +79,13 @@ Direct Rider-Waite copy, crossed-arms-under-tree pose, self-pity advertisement, 
 
 Exactly four cups; no fifth vessel; no bowls or bottles; no floating magical cup; no tree-copy staging; no drunkenness; no physical wolf; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A11/four-of-cups.png`
+- Path: `cards/minor/cups/four.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `3821ca6d0698c05928f9dcc83f9f403951e914832d4cc75dd0f1112252da8bff`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: Exactly three used cups form one foreground group and exactly one clean fourth cup is offered by the partially visible friend; no fifth cup-like vessel or background tableware appears. The musician remains turned toward the rainy river beside a closed instrument case, making overstimulated disengagement and a gentle unanswered connection readable without magical apparition, tree-copy staging, intoxication, or theatrical self-pity. Anatomy, hands, wet hair and cloth, glazed ceramic, leather, stone, rain, river, and pavilion wood remain distinct with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, frame, watermark, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.

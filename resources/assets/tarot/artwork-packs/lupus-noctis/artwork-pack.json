@@ -228,6 +228,33 @@
       "sha256": "3fb534d6f2271afe5ed6b57204902af9735c0578fd1e774cfc5b27a35059ad36",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/wands/queen.md"
+    },
+    {
+      "cardId": "major.strength",
+      "assetPath": "cards/major/strength.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "8115c48e41e372d9e596a472199a71329baa92d80a065bd839f27e553ce99537",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/strength.md"
+    },
+    {
+      "cardId": "minor.cups.four",
+      "assetPath": "cards/minor/cups/four.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "3821ca6d0698c05928f9dcc83f9f403951e914832d4cc75dd0f1112252da8bff",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/four.md"
+    },
+    {
+      "cardId": "minor.pentacles.king",
+      "assetPath": "cards/minor/pentacles/king.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "b2b99cd8e60a67922918df090cf03477f23e418e68e99e2f3dfadf1ee33c443c",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/king.md"
     }
   ]
 }

@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.pentacles.king`
 - Study: A11 compassionate power / disengagement / material stewardship batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -81,13 +81,13 @@ Golden-throne king, treasure pile, wealthy merchant advertisement, servant table
 
 Exactly one prominent seal; no coins; no other medallions; no throne; no crown; no jewels; no physical wolf; no wealth advertisement; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A11/king-of-pentacles.png`
+- Path: `cards/minor/pentacles/king.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `b2b99cd8e60a67922918df090cf03477f23e418e68e99e2f3dfadf1ee33c443c`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: Exactly one prominent circular bronze estate seal appears on the sealed grain measure; the practical key ring is small, functional, and not a competing pentacle-like symbol, while no coin or other medallion appears. The steward stands among participants, exchanging the reserve key and listening to diseased-root evidence as workers address drainage and grain is redistributed, making stewardship and continuity readable without throne, crown, servant hierarchy, or wealth display. Faces, hands, wet work clothing, roots, grain, timber, bronze, mud, stone, and cool morning light remain distinct with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, anatomy defect, frame, watermark, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.

@@ -9,6 +9,18 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-03: A11-P + A12 Production Promotion and Review Batch
+
+Summary:
+
+- Recorded the owner's acceptance of `major.strength`, `minor.cups.four`, and `minor.pentacles.king`; moved the unchanged A11 bytes to canonical production paths, removed the empty A11 study directory, and expanded Lupus Noctis from 24 to 27 accepted manifest assets with controlled fallback for the other 51 semantic cards.
+- Generated independent text-only A12 work for `major.chariot`, `minor.swords.two`, and `minor.cups.ten` with no image references. Chariot and Two of Swords passed their initial gates and were saved as Pending candidates; the permitted Ten of Cups correction repeated an eleven-cup count defect, so no failed Ten of Cups variant was saved. Exact generation counts, correction history, dimensions, hashes, prompts, and technical reviews belong to their linked records.
+- Kept the valid A12 candidates outside the production manifest and application output. A12 remains incomplete pending explicit owner direction on the exhausted correction allowance; the post-A12 batch remains deliberately unselected, and AP1 does not begin automatically.
+
+Verification:
+
+- Verification was intentionally not run on the incomplete A12 batch; the proportional gate remains due after a contract-valid third candidate exists. Broad hosted CI remains deferred until a future owner-authorized commit and push.
+
 ## 2026-08-03: A10-P + A11 Production Promotion and Review Batch
 
 Summary:
