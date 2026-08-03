@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.pentacles.three`
 - Study: A9 rupture / departure / collaboration batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -96,12 +96,12 @@ Preserve the narrative in a fresh text-only generation: inside a flood-damaged b
 Show exactly three prominent circular bronze guild medallions together on one planning rail. No other circular metal object, fourth token, coin, shield, wheel, gauge, plate, round lamp, buckle, or ornament; use square wooden pegs. No text, frame, watermark, pseudo-runes, tattoos, floating diagrams, magic, physical wolf, boss pose, corporate teamwork poster, photorealism, 3D, anime, comic cel shading, old-master stiffness, faux-antique filter, engraving, mosaic, crackle, or universal noise.
 ```
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A9/three-of-pentacles.png`
+- Path: `cards/minor/pentacles/three.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `fc746dce331e8c83799e5bb2184897048c8dc41b47c9671ec95ec49930bd7c51`
 - Generation count: **2** (one initial text-only generation and one targeted text-only corrective regeneration)
 - Technical review: The initial generation met the collaboration and three-medallion requirements but added a prominent tattoo to the stone mason's upper arm. The single corrective generation removed the body marking while preserving three distinct collaborators and the evidence-centered repair event. Exactly three prominent circular bronze medallions remain on one rail; no fourth token or count-confusing circular metal object appears. The apprentice points to the overflowing channel while both senior craftspeople examine and revise the angular brace model, making respected junior expertise readable without a central boss. Faces, unmarked skin, hands, timber, limestone, bronze, tools, and water remain distinct with safe margins and no embedded text, pseudo-runes, repeated global texture, physical wolf, obvious anatomy defect, frame, watermark, or logo. The final source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.

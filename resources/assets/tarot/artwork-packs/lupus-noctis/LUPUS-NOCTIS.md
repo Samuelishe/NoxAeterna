@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **18/78**.
+- Accepted production cards: **21/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -53,16 +53,22 @@
   - [`major.justice`](records/major/justice.md) — owner acceptance: **Accepted**.
   - [`minor.pentacles.five`](records/minor/pentacles/five.md) — owner acceptance: **Accepted**.
   - [`minor.cups.queen`](records/minor/cups/queen.md) — owner acceptance: **Accepted**.
-- A9: **Pending** rupture / departure / collaboration batch.
+- A9: **Accepted** as the seventh production wave.
 - A9 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A9 card was used as an image reference.
-- A9 review candidates:
-  - [`major.tower`](records/major/tower.md) — owner acceptance: **Pending**.
-  - [`minor.cups.eight`](records/minor/cups/eight.md) — owner acceptance: **Pending**.
-  - [`minor.pentacles.three`](records/minor/pentacles/three.md) — owner acceptance: **Pending**.
+- A9 production cards:
+  - [`major.tower`](records/major/tower.md) — owner acceptance: **Accepted**.
+  - [`minor.cups.eight`](records/minor/cups/eight.md) — owner acceptance: **Accepted**.
+  - [`minor.pentacles.three`](records/minor/pentacles/three.md) — owner acceptance: **Accepted**.
+- A10: **Pending** synthesis / final defeat / confident leadership batch.
+- A10 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A10 card was used as an image reference.
+- A10 review candidates:
+  - [`major.temperance`](records/major/temperance.md) — owner acceptance: **Pending**.
+  - [`minor.swords.ten`](records/minor/swords/ten.md) — owner acceptance: **Pending**.
+  - [`minor.wands.queen`](records/minor/wands/queen.md) — owner acceptance: **Pending**.
 
-The accepted A2, A4, A5, A6, A7, and A8 images are shipped production assets listed by `artwork-pack.json`. A9 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A9 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, and A9 images are shipped production assets listed by `artwork-pack.json`. A10 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A10 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **18/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **21/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 

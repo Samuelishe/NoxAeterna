@@ -174,6 +174,33 @@
       "sha256": "34e54fe087a9eebc554d47b7080a28451552a84ab729764b6fd4d8894b2774bd",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/cups/queen.md"
+    },
+    {
+      "cardId": "major.tower",
+      "assetPath": "cards/major/tower.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "a4b64c2d460cedda35e019d3909431de27711b7e9c4b5b48f1986519322bbf2d",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/tower.md"
+    },
+    {
+      "cardId": "minor.cups.eight",
+      "assetPath": "cards/minor/cups/eight.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "9e7b7e6b4fa65f032b12313aa0bfc412ec94987b46261d4ae7f79287d8eea280",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/eight.md"
+    },
+    {
+      "cardId": "minor.pentacles.three",
+      "assetPath": "cards/minor/pentacles/three.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "fc746dce331e8c83799e5bb2184897048c8dc41b47c9671ec95ec49930bd7c51",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/three.md"
     }
   ]
 }

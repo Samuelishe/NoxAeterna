@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.cups.eight`
 - Study: A9 rupture / departure / collaboration batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -92,12 +92,12 @@ Preserve the narrative in a fresh text-only generation: before dawn, a tall spar
 Absolute constraints: exactly eight cups and exactly eight vessel-like objects total; no ninth container and no planter. No text, title, frame, border, watermark, signature, logo, pseudo-runes, physical wolf, disaster, moon-copy staging, photorealism, 3D, anime, comic cel shading, old-master stiffness, faux-antique filter, engraving, mosaic, crackle, or universal noise.
 ```
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A9/eight-of-cups.png`
+- Path: `cards/minor/cups/eight.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `9e7b7e6b4fa65f032b12313aa0bfc412ec94987b46261d4ae7f79287d8eea280`
 - Generation count: **2** (one initial text-only generation and one targeted text-only corrective regeneration)
 - Technical review: The initial generation correctly showed eight cups as two groups of four but added a flower pot beside the doorway, violating the eight-vessel contract. The single corrective generation removed that planter and every other extra container. The final candidate contains exactly eight intact cups, all left on one bench in two groups of four; the back-facing traveler chooses the fog-bound upper fork while one small witness remains at the warm doorway. The voluntary departure reads without disaster, guards, fire, heroic summit, moon-copy staging, extra tableware, physical wolf, embedded text, pseudo-runes, accidental tattoos, repeated global texture, obvious anatomy defect, frame, watermark, or logo. The final source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.

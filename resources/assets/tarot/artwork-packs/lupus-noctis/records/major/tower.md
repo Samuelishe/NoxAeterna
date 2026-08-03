@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.tower`
 - Study: A9 rupture / departure / collaboration batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -70,13 +70,13 @@ Direct Rider-Waite falling-figures copy, apocalyptic poster, siege battle, super
 
 No falling people; no fireball; no siege; no dragon; no central hero pose; no physical wolf; no direct Rider–Waite copy; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A9/tower.png`
+- Path: `cards/major/tower.png`
 - Original generated dimensions: `958 × 1641 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `a4b64c2d460cedda35e019d3909431de27711b7e9c4b5b48f1986519322bbf2d`
 - Generation count: **1** initial text-only generation
 - Targeted correction prompt: none
 - Technical review: The lightning-struck vertical tower, diagonal inward fracture, exposed hollow shaft, abandoned ceremonial façade, side stairs, rescued record case, supported injured guard, and multiple evacuation vectors make rupture and concealed structural danger readable. Every visible person remains supported by a floor, gallery, or stair; no falling body, fireball, siege, dragon, or triumphant central hero appears. Faces, hands, wet clothing, masonry, timber, lightning, rain, and amber emergency lights remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, obvious anatomy defect, frame, watermark, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.
