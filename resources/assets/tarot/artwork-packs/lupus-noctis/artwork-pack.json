@@ -93,6 +93,33 @@
       "sha256": "fdfbec46ea62ff46bd85a9fa1972c784392eb5b02a3310352860aa71aa849f51",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/wands/four.md"
+    },
+    {
+      "cardId": "major.lovers",
+      "assetPath": "cards/major/lovers.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "3182833ff748bcbd881a9016ac2812555a9aa85a83f88f94731d672b7f9fe181",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/lovers.md"
+    },
+    {
+      "cardId": "minor.swords.nine",
+      "assetPath": "cards/minor/swords/nine.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "7b817375e7e862fbeba9752468fc7147bc3f26525d259bd2560eb14a0fb40364",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/swords/nine.md"
+    },
+    {
+      "cardId": "minor.pentacles.two",
+      "assetPath": "cards/minor/pentacles/two.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "148ffbef955a279ebda241c6f528ec9bcb9c539a5f8e1b0fb3edf07bd43a8f2c",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/two.md"
     }
   ]
 }

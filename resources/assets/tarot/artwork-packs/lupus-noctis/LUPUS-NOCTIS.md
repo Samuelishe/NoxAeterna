@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **9/78**.
+- Accepted production cards: **12/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -35,10 +35,22 @@
   - [`major.hanged-man`](records/major/hanged-man.md) — owner acceptance: **Accepted** without regeneration; the owner considers it artistically weaker than the other A5 cards but acceptable and meaning-aligned.
   - [`minor.pentacles.eight`](records/minor/pentacles/eight.md) — owner acceptance: **Accepted**.
   - [`minor.wands.four`](records/minor/wands/four.md) — owner acceptance: **Accepted**.
+- A6: **Accepted** as the fourth production wave.
+- A6 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A6 card was used as an image reference.
+- A6 production cards:
+  - [`major.lovers`](records/major/lovers.md) — owner acceptance: **Accepted**.
+  - [`minor.swords.nine`](records/minor/swords/nine.md) — owner acceptance: **Accepted**.
+  - [`minor.pentacles.two`](records/minor/pentacles/two.md) — owner acceptance: **Accepted**.
+- A7: **Pending** authority / grief / discovery batch.
+- A7 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A7 card was used as an image reference.
+- A7 review candidates:
+  - [`major.emperor`](records/major/emperor.md) — owner acceptance: **Pending**.
+  - [`minor.cups.five`](records/minor/cups/five.md) — owner acceptance: **Pending**.
+  - [`minor.wands.page`](records/minor/wands/page.md) — owner acceptance: **Pending**.
 
-The accepted A2, A4, and A5 images are shipped production assets listed by `artwork-pack.json`. No A4 or A5 study copies remain, the post-A5 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, and A6 images are shipped production assets listed by `artwork-pack.json`. A7 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A7 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **9/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **12/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 
@@ -73,7 +85,7 @@ The intended level is modern game loading-screen art, RPG story-card art, or cha
 
 Forbidden series-wide treatments include old-master museum painting, Baroque stiffness, faux-antique art, parchment or old-book filters, engraving simulation, mosaic or crackle texture, tiled or scale-like microtexture, universal surface noise, and a gray-blue wash. Also forbidden: photorealism, 3D rendering, anime, comic cel shading, furry aesthetics, and generic wolf-calendar art.
 
-Before approving a new card brief, compare it with recent accepted cards by dominant body orientation, gaze direction, action vector, pose, camera height and angle, focal-point location, and single-character versus group structure. Avoid accidental repetition of the same left-to-right hero staging, while keeping card meaning more important than mechanical alternation. A5 deliberately tests inverted central suspension, a seated left-facing close workshop, and a high-oblique multi-directional group scene.
+Before approving a new card brief, compare it with recent accepted cards by dominant body orientation, gaze direction, action vector, pose, camera height and angle, focal-point location, and single-character versus group structure. Avoid accidental repetition of the same left-to-right hero staging, while keeping card meaning more important than mechanical alternation. A5 deliberately tests inverted central suspension, a seated left-facing close workshop, and a high-oblique multi-directional group scene; A6 adds a balanced mutual-choice pair, a confined seated night interior, and an unstable lateral balancing action.
 
 ## Meaning-First Workflow
 
