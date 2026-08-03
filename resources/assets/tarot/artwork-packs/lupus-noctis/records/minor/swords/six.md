@@ -81,13 +81,43 @@ Direct Rider-Waite sword-filled boat copy, heroic refugee poster, dramatic cryin
 
 Exactly six swords; all sheathed; one horizontal bundle; no seventh blade; no belt weapon; no spear; no battle; no physical wolf; no embedded writing.
 
+## Targeted Correction Prompt
+
+```text
+TARGETED TEXT-ONLY REGENERATION. Do not use the previous image as a reference.
+
+Create the same quiet post-ceasefire ferry passage toward a neutral island, but rebuild the secured sword bundle with an unambiguous count-safe arrangement.
+
+Show exactly six fully sheathed swords total.
+
+Arrange the six swords as one secured bundle in exactly two clearly separated horizontal rows of three swords each:
+
+- upper row: exactly three complete sheathed swords;
+- lower row: exactly three complete sheathed swords.
+
+All six pommels must be individually visible at the left side.
+All six sheath tips must be individually visible at the right side.
+No sword may be hidden completely behind another.
+No row may merge visually into the other.
+Use visible wooden or rope separators so the 2×3 structure remains countable at Tarot-card size.
+
+The bundle remains secured under the forward bench of a small practical ferry.
+
+The ferrymaster is an older compact muscular woman using one short broad-bladed ordinary oar. The passengers remain one parent, one child, and one exhausted teacher or medic with cloth packs and one medical satchel. The ferry moves away from a damaged bank toward one restrained warm island light through pale morning mist.
+
+Do not include any other sword, sheath, knife, dagger, spear, belt weapon, decorative blade, weapon-shaped object, long pole, or sword-like oar.
+
+Contemporary painted narrative fantasy, exact 7:12 portrait intent, borderless inner Tarot illustration, natural anatomy and materials, quiet transition rather than battle.
+
+No text, letters, numbers, frame, title, watermark, signature, logo, pseudo-runes, physical wolf, spirit wolf, gore, battle, heroic refugee-poster staging, photorealism, 3D render, anime, or comic cel shading.
+```
+
 ## Final Candidate
 
 - Path: `studies/A14/six-of-swords.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
-- SHA-256: `eb881daf67855c736ea7f4f649b67046c015d7086b70f12ff9be0522c7161bc9`
-- Generation count: **1** initial text-only generation; no correction used
-- Targeted correction prompt: none
-- Technical review: Exactly six distinct swords are fully enclosed in six sheaths, aligned as one countable horizontal bundle under the forward bench; no passenger wears or holds a weapon and no extra blade, sheath, dagger, spear, or weapon-like object appears. The older ferrymaster uses one unmistakable short broad-bladed oar while the parent, child, and exhausted medic sit low as the ferry moves from the damaged bank toward the distant island light, making quiet transition and accepted help readable without battle or theatrical farewell. Anatomy, hands, wet cloth, satchel, wood, rope, sheath leather, metal fittings, water, and mist remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
+- SHA-256: `47e59cda725d1f126b1ebbc7711e1f6a874490ac2e94a8aad652ef5e63384be9`
+- Generation count: **2** text-only generations: one initial generation and one targeted correction; neither used an image reference
+- Technical review: The initial generation contained exactly five fully sheathed swords—five distinct pommels, five sheath bodies, and five sheath tips—even though the record and prior Codex summary incorrectly documented six. The owner identified the visual miscount during review. The single targeted independent regeneration replaces that candidate with an unambiguous `2 × 3` bundle: the upper row contains three complete sheathed swords and the lower row contains three complete sheathed swords. Direct enlarged inspection confirms six separate pommels on the left, six separate sheath bodies, six separate tips on the right, and zero additional blades or sheaths. Wooden separators and rope keep the rows distinct at card size. The older ferrymaster uses one ordinary oar while the parent, child, and exhausted medic travel toward the island through pale mist; anatomy, hands, cloth, satchel, wood, rope, sheath leather, fittings, water, and atmosphere remain readable with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, frame, watermark, signature, or logo. The generated `957 × 1643 px` source was decoded and center-cropped without stretching to `952 × 1632 px`.
 - Owner acceptance: **Pending**
