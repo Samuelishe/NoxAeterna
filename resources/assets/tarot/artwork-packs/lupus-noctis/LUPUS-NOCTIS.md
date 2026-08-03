@@ -29,8 +29,13 @@
   - `major.sun` — owner acceptance: **Accepted**.
   - `minor.swords.five` — owner acceptance: **Accepted**.
   - `major.moon` — owner acceptance: **Accepted**.
+- A5: **Pending** composition-diversity study.
+- A5 review candidates:
+  - [`major.hanged-man`](records/major/hanged-man.md) — owner acceptance: **Pending**.
+  - [`minor.pentacles.eight`](records/minor/pentacles/eight.md) — owner acceptance: **Pending**.
+  - [`minor.wands.four`](records/minor/wands/four.md) — owner acceptance: **Pending**.
 
-The accepted A2 and A4 images are shipped production assets listed by `artwork-pack.json`. No A4 study copies remain, the next generation batch remains deliberately unselected, and no contact sheets belong to this pack.
+The accepted A2 and A4 images are shipped production assets listed by `artwork-pack.json`. A5 remains a local Pending study and is not part of the manifest or production card inventory. No A4 study copies remain, the post-A5 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
 Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **6/78 accepted production cards** while that staged architecture is implemented independently.
 
@@ -66,6 +71,8 @@ Unity does **not** mean one palette, one darkness level, the same forest, the sa
 The intended level is modern game loading-screen art, RPG story-card art, or chapter illustration: visually fresh, emotionally immediate, and readable at card size. Characters act, decide, or experience an event. Gestures and silhouettes are legible; the focal area carries controlled detail while the background is quieter. Stone, skin, fur, cloth, metal, water, and vegetation retain distinct material responses.
 
 Forbidden series-wide treatments include old-master museum painting, Baroque stiffness, faux-antique art, parchment or old-book filters, engraving simulation, mosaic or crackle texture, tiled or scale-like microtexture, universal surface noise, and a gray-blue wash. Also forbidden: photorealism, 3D rendering, anime, comic cel shading, furry aesthetics, and generic wolf-calendar art.
+
+Before approving a new card brief, compare it with recent accepted cards by dominant body orientation, gaze direction, action vector, pose, camera height and angle, focal-point location, and single-character versus group structure. Avoid accidental repetition of the same left-to-right hero staging, while keeping card meaning more important than mechanical alternation. A5 deliberately tests inverted central suspension, a seated left-facing close workshop, and a high-oblique multi-directional group scene.
 
 ## Meaning-First Workflow
 
@@ -103,6 +110,8 @@ The summaries below synthesize and paraphrase historical sources; they do not co
 - Arthur Edward Waite, *The Pictorial Key to the Tarot*, [Part II: major-symbol discussion](https://en.wikisource.org/wiki/The_Pictorial_Key_to_the_Tarot/Part_2) and [Part III: divinatory meanings and Minor Arcana](https://en.wikisource.org/wiki/The_Pictorial_Key_to_the_Tarot/Part_3), first published in 1910. Part II connects Death with passage, changed consciousness, rebirth, and renewal, and connects the Star with hope, interior light, truth, and life-giving water; Part III presents the Six of Cups as childhood memory and happiness drawn from the past.
 - S. L. MacGregor Mathers, *The Tarot: Its Occult Signification, Use in Fortune-Telling, and Method of Play* (1888), [public transcription](https://hermetics.net/media-library/tarot/samuel-liddell-macgregor-mathers-the-tarot/). Its concise earlier list associates Death with change and transformation, the Star with hope and bright expectation, and the Six of Cups with what has passed or vanished; its reversed entries add incomplete change, disappointed expectation, and movement toward the future.
 - [WorldCat record for the 1888 Mathers edition](https://search.worldcat.org/title/The-Tarot-%3A-its-occult-signification-use-in-fortune-telling-and-method-of-play-etc/oclc/637249905) confirms the work's author, title, publisher, and publication year.
+
+Detailed post-A4 card records live in linked per-card files under `records/`; existing A2 and A4 records remain below and are not migrated by A5.
 
 ## A2 Card Records
 
