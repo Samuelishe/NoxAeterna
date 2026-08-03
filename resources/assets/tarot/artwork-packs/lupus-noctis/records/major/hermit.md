@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.hermit`
 - Study: A13 enduring home / solitary insight / first step / material foundation batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -72,13 +72,13 @@ Bearded cloaked wanderer, lantern-on-staff Tarot copy, mystical guru portrait, g
 
 Exactly one signal lantern; no other light fixture; no staff; no hooded mystic; no physical wolf; no magical glow; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A13/hermit.png`
+- Path: `cards/major/hermit.png`
 - Original generated dimensions: `958 × 1642 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `1a02430815b1971cb43dd8c6976664215617d64ae891aad3b8c18858dc661364`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: Exactly one shuttered signal lantern appears, with no staff, candle, torch, brazier, crystal, wall lamp, or additional light fixture. The solitary route-reader compares a tactile relief map through a brass sighting frame while a tiny caravan follows the distant valley route, making observation-based guidance and purposeful solitude readable without mystical-guru or walking-wanderer staging. Mature anatomy, hands, cloth, leather, brass, glass, stone, snow, relief terrain, and cold air remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes

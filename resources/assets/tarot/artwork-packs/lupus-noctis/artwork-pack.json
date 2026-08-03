@@ -273,6 +273,42 @@
       "sha256": "63ae7faf384d4faf44b4a1089259b853d9fafe0db10b285aaddffffa47c750b2",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/swords/two.md"
+    },
+    {
+      "cardId": "minor.cups.ten",
+      "assetPath": "cards/minor/cups/ten.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "a5cba66ee9b4c0ef23ef1b5016b58540a0c55f06e23b0f2ac74ad90ea9bd7ce5",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/ten.md"
+    },
+    {
+      "cardId": "major.hermit",
+      "assetPath": "cards/major/hermit.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "1a02430815b1971cb43dd8c6976664215617d64ae891aad3b8c18858dc661364",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/hermit.md"
+    },
+    {
+      "cardId": "major.fool",
+      "assetPath": "cards/major/fool.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "7ef794da86db7b41b3955b5e9da422b255ef5e853bc1c46cb8a23d20d2ff7fa6",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/fool.md"
+    },
+    {
+      "cardId": "minor.pentacles.ace",
+      "assetPath": "cards/minor/pentacles/ace.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "c315ddd92003346435ac649ce52c4a0f59b7ba0c095cce20f47d32e274e67023",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/ace.md"
     }
   ]
 }

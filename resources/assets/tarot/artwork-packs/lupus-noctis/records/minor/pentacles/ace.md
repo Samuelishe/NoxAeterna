@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.pentacles.ace`
 - Study: A13 enduring home / solitary insight / first step / material foundation batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -72,13 +72,13 @@ Floating giant pentacle, hand presenting a magical coin, treasure symbolism, com
 
 Exactly one prominent circular bronze seal; no other circular metal symbol; no coin presentation; no completed bridge; no physical wolf; no magical glow; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A13/ace-of-pentacles.png`
+- Path: `cards/minor/pentacles/ace.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `c315ddd92003346435ac649ce52c4a0f59b7ba0c095cce20f47d32e274e67023`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: Exactly one prominent circular bronze foundation seal appears, pressed into wet lime on the first prepared stone; no coin, second medallion, round shield, plate, wheel, ring ornament, or other count-confusing circular metal symbol appears. The kneeling mason aligns the first real foundation element while the surveyor checks level and the child carries a rectangular wedge; the crossing remains visibly unfinished, making tangible opportunity and preparation readable without magical coin presentation or completed-project triumph. Anatomy, hands, cloth, leather guards, limestone, wet lime, bronze, timber, rope, mud, water, and morning air remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes

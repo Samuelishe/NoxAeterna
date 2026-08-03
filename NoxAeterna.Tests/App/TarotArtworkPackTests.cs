@@ -11,7 +11,7 @@ namespace NoxAeterna.Tests.App;
 public sealed class TarotArtworkPackTests
 {
     [Fact]
-    public void LupusNoctisManifest_DeclaresVersionedPartialPackWithTwentyNineExactAcceptedStandardCards()
+    public void LupusNoctisManifest_DeclaresVersionedPartialPackWithThirtyThreeExactAcceptedStandardCards()
     {
         var definition = TarotArtworkPackTestData.LoadRepositoryPack();
         (string CardId, string AssetPath, int Width, int Height, string Sha256)[] expectedCards =
@@ -189,7 +189,31 @@ public sealed class TarotArtworkPackTests
                 "cards/minor/swords/two.png",
                 952,
                 1632,
-                "63ae7faf384d4faf44b4a1089259b853d9fafe0db10b285aaddffffa47c750b2")
+                "63ae7faf384d4faf44b4a1089259b853d9fafe0db10b285aaddffffa47c750b2"),
+            (
+                "minor.cups.ten",
+                "cards/minor/cups/ten.png",
+                952,
+                1632,
+                "a5cba66ee9b4c0ef23ef1b5016b58540a0c55f06e23b0f2ac74ad90ea9bd7ce5"),
+            (
+                "major.hermit",
+                "cards/major/hermit.png",
+                952,
+                1632,
+                "1a02430815b1971cb43dd8c6976664215617d64ae891aad3b8c18858dc661364"),
+            (
+                "major.fool",
+                "cards/major/fool.png",
+                952,
+                1632,
+                "7ef794da86db7b41b3955b5e9da422b255ef5e853bc1c46cb8a23d20d2ff7fa6"),
+            (
+                "minor.pentacles.ace",
+                "cards/minor/pentacles/ace.png",
+                952,
+                1632,
+                "c315ddd92003346435ac649ce52c4a0f59b7ba0c095cce20f47d32e274e67023")
         ];
 
         Assert.Equal(1, definition.SchemaVersion);
@@ -509,7 +533,11 @@ public sealed class TarotArtworkPackTests
     [InlineData("minor.pentacles.king", "cards/minor/pentacles/king.png")]
     [InlineData("major.chariot", "cards/major/chariot.png")]
     [InlineData("minor.swords.two", "cards/minor/swords/two.png")]
-    public void PartialPackResolver_AllTwentyNineAcceptedCardsResolveRasterArtwork(string cardId, string assetPath)
+    [InlineData("minor.cups.ten", "cards/minor/cups/ten.png")]
+    [InlineData("major.hermit", "cards/major/hermit.png")]
+    [InlineData("major.fool", "cards/major/fool.png")]
+    [InlineData("minor.pentacles.ace", "cards/minor/pentacles/ace.png")]
+    public void PartialPackResolver_AllThirtyThreeAcceptedCardsResolveRasterArtwork(string cardId, string assetPath)
     {
         var catalog = TarotArtworkPackCatalog.CreateForTests(TarotArtworkPackTestData.LoadRepositoryPack());
         var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == cardId);
@@ -531,8 +559,8 @@ public sealed class TarotArtworkPackTests
             .Select(card => catalog.Resolve(new TarotArtworkPackId("lupus-noctis"), card))
             .ToArray();
 
-        Assert.Equal(29, resolutions.Count(static resolution => resolution.Kind == TarotArtworkResolutionKind.Raster));
-        Assert.Equal(49, resolutions.Count(static resolution => resolution.IsPartialPackFallback));
+        Assert.Equal(33, resolutions.Count(static resolution => resolution.Kind == TarotArtworkResolutionKind.Raster));
+        Assert.Equal(45, resolutions.Count(static resolution => resolution.IsPartialPackFallback));
         Assert.All(resolutions, resolution =>
         {
             Assert.Contains(resolution.Card, StandardTarotCatalog.Deck.Cards);
@@ -548,15 +576,15 @@ public sealed class TarotArtworkPackTests
     }
 
     [Fact]
-    public void PartialPackResolver_OmittedThirtiethCardStillUsesPrototypeFallback()
+    public void PartialPackResolver_OmittedThirtyFourthCardStillUsesPrototypeFallback()
     {
         var catalog = TarotArtworkPackCatalog.CreateForTests(TarotArtworkPackTestData.LoadRepositoryPack());
-        var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == "major.fool");
+        var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == "major.magician");
 
         var resolution = catalog.Resolve(new TarotArtworkPackId("lupus-noctis"), card);
 
         Assert.Same(card, resolution.Card);
-        Assert.Equal("major.fool", resolution.Card.Id.Value);
+        Assert.Equal("major.magician", resolution.Card.Id.Value);
         Assert.Equal(TarotArtworkResolutionKind.Prototype, resolution.Kind);
         Assert.True(resolution.IsPartialPackFallback);
         Assert.Null(resolution.RasterAsset);
@@ -595,21 +623,21 @@ public sealed class TarotArtworkPackTests
     public void PrototypeFallbackVisualPlan_PreservesSemanticCardAndHonestFallbackLabel()
     {
         var catalog = TarotArtworkPackCatalog.CreateForTests(TarotArtworkPackTestData.LoadRepositoryPack());
-        var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == "major.fool");
+        var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == "major.magician");
         var artwork = catalog.Resolve(new TarotArtworkPackId("lupus-noctis"), card);
         var assignment = new TarotDrawnCard(new TarotSpreadPositionId("card"), card, TarotCardOrientation.Upright);
 
         var plan = TarotCardVisualPlan.Create(
             assignment,
             artwork,
-            "The Fool",
+            "The Magician",
             "Major Arcana",
             "Prototype fallback");
 
         Assert.Same(card, plan.Card);
         Assert.Equal(TarotArtworkResolutionKind.Prototype, plan.ArtworkKind);
         Assert.Null(plan.RasterAssetPath);
-        Assert.Equal("The Fool", plan.LocalizedTitle);
+        Assert.Equal("The Magician", plan.LocalizedTitle);
         Assert.Equal("Prototype fallback", plan.PrototypeFallbackText);
         Assert.Equal(0d, plan.RotationDegrees);
         Assert.True(plan.HasLocalizedTitleOverlay);

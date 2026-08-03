@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.fool`
 - Study: A13 enduring home / solitary insight / first step / material foundation batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -65,13 +65,13 @@ Direct Rider-Waite cliff-and-dog copy, generic hiking poster, fantasy chosen-one
 
 No cliff; no dog or wolf; no staff-and-bundle; no falling; no superhero leap; no magical portal; no frontal hero pose; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A13/fool.png`
+- Path: `cards/major/fool.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `7ef794da86db7b41b3955b5e9da422b255ef5e853bc1c46cb8a23d20d2ff7fa6`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: The traveler visibly keeps one complete foot on known wet stone while testing the flexible reed walkway with the other, and the ferryman releases the tether behind them. The walkway leads through mist into uncertain depth without cliff, fall, leap, dog, wolf, staff-and-bundle, portal, or promised reward, so the first deliberate step reads clearly rather than as recklessness or hero spectacle. Anatomy, feet, hands, cloth, leather pack and map case, rope, reeds, wet stone, water, and mist remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes

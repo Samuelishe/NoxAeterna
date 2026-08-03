@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.cups.ten`
 - Study history: A12 directed momentum / suspended choice / enduring home; explicitly carried into A13 enduring home / solitary insight / first step / material foundation
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -136,13 +136,13 @@ Avoid:
 Greeting-card family portrait, holiday advertisement, public celebration, luxury banquet, everyone smiling at the viewer, direct Rider-Waite rainbow scene, faux-antique treatment, parchment filter, engraving, mosaic, crackle, universal texture noise, photorealism, 3D rendering, anime, and comic cel shading.
 ```
 
-### A13 Candidate
+### A13 Production Asset
 
-- Path: `studies/A13/ten-of-cups.png`
+- Path: `cards/minor/cups/ten.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `a5cba66ee9b4c0ef23ef1b5016b58540a0c55f06e23b0f2ac74ad90ea9bd7ce5`
 - Cumulative generation count: **3** text-only generations: two failed historical A12 attempts plus one successful A13 initial generation; no A13 correction used
 - A13 targeted correction prompts: none
 - Technical review: The revised count-safe staging succeeds: exactly ten cups appear on one rectangular rack as two unobstructed rows of five, with no cup in any hand and no other vessel or count-confusing circular container. The child and grandmother fasten the restored non-circular family band beneath the complete set while other household members repair the latch, open the garden door, unfold cloth, and place bread directly on a bare board, making enduring home and ordinary continuity readable without toast, feast, rainbow, or posed-family spectacle. Multi-person anatomy, hands, ceramic, cloth, bread, timber, plaster, metal latch, plants, and morning air remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes
