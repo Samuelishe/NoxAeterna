@@ -498,3 +498,11 @@ Decision: Draw without replacement through a project-owned injected index source
 Reason: UI, persistence, system time, and framework-global randomness must not determine or hide domain behavior.
 
 Consequences: Upright-only and upright/reversed policies are explicit, replayable fake sequences reproduce assignments, invalid RNG output is surfaced, and T0-A performs no automatic save or AppData write.
+
+## 2026-08-03: Keep the First Tarot Slice Prototype-Honest and Pack-Independent
+
+Decision: Drive the first playable Tarot workspace from the existing semantic draw engine, model artwork, skin, back, and interpretation selection with independent typed identities, and render only project-owned programmatic prototype cards at a canonical 7:12 ratio.
+
+Reason: Real interaction and responsive composition must be validated before choosing an artwork pipeline, while alternate visuals and future meanings must never fork semantic card identity.
+
+Consequences: Presentation owns in-memory workspace state, Infrastructure supplies runtime randomness behind the Domain interface, App owns temporary vector surfaces, and only the two real Black Sun/Lunar Seal back choices are exposed. T1 adds no final illustrations, fabricated interpretation prose, persistence, assets, packages, or Tarot-specific project.

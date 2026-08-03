@@ -183,6 +183,66 @@
       "windowModes": ["standard"],
       "screenshotFileName": "settings-theme-popup.png",
       "trackScreenshot": false
+    },
+    {
+      "id": "tarot-three-card-obsidian-black-sun",
+      "title": "Tarot three-card spread in Obsidian with Black Sun",
+      "area": "tarot",
+      "requiredFor": ["milestone", "tarot", "theme-dark"],
+      "preconditions": ["Open Tarot in Obsidian with expanded navigation."],
+      "input": { "spread": "three-cards", "back": "black-sun", "allowReversed": true },
+      "actions": ["Select Three cards and Black Sun.", "Enable reversed cards.", "Draw through the real button.", "Reveal and select each card with pointer and keyboard."],
+      "expected": ["Three equal 7:12 cards form one readable row at maximized width.", "Back, reveal, reversed rotation, selection, focus, and inspector states are legible."],
+      "themes": ["dark"],
+      "languages": ["ru", "en"],
+      "windowModes": ["maximized"],
+      "screenshotFileName": "Screenshot_1.png",
+      "trackScreenshot": false
+    },
+    {
+      "id": "tarot-three-card-porcelain-lunar-seal",
+      "title": "Tarot three-card spread in Porcelain with Lunar Seal",
+      "area": "tarot",
+      "requiredFor": ["milestone", "tarot", "theme-light"],
+      "preconditions": ["Open Tarot in Porcelain."],
+      "input": { "spread": "three-cards", "back": "lunar-seal", "allowReversed": false },
+      "actions": ["Select Three cards and Lunar Seal.", "Draw through the real button.", "Inspect back and face states."],
+      "expected": ["Porcelain surfaces retain semantic contrast without platform red/salmon.", "Lunar Seal differs visibly from Black Sun and cards remain aligned."],
+      "themes": ["light"],
+      "languages": ["ru", "en"],
+      "windowModes": ["maximized"],
+      "screenshotFileName": "Screenshot_2.png",
+      "trackScreenshot": false
+    },
+    {
+      "id": "tarot-single-card-inspector",
+      "title": "Tarot single selected card and inspector",
+      "area": "tarot",
+      "requiredFor": ["milestone", "tarot", "selection"],
+      "preconditions": ["Open Tarot in Obsidian."],
+      "input": { "spread": "single-card" },
+      "actions": ["Select Single card.", "Draw.", "Reveal and select the card with Enter or Space."],
+      "expected": ["The large card is centered.", "Inspector shows localized card, position, orientation, Arcana and Minor structure when applicable, with honest unavailable interpretation text."],
+      "themes": ["dark"],
+      "languages": ["ru", "en"],
+      "windowModes": ["standard"],
+      "screenshotFileName": "Screenshot_3.png",
+      "trackScreenshot": false
+    },
+    {
+      "id": "tarot-compact-collapsed-three-card",
+      "title": "Tarot compact collapsed three-card workspace",
+      "area": "tarot",
+      "requiredFor": ["milestone", "tarot", "responsive"],
+      "preconditions": ["A three-card reading is open."],
+      "input": { "spread": "three-cards" },
+      "actions": ["Resize below the shell compact threshold.", "Confirm forced collapsed navigation.", "Resize continuously and use tableau scrolling if required.", "Return to Astrology and reopen Tarot."],
+      "expected": ["No shell-level horizontal clipping appears.", "Cards retain 7:12 and readable minimum.", "The tableau owns any horizontal scrolling and workspace state survives section changes."],
+      "themes": ["dark", "light"],
+      "languages": ["ru", "en"],
+      "windowModes": ["responsive"],
+      "screenshotFileName": "Screenshot_4.png",
+      "trackScreenshot": false
     }
   ]
 }

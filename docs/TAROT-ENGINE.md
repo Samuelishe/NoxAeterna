@@ -16,7 +16,7 @@ Eventually support:
 - Optional connection to personal profile.
 - Optional connection to current lunar phase, transits, and planetary context.
 
-## T0-A Implemented Foundation
+## Implemented Foundation
 
 The Domain layer now owns language-neutral, immutable contracts for:
 
@@ -42,9 +42,10 @@ Four concepts must remain independent:
 - **Semantic deck** owns stable card identities and the valid Arcana/suit/rank structure. It is independent from images.
 - **Artwork pack** will map semantic card identities to illustrations. Different artwork does not create a new semantic deck.
 - **Presentation skin** will own programmatic frames, numbers, labels, ornaments, safe areas, and composition rules instead of baking repeated frame/text generation into every illustration.
-- **Back variant** will be a selectable visual option, not a separate deck.
+- **Back variant** owns a selectable card back, not a separate deck.
+- **Interpretation set** identifies future meaning content independently from both semantic and visual selection.
 
-Artwork packs, presentation skins, and back variants are terminology and architecture boundaries only in T0-A; no code contracts for them exist yet.
+Validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `TarotBackVariantId`, and `TarotInterpretationSetId` contracts keep those selections distinct from `TarotDeckId`. T1 exposes one explicitly named prototype artwork pack, one prototype skin, two programmatic back variants, and one foundation interpretation-set identity; none pretends that finished artwork or prose exists.
 
 ## Built-In Spreads
 
@@ -58,6 +59,12 @@ These IDs are semantic keys, not user-facing labels. Spreads contain no Avalonia
 ## Boundary With Meaning and Presentation
 
 Domain contains no Russian or English display names, UI labels, localized strings, meanings, keywords, interpretation text, astrology correspondences, layout geometry, or persistence. Symbolics and Interpretation remain unchanged; future meaning composition follows [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md).
+
+## T1 Playable Workspace
+
+`TarotWorkspaceViewModel` in Presentation owns the selected spread, reversal preference, current reading, selected assignment, controlled failure, and independent visual selections. It delegates every draw to the existing `TarotDrawEngine` over `StandardTarotCatalog.Deck`; App supplies the explicit timestamp and composes a runtime `SystemTarotRandomSource` from Infrastructure. Changing to an incompatible spread clears the reading, while leaving and reopening Tarot preserves the in-memory workspace model.
+
+The App renders responsive 7:12 symbolic card surfaces with project-owned vector geometry. Single-card and three-card tableaux share one deterministic layout contract; compact widths retain a readable minimum and give horizontal overflow to the tableau only. Black Sun and Lunar Seal are two selectable prototype backs. Faces distinguish Arcana, suit, rank, and orientation without claiming to illustrate all 78 narratives. RU/EN names and inspector labels stay in localization catalogs, and the inspector states honestly that interpretation content is not yet available.
 
 ## Asset Direction
 

@@ -4,6 +4,26 @@ namespace NoxAeterna.Tests.Tarot;
 
 public sealed class StandardTarotCatalogTests
 {
+    [Fact]
+    public void VisualAndInterpretationSelectionIds_AreIndependentFromSemanticDeckIdentity()
+    {
+        var deckId = new TarotDeckId("standard-78");
+        var artworkId = new TarotArtworkPackId("prototype-symbolic");
+        var skinId = new TarotPresentationSkinId("astral-archive-prototype");
+        var backId = new TarotBackVariantId("black-sun");
+        var interpretationId = new TarotInterpretationSetId("foundation");
+        var idTypes = new object[] { deckId, artworkId, skinId, backId, interpretationId }
+            .Select(value => value.GetType())
+            .ToArray();
+
+        Assert.Equal(idTypes.Length, idTypes.Distinct().Count());
+        Assert.DoesNotContain(idTypes.Skip(1), type => type == typeof(TarotDeckId));
+        Assert.Equal("prototype-symbolic", artworkId.Value);
+        Assert.Equal("astral-archive-prototype", skinId.Value);
+        Assert.Equal("black-sun", backId.Value);
+        Assert.Equal("foundation", interpretationId.Value);
+    }
+
     [Theory]
     [InlineData("")]
     [InlineData("UPPERCASE")]

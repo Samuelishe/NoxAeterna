@@ -20,7 +20,10 @@ public sealed class SemanticThemeContractTests
         "DesignDisabledFillColor",
         "DesignDisabledTextColor",
         "DesignSelectionForegroundColor",
-        "DesignFocusRingColor"
+        "DesignFocusRingColor",
+        "DesignTarotCardFaceColor",
+        "DesignTarotCardBackColor",
+        "DesignTarotOrnamentColor"
     ];
 
     [Fact]
@@ -127,6 +130,9 @@ public sealed class SemanticThemeContractTests
         Assert.Contains("DesignControlFillPressedBrush", source, StringComparison.Ordinal);
         Assert.DoesNotContain("Red", source, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("Salmon", source, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains("Border.tarot-card-face", source, StringComparison.Ordinal);
+        Assert.Contains("Border.tarot-card-back", source, StringComparison.Ordinal);
+        Assert.Contains("Path.tarot-ornament", source, StringComparison.Ordinal);
     }
 
     [Fact]

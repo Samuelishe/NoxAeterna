@@ -1,4 +1,6 @@
 using NoxAeterna.Presentation.Localization;
+using NoxAeterna.Domain.Tarot;
+using NoxAeterna.Presentation.Tarot;
 
 namespace NoxAeterna.Tests.Presentation;
 
@@ -209,6 +211,52 @@ public sealed class JsonLocalizationCatalogLoaderTests
             {
                 Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(catalog, key)));
             }
+        }
+    }
+
+    [Fact]
+    public void RealUiCatalogs_ContainEveryVisibleTarotWorkspaceKey()
+    {
+        var requiredKeys = new[]
+        {
+            "ui.tarot.control.spread", "ui.tarot.control.back", "ui.tarot.control.allow-reversed",
+            "ui.tarot.control.draw", "ui.tarot.control.redraw", "ui.tarot.tableau.title",
+            "ui.tarot.empty-state", "ui.tarot.failure.insufficient-deck", "ui.tarot.prototype.notice",
+            "ui.tarot.spread.single-card", "ui.tarot.spread.three-cards", "ui.tarot.position.card",
+            "ui.tarot.position.past", "ui.tarot.position.present", "ui.tarot.position.future",
+            "ui.tarot.orientation.upright", "ui.tarot.orientation.reversed", "ui.tarot.arcana.major",
+            "ui.tarot.arcana.minor", "ui.tarot.back.black-sun", "ui.tarot.back.lunar-seal",
+            "ui.tarot.artwork.prototype-symbolic", "ui.tarot.skin.astral-archive-prototype",
+            "ui.tarot.interpretation.foundation", "ui.tarot.inspector.title", "ui.tarot.inspector.card",
+            "ui.tarot.inspector.position", "ui.tarot.inspector.orientation", "ui.tarot.inspector.arcana",
+            "ui.tarot.inspector.suit", "ui.tarot.inspector.rank", "ui.tarot.interpretation.unavailable"
+        };
+
+        foreach (var language in new[] { "ru", "en" })
+        {
+            var catalog = LoadRealUiCatalog(language);
+            Assert.All(requiredKeys, key => Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(catalog, key))));
+        }
+    }
+
+    [Fact]
+    public void EveryStandardTarotCard_HasLocalizedDisplayNameInRussianAndEnglish()
+    {
+        foreach (var language in new[] { "ru", "en" })
+        {
+            var languageCode = new LanguageCode(language);
+            var provider = new FallbackLocalizationProvider([LoadRealUiCatalog(language)]);
+            var displayNames = StandardTarotCatalog.Deck.Cards
+                .Select(card => TarotCardTextResolver.GetCardName(card, provider, languageCode))
+                .ToArray();
+
+            Assert.Equal(78, displayNames.Length);
+            Assert.All(displayNames, name =>
+            {
+                Assert.False(string.IsNullOrWhiteSpace(name));
+                Assert.DoesNotContain("ui.tarot", name, StringComparison.Ordinal);
+            });
+            Assert.Equal(78, displayNames.Distinct(StringComparer.Ordinal).Count());
         }
     }
 

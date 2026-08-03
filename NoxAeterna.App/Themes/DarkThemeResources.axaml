@@ -27,6 +27,9 @@
   <Color x:Key="DesignDisabledTextColor">#68718E</Color>
   <Color x:Key="DesignSelectionForegroundColor">#FFFFFF</Color>
   <Color x:Key="DesignFocusRingColor">#45C7D9</Color>
+  <Color x:Key="DesignTarotCardFaceColor">#18213A</Color>
+  <Color x:Key="DesignTarotCardBackColor">#0D1424</Color>
+  <Color x:Key="DesignTarotOrnamentColor">#F2C14E</Color>
 
   <SolidColorBrush x:Key="DesignCanvasBrush" Color="{StaticResource DesignCanvasColor}" />
   <SolidColorBrush x:Key="DesignSurfaceBrush" Color="{StaticResource DesignSurfaceColor}" />
@@ -53,6 +56,9 @@
   <SolidColorBrush x:Key="DesignDisabledTextBrush" Color="{StaticResource DesignDisabledTextColor}" />
   <SolidColorBrush x:Key="DesignSelectionForegroundBrush" Color="{StaticResource DesignSelectionForegroundColor}" />
   <SolidColorBrush x:Key="DesignFocusRingBrush" Color="{StaticResource DesignFocusRingColor}" />
+  <SolidColorBrush x:Key="DesignTarotCardFaceBrush" Color="{StaticResource DesignTarotCardFaceColor}" />
+  <SolidColorBrush x:Key="DesignTarotCardBackBrush" Color="{StaticResource DesignTarotCardBackColor}" />
+  <SolidColorBrush x:Key="DesignTarotOrnamentBrush" Color="{StaticResource DesignTarotOrnamentColor}" />
 
   <!-- Public Fluent 12.0.2 resource seams retained for native editor and popup behavior. -->
   <StaticResource x:Key="SystemAccentColor" ResourceKey="DesignAccentPrimaryColor" />

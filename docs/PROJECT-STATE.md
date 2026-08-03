@@ -18,13 +18,14 @@
 - T2-B deterministic RAG-lite context routing is complete. Hosted checkpoint commit `28c895c366d9a8e451b8ed5c34c998322e3986fc` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs; the repository-foundation wave is complete.
 - P1 planet semantic anchoring is accepted at checkpoint commit `6d7b02444bd44ad5cb1846e871d7170871a9d3e1`. Hosted run `30633659249` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs, and the owner accepted the four visual-evidence screenshots.
 - S1 adaptive shell navigation is visually accepted and complete at checkpoint commit `705fef517834e609b485faca511e240e6dec0a8a`. Hosted run `30636973316` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
-- T0-A Tarot semantic foundation is implemented locally: typed stable identities, the standard 78-card structural catalog, single-card and three-card spreads, and injected deterministic in-memory drawing are ready for owner review.
+- T0-A Tarot semantic foundation is accepted at checkpoint commit `e8cb628d5dbbfb2a5fdc16b87fc4c3247bfb861f`. Hosted run `30788655353` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
+- T1 first playable Tarot workspace is implemented locally: real single-card and three-card in-memory readings, explicit reversal preference, responsive programmatic prototype cards, two selectable backs, localized inspection, and presentation-owned session state are ready for visual review.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-Review, commit, and hosted confirmation of T0-A without beginning asset contracts or UI work.
+Complete real-control visual review of T1, then commit and require hosted confirmation before final artwork generation or asset tooling.
 
 ## Preserved Contracts
 
@@ -32,10 +33,10 @@ Review, commit, and hosted confirmation of T0-A without beginning asset contract
 - Zodiac projection is counterclockwise; known-time charts use Placidus and the accepted orientation.
 - UnknownTime has no houses or principal angles and retains its documented technical-noon planet policy.
 - Runtime and user data belong in AppData or the platform user-data location; shipped assets belong in the repository.
-- Tarot semantic decks are independent from artwork packs, presentation skins, and selectable back variants; T0-A adds no visual assets, persistence, or interpretation prose.
+- Tarot semantic decks, artwork packs, presentation skins, back variants, and interpretation sets have independent typed identities. T1 uses only honest programmatic prototype visuals and adds no persistence or interpretation prose.
 - Visual semantics belong to `VISUAL-DESIGN-SYSTEM.md`; Avalonia theme topology belongs to `THEMES.md`.
 - Meaningful UI changes require manual smoke through the real application and real controls.
 
 ## Active Blockers
 
-- T0-A owner review, commit, push, and hosted CI confirmation are pending.
+- T1 owner visual acceptance, commit, push, and hosted CI confirmation are pending.

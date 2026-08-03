@@ -35,6 +35,9 @@ Dark and light themes share semantic roles and hue families, but never assume id
 | Success | `#3DDC97` |
 | Warning | `#F2A640` |
 | Error | `#FF667A` |
+| TarotCardFace | `#18213A` |
+| TarotCardBack | `#0D1424` |
+| TarotOrnament | `#F2C14E` |
 
 ### Light — Porcelain
 
@@ -54,6 +57,9 @@ Dark and light themes share semantic roles and hue families, but never assume id
 | Success | `#137A55` |
 | Warning | `#8C5A00` |
 | Error | `#B8344D` |
+| TarotCardFace | `#FFFFFF` |
+| TarotCardBack | `#E9E3FF` |
+| TarotOrnament | `#8C5A00` |
 
 The Avalonia dark/light dictionaries expose these values as paired `Design*Color` and `Design*Brush` resources. V2 applies those roles across the application shell and controls; Avalonia topology and style ownership belong to [`THEMES.md`](THEMES.md).
 
@@ -98,6 +104,7 @@ The Avalonia dark/light dictionaries expose these values as paired `Design*Color
 - Informational secondary emphasis uses `AccentSecondary`.
 - Validation and operation states use `Success`, `Warning`, and `Error`; do not substitute these roles for decorative accents.
 - Disabled controls use the explicit `DisabledFill` and `DisabledText` pair and must not look like active data.
+- Prototype Tarot faces and backs use their paired card-surface roles; restrained line ornament uses `TarotOrnament`. Hover, pressed, selected, and focus remain normal semantic control states rather than glow or casino effects.
 
 ## Adaptive Navigation Rail
 

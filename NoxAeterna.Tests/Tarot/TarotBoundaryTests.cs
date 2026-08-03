@@ -50,6 +50,20 @@ public sealed class TarotBoundaryTests
         Assert.DoesNotContain("DateTime.UtcNow", source, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void RuntimeRandomAdapter_LivesOutsideDomainBehindProjectContract()
+    {
+        var domainTarotFiles = Directory.GetFiles(GetRepositoryPath("NoxAeterna.Domain", "Tarot"), "*.cs");
+        var adapterPath = GetRepositoryPath("NoxAeterna.Infrastructure", "Tarot", "SystemTarotRandomSource.cs");
+        var adapterSource = File.ReadAllText(adapterPath);
+
+        Assert.True(File.Exists(adapterPath));
+        Assert.DoesNotContain(domainTarotFiles, path => Path.GetFileName(path) == "SystemTarotRandomSource.cs");
+        Assert.Contains("ITarotRandomSource", adapterSource, StringComparison.Ordinal);
+        Assert.Contains("RandomNumberGenerator.GetInt32", adapterSource, StringComparison.Ordinal);
+        Assert.DoesNotContain("static Random", adapterSource, StringComparison.Ordinal);
+    }
+
     private static string[] GetPackageReferences(XDocument document) => document
         .Descendants("PackageReference")
         .Select(reference => (string?)reference.Attribute("Include"))

@@ -83,6 +83,15 @@ Current shell direction:
 - a planet's source dot/notch is the authoritative coordinate; its glyph and degree/retrograde label are annotations whose leaders must make the relationship legible without implying that aspects originate at displaced glyph centers.
 - planet glyph movement should prefer radial stacking and remain inside the source sign and reliable source house; labels may move independently when measured text collides.
 
+Current Tarot direction:
+
+- the Tarot section is a real in-memory workspace using Domain-owned standard cards, built-in spreads, orientation policy, and draw engine;
+- single-card presentation centers one substantial 7:12 card, while three-card presentation keeps ordered past/present/future assignments at equal sizes;
+- compact widths preserve a readable card minimum and give overflow to the tableau instead of clipping the shell;
+- programmatic symbolic faces and the Black Sun/Lunar Seal backs are visibly prototype material, not substitute final artwork;
+- selected-card details show localized structure and an honest unavailable-interpretation state, never fabricated prose;
+- spread, reversal, back, reading, and selection state survive section navigation in memory, with persistence still deferred.
+
 Current birth-input direction:
 
 - date selection should use a real date picker instead of raw typed date strings;

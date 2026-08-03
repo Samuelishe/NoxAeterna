@@ -234,7 +234,9 @@ Implemented language-neutral structural card definition:
 - Major cards have no suit or rank;
 - Minor cards require one of four suits and one of fourteen Ace-through-court ranks.
 
-Meanings, localization, and visual references are deliberately outside the T0-A card definition.
+Meanings, localization, and visual references are deliberately outside the card definition.
+
+Validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `TarotBackVariantId`, and `TarotInterpretationSetId` value objects identify independent future selections. None is interchangeable with `TarotDeckId`; they add no manifests, asset references, or interpretation content to Domain.
 
 ### TarotSpread
 
@@ -242,7 +244,7 @@ Implemented `TarotSpreadId`, `TarotSpreadPositionId`, and immutable `TarotSpread
 
 ### TarotReading
 
-Implemented immutable in-memory `TarotReading` with semantic deck/spread identities, caller-supplied NodaTime `Instant`, and unique `TarotDrawnCard` assignments using typed upright/reversed orientation. T0-A does not save readings and adds no context, interpretation, profile, or persistence contracts.
+Implemented immutable in-memory `TarotReading` with semantic deck/spread identities, caller-supplied NodaTime `Instant`, and unique `TarotDrawnCard` assignments using typed upright/reversed orientation. Readings are not saved and add no context, interpretation, profile, or persistence contracts.
 
 ### InterpretationBlock
 

@@ -1,17 +1,19 @@
 # Next Steps
 
-The repository-foundation wave, P1 planet semantic anchoring, and S1 adaptive shell are accepted with green hosted evidence. T0-A now establishes the local Tarot semantic foundation without UI, assets, interpretation prose, or persistence.
+The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. T1 now provides the first playable in-memory Tarot workspace with honest programmatic prototype visuals and no persistence or interpretation prose.
 
 Immediate next steps:
 
-1. Review and commit T0-A, then require green hosted confirmation.
+1. Visually review and commit T1, then require green hosted confirmation.
 
-2. T0-B — define the generic multi-pack asset contract: artwork-pack manifest, backs, frames, card aspect ratio, safe areas, user-pack boundary, future `NoxAeterna.Tools.Assets`, and a repository-local `nox-asset-forge` skill.
+2. Together with the owner, produce three artistic directions with three test cards each.
 
-3. T1 — build the first visible in-memory Tarot workspace with single-card and three-card readings plus programmatic temporary card surfaces, without pretending final artwork is complete.
+3. Select the first artwork pack.
 
-4. Produce the Deck Bible, anchor set, and first controlled artwork-generation wave.
+4. Create its Deck Bible and anchor set.
 
-5. Add persistence as a separate later stage.
+5. Implement the minimum `NoxAeterna.Tools.Assets` surface required by the selected pipeline, then produce Major Arcana.
+
+After visual acceptance of the Tarot workspace, evaluate S2 seamless custom chrome without promising implementation until Windows Snap Layouts, drag/maximize/system menu, and cross-platform behavior are verified. Persistence remains a separate later stage.
 
 P2 astrology source/glyph highlighting remains deferred until a concrete usability defect justifies it.

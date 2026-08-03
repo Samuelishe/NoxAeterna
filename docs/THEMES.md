@@ -59,6 +59,7 @@ Verified Fluent mappings such as `SystemAccentColor`, `ComboBoxDropDownBackgroun
 - ComboBox popup chrome;
 - scrollbars;
 - reusable surface cards, table separators, and validation/supporting-text classes.
+- prototype Tarot face/back/ornament surfaces and native button hover, pressed, selected, and focus-visible states.
 
 Styles change visual properties while retaining Fluent control templates, keyboard navigation, picker mechanics, popup behavior, automation semantics, and accessibility behavior.
 
@@ -70,6 +71,7 @@ Reusable classes express local role rather than color:
 - `primary-action` together with the verified Fluent `accent` behavior;
 - `supporting`, `subtle`, and `table-header`;
 - `validation-success`, `validation-warning`, and `validation-error`.
+- `tarot-card`, `tarot-face`, `tarot-back`, and `tarot-ornament`.
 
 Do not add new use of old `Shell*`, `Workspace*`, or `PreviewSurface*` keys.
 
@@ -145,6 +147,7 @@ Check both dark and light variants:
 - visible non-dominant scrollbars;
 - settings page;
 - Russian and English UI.
+- Tarot single/three-card layouts, both backs, revealed/selected/reversed cards, inspector, compact tableau overflow, and section reopen state.
 
 Required evidence must include popup states because platform-accent leakage is most visible there.
 

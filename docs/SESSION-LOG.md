@@ -143,3 +143,22 @@ Verification:
 - Domain route: 67 passed; Tarot route: 23 passed; Repository-Verification: all four leaves succeeded
 - Full milestone: 546 passed, 0 failed, 0 skipped
 - UI smoke not applicable because T0-A changes neither UI nor Rendering; no screenshots created
+
+## 2026-08-03: T1 First Playable Tarot Vertical Slice
+
+Summary:
+
+- Confirmed accepted T0-A checkpoint `e8cb628d5dbbfb2a5fdc16b87fc4c3247bfb861f` in hosted run `30788655353`: Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage all succeeded.
+- Replaced the Tarot placeholder with a persistent in-memory workspace driven by `StandardTarotCatalog`, both built-in spreads, the existing `TarotDrawEngine`, explicit reversal policy, and a composition-root runtime RNG adapter.
+- Added independent typed artwork-pack, presentation-skin, back-variant, and interpretation-set selections; exposed only one honest prototype art/skin foundation and the two real programmatic Black Sun/Lunar Seal backs.
+- Added responsive 7:12 symbolic faces, localized RU/EN card structure and inspector, native pointer/Enter/Space selection, selected/hover/focus states, explicit 180-degree reversal, and tableau-owned compact overflow without final artwork or interpretation prose.
+- Added focused presentation, layout, runtime-adapter, localization, visual-contract, and architecture tests. Mutation review found and repaired self-referential ratio/minimum assertions; no mutation remains applied.
+
+Verification:
+
+- `pwsh eng/doc-check.ps1`: 0 warnings, 0 errors
+- `dotnet build NoxAeterna.sln -c Debug`: 0 warnings, 0 errors
+- Tarot: 37 passed; Presentation, Rendering, Desktop-UI, and all Repository-Verification leaves succeeded
+- Full milestone: 570 passed, 0 failed, 0 skipped
+- real-control Obsidian/Porcelain, RU/EN, single/three-card, upright/reversed, both backs, every card position, pointer/Enter/Space, expanded/compact navigation, maximized/live-resize, Astrology return, and Tarot reopen smoke
+- four untracked temporary T1 screenshots under `%TEMP%\NoxAeterna-T1`

@@ -46,6 +46,9 @@ Select relevant cases that cover:
 - chart annotation, axis, aspect, and viewport readability when rendering changed.
 - authoritative source markers, source-to-glyph leaders, sign/house membership, independent labels, and crowded-cluster readability when planet layout changed.
 - expanded and collapsed shell navigation, pointer and keyboard toggle activation, selection preservation, localized compact tooltips/accessibility, and forced-collapse restoration across the responsive threshold when shell navigation changed.
+- Tarot single/three-card draw and redraw, upright-only and reversed-enabled policies, both prototype backs, card pointer/keyboard activation, inspector assignments, RU/EN, Obsidian/Porcelain, compact/maximized/live-resize tableau behavior, and navigation away/back.
+
+For Tarot workspace changes, perform draws only through the real controls. Verify equal ordered three-card bounds, 7:12 surfaces, clear reversed transformation, localized details, selected/hover/focus states, and tableau-owned horizontal overflow without shell clipping.
 
 For adaptive-shell changes, select every section through the real navigation control, toggle through pointer and keyboard paths, resize below and back above the compact threshold, and verify the previous wide preference returns. Inspect both themes and both UI languages; the compact rail must leave the active workspace and its own vertical scroll ownership intact without creating horizontal clipping.
 

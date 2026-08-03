@@ -42,6 +42,44 @@
   <Style Selector="Border.table-separator">
     <Setter Property="Background" Value="{DynamicResource DesignBorderBrush}" />
   </Style>
+  <Style Selector="Border.tarot-card-face">
+    <Setter Property="Background" Value="{DynamicResource DesignTarotCardFaceBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignBorderStrongBrush}" />
+    <Setter Property="BorderThickness" Value="1.5" />
+    <Setter Property="CornerRadius" Value="8" />
+  </Style>
+  <Style Selector="Border.tarot-card-back">
+    <Setter Property="Background" Value="{DynamicResource DesignTarotCardBackBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignBorderStrongBrush}" />
+    <Setter Property="BorderThickness" Value="1.5" />
+    <Setter Property="CornerRadius" Value="8" />
+  </Style>
+  <Style Selector="Path.tarot-ornament">
+    <Setter Property="Stroke" Value="{DynamicResource DesignTarotOrnamentBrush}" />
+  </Style>
+  <Style Selector="Button.tarot-card">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="3" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+  <Style Selector="Button.tarot-card:pointerover">
+    <Setter Property="Background" Value="{DynamicResource DesignControlFillHoverBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignBorderStrongBrush}" />
+  </Style>
+  <Style Selector="Button.tarot-card:pressed">
+    <Setter Property="Background" Value="{DynamicResource DesignControlFillPressedBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignAccentSecondaryBrush}" />
+  </Style>
+  <Style Selector="Button.tarot-card.selected">
+    <Setter Property="Background" Value="{DynamicResource DesignAccentPrimarySoftBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignAccentPrimaryStrongBrush}" />
+  </Style>
+  <Style Selector="Button.tarot-card:focus-visible">
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
+    <Setter Property="BorderThickness" Value="3" />
+  </Style>
 
   <Style Selector="ListBox.navigation-list">
     <Setter Property="Background" Value="Transparent" />

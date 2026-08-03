@@ -8,13 +8,18 @@ using NoxAeterna.App.Astrology;
 using NoxAeterna.App.Debug;
 using NoxAeterna.App.Localization;
 using NoxAeterna.App.Shell;
+using NoxAeterna.App.Tarot;
 using NoxAeterna.Infrastructure.Ephemeris;
+using NoxAeterna.Infrastructure.Tarot;
+using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Presentation.Astrology;
 using NoxAeterna.Presentation.Localization;
 using NoxAeterna.Presentation.Preferences;
 using NoxAeterna.Presentation.Settings;
 using NoxAeterna.Presentation.Shell;
 using NoxAeterna.Presentation.Theming;
+using NoxAeterna.Presentation.Tarot;
+using NodaTime;
 using ShapePath = Avalonia.Controls.Shapes.Path;
 
 namespace NoxAeterna.App;
@@ -25,6 +30,7 @@ public partial class MainWindow : Window
     private UserPreferences _userPreferences;
     private readonly ShellViewModel _shellViewModel;
     private readonly AstrologyWorkspaceViewModel _astrologyWorkspaceViewModel;
+    private readonly TarotWorkspaceViewModel _tarotWorkspaceViewModel;
     private readonly SettingsViewModel _settingsViewModel;
     private readonly DevelopmentAstrologyChartCoordinator _astrologyChartCoordinator;
     private readonly SplitView _shellSplitView;
@@ -70,6 +76,8 @@ public partial class MainWindow : Window
                 ? Width
                 : ShellNavigationLayout.CompactViewportThreshold);
         _astrologyWorkspaceViewModel = AstrologyWorkspaceViewModel.CreateFoundation();
+        _tarotWorkspaceViewModel = TarotWorkspaceViewModel.CreateFoundation(
+            new TarotDrawEngine(new SystemTarotRandomSource()));
         _settingsViewModel = SettingsViewModel.CreateDefault(_userPreferences);
         _astrologyChartCoordinator = new DevelopmentAstrologyChartCoordinator(
             new DevelopmentAstrologyChartPipeline(
@@ -136,6 +144,18 @@ public partial class MainWindow : Window
                 _localizationProvider,
                 _userPreferences.ApplicationLanguage.Language,
                 ApplyUserPreferences);
+            return;
+        }
+
+        if (currentItem.Id == ShellSectionId.Tarot)
+        {
+            _sectionHintTextBlock.Text = string.Empty;
+            _sectionHintTextBlock.IsVisible = false;
+            _sectionContentHost.Content = new TarotWorkspaceControl(
+                _tarotWorkspaceViewModel,
+                _localizationProvider,
+                _userPreferences.ApplicationLanguage.Language,
+                SystemClock.Instance.GetCurrentInstant);
             return;
         }
 
