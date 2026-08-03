@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using NodaTime;
 using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Presentation.Localization;
@@ -20,22 +21,27 @@ public sealed class TarotWorkspaceControl : UserControl
     private const double PositionLabelHeight = 34d;
 
     private readonly TarotWorkspaceViewModel viewModel;
+    private readonly TarotArtworkPackCatalog artworkCatalog;
     private readonly ILocalizationProvider localizationProvider;
     private readonly LanguageCode applicationLanguage;
     private readonly Func<Instant> getCurrentInstant;
     private readonly ContentControl tableauStateHost;
     private readonly ContentControl inspectorHost;
+    private readonly Dictionary<string, Bitmap> rasterImageCache = new(StringComparer.Ordinal);
     private ScrollViewer? tableauScrollViewer;
     private Button? drawButton;
+    private TextBlock? artworkNotice;
 
     /// <summary>Initializes a real Tarot workspace over presentation-owned state.</summary>
     public TarotWorkspaceControl(
         TarotWorkspaceViewModel viewModel,
+        TarotArtworkPackCatalog artworkCatalog,
         ILocalizationProvider localizationProvider,
         LanguageCode applicationLanguage,
         Func<Instant> getCurrentInstant)
     {
         this.viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+        this.artworkCatalog = artworkCatalog ?? throw new ArgumentNullException(nameof(artworkCatalog));
         this.localizationProvider = localizationProvider ?? throw new ArgumentNullException(nameof(localizationProvider));
         this.applicationLanguage = applicationLanguage;
         this.getCurrentInstant = getCurrentInstant ?? throw new ArgumentNullException(nameof(getCurrentInstant));
@@ -44,7 +50,16 @@ public sealed class TarotWorkspaceControl : UserControl
         inspectorHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch };
         Content = BuildContent();
         viewModel.StateChanged += OnViewModelStateChanged;
-        DetachedFromVisualTree += (_, _) => viewModel.StateChanged -= OnViewModelStateChanged;
+        DetachedFromVisualTree += (_, _) =>
+        {
+            viewModel.StateChanged -= OnViewModelStateChanged;
+            foreach (var bitmap in rasterImageCache.Values)
+            {
+                bitmap.Dispose();
+            }
+
+            rasterImageCache.Clear();
+        };
         RefreshWorkspaceState();
     }
 
@@ -91,6 +106,26 @@ public sealed class TarotWorkspaceControl : UserControl
             }
         };
 
+        var artworkSelector = new ComboBox
+        {
+            Name = "TarotArtworkSelector",
+            MinWidth = 170,
+            ItemsSource = viewModel.ArtworkPacks
+                .Select(option => new LocalizedArtworkOption(option, Localize(option.LabelKey)))
+                .ToArray(),
+            IsVisible = viewModel.ArtworkPacks.Count > 1
+        };
+        artworkSelector.SelectedItem = ((LocalizedArtworkOption[])artworkSelector.ItemsSource!)
+            .First(option => option.Option == viewModel.SelectedArtworkPack);
+        AutomationProperties.SetName(artworkSelector, Localize("ui.tarot.control.artwork"));
+        artworkSelector.SelectionChanged += (_, _) =>
+        {
+            if (artworkSelector.SelectedItem is LocalizedArtworkOption selected)
+            {
+                viewModel.SelectArtworkPack(selected.Option.Id);
+            }
+        };
+
         var orientationToggle = new CheckBox
         {
             Name = "TarotOrientationToggle",
@@ -131,22 +166,22 @@ public sealed class TarotWorkspaceControl : UserControl
         AutomationProperties.SetName(drawButton, Localize("ui.tarot.control.draw"));
         drawButton.Click += (_, _) => viewModel.Draw(getCurrentInstant());
 
-        var controls = new WrapPanel
+        var controls = new WrapPanel { Orientation = Orientation.Horizontal };
+        controls.Children.Add(CreateLabeledControl("ui.tarot.control.spread", spreadSelector));
+        if (viewModel.ArtworkPacks.Count > 1)
         {
-            Orientation = Orientation.Horizontal,
-            Children =
-            {
-                CreateLabeledControl("ui.tarot.control.spread", spreadSelector),
-                CreateLabeledControl("ui.tarot.control.back", backSelector),
-                orientationToggle,
-                drawButton
-            }
-        };
+            controls.Children.Add(CreateLabeledControl("ui.tarot.control.artwork", artworkSelector));
+        }
+
+        controls.Children.Add(CreateLabeledControl("ui.tarot.control.back", backSelector));
+        controls.Children.Add(orientationToggle);
+        controls.Children.Add(drawButton);
         foreach (var control in controls.Children)
         {
             control.Margin = new Thickness(0, 0, 18, 12);
         }
 
+        artworkNotice = CreateStateText(Localize(GetArtworkNoticeKey()), "subtle");
         var panel = new Border
         {
             Padding = new Thickness(18, 16),
@@ -156,7 +191,7 @@ public sealed class TarotWorkspaceControl : UserControl
                 Children =
                 {
                     controls,
-                    CreateStateText(Localize("ui.tarot.prototype.notice"), "subtle")
+                    artworkNotice
                 }
             }
         };
@@ -221,6 +256,11 @@ public sealed class TarotWorkspaceControl : UserControl
                 : "ui.tarot.control.redraw";
             drawButton.Content = Localize(actionKey);
             AutomationProperties.SetName(drawButton, Localize(actionKey));
+        }
+
+        if (artworkNotice is not null)
+        {
+            artworkNotice.Text = Localize(GetArtworkNoticeKey());
         }
 
         RefreshTableau();
@@ -317,6 +357,86 @@ public sealed class TarotWorkspaceControl : UserControl
     private Control CreateCardFace(TarotDrawnCard assignment)
     {
         var title = TarotCardTextResolver.GetCardName(assignment.Card, localizationProvider, applicationLanguage);
+        var structuralText = GetStructuralText(assignment);
+        var artwork = artworkCatalog.Resolve(viewModel.SelectedArtworkPack.Id, assignment.Card);
+        var plan = TarotCardVisualPlan.Create(
+            assignment,
+            artwork,
+            title,
+            structuralText,
+            artwork.IsPartialPackFallback ? Localize("ui.tarot.artwork.fallback") : null);
+        var visual = artwork.Kind == TarotArtworkResolutionKind.Raster
+            ? CreateRasterArtwork(artwork.RasterAsset!)
+            : CreatePrototypeArtwork(assignment);
+
+        var titleOverlay = new Border
+        {
+            Padding = new Thickness(8, 6),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Top,
+            Child = new TextBlock
+            {
+                Text = plan.LocalizedTitle,
+                TextWrapping = TextWrapping.Wrap,
+                TextAlignment = TextAlignment.Center,
+                FontSize = 14,
+                FontWeight = FontWeight.SemiBold
+            }
+        };
+        titleOverlay.Classes.Add("tarot-card-overlay");
+
+        var footerStack = new StackPanel
+        {
+            Spacing = 3,
+            Children =
+            {
+                CreateFooterText(plan.StructuralText)
+            }
+        };
+        if (plan.PrototypeFallbackText is not null)
+        {
+            var fallback = CreateFooterText(plan.PrototypeFallbackText);
+            fallback.FontSize = 10;
+            fallback.Classes.Add("subtle");
+            footerStack.Children.Add(fallback);
+        }
+
+        var footerOverlay = new Border
+        {
+            Padding = new Thickness(8, 6),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Child = footerStack
+        };
+        footerOverlay.Classes.Add("tarot-card-overlay");
+
+        var layers = new Grid
+        {
+            Children =
+            {
+                visual,
+                titleOverlay,
+                footerOverlay
+            }
+        };
+        var face = new Border
+        {
+            ClipToBounds = true,
+            Child = layers
+        };
+        face.Classes.Add("tarot-card-face");
+
+        if (plan.RotationDegrees != 0d)
+        {
+            face.RenderTransformOrigin = RelativePoint.Center;
+            face.RenderTransform = new RotateTransform(plan.RotationDegrees);
+        }
+
+        return face;
+    }
+
+    private Control CreatePrototypeArtwork(TarotDrawnCard assignment)
+    {
         var markerPath = assignment.Card.Arcana == TarotArcana.Major
             ? TarotPrototypeGeometryCatalog.GetMajorSealPathData()
             : TarotPrototypeGeometryCatalog.GetSuitPathData(assignment.Card.Suit!.Value);
@@ -332,56 +452,47 @@ public sealed class TarotWorkspaceControl : UserControl
             VerticalAlignment = VerticalAlignment.Center
         };
         marker.Classes.Add("tarot-ornament");
-
-        var face = new Border
-        {
-            Padding = new Thickness(14),
-            Child = new Grid
-            {
-                RowDefinitions = new RowDefinitions("Auto,*,Auto"),
-                Children =
-                {
-                    new TextBlock
-                    {
-                        Text = title,
-                        TextWrapping = TextWrapping.Wrap,
-                        TextAlignment = TextAlignment.Center,
-                        FontSize = 14,
-                        FontWeight = FontWeight.SemiBold
-                    },
-                    marker,
-                    CreateFaceFooter(assignment)
-                }
-            }
-        };
-        face.Classes.Add("tarot-card-face");
-        Grid.SetRow(marker, 1);
-        Grid.SetRow(((Grid)face.Child).Children[2], 2);
-
-        if (assignment.Orientation == TarotCardOrientation.Reversed)
-        {
-            face.RenderTransformOrigin = RelativePoint.Center;
-            face.RenderTransform = new RotateTransform(180d);
-        }
-
-        return face;
+        return marker;
     }
 
-    private Control CreateFaceFooter(TarotDrawnCard assignment)
+    private Image CreateRasterArtwork(TarotArtworkPackCardAsset asset)
     {
-        var structuralText = assignment.Card.Arcana == TarotArcana.Major
-            ? TarotCardTextResolver.GetArcanaName(assignment.Card.Arcana, localizationProvider, applicationLanguage)
-            : $"{TarotCardTextResolver.GetRankName(assignment.Card.Rank!.Value, localizationProvider, applicationLanguage)} · " +
-              TarotCardTextResolver.GetSuitName(assignment.Card.Suit!.Value, localizationProvider, applicationLanguage);
+        if (!rasterImageCache.TryGetValue(asset.AssetPath, out var bitmap))
+        {
+            using var stream = asset.OpenRead();
+            bitmap = new Bitmap(stream);
+            rasterImageCache.Add(asset.AssetPath, bitmap);
+        }
+
+        return new Image
+        {
+            Source = bitmap,
+            Stretch = Stretch.Uniform,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
+        };
+    }
+
+    private string GetStructuralText(TarotDrawnCard assignment) => assignment.Card.Arcana == TarotArcana.Major
+        ? TarotCardTextResolver.GetArcanaName(assignment.Card.Arcana, localizationProvider, applicationLanguage)
+        : $"{TarotCardTextResolver.GetRankName(assignment.Card.Rank!.Value, localizationProvider, applicationLanguage)} · " +
+          TarotCardTextResolver.GetSuitName(assignment.Card.Suit!.Value, localizationProvider, applicationLanguage);
+
+    private static TextBlock CreateFooterText(string text)
+    {
         var footer = new TextBlock
         {
-            Text = structuralText,
+            Text = text,
             TextAlignment = TextAlignment.Center,
             TextWrapping = TextWrapping.Wrap
         };
         footer.Classes.Add("supporting");
         return footer;
     }
+
+    private LocalizationKey GetArtworkNoticeKey() => viewModel.SelectedArtworkPack.Id == TarotPrototypeSelections.ArtworkPackId
+        ? new LocalizationKey("ui.tarot.prototype.notice")
+        : new LocalizationKey("ui.tarot.artwork.partial-notice");
 
     private Border CreateCardBack(TarotBackVariantId backVariantId, double width)
     {
@@ -502,6 +613,11 @@ public sealed class TarotWorkspaceControl : UserControl
     }
 
     private sealed record LocalizedBackOption(TarotBackVariantOption Option, string Label)
+    {
+        public override string ToString() => Label;
+    }
+
+    private sealed record LocalizedArtworkOption(TarotArtworkPackOption Option, string Label)
     {
         public override string ToString() => Label;
     }

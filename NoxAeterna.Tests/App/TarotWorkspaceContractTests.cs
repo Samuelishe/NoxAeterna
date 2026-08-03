@@ -23,22 +23,26 @@ public sealed class TarotWorkspaceContractTests
         var source = File.ReadAllText(AppPath("MainWindow.axaml.cs"));
 
         Assert.Contains("TarotWorkspaceViewModel.CreateFoundation", source, StringComparison.Ordinal);
-        Assert.Contains("new TarotDrawEngine(new SystemTarotRandomSource())", source, StringComparison.Ordinal);
+        Assert.Contains("ITarotRandomSource tarotRandomSource = new SystemTarotRandomSource();", source, StringComparison.Ordinal);
+        Assert.Contains("new TarotDrawEngine(tarotRandomSource)", source, StringComparison.Ordinal);
+        Assert.Contains("DebugTarotSmokeRandomSource.CreateFromEnvironment() ?? tarotRandomSource", source, StringComparison.Ordinal);
         Assert.Contains("SystemClock.Instance.GetCurrentInstant", source, StringComparison.Ordinal);
     }
 
     [Fact]
-    public void PrototypeVisuals_AreProgrammaticAccessibleAndUseClearReversedRotation()
+    public void CardVisuals_AreAccessibleAndComposeRasterOrPrototypeBehindOneRotationContract()
     {
         var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
         var geometry = File.ReadAllText(AppPath("Tarot", "TarotPrototypeGeometryCatalog.cs"));
 
         Assert.Contains("new Button", source, StringComparison.Ordinal);
         Assert.Contains("AutomationProperties.SetName", source, StringComparison.Ordinal);
-        Assert.Contains("new RotateTransform(180d)", source, StringComparison.Ordinal);
+        Assert.Contains("new RotateTransform(plan.RotationDegrees)", source, StringComparison.Ordinal);
         Assert.Contains("AvaloniaGeometry.Parse", source, StringComparison.Ordinal);
-        Assert.DoesNotContain("Image", source, StringComparison.Ordinal);
-        Assert.DoesNotContain("Bitmap", source, StringComparison.Ordinal);
+        Assert.Contains("new Image", source, StringComparison.Ordinal);
+        Assert.Contains("var titleOverlay", source, StringComparison.Ordinal);
+        Assert.Contains("visual,", source, StringComparison.Ordinal);
+        Assert.Contains("titleOverlay,", source, StringComparison.Ordinal);
         Assert.DoesNotContain("FontFamily", source, StringComparison.Ordinal);
         Assert.DoesNotContain("http://", geometry, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("https://", geometry, StringComparison.OrdinalIgnoreCase);
@@ -104,6 +108,37 @@ public sealed class TarotWorkspaceContractTests
             Assert.DoesNotContain("Толкование для выбранного набора", source, StringComparison.Ordinal);
             Assert.DoesNotContain("Interpretation for the selected set", source, StringComparison.Ordinal);
         });
+    }
+
+    [Fact]
+    public void ArtworkSelector_UsesOrderedPresentationOptionsAndDoesNotAddAUserCheatControl()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+
+        Assert.Contains("Name = \"TarotArtworkSelector\"", source, StringComparison.Ordinal);
+        Assert.Contains("ItemsSource = viewModel.ArtworkPacks", source, StringComparison.Ordinal);
+        Assert.Contains("viewModel.SelectArtworkPack(selected.Option.Id)", source, StringComparison.Ordinal);
+        Assert.Contains("IsVisible = viewModel.ArtworkPacks.Count > 1", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("ForceCard", source, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("Cheat", source, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void AppProject_PackagesOnlyStableLupusNoctisProductionResources()
+    {
+        var project = XDocument.Load(AppPath("NoxAeterna.App.csproj"));
+        var resourceIncludes = project.Descendants("None")
+            .Select(element => (string?)element.Attribute("Include"))
+            .Where(static value => value is not null)
+            .Cast<string>()
+            .Where(value => value.Contains("lupus-noctis", StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+
+        Assert.Equal(2, resourceIncludes.Length);
+        Assert.Contains(resourceIncludes, include => include.EndsWith("artwork-pack.json", StringComparison.OrdinalIgnoreCase));
+        Assert.Contains(resourceIncludes, include => include.Contains("cards\\**\\*.png", StringComparison.OrdinalIgnoreCase));
+        Assert.DoesNotContain(resourceIncludes, include => include.Contains("studies", StringComparison.OrdinalIgnoreCase));
+        Assert.DoesNotContain(resourceIncludes, Path.IsPathRooted);
     }
 
     private static string AppPath(params string[] segments) => RepositoryPath("NoxAeterna.App", segments);

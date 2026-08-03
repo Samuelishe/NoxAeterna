@@ -31,6 +31,7 @@ public partial class MainWindow : Window
     private readonly ShellViewModel _shellViewModel;
     private readonly AstrologyWorkspaceViewModel _astrologyWorkspaceViewModel;
     private readonly TarotWorkspaceViewModel _tarotWorkspaceViewModel;
+    private readonly TarotArtworkPackCatalog _tarotArtworkPackCatalog;
     private readonly SettingsViewModel _settingsViewModel;
     private readonly DevelopmentAstrologyChartCoordinator _astrologyChartCoordinator;
     private readonly SplitView _shellSplitView;
@@ -76,8 +77,14 @@ public partial class MainWindow : Window
                 ? Width
                 : ShellNavigationLayout.CompactViewportThreshold);
         _astrologyWorkspaceViewModel = AstrologyWorkspaceViewModel.CreateFoundation();
+        _tarotArtworkPackCatalog = TarotArtworkPackCatalog.CreateBuiltIn();
+        ITarotRandomSource tarotRandomSource = new SystemTarotRandomSource();
+#if DEBUG
+        tarotRandomSource = DebugTarotSmokeRandomSource.CreateFromEnvironment() ?? tarotRandomSource;
+#endif
         _tarotWorkspaceViewModel = TarotWorkspaceViewModel.CreateFoundation(
-            new TarotDrawEngine(new SystemTarotRandomSource()));
+            new TarotDrawEngine(tarotRandomSource),
+            _tarotArtworkPackCatalog.AvailableOptions);
         _settingsViewModel = SettingsViewModel.CreateDefault(_userPreferences);
         _astrologyChartCoordinator = new DevelopmentAstrologyChartCoordinator(
             new DevelopmentAstrologyChartPipeline(
@@ -153,6 +160,7 @@ public partial class MainWindow : Window
             _sectionHintTextBlock.IsVisible = false;
             _sectionContentHost.Content = new TarotWorkspaceControl(
                 _tarotWorkspaceViewModel,
+                _tarotArtworkPackCatalog,
                 _localizationProvider,
                 _userPreferences.ApplicationLanguage.Language,
                 SystemClock.Instance.GetCurrentInstant);

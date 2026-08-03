@@ -88,7 +88,8 @@ Current Tarot direction:
 - the Tarot section is a real in-memory workspace using Domain-owned standard cards, built-in spreads, orientation policy, and draw engine;
 - single-card presentation centers one substantial 7:12 card, while three-card presentation keeps ordered past/present/future assignments at equal sizes;
 - compact widths preserve a readable card minimum and give overflow to the tableau instead of clipping the shell;
-- programmatic symbolic faces and the Black Sun/Lunar Seal backs are visibly prototype material, not substitute final artwork;
+- Classic remains the first artwork choice; Lupus Noctis appears second because it now has three accepted illustrations, while its 75 omitted cards retain an explicit localized programmatic-prototype fallback;
+- raster inner artwork never owns the programmatic frame, localized title, selection state, or reversal transform; Black Sun and Lunar Seal remain selectable prototype backs;
 - selected-card details show localized structure and an honest unavailable-interpretation state, never fabricated prose;
 - spread, reversal, back, reading, and selection state survive section navigation in memory, with persistence still deferred.
 

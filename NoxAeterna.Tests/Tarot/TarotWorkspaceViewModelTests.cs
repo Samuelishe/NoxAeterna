@@ -18,6 +18,10 @@ public sealed class TarotWorkspaceViewModelTests
         Assert.Same(StandardTarotSpreads.SingleCard, viewModel.SpreadOptions[0].Definition);
         Assert.Same(StandardTarotSpreads.ThreeCards, viewModel.SpreadOptions[1].Definition);
         Assert.Equal("prototype-symbolic", viewModel.ArtworkPackId.Value);
+        Assert.Equal(
+            new[] { "prototype-symbolic", "lupus-noctis" },
+            viewModel.ArtworkPacks.Select(option => option.Id.Value));
+        Assert.Same(viewModel.ArtworkPacks[0], viewModel.SelectedArtworkPack);
         Assert.Equal("astral-archive-prototype", viewModel.PresentationSkinId.Value);
         Assert.Equal("foundation", viewModel.InterpretationSetId.Value);
     }
@@ -117,7 +121,7 @@ public sealed class TarotWorkspaceViewModelTests
             deck,
             [new TarotSpreadOption(StandardTarotSpreads.ThreeCards, new("ui.test.spread"))],
             TarotPrototypeSelections.BackVariants,
-            TarotPrototypeSelections.ArtworkPackId,
+            TarotPrototypeSelections.ArtworkPacks,
             TarotPrototypeSelections.PresentationSkinId,
             TarotPrototypeSelections.InterpretationSetId);
 
@@ -145,6 +149,60 @@ public sealed class TarotWorkspaceViewModelTests
 
         Assert.Equal("lunar-seal", viewModel.SelectedBackVariant.Id.Value);
         Assert.Same(reading, viewModel.CurrentReading);
+    }
+
+    [Fact]
+    public void SelectingArtworkPack_PreservesCurrentReadingRevealAndSelection()
+    {
+        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+            new TarotDrawEngine(new SequenceRandomSource(0)));
+        viewModel.Draw(Instant.FromUnixTimeTicks(70));
+        var reading = Assert.IsType<TarotReading>(viewModel.CurrentReading);
+        var assignment = Assert.Single(reading.Cards);
+        viewModel.RevealAndSelect(assignment.PositionId);
+
+        viewModel.SelectArtworkPack(new TarotArtworkPackId("lupus-noctis"));
+
+        Assert.Equal("lupus-noctis", viewModel.SelectedArtworkPack.Id.Value);
+        Assert.Same(reading, viewModel.CurrentReading);
+        Assert.Same(assignment, viewModel.SelectedCard);
+        Assert.True(viewModel.IsRevealed(assignment.PositionId));
+        Assert.Equal(Instant.FromUnixTimeTicks(70), viewModel.CurrentReading!.DrawnAt);
+        Assert.Equal(assignment.Card.Id, viewModel.CurrentReading.Cards[0].Card.Id);
+    }
+
+    [Fact]
+    public void SelectArtworkPack_RejectsUnavailableIdWithoutChangingState()
+    {
+        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+            new TarotDrawEngine(new SequenceRandomSource(0)));
+
+        var exception = Assert.Throws<ArgumentException>(() =>
+            viewModel.SelectArtworkPack(new TarotArtworkPackId("not-installed")));
+
+        Assert.Equal("artworkPackId", exception.ParamName);
+        Assert.Equal("prototype-symbolic", viewModel.ArtworkPackId.Value);
+        Assert.Null(viewModel.CurrentReading);
+    }
+
+    [Fact]
+    public void Constructor_RejectsDuplicateArtworkPackOptions()
+    {
+        var duplicateId = new TarotArtworkPackId("duplicate-pack");
+
+        var exception = Assert.Throws<ArgumentException>(() => new TarotWorkspaceViewModel(
+            new TarotDrawEngine(new SequenceRandomSource()),
+            StandardTarotCatalog.Deck,
+            [new TarotSpreadOption(StandardTarotSpreads.SingleCard, new("ui.test.spread"))],
+            TarotPrototypeSelections.BackVariants,
+            [
+                new TarotArtworkPackOption(duplicateId, new("ui.test.first")),
+                new TarotArtworkPackOption(duplicateId, new("ui.test.second"))
+            ],
+            TarotPrototypeSelections.PresentationSkinId,
+            TarotPrototypeSelections.InterpretationSetId));
+
+        Assert.Equal("artworkPacks", exception.ParamName);
     }
 
     private sealed class SequenceRandomSource(params int[] values) : ITarotRandomSource

@@ -19,13 +19,13 @@
 - P1 planet semantic anchoring is accepted at checkpoint commit `6d7b02444bd44ad5cb1846e871d7170871a9d3e1`. Hosted run `30633659249` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs, and the owner accepted the four visual-evidence screenshots.
 - S1 adaptive shell navigation is visually accepted and complete at checkpoint commit `705fef517834e609b485faca511e240e6dec0a8a`. Hosted run `30636973316` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - T0-A Tarot semantic foundation is accepted at checkpoint commit `e8cb628d5dbbfb2a5fdc16b87fc4c3247bfb861f`. Hosted run `30788655353` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
-- T1 first playable Tarot workspace is implemented locally: real single-card and three-card in-memory readings, explicit reversal preference, responsive programmatic prototype cards, two selectable backs, localized inspection, and presentation-owned session state are ready for visual review.
+- T1 first playable Tarot workspace is complete at checkpoint commit `4e7e3d61bc11b875af9fb5591f5a10ed986c8962`: real single-card and three-card in-memory readings, explicit reversal preference, responsive programmatic prototype cards, two selectable backs, localized inspection, and presentation-owned session state are ready for owner visual review. Hosted run `30791606505` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-Complete real-control visual review of T1, then commit and require hosted confirmation before final artwork generation or asset tooling.
+Review the A3 runtime integration of the first three owner-accepted Lupus Noctis illustrations as an honest built-in partial artwork pack before selecting another generation batch.
 
 ## Preserved Contracts
 
@@ -34,9 +34,10 @@ Complete real-control visual review of T1, then commit and require hosted confir
 - UnknownTime has no houses or principal angles and retains its documented technical-noon planet policy.
 - Runtime and user data belong in AppData or the platform user-data location; shipped assets belong in the repository.
 - Tarot semantic decks, artwork packs, presentation skins, back variants, and interpretation sets have independent typed identities. T1 uses only honest programmatic prototype visuals and adds no persistence or interpretation prose.
+- Lupus Noctis A0 and A1 remain rejected. The owner accepted all three A2 candidates; the built-in partial pack now owns 3/78 production illustrations and uses the existing programmatic face for omitted cards. Detailed card state, prompts, provenance, hashes, and casting policy belong only to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md`.
 - Visual semantics belong to `VISUAL-DESIGN-SYSTEM.md`; Avalonia theme topology belongs to `THEMES.md`.
 - Meaningful UI changes require manual smoke through the real application and real controls.
 
 ## Active Blockers
 
-- T1 owner visual acceptance, commit, push, and hosted CI confirmation are pending.
+- A3 integration requires owner visual review; the next Lupus Noctis generation cards remain deliberately unselected.

@@ -23,5 +23,11 @@
     <None Include="..\resources\localization\ui\*.json"
           Link="resources\localization\ui\%(Filename)%(Extension)"
           CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\resources\assets\tarot\artwork-packs\lupus-noctis\artwork-pack.json"
+          Link="resources\assets\tarot\artwork-packs\lupus-noctis\artwork-pack.json"
+          CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\resources\assets\tarot\artwork-packs\lupus-noctis\cards\**\*.png"
+          Link="resources\assets\tarot\artwork-packs\lupus-noctis\cards\%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

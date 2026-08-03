@@ -54,6 +54,10 @@
     <Setter Property="BorderThickness" Value="1.5" />
     <Setter Property="CornerRadius" Value="8" />
   </Style>
+  <Style Selector="Border.tarot-card-overlay">
+    <Setter Property="Background" Value="{DynamicResource DesignSurfaceBrush}" />
+    <Setter Property="Opacity" Value="0.88" />
+  </Style>
   <Style Selector="Path.tarot-ornament">
     <Setter Property="Stroke" Value="{DynamicResource DesignTarotOrnamentBrush}" />
   </Style>

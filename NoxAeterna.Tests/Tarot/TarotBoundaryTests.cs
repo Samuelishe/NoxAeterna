@@ -64,6 +64,31 @@ public sealed class TarotBoundaryTests
         Assert.DoesNotContain("static Random", adapterSource, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void LupusNoctisRepositoryPack_ContainsNoRejectedStudiesContactSheetsOrFonts()
+    {
+        var packRoot = GetRepositoryPath(
+            "resources", "assets", "tarot", "artwork-packs", "lupus-noctis");
+        var files = Directory.GetFiles(packRoot, "*", SearchOption.AllDirectories);
+        var relativePaths = files
+            .Select(path => Path.GetRelativePath(packRoot, path).Replace('\\', '/'))
+            .ToArray();
+
+        Assert.DoesNotContain(relativePaths, path =>
+            path.Contains("studies/A0", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("studies/A1", StringComparison.OrdinalIgnoreCase));
+        Assert.DoesNotContain(relativePaths, path =>
+            path.Contains("contact-sheet", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("collage", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("combined-preview", StringComparison.OrdinalIgnoreCase));
+        Assert.DoesNotContain(relativePaths, path =>
+            path.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase) ||
+            path.EndsWith(".otf", StringComparison.OrdinalIgnoreCase) ||
+            path.EndsWith(".woff", StringComparison.OrdinalIgnoreCase) ||
+            path.EndsWith(".woff2", StringComparison.OrdinalIgnoreCase));
+        Assert.Equal(3, relativePaths.Count(path => path.EndsWith(".png", StringComparison.OrdinalIgnoreCase)));
+    }
+
     private static string[] GetPackageReferences(XDocument document) => document
         .Descendants("PackageReference")
         .Select(reference => (string?)reference.Attribute("Include"))

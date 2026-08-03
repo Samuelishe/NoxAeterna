@@ -17,7 +17,7 @@ public sealed class TarotWorkspaceViewModel
         TarotDeckDefinition deck,
         IEnumerable<TarotSpreadOption> spreadOptions,
         IEnumerable<TarotBackVariantOption> backVariants,
-        TarotArtworkPackId artworkPackId,
+        IEnumerable<TarotArtworkPackOption> artworkPacks,
         TarotPresentationSkinId presentationSkinId,
         TarotInterpretationSetId interpretationSetId)
     {
@@ -26,6 +26,7 @@ public sealed class TarotWorkspaceViewModel
 
         var copiedSpreads = (spreadOptions ?? throw new ArgumentNullException(nameof(spreadOptions))).ToArray();
         var copiedBacks = (backVariants ?? throw new ArgumentNullException(nameof(backVariants))).ToArray();
+        var copiedArtworkPacks = (artworkPacks ?? throw new ArgumentNullException(nameof(artworkPacks))).ToArray();
         if (copiedSpreads.Length == 0)
         {
             throw new ArgumentException("A Tarot workspace requires at least one spread option.", nameof(spreadOptions));
@@ -36,13 +37,20 @@ public sealed class TarotWorkspaceViewModel
             throw new ArgumentException("Tarot back variants must contain unique options.", nameof(backVariants));
         }
 
-        ArtworkPackId = artworkPackId ?? throw new ArgumentNullException(nameof(artworkPackId));
+        if (copiedArtworkPacks.Length == 0 ||
+            copiedArtworkPacks.Select(static option => option.Id).Distinct().Count() != copiedArtworkPacks.Length)
+        {
+            throw new ArgumentException("Tarot artwork packs must contain unique options.", nameof(artworkPacks));
+        }
+
         PresentationSkinId = presentationSkinId ?? throw new ArgumentNullException(nameof(presentationSkinId));
         InterpretationSetId = interpretationSetId ?? throw new ArgumentNullException(nameof(interpretationSetId));
         SpreadOptions = Array.AsReadOnly(copiedSpreads);
         BackVariants = Array.AsReadOnly(copiedBacks);
+        ArtworkPacks = Array.AsReadOnly(copiedArtworkPacks);
         SelectedSpread = SpreadOptions[0];
         SelectedBackVariant = BackVariants[0];
+        SelectedArtworkPack = ArtworkPacks[0];
     }
 
     /// <summary>Raised after visible workspace state changes.</summary>
@@ -63,8 +71,14 @@ public sealed class TarotWorkspaceViewModel
     /// <summary>Gets the selected back variant.</summary>
     public TarotBackVariantOption SelectedBackVariant { get; private set; }
 
-    /// <summary>Gets the active prototype artwork-pack identity.</summary>
-    public TarotArtworkPackId ArtworkPackId { get; }
+    /// <summary>Gets the available built-in artwork packs in user-facing display order.</summary>
+    public IReadOnlyList<TarotArtworkPackOption> ArtworkPacks { get; }
+
+    /// <summary>Gets the selected artwork pack.</summary>
+    public TarotArtworkPackOption SelectedArtworkPack { get; private set; }
+
+    /// <summary>Gets the selected artwork-pack identity.</summary>
+    public TarotArtworkPackId ArtworkPackId => SelectedArtworkPack.Id;
 
     /// <summary>Gets the active prototype presentation-skin identity.</summary>
     public TarotPresentationSkinId PresentationSkinId { get; }
@@ -91,7 +105,9 @@ public sealed class TarotWorkspaceViewModel
     public LocalizationKey InterpretationUnavailableKey { get; } = new("ui.tarot.interpretation.unavailable");
 
     /// <summary>Creates the default workspace over the real standard deck and spreads.</summary>
-    public static TarotWorkspaceViewModel CreateFoundation(TarotDrawEngine drawEngine) => new(
+    public static TarotWorkspaceViewModel CreateFoundation(
+        TarotDrawEngine drawEngine,
+        IEnumerable<TarotArtworkPackOption>? artworkPacks = null) => new(
         drawEngine,
         StandardTarotCatalog.Deck,
         [
@@ -99,7 +115,7 @@ public sealed class TarotWorkspaceViewModel
             new TarotSpreadOption(StandardTarotSpreads.ThreeCards, new LocalizationKey("ui.tarot.spread.three-cards"))
         ],
         TarotPrototypeSelections.BackVariants,
-        TarotPrototypeSelections.ArtworkPackId,
+        artworkPacks ?? TarotPrototypeSelections.ArtworkPacks,
         TarotPrototypeSelections.PresentationSkinId,
         TarotPrototypeSelections.InterpretationSetId);
 
@@ -147,6 +163,21 @@ public sealed class TarotWorkspaceViewModel
         }
 
         SelectedBackVariant = option;
+        OnStateChanged();
+    }
+
+    /// <summary>Selects an available artwork pack without changing the semantic reading.</summary>
+    public void SelectArtworkPack(TarotArtworkPackId artworkPackId)
+    {
+        ArgumentNullException.ThrowIfNull(artworkPackId);
+        var option = ArtworkPacks.FirstOrDefault(candidate => candidate.Id == artworkPackId)
+            ?? throw new ArgumentException("The artwork pack is not available in this workspace.", nameof(artworkPackId));
+        if (SelectedArtworkPack == option)
+        {
+            return;
+        }
+
+        SelectedArtworkPack = option;
         OnStateChanged();
     }
 

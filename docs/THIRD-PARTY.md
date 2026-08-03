@@ -45,17 +45,11 @@ For each entry, record:
 
 ## Assets, Fonts, and Generated Material
 
-Add future entries here for:
+| Name | Author or organization | License | Purpose in project | Official repository or site | Notes |
+| --- | --- | --- | --- | --- | --- |
+| Lupus Noctis A2 accepted illustrations (`major.death`, `minor.cups.six`, `major.star`) | Nox Aeterna project owner, using the built-in OpenAI/Codex image-generation workflow | Release and redistribution terms require separate owner/legal verification before distribution; no broader rights claim is made here | First three curated production illustrations in the built-in partial Tarot artwork pack | N/A — project-owned generated material | Generated from project-authored prompts and manually selected by the owner. No third-party images are shipped. Rejected A0/A1 generations are not distributed. Full prompts, review notes, hashes, and production paths are retained in `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md`. |
 
-- Tarot illustrations
-- Textures
-- Decorative engravings
-- Fonts
-- Icon sets
-- Generated imagery
-- Adapted historical material
-
-No assets are locked yet.
+Future entries are still required for textures, decorative engravings, fonts, icon sets, other generated imagery, and adapted historical material when any are selected.
 Project-owned application assets should live in the repository once selected and curated. User-specific runtime data such as saved charts, preferences, caches, and local history belong in AppData instead.
 
 Do not commit:
@@ -65,4 +59,4 @@ Do not commit:
 - unverified internet images;
 - unlicensed fonts or icon packs.
 
-No custom assets or fonts are locked yet.
+No external fonts or icon packs are locked yet.

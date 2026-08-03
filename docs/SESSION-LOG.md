@@ -9,41 +9,6 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
-## 2026-07-31: T1-B.2 Same-Day Session-Log Rollover
-
-Summary:
-
-- Extended the read-only documentation checker to recognize bounded partial-day session-log chunks while preserving the existing full-range archive contract.
-- Added contiguous part numbering, exact normalized heading ownership, partial/full overlap, heading-date, archive-index, and typed JSON diagnostic validation.
-- Moved the completed visual V1/V2 and repository T1-A/T1-B wave, including first hosted CI confirmation, intact into `SESSION-LOG_2026-07-31_part-01.md`.
-- Kept the active log available for additional entries on the same calendar date without raising its hard budget.
-
-Verification:
-
-- `pwsh eng/doc-check.ps1`
-- `pwsh eng/doc-check.ps1 -Json`
-- `dotnet build NoxAeterna.sln -c Debug`
-- `pwsh eng/test-route.ps1 run Repository-Verification -NoBuild`
-
-## 2026-07-31: T2-A Project Stats and Factual Repository Analysis
-
-Summary:
-
-- Added one standalone BCL-only `NoxAeterna.Tools.Repository` executable with reusable Git-visible public-file inventory, deterministic text metadata, path classification, project XML/reference analysis, lexical test topology, and read-only documentation-budget snapshots.
-- Added bounded console, schema-1 camelCase JSON, and Markdown output with repository-relative paths, safe output-target exclusion, controlled diagnostics, and no volatile timestamp.
-- Enforced privacy-before-read and generated/runtime exclusions without filesystem fallback, network access, AppData access, semantic dependency inference, or quality verdicts.
-- Added the non-overlapping `Project-Stats` leaf and placed it last in `Repository-Verification`; CI topology and product projects remain unchanged.
-- Established `PROJECT-STATS.md` as report-semantics owner while reserving context routes, rankings, and character budgets for T2-B.
-
-Verification:
-
-- `pwsh eng/doc-check.ps1`
-- `dotnet build NoxAeterna.sln -c Debug`
-- `pwsh eng/test-route.ps1 run Project-Stats -NoBuild`
-- `pwsh eng/test-route.ps1 run Repository-Verification -NoBuild`
-- console, JSON, and Markdown CLI smoke against the current repository
-- `pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone`
-
 ## 2026-07-31: T2-A.1 Cross-Platform Project Reference Repair
 
 Summary:
@@ -162,3 +127,31 @@ Verification:
 - Full milestone: 570 passed, 0 failed, 0 skipped
 - real-control Obsidian/Porcelain, RU/EN, single/three-card, upright/reversed, both backs, every card position, pointer/Enter/Space, expanded/compact navigation, maximized/live-resize, Astrology return, and Tarot reopen smoke
 - four untracked temporary T1 screenshots under `%TEMP%\NoxAeterna-T1`
+- Checkpoint commit `4e7e3d61bc11b875af9fb5591f5a10ed986c8962` passed hosted run `30791606505`: Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage all succeeded; owner visual acceptance remains pending.
+
+## 2026-08-03: A2 Lupus Noctis Meaning-First Tonal-Range Study
+
+Summary:
+
+- Recorded the owner's complete rejection of A0 and A1; none of the nine earlier studies remains accepted, an anchor, a composition reference, or a production asset, and accepted Lupus Noctis production cards remain 0.
+- Established `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md` as the canonical human-readable owner for the working identity, varied fantasy world, four wolf-motif modes, contemporary narrative-fantasy direction, meaning-first workflow, emotional range, typography boundary, rejection record, research sources, briefs, prompts, and candidate records.
+- Researched historical Death, Six of Cups, and Star meanings from public-domain Waite and Mathers texts, then generated exactly three independent review candidates spanning dark/transitional, warm/nostalgic, and luminous/hopeful tones without image references.
+- Stored normalized `952 × 1632 px` (`7:12`) candidates at `studies/A2/death.png`, `six-of-cups.png`, and `star.png`; all remain owner-acceptance Pending and no contact sheet, manifest, production path, font, or runtime integration was added.
+- Death and Six of Cups required one generation each. Star required one targeted second generation to remove a random tattoo-like pseudo-symbol from the exposed shoulder.
+
+## 2026-08-03: A3 Lupus Noctis Partial-Pack Integration
+
+Summary:
+
+- Recorded the owner's acceptance of all three A2 candidates while keeping A0 and A1 rejected, then promoted Death, Six of Cups, and the Star into stable semantic production paths without retaining study copies or contact sheets.
+- Added a versioned `lupus-noctis` partial-pack manifest with exact `standard-78` identities, package-relative paths, `952 × 1632` dimensions, SHA-256 checksums, accepted status, and owner-document provenance references.
+- Added a read-only built-in loader/catalog that rejects traversal, duplicates, unknown identities, malformed dimensions, and hash mismatches; optional omissions resolve to the honest localized prototype face rather than changing the reading.
+- Added a second artwork-pack selector after Classic while keeping raster artwork, programmatic frame/title overlay, selection, and reversal under one visual transform contract.
+- Preserved the A2 meaning research and prompts, recorded independent casting policy and generated-asset provenance, and left the next artistic batch unselected pending owner visual review.
+
+Verification:
+
+- documentation check completed with one expected session-log soft-budget warning and no errors; Debug solution build completed with 0 warnings and 0 errors;
+- Tarot, Desktop-UI, and Repository-Verification named routes succeeded; Full milestone passed 605 tests with 0 failed and 0 skipped;
+- real-control smoke covered both artwork packs without reading changes, all three raster cards, prototype fallback, RU/EN, Obsidian/Porcelain, upright/reversed, single/three-card, both backs, inspector, keyboard activation, navigation collapse/restore, maximized/compact live resize, and Astrology return;
+- four review screenshots remain untracked under the local temporary A3 smoke directory.

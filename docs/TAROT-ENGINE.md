@@ -45,7 +45,7 @@ Four concepts must remain independent:
 - **Back variant** owns a selectable card back, not a separate deck.
 - **Interpretation set** identifies future meaning content independently from both semantic and visual selection.
 
-Validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `TarotBackVariantId`, and `TarotInterpretationSetId` contracts keep those selections distinct from `TarotDeckId`. T1 exposes one explicitly named prototype artwork pack, one prototype skin, two programmatic back variants, and one foundation interpretation-set identity; none pretends that finished artwork or prose exists.
+Validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `TarotBackVariantId`, and `TarotInterpretationSetId` contracts keep those selections distinct from `TarotDeckId`. The workspace exposes Classic first and the real partial Lupus Noctis artwork pack second, plus one prototype skin, two programmatic back variants, and one foundation interpretation-set identity; none changes the semantic deck or pretends that interpretation prose exists.
 
 ## Built-In Spreads
 
@@ -64,7 +64,15 @@ Domain contains no Russian or English display names, UI labels, localized string
 
 `TarotWorkspaceViewModel` in Presentation owns the selected spread, reversal preference, current reading, selected assignment, controlled failure, and independent visual selections. It delegates every draw to the existing `TarotDrawEngine` over `StandardTarotCatalog.Deck`; App supplies the explicit timestamp and composes a runtime `SystemTarotRandomSource` from Infrastructure. Changing to an incompatible spread clears the reading, while leaving and reopening Tarot preserves the in-memory workspace model.
 
-The App renders responsive 7:12 symbolic card surfaces with project-owned vector geometry. Single-card and three-card tableaux share one deterministic layout contract; compact widths retain a readable minimum and give horizontal overflow to the tableau only. Black Sun and Lunar Seal are two selectable prototype backs. Faces distinguish Arcana, suit, rank, and orientation without claiming to illustrate all 78 narratives. RU/EN names and inspector labels stay in localization catalogs, and the inspector states honestly that interpretation content is not yet available.
+The App renders responsive 7:12 card surfaces. Single-card and three-card tableaux share one deterministic layout contract; compact widths retain a readable minimum and give horizontal overflow to the tableau only. Black Sun and Lunar Seal are two selectable prototype backs. RU/EN names and inspector labels stay in localization catalogs, and the inspector states honestly that interpretation content is not yet available.
+
+For Classic and for missing entries in a partial pack, the face uses the existing project-owned symbolic geometry. For an accepted raster entry, the inner illustration is loaded from shipped resources with uniform aspect-preserving fit. Programmatic frame, localized title/structure overlay, selection state, and reversal remain separate layers and rotate together under the same 180-degree visual contract.
+
+## A3 Built-In Partial Artwork Pack
+
+The versioned `lupus-noctis` manifest targets `standard-78`, declares canonical `7:12` and `952 × 1632` source dimensions, and maps exactly three accepted semantic identities to package-relative PNG paths, checksums, status, and owner-document provenance. The pack is explicitly partial: its 75 omitted cards resolve to a localized prototype fallback without changing the reading or semantic identity.
+
+The App-owned read-only loader accepts only shipped package-relative resources and rejects traversal, duplicate or unknown card IDs, invalid dimensions/aspect ratio, invalid status, and checksum mismatch. A malformed built-in pack is disabled with an explicit diagnostic while Classic remains usable; an omitted optional partial-pack card is normal fallback, not a startup failure. User-pack import and arbitrary filesystem paths remain outside this stage.
 
 ## Asset Direction
 

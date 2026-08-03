@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "artworkPackId": "lupus-noctis",
+  "semanticDeckId": "standard-78",
+  "displayNameLocalizationKey": "ui.tarot.artwork.lupus-noctis",
+  "canonicalAspectRatio": {
+    "width": 7,
+    "height": 12
+  },
+  "expectedSourceDimensions": {
+    "width": 952,
+    "height": 1632
+  },
+  "partialPack": true,
+  "cards": [
+    {
+      "cardId": "major.death",
+      "assetPath": "cards/major/death.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "b5bb6ea0d42adc2d195494bb737b03d72a3c950ce90b2878bee974c9213dadc5",
+      "status": "accepted",
+      "generationProvenanceReference": "LUPUS-NOCTIS.md#major-death"
+    },
+    {
+      "cardId": "minor.cups.six",
+      "assetPath": "cards/minor/cups/six.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "ad71eb1e48abe8155aa6272164607c3005d7e4ad08569856274fd3f49557c0d5",
+      "status": "accepted",
+      "generationProvenanceReference": "LUPUS-NOCTIS.md#minorcupssix"
+    },
+    {
+      "cardId": "major.star",
+      "assetPath": "cards/major/star.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "79cb0c40e926c2acafffd80fa622385b5a6d7534518d8050114027bb7be5ee95",
+      "status": "accepted",
+      "generationProvenanceReference": "LUPUS-NOCTIS.md#major-star"
+    }
+  ]
+}
