@@ -27,6 +27,18 @@
       "milestoneOnly": false
     },
     {
+      "name": "Tarot",
+      "description": "Tarot semantic catalog, spreads, and deterministic in-memory drawing.",
+      "kind": "leaf",
+      "category": "core",
+      "tags": ["tarot", "domain", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.Tarot&FullyQualifiedName!~TarotBoundaryTests",
+      "defaultTimeoutSeconds": 180,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
       "name": "Astronomy",
       "description": "Astronomy orchestration and chart calculation contracts.",
       "kind": "leaf",

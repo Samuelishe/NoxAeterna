@@ -216,38 +216,33 @@ Calculated planetary positions for a current or selected time, optionally compar
 
 ### TarotDeck
 
-Deck definition and card collection. Should support deck metadata and future alternate decks.
+Implemented semantic deck definition and immutable card collection:
+
+- `TarotDeckId` is a validated stable identity;
+- `TarotDeckDefinition` owns a defensively copied, deterministic, read-only card sequence;
+- duplicate card IDs and duplicate Minor suit/rank identities are rejected;
+- semantic deck identity does not depend on illustrations, frames, backs, filenames, or enum numeric values.
+
+The built-in `standard-78` catalog contains exactly 22 Major and 56 Minor cards. Its deterministic identity order is catalog traversal, not a claim that one historical Major Arcana numbering is universal. A future deck definition must own any display number and deck-specific display order explicitly.
 
 ### TarotCard
 
-Card identity:
+Implemented language-neutral structural card definition:
 
-- Major/minor arcana.
-- Suit, where applicable.
-- Rank or name.
-- Upright and reversed symbolic meanings.
-- Visual asset reference.
+- validated `TarotCardId` stable text identity;
+- typed `TarotArcana`, `TarotSuit`, and `TarotRank`;
+- Major cards have no suit or rank;
+- Minor cards require one of four suits and one of fourteen Ace-through-court ranks.
+
+Meanings, localization, and visual references are deliberately outside the T0-A card definition.
 
 ### TarotSpread
 
-Spread definition:
-
-- Name.
-- Positions.
-- Position meanings.
-- Card count.
+Implemented `TarotSpreadId`, `TarotSpreadPositionId`, and immutable `TarotSpreadDefinition`. Position count and deterministic order belong to the definition; empty spreads and duplicate internal position IDs are rejected. Built-ins are one `card` position and ordered `past`, `present`, `future` positions. Names, meanings, and layout geometry remain outside Domain.
 
 ### TarotReading
 
-Saved reading session:
-
-- Date/time.
-- Deck.
-- Spread.
-- Drawn cards and orientations.
-- Context.
-- Interpretation blocks.
-- Profile link, if any.
+Implemented immutable in-memory `TarotReading` with semantic deck/spread identities, caller-supplied NodaTime `Instant`, and unique `TarotDrawnCard` assignments using typed upright/reversed orientation. T0-A does not save readings and adds no context, interpretation, profile, or persistence contracts.
 
 ### InterpretationBlock
 

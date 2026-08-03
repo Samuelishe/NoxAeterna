@@ -1,15 +1,17 @@
 # Next Steps
 
-The repository-foundation wave and P1 planet semantic anchoring are complete with green hosted evidence. S1 now introduces an adaptive shell navigation rail before the Tarot product wave without changing astrology or chart rendering.
+The repository-foundation wave, P1 planet semantic anchoring, and S1 adaptive shell are accepted with green hosted evidence. T0-A now establishes the local Tarot semantic foundation without UI, assets, interpretation prose, or persistence.
 
 Immediate next steps:
 
-1. Review and approve the four S1 Porcelain/Obsidian, expanded/collapsed, and compact-width screenshots.
+1. Review and commit T0-A, then require green hosted confirmation.
 
-2. Commit and push S1, then require green hosted jobs for Documentation, Windows, Ubuntu, macOS, and diagnostic coverage.
+2. T0-B — define the generic multi-pack asset contract: artwork-pack manifest, backs, frames, card aspect ratio, safe areas, user-pack boundary, future `NoxAeterna.Tools.Assets`, and a repository-local `nox-asset-forge` skill.
 
-3. Begin the Tarot foundation only after S1 visual and hosted confirmation.
+3. T1 — build the first visible in-memory Tarot workspace with single-card and three-card readings plus programmatic temporary card surfaces, without pretending final artwork is complete.
 
-4. Define the later generic multi-pack asset-production contract and future `NoxAeterna.Tools.Assets` for Tarot artwork packs, backs, frames, backgrounds, textures, and other project assets; do not implement it as a single-deck shortcut.
+4. Produce the Deck Bible, anchor set, and first controlled artwork-generation wave.
 
-5. Keep P2 source/glyph highlighting deferred until a concrete usability defect justifies it.
+5. Add persistence as a separate later stage.
+
+P2 astrology source/glyph highlighting remains deferred until a concrete usability defect justifies it.

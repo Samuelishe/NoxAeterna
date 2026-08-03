@@ -118,3 +118,28 @@ Verification:
 - Full milestone: 520 passed, 0 failed, 0 skipped
 - real-control pointer/keyboard toggle, all-section selection, responsive restore, theme switch, RU/EN, compact/maximized smoke
 - four untracked temporary S1 screenshots
+
+## 2026-08-03: S1 Hosted Confirmation
+
+Summary:
+
+- The owner visually accepted S1 adaptive shell navigation at commit `705fef517834e609b485faca511e240e6dec0a8a`.
+- Hosted CI run `30636973316` completed successfully for that push to `master`.
+- Exact jobs: Documentation contracts — success; Build and test (windows-latest) — success; Build and test (ubuntu-latest) — success; Build and test (macos-latest) — success; Diagnostic coverage — success.
+
+## 2026-08-03: T0-A Tarot Semantic Foundation
+
+Summary:
+
+- Added validated stable deck/card/spread/position identities and immutable, language-neutral Domain definitions for Arcana, suits, ranks, assignments, readings, and controlled draw failure.
+- Added the deterministic built-in `standard-78` semantic catalog, single-card and ordered past/present/future spreads, and injected without-replacement drawing with explicit orientation policy and caller timestamp.
+- Kept semantic decks separate from future artwork packs, presentation skins, and back variants; added no UI, rendering, assets, persistence, interpretation prose, external package, or dependency-shape change.
+- Added a non-overlapping Tarot named route plus focused structural, draw, replay, immutability, validation, and boundary coverage.
+
+Verification:
+
+- `pwsh eng/doc-check.ps1`: 0 warnings, 0 errors
+- `dotnet build NoxAeterna.sln -c Debug`: 0 warnings, 0 errors
+- Domain route: 67 passed; Tarot route: 23 passed; Repository-Verification: all four leaves succeeded
+- Full milestone: 546 passed, 0 failed, 0 skipped
+- UI smoke not applicable because T0-A changes neither UI nor Rendering; no screenshots created

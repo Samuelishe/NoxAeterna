@@ -482,3 +482,19 @@ Decision: Use a native compact-inline Avalonia `SplitView` with a user-controlle
 Reason: A permanently labeled 240-DIP pane spends scarce horizontal space that future Tarot and other workspaces need, while mobile bottom navigation or a top dropdown would weaken the desktop information architecture.
 
 Consequences: Presentation owns navigation preference and viewport state, App maps it to the real control, compact mode retains localized tooltips and accessibility names, and returning to a wide window restores the prior preference. State remains in memory, section order and selection are preserved, and no Tarot-specific dependency enters the shell.
+
+## 2026-08-03: Separate Tarot Semantics From Every Visual Pack Layer
+
+Decision: Keep stable Tarot deck/card structure in Domain, independent from artwork packs, presentation skins, and selectable back variants. Do not derive Major identities or display meaning from enum ordinals, filenames, localized strings, or one historical numbering tradition.
+
+Reason: Readings, persistence, alternate artwork, user packs, and future asset tooling must refer to the same semantic cards without turning every visual treatment into a different deck.
+
+Consequences: T0-A provides a standard 78-card structural catalog, typed spreads, and injected in-memory drawing only. Future deck definitions own explicit display numbering/order metadata; shipped curated artwork stays project-owned, user visual packs belong in AppData, and raw generations never enter the repository.
+
+## 2026-08-03: Keep Tarot Drawing Deterministic and Ambient-State-Free
+
+Decision: Draw without replacement through a project-owned injected index source, require the caller to supply the reading timestamp, and represent an undersized deck as a typed failure.
+
+Reason: UI, persistence, system time, and framework-global randomness must not determine or hide domain behavior.
+
+Consequences: Upright-only and upright/reversed policies are explicit, replayable fake sequences reproduce assignments, invalid RNG output is surfaced, and T0-A performs no automatic save or AppData write.
