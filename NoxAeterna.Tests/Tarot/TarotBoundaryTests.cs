@@ -82,7 +82,9 @@ public sealed class TarotBoundaryTests
             path.Equals("studies/A0", StringComparison.OrdinalIgnoreCase) ||
             path.StartsWith("studies/A0/", StringComparison.OrdinalIgnoreCase) ||
             path.Equals("studies/A1", StringComparison.OrdinalIgnoreCase) ||
-            path.StartsWith("studies/A1/", StringComparison.OrdinalIgnoreCase));
+            path.StartsWith("studies/A1/", StringComparison.OrdinalIgnoreCase) ||
+            path.Equals("studies/A16", StringComparison.OrdinalIgnoreCase) ||
+            path.StartsWith("studies/A16/", StringComparison.OrdinalIgnoreCase));
         Assert.DoesNotContain(relativePaths, path =>
             path.Contains("contact-sheet", StringComparison.OrdinalIgnoreCase) ||
             path.Contains("collage", StringComparison.OrdinalIgnoreCase) ||
@@ -107,6 +109,14 @@ public sealed class TarotBoundaryTests
                 canonicalStudyPattern,
                 System.Text.RegularExpressions.RegexOptions.CultureInvariant))
             .ToArray();
+        string[] expectedStudyPngPaths =
+        [
+            "studies/A17/devil.png",
+            "studies/A17/three-of-cups.png",
+            "studies/A17/three-of-swords.png"
+        ];
+
+        Assert.Equal(expectedStudyPngPaths, studyPngPaths.Order(StringComparer.Ordinal));
 
         Assert.DoesNotContain(pngPaths, path =>
             !path.StartsWith("cards/", StringComparison.Ordinal) &&

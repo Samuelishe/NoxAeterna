@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.wands.knight`
 - Batch: **A16 — deliberate agency / volatile momentum / unexpected message**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -85,13 +85,17 @@ Exactly one horse; exactly one signal staff; no second pole, visible mast, weapo
 
 TARGETED TEXT-ONLY REGENERATION. Do not use the previous image as a reference. Rebuild the scene independently with a wider framing. Preserve the fair freckled copper-red-haired outrider, flooding tidal causeway, exactly one dapple-gray mare, exactly one charred signal staff with one short burnt-orange strip, and readable running-wolf saddle embroidery. Correct the initial crop: show the mare's head, torso, all four complete legs, all four hooves, hindquarters, and tail within a wider moving composition and keep rider and horse away from the top, right, and bottom edges. Add no second animal, pole, mast, weapon, or physical wolf. Keep reins and staff away from the rider's eyes, mouth, central face, hands, and joints.
 
-## Final Candidate
+## Owner Review A16
 
-- Path: `studies/A16/knight-of-wands.png`
+Accepted without pixel changes. The physical movement is convincing; exactly one mare and one signal staff are present; the running-wolf saddle embroidery reads; and the horse participates in the task. The residual tail-margin note remains explicitly non-blocking and does not establish a new cropping allowance.
+
+## Final Production Asset
+
+- Path: `cards/minor/wands/knight.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `890e4d1dfd6a4932dd4dce1cccde00b0a605632c8d604e094cea0cb164e94297`
 - Generation count: **2** text-only generations: one initial generation and one targeted correction; neither used an image reference
 - Technical review: The initial generation satisfied one-horse, one-staff, casting, and wolf-embroidery contracts but cropped the mare at the left/lower edge and was not retained. The independent correction widens the moving view: exactly one dapple-gray mare is visible with a complete head, body, four legs, and four hooves; exactly one charred signal staff appears and there is no second pole, visible mast, weapon, or other animal. The running-wolf embroidery is clear on the outward saddle blanket below the rider's near leg at full size and `238 × 408` card scale. The fair freckled copper-red-haired corsair-influenced outrider, mounted tidal-causeway action, and sweeping route restore casting, archetype, and movement contrast. Face, eyes, mouth, hands, and joints remain free of staff/rein tangencies; horse and rider anatomy, tack, cloth, wood, water, fog, and stone remain readable. Residual non-blocking review note: the tail fringe remains close to and partly meets the left margin even though the horse's body and all four hooves are clearly inside the frame. No embedded text, pseudo-runes, accidental tattoos, physical wolf, frame, watermark, signature, or logo is visible. The source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference was used
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**

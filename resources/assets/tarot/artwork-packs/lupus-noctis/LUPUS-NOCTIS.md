@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **39/78**.
+- Accepted production cards: **42/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -96,16 +96,22 @@
   - [`major.high-priestess`](records/major/high-priestess.md) — owner acceptance: **Accepted**; a background assistant has one physically plausible but compositionally unfortunate grille-bar facial tangency.
   - [`minor.swords.seven`](records/minor/swords/seven.md) — owner acceptance: **Accepted**; exact `4 + 3 = 7` sheathed-sword contract succeeds, but the promised wolf-world anchor is weak or absent and is retained only as an explicit exception.
   - [`minor.cups.ace`](records/minor/cups/ace.md) — owner acceptance: **Accepted**; one-vessel and visible doorway wolf-carving contracts succeed, while the literal cup-handoff staging is accepted as low in narrative novelty and must not recur in the nearest batches.
-- A16: **Pending** deliberate agency / volatile momentum / unexpected message batch.
+- A16: **Accepted** as the fourteenth production wave.
 - A16 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A16 card was used as an image reference.
-- A16 review candidates:
-  - [`major.magician`](records/major/magician.md) — owner acceptance: **Pending**.
-  - [`minor.wands.knight`](records/minor/wands/knight.md) — owner acceptance: **Pending**.
-  - [`minor.cups.page`](records/minor/cups/page.md) — owner acceptance: **Pending**.
+- A16 production cards and owner review notes:
+  - [`major.magician`](records/major/magician.md) — owner acceptance: **Accepted**; the readable conductor event, single black cat, clasp, and clean tangencies succeed, while the pale black-haired witch-like casting plus black cat and lightning is accepted as a one-card pop-fantasy resemblance and must not become a template.
+  - [`minor.wands.knight`](records/minor/wands/knight.md) — owner acceptance: **Accepted**; one mare, one signal staff, active horse role, readable saddle embroidery, and motion succeed; the residual tail-margin note remains non-blocking.
+  - [`minor.cups.page`](records/minor/cups/page.md) — owner acceptance: **Accepted**; one cormorant, one cup, evidence-bearing bird, anatomy, and tangencies succeed; the unusually large rail wolf head is accepted only for this card and is not a recurring stamp.
+- A17: **Pending** bondage / fellowship / heartbreak batch.
+- A17 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A17 card was used as an image reference.
+- A17 review candidates:
+  - [`major.devil`](records/major/devil.md) — owner acceptance: **Pending**.
+  - [`minor.cups.three`](records/minor/cups/three.md) — owner acceptance: **Pending**.
+  - [`minor.swords.three`](records/minor/swords/three.md) — owner acceptance: **Pending**.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, and A15 images are shipped production assets listed by `artwork-pack.json`. A16 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A16 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, and A16 images are shipped production assets listed by `artwork-pack.json`. A17 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A17 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **39/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **42/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 
@@ -113,21 +119,26 @@ Lupus Noctis is a narrative fantasy artwork pack built around a world of lycanth
 
 Its coherent fantasy world contains people, ordinary wolves, lycanthropes and werewolves, hunters, warriors, rulers, priests, families, clans, cities, villages, fortresses, temples, taverns, markets, forests, rituals, wars, celebrations, artifacts, and wolf heraldry, masks, shadows, spirits, and legends. A visible wolf is not required on every card.
 
+### Lore and Supernatural Boundary
+
+Lupus Noctis remains grounded narrative fantasy. Rare localized supernatural events, lycanthropy, folk rituals, unusual natural phenomena, and artifacts of ambiguous origin are allowed when they serve the card meaning. The world does not default to continuous spellcasting, high-magic fireworks, superhero fantasy, absurd grimdark, or disconnected supernatural spectacle. Magic, blood, and death enter only as parts of a meaning-first story.
+
 ## Wolf Motif Modes
 
-Choose the mode that serves the individual card meaning:
+Every brief selects the prominence that serves its individual meaning:
 
-1. **Literal wolf** — an ordinary wolf or pack.
-2. **Lycanthrope** — full or partial transformation with serious anatomy; never furry.
-3. **Human with wolf symbolism** — a human linked to the motif through heraldry, mask, pelt, shadow, spirit, tracks, or narrative.
-4. **Wolf-world indirect** — no wolf is visible, but the scene unmistakably belongs to the Lupus Noctis world.
+1. **Ambient-only** — architecture, institution, costume, and lore establish the world; a separate wolf icon is not required.
+2. **Subtle anchor** — one small clasp, carving, textile detail, seal, or comparable motif.
+3. **Visible secondary motif** — a clearly readable wolf element that remains subordinate to the story.
+4. **Literal animal** — a living ordinary wolf participates in the event.
+5. **Lycanthrope** — serious full or partial transformation when the meaning requires it; never furry.
 
-The card meaning selects the mode; the mode does not impose a wolf on every illustration.
+Prominence follows meaning. Do not add a large wolf head automatically, replace every animal with a wolf, or treat a physical wolf as a deck-wide requirement. Ordinary cats, dogs, birds, horses, and other animals are allowed when they participate in the scene.
 
 ### Wolf-World Legibility Gate
 
-- Every new brief selects one Wolf Motif Mode. A physical wolf is not required, but Wolf-world indirect must name one concrete, visually verifiable world anchor.
-- The anchor must remain readable in the final PNG at Tarot-card scale. Words such as *tiny*, *at most*, or *optional* do not satisfy the contract when the promised anchor cannot actually be found.
+- Every new brief selects one Wolf Motif Mode and target prominence. Ambient-only is valid when concrete architecture, institution, costume, or lore makes the world legible; the absence of a separate wolf icon is not a defect.
+- When a brief promises a subtle anchor or visible secondary motif, it must remain readable in the final PNG at Tarot-card scale. Words such as *tiny*, *at most*, or *optional* do not satisfy the contract when the promised anchor cannot actually be found.
 - Suitable anchors include a wolf or paw seal, visible heraldic clasp, carved lintel, saddle embroidery, tracks, mask, pelt, serious lycanthropic anatomy, or unmistakable wolf-world institution or architecture. The anchor stays secondary and never turns the card into wolf-calendar art.
 - Technical review names exactly where the anchor is visible. A missing promised anchor is a review defect. A15 Seven of Swords is an explicit owner-accepted exception: its meaning and seven-sword contract succeed, but its promised wolf-world anchor is weak or absent and must not establish precedent.
 
@@ -143,6 +154,10 @@ Before each batch, compare every principal cast member with at least the last tw
 
 This is neither a racial quota nor mechanical alternation; it protects the world's range. When meaning supports it, the range includes very pale or freckled people; redheads, blond, white-haired, dark-haired gothic, or witch-like silhouettes; sailors, corsairs, knights, mounted couriers, nobles, criminals, wanderers, and performers; cats, dogs, birds, horses, ordinary wolves, and serious lycanthropes. Animals and unusual archetypes participate in the story rather than decorating a checklist.
 
+### Owner Examples Are Idea-Space
+
+Owner examples of characters, animals, genres, or scenes define the range of possible choices; they are not immediate casting assignments or a checklist for the next batch. Casting and plot are derived from the card meaning first, and an example is used only when it naturally strengthens that meaning. One successful archetype never becomes recurring cast or a deck template without an explicit tracked decision. A16 is accepted as a one-off correction to the explored range, not as a new visual standard.
+
 ## Style Unity
 
 Deck unity comes from contemporary painted fantasy illustration, narrative staging quality, shared worldbuilding, a consistent rendering standard, natural brushwork, clear visual hierarchy, material-specific rendering, and the later programmatic frame and typography overlay.
@@ -155,6 +170,10 @@ Forbidden series-wide treatments include old-master museum painting, Baroque sti
 
 Before approving a new card brief, compare it with recent accepted cards by dominant body orientation, gaze direction, action vector, pose, camera height and angle, focal-point location, and single-character versus group structure. Avoid accidental repetition of the same left-to-right hero staging, while keeping card meaning more important than mechanical alternation. A5 deliberately tests inverted central suspension, a seated left-facing close workshop, and a high-oblique multi-directional group scene; A6 adds a balanced mutual-choice pair, a confined seated night interior, and an unstable lateral balancing action.
 
+### Pop-Fantasy Resemblance Review
+
+Before acceptance, check whether hair, costume, animal, pose, and effect have stacked into an overly recognizable mass-market fantasy archetype or an obvious existing heroine or franchise association. Resemblance in one element is acceptable; dense trope stacking requires a correction or an explicit honest owner note. The accepted A16 Magician note records one such non-recurring exception.
+
 ## Meaning-First Workflow
 
 Before creating every card:
@@ -162,7 +181,7 @@ Before creating every card:
 1. Research stable traditional meanings.
 2. Separate the base archetype, emotional tone, constructive aspects, tensions and risks, upright meaning, and materially relevant reversed meaning.
 3. Do not copy modern interpretive prose; paraphrase source ideas.
-4. Write a card brief covering narrative core, characters, event, wolf motif mode, framing, lighting, color script, symbolic anchors, and forbidden clichés.
+4. Write a card brief covering narrative core, characters, event, wolf motif mode and target prominence, framing, lighting, color script, a meaning-derived tone script, symbolic anchors, and forbidden clichés.
 5. Generate only after the research and brief are recorded.
 
 The story must not be inferred only from the English card title.
@@ -177,9 +196,11 @@ Every batch must contain at least one substantially new genre setting, one new m
 
 Technical review separately checks bars, rails, ropes, doorframes, weapon shafts, branches, furniture edges, and poles for accidental crossings through eyes, mouths, face centers, necks, hands, and joints. Foreground objects may occlude a background figure only when the overlap looks intentional and physically clear. A15 High Priestess is an accepted non-blocking exception: a plausible grille bar crosses the background assistant's face but produces an unfortunate facial tangency.
 
-## Emotional Range
+## Mood Fidelity and Emotional Range
 
-The deck may contain dark, bright, neutral, solemn, tragic, joyful, intimate, conflict-driven, mystical, and quiet cards. The individual meaning determines the tone. There is no global dark filter.
+Every card has a meaning-derived Mood and Intensity Script. The deck may be saturated and joyful, sensual and warm, dark, anxious, cruel, solemn, quiet, dirty, luxurious, tragic, neutral, intimate, conflict-driven, or mystical. Do not flatten all meanings into the same restrained seriousness; there is no global dark filter.
+
+Blood, death, dead people, and corpses are artistically allowed when the meaning and story require them. They remain proportionate narrative facts: no meaningless gore, shock-driven dismemberment, or cheap horror-poster staging.
 
 ## Typography and Overlay Boundary
 

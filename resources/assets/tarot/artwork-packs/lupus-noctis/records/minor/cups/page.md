@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.cups.page`
 - Batch: **A16 — deliberate agency / volatile momentum / unexpected message**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -90,13 +90,17 @@ Exactly one cormorant; exactly one cup; no other animal or container; one visibl
 
 TARGETED TEXT-ONLY REGENERATION. Do not use the previous image as a reference. Rebuild the scene independently. Show exactly one complete cormorant total with folded wings and zero additional bird heads, wings, bodies, feathers shaped like another bird, or distant animal silhouettes. Preserve the light-golden coastal East Asian cabin page, pale forelock, evidence-bearing family token on the bird's leg, exactly one plain tin water cup on the deck, and one clearly carved wolf head integrated into the rail beside the bird. Add no other container or animal. Keep rail edges and ropes away from the page's eyes, mouth, face, hands, and joints.
 
-## Final Candidate
+## Owner Review A16
 
-- Path: `studies/A16/page-of-cups.png`
+Accepted without pixel changes. Exactly one cormorant and one cup are present; the bird brings story-significant evidence; no cup handoff occurs; and anatomy and tangencies are suitable. The rail's carved wolf head is larger and more explicit than necessary; this is acceptable on this card but must not become a mandatory recurring stamp or giant-emblem default.
+
+## Final Production Asset
+
+- Path: `cards/minor/cups/page.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `ac0630371ac1e372feef352b89bdbb11c63ea61848dace26656e375f634e3dc9`
 - Generation count: **2** text-only generations: one initial generation and one targeted correction; neither used an image reference
 - Technical review: The initial generation contained an additional bird head behind the main cormorant's open wing and was not retained. The independent correction shows exactly one complete realistic wet cormorant with folded wings, exactly one plain tin water cup, and no other animal or visible container. The bird actively carries the family token; the young page removes it and turns to call the distant crew, so unexpected emotional evidence—not another cup handoff—drives the scene. The carved wolf head is unmistakably visible in the rail immediately below the bird at full size and `238 × 408` card scale. The light-golden coastal East Asian cabin-page casting, nautical role, animal messenger, and storm-damaged deck restore batch contrast. Face, eyes, mouth, hands, joints, and bird anatomy remain free of rail/rope tangencies; skin, cloth, wet feathers, token, tin, carved wood, sea, and mist remain distinct with safe margins. The small token uses ornamental carving but no readable text; no embedded writing, pseudo-rune sequence, accidental tattoo, physical wolf, frame, watermark, signature, or logo is visible. The source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference was used
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**

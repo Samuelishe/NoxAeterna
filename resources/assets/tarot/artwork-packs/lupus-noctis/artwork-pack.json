@@ -363,6 +363,33 @@
       "sha256": "62c015d4a670289e28fa1080a2acf9e0577abe381d738624d1c8861b55e4f1b4",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/cups/ace.md"
+    },
+    {
+      "cardId": "major.magician",
+      "assetPath": "cards/major/magician.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "67abc56443e7dc2bde25f9bd491016386075a1d1b4f48ca182b3d36db60712a8",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/magician.md"
+    },
+    {
+      "cardId": "minor.wands.knight",
+      "assetPath": "cards/minor/wands/knight.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "890e4d1dfd6a4932dd4dce1cccde00b0a605632c8d604e094cea0cb164e94297",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/knight.md"
+    },
+    {
+      "cardId": "minor.cups.page",
+      "assetPath": "cards/minor/cups/page.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "ac0630371ac1e372feef352b89bdbb11c63ea61848dace26656e375f634e3dc9",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/page.md"
     }
   ]
 }

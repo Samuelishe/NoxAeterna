@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.magician`
 - Batch: **A16 — deliberate agency / volatile momentum / unexpected message**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -81,9 +81,13 @@ no facial tangency with rods or frames.
 
 Exactly one black cat; exactly one visible wolf-head clasp; no other animal; no physical wolf; no occult writing, spell circle, staff, crown, throne, extra limb, facial tangency, embedded text, frame, watermark, signature, or logo.
 
-## Final Candidate
+## Owner Review A16
 
-- Path: `studies/A16/magician.png`
+Accepted without pixel changes. The event reads clearly, the technical and rare supernatural elements combine convincingly, exactly one black cat and the wolf-head clasp are visible, and no composition tangency blocks acceptance. The pale black-haired witch-like woman, black cat, and lightning also create an overly familiar pop-fantasy association because the staging assembled owner examples too literally. This is an accepted one-card range correction, not a recurring cast, template, or visual language.
+
+## Final Production Asset
+
+- Path: `cards/major/magician.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `67abc56443e7dc2bde25f9bd491016386075a1d1b4f48ca182b3d36db60712a8`
@@ -91,4 +95,4 @@ Exactly one black cat; exactly one visible wolf-head clasp; no other animal; no 
 - Targeted correction prompt: none
 - Technical review: The very pale long-black-haired storm engineer, gothic observatory silhouette, and black cat deliver the intended casting contrast. The narrative event reads as one grounded lightning discharge entering the copper conductor while a small fingertip arc completes the mechanism and relights the distant beacon. Exactly one realistic black cat watches and reacts beside the apparatus. The silver wolf-head clasp is unmistakably visible at the high collar immediately below the face at both full size and `238 × 408` card-size review. Face, eyes, mouth, hands, and joints remain clear of rods, rails, cables, and frames; anatomy, cat anatomy, copper, glass, wet stone, cloth, rain, electricity, and fur remain distinct with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated story structure, frame, watermark, signature, or logo. The source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference was used
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**

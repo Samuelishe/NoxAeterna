@@ -1,10 +1,10 @@
 # Next Steps
 
-The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. A15 is accepted and promoted, Lupus Noctis now has 39/78 accepted production illustrations with prototype fallback for omitted cards, and the three A16 candidates remain Pending.
+The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. A16 is accepted and promoted, Lupus Noctis now has 42/78 accepted production illustrations with prototype fallback for omitted cards, and the three A17 candidates remain Pending.
 
 Immediate next steps:
 
-1. **ART-LN:** visually review the three A16 candidates and decide whether to accept, reject, or correct them. The post-A16 batch remains unselected; do not begin A16-P, A17, or AP1 automatically. Art production in the stable repository structure does not wait for runtime import infrastructure.
+1. **ART-LN:** visually review the three A17 candidates and decide whether to accept, reject, or correct them. The post-A17 batch remains unselected; do not begin A17-P, A18, or AP1 automatically. Art production in the stable repository structure does not wait for runtime import infrastructure.
 2. **AP1:** app-data path service, built-in no-delete seed synchronization, and Settings action to open application data.
 3. **AP2:** runtime registry, validation fingerprints, exact-stem extension audit/fallback, normalized PNG cache, and placeholders.
 4. **AP3–AP5:** separate Assets tool, manual user-pack discovery, then Settings import wizard.
