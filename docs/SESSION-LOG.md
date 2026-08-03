@@ -9,6 +9,20 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-04: A15-P + A16 Production Promotion and Diversity Recovery Batch
+
+Summary:
+
+- Recorded owner acceptance of `major.high-priestess`, `minor.swords.seven`, and `minor.cups.ace`; moved their unchanged A15 bytes to canonical production paths, removed the empty A15 study directory, and expanded Lupus Noctis from 36 to 39 accepted manifest assets with controlled fallback for the other 39 semantic cards.
+- Preserved the three owner caveats without retouching: High Priestess' background grille/face tangency, Seven of Swords' weak or absent wolf-world anchor despite the exact seven-sword success, and Ace of Cups' functional but low-novelty handoff staging.
+- Added compact durable gates for card-scale wolf-world legibility, twelve-card batch casting contrast, narrative novelty, and face/hand/joint occlusion and tangency review.
+- Generated independent text-only A16 candidates for `major.magician`, `minor.wands.knight`, and `minor.cups.page` with no image references. Magician passed its initial gate; Knight used one targeted correction for a cropped mare, and Page used one targeted correction for an unintended second bird. Exact prompts, generation metadata, residual review notes, dimensions, hashes, casting contrasts, and anchor locations belong to their records.
+- Kept all three A16 candidates Pending under canonical `studies/A16/` paths, outside the production manifest and application output. The post-A16 batch remains deliberately unselected, and AP1 does not begin automatically.
+
+Verification:
+
+- The proportional gate covers documentation validation, a Release solution build, focused artwork-pack and repository-boundary tests, source/manifest/output/study/hash consistency checks, and `git diff --check`; GitHub Actions is intentionally not inspected.
+
 ## 2026-08-04: A14-P + A15 Production Promotion and Review Batch
 
 Summary:

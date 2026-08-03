@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.high-priestess`
 - Batch: **A15 — hidden knowledge / covert strategy / first trust**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -78,14 +78,14 @@ Direct Rider-Waite pillar-and-curtain copy, fortune teller, mystical glamour por
 
 Exactly one local lamp; no candle; no brazier; no throne; no crown; no crystal ball; no magical symbols; no physical wolf; no direct pillar-copy; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A15/high-priestess.png`
+- Path: `cards/major/high-priestess.png`
 - Original generated dimensions: `958 × 1641 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `6640a123b5d1e53fc10f580a0609f45d8ab9185abd8b776457923bce64d47b57`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
-- Technical review: Exactly one local practical hooded archive lamp is visible. The keeper kneels beside the exposed relief map with a plain tablet and brass plumb frame; the cool reflected harbor route remains distinct from the single warm local fixture, and the closed grille preserves the verification-before-disclosure event. Anatomy, hands, face, cloth, brass, glass, wet stone, shallow water, relief carving, grille, and distant assistant remain readable at card size with safe margins and no throne, crown, crystal, magical ritual, extra local light fixture, embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
+- Technical review: Exactly one local practical hooded archive lamp is visible. The keeper kneels beside the exposed relief map with a plain tablet and brass plumb frame; the cool reflected harbor route remains distinct from the single warm local fixture, and the closed grille preserves the verification-before-disclosure event. The principal keeper's anatomy, hands, face, cloth, brass, glass, wet stone, shallow water, relief carving, and grille remain readable at card size with safe margins and no throne, crown, crystal, magical ritual, extra local light fixture, embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching. Owner review additionally identifies a non-blocking background composition defect: one physically plausible vertical grille bar crosses the junior assistant's face, producing an unfortunate facial tangency/occlusion; the background face is therefore not claimed to be compositionally flawless.
 - Generation input: text-only; no attachment or image reference was used
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted byte-for-byte without pixel changes or regeneration. Accepted with the documented non-blocking grille/face tangency exception.

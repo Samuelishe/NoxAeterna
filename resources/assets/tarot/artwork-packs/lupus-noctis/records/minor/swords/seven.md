@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.swords.seven`
 - Batch: **A15 — hidden knowledge / covert strategy / first trust**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -87,14 +87,14 @@ Direct Rider-Waite five-carried-two-left copy, cartoon thief, assassin glamour, 
 
 Exactly seven swords; four vertical plus three horizontal; all sheathed; no eighth sheath; no belt weapon; no dagger; no spear; no battle; no physical wolf; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A15/seven-of-swords.png`
+- Path: `cards/minor/swords/seven.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `188fe550a66d733b77bd61c0c12afb801f211bac94514a4bc38d2553c9de4e67`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
-- Technical review: Direct count confirms exactly seven complete fully sheathed swords: four vertical swords occupy four separate wall-rack cells, and three horizontal swords occupy three distinct cloth-sling channels. All seven pommels, sheath bodies, and tips are visible; there is no eighth sheath, belt weapon, guard weapon, dagger, spear, second rack, or decorative blade. The quartermaster's guarded movement and two unaware distant guards make covert prevention and its risk to trust readable without battle or triumphant theft. Anatomy, hands, faces, cloth, leather, plain wood, fittings, stone, and pre-dawn depth remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
+- Technical review: Direct count confirms exactly seven complete fully sheathed swords: four vertical swords occupy four separate wall-rack cells, and three horizontal swords occupy three distinct cloth-sling channels. All seven pommels, sheath bodies, and tips are visible; there is no eighth sheath, belt weapon, guard weapon, dagger, spear, second rack, or decorative blade. The quartermaster's guarded movement and two unaware distant guards make covert prevention and its risk to trust readable without battle or triumphant theft. Anatomy, hands, faces, cloth, leather, plain wood, fittings, stone, and pre-dawn depth remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching. Owner review confirms meaning and exact-object success but does not visually confirm the promised tiny quartermaster seal or wolf clasp: wolf-world legibility is weak or absent, and this is retained only as an explicit owner-accepted exception that must not become a later-batch precedent.
 - Generation input: text-only; no attachment or image reference was used
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted byte-for-byte without pixel changes or regeneration. Accepted with the documented wolf-world legibility exception.

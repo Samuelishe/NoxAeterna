@@ -336,6 +336,33 @@
       "sha256": "cd992efac6d41001d0bd0dcb115a94d7f1b98efaccae9a7893d86ec91ab20e2a",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/wands/two.md"
+    },
+    {
+      "cardId": "major.high-priestess",
+      "assetPath": "cards/major/high-priestess.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "6640a123b5d1e53fc10f580a0609f45d8ab9185abd8b776457923bce64d47b57",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/high-priestess.md"
+    },
+    {
+      "cardId": "minor.swords.seven",
+      "assetPath": "cards/minor/swords/seven.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "188fe550a66d733b77bd61c0c12afb801f211bac94514a4bc38d2553c9de4e67",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/swords/seven.md"
+    },
+    {
+      "cardId": "minor.cups.ace",
+      "assetPath": "cards/minor/cups/ace.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "62c015d4a670289e28fa1080a2acf9e0577abe381d738624d1c8861b55e4f1b4",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/ace.md"
     }
   ]
 }

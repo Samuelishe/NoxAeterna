@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.cups.ace`
 - Batch: **A15 — hidden knowledge / covert strategy / first trust**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -90,13 +90,13 @@ TARGETED TEXT-ONLY REGENERATION. Do not use the previous image as a reference. R
 
 Create the same restrained first-contact scene at an old stone springhouse threshold, with the returning older sister extending one open empty hand and the younger sister offering exactly one inherited family cup. The offered cup must be the only cup-like vessel and the only container of any kind anywhere in the image. Remove every barrel, jar, bucket, pot, bowl, basin, pitcher, bottle, trough, tableware item, cup-shaped fixture, background cylinder, and container-like architectural object. Keep the springhouse interior behind the younger sister as empty plain shadow and stone. Show water only in one narrow open carved stone gutter that continues downhill without collecting in a receptacle. Preserve the two sisters' direct eye contact, believable mature anatomy, intimate threshold composition, soft morning light, and contemporary painted narrative-fantasy treatment. No embrace, text, pseudo-runes, physical wolf, magical glow, frame, watermark, signature, or logo.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A15/ace-of-cups.png`
+- Path: `cards/minor/cups/ace.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `62c015d4a670289e28fa1080a2acf9e0577abe381d738624d1c8861b55e4f1b4`
 - Generation count: **2** text-only generations: one initial generation and one targeted correction; neither used an image reference
-- Technical review: The initial generation showed exactly one cup but added a dark cylindrical barrel or container in the springhouse background, so it violated the no-other-container contract and was not retained. The targeted independent regeneration succeeds with exactly one cup-like vessel—the offered inherited cup—and no bowl, basin, pitcher, bottle, barrel, tableware, or other container. The spring remains a narrow open carved channel, the older sister's open hand remains empty, both sisters maintain direct eye contact without an embrace, and first trust reads as unresolved possibility rather than completed reconciliation. Anatomy, hands, faces, cloth, ceramic, timber, moss, stone, and moving water remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, magical chalice staging, physical wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
+- Technical review: The initial generation showed exactly one cup but added a dark cylindrical barrel or container in the springhouse background, so it violated the no-other-container contract and was not retained. The targeted independent regeneration succeeds with exactly one cup-like vessel—the offered inherited cup—and no bowl, basin, pitcher, bottle, barrel, tableware, or other container. The spring remains a narrow open carved channel, the older sister's open hand remains empty, both sisters maintain direct eye contact without an embrace, and the wolf carving above the doorway is legible. Anatomy, hands, faces, cloth, ceramic, timber, moss, stone, and moving water remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, magical chalice staging, physical wolf, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching. Owner review accepts the anatomy and threshold action but rates the literal one-sister-offers/one-sister-reaches handoff as low in narrative novelty—functional but artistically only about average—and directs that this handoff-centric staging not recur in the nearest batches.
 - Generation input: text-only; no attachment or image reference was used
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted byte-for-byte without pixel changes or regeneration. Accepted with the documented low-narrative-novelty exception.
