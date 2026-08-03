@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.wands.queen`
 - Study: A10 synthesis / final defeat / confident leadership batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -81,13 +81,13 @@ Fire mage, superhero queen, fantasy throne portrait, lone glamour pose, apocalyp
 
 Exactly one staff; no second pole; no long-handled tools; no fire magic; no flaming staff; no throne or crown; no physical wolf; no superhero portrait; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A10/queen-of-wands.png`
+- Path: `cards/minor/wands/queen.png`
 - Original generated dimensions: `958 × 1641 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `3fb534d6f2271afe5ed6b57204902af9735c0578fd1e774cfc5b27a35059ad36`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: Exactly one charred wooden staff forms the sole pole-like anchor. The off-center leader gives a clear hand signal while four workers independently carry buckets, spread a wet blanket, clear embers with a short tool, and move coiled rope and stones; no second pole or long-handled tool appears. The curved wet firebreak and low controlled flame separate the village from the approaching wildfire, making practical confidence and shared action readable without magic, throne, crown, glamour portrait, or superhero staging. Faces, unmarked skin, hands, cloth, buckets, blanket, rope, stone, water, vegetation, smoke, and controlled fire remain distinct at card size with safe margins and no embedded text, pseudo-runes, repeated global texture, physical wolf, anatomy defect, frame, watermark, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.

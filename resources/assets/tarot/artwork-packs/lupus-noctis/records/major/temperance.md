@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.temperance`
 - Study: A10 synthesis / final defeat / confident leadership batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -99,12 +99,12 @@ Contemporary painted narrative fantasy, modern RPG chapter art, natural varied d
 No tattoos or skin markings. No text, letters, numbers, title, frame, border, watermark, signature, logo, pseudo-runes, wings, halo, magical glow, angelic symmetry, one-foot-in-water pose, physical wolf, laboratory clutter, photorealism, 3D, anime, comic cel shading, old-master stiffness, faux-antique filter, engraving, mosaic, crackle, or universal texture noise.
 ```
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A10/temperance.png`
+- Path: `cards/major/temperance.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `ccbe633ce578a5dcd3bfb3df801c840522e7cf5e488616b35e9bf85141826c80`
 - Generation count: **2** (one initial text-only generation and one targeted text-only corrective regeneration)
 - Technical review: The initial generation made the measured synthesis clear and preserved exactly two source flasks plus one receiving basin, but introduced an accidental tattoo-like forearm marking. The single corrective generation removed all skin decoration while preserving the procedural relief-station event, opposing controlled pours, timer, patient, assistant, and exactly three preparation vessels. No fourth container, wing, halo, angelic staging, magical glow, physical wolf, embedded text, pseudo-rune, repeated global texture, anatomy defect, frame, watermark, or logo appears. Hands, faces, glass, liquids, copper, cloth, wool, stone, and mountain air remain distinct and readable at card size with safe margins. The final source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.

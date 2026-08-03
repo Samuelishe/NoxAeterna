@@ -9,6 +9,18 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-03: A10-P + A11 Production Promotion and Review Batch
+
+Summary:
+
+- Recorded the owner's acceptance of `major.temperance`, `minor.swords.ten`, and `minor.wands.queen`; moved the unchanged A10 bytes to canonical production paths, removed the empty A10 study directory, and expanded Lupus Noctis from 21 to 24 accepted manifest assets with controlled fallback for the other 54 semantic cards.
+- Generated independent text-only A11 candidates for `major.strength`, `minor.cups.four`, and `minor.pentacles.king` with no image references. All three passed their initial technical gates without corrective regeneration. Exact generation counts, dimensions, hashes, prompts, and technical reviews belong to their linked records.
+- Kept all three A11 candidates Pending under canonical `studies/A11/` paths, outside the production manifest and application output. The post-A11 batch remains deliberately unselected, and AP1 does not begin automatically.
+
+Verification:
+
+- The proportional gate covers documentation validation, a Release solution build, focused artwork-pack and repository-boundary tests, source/manifest/output/study/hash consistency checks, and `git diff --check`; broad hosted CI remains deferred until a future owner-authorized commit and push.
+
 ## 2026-08-03: A9-P + A10 Production Promotion and Review Batch
 
 Summary:

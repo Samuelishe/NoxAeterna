@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.swords.ten`
 - Study: A10 synthesis / final defeat / confident leadership batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -79,13 +79,13 @@ Direct Rider-Waite impaled-body copy, battlefield action poster, triumphant enem
 
 Exactly ten swords; no eleventh blade; no swords on people; no impalement; no gore; no corpse; no enemies; no physical wolf; no hero pose; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A10/ten-of-swords.png`
+- Path: `cards/minor/swords/ten.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `6d6ce84857c030261ea7433ed84acf95aa17d153c55a3fb91c0ac4d24ce91bc4`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: Exactly ten distinct swords are countable and all are embedded in the shattered barricade; no sword touches a person and no additional blade, dagger, spear, enemy, or carried weapon appears. The living defeated captain forms a horizontal foreground axis while a medic removes the insignia and two survivors prepare the litter, making final defeat and evacuation readable without gore, corpse spectacle, impalement, heroic last stand, or direct Rider–Waite staging. Faces, hands, litter mechanics, frozen cloth, steel, splintered wood, stone, snow, dawn light, and the restrained lantern remain materially distinct with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, physical wolf, obvious anatomy defect, frame, watermark, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.
