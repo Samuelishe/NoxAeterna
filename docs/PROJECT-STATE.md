@@ -22,13 +22,13 @@
 - T1 first playable Tarot workspace is complete at checkpoint commit `4e7e3d61bc11b875af9fb5591f5a10ed986c8962`: real single-card and three-card in-memory readings, explicit reversal preference, responsive programmatic prototype cards, two selectable backs, localized inspection, and presentation-owned session state are ready for owner visual review. Hosted run `30791606505` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - A3 partial-pack integration is functionally and visually accepted at commit `4977852287051c95945b55f78d18c263dc35de20`: Lupus Noctis contributes three accepted raster cards over the unchanged semantic reading, with Classic first, controlled fallback, localized overlays, and validated built-in resources. Single-card scale remains deferred to T-UX1 and native title-bar replacement to S2.
 - AP0 asset-pack runtime architecture is complete at checkpoint commit `37dc91e24a8c73ec949312c21a684f5e2998398d`; hosted run `30806291467` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
-- A4 is visually accepted by the owner: Sun, Five of Swords, and Moon are promoted into the Lupus Noctis partial pack, which now contains 6/78 production illustrations.
+- A5 is visually accepted by the owner: the three accepted candidates are promoted into the Lupus Noctis partial pack, which now contains 9/78 production illustrations.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-Continue ART-LN by selecting the next compact meaning-first generation batch. No post-A4 batch is selected yet, and AP1 does not start automatically.
+Continue ART-LN by selecting the next compact meaning-first generation batch. No post-A5 batch is selected yet, and AP1 does not start automatically.
 
 ## Preserved Contracts
 
@@ -37,11 +37,11 @@ Continue ART-LN by selecting the next compact meaning-first generation batch. No
 - UnknownTime has no houses or principal angles and retains its documented technical-noon planet policy.
 - Runtime and user data belong in AppData or the platform user-data location; shipped assets belong in the repository.
 - Tarot semantic decks, artwork packs, presentation skins, back variants, and interpretation sets have independent typed identities. T1 uses only honest programmatic prototype visuals and adds no persistence or interpretation prose.
-- Lupus Noctis A0 and A1 remain rejected. The owner accepted all A2 and A4 cards; the built-in partial pack now owns 6/78 production illustrations and uses the existing programmatic face for omitted cards. Detailed card state, prompts, provenance, hashes, and casting policy belong only to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md`.
+- Lupus Noctis A0 and A1 remain rejected. The owner accepted all A2, A4, and A5 cards; the built-in partial pack now owns 9/78 production illustrations and uses the existing programmatic face for omitted cards. Detailed card state, prompts, provenance, hashes, and casting policy belong only to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md`.
 - Repository packs are versioned seed sources; the target runtime reads synchronized built-in and user packs from AppData. Discovery, no-delete synchronization, fingerprints, normalization, import, tooling, and packaging are staged under `ASSET-PACK-RUNTIME.md`; A3 direct output loading is temporary built-in-only behavior.
 - Visual semantics belong to `VISUAL-DESIGN-SYSTEM.md`; Avalonia theme topology belongs to `THEMES.md`.
 - Meaningful UI changes require manual smoke through the real application and real controls.
 
 ## Active Blockers
 
-- The next Lupus Noctis generation batch remains deliberately unselected. AP1–AP5 and PKG1 are staged work, not blockers for ART-LN.
+- The post-A5 Lupus Noctis generation batch remains deliberately unselected. AP1–AP5 and PKG1 are staged work, not blockers for ART-LN.

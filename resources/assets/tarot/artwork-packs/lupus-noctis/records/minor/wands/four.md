@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.wands.four`
 - Study: A5 suspension / craft / refuge composition-diversity batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -92,11 +92,11 @@ Use only a tiny indirect wolf-world detail, never a living wolf, pack, large ban
 Hard constraints: exactly four prominent upright living willow poles total, four visible shafts, four visible ground contacts, no fifth pole-like object. No text, letters, numbers, title, frame, border, watermark, signature, logo, pseudo-runes, magical staffs, weapons, wedding-commercial staging, victory parade, posed family portrait, unified gaze, living wolf, antique texture, mosaic, crackle, universal noise, photorealism, 3D, anime, or cel shading.
 ```
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A5/four-of-wands.png`
+- Path: `cards/minor/wands/four.png`
 - Dimensions: `952 × 1632 px` (exact `7:12`)
 - SHA-256: `fdfbec46ea62ff46bd85a9fa1972c784392eb5b02a3310352860aa71aa849f51`
 - Generation count: **2** (one initial text-only generation and one targeted text-only regeneration; neither used an image reference)
 - Technical review: The initial image failed the countable-object contract because only three prominent poles were clearly visible. The targeted regeneration presents exactly four living willow poles with four separate shafts and ground contacts; no fifth freestanding staff, spear, banner pole, or upright tool handle is present. The high-oblique multi-directional group includes seated, reclining, carrying, reaching, and embracing poses; group anatomy, hands, refuge work, food, bedding, dusk light, and material separation show no obvious technical malformation. No embedded text, pseudo-runes, living wolf, universal gold wash, or repeated texture was found. A secondary wolf relief and small toy remain indirect world motifs rather than focal subjects. The generated source was decoded and center-cropped without stretching from `957 × 1643` to the required review size.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**

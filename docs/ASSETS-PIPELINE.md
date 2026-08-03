@@ -70,7 +70,36 @@ Current implementation uses 22 original project-owned functional path definition
 6. Store reusable assets.
 7. Maintain a visual style guide.
 
-Commit only curated, app-ready assets. Do not commit raw generation dumps or bulk output folders from image-generation workflows.
+Production assets and bounded owner-review candidates are the only generated artwork classes permitted in the repository. Do not commit raw generation dumps or bulk output folders from image-generation workflows.
+
+### Production Assets
+
+Generated production artwork:
+
+- lives only under the pack's canonical `cards/` tree;
+- is listed in `artwork-pack.json`;
+- has owner acceptance **Accepted**;
+- is copied into the build and publish seed;
+- is covered by loader and runtime tests;
+- counts as a shipped asset.
+
+The exact current production inventory belongs to `artwork-pack.json`.
+
+### Tracked Review Candidates
+
+A bounded review batch may be committed and pushed to GitHub under `studies/A<positive-batch-number>/` only when all of these conditions hold:
+
+- exactly one retained final candidate exists for each semantic card in the batch;
+- every candidate has a separate provenance record under `records/`;
+- the record contains the exact candidate path, dimensions, SHA-256, generation count, and `Owner acceptance: **Pending**`;
+- the candidate is absent from `artwork-pack.json` and does not live under `cards/`;
+- the application project does not copy the candidate into build or publish output;
+- rejected or superseded generations are not retained;
+- no speculative variants, raw generation dumps, contact sheets, collages, or combined previews are retained.
+
+After acceptance, move the candidate without duplication to its canonical production path and update its record and manifest status. After rejection, delete the candidate. An accepted production file and an identical study copy must never coexist.
+
+This is a narrow exception for bounded owner review, not permission to retain bulk generation output.
 
 ## Appropriate Generated Assets
 
@@ -99,10 +128,10 @@ Astrological charts should be rendered programmatically.
 
 The full 78-card deck is a large art commitment. The first built-in partial pack proves the controlled scope without presenting an unfinished pack as complete:
 
-- `Lupus Noctis` currently ships six owner-accepted `952 × 1632` (`7:12`) inner illustrations mapped by a versioned pack-local manifest;
+- `Lupus Noctis` ships owner-accepted `952 × 1632` (`7:12`) production illustrations mapped by a versioned pack-local manifest; the exact current inventory belongs to `artwork-pack.json`;
 - omitted semantic cards resolve to the honest programmatic prototype face while retaining their identity and localized overlay;
 - programmatic frame, selection state, title, and reversal transform remain separate from the raster illustration;
-- the pack owner document retains meaning briefs, full prompts, review decisions, hashes, and provenance.
+- provenance details belong to `LUPUS-NOCTIS.md` and its linked records, which retain meaning briefs, full prompts, review decisions, hashes, and generation history.
 
 Production filenames follow semantic identities. A pack may deliberately be partial, but every accepted entry must declare its card ID, package-relative path, dimensions, checksum, status, and provenance reference. Raw or rejected generations and contact sheets are not shipped.
 

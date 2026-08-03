@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.pentacles.eight`
 - Study: A5 suspension / craft / refuge composition-diversity batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -76,12 +76,12 @@ Generic sword blacksmith, heroic hammer pose, excessive sparks, fantasy factory,
 
 Exactly eight bronze plates; no ninth circular object; no floating pentacles; no sword-forging cliché; no standing hero; no dominant rightward motion; no embedded symbols or writing; no excessive sparks; no steampunk; no photorealism, 3D, anime, or cel shading.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A5/eight-of-pentacles.png`
+- Path: `cards/minor/pentacles/eight.png`
 - Dimensions: `952 × 1632 px` (exact `7:12`)
 - SHA-256: `d2d5f8a2ca2c7e2459e4fabdbb386818e34b4613bbc7f0bb0fa81116c5d956f7`
 - Generation count: **1** initial text-only generation
 - Targeted correction prompt: none
 - Technical review: The image contains exactly eight distinct bronze plates: seven finished plates occupy a two-by-four rack with its lower-right position empty, and the eighth is clamped beneath the artisan's hands. No ninth plate-like object is present. The seated left-facing artisan, flawed-work correction, secondary courier, plausible hands/tools, cool-window and restrained-forge lighting, and material separation are readable; no embedded text, occult symbols, standing hero, excessive sparks, steampunk machinery, or global texture was found. The generated source was decoded and center-cropped without stretching from `957 × 1643` to the required review size.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**

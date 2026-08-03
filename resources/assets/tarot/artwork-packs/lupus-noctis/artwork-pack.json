@@ -66,6 +66,33 @@
       "sha256": "5bf8f1d8436249b5a14791794cf062181e4050556fe2685f9567d60550a79b50",
       "status": "accepted",
       "generationProvenanceReference": "LUPUS-NOCTIS.md#major-moon"
+    },
+    {
+      "cardId": "major.hanged-man",
+      "assetPath": "cards/major/hanged-man.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "ebf3f8529df4053ec46a136c3066e74c53fc15afa9185a0d3e888d5589892597",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/hanged-man.md"
+    },
+    {
+      "cardId": "minor.pentacles.eight",
+      "assetPath": "cards/minor/pentacles/eight.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "d2d5f8a2ca2c7e2459e4fabdbb386818e34b4613bbc7f0bb0fa81116c5d956f7",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/eight.md"
+    },
+    {
+      "cardId": "minor.wands.four",
+      "assetPath": "cards/minor/wands/four.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "fdfbec46ea62ff46bd85a9fa1972c784392eb5b02a3310352860aa71aa849f51",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/four.md"
     }
   ]
 }

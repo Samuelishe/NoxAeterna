@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Xml.Linq;
 
 namespace NoxAeterna.Tests.Tarot;
@@ -65,7 +66,7 @@ public sealed class TarotBoundaryTests
     }
 
     [Fact]
-    public void LupusNoctisRepositoryPack_ContainsNoRejectedStudiesContactSheetsOrFonts()
+    public void LupusNoctisRepositoryPack_SeparatesProductionAssetsFromBoundedReviewStudies()
     {
         var packRoot = GetRepositoryPath(
             "resources", "assets", "tarot", "artwork-packs", "lupus-noctis");
@@ -73,10 +74,15 @@ public sealed class TarotBoundaryTests
         var relativePaths = files
             .Select(path => Path.GetRelativePath(packRoot, path).Replace('\\', '/'))
             .ToArray();
+        var relativeDirectories = Directory.GetDirectories(packRoot, "*", SearchOption.AllDirectories)
+            .Select(path => Path.GetRelativePath(packRoot, path).Replace('\\', '/'))
+            .ToArray();
 
-        Assert.DoesNotContain(relativePaths, path =>
-            path.Contains("studies/A0", StringComparison.OrdinalIgnoreCase) ||
-            path.Contains("studies/A1", StringComparison.OrdinalIgnoreCase));
+        Assert.DoesNotContain(relativeDirectories, path =>
+            path.Equals("studies/A0", StringComparison.OrdinalIgnoreCase) ||
+            path.StartsWith("studies/A0/", StringComparison.OrdinalIgnoreCase) ||
+            path.Equals("studies/A1", StringComparison.OrdinalIgnoreCase) ||
+            path.StartsWith("studies/A1/", StringComparison.OrdinalIgnoreCase));
         Assert.DoesNotContain(relativePaths, path =>
             path.Contains("contact-sheet", StringComparison.OrdinalIgnoreCase) ||
             path.Contains("collage", StringComparison.OrdinalIgnoreCase) ||
@@ -86,7 +92,73 @@ public sealed class TarotBoundaryTests
             path.EndsWith(".otf", StringComparison.OrdinalIgnoreCase) ||
             path.EndsWith(".woff", StringComparison.OrdinalIgnoreCase) ||
             path.EndsWith(".woff2", StringComparison.OrdinalIgnoreCase));
-        Assert.Equal(6, relativePaths.Count(path => path.EndsWith(".png", StringComparison.OrdinalIgnoreCase)));
+
+        var pngPaths = relativePaths
+            .Where(path => path.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+        var productionPngPaths = pngPaths
+            .Where(path => path.StartsWith("cards/", StringComparison.Ordinal))
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        const string canonicalStudyPattern = @"^studies/A[1-9][0-9]*/[^/]+\.png$";
+        var studyPngPaths = pngPaths
+            .Where(path => System.Text.RegularExpressions.Regex.IsMatch(
+                path,
+                canonicalStudyPattern,
+                System.Text.RegularExpressions.RegexOptions.CultureInvariant))
+            .ToArray();
+
+        Assert.DoesNotContain(pngPaths, path =>
+            !path.StartsWith("cards/", StringComparison.Ordinal) &&
+            !studyPngPaths.Contains(path, StringComparer.Ordinal));
+
+        using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(packRoot, "artwork-pack.json")));
+        var manifestAssetPaths = manifest.RootElement
+            .GetProperty("cards")
+            .EnumerateArray()
+            .Select(card => card.GetProperty("assetPath").GetString()!)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        Assert.All(manifestAssetPaths, path => Assert.Matches(
+            @"^cards/(?:major/[^/]+|minor/[^/]+/[^/]+)\.png$",
+            path));
+        Assert.Equal(manifestAssetPaths, productionPngPaths);
+
+        var recordPaths = Directory.GetFiles(
+            Path.Combine(packRoot, "records"),
+            "*.md",
+            SearchOption.AllDirectories);
+        foreach (var studyPath in studyPngPaths)
+        {
+            var matchingRecords = recordPaths
+                .Select(path => (Path: path, Content: File.ReadAllText(path)))
+                .Where(record => record.Content.Contains(studyPath, StringComparison.Ordinal))
+                .ToArray();
+            var record = Assert.Single(matchingRecords);
+            Assert.Contains("Owner acceptance: **Pending**", record.Content, StringComparison.Ordinal);
+            Assert.DoesNotContain(studyPath, manifestAssetPaths);
+
+            var studyContent = File.ReadAllBytes(Path.Combine(
+                packRoot,
+                studyPath.Replace('/', Path.DirectorySeparatorChar)));
+            Assert.DoesNotContain(productionPngPaths, productionPath =>
+                File.ReadAllBytes(Path.Combine(
+                        packRoot,
+                        productionPath.Replace('/', Path.DirectorySeparatorChar)))
+                    .SequenceEqual(studyContent));
+        }
+
+        var appProjectSource = File.ReadAllText(GetRepositoryPath(
+            "NoxAeterna.App",
+            "NoxAeterna.App.csproj"));
+        Assert.Contains(
+            @"lupus-noctis\cards\**\*.png",
+            appProjectSource,
+            StringComparison.Ordinal);
+        Assert.DoesNotContain(
+            @"lupus-noctis\studies\",
+            appProjectSource,
+            StringComparison.OrdinalIgnoreCase);
     }
 
     private static string[] GetPackageReferences(XDocument document) => document

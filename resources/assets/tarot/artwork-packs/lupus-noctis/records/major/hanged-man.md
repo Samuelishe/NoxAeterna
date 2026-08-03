@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.hanged-man`
 - Study: A5 suspension / craft / refuge composition-diversity batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -70,12 +70,13 @@ Direct Rider-Waite composition copy, execution, torture, prisoner imagery, cruci
 
 No execution; no gallows; no suffering face; no falling action; no halo; no physical wolf; no embedded writing; no rightward hero stride; no malformed inverted anatomy; no antique texture; no photorealism, 3D, anime, or cel shading.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A5/hanged-man.png`
+- Path: `cards/major/hanged-man.png`
 - Dimensions: `952 × 1632 px` (exact `7:12`)
 - SHA-256: `ebf3f8529df4053ec46a136c3066e74c53fc15afa9185a0d3e888d5589892597`
 - Generation count: **1** initial text-only generation
 - Targeted correction prompt: none
 - Technical review: The chosen voluntary suspension, secure harness, inverted central vertical axis, low viewpoint, calm leftward attention, small waiting companions, reflected route alignment, and distinct root/stone/water/cloth materials are readable. Hands, face, limbs, and rope attachment show no obvious malformation; no execution, falling action, physical wolf, embedded text, pseudo-runes, universal texture, or dominant rightward stride was found. The generated source was decoded and center-cropped without stretching from `957 × 1643` to the required review size.
-- Owner acceptance: **Pending**
+- Owner decision: Accepted without regeneration despite a comparatively weaker artistic assessment; the illustration remains acceptable and aligned with the card meaning.
+- Owner acceptance: **Accepted**

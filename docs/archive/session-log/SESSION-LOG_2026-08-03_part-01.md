@@ -1,0 +1,89 @@
+# Archived Session Log — 2026-08-03, Part 01
+
+This partial-day chunk retains completed historical evidence without rewriting its headings, summaries, or verification results. It is not current status; use [PROJECT-STATE.md](../../PROJECT-STATE.md) for the current checkpoint.
+
+## 2026-08-03: S1 Hosted Confirmation
+
+Summary:
+
+- The owner visually accepted S1 adaptive shell navigation at commit `705fef517834e609b485faca511e240e6dec0a8a`.
+- Hosted CI run `30636973316` completed successfully for that push to `master`.
+- Exact jobs: Documentation contracts — success; Build and test (windows-latest) — success; Build and test (ubuntu-latest) — success; Build and test (macos-latest) — success; Diagnostic coverage — success.
+
+## 2026-08-03: T0-A Tarot Semantic Foundation
+
+Summary:
+
+- Added validated stable deck/card/spread/position identities and immutable, language-neutral Domain definitions for Arcana, suits, ranks, assignments, readings, and controlled draw failure.
+- Added the deterministic built-in `standard-78` semantic catalog, single-card and ordered past/present/future spreads, and injected without-replacement drawing with explicit orientation policy and caller timestamp.
+- Kept semantic decks separate from future artwork packs, presentation skins, and back variants; added no UI, rendering, assets, persistence, interpretation prose, external package, or dependency-shape change.
+- Added a non-overlapping Tarot named route plus focused structural, draw, replay, immutability, validation, and boundary coverage.
+
+Verification:
+
+- `pwsh eng/doc-check.ps1`: 0 warnings, 0 errors
+- `dotnet build NoxAeterna.sln -c Debug`: 0 warnings, 0 errors
+- Domain route: 67 passed; Tarot route: 23 passed; Repository-Verification: all four leaves succeeded
+- Full milestone: 546 passed, 0 failed, 0 skipped
+- UI smoke not applicable because T0-A changes neither UI nor Rendering; no screenshots created
+
+## 2026-08-03: T1 First Playable Tarot Vertical Slice
+
+Summary:
+
+- Confirmed accepted T0-A checkpoint `e8cb628d5dbbfb2a5fdc16b87fc4c3247bfb861f` in hosted run `30788655353`: Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage all succeeded.
+- Replaced the Tarot placeholder with a persistent in-memory workspace driven by `StandardTarotCatalog`, both built-in spreads, the existing `TarotDrawEngine`, explicit reversal policy, and a composition-root runtime RNG adapter.
+- Added independent typed artwork-pack, presentation-skin, back-variant, and interpretation-set selections; exposed only one honest prototype art/skin foundation and the two real programmatic Black Sun/Lunar Seal backs.
+- Added responsive 7:12 symbolic faces, localized RU/EN card structure and inspector, native pointer/Enter/Space selection, selected/hover/focus states, explicit 180-degree reversal, and tableau-owned compact overflow without final artwork or interpretation prose.
+- Added focused presentation, layout, runtime-adapter, localization, visual-contract, and architecture tests. Mutation review found and repaired self-referential ratio/minimum assertions; no mutation remains applied.
+
+Verification:
+
+- `pwsh eng/doc-check.ps1`: 0 warnings, 0 errors
+- `dotnet build NoxAeterna.sln -c Debug`: 0 warnings, 0 errors
+- Tarot: 37 passed; Presentation, Rendering, Desktop-UI, and all Repository-Verification leaves succeeded
+- Full milestone: 570 passed, 0 failed, 0 skipped
+- real-control Obsidian/Porcelain, RU/EN, single/three-card, upright/reversed, both backs, every card position, pointer/Enter/Space, expanded/compact navigation, maximized/live-resize, Astrology return, and Tarot reopen smoke
+- four untracked temporary T1 screenshots under `%TEMP%\NoxAeterna-T1`
+- Checkpoint commit `4e7e3d61bc11b875af9fb5591f5a10ed986c8962` passed hosted run `30791606505`: Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage all succeeded; owner visual acceptance remains pending.
+
+## 2026-08-03: A2 Lupus Noctis Meaning-First Tonal-Range Study
+
+Summary:
+
+- Recorded the owner's complete rejection of A0 and A1; none of the nine earlier studies remains accepted, an anchor, a composition reference, or a production asset, and accepted Lupus Noctis production cards remain 0.
+- Established `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md` as the canonical human-readable owner for the working identity, varied fantasy world, four wolf-motif modes, contemporary narrative-fantasy direction, meaning-first workflow, emotional range, typography boundary, rejection record, research sources, briefs, prompts, and candidate records.
+- Researched historical Death, Six of Cups, and Star meanings from public-domain Waite and Mathers texts, then generated exactly three independent review candidates spanning dark/transitional, warm/nostalgic, and luminous/hopeful tones without image references.
+- Stored normalized `952 × 1632 px` (`7:12`) candidates at `studies/A2/death.png`, `six-of-cups.png`, and `star.png`; all remain owner-acceptance Pending and no contact sheet, manifest, production path, font, or runtime integration was added.
+- Death and Six of Cups required one generation each. Star required one targeted second generation to remove a random tattoo-like pseudo-symbol from the exposed shoulder.
+
+## 2026-08-03: A3 Lupus Noctis Partial-Pack Integration
+
+Summary:
+
+- Recorded the owner's acceptance of all three A2 candidates while keeping A0 and A1 rejected, then promoted Death, Six of Cups, and the Star into stable semantic production paths without retaining study copies or contact sheets.
+- Added a versioned `lupus-noctis` partial-pack manifest with exact `standard-78` identities, package-relative paths, `952 × 1632` dimensions, SHA-256 checksums, accepted status, and owner-document provenance references.
+- Added a read-only built-in loader/catalog that rejects traversal, duplicates, unknown identities, malformed dimensions, and hash mismatches; optional omissions resolve to the honest localized prototype face rather than changing the reading.
+- Added a second artwork-pack selector after Classic while keeping raster artwork, programmatic frame/title overlay, selection, and reversal under one visual transform contract.
+- Preserved the A2 meaning research and prompts, recorded independent casting policy and generated-asset provenance, and left the next artistic batch unselected pending owner visual review.
+
+Verification:
+
+- documentation check completed with one expected session-log soft-budget warning and no errors; Debug solution build completed with 0 warnings and 0 errors;
+- Tarot, Desktop-UI, and Repository-Verification named routes succeeded; Full milestone passed 605 tests with 0 failed and 0 skipped;
+- real-control smoke covered both artwork packs without reading changes, all three raster cards, prototype fallback, RU/EN, Obsidian/Porcelain, upright/reversed, single/three-card, both backs, inspector, keyboard activation, navigation collapse/restore, maximized/compact live resize, and Astrology return;
+- four review screenshots remain untracked under the local temporary A3 smoke directory.
+
+## 2026-08-03: AP0 Asset-Pack Runtime Architecture
+
+Summary:
+
+- Audited the accepted A3 manifest, built-in loader/catalog, partial fallback, selection state, raster composition, resource packaging, and focused tests without changing runtime code or images.
+- Established `ASSET-PACK-RUNTIME.md` as the owner for repository seed to AppData synchronization, exact-stem discovery, separate fingerprint state, normalization cache, user import, Assets tooling, and publish/installer handoff.
+- Kept ART-LN independent from AP1–AP5 and PKG1, and recorded T-UX1, S2, and BRAND1 as separate later stages.
+
+## 2026-08-03: A4 / A4-P Lupus Noctis Contrast Batch
+
+- Generated text-only Sun (2 calls), Five of Swords (1), and Moon (2) without image references; prompts, corrections, hashes, and reviews remain in `LUPUS-NOCTIS.md`.
+- The owner accepted all three; A4-P moved them from `studies/A4/` to canonical production paths, removed study copies, and expanded the partial manifest from 3 to 6 cards.
+- Updated focused pack tests without runtime, UI, or rendering changes; docs, Debug build, Tarot, Desktop-UI, Repository-Verification, and six-asset checks passed; no UI smoke was required.

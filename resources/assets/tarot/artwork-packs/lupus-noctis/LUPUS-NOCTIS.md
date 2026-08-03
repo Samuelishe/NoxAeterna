@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **6/78**.
+- Accepted production cards: **9/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -29,15 +29,16 @@
   - `major.sun` — owner acceptance: **Accepted**.
   - `minor.swords.five` — owner acceptance: **Accepted**.
   - `major.moon` — owner acceptance: **Accepted**.
-- A5: **Pending** composition-diversity study.
-- A5 review candidates:
-  - [`major.hanged-man`](records/major/hanged-man.md) — owner acceptance: **Pending**.
-  - [`minor.pentacles.eight`](records/minor/pentacles/eight.md) — owner acceptance: **Pending**.
-  - [`minor.wands.four`](records/minor/wands/four.md) — owner acceptance: **Pending**.
+- A5: **Accepted** as the third production wave.
+- A5 generation method: built-in `imagegen`, text-only; no attachment, accepted production card, rejected A0/A1 image, or newly generated A5 card was used as an image reference.
+- A5 production cards:
+  - [`major.hanged-man`](records/major/hanged-man.md) — owner acceptance: **Accepted** without regeneration; the owner considers it artistically weaker than the other A5 cards but acceptable and meaning-aligned.
+  - [`minor.pentacles.eight`](records/minor/pentacles/eight.md) — owner acceptance: **Accepted**.
+  - [`minor.wands.four`](records/minor/wands/four.md) — owner acceptance: **Accepted**.
 
-The accepted A2 and A4 images are shipped production assets listed by `artwork-pack.json`. A5 remains a local Pending study and is not part of the manifest or production card inventory. No A4 study copies remain, the post-A5 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
+The accepted A2, A4, and A5 images are shipped production assets listed by `artwork-pack.json`. No A4 or A5 study copies remain, the post-A5 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **6/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **9/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 
