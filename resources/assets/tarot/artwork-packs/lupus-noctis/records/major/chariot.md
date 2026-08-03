@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.chariot`
 - Study: A12 directed momentum / suspended choice / enduring home batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -72,13 +72,13 @@ Roman triumph, horse race, superhero driver, rearing symmetrical horses, giant w
 
 Exactly two draft animals; no third animal; no horses in background; no wolf; no war chariot; no crown; no triumphal parade; no superhero pose; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A12/chariot.png`
+- Path: `cards/major/chariot.png`
 - Original generated dimensions: `958 × 1642 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `8b5b9310b7ee799e6f69974f7fde9da652c1e9bf4ecdca66255963c73adf3bc1`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: Exactly two complete shaggy mountain oxen form controlled diverging diagonals, with no third or background animal. The driver remains inside the practical freight cart, visibly manages separate reins, and directs the team toward the stable central track while the secondary assistant secures the replacement bronze floodgate gear. The narrative reads as urgent coordinated delivery rather than war chariot, parade, race, or standing-hero spectacle. Human and animal anatomy, hands, reins, fur, cloth, leather, wood, bronze, scree, water, and mountain air remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.

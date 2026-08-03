@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **27/78**.
+- Accepted production cards: **29/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -71,16 +71,23 @@
   - [`major.strength`](records/major/strength.md) — owner acceptance: **Accepted**.
   - [`minor.cups.four`](records/minor/cups/four.md) — owner acceptance: **Accepted**.
   - [`minor.pentacles.king`](records/minor/pentacles/king.md) — owner acceptance: **Accepted**.
-- A12: **In progress** directed momentum / suspended choice / enduring home batch; `minor.cups.ten` exhausted its one correction without satisfying the exact cup count.
+- A12: **Closed** with two accepted production cards.
 - A12 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A12 card was used as an image reference.
-- A12 review candidates:
-  - [`major.chariot`](records/major/chariot.md) — owner acceptance: **Pending**.
-  - [`minor.swords.two`](records/minor/swords/two.md) — owner acceptance: **Pending**.
-  - [`minor.cups.ten`](records/minor/cups/ten.md) — no repository candidate saved; generation blocked after the permitted correction still produced an eleventh cup.
+- A12 production cards:
+  - [`major.chariot`](records/major/chariot.md) — owner acceptance: **Accepted**.
+  - [`minor.swords.two`](records/minor/swords/two.md) — owner acceptance: **Accepted**.
+- A12 closed with two accepted production cards; [`minor.cups.ten`](records/minor/cups/ten.md) was explicitly carried into A13 after exhausting its original count-correction allowance.
+- A13: **Pending** enduring home / solitary insight / first step / material foundation batch.
+- A13 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A13 card was used as an image reference.
+- A13 review candidates:
+  - [`minor.cups.ten`](records/minor/cups/ten.md) — owner acceptance: **Pending**.
+  - [`major.hermit`](records/major/hermit.md) — owner acceptance: **Pending**.
+  - [`major.fool`](records/major/fool.md) — owner acceptance: **Pending**.
+  - [`minor.pentacles.ace`](records/minor/pentacles/ace.md) — owner acceptance: **Pending**.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, and A11 images are shipped production assets listed by `artwork-pack.json`. A12 remains a bounded tracked-review batch outside the manifest and production inventory, but it is not yet ready for owner visual review because `minor.cups.ten` has no contract-valid candidate. No accepted-wave study copies remain, the post-A12 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, and A12 images are shipped production assets listed by `artwork-pack.json`. A13 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A13 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **27/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **29/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 

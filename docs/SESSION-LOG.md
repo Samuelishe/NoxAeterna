@@ -9,6 +9,19 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-03: A12-P + A13 Production Promotion and Review Batch
+
+Summary:
+
+- Recorded owner acceptance of `major.chariot` and `minor.swords.two`; moved their unchanged A12 bytes to canonical production paths, removed the empty A12 study directory, and expanded Lupus Noctis from 27 to 29 accepted manifest assets with controlled fallback for the other 49 semantic cards.
+- Closed A12 with those two accepted cards and carried `minor.cups.ten`, including both failed A12 attempts, into A13. Its simplified two-by-five rack contract succeeded on the first new A13 generation, for a cumulative count of three.
+- Generated independent text-only A13 candidates for `minor.cups.ten`, `major.hermit`, `major.fool`, and `minor.pentacles.ace` with no image references. All four passed their A13 initial technical gates without corrective regeneration; detailed generation metadata belongs to their records.
+- Kept all four A13 candidates Pending under canonical `studies/A13/` paths, outside the production manifest and application output. The post-A13 batch remains deliberately unselected, and AP1 does not begin automatically.
+
+Verification:
+
+- The proportional gate covers documentation validation, a Release solution build, focused artwork-pack and repository-boundary tests, source/manifest/output/study/hash consistency checks, and `git diff --check`; broad hosted CI remains deferred until a future owner-authorized commit and push.
+
 ## 2026-08-03: A11-P + A12 Production Promotion and Review Batch
 
 Summary:

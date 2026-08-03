@@ -255,6 +255,24 @@
       "sha256": "b2b99cd8e60a67922918df090cf03477f23e418e68e99e2f3dfadf1ee33c443c",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/pentacles/king.md"
+    },
+    {
+      "cardId": "major.chariot",
+      "assetPath": "cards/major/chariot.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "8b5b9310b7ee799e6f69974f7fde9da652c1e9bf4ecdca66255963c73adf3bc1",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/chariot.md"
+    },
+    {
+      "cardId": "minor.swords.two",
+      "assetPath": "cards/minor/swords/two.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "63ae7faf384d4faf44b4a1089259b853d9fafe0db10b285aaddffffa47c750b2",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/swords/two.md"
     }
   ]
 }

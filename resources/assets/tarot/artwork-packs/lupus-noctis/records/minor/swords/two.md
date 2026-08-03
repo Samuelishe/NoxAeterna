@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.swords.two`
 - Study: A12 directed momentum / suspended choice / enduring home batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -72,13 +72,13 @@ Direct Rider-Waite copy, blindfolded woman by the sea, courtroom scene, heroic s
 
 Exactly two swords; both sheathed; swords parallel, not crossed; no third blade; no blindfold; no crossed arms; no duel; no physical wolf; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A12/two-of-swords.png`
+- Path: `cards/minor/swords/two.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `63ae7faf384d4faf44b4a1089259b853d9fafe0db10b285aaddffffa47c750b2`
 - Generation count: **1** initial text-only generation; no correction used
 - Targeted correction prompt: none
 - Technical review: Exactly two complete swords lie horizontally, parallel, and fully sheathed on the control table; there is no third blade, exposed steel, wall weapon, or other weapon. The seated officer, opposed tunnel mouths, missing-signal bag, incomplete papers, and silent control mechanism communicate an evidence-bound stalemate without blindfold, crossed arms, crossed swords, duel, or action staging. Face, hands, cloth, leather, sheath fittings, paper, wood, stone, lamp glass, and cold tunnel air remain distinct at card size with safe margins and no embedded text, pseudo-runes, accidental tattoos, repeated global texture, frame, watermark, signature, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted without regeneration or pixel changes.
