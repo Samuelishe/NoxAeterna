@@ -2,6 +2,8 @@
 
 The project may use AI-assisted visual asset generation, but the final application must feel curated, not like a random folder of generated images.
 
+This document owns creation, curation, provenance, and repository-ready source assets. Runtime discovery, AppData seeding, user packs, normalization, validation state, tooling, and packaging belong to [`ASSET-PACK-RUNTIME.md`](ASSET-PACK-RUNTIME.md).
+
 ## Repository vs Runtime Data
 
 Project-owned application assets belong in the repository and GitHub.
@@ -118,47 +120,9 @@ Future style guide should define:
 - Background and surface rules.
 - Export visual rules.
 
-## Future Resource Structure
+## Runtime Packaging Boundary
 
-Future resource direction:
-
-```text
-resources/
-  localization/
-  themes/
-  assets/
-    shared/
-      icons/
-      glyphs/
-      ornaments/
-      textures/
-    astrology/
-      glyphs/
-      chart/
-      backgrounds/
-    tarot/
-      decks/
-        default/
-          backs/
-          cards/
-```
-
-Potential future metadata file:
-
-```text
-resources/assets/ASSET-MANIFEST.json
-```
-
-Likely manifest fields:
-
-- asset ID;
-- path;
-- type;
-- theme applicability;
-- provenance;
-- license;
-- dimensions;
-- intended usage.
+Repository-approved assets remain reviewable source material. The canonical pack structure, seed payload, runtime AppData layout, manifest loading, extension behavior, normalization, user import, and publish/installer contract are defined only in [`ASSET-PACK-RUNTIME.md`](ASSET-PACK-RUNTIME.md).
 
 ## Attribution Rule
 

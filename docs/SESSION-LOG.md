@@ -155,3 +155,11 @@ Verification:
 - Tarot, Desktop-UI, and Repository-Verification named routes succeeded; Full milestone passed 605 tests with 0 failed and 0 skipped;
 - real-control smoke covered both artwork packs without reading changes, all three raster cards, prototype fallback, RU/EN, Obsidian/Porcelain, upright/reversed, single/three-card, both backs, inspector, keyboard activation, navigation collapse/restore, maximized/compact live resize, and Astrology return;
 - four review screenshots remain untracked under the local temporary A3 smoke directory.
+
+## 2026-08-03: AP0 Asset-Pack Runtime Architecture
+
+Summary:
+
+- Audited the accepted A3 manifest, built-in loader/catalog, partial fallback, selection state, raster composition, resource packaging, and focused tests without changing runtime code or images.
+- Established `ASSET-PACK-RUNTIME.md` as the owner for repository seed to AppData synchronization, exact-stem discovery, separate fingerprint state, normalization cache, user import, Assets tooling, and publish/installer handoff.
+- Kept ART-LN independent from AP1–AP5 and PKG1, and recorded T-UX1, S2, and BRAND1 as separate later stages.

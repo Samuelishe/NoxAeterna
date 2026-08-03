@@ -27,6 +27,8 @@
 
 The accepted A2 images are shipped production assets listed by `artwork-pack.json`. The next generation cards remain unselected. No contact sheets belong to this pack.
 
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack remains at **3/78 accepted production cards** while that staged architecture is implemented independently.
+
 ## Core World
 
 Lupus Noctis is a narrative fantasy artwork pack built around a world of lycanthropic mythology, not a deck of repetitive wolf portraits.

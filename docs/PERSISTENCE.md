@@ -33,7 +33,7 @@ Future AppData-only data includes:
 
 ## Repository-Owned App Assets
 
-Application-owned resources that ship with the product belong in the repository rather than AppData.
+The versioned source for application-owned resources that ship with the product belongs in the repository. Installed built-in seed copies, user packs, normalized caches, and pack-validation state live under AppData according to [`ASSET-PACK-RUNTIME.md`](ASSET-PACK-RUNTIME.md); this runtime copy does not transfer source ownership to AppData.
 
 Examples:
 
@@ -44,10 +44,12 @@ Examples:
 - custom glyph resources if they are later introduced;
 - textures, ornaments, and other shipped decorative assets.
 
-Keep the distinction clear:
+Keep the ownership distinction clear:
 
-- repository = product-owned, versioned, reproducible application resources;
-- AppData = user-specific runtime state, caches, preferences, and saved content.
+- repository = product-owned, versioned, reproducible source and installation seed inputs;
+- AppData = resolved runtime state, managed seed copies, caches, preferences, saved content, and user-provided packs.
+
+This document owns the general platform-data rule. Pack discovery, synchronization, no-delete behavior, fingerprints, and import are not persistence contracts and belong only to the asset-pack runtime owner.
 
 ## Responsibilities
 

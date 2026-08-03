@@ -506,3 +506,11 @@ Decision: Drive the first playable Tarot workspace from the existing semantic dr
 Reason: Real interaction and responsive composition must be validated before choosing an artwork pipeline, while alternate visuals and future meanings must never fork semantic card identity.
 
 Consequences: Presentation owns in-memory workspace state, Infrastructure supplies runtime randomness behind the Domain interface, App owns temporary vector surfaces, and only the two real Black Sun/Lunar Seal back choices are exposed. T1 adds no final illustrations, fabricated interpretation prose, persistence, assets, packages, or Tarot-specific project.
+
+## 2026-08-03: Separate Versioned Asset Sources From AppData Runtime Packs
+
+Decision: Keep curated built-in packs as versioned repository/installation seed sources, synchronize managed files into AppData without destructive mirroring, and make AppData the eventual runtime discovery root for built-in and user packs. Use exact semantic stems, separate fingerprint/validation state, normalized PNG cache, and Classic placeholder fallback; do not trust a user manifest to declare itself validated.
+
+Reason: Shipped assets must remain reproducible and reviewable, while installed updates, user packs, caches, validation evidence, and platform paths require a writable runtime boundary. Fuzzy discovery, destructive sync, and duplicated runtime/tool validators would make pack identity and user ownership unsafe.
+
+Consequences: ART-LN can continue in the accepted repository structure before AppData work. AP1–AP5 stage seeding, registry/normalization, tooling, manual discovery, and import UI; PKG1 verifies the same seed contract across published platforms. Detailed contracts belong to `ASSET-PACK-RUNTIME.md`.

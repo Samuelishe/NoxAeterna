@@ -20,12 +20,13 @@
 - S1 adaptive shell navigation is visually accepted and complete at checkpoint commit `705fef517834e609b485faca511e240e6dec0a8a`. Hosted run `30636973316` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - T0-A Tarot semantic foundation is accepted at checkpoint commit `e8cb628d5dbbfb2a5fdc16b87fc4c3247bfb861f`. Hosted run `30788655353` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - T1 first playable Tarot workspace is complete at checkpoint commit `4e7e3d61bc11b875af9fb5591f5a10ed986c8962`: real single-card and three-card in-memory readings, explicit reversal preference, responsive programmatic prototype cards, two selectable backs, localized inspection, and presentation-owned session state are ready for owner visual review. Hosted run `30791606505` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
+- A3 partial-pack integration is functionally and visually accepted at commit `4977852287051c95945b55f78d18c263dc35de20`: Lupus Noctis contributes three accepted raster cards over the unchanged semantic reading, with Classic first, controlled fallback, localized overlays, and validated built-in resources. Single-card scale remains deferred to T-UX1 and native title-bar replacement to S2.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-Review the A3 runtime integration of the first three owner-accepted Lupus Noctis illustrations as an honest built-in partial artwork pack before selecting another generation batch.
+Checkpoint the AP0 asset-pack runtime architecture, then continue meaning-first Lupus Noctis production without starting AP1 automatically.
 
 ## Preserved Contracts
 
@@ -35,9 +36,10 @@ Review the A3 runtime integration of the first three owner-accepted Lupus Noctis
 - Runtime and user data belong in AppData or the platform user-data location; shipped assets belong in the repository.
 - Tarot semantic decks, artwork packs, presentation skins, back variants, and interpretation sets have independent typed identities. T1 uses only honest programmatic prototype visuals and adds no persistence or interpretation prose.
 - Lupus Noctis A0 and A1 remain rejected. The owner accepted all three A2 candidates; the built-in partial pack now owns 3/78 production illustrations and uses the existing programmatic face for omitted cards. Detailed card state, prompts, provenance, hashes, and casting policy belong only to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md`.
+- Repository packs are versioned seed sources; the target runtime reads synchronized built-in and user packs from AppData. Discovery, no-delete synchronization, fingerprints, normalization, import, tooling, and packaging are staged under `ASSET-PACK-RUNTIME.md`; A3 direct output loading is temporary built-in-only behavior.
 - Visual semantics belong to `VISUAL-DESIGN-SYSTEM.md`; Avalonia theme topology belongs to `THEMES.md`.
 - Meaningful UI changes require manual smoke through the real application and real controls.
 
 ## Active Blockers
 
-- A3 integration requires owner visual review; the next Lupus Noctis generation cards remain deliberately unselected.
+- The next Lupus Noctis generation cards remain deliberately unselected; AP1–AP5 and PKG1 are staged work, not blockers for ART-LN.

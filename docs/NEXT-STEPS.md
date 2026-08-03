@@ -4,14 +4,13 @@ The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted 
 
 Immediate next steps:
 
-1. Visually review A3 partial-pack integration and confirm it in hosted CI after an owner-approved commit; the accepted A2 wave contributes 3/78 production illustrations while the other cards remain honest prototype fallbacks.
+1. **AP0:** checkpoint the accepted A3 integration and canonical AppData/runtime architecture.
+2. **ART-LN:** continue meaning-first Lupus Noctis production in the stable repository structure; it does not wait for runtime import infrastructure.
+3. **AP1:** app-data path service, built-in no-delete seed synchronization, and Settings action to open application data.
+4. **AP2:** runtime registry, validation fingerprints, exact-stem extension audit/fallback, normalized PNG cache, and placeholders.
+5. **AP3–AP5:** separate Assets tool, manual user-pack discovery, then Settings import wizard.
+6. **PKG1:** publish/installer seed integration and Windows/Linux/macOS verification.
 
-2. Select the next Lupus Noctis generation cards with the owner; no batch is preselected, and accepted images establish rendering quality rather than reusable content templates.
-
-3. Create the tracked cast/Deck Bible material only when the next selected narratives require it, preserving independent casting unless a recurring character is deliberate.
-
-4. Implement the minimum `NoxAeterna.Tools.Assets` surface only when repeated work demonstrates the concrete pipeline it must support.
-
-After visual acceptance of the Tarot workspace, evaluate S2 seamless custom chrome without promising implementation until Windows Snap Layouts, drag/maximize/system menu, and cross-platform behavior are verified. Persistence remains a separate later stage.
+Separate later work remains **T-UX1** for larger single-card/detail UX, **S2** for accessible cross-platform seamless chrome, and **BRAND1** for a provenance-tracked application icon. Exact scope and gates belong to [`ASSET-PACK-RUNTIME.md`](ASSET-PACK-RUNTIME.md). Persistence remains a separate later stage.
 
 P2 astrology source/glyph highlighting remains deferred until a concrete usability defect justifies it.
