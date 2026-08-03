@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.emperor`
 - Study: A7 authority / grief / discovery batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -72,13 +72,14 @@ Generic throne portrait, triumphant conqueror, authoritarian poster, bodybuilder
 
 No giant throne; no sword between the knees; no conqueror pose; no physical wolf; no red-black villain poster; no embedded writing; no standing hero; no photoreal, 3D, anime, or cel-shaded rendering.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A7/emperor.png`
+- Path: `cards/major/emperor.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `75a27aa6df945af1ef4037b9082366d5236856e1234f3ede5d9caa55fedfee1b`
 - Generation count: **1** initial text-only generation
 - Targeted correction prompt: none
 - Technical review: The ruler is seated in a stable council composition; the grave flood decision reads through the inundated city, relief map, suspended seal, evacuation papers, engaged advisors, and removed helm at the table edge. The map, seal, hands, mature face, three advisors, storm architecture, cloth, bronze, stone, water, and paper remain readable at card size with controlled warm/cold separation. No giant throne, conqueror stance, sword-between-knees pose, physical wolf, embedded writing, pseudo-runes, accidental tattoos, repeated global texture, obvious anatomy defect, frame, title, watermark, or logo was found. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner visual acceptance: the owner accepted the A7 candidate for production without regeneration or pixel changes.
+- Owner acceptance: **Accepted**

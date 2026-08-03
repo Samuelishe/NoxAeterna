@@ -1,10 +1,10 @@
 # Next Steps
 
-The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. The A6 owner review is complete, Lupus Noctis now has 12/78 accepted production illustrations with prototype fallback for omitted cards, and the A7 authority / grief / discovery candidates remain Pending.
+The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. The A7 owner review is complete, Lupus Noctis now has 15/78 accepted production illustrations with prototype fallback for omitted cards, and the A8 justice / hardship / emotional stewardship candidates remain Pending.
 
 Immediate next steps:
 
-1. **ART-LN:** visually review the three A7 candidates and decide whether to accept, reject, or correct them. The post-A7 batch remains unselected; do not begin A7-P, A8, or AP1 automatically. Art production in the stable repository structure does not wait for runtime import infrastructure.
+1. **ART-LN:** visually review the three A8 candidates and decide whether to accept, reject, or correct them. The post-A8 batch remains unselected; do not begin A8-P, A9, or AP1 automatically. Art production in the stable repository structure does not wait for runtime import infrastructure.
 2. **AP1:** app-data path service, built-in no-delete seed synchronization, and Settings action to open application data.
 3. **AP2:** runtime registry, validation fingerprints, exact-stem extension audit/fallback, normalized PNG cache, and placeholders.
 4. **AP3–AP5:** separate Assets tool, manual user-pack discovery, then Settings import wizard.

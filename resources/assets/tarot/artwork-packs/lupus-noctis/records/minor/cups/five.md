@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.cups.five`
 - Study: A7 authority / grief / discovery batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -77,13 +77,14 @@ Direct Rider-Waite cloaked figure and bridge copy, theatrical collapse, generic 
 
 Exactly five cups; no sixth bowl or vessel; no bridge-copy staging; no corpse; no funeral spectacle; no physical wolf; no screaming; no embedded text.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A7/five-of-cups.png`
+- Path: `cards/minor/cups/five.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `15e0798c23efd278c90345c509349be8463168eff500f83bcfd3f101f25e73ae`
 - Generation count: **1** initial text-only generation
 - Targeted correction prompt: none
 - Technical review: Exactly five ceremonial cups are visible: three overturned or half-sunken in the wet foreground and two upright and intact on the stone table beyond the mourner's gaze. The low folded posture, receding flood, distant waiting relative, surviving plant, and restrained light communicate grief without horror or theatrical collapse. Face, hands, limbs, wet cloak, ceramic, stone, water, mud, and foliage remain legible with no extra bowl, pitcher, cup-like lantern, bridge-copy staging, corpse, physical wolf, embedded text, pseudo-runes, accidental tattoos, repeated global texture, obvious anatomy defect, frame, watermark, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner visual acceptance: the owner accepted the A7 candidate for production without regeneration or pixel changes.
+- Owner acceptance: **Accepted**

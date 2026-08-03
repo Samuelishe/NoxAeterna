@@ -120,6 +120,33 @@
       "sha256": "148ffbef955a279ebda241c6f528ec9bcb9c539a5f8e1b0fb3edf07bd43a8f2c",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/pentacles/two.md"
+    },
+    {
+      "cardId": "major.emperor",
+      "assetPath": "cards/major/emperor.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "75a27aa6df945af1ef4037b9082366d5236856e1234f3ede5d9caa55fedfee1b",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/emperor.md"
+    },
+    {
+      "cardId": "minor.cups.five",
+      "assetPath": "cards/minor/cups/five.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "15e0798c23efd278c90345c509349be8463168eff500f83bcfd3f101f25e73ae",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/five.md"
+    },
+    {
+      "cardId": "minor.wands.page",
+      "assetPath": "cards/minor/wands/page.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "f9c75b034362b396c00f616240cfa4548bb0efbdfe7633b012e54e34af54c222",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/page.md"
     }
   ]
 }

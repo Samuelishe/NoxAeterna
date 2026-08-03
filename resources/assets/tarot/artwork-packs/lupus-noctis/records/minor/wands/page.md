@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.wands.page`
 - Study: A7 authority / grief / discovery batch
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only
 - Image references: none
 
@@ -77,13 +77,14 @@ Superhero victory pose, anime adventurer, desert pin-up, banner-bearing soldier,
 
 Exactly one staff; no second pole or spear; no wizard magic; no fireball; no physical wolf; no frontal superhero pose; no sunset poster; no embedded writing.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A7/page-of-wands.png`
+- Path: `cards/minor/wands/page.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `f9c75b034362b396c00f616240cfa4548bb0efbdfe7633b012e54e34af54c222`
 - Generation count: **1** initial text-only generation
 - Targeted correction prompt: none
 - Technical review: Exactly one charred wooden staff is visible, with the unexpected fire-colored blossoms clearly attached; no second staff, spear, banner pole, walking stick, or tool handle appears. The page turns and signals toward two small distant companions, while the low-angle plateau, wind scarf, mineral vent, and bright morning palette make discovery and urgent testimony readable without wizard combat or a centered superhero pose. Face, staff hand, signaling limb, legs, clothing, leather, basalt, vapor, water, and flowers remain distinct at card size with safe margins and no physical wolf, magic flames, embedded text, pseudo-runes, accidental tattoos, repeated global texture, obvious anatomy defect, frame, watermark, or logo. The generated source was decoded and center-cropped without stretching.
-- Owner acceptance: **Pending**
+- Owner visual acceptance: the owner accepted the A7 candidate for production without regeneration or pixel changes.
+- Owner acceptance: **Accepted**
