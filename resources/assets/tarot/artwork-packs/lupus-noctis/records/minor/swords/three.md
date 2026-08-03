@@ -90,14 +90,68 @@ Check sword lines, cloister rails, arches and banner edges so none crosses an ey
 
 Exactly three completely visible separated swords, two unsheathed and one sheathed; no other weapon; no weapon touches a body; one dead and one conscious mortally wounded son; restrained blood only; no mutilation, impalement, gore spectacle, physical or spirit wolf, supernatural effect, facial tangency, embedded text, pseudo-runes, frame, watermark, signature, or logo.
 
+## Owner Review and Correction History
+
+The initial generation contained two complete unsheathed swords and one empty scabbard. The center object had no visible pommel, grip, or guard, so it did not prove that a sword was inserted and the actual count was `2 swords + 1 empty scabbard`. The previous technical review incorrectly counted that empty scabbard as a fully sheathed sword. Owner visual review identified the defect, and one targeted independent text-only regeneration was performed without an attachment or image reference. The initial retained candidate had SHA-256 `6d16239ec22332e4c7201ad6999e987022646833d308d3f18e6e673d67d36b32`; it was superseded by the corrected candidate and is not retained.
+
+## Targeted Correction Prompt
+
+TARGETED TEXT-ONLY REGENERATION. Do not use the previous image as a reference. Rebuild the tragic cloister aftermath independently.
+
+Create the same emotionally severe Three of Swords narrative:
+
+At cold rain-washed dawn inside a monastery cloister, a former watch captain kneels between her two adult sons after a forbidden duel between opposing factions. One son is dead. The other is mortally wounded but conscious. The mother rests one hand on the dead son's coat and reaches toward the living son. She cannot treat or undo the loss.
+
+Preserve:
+- the older very fair-skinned iron-gray-haired mother in a stripped black-blue military coat;
+- two recognizably related but distinct adult sons;
+- cold rain, wet stone, restrained dark blood and tragic finality;
+- no mutilation, impalement or gore spectacle;
+- ambient-only Lupus Noctis worldbuilding through faction architecture, torn pennant and restrained stone carving.
+
+Rebuild the exact sword arrangement with exactly three COMPLETE sword objects.
+
+Sword 1:
+- one complete unsheathed sword on the lower-left wet stone;
+- clearly visible pommel, grip, guard, full blade and blade tip.
+
+Sword 2:
+- one complete unsheathed sword on the lower-right wet stone;
+- clearly visible pommel, grip, guard, full blade and blade tip.
+
+Sword 3:
+- one complete ceremonial sword fully inserted into its scabbard in the lower-center foreground;
+- the sword's pommel, full grip and crossguard must protrude clearly from the mouth of the scabbard;
+- the entire scabbard body and metal chape must also be visible;
+- the visible hilt and guard must make it unmistakable that this is a sword inside its scabbard, not an empty scabbard.
+
+Keep all three objects physically separated with clear empty wet-stone space between them.
+
+The two unsheathed swords must not have separate scabbards.
+Do not show an empty scabbard.
+Do not hide a sword hilt behind a body, clothing, reflection or another object.
+
+No sword may touch, cross or enter a human body.
+
+Do not include any fourth blade, dagger, knife, belt sword, spear, wall weapon, decorative weapon, weapon-shaped ornament or additional sheath.
+
+Composition:
+Use a low or restrained high-three-quarter triangular composition. The mother remains the emotional center; the two sons extend on opposing diagonals; the three complete swords form a separate broken foreground line. The tragedy must remain intimate, serious and aesthetically controlled rather than becoming a battle or horror poster.
+
+Style:
+Contemporary painted tragic fantasy, modern RPG chapter illustration, natural varied brushwork, believable anatomy, wet cloth, steel, leather, restrained blood, rain and stone. Painted rather than photorealistic or 3D-rendered.
+
+No text, title, number, frame, watermark, signature, logo, pseudo-runes, physical wolf, spirit wolf, supernatural effect, anime or comic cel shading.
+
+Check arches, sword lines, banner edges and rails so none crosses an eye, mouth or central facial feature.
+
 ## Final Candidate
 
 - Path: `studies/A17/three-of-swords.png`
-- Original generated dimensions: `957 × 1643 px`
-- Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
-- SHA-256: `6d16239ec22332e4c7201ad6999e987022646833d308d3f18e6e673d67d36b32`
-- Generation count: **1** initial text-only generation; no correction used
-- Targeted correction prompt: none
-- Technical review: Full-size and `238 × 408` card-size review show the older lean former captain at the emotional center between two recognizably related but distinct adult sons: one dead and one mortally wounded yet conscious. Her hands acknowledge both sons without attempting treatment or creating a heroic solution. Exactly three complete swords form a separate broken line on wet stone: two fully visible unsheathed swords and one fully visible sheathed ceremonial sword. No weapon touches, enters, or crosses a body, and no extra blade, dagger, knife, spear, belt sword, wall weapon, or decorative weapon appears. Dark blood on stone and clothing is narratively proportionate; anatomy remains intact with no mutilation or gore spectacle. The rain-darkened cloister, torn clan pennant, and restrained stone carving carry ambient-only Lupus Noctis worldbuilding; no physical or spirit wolf and no separate large wolf head appear. Faces, eyes, mouths, hands, joints, sword lines, rails, arches, and banner edge remain readable without facial tangencies. Skin, wet cloth, steel, leather, blood, stone, rain, and dawn air separate cleanly; no embedded text, pseudo-runes, accidental tattoos, supernatural effect, pop-fantasy franchise stack, frame, watermark, signature, or logo is visible. The source was decoded and center-cropped without stretching.
+- Original generated dimensions: `1024 × 1536 px`
+- Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop to `896 × 1536 px` followed by uniform high-quality scaling without stretching
+- SHA-256: `28089525ab5dd561a565baff6024a9008b829e492f4628713898a8bc3487eba6`
+- Generation count: **2** text-only generations: one initial generation and one targeted independent regeneration; neither used an attachment or image reference
+- Technical review: Full-size review of the corrected lower foreground proves exactly three complete sword objects. Left unsheathed sword: pommel, grip, guard, full blade, and blade tip are visible. Right unsheathed sword: pommel, grip, guard, full blade, and blade tip are visible. Center fully sheathed ceremonial sword: pommel, full grip, crossguard, scabbard mouth, full scabbard body, and metal chape are visible, making it unmistakably a sword inserted into its scabbard rather than an empty scabbard. All three objects are physically separated by wet stone; the two unsheathed swords have no separate scabbards; no empty scabbard, fourth blade, dagger, knife, belt sword, spear, wall weapon, decorative weapon, weapon-shaped ornament, or additional sheath appears. No sword touches, crosses, or enters a body. The older iron-gray-haired mother remains centered between one dead son and one mortally wounded conscious son; anatomy is intact, blood remains restrained, and the rain-washed cloister, torn pennant, and stone details preserve ambient-only worldbuilding without a physical or spirit wolf. Arches, banner, rails, and sword lines do not cross a central facial feature. No embedded text, pseudo-runes, supernatural effect, gore spectacle, frame, watermark, signature, or logo is visible. The source was decoded, center-cropped, and uniformly normalized without stretching.
 - Generation input: text-only; no attachment or image reference
 - Owner acceptance: **Pending**
