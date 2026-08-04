@@ -88,15 +88,62 @@ Exactly one principal preceptor. Exactly two initiates. No third initiate, kneel
 
 Exactly one principal preceptor and exactly two initiates; no third student or acolyte; no frontal pope tableau; no throne, crown, mitre, giant key, halo, judicial scales, courtroom, verdict, magic, floating rune, embedded writing, physical wolf, animal, token motif, facial or joint tangency, frame, watermark, signature, or logo.
 
-## Final Pending Candidate
+## Initial Generation Result and Owner Rejection
+
+- Superseded candidate path: `studies/A20/hierophant.png`; replaced in place and not retained as a duplicate
+- Original generated dimensions: `957 × 1643 px`
+- Normalized review dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
+- SHA-256: `2637c023f07d8cbb3203613788db247d9ba0aba67365a05954dc391b1b486ab8`
+- Generation ordinal: **1**, initial independent text-only; no attachment or image reference
+- Literal owner-rejection defect: A mature red-haired woman and two younger figures were present, but the scene read primarily as inspection or demonstration of a measuring device. Formal initiation, institutional tradition, the preceptor's recognized authority, and the distinction between two initiates and surrounding market witnesses were not legible without the record. This story/role-legibility blocker required `G2`.
+
+## Targeted Correction Prompt (`G2`)
+
+```text
+Use case: illustration-story
+Asset type: targeted second independent text-only generation of a borderless 7:12 portrait Tarot review candidate
+Semantic identity: The Hierophant
+Generation mode: G2 targeted correction; create an entirely new image from text only. No input image, attachment, image reference, or imitation of any prior image.
+
+Primary request:
+Create a contemporary painted grounded narrative-fantasy scene that communicates tradition, recognized institutional knowledge, formal initiation, community membership, accountable continuity, and the shadow risk of empty obedience. The institutional preceptor and the public acceptance procedure must be understandable without a card title or written explanation. This must read as a guild initiation, not as a technical demonstration, ordinary craft lesson, religious ceremony, royal audience, or courtroom.
+
+Scene and decisive moment:
+In the ceremonial threshold hall of an old urban guildhall above a sunlit market, exactly one recognized mature preceptor formally admits exactly two initiates into the guild. The market remains visible below through broad arches but is contextual depth, not the main action.
+The two initiates stand together on the public side of a low stone threshold, facing inward. They make the same clear open-hand oath gesture while the preceptor, standing alone on the guild side, places two matching teal-and-ochre guild sashes across their shoulders as the visible completion of one recognized procedure. One sash is already settled clearly on the first initiate; the preceptor is visibly settling the second sash on the other initiate. The pair's matched posture and matching sashes make them unmistakably the only two initiates.
+Several mature guild witnesses stand in a shallow semicircle well behind the preceptor, separated from the initiation by a waist-high side rail. They wear established guild mantles rather than novice sashes and visibly confirm her authority through attentive faces and one shared open-palm acknowledgment. Ordinary market people remain much smaller and lower outside the hall. No background person resembles a third initiate.
+
+Principal preceptor:
+Exactly one very tall, spare woman age 50–58 with pale golden complexion, a long angular expressive face, strong nose, and dense copper-red hair streaked silver in an asymmetrical braided coil. She wears distinctive ceremonial civic guild attire in teal, ochre, and dark cream: a broad structured geometric collar, layered mantle, practical measuring pockets, and dignified cloth construction. No crown, throne, armor, church vestment, papal mitre, halo, giant key, or royal styling. Her calm authority reads from controlling the threshold, completing the sashes, the initiates' synchronized response, and the witnesses' acknowledgment.
+
+Exactly two initiates:
+One is a short broad young man with deep-brown skin and a shaved head. The other is a lean slightly older young woman with East Asian facial structure, light warm complexion, and a straight dark-blond bob. They are the only people wearing simple novice tunics and new matching sashes. They stand rather than kneel, have distinct silhouettes, and perform the same formal oath gesture. Their gazes and bodies orient clearly toward the preceptor.
+
+Institutional objects:
+At the side, subordinate to the people, one open old hardwood guild chest shows a compact inherited set of plain brass standard weights and measuring rods. It establishes continuity but is not being tested or demonstrated. No readable charter, writing, letters, numbers, runes, laboratory apparatus, balance scale, scales of Justice, judicial bench, verdict, or engineering lesson.
+
+Composition:
+Exact 7:12 portrait intent. Use a medium-wide oblique view across the guild threshold. Build a strong three-level social hierarchy: the two initiates together in the lower foreground; the single preceptor as the decisive middle focal anchor; established witnesses behind and above her but visually subordinate. Keep market activity smaller and outside the ceremonial triangle. Make the oath hands, both sashes, all three principal faces, the threshold, and the witnesses' reaction readable at Tarot-card size. Keep all faces, hands, limbs, sashes, and required objects inside generous safe margins. Avoid frontal pope-and-two-monks symmetry, throne tableau, council around a table, engineer with apprentices, ordinary classroom, object handoff as the whole story, or standing hero portrait.
+
+Wolf-world mode:
+Ambient-only through guild architecture, civic clothing, inherited procedure, timber, stone, brass, and the market culture. No physical wolf, animal, paw stamp, wolf relief, badge, medallion, statue, carved animal head, hardware logo, or token branding.
+
+Style and mood:
+Contemporary painted narrative fantasy, modern RPG chapter illustration, natural varied brushwork, believable mature anatomy and hands, expressive restrained faces, clear focal hierarchy, controlled urban depth. Ceremonious, warm, socially dense, intellectually serious, and non-mystical. Sun-warmed limestone, teal guild cloth, oxidized brass, ochre awnings, muted red market accents, natural skin, and cool interior shadow. Painted, not photorealistic or 3D.
+
+Absolute constraints:
+Exactly one principal preceptor and exactly two initiates. The institutional roles and formal acceptance must read without text. No third initiate, acolyte, kneeling worshipper, equal candidate, throne, crown, papal mitre, giant key, halo, magical ray, floating rune, readable text, letters, numbers, title, frame, border, watermark, signature, logo, pseudo-runes, tattoo symbols, Justice scales, courtroom, judge, verdict, physical wolf, animal, token wolf motif, photorealism, 3D render, anime, or comic cel shading.
+```
+
+## Final Pending Candidate After Targeted Correction
 
 - Path: `studies/A20/hierophant.png`
 - Original generated dimensions: `957 × 1643 px`
-- Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
-- SHA-256: `2637c023f07d8cbb3203613788db247d9ba0aba67365a05954dc391b1b486ab8`
-- Generation count: **1** initial independent text-only generation; no targeted correction used
-- Targeted correction prompt: none
-- Exact-role review: Exactly one principal preceptor and exactly two visually distinct initiates occupy the foreground learning group. The shaved young man operates the comparator; the bob-haired young woman watches the mechanism and witnesses; the red-and-silver-haired preceptor guides the procedure. Background people read as market witnesses, merchants, and citizens at subordinate depth rather than a third initiate or acolyte.
-- Technical and artistic review: The brass-and-hardwood comparator, two unequal-seating trade weights, directing finger, working hands, gallery diagonal, and active market depth make institutional knowledge, public verification, transmission, belonging, and accountable continuity readable without a sermon or verdict. The collected sunlit civic mood, unusual mature casting, asymmetric learning triangle, and elevated market composition contrast with the last twelve accepted cards. No throne, crown, papal mitre, giant key, halo, judicial scale, courtroom, magic ray, floating rune, readable text, physical wolf, animal, paw, wolf badge, or wolf medallion is visible. A small concentric metal garment clasp is visible at the preceptor's chest; it reads as functional clothing hardware, not a wolf motif, written symbol, or magical emblem. Faces, eyes, hands, fingers, joints, comparator parts, rail, stone, timber, brass, cloth, hair, market figures, and architecture remain coherent without a blocking tangency. Safe margins retain every principal face, hand, and required object. No embedded text, pseudo-rune sequence, accidental tattoo, pop-fantasy franchise stack, frame, watermark, signature, or logo is visible.
-- Generation input: text-only; no attachment or image reference was used
-- Owner acceptance: **Pending**
+- Normalized dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
+- Normalized SHA-256: `d1414040e5440877f3481dd36288df383eaaed208880b91e7edc1c089aa096f7`
+- Generation ordinal and mode: **2**, `G2` targeted independent text-only correction; no attachment or image reference
+- Cumulative generation count: **2**
+- Literal inventory and exact-role review: Exactly one mature copper-and-silver-haired preceptor occupies the institutional side of the threshold. Exactly two visually distinct initiates occupy the foreground, wear matching novice garments and sashes, face the preceptor, and repeat the same open-hand oath gesture. Established witnesses stand behind a separating rail in mature guild mantles and answer with raised open palms; the market crowd is distant and subordinate. One open hardwood chest contains compact brass standards and rods. No third initiate, throne, crown, papal mitre, halo, giant key, Justice scale, courtroom, readable text, magic, physical wolf, animal, or token motif is visible.
+- Technical, meaning, and role-legibility review: At full size and target card size, the preceptor's control of the threshold, the paired initiates' synchronized oath, their matching sashes, and the witnesses' public acknowledgment establish a formal guild acceptance rather than an engineering lesson. The chest reads as inherited institutional material and remains secondary. All principal faces, oath hands, limbs, and required role markers remain inside safe margins. Faces, fingers, joints, cloth, rail, chest, brass standards, stone, timber, and market architecture are coherent; no blocking crop, tangency, embedded text, watermark, frame, logo, pop-fantasy franchise stack, or historical/material contradiction is visible. The preceptor holds the trailing ceremonial cloth while both novice sashes are already legible; this is a minor staging note, not an extra initiate or story blocker.
+- Independent absurdity review: Every principal figure stands on continuous stone flooring; witnesses have a supported gallery behind the rail; the chest rests on the side ledge; and the threshold, oath gestures, sash handling, witness response, and market depth form a physically and causally usable scene. No unsupported figure, impossible route, conflicting hand action, accidental infographic overlay, or acceptance-blocking spatial, causal, narrative, or compositional absurdity is visible. `G4` is not authorized or needed.
+- Decision: **Pending owner review**; technically eligible for owner visual review, not owner accepted and not promoted

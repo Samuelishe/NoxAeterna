@@ -1,10 +1,10 @@
 # Next Steps
 
-The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. A19 is accepted and promoted, Lupus Noctis now has 51/78 accepted production illustrations with prototype fallback for 27 omitted cards, and three A20 candidates remain Pending outside the manifest and Release output.
+The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. A19 is accepted and promoted, Lupus Noctis now has 51/78 accepted production illustrations with prototype fallback for 27 omitted cards, and three corrected A20 candidates remain Pending outside the manifest and Release output.
 
 Immediate next steps:
 
-1. **ART-LN:** visually review Pending `major.hierophant`, `minor.cups.nine`, and `minor.swords.queen`. Hierophant and Queen used one initial generation; Nine used its one correction, fixed the cropped hand and extra-container defects, but now contains `4 + 6 = 10` cups. Decide whether to authorize another Nine attempt or reject/carry it; do not begin A20-P, A21, or AP1 automatically.
+1. **ART-LN:** visually review corrected Pending `major.hierophant`, `minor.cups.nine`, and `minor.swords.queen`. Hierophant and Queen each used `G2`; Nine used `G3` and now contains exactly `3 + 3 + 3 = 9` complete goblets. All three passed technical and independent absurdity review, but remain outside production until explicit owner decisions. Do not begin A20-P, A21, or AP1 automatically.
 2. **AP1:** app-data path service, built-in no-delete seed synchronization, and Settings action to open application data.
 3. **AP2:** runtime registry, validation fingerprints, exact-stem extension audit/fallback, normalized PNG cache, and placeholders.
 4. **AP3–AP5:** separate Assets tool, manual user-pack discovery, then Settings import wizard.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tarot Artwork Generation"
+  short_description: "Meaning-first Tarot artwork generation and review"
+  default_prompt: "Use $tarot-artwork-generation to create or rigorously review Tarot artwork."

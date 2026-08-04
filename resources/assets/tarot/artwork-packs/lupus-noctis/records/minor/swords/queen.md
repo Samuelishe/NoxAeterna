@@ -91,15 +91,66 @@ Exactly one complete sword total with grip, guard, full blade, and tip visible. 
 
 Exactly one complete visible sword; no second sword, sheath, empty scabbard, dagger, knife, sabre, spear, halberd, bayonet, musket, axe, blade-like tool, weapon rack, or armed secondary person; no Justice, scales, courtroom, throne, crown, battle, victory pose, cruelty, physical wolf, animal, token motif, embedded writing, facial or joint tangency, frame, watermark, signature, or logo.
 
-## Final Pending Candidate
+## Initial Generation Result and Owner Rejection
+
+- Superseded candidate path: `studies/A20/queen-of-swords.png`; replaced in place and not retained as a duplicate
+- Original generated dimensions: `957 × 1643 px`
+- Normalized review dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
+- SHA-256: `52c1c2a3718638f1cc9a938f5fe9c8072f8f2d9c9e0ce012e492601d6e0c9f00`
+- Generation ordinal: **1**, initial independent text-only; no attachment or image reference
+- Literal owner-rejection defect: Although the one-sword contract passed, the suspect stood outside the rope railing without a complete supporting platform; one leg visibly occupied the drop and no usable checkpoint route justified his position. The previous self-review incorrectly downgraded this acceptance-blocking spatial absurdity, so `G2` required a new composition.
+
+## Targeted Correction Prompt (`G2`)
+
+```text
+Use case: illustration-story
+Asset type: targeted second independent text-only generation of a borderless 7:12 portrait Tarot review candidate
+Semantic identity: Queen of Swords
+Generation mode: G2 targeted correction; create an entirely new image from text only. No input image, attachment, image reference, or imitation of any prior image.
+
+Primary request:
+Create a contemporary painted grounded narrative-fantasy mountain checkpoint scene that communicates cold clarity, incisive judgment, a hard but fair boundary, protection of the vulnerable, and refusal of manipulation. The social decision and the physically usable checkpoint must be understandable without a title or written explanation. This is not Justice, a courtroom, an execution, or a battle.
+
+Decisive scene:
+At a high mountain refuge, a broad stone bridge arrives onto a large solid rectangular exterior landing before a timber-and-stone gate. The entire landing is continuous visible paving, wide enough for several adults. Continuous waist-high stone parapets run along both outer cliff edges. The ravine and clouds are entirely beyond those parapets, never under anyone's feet. Open double gate doors lead from the landing through a clearly visible passage into a warm sheltered courtyard.
+
+The Queen stands near the center of the solid landing, physically between two flows. With her empty left hand she gestures two tired vulnerable travelers through the open gate toward safety. With her right hand she holds the scene's only sword in a controlled downward guard that bars one well-dressed boastful manipulator from advancing. The admitted travelers are already moving behind the Queen along the unobstructed paved route into the courtyard. The suspect stands several paces in front of her on the same broad solid exterior landing, safely inside the parapets, both full feet visibly planted on paving. His open empty hands and persuasive posture show that he is arguing; he carries no weapon. The Queen's body and sword create the boundary between him and the admitted route.
+
+Principal Queen:
+One mature woman age 48–58, cold-pale complexion weathered by altitude, long angular face, straight iron-gray hair tied back, restrained severe expression, and practical layered blue-gray mountain clothing with a dark teal mantle. No crown, throne, halo, judicial robe, scales, royal court, execution pose, or glamorous warrior armor. Her authority reads through the decision, the travelers' response, the suspect being halted, and her control of the usable route.
+
+Supporting figures:
+Exactly two vulnerable admitted travelers, clearly distinct from one another, wearing worn travel layers and carrying only soft closed cloth bundles. They move through the gate with relieved guarded expressions and are fully unarmed.
+Exactly one suspect, a confident prosperous middle-aged man in clean dark-red travel clothing, standing on solid paving outside the Queen's sword boundary. Both of his complete feet and both empty hands are visible. No retainers, soldiers, guards, or extra armed figures.
+
+Exact one-sword contract:
+Exactly one complete visible sword in the entire image, held only by the Queen. Show one pommel, one grip, one guard, one continuous straight blade, and one visible tip. Keep the complete sword unobscured against a simple contrasting area of paving, angled downward across the boundary without touching anyone. No second sword, scabbard, sheath, dagger, knife, spear, halberd, sabre, musket, axe, arrow, staff, blade-like tool, or weapon-shaped architectural ornament. All secondary figures are visibly unarmed.
+
+Checkpoint geometry:
+The broad stone bridge, full exterior landing, open gate, and inner courtyard must form one continuous walkable route. Show enough paving around every pair of feet to prove support. Nobody stands outside, astride, behind, or beyond a parapet. No rope rail crosses a body. No missing platform, floating foot, hidden drop, impossible stair, broken bridge, unusable door, or figure over the ravine. Gate leaves have plausible hinges attached to masonry and open away from the central passage. Parapets protect edges rather than block the route.
+
+Composition:
+Exact 7:12 portrait intent, medium-wide three-quarter view from slightly above landing level. Put the suspect in lower foreground on visible paving, the Queen in the middle focal plane, and the two travelers passing behind her through the open gate. The continuous route should read in one glance: bridge foreground to landing, around Queen, through gate, into warm refuge. Keep all faces, complete feet, hands, the complete sword and tip, gate hinges, parapet edges, and required route inside generous safe margins. Avoid crowding and dramatic precipice poses.
+
+Wolf-world mode:
+Ambient-only through mountain architecture, clothing, practical shelter culture, wind, stone, timber, and communal protection. No physical wolf, animal, paw stamp, wolf relief, badge, medallion, statue, carved animal head, hardware logo, or token motif.
+
+Style and mood:
+Contemporary painted narrative fantasy, modern RPG chapter illustration, natural varied brushwork, believable mature anatomy and hands, restrained expressive faces, clear causal storytelling, cold mountain daylight against warm refuge light, blue-gray stone, weathered timber, muted teal and dark-red accents. Painted, not photorealistic or 3D.
+
+Absolute constraints:
+Every person has obvious solid support and complete feet on visible paving. The suspect is safely inside the parapet on a real exterior landing. Queen physically separates admitted travelers from the stopped manipulator. Exactly one complete sword with pommel, grip, guard, blade, and tip; zero other weapons and zero scabbards. No courtroom, judge, scales, throne, crown, execution, combat, physical wolf, animal, forced motif, embedded text, letters, numbers, title, frame, border, watermark, signature, logo, pseudo-runes, photorealism, 3D render, anime, or comic cel shading.
+```
+
+## Final Pending Candidate After Targeted Correction
 
 - Path: `studies/A20/queen-of-swords.png`
-- Original generated dimensions: `957 × 1643 px`
-- Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
-- SHA-256: `52c1c2a3718638f1cc9a938f5fe9c8072f8f2d9c9e0ce012e492601d6e0c9f00`
-- Generation count: **1** initial independent text-only generation; no targeted correction used
-- Targeted correction prompt: none
-- Exact weapon review: Exactly one complete sword is visible. Its pommel, wrapped grip, crossguard, full straight blade, and point-down tip are all readable with negative space. No second sword, spare sword, belt weapon, sheath, empty scabbard, dagger, knife, sabre, spear, halberd, bayonet, musket, axe, blade-like tool, weapon rack, or weapon-shaped background silhouette appears. Every traveler and the well-dressed manipulator is visibly unarmed; the manipulator holds only one counterfeit round passage token.
-- Technical and artistic review: The commander's open stopping hand, direct gaze, counterfeit token, inward-moving ragged travelers, exposed well-dressed manipulator, one grounded sword, blizzard, rope rail, and warm shelter communicate discernment, honest boundary, protection of vulnerability, recognition of manipulation, independence, and loneliness without courtroom or battle staging. The compact dark-complexioned silver-coiled mature commander, mountain-command silhouette, two opposing movement streams, and wind-struck gorge contrast with the last twelve accepted cards. Faces, eyes, hands, fingers, joints, sword, rope, posts, gate, wool, quilted leather, steel, timber, stone, snow, and wind remain coherent without a blocking tangency; the sword is clear of faces and the free hand. Safe margins retain the complete sword and all principal faces and hands. The open gate clearly admits travelers, although the final view does not prove the requested inward hinge direction unambiguously; the manipulator also stands on the extremely exposed outer side of the rope rail. These are non-blocking staging observations, not extra-weapon or meaning failures. Wolf mode is ambient-only with no wolf, animal, paw, badge, carved head, relief, faction logo, medallion, statue, pelt, or token wolf motif. No embedded text, pseudo-rune sequence, accidental tattoo, Justice scales, throne, crown, execution, pop-fantasy franchise stack, frame, watermark, signature, or logo is visible.
-- Generation input: text-only; no attachment or image reference was used
-- Owner acceptance: **Pending**
+- Original generated dimensions: `958 × 1642 px`
+- Normalized dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+3,+5` without stretching
+- Normalized SHA-256: `8381a085cce80541903ba550b88f8c6a7c3c8845c9c7de599ff294f9ef643d31`
+- Generation ordinal and mode: **2**, `G2` targeted independent text-only correction; no attachment or image reference
+- Cumulative generation count: **2**
+- Literal inventory and exact-weapon review: Exactly four people are visible: one Queen, two admitted travelers, and one stopped suspect. Exactly one complete sword is visible in the Queen's right hand, with one pommel, one grip, one guard, one continuous blade, and one unobscured tip. No second sword, scabbard, sheath, dagger, knife, spear, halberd, sabre, musket, axe, arrow, staff, blade-like tool, weapon-shaped ornament, or armed secondary figure is visible. A narrow brown belt end at the Queen's waist reads as flexible fastening, not a rigid sheath or second blade.
+- Technical, meaning, and role-legibility review: At full size and target card size, the Queen's stern gaze, open admitting arm, controlled downward sword, the two vulnerable travelers moving into warm shelter, and the prosperous suspect halted in the cold communicate incisive judgment, honest boundary, protection, and refusal of manipulation without Justice or courtroom staging. Faces, hands, fingers, complete feet, sword components, clothing, bundles, paving, parapets, gate leaves, hinges, stone, timber, and mountain background are coherent and remain inside safe margins. The independent casting and solid architectural composition contrast with recent accepted work. No embedded text, watermark, frame, logo, forced motif, physical wolf, animal, pop-fantasy franchise stack, or historical/material contradiction is visible.
+- Independent absurdity review: Every full foot is supported by continuous stone paving; both parapets lie between people and the ravine; the broad bridge/landing, open gate, and warm inner courtyard form one unobstructed walkable route. Both gate leaves have visible plausible hinges. The Queen stands causally between the admitted and rejected flows, the suspect remains safely inside the parapet, the travelers can pass behind her, and the sword does not touch a person or architecture. No unsupported figure, missing platform, impossible route, conflicting hand action, or acceptance-blocking spatial, causal, narrative, or compositional absurdity remains. `G4` is not authorized or needed.
+- Decision: **Pending owner review**; technically eligible for owner visual review, not owner accepted and not promoted

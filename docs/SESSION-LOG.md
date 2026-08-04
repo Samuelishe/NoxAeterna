@@ -9,6 +9,20 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-04: SKILL-TAROT-2 + A20-C Canonical Skill and Corrections
+
+Summary:
+
+- Promoted the previously validated `tarot-artwork-generation` skill byte-for-byte into canonical repository ownership at `eng/codex-skills/tarot-artwork-generation`, added a dependency-free `-Install`/`-Check` synchronization command, and documented the repository-source/user-runtime relationship. The installed user copy now matches all seven tracked files by relative path and SHA-256 and is discovered once with user scope.
+- Applied the tracked skill's independent text-only correction state machine to all three owner-rejected A20 candidates without image references. `major.hierophant` used `G2` to make the formal guild initiation and role hierarchy legible; `minor.cups.nine` used `G3` critical recovery and now contains exactly `3 + 3 + 3 = 9` complete goblets with no other container; `minor.swords.queen` used `G2` to rebuild the checkpoint as continuous supported paving with exactly one complete sword. All three passed hard gates and separate adversarial absurdity review; no `G4` was authorized or needed.
+- Kept all three candidates **Pending** under `studies/A20`, outside `artwork-pack.json`, `cards/`, and Release output. Their records retain superseded hashes and literal rejection defects plus complete new prompts, normalized hashes, reviews, and cumulative generation counts. A20-P, A21, and AP1 remain unstarted.
+
+Verification:
+
+- `pwsh eng/sync-codex-skills.ps1 -Install` and `-Check` passed against the actual user-level root; a separate temporary-root install/check passed and the verified temporary directory was removed. `skills/list` with `forceReload: true` reported exactly one enabled user-scope `tarot-artwork-generation` and no discovery errors.
+- `pwsh eng/doc-check.ps1` passed with 0 warnings and 0 errors; `dotnet build NoxAeterna.sln -c Release` passed with 0 warnings and 0 errors.
+- Focused `Tarot`, `Architecture-Boundaries`, and `App-Workspace` Release routes passed `40/40`, `17/17`, and `115/115`. Repository assertions confirmed Pending ownership, A20 absence from manifest/cards/Release, and no `studies/` content in Release.
+
 ## 2026-08-04: A19-P + A20 Production Promotion and Review Batch
 
 Summary:

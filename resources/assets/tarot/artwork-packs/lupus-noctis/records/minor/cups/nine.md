@@ -124,9 +124,9 @@ Wolf mode ambient-only: no wolf, animal, paw, crest, wolf head, medallion, statu
 Absolute constraints: exactly nine cups in 5 lower + 4 raised; both empty hands complete within margins; nobody holds or passes a vessel; no other open container; no plants or flowers; no throne, crown, erotic action, nudity, pin-up pose, family tableau, text, letters, numbers, title, frame, border, watermark, signature, logo, pseudo-runes, tattoos, physical wolf, animal, anime, or comic cel shading.
 ```
 
-## Final Pending Candidate After Correction Limit
+## Second Generation Result and Owner Rejection
 
-- Path: `studies/A20/nine-of-cups.png`
+- Superseded candidate path: `studies/A20/nine-of-cups.png`; replaced in place and not retained as a duplicate
 - Corrected generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
 - SHA-256: `6a621c04976d7461f3cf284d32431e48a670296d2d42bcb864023529146db24c`
@@ -134,4 +134,61 @@ Absolute constraints: exactly nine cups in 5 lower + 4 raised; both empty hands 
 - Exact cup review: The corrected image contains **ten**, not nine, complete cup-like drinking vessels: four complete cups on the raised rear tier and six complete cups on the nearer lower tier, for `4 + 6 = 10`. All ten rims, stems, bodies, and bases are separately visible. Nobody holds or passes a cup. No bottle, pitcher, bowl, mug, bucket, basin, open barrel, open jar, vase, planter, urn, cup-shaped lantern, or other separate open container is visible; the musician's black instrument case is clearly an instrument case.
 - Technical and artistic review: The correction fully restores both empty hands inside safe margins and removes the initial plant urn and flower-vase defects. The mature broad soft-bodied hostess, warm half-smile, keys, saturated fabrics, mosaic room, closing musician and staff member, and off-center lounge posture communicate earned comfort, hospitality, bodily satisfaction, confidence, and a slight risk of complacency. The warm sensual palette, hostess casting, after-hours social role, curved two-tier display, and seated side orientation provide strong contrast with the last twelve accepted cards. Faces, eyes, hands, fingers, joints, chair, counter edges, instrument case, cloth, mosaic, curls, metal, and shutters remain coherent without blocking tangencies; margins are safe. Wolf mode is ambient-only, with no wolf, animal, paw, emblem, medallion, pelt, statue, or token branding. No embedded text, pseudo-rune sequence, accidental tattoo, erotic action, nudity, throne, crown, pop-fantasy resemblance, frame, watermark, signature, or logo is visible. The **tenth cup is a blocking exact-object defect**. The single permitted targeted correction has been used, so no third generation was attempted.
 - Generation input: text-only; no attachment or image reference was used
-- Owner acceptance: **Pending**; not eligible for acceptance without an owner decision on the exhausted correction limit and visible tenth cup
+- Owner rejection: The literal `4 + 6 = 10` count is blocking. Under the `tarot-artwork-generation` budget, a repeated blocker after `G2` automatically authorizes `G3`; the previous correction limit is superseded by that repository-owned workflow.
+
+## Critical-Recovery Prompt (`G3`)
+
+```text
+Use case: illustration-story
+Asset type: critical-recovery third independent text-only generation of a borderless 7:12 portrait Tarot review candidate
+Semantic identity: Nine of Cups
+Generation mode: G3 critical recovery; create an entirely new image from text only. No input image, attachment, image reference, or imitation of any prior image.
+
+Primary request:
+Create a contemporary painted grounded narrative-fantasy salon scene that communicates earned satisfaction, mature sensual abundance, emotional self-possession, hospitality, and the shadow risk of self-satisfaction turning into display. The meaning must come from one lived moment, not from copying the literal Rider–Waite tableau.
+
+Decisive scene:
+A mature prosperous salon hostess has just finished arranging a private evening gathering. She sits slightly off-center on a broad cushioned bench beside a low mosaic serving counter, taking one quiet breath of deserved satisfaction while guests converse and listen to music in the warm background. Her posture is relaxed and self-possessed rather than boastful. Both of her complete empty hands are clearly visible: one rests open on her knee and the other rests open on the bench cushion. Nobody holds, raises, passes, or drinks from any vessel.
+
+Principal hostess:
+One mature full-figured woman age 48–58 with rich brown skin, a broad intelligent face, dark coiled hair threaded with a few silver strands, and warm observant eyes. Rich but lived-in teal, wine-red, amber, and cream textiles; no crown, throne, religious costume, excessive jewelry, erotic exposure, or pin-up pose. Her facial expression shows earned pleasure and a hint of guarded pride.
+
+Exact nine-cup staging:
+On one continuous waist-high stone-and-mosaic counter, place exactly nine complete, separately distinguishable matching drinking goblets in three clearly separated groups of three.
+Left group: exactly three goblets.
+Center group: exactly three goblets.
+Right group: exactly three goblets.
+Total: exactly nine goblets, never ten.
+Each of the nine must visibly have a clear rim, bowl-shaped body, narrow stem, and stable base. Keep separation between silhouettes so rims, bodies, stems, and bases can be counted at Tarot-card size. All nine goblets stand upright, fully inside the frame, unoccluded, and untouched. Use subtle counter inlays or vertical mosaic dividers between the three groups, but no written numerals, labels, arrows, diagrams, or infographic marks.
+
+Absolute container prohibition:
+No tenth goblet and no other open or vessel-like container anywhere in the entire image. No bottle, decanter, pitcher, jug, bowl, basin, vase, plant urn, planter, flower container, open jar, bucket, open barrel, mug, teacup, chalice, cup-shaped lamp, cup-shaped ornament, mortar, amphora, fountain basin, or background drink. Do not place vessels in hands, on side tables, on shelves, in wall niches, on the floor, or in the background. Background guests have empty hands. If lighting fixtures are visible, make them closed rectangular wall lanterns that cannot resemble cups. Do not include flowers or potted plants.
+
+Supporting life:
+Use only a few background figures with distinct silhouettes: one seated musician playing a stringed instrument without an open case, and two guests conversing with empty hands. They remain subordinate, do not duplicate the hostess, and do not form a banquet. Rich curtains, woven cushions, patterned rugs, painted plaster, and wall mosaics create abundance without extra containers.
+
+Composition:
+Exact 7:12 portrait intent, intimate medium-wide view. Put the hostess in the lower-left or center-left focal zone and the nine goblets together on the counter across the middle-right, large and front-facing enough to count. Maintain a clean gap between the hostess's silhouette and every goblet. Keep both full hands, all fingers, both forearms, face, hair, and all nine goblets inside generous safe margins. Avoid cropping hands, limbs, rims, stems, bases, or the counter edge. No foreground object should hide a cup.
+
+Wolf-world mode:
+Ambient-only through salon architecture, textiles, civic culture, carved geometry, and material craft. No physical wolf, animal, paw stamp, wolf relief, badge, medallion, statue, animal-head carving, hardware logo, or token motif.
+
+Style and mood:
+Contemporary painted narrative fantasy, modern RPG chapter illustration, natural varied brushwork, believable mature anatomy and hands, expressive restrained faces, tactile textiles and mosaic, warm lamplight with cool shadow, sensual but non-erotic, lively but not crowded. Painted, not photorealistic or 3D.
+
+Absolute constraints:
+Exactly nine complete goblets in three groups of three and zero other containers. No tenth cup-like silhouette. Nobody holds a goblet. Both complete hands of the hostess remain visible inside safe margins. No embedded text, letters, numbers, title, frame, border, watermark, signature, logo, pseudo-runes, physical wolf, animal, forced motif, photorealism, 3D render, anime, or comic cel shading.
+```
+
+## Final Pending Candidate After Critical Recovery
+
+- Path: `studies/A20/nine-of-cups.png`
+- Original generated dimensions: `957 × 1643 px`
+- Normalized dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
+- Normalized SHA-256: `34d9ca7c3e817eeb2fcd75dbb58a7f36112a2b7571824dba3afd632417afd848`
+- Generation ordinal and mode: **3**, `G3` critical recovery; independent text-only with no attachment or image reference
+- Cumulative generation count: **3**
+- Literal exact-object and container review: The counter contains exactly three separated groups of three complete matching goblets, for `3 + 3 + 3 = 9`. Nine rims, nine bodies, nine stems, and nine bases are individually visible at full size and target card size; no goblet is cropped, held, passed, merged, or hidden. A complete frame-wide audit finds no tenth cup-like silhouette and no bottle, decanter, pitcher, jug, bowl, basin, vase, planter, urn, flower container, jar, bucket, barrel, mug, teacup, chalice, cup-shaped lamp, mortar, amphora, fountain basin, or background drink. The two visible fixtures are closed rectangular lanterns.
+- Technical and meaning review: The mature full-figured hostess has two complete empty hands with coherent fingers and joints inside safe margins. Her quiet expression, relaxed posture, abundant textiles and mosaic, precisely prepared display, musician, and two conversing guests communicate earned satisfaction, hospitality, sensual comfort, self-possession, and a restrained hint of pride without copying the literal Rider–Waite staging. Faces, hands, feet, goblets, counter, bench, cushions, instrument, lanterns, masonry, textiles, and mosaics remain coherent without blocking tangencies. The hostess's forward foot approaches the lower edge and loses a small toe margin; the complete hands and all exact-contract objects remain safe, so this is a non-blocking crop note. No embedded text, watermark, frame, logo, forced motif, physical wolf, animal, erotic staging, or pop-fantasy resemblance is visible.
+- Independent absurdity review: The hostess is supported by the bench and floor, the goblets rest on one continuous counter, background guests sit on an existing alcove bench, the musician holds the instrument plausibly, and nobody performs an action involving a vessel. Perspective, support, contact, lighting, and the quiet after-hosting causal story remain internally coherent. No acceptance-blocking spatial, causal, narrative, or compositional absurdity is visible. Because hard requirements passed and the absurdity gate passed, `G4` is neither authorized nor needed.
+- Decision: **Pending owner review**; technically eligible for owner visual review, not owner accepted and not promoted
