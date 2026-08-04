@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.wheel-of-fortune`
 - Batch: **A19 — reversal / emotional command / patient cultivation**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -129,13 +129,13 @@ Exactly one dominant complete principal wheel. Exactly two flood workers in the 
 Check spokes, ropes, rails, beams, cradle edges, and cargo so none crosses eyes, mouths, hands, or joints unnaturally.
 ```
 
-## Corrected Final Candidate
+## Accepted Production Asset
 
-- Path: `studies/A19/wheel-of-fortune.png`
+- Path: `cards/major/wheel-of-fortune.png`
 - Corrected generated dimensions: `958 × 1641 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `3835740df9e14a424614b3a763c17c7626743c105235e572f3d525eb0e1e2761`
 - Cumulative generation count: **2** independent text-only generations; neither used an attachment or image reference
 - Technical review: Full-size, `238 × 408` card-size, and mechanism zoom review show exactly one dominant complete principal wheel. One small top rope pulley and the apprentice's compact ballast drum remain subordinate utilitarian mechanisms rather than competing principal wheels. Exactly two exhausted flood workers occupy the higher rising cradle; the merchant and ordinary cargo occupy the lower platform over breaking spray. Taut ropes, relative height, body lean, shifted loads, worker reach, storm force, and the apprentice's visibly falling ballast make opposing motion and limited agency legible without arrows, chevrons, directional marks, annotations, or infographic overlays. The elderly mechanic's missing forearm is clear, people adapt without moral reward or punishment, and no roulette, casino, zodiac, magical-destiny, or central-savior reading appears. Ambient-only worldbuilding relies on cliff-port architecture, civic clothing, machinery, and materials; no wolf, paw, emblem, or token symbol is visible. Faces, hands, joints, ropes, rails, spokes, timber, bronze, stone, cloth, cargo, foam, and rain remain readable without a blocking tangency. No embedded text, pseudo-rune, accidental tattoo, frame, watermark, signature, or logo is visible. The corrected source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted byte-for-byte without pixel changes or regeneration.

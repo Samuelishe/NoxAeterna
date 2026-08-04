@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **48/78**.
+- Accepted production cards: **51/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -114,16 +114,22 @@
   - [`major.empress`](records/major/empress.md) — owner acceptance: **Accepted**; the warm saturated living abundance, mature full-bodied figure, single white peacock, absence of other animals, and ambient-only wolf-world mode succeed without throne or pregnancy cliché.
   - [`minor.swords.four`](records/minor/swords/four.md) — owner acceptance: **Accepted**; exactly four complete sheathed swords remain readable as `2 + 2`, exactly one white-and-brindle greyhound sleeps below, and the rest reads as recovery rather than death.
   - [`minor.wands.eight`](records/minor/wands/eight.md) — owner acceptance: **Accepted** after one targeted correction; the initial `4 + 3 = 7` defect remains recorded, and the accepted second generation contains exactly `4 + 4 = 8` separate civilian dispatch batons with no ninth or spare baton.
-- A19: **Pending** reversal / emotional command / patient cultivation batch.
+- A19: **Accepted** reversal / emotional command / patient cultivation batch.
 - A19 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A19 card was used as an image reference. Owner review rejected all three initial candidates, and each card then used exactly one targeted independent text-only correction without an image reference, for cumulative generation count **2** per card.
-- A19 review candidates:
-  - [`major.wheel-of-fortune`](records/major/wheel-of-fortune.md) — owner acceptance: **Pending** after one targeted correction removed the initial white directional-arrow overlays; one complete principal tidal wheel and opposing cradle movement now read through physical staging alone.
-  - [`minor.cups.king`](records/minor/cups/king.md) — owner acceptance: **Pending** after one targeted correction removed the initial forced paw stamp; exactly one stationary gimballed cup remains, and wolf mode is ambient-only.
-  - [`minor.pentacles.seven`](records/minor/pentacles/seven.md) — owner acceptance: **Pending** after one targeted correction replaced the modern-thermometer reading and removed the forced lintel track; exactly seven bronze seals remain in `4 + 3`, with the identical five-point geometry on those seals disclosed for owner review.
+- A19 production cards:
+  - [`major.wheel-of-fortune`](records/major/wheel-of-fortune.md) — owner acceptance: **Accepted** after one targeted correction removed the initial white directional-arrow overlays; one complete principal tidal wheel and opposing cradle movement now read through physical staging alone.
+  - [`minor.cups.king`](records/minor/cups/king.md) — owner acceptance: **Accepted** after one targeted correction removed the initial forced paw stamp; exactly one stationary gimballed cup remains, and wolf mode is ambient-only.
+  - [`minor.pentacles.seven`](records/minor/pentacles/seven.md) — owner acceptance: **Accepted** after one targeted correction replaced the modern-thermometer reading and removed the forced lintel track; exactly seven bronze seals remain in `4 + 3`. The owner explicitly accepts their identical five-point geometry as part of the seven seals, not an extra object, defect, pseudo-rune, or wolf motif.
+- A20: **Pending** tradition / fulfilled desire / clear boundary batch.
+- A20 generation method: built-in `imagegen`, independent text-only; no attachment, accepted card, rejected study, or newly generated A20 card was used as an image reference.
+- A20 review candidates:
+  - [`major.hierophant`](records/major/hierophant.md) — owner acceptance: **Pending** after one initial generation; exactly one preceptor and exactly two initiates perform a public guild verification without religious or Justice staging.
+  - [`minor.cups.nine`](records/minor/cups/nine.md) — owner acceptance: **Pending** after one targeted correction; the initial candidate contained exactly nine cups but had one cropped hand and extra open containers. The independent correction fixed those defects but contains `4 + 6 = 10` complete cups. The correction allowance is exhausted and the tenth cup is a blocking owner-review observation.
+  - [`minor.swords.queen`](records/minor/swords/queen.md) — owner acceptance: **Pending** after one initial generation; exactly one complete sword and no other weapon accompany the mountain-pass boundary decision.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, and A18 images are shipped production assets listed by `artwork-pack.json`. A19 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A19 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, and A19 images are shipped production assets listed by `artwork-pack.json`. A20 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, A20-P and the post-A20 batch do not start automatically, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **48/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **51/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 
@@ -177,6 +183,8 @@ This is neither a racial quota nor mechanical alternation; it protects the world
 ### Owner Examples Are Idea-Space
 
 Owner examples of characters, animals, genres, or scenes define the range of possible choices; they are not immediate casting assignments or a checklist for the next batch. Casting and plot are derived from the card meaning first, and an example is used only when it naturally strengthens that meaning. One successful archetype never becomes recurring cast or a deck template without an explicit tracked decision. A16 is accepted as a one-off correction to the explored range, not as a new visual standard.
+
+Compact future idea-space includes varied travelers, merchants, elders, bards, performers, criminals, executioners, riders, and western, eastern, steppe, or desert military cultures; useful settings include markets, coasts, harbors, farms, kennels, stables, workshops, prisons, forests, arenas, river locks, ferries, salt fields, greenhouses, observatories, bathhouses, quarantine posts, caravanserais, dye houses, floating markets, aqueducts, cisterns, border stations, and nomad camps. This is a non-blocking range reminder, not a quota: select only meaning-first combinations, and add an animal or wolf element only when it acts in the story.
 
 ## Style Unity
 

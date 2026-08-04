@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.cups.king`
 - Batch: **A19 — reversal / emotional command / patient cultivation**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -130,13 +130,13 @@ Exactly one cup-like vessel in exactly one plain gimballed holder. No other visi
 Check ropes, rails, lever, mast lines, rigging, cup, and holder so none crosses an eye, mouth, face, hand, or joint unnaturally.
 ```
 
-## Corrected Final Candidate
+## Accepted Production Asset
 
-- Path: `studies/A19/king-of-cups.png`
+- Path: `cards/minor/cups/king.png`
 - Corrected generated dimensions: `958 × 1642 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `c84a7fd9293474321cb9adf8d33ea3a479a6a7396be189e9939ebe24071acc26`
 - Cumulative generation count: **2** independent text-only generations; neither used an attachment or image reference
 - Technical review: Full-size, `238 × 408` card-size, and cup-area zoom review show exactly one tall broad ceramic cup in exactly one plain brass gimballed holder. Its water surface remains visibly level against the rolling cutter; the cup is stationary, secondary, and not held or passed. No second cup, mug, bowl, bottle, pitcher, bucket, open barrel, jar, basin, cup-shaped lantern, or other open vessel is visible; the rectangular cargo hanging over the starboard water is a closed lashed crate. The holder has no paw stamp, animal mark, badge, logo, medallion, carving, or substitute token emblem. Ambient-only setting relies on cutter construction, storm clothing, maritime materials, and seafaring activity. The captain's clouded eye is visible; one hand works the lever while the other gives a calm open command, and the crew, refugee parent with child, and injured worker actively redistribute effort toward the lee channel and second wreck. The storm remains dangerous without static-council, handoff, paternalistic, or superhero staging. Faces, hands, joints, rigging, rails, lever, ceramic, plain brass, wet timber, cloth, foam, and rain remain readable without a blocking tangency. No embedded text, pseudo-rune, accidental tattoo, physical wolf, animal, frame, watermark, signature, or logo is visible. The corrected source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted byte-for-byte without pixel changes or regeneration.

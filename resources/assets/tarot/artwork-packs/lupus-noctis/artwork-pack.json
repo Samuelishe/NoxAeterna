@@ -444,6 +444,33 @@
       "sha256": "3a8dbdd237647a8700201f9300afbbc6da42064a9eafc1fb9a9315e5bc2d5b55",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/wands/eight.md"
+    },
+    {
+      "cardId": "major.wheel-of-fortune",
+      "assetPath": "cards/major/wheel-of-fortune.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "3835740df9e14a424614b3a763c17c7626743c105235e572f3d525eb0e1e2761",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/wheel-of-fortune.md"
+    },
+    {
+      "cardId": "minor.cups.king",
+      "assetPath": "cards/minor/cups/king.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "c84a7fd9293474321cb9adf8d33ea3a479a6a7396be189e9939ebe24071acc26",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/king.md"
+    },
+    {
+      "cardId": "minor.pentacles.seven",
+      "assetPath": "cards/minor/pentacles/seven.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "fde5402f988056ad84377a4fdf9ed18671bfccd0758c162758be4baa36cbc402",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/seven.md"
     }
   ]
 }

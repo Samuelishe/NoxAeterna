@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.pentacles.seven`
 - Batch: **A19 — reversal / emotional command / patient cultivation**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -144,13 +144,13 @@ Exactly seven circular bronze seals in a 4 front + 3 rear arrangement. No other 
 Check support beams, roots, tools, device cords, pointers, and bed edges so none crosses eyes, mouths, hands, or joints unnaturally.
 ```
 
-## Corrected Final Candidate
+## Accepted Production Asset
 
-- Path: `studies/A19/seven-of-pentacles.png`
+- Path: `cards/minor/pentacles/seven.png`
 - Corrected generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `fde5402f988056ad84377a4fdf9ed18671bfccd0758c162758be4baa36cbc402`
 - Cumulative generation count: **2** independent text-only generations; neither used an attachment or image reference
 - Technical review: Full-size, `238 × 408` card-size, cultivation-area zoom, and device zoom review show exactly seven complete circular bronze bed seals, four across the front group and three across the rear group. No eighth seal, loose coin, additional medallion, round gauge, wheel, plate, circular lamp, or other prominent count-confusing circular metal object appears. Each of the seven seals carries the same conspicuous five-point geometric star design; these markings do not add to the seal count and are not wolf motifs, but they remain an explicit owner-review observation rather than being misreported as an absence of visible symbols. The apprentice uses an open timber frame with cord, brass slider and linear pointer, and a hanging cylindrical weight; there is no glass tube, liquid column, enclosed thermometer body, modern laboratory casing, writing, number, or round dial. Four foreground and three rear beds show two mature crops, developing growth, and failed pale substrate; the cultivator actively lifts one rectangular airflow block. The plain timber-and-stone lintel has no track relief, paw, wolf emblem, badge, medallion, carving, substitute insignia, physical wolf, or animal, so wolf mode is ambient-only. Faces, hands, joints, supports, device cord, bed edges, stone, timber, bronze, soil, fungi, beard, and cloth remain readable without a blocking tangency. No embedded text, pseudo-rune, accidental tattoo, frame, watermark, signature, or logo is visible beyond the explicitly disclosed identical geometric seal designs. The corrected source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted** after owner visual review; promoted byte-for-byte without pixel changes or regeneration. The identical five-point geometry on the seven bronze seals is an explicitly accepted part of those seals and is not an extra object, technical defect, pseudo-rune, or wolf motif.
