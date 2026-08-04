@@ -1,10 +1,10 @@
 # Next Steps
 
-The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. A18 is accepted and promoted, Lupus Noctis now has 48/78 accepted production illustrations with prototype fallback for omitted cards, and the three A19 candidates remain Pending.
+The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. A18 is accepted and promoted, Lupus Noctis now has 48/78 accepted production illustrations with prototype fallback for omitted cards, and the three corrected A19 candidates remain Pending.
 
 Immediate next steps:
 
-1. **ART-LN:** visually review the three A19 candidates and decide whether to accept, reject, or correct them. The post-A19 batch remains deliberately unselected; do not begin A19-P, A20, or AP1 automatically. Art production in the stable repository structure does not wait for runtime import infrastructure.
+1. **ART-LN:** visually review the three corrected A19 candidates and decide whether to accept or reject them. Their one-correction allowance is exhausted unless the owner explicitly authorizes another attempt. The post-A19 batch remains deliberately unselected; do not begin A19-P, A20, or AP1 automatically.
 2. **AP1:** app-data path service, built-in no-delete seed synchronization, and Settings action to open application data.
 3. **AP2:** runtime registry, validation fingerprints, exact-stem extension audit/fallback, normalized PNG cache, and placeholders.
 4. **AP3–AP5:** separate Assets tool, manual user-pack discovery, then Settings import wizard.

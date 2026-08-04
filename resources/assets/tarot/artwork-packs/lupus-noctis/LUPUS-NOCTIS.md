@@ -115,11 +115,11 @@
   - [`minor.swords.four`](records/minor/swords/four.md) — owner acceptance: **Accepted**; exactly four complete sheathed swords remain readable as `2 + 2`, exactly one white-and-brindle greyhound sleeps below, and the rest reads as recovery rather than death.
   - [`minor.wands.eight`](records/minor/wands/eight.md) — owner acceptance: **Accepted** after one targeted correction; the initial `4 + 3 = 7` defect remains recorded, and the accepted second generation contains exactly `4 + 4 = 8` separate civilian dispatch batons with no ninth or spare baton.
 - A19: **Pending** reversal / emotional command / patient cultivation batch.
-- A19 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A19 card was used as an image reference.
+- A19 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A19 card was used as an image reference. Owner review rejected all three initial candidates, and each card then used exactly one targeted independent text-only correction without an image reference, for cumulative generation count **2** per card.
 - A19 review candidates:
-  - [`major.wheel-of-fortune`](records/major/wheel-of-fortune.md) — owner acceptance: **Pending**; one principal tidal wheel and opposing cradle movement.
-  - [`minor.cups.king`](records/minor/cups/king.md) — owner acceptance: **Pending**; one stationary gimballed cup and visible wolf-paw stamp.
-  - [`minor.pentacles.seven`](records/minor/pentacles/seven.md) — owner acceptance: **Pending**; exactly seven bronze seals in `4 + 3`, vertical gauge, and visible wolf-track lintel.
+  - [`major.wheel-of-fortune`](records/major/wheel-of-fortune.md) — owner acceptance: **Pending** after one targeted correction removed the initial white directional-arrow overlays; one complete principal tidal wheel and opposing cradle movement now read through physical staging alone.
+  - [`minor.cups.king`](records/minor/cups/king.md) — owner acceptance: **Pending** after one targeted correction removed the initial forced paw stamp; exactly one stationary gimballed cup remains, and wolf mode is ambient-only.
+  - [`minor.pentacles.seven`](records/minor/pentacles/seven.md) — owner acceptance: **Pending** after one targeted correction replaced the modern-thermometer reading and removed the forced lintel track; exactly seven bronze seals remain in `4 + 3`, with the identical five-point geometry on those seals disclosed for owner review.
 
 The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, and A18 images are shipped production assets listed by `artwork-pack.json`. A19 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A19 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
@@ -146,6 +146,14 @@ Every brief selects the prominence that serves its individual meaning:
 5. **Lycanthrope** — serious full or partial transformation when the meaning requires it; never furry.
 
 Prominence follows meaning. Do not add a large wolf head automatically, replace every animal with a wolf, or treat a physical wolf as a deck-wide requirement. Ordinary cats, dogs, birds, horses, and other animals are allowed when they participate in the scene.
+
+### Meaningful Wolf Integration Gate
+
+- Wolf motifs must serve the narrative and harmonize with the scene; motif presence is never a quota or branding requirement.
+- Do not add a paw print, logo-like emblem, medallion, doorway relief, hardware stamp, carved head, or other arbitrary symbolic insert merely to make a card visibly wolf-themed.
+- When a meaningful wolf-world element does not arise naturally from the scene, select **Ambient-only** and rely on architecture, institution, clothing, materials, practice, or lore.
+- Meaningful integration may include a real wolf or pack, serious lycanthropic or wolf-like human presence, setting-appropriate wolf-gray fur or practical pelts, or story-relevant statues, kennels, hunting, forest danger, lairs, pastoral work, and martial context.
+- A random paw icon on equipment, a decorative wolf symbol without narrative function, or a relief placed over a doorway only as a label is a review defect, even when technically secondary and readable.
 
 ### Wolf-World Legibility Gate
 

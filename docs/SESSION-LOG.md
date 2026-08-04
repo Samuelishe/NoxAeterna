@@ -9,6 +9,19 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-04: A19 Targeted Correction Pass
+
+Summary:
+
+- Recorded owner rejection of all three initial A19 candidates: Wheel of Fortune contained explicit white directional-arrow overlays, King of Cups used a forced paw stamp on the cup holder, and Seven of Pentacles paired a modern-thermometer reading with a forced lintel track relief.
+- Replaced each candidate in place through exactly one independent text-only correction without attachments or image references. Wheel now expresses opposing motion physically without arrows; King retains exactly one gimballed cup in a plain holder; Seven retains seven seals in `4 + 3`, uses an open preindustrial cord-and-weight draft register, and has a plain lintel. Each record preserves the initial hash, owner rejection, complete correction prompt, corrected metadata, cumulative generation count two, and Pending status.
+- Added the durable rule that wolf-world elements must be narratively meaningful rather than token branding; ambient-only is required when a wolf motif does not arise naturally. Seven's identical five-point seal geometry remains explicitly disclosed for owner review.
+- Kept A19 outside the production manifest and Release output. A19-P, A20, and AP1 do not begin automatically.
+
+Verification:
+
+- The proportional gate covers documentation validation, a Release solution build, focused artwork-pack and repository-boundary tests, corrected PNG dimensions/hash/provenance and source/manifest/output separation checks, and `git diff --check`; GitHub Actions is not inspected.
+
 ## 2026-08-04: A18-P + A19 Production Promotion and Reversal Batch
 
 Summary:

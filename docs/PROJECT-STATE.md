@@ -22,13 +22,13 @@
 - T1 first playable Tarot workspace is complete at checkpoint commit `4e7e3d61bc11b875af9fb5591f5a10ed986c8962`: real single-card and three-card in-memory readings, explicit reversal preference, responsive programmatic prototype cards, two selectable backs, localized inspection, and presentation-owned session state are ready for owner visual review. Hosted run `30791606505` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - A3 partial-pack integration is functionally and visually accepted at commit `4977852287051c95945b55f78d18c263dc35de20`: Lupus Noctis contributes three accepted raster cards over the unchanged semantic reading, with Classic first, controlled fallback, localized overlays, and validated built-in resources. Single-card scale remains deferred to T-UX1 and native title-bar replacement to S2.
 - AP0 asset-pack runtime architecture is complete at checkpoint commit `37dc91e24a8c73ec949312c21a684f5e2998398d`; hosted run `30806291467` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
-- A18 is owner-accepted and promoted: `major.empress`, `minor.swords.four`, and corrected `minor.wands.eight` bring Lupus Noctis to 48/78 production illustrations. Eight of Wands retains the initial `4 + 3 = 7` defect, targeted independent correction, successful `4 + 4 = 8` result, and cumulative generation count two. The three A19 candidates remain Pending owner review outside the manifest and Release output.
+- A18 is owner-accepted and promoted: `major.empress`, `minor.swords.four`, and corrected `minor.wands.eight` bring Lupus Noctis to 48/78 production illustrations. Eight of Wands retains the initial `4 + 3 = 7` defect, targeted independent correction, successful `4 + 4 = 8` result, and cumulative generation count two. Owner review rejected all three initial A19 candidates; each received exactly one independent text-only correction and remains Pending owner review outside the manifest and Release output. Detailed initial defects, correction prompts, corrected hashes, and residual observations belong to the card records.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-Continue ART-LN with owner visual review of the three Pending A19 candidates. The post-A19 batch remains deliberately unselected, and A19-P, A20, and AP1 do not start automatically.
+Continue ART-LN with owner visual review of the three corrected Pending A19 candidates. The post-A19 batch remains deliberately unselected, and A19-P, A20, and AP1 do not start automatically.
 
 ## Preserved Contracts
 

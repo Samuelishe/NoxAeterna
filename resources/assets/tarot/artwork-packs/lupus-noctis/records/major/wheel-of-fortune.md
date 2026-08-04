@@ -39,7 +39,7 @@ A steep high-oblique portrait view makes one complete timber-and-bronze wheel do
 
 **Ambient-only.** Cliff-port architecture, civic coats, municipal machinery, wet stone, timber, bronze, and regional material culture establish Lupus Noctis. No physical wolf, spirit wolf, or mandatory emblem appears.
 
-## Full Generation Prompt
+## Initial Generation Prompt
 
 ```text
 Use case: illustration-story
@@ -72,18 +72,70 @@ Exactly one dominant complete wheel. No roulette, casino, second principal wheel
 Check spokes, ropes, rails, beams and cradle edges so none crosses eyes, mouths, hands or joints unnaturally.
 ```
 
-## Negative Constraints
+## Initial Negative Constraints
 
 Exactly one dominant complete principal wheel; no second principal wheel, wagon wheel, roulette or casino reading, zodiac diagram, magical destiny symbol, supernatural being, moral reward or punishment, physical wolf, embedded text, pseudo-runes, accidental tattoos, frame, watermark, signature, or logo. Small mechanical pulleys remain visually subordinate.
 
-## Final Candidate
+## Initial Generation Result and Owner Rejection
+
+- Superseded candidate path: `studies/A19/wheel-of-fortune.png`; replaced in place and not retained as a duplicate
+- Original generated dimensions: `957 × 1643 px`
+- Normalized dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
+- SHA-256: `7c24e7b4e88965bba16cbc6fbb1a61817bae6d5d0c5e99625d605526484ce74d`
+- Generation ordinal: **1**, independent text-only; no attachment or image reference
+- Owner rejection: the image contained two explicit large white directional arrows over the scene. They were blocking diagrammatic or infographic overlays rather than in-world physical evidence of motion. The prior technical review incorrectly omitted this visible defect.
+
+## Targeted Correction Prompt
+
+```text
+Use case: illustration-story
+Asset type: corrected borderless inner illustration for an exact 7:12 portrait Tarot review candidate
+Generation mode: one targeted independent text-only correction; no input image and no image reference
+
+Primary request:
+Create a dramatic contemporary painted grounded narrative-fantasy Tarot illustration about reversal, cycles, instability, external change, timing, chance, and limited human agency. Preserve the cliff-port tidal lift concept, but correct the rejected diagrammatic-overlay defect completely.
+
+Scene:
+A fortified cliff-port uses one enormous municipal tidal counterweight wheel to move freight and people between the lower harbor and upper city. During a rare storm-surge reversal, the great wheel physically begins rotating backward because the sea and counterweight mechanism reverse.
+
+Exact wheel contract:
+Show exactly one dominant complete principal mechanical wheel, fully contained and clearly readable: a huge weathered timber-and-bronze municipal counterweight wheel built into the cliff station. No second principal wheel, wagon wheel, roulette wheel, casino wheel, zodiac wheel, decorative circular diagram, or magical destiny wheel. Any small rope pulley must remain unmistakably subordinate and utilitarian.
+
+Physical narrative:
+One freight cradle carrying expensive but ordinary cargo is visibly lower and descending toward sea spray: cargo shifts downhill, wet ropes strain, workers brace against the drop, and spray bursts below it.
+One rescue cradle carrying exactly two exhausted flood workers is visibly higher and rising toward the dry quay: taut ropes lift it, the occupants lean with acceleration, and upper workers reach to receive it.
+An elderly one-armed lift mechanic cannot stop the reversal. He directs an adolescent apprentice who is physically releasing emergency ballast through a practical lever and dropping counterweight material so the machinery does not tear apart. A wealthy merchant remains on the descending freight platform. Several workers across different levels react and adapt. Nobody is morally rewarded or punished and nobody is a central savior.
+
+Motion must be communicated only through real physical evidence: rope tension, load position, relative cradle height, body lean, cargo shift, ballast release, splash, gravity, storm force, strained structure, and worker reaction.
+
+Absolute anti-defect rule:
+No arrows anywhere. No directional marks, chevrons, painted motion indicators, curved arrows, white arrows, diagrammatic annotations, instructional symbols, infographic overlays, UI marks, labels, route markings, or motion graphics. Do not paint or carve an arrow onto water, stone, timber, cargo, machinery, clothing, sky, or any surface.
+
+Wolf-world mode:
+Ambient-only through cliff-port architecture, civic clothing, machinery, storm materials, and regional construction. No physical wolf, spirit wolf, paw print, wolf emblem, wolf badge, medallion, carved wolf head, token insignia, or arbitrary symbolic insert.
+
+Composition:
+Exact 7:12 portrait, borderless. Use a steep high-oblique or low upward cliff view. The single complete wheel dominates the structural center while the differently elevated cradles form opposing physical diagonals. People remain readable but smaller than the mechanism. Keep the entire principal wheel and essential figures within safe margins. Avoid poster chaos and hero posing.
+
+Style and materials:
+Contemporary painted grounded fantasy, modern RPG chapter art, natural varied brushwork, believable preindustrial machinery and human anatomy. Distinguish wet timber, oxidized bronze, rope, wet stone, cloth, ordinary cargo, foam, rain, and storm air. Painted, not photorealistic and not 3D-rendered.
+
+Mood and palette:
+Unstable, vertiginous, dramatic, indifferent, and unsentimental. Storm green, wet stone gray, weathered timber, oxidized bronze, deep maritime blue, restrained cargo colors, and cold reflected light.
+
+Constraints:
+Exactly one dominant complete principal wheel. Exactly two flood workers in the rising rescue cradle. No arrows or overlay marks of any kind. No roulette, casino, second principal wheel, zodiac imagery, magical symbol, supernatural being, divine beam, prophecy, text, title, number, frame, border, watermark, signature, logo, pseudo-runes, accidental tattoos, physical wolf, wolf token, 3D render, anime, or comic cel shading.
+
+Check spokes, ropes, rails, beams, cradle edges, and cargo so none crosses eyes, mouths, hands, or joints unnaturally.
+```
+
+## Corrected Final Candidate
 
 - Path: `studies/A19/wheel-of-fortune.png`
-- Original generated dimensions: `957 × 1643 px`
+- Corrected generated dimensions: `958 × 1641 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
-- SHA-256: `7c24e7b4e88965bba16cbc6fbb1a61817bae6d5d0c5e99625d605526484ce74d`
-- Generation count: **1** initial text-only generation; no correction used
-- Targeted correction prompt: none
-- Technical review: Full-size, `238 × 408` card-size, and principal-mechanism zoom review show exactly one dominant complete municipal wheel. Smaller lift pulleys remain subordinate and cannot be mistaken for a second principal wheel. The cargo platform descends while the cradle containing exactly two exhausted flood workers rises; opposing directional motion, the mechanic's instruction, and the apprentice's ballast action make reversal and limited agency readable. The wealthy merchant, workers, mechanic, and apprentice occupy different levels without divine reward, punishment, casino, roulette, zodiac, prophecy, or central-savior staging. Ambient-only wolf-world mode succeeds through the cliff port and civic machinery. Faces, hands, joints, ropes, rails, spokes, wet stone, timber, bronze, cloth, cargo, foam, and storm air remain readable and materially distinct; no blocking facial tangency, embedded text, pseudo-rune, accidental tattoo, physical wolf, frame, watermark, signature, or logo is visible. The source was decoded and center-cropped without stretching.
+- SHA-256: `3835740df9e14a424614b3a763c17c7626743c105235e572f3d525eb0e1e2761`
+- Cumulative generation count: **2** independent text-only generations; neither used an attachment or image reference
+- Technical review: Full-size, `238 × 408` card-size, and mechanism zoom review show exactly one dominant complete principal wheel. One small top rope pulley and the apprentice's compact ballast drum remain subordinate utilitarian mechanisms rather than competing principal wheels. Exactly two exhausted flood workers occupy the higher rising cradle; the merchant and ordinary cargo occupy the lower platform over breaking spray. Taut ropes, relative height, body lean, shifted loads, worker reach, storm force, and the apprentice's visibly falling ballast make opposing motion and limited agency legible without arrows, chevrons, directional marks, annotations, or infographic overlays. The elderly mechanic's missing forearm is clear, people adapt without moral reward or punishment, and no roulette, casino, zodiac, magical-destiny, or central-savior reading appears. Ambient-only worldbuilding relies on cliff-port architecture, civic clothing, machinery, and materials; no wolf, paw, emblem, or token symbol is visible. Faces, hands, joints, ropes, rails, spokes, timber, bronze, stone, cloth, cargo, foam, and rain remain readable without a blocking tangency. No embedded text, pseudo-rune, accidental tattoo, frame, watermark, signature, or logo is visible. The corrected source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference
 - Owner acceptance: **Pending**
