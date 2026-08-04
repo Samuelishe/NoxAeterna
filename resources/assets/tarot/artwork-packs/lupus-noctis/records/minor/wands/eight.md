@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.wands.eight`
 - Batch: **A18 — living abundance / protected rest / rapid transmission**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -131,13 +131,13 @@ Urgent, cold, bright, wind-struck and exhilarating. Cobalt, mustard, mountain gr
 Constraints:
 Exactly eight complete wooden dispatch batons in two clearly separated groups of four. No ninth baton, spare shuttle, arrow, spear, staff, weapon, physical wolf, animal, magical projectile, embedded text, title, number, frame, watermark, signature, logo, pseudo-runes, accidental tattoo, 3D render, anime or comic cel shading. Check cables, lever, beams and cloth tails so none crosses an eye, mouth, hand or joint unnaturally.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A18/eight-of-wands.png`
+- Path: `cards/minor/wands/eight.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `3a8dbdd237647a8700201f9300afbbc6da42064a9eafc1fb9a9315e5bc2d5b55`
 - Generation count: **2** text-only generations: one initial generation and one targeted independent regeneration; neither used an attachment or image reference
 - Technical review: Full-size and card-size review prove exactly eight complete wooden dispatch batons in two separated flight bands: four upper and four lower. All eight blunt wooden bodies and crimson cloth tails are separately visible with clear negative space; no baton is cropped, hidden, merged, or overlapped, and no ninth or spare shuttle appears. Their sealed cylindrical wooden construction, independent guide cables, civilian relay machinery, and absence of points, blades, feathers, or weapon racks prevent arrow, spear, staff, or missile reading. The shaved stocky moustached relay master actively pulls the heavy machinery-mounted release lever while two small assistants and the ruptured reservoir establish coordinated warning and immediate consequence; motion, speed, and urgency read clearly. The small running-wolf stamp is visible on the brass release plate and remains secondary. Faces, eyes, mouths, hands, joints, cables, beams, lever, and cloth tails remain readable without blocking tangencies; skin, cloth, leather, wood, cable, brass, rock, snowmelt, and cloud separate cleanly. No animal, physical wolf, magical projectile, embedded text, pseudo-symbols, accidental tattoos, dense pop-fantasy resemblance, frame, watermark, signature, or logo is visible. The corrected source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**; the owner visually accepted the corrected `4 + 4 = 8` dispatch-baton arrangement, absence of a ninth or spare baton, civilian transport-capsule reading, and running-wolf stamp on the release plate. The initial `4 + 3 = 7` defect and cumulative generation count two remain part of this record.

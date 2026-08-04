@@ -9,6 +9,19 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-04: A18-P + A19 Production Promotion and Reversal Batch
+
+Summary:
+
+- Recorded owner acceptance of `major.empress`, `minor.swords.four`, and corrected `minor.wands.eight`; moved their unchanged A18 bytes to canonical production paths, removed the empty A18 study directory, and expanded Lupus Noctis from 45 to 48 accepted manifest assets with controlled fallback for the other 30 semantic cards.
+- Preserved the complete Eight of Wands correction history: the initial text-only generation contained `4 + 3 = 7` batons, and one targeted independent correction produced the accepted `4 + 4 = 8` result for cumulative generation count two.
+- Generated independent text-only A19 candidates for `major.wheel-of-fortune`, `minor.cups.king`, and `minor.pentacles.seven` with no image references. All three passed their initial full-size, card-size, and count/detail technical reviews without correction; detailed prompts, casting and novelty contrasts, mood scripts, dimensions, hashes, motif modes, and technical observations belong to their records.
+- Kept all three A19 candidates Pending under canonical `studies/A19/` paths, outside the production manifest and Release output. The post-A19 batch remains deliberately unselected, and AP1 does not begin automatically.
+
+Verification:
+
+- The proportional gate covers documentation validation, a Release solution build, focused artwork-pack and repository-boundary tests, source/manifest/output/study/hash consistency checks, and `git diff --check`; GitHub Actions is intentionally not inspected.
+
 ## 2026-08-04: A17-P + A18 Production Promotion and Living-Systems Batch
 
 Summary:
@@ -75,7 +88,6 @@ Summary:
 Verification:
 
 - The proportional gate covers documentation validation, a Release solution build, focused artwork-pack and repository-boundary tests, source/manifest/output/study/hash consistency checks, and `git diff --check`; broad hosted CI remains deferred until a future owner-authorized commit and push.
-
 ## 2026-08-03: A12-P + A13 Production Promotion and Review Batch
 
 Summary:
@@ -84,30 +96,6 @@ Summary:
 - Closed A12 with those two accepted cards and carried `minor.cups.ten`, including both failed A12 attempts, into A13. Its simplified two-by-five rack contract succeeded on the first new A13 generation, for a cumulative count of three.
 - Generated independent text-only A13 candidates for `minor.cups.ten`, `major.hermit`, `major.fool`, and `minor.pentacles.ace` with no image references. All four passed their A13 initial technical gates without corrective regeneration; detailed generation metadata belongs to their records.
 - Kept all four A13 candidates Pending under canonical `studies/A13/` paths, outside the production manifest and application output. The post-A13 batch remains deliberately unselected, and AP1 does not begin automatically.
-
-Verification:
-
-- The proportional gate covers documentation validation, a Release solution build, focused artwork-pack and repository-boundary tests, source/manifest/output/study/hash consistency checks, and `git diff --check`; broad hosted CI remains deferred until a future owner-authorized commit and push.
-
-## 2026-08-03: A11-P + A12 Production Promotion and Review Batch
-
-Summary:
-
-- Recorded the owner's acceptance of `major.strength`, `minor.cups.four`, and `minor.pentacles.king`; moved the unchanged A11 bytes to canonical production paths, removed the empty A11 study directory, and expanded Lupus Noctis from 24 to 27 accepted manifest assets with controlled fallback for the other 51 semantic cards.
-- Generated independent text-only A12 work for `major.chariot`, `minor.swords.two`, and `minor.cups.ten` with no image references. Chariot and Two of Swords passed their initial gates and were saved as Pending candidates; the permitted Ten of Cups correction repeated an eleven-cup count defect, so no failed Ten of Cups variant was saved. Exact generation counts, correction history, dimensions, hashes, prompts, and technical reviews belong to their linked records.
-- Kept the valid A12 candidates outside the production manifest and application output. A12 remains incomplete pending explicit owner direction on the exhausted correction allowance; the post-A12 batch remains deliberately unselected, and AP1 does not begin automatically.
-
-Verification:
-
-- Verification was intentionally not run on the incomplete A12 batch; the proportional gate remains due after a contract-valid third candidate exists. Broad hosted CI remains deferred until a future owner-authorized commit and push.
-
-## 2026-08-03: A10-P + A11 Production Promotion and Review Batch
-
-Summary:
-
-- Recorded the owner's acceptance of `major.temperance`, `minor.swords.ten`, and `minor.wands.queen`; moved the unchanged A10 bytes to canonical production paths, removed the empty A10 study directory, and expanded Lupus Noctis from 21 to 24 accepted manifest assets with controlled fallback for the other 54 semantic cards.
-- Generated independent text-only A11 candidates for `major.strength`, `minor.cups.four`, and `minor.pentacles.king` with no image references. All three passed their initial technical gates without corrective regeneration. Exact generation counts, dimensions, hashes, prompts, and technical reviews belong to their linked records.
-- Kept all three A11 candidates Pending under canonical `studies/A11/` paths, outside the production manifest and application output. The post-A11 batch remains deliberately unselected, and AP1 does not begin automatically.
 
 Verification:
 

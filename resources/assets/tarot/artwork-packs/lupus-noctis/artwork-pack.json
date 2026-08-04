@@ -417,6 +417,33 @@
       "sha256": "28089525ab5dd561a565baff6024a9008b829e492f4628713898a8bc3487eba6",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/swords/three.md"
+    },
+    {
+      "cardId": "major.empress",
+      "assetPath": "cards/major/empress.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "6b44ab1329ab9c1aeb665d5742a7577f6af9a439826c8ed97c7e15c0b6777aeb",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/empress.md"
+    },
+    {
+      "cardId": "minor.swords.four",
+      "assetPath": "cards/minor/swords/four.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "4db0c632b4da2b0b492db04c238cc89d236cdeb009db544b49296101b737183c",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/swords/four.md"
+    },
+    {
+      "cardId": "minor.wands.eight",
+      "assetPath": "cards/minor/wands/eight.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "3a8dbdd237647a8700201f9300afbbc6da42064a9eafc1fb9a9315e5bc2d5b55",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/eight.md"
     }
   ]
 }

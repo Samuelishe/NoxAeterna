@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.swords.four`
 - Batch: **A18 — living abundance / protected rest / rapid transmission**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -86,9 +86,9 @@ Check rack edges, glass frames, cot ropes and plant stems so none crosses the sl
 
 Exactly four complete fully sheathed swords in a `2 + 2` rack; all four hilts and sheath tips visible; no empty sheath, exposed blade, or other weapon; exactly one greyhound and no other animal; no death, funeral, healer, treatment, blood, physical wolf, giant emblem, facial or joint tangency, embedded text, pseudo-symbols, accidental tattoos, frame, watermark, signature, or logo.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A18/four-of-swords.png`
+- Path: `cards/minor/swords/four.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `4db0c632b4da2b0b492db04c238cc89d236cdeb009db544b49296101b737183c`
@@ -96,4 +96,4 @@ Exactly four complete fully sheathed swords in a `2 + 2` rack; all four hilts an
 - Targeted correction prompt: none
 - Technical review: Full-size and card-size review prove exactly four complete fully sheathed swords in one rectangular rack: two upper and two lower. Each sword has a separately visible pommel, grip, crossguard, complete dark sheath, metal sheath tip, and one pale peace tie; no empty sheath, exposed blade, fifth sword, dagger, spear, belt weapon, or armor weapon appears. Exactly one elderly white-and-brindle greyhound sleeps curled beneath the suspended cot, and no other animal appears. The broad-shouldered scarred ash-blond former knight is visibly asleep and breathing in a protected recovery setting rather than dead, wounded, treated, heroic, or funerary; the closed chest contains the removed armor. The small faded running-wolf embroidery is visible on the folded dark-blue cloak beside the cot and remains secondary. Face, hands, dog anatomy, rack edges, glass frames, cot ropes, and plant stems remain readable without blocking tangencies; linen, canvas, timber, leather, metal, fur, old glass, and winter air separate cleanly. No embedded text, pseudo-symbols, accidental tattoos, dense pop-fantasy resemblance, frame, watermark, signature, or logo is visible. The source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**; the owner visually accepted the exact `2 + 2` arrangement of four complete sheathed swords, single white-and-brindle greyhound, deep restorative sleep rather than death, and secondary running-wolf embroidery.

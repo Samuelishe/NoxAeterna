@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.empress`
 - Batch: **A18 — living abundance / protected rest / rapid transmission**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -79,9 +79,9 @@ Check glass frames, vines, branches and hanging cords so none crosses an eye, mo
 
 Exactly one white peacock; no other animal; no crown, throne, pregnancy cliché, servant tableau, magical plant growth, giant wolf emblem, physical wolf, facial or joint tangency, embedded text, pseudo-symbols, accidental tattoos, frame, watermark, signature, or logo.
 
-## Final Candidate
+## Production Asset
 
-- Path: `studies/A18/empress.png`
+- Path: `cards/major/empress.png`
 - Original generated dimensions: `958 × 1641 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `6b44ab1329ab9c1aeb665d5742a7577f6af9a439826c8ed97c7e15c0b6777aeb`
@@ -89,4 +89,4 @@ Exactly one white peacock; no other animal; no crown, throne, pregnancy cliché,
 - Targeted correction prompt: none
 - Technical review: Full-size and card-size review show a mature full-bodied freckled woman actively releasing the restored espalier while a varied multigenerational community gathers fruit, repairs shade cloth, opens glass panels, and rests beneath vines. Warm rain, saturated fruit, leaves, cloth, wet stone, and laughter make abundance, sensual life, nurture, and shared flourishing immediately legible without a throne, crown, pregnancy-advertisement pose, servant hierarchy, or magical growth. Exactly one realistic white peacock walks naturally through the wet mosaic and remains secondary; no other animal appears. Branch weight, shears, cords, glass frames, hands, feet, faces, and joints remain plausible and readable with safe margins. Ambient-only Lupus Noctis worldbuilding succeeds through architecture, textiles, costume, and material culture without a physical wolf or mandatory emblem. No embedded text, pseudo-symbols, accidental tattoos, dense pop-fantasy resemblance, frame, watermark, signature, or logo is visible. The source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**; the owner visually accepted the saturated warm living atmosphere, mature full-bodied central figure, exactly one white peacock, absence of other animals, ambient-only wolf-world mode, and clean composition without blocking tangencies.

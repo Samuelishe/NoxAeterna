@@ -18,3 +18,4 @@ Archived content is retained historical evidence, not current status. Use [`PROJ
 - [`2026-08-03, part 01`](session-log/SESSION-LOG_2026-08-03_part-01.md) — partial-day evidence through A4/A4-P; later August 3 entries remain in the active log.
 - [`2026-08-03, part 02`](session-log/SESSION-LOG_2026-08-03_part-02.md) — partial-day evidence for A5/A5-P and A6-P+A7; later August 3 entries remain in the active log.
 - [`2026-08-03, part 03`](session-log/SESSION-LOG_2026-08-03_part-03.md) — partial-day evidence for A7-P+A8 through A9-P+A10; later August 3 entries remain in the active log.
+- [`2026-08-03, part 04`](session-log/SESSION-LOG_2026-08-03_part-04.md) — partial-day evidence for A10-P+A11 and A11-P+A12; later August 3 entries remain in the active log.

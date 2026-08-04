@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **45/78**.
+- Accepted production cards: **48/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -108,16 +108,22 @@
   - [`major.devil`](records/major/devil.md) — owner acceptance: **Accepted**; the proprietor, aristocrat, dockworker, rigged ledger, debt rings, and one secondary gray wolf communicate voluntary dependence without generic demon staging.
   - [`minor.cups.three`](records/minor/cups/three.md) — owner acceptance: **Accepted**; exactly three performers, exactly three cups, exactly one dog, and the secondary theatre-mask anchor remain readable in a saturated dynamic scene.
   - [`minor.swords.three`](records/minor/swords/three.md) — owner acceptance: **Accepted** after correction; the initial generation contained two complete unsheathed swords plus an empty scabbard that the prior technical review incorrectly counted as a third sword. Owner review caught the defect, and one targeted independent text-only regeneration produced one complete unsheathed sword left, one complete unsheathed sword right, and one complete ceremonial sword visibly inserted into its central scabbard. Generation count is **2** and the corrected SHA-256 is `28089525ab5dd561a565baff6024a9008b829e492f4628713898a8bc3487eba6`.
-- A18: **Pending** living abundance / protected rest / rapid transmission batch.
+- A18: **Accepted** as the sixteenth production wave.
 - A18 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A18 card was used as an image reference.
-- A18 review candidates:
-  - [`major.empress`](records/major/empress.md) — owner acceptance: **Pending**.
-  - [`minor.swords.four`](records/minor/swords/four.md) — owner acceptance: **Pending**.
-  - [`minor.wands.eight`](records/minor/wands/eight.md) — owner acceptance: **Pending** after one targeted `4 + 3` to `4 + 4` count correction.
+- A18 production cards:
+  - [`major.empress`](records/major/empress.md) — owner acceptance: **Accepted**; the warm saturated living abundance, mature full-bodied figure, single white peacock, absence of other animals, and ambient-only wolf-world mode succeed without throne or pregnancy cliché.
+  - [`minor.swords.four`](records/minor/swords/four.md) — owner acceptance: **Accepted**; exactly four complete sheathed swords remain readable as `2 + 2`, exactly one white-and-brindle greyhound sleeps below, and the rest reads as recovery rather than death.
+  - [`minor.wands.eight`](records/minor/wands/eight.md) — owner acceptance: **Accepted** after one targeted correction; the initial `4 + 3 = 7` defect remains recorded, and the accepted second generation contains exactly `4 + 4 = 8` separate civilian dispatch batons with no ninth or spare baton.
+- A19: **Pending** reversal / emotional command / patient cultivation batch.
+- A19 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A19 card was used as an image reference.
+- A19 review candidates:
+  - [`major.wheel-of-fortune`](records/major/wheel-of-fortune.md) — owner acceptance: **Pending**; one principal tidal wheel and opposing cradle movement.
+  - [`minor.cups.king`](records/minor/cups/king.md) — owner acceptance: **Pending**; one stationary gimballed cup and visible wolf-paw stamp.
+  - [`minor.pentacles.seven`](records/minor/pentacles/seven.md) — owner acceptance: **Pending**; exactly seven bronze seals in `4 + 3`, vertical gauge, and visible wolf-track lintel.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, and A17 images are shipped production assets listed by `artwork-pack.json`. A18 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A18 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, and A18 images are shipped production assets listed by `artwork-pack.json`. A19 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A19 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **45/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **48/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 
