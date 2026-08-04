@@ -4,9 +4,9 @@
 
 - Semantic card ID: `minor.cups.two`
 - Batch: **A21 — completion / public recognition / mutual harmony**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, independent text-only; no attachment or image reference
-- Pending candidate path: `studies/A21/two-of-cups.png`
+- Production asset path: `cards/minor/cups/two.png`
 
 ## Meaning-First Brief
 
@@ -63,7 +63,7 @@ Absolute constraints: Exactly two people; exactly two complete untouched cups on
 - Original generated dimensions: `957 × 1643 px`
 - Normalized dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
 - Normalized SHA-256: `3e40fbc3584f2a5f6d9a1f181566c1edfde60b721aa34b671fb19de83579a32b`
-- Decision: **Pending owner review**; `G1` is the canonical candidate and no correction generation is authorized
+- Decision: **owner Accepted and promoted byte-for-byte to production**; `G1` remains the canonical and only generation
 
 ## Final Candidate Review
 
@@ -71,4 +71,6 @@ Absolute constraints: Exactly two people; exactly two complete untouched cups on
 - Technical, anatomy, contact, and safe-margin gate: The oud player's right hand contacts the strings and her left hand contacts the neck; the fiddle player's left fingers contact the fingerboard while the other hand guides one bow across the strings. Each hand performs one compatible function. Both complete faces, hands, instruments, bow, cups, table, chair supports, legs, and boots remain inside the normalized crop. Fingers, wrists, elbows, instrument necks, chair legs, stool, floor, shutter, fireplace, timber, cloth, and plaster remain coherent without blocking crop or tangency.
 - Meaning, role, casting, mood, novelty, and composition gate: Equal scale, shared seated level, opposing instrument diagonals, reciprocal gaze, the woman's poised phrase and the man's answering bow communicate mutual recognition and a cautious new partnership without record text. Neither dominates or teaches; both retain distinct age, complexion, face, clothing, instrument, and cultural silhouette. The sparse rainy after-hours interior, exactly two co-principals, cross-cultural music, and quiet secondary cups contrast with recent public gates, initiation, salon hospitality, ship, mechanism, solitary worker, handoff, and table-discussion scenes. Warm firelight against rain-dark windows supports intimacy and alert trust rather than wedding, romance postcard, toast, or business meeting.
 - Independent absurdity review: Both chairs occupy real floor, both bodies are seated with supported boots, the stool has four coherent legs, and both cups rest on its continuous top. Instrument positions, hand contact, bow path, gaze, and call-and-response causality are usable and understandable. No hand performs two incompatible actions, no furniture intersects a body, and no third person appears in a reflection or shadow. No modern object, impossible perspective, forced motif, accidental franchise resemblance, or acceptance-blocking spatial, causal, narrative, or compositional absurdity is visible. `G4` is not authorized or needed.
-- Blockers: **none detected**. Owner authority remains external; status is **Pending owner review**.
+- Blockers: **none detected**.
+- Owner decision: **Accepted**. The owner confirmed exactly two people, exactly two complete cups and no other container, no cup holding or transfer, physically engaged oud and fiddle hands, and musical call-and-response as the legible reciprocity.
+- Production promotion: moved byte-for-byte to `cards/minor/cups/two.png`; normalized dimensions and SHA-256 are unchanged.

@@ -4,9 +4,9 @@
 
 - Semantic card ID: `minor.wands.six`
 - Batch: **A21 — completion / public recognition / mutual harmony**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, independent text-only; no attachment or image reference
-- Pending candidate path: `studies/A21/six-of-wands.png`
+- Production asset path: `cards/minor/wands/six.png`
 
 ## Meaning-First Brief
 
@@ -125,7 +125,7 @@ Absolute constraints: Exactly six complete blunt staffs in `3 + 3`; exactly six 
 - Original generated dimensions: `958 × 1642 px`
 - Normalized dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+3,+5` without stretching
 - Normalized SHA-256: `f9c7ae9ad69c3a4840ed62216f57c73bc3cbb4fa384bce782b144426fa26612d`
-- Decision: **Pending owner review**; `G3` is the canonical candidate and the normal attempt budget stops
+- Decision: **owner Accepted and promoted byte-for-byte to production**; `G3` remains the canonical candidate
 
 ## Final Candidate Review
 
@@ -133,4 +133,6 @@ Absolute constraints: Exactly six complete blunt staffs in `3 + 3`; exactly six 
 - Horse, riding, anatomy, and safe-margin gate: Exactly one complete dun horse is visible. Detail review finds exactly four anatomically separate legs and four distinct hooves: one lifted forehoof, one planted forehoof, and two separate supported hind hooves. Both complete rider boots appear simultaneously on opposite sides inside two distinct metal stirrups; saddle, rider weight, reins, bridle, and bit form a physically connected system. The horse, hooves, rider, boots, stirrups, hands, all staff tops and bases, and principal faces remain inside the normalized crop. Human and horse anatomy, hands, joints, cloth, leather, timber, masonry, and ground are coherent.
 - Meaning, role, casting, mood, novelty, and composition gate: The dusty weathered steppe rider is principal through mounted height, motion, gaze, and the repeated attendants' and crowd's acknowledgment. His slow passage, tired face, open gesture, and lingering attention to cheers communicate earned visible success with a hint of applause dependence. Hot dust, saturated civic dress, arena energy, one animal, and vertical recognition corridor contrast with the last twelve accepted scenes. The recovery is more frontal and regular than the preferred diagonal, but the turned torso, asymmetrical reins, lifted hoof, and audience response preserve motion and prevent a static coronation, military parade, or Chariot attack; this is a non-blocking composition note.
 - Independent absurdity review: All six bases rest on continuous arena ground, all attendants have supported feet, and the horse's four legs meet a usable level surface in a plausible paused gait. Both boot-stirrup contacts, saddle support, and rein-to-bridle route are visible. The crowd is contained behind the low wall; no figure floats or occupies missing architecture. Cause and effect are clear: a completed arena achievement produces formal attendant acknowledgment and public acclaim. No accidental modern object, impossible perspective, conflicting hand function, franchise resemblance, or acceptance-blocking spatial, causal, narrative, or compositional absurdity is visible. `G4` is not authorized or needed.
-- Blockers: **none detected**. Owner authority remains external; status is **Pending owner review**.
+- Blockers: **none detected**.
+- Owner decision: **Accepted**. The owner confirmed `3` staffs on the left plus `3` on the right for exactly `6`, exactly one horse with four separate legs and hooves, both rider boots in two visible stirrups, reins connected to the bridle, and no weapon or seventh pole; the more frontal regularity is accepted as non-blocking.
+- Production promotion: moved byte-for-byte to `cards/minor/wands/six.png`; normalized dimensions and SHA-256 are unchanged.

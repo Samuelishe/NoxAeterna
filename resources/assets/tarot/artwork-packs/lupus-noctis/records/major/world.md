@@ -4,9 +4,9 @@
 
 - Semantic card ID: `major.world`
 - Batch: **A21 — completion / public recognition / mutual harmony**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, independent text-only; no attachment or image reference
-- Pending candidate path: `studies/A21/world.png`
+- Production asset path: `cards/major/world.png`
 
 ## Meaning-First Brief
 
@@ -63,7 +63,7 @@ Absolute constraints: Exactly one principal acrobat and exactly one complete aer
 - Original generated dimensions: `957 × 1643 px`
 - Normalized dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
 - Normalized SHA-256: `7c35333c054d12dafdee60dc0765ccf6f79582bf15ede8928ef060f39d613831`
-- Decision: **Pending owner review**; `G1` is the canonical candidate and no correction generation is authorized
+- Decision: **owner Accepted and promoted byte-for-byte to production**; `G1` remains the canonical and only generation
 
 ## Final Candidate Review
 
@@ -71,4 +71,6 @@ Absolute constraints: Exactly one principal acrobat and exactly one complete aer
 - Technical, anatomy, and safe-margin gate: The normalized full image and `238 × 408` review preserve the complete hoop, top hardware, acrobat, hands, feet, faces, landing surface, and stage edge. The gripping hand closes around the hoop, the bent leg and free leg form a plausible controlled aerial pose, and the shoulders, elbows, knees, ankles, faces, instruments, ropes, timber, masonry, and cloth remain coherent. Rigging does not cross a face or joint. No blocking crop, broken anatomy, embedded text, tangency, or material anachronism is visible.
 - Meaning, role, casting, mood, novelty, and composition gate: The mature weathered acrobat is the clear principal through scale, height, action, and the ensemble's collective response, yet remains visibly part of a diverse troupe. The resolved aerial arc, landing mat, musicians' finale, rising audience, long-traveled harbor vista, and warm farewell light read as a completed shared cycle and readiness to leave the stage rather than The Sun, Six of Wands, conquest, or a generic circus poster. The airborne mature male/androgynous casting, open amphitheater, harbor-scale depth, and circular movement contrast with the last twelve accepted scenes.
 - Independent absurdity review: Both straps trace continuously from the single hoop to metal connectors fixed beneath the timber crossbeam; tension and gravity align with the acrobat's supported weight. The rectangular landing mat rests on a continuous wooden stage, every supporting performer occupies stage boards or stone terraces, parapets contain the audience, and no figure stands over empty space. The final-performance cause and collective audience response are legible. No impossible route, floating body, failed support, conflicting hand action, accidental franchise resemblance, or acceptance-blocking spatial, causal, narrative, or compositional absurdity is visible. `G4` is not authorized or needed.
-- Blockers: **none detected**. Owner authority remains external; status is **Pending owner review**.
+- Blockers: **none detected**.
+- Owner decision: **Accepted**. The owner confirmed exactly one principal acrobat, exactly one complete aerial hoop physically suspended from a real beam, plausible acrobat and rigging support, and a mature collective completion rather than a victory parade or incidental circus trick.
+- Production promotion: moved byte-for-byte to `cards/major/world.png`; normalized dimensions and SHA-256 are unchanged.

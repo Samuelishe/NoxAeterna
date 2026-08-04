@@ -498,6 +498,33 @@
       "sha256": "8381a085cce80541903ba550b88f8c6a7c3c8845c9c7de599ff294f9ef643d31",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/swords/queen.md"
+    },
+    {
+      "cardId": "major.world",
+      "assetPath": "cards/major/world.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "7c35333c054d12dafdee60dc0765ccf6f79582bf15ede8928ef060f39d613831",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/world.md"
+    },
+    {
+      "cardId": "minor.wands.six",
+      "assetPath": "cards/minor/wands/six.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "f9c7ae9ad69c3a4840ed62216f57c73bc3cbb4fa384bce782b144426fa26612d",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/six.md"
+    },
+    {
+      "cardId": "minor.cups.two",
+      "assetPath": "cards/minor/cups/two.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "3e40fbc3584f2a5f6d9a1f181566c1edfde60b721aa34b671fb19de83579a32b",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/two.md"
     }
   ]
 }

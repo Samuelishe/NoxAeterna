@@ -9,6 +9,19 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-04: A21-P + A22 Production Promotion and New Review Batch
+
+Summary:
+
+- Recorded the owner's explicit acceptance of `major.world`, `minor.wands.six`, and `minor.cups.two`; moved their unchanged A21 bytes to canonical production paths, removed `studies/A21`, and expanded Lupus Noctis from 54 to 57 accepted manifest assets with controlled fallback for the other 21 semantic cards. All prompts, superseded attempts, literal defects, normalized hashes, cumulative counts, and owner decisions remain in their card records.
+- Confirmed `minor.pentacles.queen`, `minor.swords.king`, and `minor.wands.ace` against the authoritative standard-78 catalog and found no manifest, production, active-study, or record conflicts. One shared diversity audit of the twelve A18–A21 accepted cards separated A22 into winter-barn care, academy fraud exposure, and solitary night-oasis signaling.
+- Generated every A22 attempt independently text-only through the built-in image workflow without attachments or image references. Queen used `G3` after G1 garment rings and G2 earrings violated its sole-pentacle contract. King used `G2` after G1 failed literal hand-to-panel contact. Ace used `G3` after G1 extra caravan lights/opposed wind and a G2 cropped foot. The three canonical candidates now pass literal, exact-object, technical, meaning/role, and independent absurdity gates; none qualified for `G4`.
+- Kept exactly three A22 PNGs Pending under canonical `studies/A22/` paths, outside `artwork-pack.json`, production `cards/`, and Release output. A22-P, A23, and AP1 do not begin automatically.
+
+Verification:
+
+- The proportional gate covers canonical skill synchronization, documentation validation, a Release solution build, focused `App-Workspace` and `Architecture-Boundaries` routes, exact source/manifest/Release/study/record/hash path checks, and `git diff --check`. No broader test or artwork stage is included.
+
 ## 2026-08-04: A20-P + A21 Acceptance Promotion and New Review Batch
 
 Summary:

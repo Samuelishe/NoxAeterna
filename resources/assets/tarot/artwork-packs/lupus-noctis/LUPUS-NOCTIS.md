@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **54/78**.
+- Accepted production cards: **57/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -126,17 +126,24 @@
   - [`major.hierophant`](records/major/hierophant.md) — owner acceptance: **Accepted** after `G2` targeted correction, cumulative generation count **2**. One recognized preceptor, exactly two synchronized initiates, and socially separate witnesses make the formal transmission of tradition legible; the original technical-demonstration ambiguity remains preserved in provenance.
   - [`minor.cups.nine`](records/minor/cups/nine.md) — owner acceptance: **Accepted** after `G3` critical recovery, cumulative generation count **3**. The accepted asset contains exactly `3 + 3 + 3 = 9` complete goblets, no other open container, and two complete empty hands; both the cropped-hand G1 and `4 + 6 = 10` G2 regression remain preserved in provenance.
   - [`minor.swords.queen`](records/minor/swords/queen.md) — owner acceptance: **Accepted** after `G2` targeted correction, cumulative generation count **2**. Exactly one complete sword and continuous supported checkpoint paving replace the original unsupported outer-rail figure.
-- A21: **Pending** completion / public recognition / mutual harmony batch.
+- A21: **Accepted** completion / public recognition / mutual harmony batch.
 - A21 generation method: built-in `imagegen`, independent text-only; no attachment, accepted card, rejected study, superseded candidate, or newly generated A21 card was used as an image reference.
-- A21 review candidates:
-  - [`major.world`](records/major/world.md) — owner acceptance: **Pending** after `G1`, cumulative generation count **1**. Exactly one mature acrobat and one complete physically rigged aerial hoop resolve a diverse troupe's final harbor-amphitheater performance; hard and independent absurdity gates pass.
-  - [`minor.wands.six`](records/minor/wands/six.md) — owner acceptance: **Pending** after `G3` critical recovery, cumulative generation count **3**. The final candidate contains exactly `3 + 3 = 6` complete victory staffs, one complete horse with four literal hooves, and both rider boots in visible stirrups. G1 and G2 passed the staff count but failed progressively strict riding-support evidence; both failures remain preserved in provenance.
-  - [`minor.cups.two`](records/minor/cups/two.md) — owner acceptance: **Pending** after `G1`, cumulative generation count **1**. Exactly two equally weighted musicians create a call-and-response melody beside exactly two untouched cups and zero other containers; hard and independent absurdity gates pass.
-- No A21 candidate required or qualified for `G4`; technical eligibility does not confer owner acceptance.
+- A21 production cards:
+  - [`major.world`](records/major/world.md) — owner acceptance: **Accepted** at `G1`, cumulative generation count **1**. Exactly one mature acrobat and one complete aerial hoop remain physically rigged to a real beam and communicate collective completion rather than a victory parade.
+  - [`minor.wands.six`](records/minor/wands/six.md) — owner acceptance: **Accepted** at `G3`, cumulative generation count **3**. Exactly `3 + 3 = 6` complete staffs, one horse with four separate hooves, both boots in visible stirrups, and connected reins/bridle satisfy the owner's exact contract; the frontal regularity is explicitly non-blocking.
+  - [`minor.cups.two`](records/minor/cups/two.md) — owner acceptance: **Accepted** at `G1`, cumulative generation count **1**. Exactly two people and two untouched cups support a physically legible oud-and-fiddle call-and-response with no other container.
+- A22: **Pending** earthy care / intellectual authority / first impulse batch.
+- A22 generation method: built-in `imagegen`, independent text-only; no attachment, accepted card, rejected study, superseded candidate, or newly generated A22 card was used as an image reference.
+- A22 used one shared diversity audit of the last twelve accepted cards, A18–A21. The audit identified recent public acclaim, completed performance, formal initiation, threshold authority, a large mechanism, salon hospitality, cultivation, winter recovery, and public/interior ceremony. The three briefs therefore separate into low floor-level animal care in a winter barn, asymmetric evidence exposure in a cold academy, and a solitary first signal across night dunes; casting, palette, camera, social procedure, action and silhouette differ across all three.
+- A22 review candidates:
+  - [`minor.pentacles.queen`](records/minor/pentacles/queen.md) — owner acceptance: **Pending** after `G3`, cumulative generation count **3**. G1 introduced round garment hardware and G2 introduced round earrings; G3 has exactly one principal Queen, one ewe, one newborn lamb, and one complete bronze pentacle on the square feed chest with no other noticeable circular metal object.
+  - [`minor.swords.king`](records/minor/swords/king.md) — owner acceptance: **Pending** after `G2`, cumulative generation count **2**. G1 failed literal hand-to-panel contact; G2 visibly connects the examiner's hand to the hinged door, exposes the counterweight/rope/pulley/axle fraud, and contains exactly one complete point-down sword with no other weapon.
+  - [`minor.wands.ace`](records/minor/wands/ace.md) — owner acceptance: **Pending** after `G3`, cumulative generation count **3**. G1 contained extra caravan lights and contradictory wind; G2 cropped one foot; G3 contains one complete wand, one attached flame, unified wind, two fully supported feet, an unlit pole-free caravan and the oasis below.
+- All three A22 candidates pass hard, technical, meaning/role and independent absurdity gates. None qualified for `G4`; technical eligibility does not confer owner acceptance.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, and A20 images are shipped production assets listed by `artwork-pack.json`. A21 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, A21-P and A22 do not start automatically, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, and A21 images are shipped production assets listed by `artwork-pack.json`. A22 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, A22-P and A23 do not start automatically, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **54/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **57/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 
