@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.swords.three`
 - Batch: **A17 — bondage / fellowship / heartbreak**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -94,6 +94,8 @@ Exactly three completely visible separated swords, two unsheathed and one sheath
 
 The initial generation contained two complete unsheathed swords and one empty scabbard. The center object had no visible pommel, grip, or guard, so it did not prove that a sword was inserted and the actual count was `2 swords + 1 empty scabbard`. The previous technical review incorrectly counted that empty scabbard as a fully sheathed sword. Owner visual review identified the defect, and one targeted independent text-only regeneration was performed without an attachment or image reference. The initial retained candidate had SHA-256 `6d16239ec22332e4c7201ad6999e987022646833d308d3f18e6e673d67d36b32`; it was superseded by the corrected candidate and is not retained.
 
+The owner accepted the corrected candidate for production. Its left and right complete unsheathed swords and central complete ceremonial sword visibly inserted into its scabbard satisfy the exact three-sword contract; generation count remains **2** and the corrected SHA-256 remains `28089525ab5dd561a565baff6024a9008b829e492f4628713898a8bc3487eba6`.
+
 ## Targeted Correction Prompt
 
 TARGETED TEXT-ONLY REGENERATION. Do not use the previous image as a reference. Rebuild the tragic cloister aftermath independently.
@@ -145,13 +147,14 @@ No text, title, number, frame, watermark, signature, logo, pseudo-runes, physica
 
 Check arches, sword lines, banner edges and rails so none crosses an eye, mouth or central facial feature.
 
-## Final Candidate
+## Accepted Production Asset
 
-- Path: `studies/A17/three-of-swords.png`
+- Path: `cards/minor/swords/three.png`
 - Original generated dimensions: `1024 × 1536 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop to `896 × 1536 px` followed by uniform high-quality scaling without stretching
 - SHA-256: `28089525ab5dd561a565baff6024a9008b829e492f4628713898a8bc3487eba6`
 - Generation count: **2** text-only generations: one initial generation and one targeted independent regeneration; neither used an attachment or image reference
 - Technical review: Full-size review of the corrected lower foreground proves exactly three complete sword objects. Left unsheathed sword: pommel, grip, guard, full blade, and blade tip are visible. Right unsheathed sword: pommel, grip, guard, full blade, and blade tip are visible. Center fully sheathed ceremonial sword: pommel, full grip, crossguard, scabbard mouth, full scabbard body, and metal chape are visible, making it unmistakably a sword inserted into its scabbard rather than an empty scabbard. All three objects are physically separated by wet stone; the two unsheathed swords have no separate scabbards; no empty scabbard, fourth blade, dagger, knife, belt sword, spear, wall weapon, decorative weapon, weapon-shaped ornament, or additional sheath appears. No sword touches, crosses, or enters a body. The older iron-gray-haired mother remains centered between one dead son and one mortally wounded conscious son; anatomy is intact, blood remains restrained, and the rain-washed cloister, torn pennant, and stone details preserve ambient-only worldbuilding without a physical or spirit wolf. Arches, banner, rails, and sword lines do not cross a central facial feature. No embedded text, pseudo-runes, supernatural effect, gore spectacle, frame, watermark, signature, or logo is visible. The source was decoded, center-cropped, and uniformly normalized without stretching.
 - Generation input: text-only; no attachment or image reference
-- Owner acceptance: **Pending**
+- Owner visual acceptance: Accepted after the targeted independent correction described above.
+- Owner acceptance: **Accepted**

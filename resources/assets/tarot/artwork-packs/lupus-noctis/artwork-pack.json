@@ -390,6 +390,33 @@
       "sha256": "ac0630371ac1e372feef352b89bdbb11c63ea61848dace26656e375f634e3dc9",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/cups/page.md"
+    },
+    {
+      "cardId": "major.devil",
+      "assetPath": "cards/major/devil.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "f10270282bce4dfd94174e1e2ac3f3c786c0b307ea5cdfef2a8b7d247aaf37df",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/devil.md"
+    },
+    {
+      "cardId": "minor.cups.three",
+      "assetPath": "cards/minor/cups/three.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "0817db00c2cf4346f42ba51dc716aa3ec62c2805c5d60f5270237486eda4d26d",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/three.md"
+    },
+    {
+      "cardId": "minor.swords.three",
+      "assetPath": "cards/minor/swords/three.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "28089525ab5dd561a565baff6024a9008b829e492f4628713898a8bc3487eba6",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/swords/three.md"
     }
   ]
 }

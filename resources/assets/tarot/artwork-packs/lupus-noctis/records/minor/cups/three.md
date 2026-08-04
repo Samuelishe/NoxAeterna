@@ -4,7 +4,7 @@
 
 - Semantic card ID: `minor.cups.three`
 - Batch: **A17 — bondage / fellowship / heartbreak**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -84,9 +84,9 @@ Check ropes, costume rails, ribbons and roof edges so none crosses eyes, mouths,
 
 Exactly three cups, one per performer; exactly three principal performers; exactly one small brown dog; no other vessel or animal; one secondary wolf mask among other masks; no static toast, giant wolf head, facial or joint tangency, embedded text, pseudo-runes, frame, watermark, signature, or logo.
 
-## Final Candidate
+## Accepted Production Asset
 
-- Path: `studies/A17/three-of-cups.png`
+- Path: `cards/minor/cups/three.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `0817db00c2cf4346f42ba51dc716aa3ec62c2805c5d60f5270237486eda4d26d`
@@ -94,4 +94,5 @@ Exactly three cups, one per performer; exactly three principal performers; exact
 - Targeted correction prompt: none
 - Technical review: Full-size and `238 × 408` card-size review show exactly three principal performers with distinct ages, complexions, builds, hair, silhouettes, and performance roles. Each holds exactly one cup, giving exactly three cup-like vessels total; no bottle, jug, pitcher, bowl, serving vessel, tableware, or cup handoff appears. Exactly one small scruffy brown dog actively runs through the group while dragging the bright ribbon. One identifiable wolf mask hangs among several visibly different masks, stays smaller than each principal face, and remains secondary at card size. Rain, fabric, bodies, arms, cups, ribbon, and dog create genuine circular private joy rather than a static advertisement. Faces, eyes, mouths, hands, joints, ropes, rails, and ribbons remain readable; wet cloth, wood, ceramic, skin, hair, fur, rain, and rooftop materials separate cleanly. No extra animal, embedded text, pseudo-rune sequence, accidental tattoo, pop-fantasy franchise stack, frame, watermark, signature, or logo is visible. The source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference
-- Owner acceptance: **Pending**
+- Owner visual acceptance: Accepted without blocking caveats. Exactly three principal performers, exactly three cups with one held by each performer, and exactly one dog remain readable; the wolf mask stays a secondary theatrical element, and the scene remains saturated, joyful, and dynamic.
+- Owner acceptance: **Accepted**

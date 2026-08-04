@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **42/78**.
+- Accepted production cards: **45/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -102,16 +102,22 @@
   - [`major.magician`](records/major/magician.md) — owner acceptance: **Accepted**; the readable conductor event, single black cat, clasp, and clean tangencies succeed, while the pale black-haired witch-like casting plus black cat and lightning is accepted as a one-card pop-fantasy resemblance and must not become a template.
   - [`minor.wands.knight`](records/minor/wands/knight.md) — owner acceptance: **Accepted**; one mare, one signal staff, active horse role, readable saddle embroidery, and motion succeed; the residual tail-margin note remains non-blocking.
   - [`minor.cups.page`](records/minor/cups/page.md) — owner acceptance: **Accepted**; one cormorant, one cup, evidence-bearing bird, anatomy, and tangencies succeed; the unusually large rail wolf head is accepted only for this card and is not a recurring stamp.
-- A17: **Pending** bondage / fellowship / heartbreak batch.
+- A17: **Accepted** as the fifteenth production wave.
 - A17 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A17 card was used as an image reference.
-- A17 review candidates:
-  - [`major.devil`](records/major/devil.md) — owner acceptance: **Pending**.
-  - [`minor.cups.three`](records/minor/cups/three.md) — owner acceptance: **Pending**.
-  - [`minor.swords.three`](records/minor/swords/three.md) — owner acceptance: **Pending**.
+- A17 production cards:
+  - [`major.devil`](records/major/devil.md) — owner acceptance: **Accepted**; the proprietor, aristocrat, dockworker, rigged ledger, debt rings, and one secondary gray wolf communicate voluntary dependence without generic demon staging.
+  - [`minor.cups.three`](records/minor/cups/three.md) — owner acceptance: **Accepted**; exactly three performers, exactly three cups, exactly one dog, and the secondary theatre-mask anchor remain readable in a saturated dynamic scene.
+  - [`minor.swords.three`](records/minor/swords/three.md) — owner acceptance: **Accepted** after correction; the initial generation contained two complete unsheathed swords plus an empty scabbard that the prior technical review incorrectly counted as a third sword. Owner review caught the defect, and one targeted independent text-only regeneration produced one complete unsheathed sword left, one complete unsheathed sword right, and one complete ceremonial sword visibly inserted into its central scabbard. Generation count is **2** and the corrected SHA-256 is `28089525ab5dd561a565baff6024a9008b829e492f4628713898a8bc3487eba6`.
+- A18: **Pending** living abundance / protected rest / rapid transmission batch.
+- A18 generation method: built-in `imagegen`, text-only; no attachment, accepted card, rejected study, or newly generated A18 card was used as an image reference.
+- A18 review candidates:
+  - [`major.empress`](records/major/empress.md) — owner acceptance: **Pending**.
+  - [`minor.swords.four`](records/minor/swords/four.md) — owner acceptance: **Pending**.
+  - [`minor.wands.eight`](records/minor/wands/eight.md) — owner acceptance: **Pending** after one targeted `4 + 3` to `4 + 4` count correction.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, and A16 images are shipped production assets listed by `artwork-pack.json`. A17 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A17 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, and A17 images are shipped production assets listed by `artwork-pack.json`. A18 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, the post-A18 generation batch remains deliberately unselected, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **42/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **45/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 

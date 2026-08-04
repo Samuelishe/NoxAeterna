@@ -4,7 +4,7 @@
 
 - Semantic card ID: `major.devil`
 - Batch: **A17 — bondage / fellowship / heartbreak**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, text-only; no attachment or image reference
 
 ## Researched Meaning Summary
@@ -80,9 +80,9 @@ Check chains, wheel spokes, table edges and mirror frames so none crosses an eye
 
 Exactly one ordinary gray wolf; no other animal or wolf symbol; no demon, horns, wings, goat, throne, supernatural cliché, nudity, eroticization, torture, helpless victim, occult writing, facial or joint tangency, embedded text, pseudo-runes, frame, watermark, signature, or logo.
 
-## Final Candidate
+## Accepted Production Asset
 
-- Path: `studies/A17/devil.png`
+- Path: `cards/major/devil.png`
 - Original generated dimensions: `957 × 1643 px`
 - Final dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop without stretching
 - SHA-256: `f10270282bce4dfd94174e1e2ac3f3c786c0b307ea5cdfef2a8b7d247aaf37df`
@@ -90,4 +90,5 @@ Exactly one ordinary gray wolf; no other animal or wolf symbol; no demon, horns,
 - Targeted correction prompt: none
 - Technical review: Full-size and `238 × 408` card-size review show the heavy older white-blond proprietor, young aristocratic man, and exhausted dockworker woman as three distinct adults with retained agency. The proprietor gently operates the brass debt wheel while both patrons remain physically free to remove their visible silver rings; the mirror exposes the wheel's concealed inner mechanism, so comfort, dependency, manipulation, and voluntary recommitment read without a supernatural demon cliché. Exactly one ordinary gray wolf lies awake beneath the table, secondary in shadow and unchained; no other animal or additional wolf symbol appears. Faces, eyes, mouths, hands, joints, chains, spokes, table edge, and mirror frame remain readable without blocking tangencies. Velvet, worn cloth, silver, brass, glass, skin, fur, smoke, and stone separate cleanly; no embedded text, pseudo-runes, accidental tattoos, pop-fantasy franchise stack, frame, watermark, signature, or logo is visible. The source was decoded and center-cropped without stretching.
 - Generation input: text-only; no attachment or image reference
-- Owner acceptance: **Pending**
+- Owner visual acceptance: Accepted as a visually strong interpretation of voluntary dependence. The proprietor, aristocrat, dockworker, rigged ledger, and debt rings remain readable; exactly one natural secondary gray wolf is present, and generic horned-demon staging is absent.
+- Owner acceptance: **Accepted**
