@@ -4,9 +4,9 @@
 
 - Semantic card ID: `minor.cups.nine`
 - Batch: **A20 — tradition / fulfilled desire / clear boundary**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, independent text-only; no attachment or image reference
-- Pending candidate path: `studies/A20/nine-of-cups.png`
+- Production asset path: `cards/minor/cups/nine.png`
 
 ## Researched Meaning Summary
 
@@ -180,9 +180,9 @@ Absolute constraints:
 Exactly nine complete goblets in three groups of three and zero other containers. No tenth cup-like silhouette. Nobody holds a goblet. Both complete hands of the hostess remain visible inside safe margins. No embedded text, letters, numbers, title, frame, border, watermark, signature, logo, pseudo-runes, physical wolf, animal, forced motif, photorealism, 3D render, anime, or comic cel shading.
 ```
 
-## Final Pending Candidate After Critical Recovery
+## Accepted Production Asset After Critical Recovery
 
-- Path: `studies/A20/nine-of-cups.png`
+- Path: `cards/minor/cups/nine.png`
 - Original generated dimensions: `957 × 1643 px`
 - Normalized dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
 - Normalized SHA-256: `34d9ca7c3e817eeb2fcd75dbb58a7f36112a2b7571824dba3afd632417afd848`
@@ -191,4 +191,5 @@ Exactly nine complete goblets in three groups of three and zero other containers
 - Literal exact-object and container review: The counter contains exactly three separated groups of three complete matching goblets, for `3 + 3 + 3 = 9`. Nine rims, nine bodies, nine stems, and nine bases are individually visible at full size and target card size; no goblet is cropped, held, passed, merged, or hidden. A complete frame-wide audit finds no tenth cup-like silhouette and no bottle, decanter, pitcher, jug, bowl, basin, vase, planter, urn, flower container, jar, bucket, barrel, mug, teacup, chalice, cup-shaped lamp, mortar, amphora, fountain basin, or background drink. The two visible fixtures are closed rectangular lanterns.
 - Technical and meaning review: The mature full-figured hostess has two complete empty hands with coherent fingers and joints inside safe margins. Her quiet expression, relaxed posture, abundant textiles and mosaic, precisely prepared display, musician, and two conversing guests communicate earned satisfaction, hospitality, sensual comfort, self-possession, and a restrained hint of pride without copying the literal Rider–Waite staging. Faces, hands, feet, goblets, counter, bench, cushions, instrument, lanterns, masonry, textiles, and mosaics remain coherent without blocking tangencies. The hostess's forward foot approaches the lower edge and loses a small toe margin; the complete hands and all exact-contract objects remain safe, so this is a non-blocking crop note. No embedded text, watermark, frame, logo, forced motif, physical wolf, animal, erotic staging, or pop-fantasy resemblance is visible.
 - Independent absurdity review: The hostess is supported by the bench and floor, the goblets rest on one continuous counter, background guests sit on an existing alcove bench, the musician holds the instrument plausibly, and nobody performs an action involving a vessel. Perspective, support, contact, lighting, and the quiet after-hosting causal story remain internally coherent. No acceptance-blocking spatial, causal, narrative, or compositional absurdity is visible. Because hard requirements passed and the absurdity gate passed, `G4` is neither authorized nor needed.
-- Decision: **Pending owner review**; technically eligible for owner visual review, not owner accepted and not promoted
+- Owner decision: **Accepted**. The owner confirmed exactly `3 + 3 + 3 = 9` complete cups, no other cup-like or open container, two complete hostess hands, and accepted the small lower-foot margin as non-blocking.
+- Decision: **owner Accepted and promoted byte-for-byte to production**

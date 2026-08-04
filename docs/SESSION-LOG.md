@@ -9,6 +9,20 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-04: A20-P + A21 Acceptance Promotion and New Review Batch
+
+Summary:
+
+- Recorded the owner's explicit acceptance of corrected `major.hierophant`, `minor.cups.nine`, and `minor.swords.queen`; moved the unchanged A20 bytes to canonical production paths, removed the empty `studies/A20`, and expanded Lupus Noctis from 51 to 54 accepted manifest assets with controlled fallback for the other 24 semantic cards. Their records retain every superseded hash, prompt, literal rejection defect, correction mode, and cumulative generation count.
+- Confirmed `major.world`, `minor.wands.six`, and `minor.cups.two` against the authoritative standard-78 catalog and created exactly three independent text-only A21 candidates without attachments or image references. World and Two of Cups passed at `G1`. Six of Wands used `G2` after G1 exposed only three horse hoof endpoints and one visible stirrup, then used `G3` critical recovery after G2 still hid the far boot/stirrup; the final candidate contains exactly `3 + 3 = 6` complete staffs, four distinct hooves, and both boots in visible stirrups. No card qualified for `G4`.
+- Kept A21 **Pending** with one canonical PNG and one record per card under `studies/A21`; no A21 asset enters `artwork-pack.json`, production `cards/`, or Release output. Full prompts remain only in the per-card records. A21-P, A22, and AP1 remain unstarted.
+
+Verification:
+
+- `pwsh eng/sync-codex-skills.ps1 -Check` passed against the tracked `tarot-artwork-generation` source and installed user-level copy; `pwsh eng/doc-check.ps1` passed with no documentation errors.
+- `dotnet build NoxAeterna.sln -c Release` passed with 0 warnings and 0 errors. Focused `App-Workspace` and `Architecture-Boundaries` Release routes passed `118/118` and `17/17`.
+- Exact source/manifest/Release path sets all contain 54 production PNGs with manifest hashes; fallback is 24 and `partialPack` remains true. A20 production dimensions and hashes match owner-accepted bytes. A21 owns exactly three `952 × 1632` studies and three Pending records, has zero manifest/production/Release membership, and Release contains no `studies/` content.
+
 ## 2026-08-04: SKILL-TAROT-2 + A20-C Canonical Skill and Corrections
 
 Summary:

@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **51/78**.
+- Accepted production cards: **54/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -120,17 +120,23 @@
   - [`major.wheel-of-fortune`](records/major/wheel-of-fortune.md) — owner acceptance: **Accepted** after one targeted correction removed the initial white directional-arrow overlays; one complete principal tidal wheel and opposing cradle movement now read through physical staging alone.
   - [`minor.cups.king`](records/minor/cups/king.md) — owner acceptance: **Accepted** after one targeted correction removed the initial forced paw stamp; exactly one stationary gimballed cup remains, and wolf mode is ambient-only.
   - [`minor.pentacles.seven`](records/minor/pentacles/seven.md) — owner acceptance: **Accepted** after one targeted correction replaced the modern-thermometer reading and removed the forced lintel track; exactly seven bronze seals remain in `4 + 3`. The owner explicitly accepts their identical five-point geometry as part of the seven seals, not an extra object, defect, pseudo-rune, or wolf motif.
-- A20: **Pending** tradition / fulfilled desire / clear boundary batch.
+- A20: **Accepted** tradition / fulfilled desire / clear boundary batch.
 - A20 generation method: built-in `imagegen`, independent text-only; no attachment, accepted card, rejected study, or newly generated A20 card was used as an image reference.
-- A20 review candidates:
-  - [`major.hierophant`](records/major/hierophant.md) — owner acceptance: **Pending** after `G2` targeted correction, cumulative generation count **2**. The replacement reads as a formal guild initiation through one preceptor, exactly two synchronized initiates, inherited standards, and acknowledging witnesses; the previous technical-demonstration role ambiguity is superseded.
-  - [`minor.cups.nine`](records/minor/cups/nine.md) — owner acceptance: **Pending** after `G3` critical recovery, cumulative generation count **3**. The replacement contains exactly `3 + 3 + 3 = 9` complete goblets, no other open container, and two complete empty hands; the previous `4 + 6 = 10` count regression is superseded.
-  - [`minor.swords.queen`](records/minor/swords/queen.md) — owner acceptance: **Pending** after `G2` targeted correction, cumulative generation count **2**. The replacement retains exactly one complete sword while placing every person on continuous supported paving inside coherent parapets and a usable gate route; the previous unsupported outer-rail figure is superseded.
-- All three corrected A20 candidates passed literal hard-contract, technical, meaning, role, and separate adversarial absurdity review and are technically eligible for owner visual review. No `G4` absurdity rescue was authorized or needed; technical eligibility does not confer owner acceptance.
+- A20 production cards:
+  - [`major.hierophant`](records/major/hierophant.md) — owner acceptance: **Accepted** after `G2` targeted correction, cumulative generation count **2**. One recognized preceptor, exactly two synchronized initiates, and socially separate witnesses make the formal transmission of tradition legible; the original technical-demonstration ambiguity remains preserved in provenance.
+  - [`minor.cups.nine`](records/minor/cups/nine.md) — owner acceptance: **Accepted** after `G3` critical recovery, cumulative generation count **3**. The accepted asset contains exactly `3 + 3 + 3 = 9` complete goblets, no other open container, and two complete empty hands; both the cropped-hand G1 and `4 + 6 = 10` G2 regression remain preserved in provenance.
+  - [`minor.swords.queen`](records/minor/swords/queen.md) — owner acceptance: **Accepted** after `G2` targeted correction, cumulative generation count **2**. Exactly one complete sword and continuous supported checkpoint paving replace the original unsupported outer-rail figure.
+- A21: **Pending** completion / public recognition / mutual harmony batch.
+- A21 generation method: built-in `imagegen`, independent text-only; no attachment, accepted card, rejected study, superseded candidate, or newly generated A21 card was used as an image reference.
+- A21 review candidates:
+  - [`major.world`](records/major/world.md) — owner acceptance: **Pending** after `G1`, cumulative generation count **1**. Exactly one mature acrobat and one complete physically rigged aerial hoop resolve a diverse troupe's final harbor-amphitheater performance; hard and independent absurdity gates pass.
+  - [`minor.wands.six`](records/minor/wands/six.md) — owner acceptance: **Pending** after `G3` critical recovery, cumulative generation count **3**. The final candidate contains exactly `3 + 3 = 6` complete victory staffs, one complete horse with four literal hooves, and both rider boots in visible stirrups. G1 and G2 passed the staff count but failed progressively strict riding-support evidence; both failures remain preserved in provenance.
+  - [`minor.cups.two`](records/minor/cups/two.md) — owner acceptance: **Pending** after `G1`, cumulative generation count **1**. Exactly two equally weighted musicians create a call-and-response melody beside exactly two untouched cups and zero other containers; hard and independent absurdity gates pass.
+- No A21 candidate required or qualified for `G4`; technical eligibility does not confer owner acceptance.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, and A19 images are shipped production assets listed by `artwork-pack.json`. A20 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, A20-P and the post-A20 batch do not start automatically, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, and A20 images are shipped production assets listed by `artwork-pack.json`. A21 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, A21-P and A22 do not start automatically, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **51/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **54/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 

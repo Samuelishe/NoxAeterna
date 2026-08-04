@@ -4,9 +4,9 @@
 
 - Semantic card ID: `major.hierophant`
 - Batch: **A20 — tradition / fulfilled desire / clear boundary**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, independent text-only; no attachment or image reference
-- Pending candidate path: `studies/A20/hierophant.png`
+- Production asset path: `cards/major/hierophant.png`
 
 ## Researched Meaning Summary
 
@@ -135,9 +135,9 @@ Absolute constraints:
 Exactly one principal preceptor and exactly two initiates. The institutional roles and formal acceptance must read without text. No third initiate, acolyte, kneeling worshipper, equal candidate, throne, crown, papal mitre, giant key, halo, magical ray, floating rune, readable text, letters, numbers, title, frame, border, watermark, signature, logo, pseudo-runes, tattoo symbols, Justice scales, courtroom, judge, verdict, physical wolf, animal, token wolf motif, photorealism, 3D render, anime, or comic cel shading.
 ```
 
-## Final Pending Candidate After Targeted Correction
+## Accepted Production Asset After Targeted Correction
 
-- Path: `studies/A20/hierophant.png`
+- Path: `cards/major/hierophant.png`
 - Original generated dimensions: `957 × 1643 px`
 - Normalized dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+2,+5` without stretching
 - Normalized SHA-256: `d1414040e5440877f3481dd36288df383eaaed208880b91e7edc1c089aa096f7`
@@ -146,4 +146,5 @@ Exactly one principal preceptor and exactly two initiates. The institutional rol
 - Literal inventory and exact-role review: Exactly one mature copper-and-silver-haired preceptor occupies the institutional side of the threshold. Exactly two visually distinct initiates occupy the foreground, wear matching novice garments and sashes, face the preceptor, and repeat the same open-hand oath gesture. Established witnesses stand behind a separating rail in mature guild mantles and answer with raised open palms; the market crowd is distant and subordinate. One open hardwood chest contains compact brass standards and rods. No third initiate, throne, crown, papal mitre, halo, giant key, Justice scale, courtroom, readable text, magic, physical wolf, animal, or token motif is visible.
 - Technical, meaning, and role-legibility review: At full size and target card size, the preceptor's control of the threshold, the paired initiates' synchronized oath, their matching sashes, and the witnesses' public acknowledgment establish a formal guild acceptance rather than an engineering lesson. The chest reads as inherited institutional material and remains secondary. All principal faces, oath hands, limbs, and required role markers remain inside safe margins. Faces, fingers, joints, cloth, rail, chest, brass standards, stone, timber, and market architecture are coherent; no blocking crop, tangency, embedded text, watermark, frame, logo, pop-fantasy franchise stack, or historical/material contradiction is visible. The preceptor holds the trailing ceremonial cloth while both novice sashes are already legible; this is a minor staging note, not an extra initiate or story blocker.
 - Independent absurdity review: Every principal figure stands on continuous stone flooring; witnesses have a supported gallery behind the rail; the chest rests on the side ledge; and the threshold, oath gestures, sash handling, witness response, and market depth form a physically and causally usable scene. No unsupported figure, impossible route, conflicting hand action, accidental infographic overlay, or acceptance-blocking spatial, causal, narrative, or compositional absurdity is visible. `G4` is not authorized or needed.
-- Decision: **Pending owner review**; technically eligible for owner visual review, not owner accepted and not promoted
+- Owner decision: **Accepted**. The owner confirmed one institutional preceptor, exactly two distinct initiates, their synchronized oath gesture, socially separate witnesses, and a legible formal transmission of tradition. The trailing ceremonial cloth remains an accepted non-blocking part of the procedure.
+- Decision: **owner Accepted and promoted byte-for-byte to production**

@@ -471,6 +471,33 @@
       "sha256": "fde5402f988056ad84377a4fdf9ed18671bfccd0758c162758be4baa36cbc402",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/pentacles/seven.md"
+    },
+    {
+      "cardId": "major.hierophant",
+      "assetPath": "cards/major/hierophant.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "d1414040e5440877f3481dd36288df383eaaed208880b91e7edc1c089aa096f7",
+      "status": "accepted",
+      "generationProvenanceReference": "records/major/hierophant.md"
+    },
+    {
+      "cardId": "minor.cups.nine",
+      "assetPath": "cards/minor/cups/nine.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "34d9ca7c3e817eeb2fcd75dbb58a7f36112a2b7571824dba3afd632417afd848",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/nine.md"
+    },
+    {
+      "cardId": "minor.swords.queen",
+      "assetPath": "cards/minor/swords/queen.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "8381a085cce80541903ba550b88f8c6a7c3c8845c9c7de599ff294f9ef643d31",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/swords/queen.md"
     }
   ]
 }

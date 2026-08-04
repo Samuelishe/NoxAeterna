@@ -4,9 +4,9 @@
 
 - Semantic card ID: `minor.swords.queen`
 - Batch: **A20 — tradition / fulfilled desire / clear boundary**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, independent text-only; no attachment or image reference
-- Pending candidate path: `studies/A20/queen-of-swords.png`
+- Production asset path: `cards/minor/swords/queen.png`
 
 ## Researched Meaning Summary
 
@@ -142,9 +142,9 @@ Absolute constraints:
 Every person has obvious solid support and complete feet on visible paving. The suspect is safely inside the parapet on a real exterior landing. Queen physically separates admitted travelers from the stopped manipulator. Exactly one complete sword with pommel, grip, guard, blade, and tip; zero other weapons and zero scabbards. No courtroom, judge, scales, throne, crown, execution, combat, physical wolf, animal, forced motif, embedded text, letters, numbers, title, frame, border, watermark, signature, logo, pseudo-runes, photorealism, 3D render, anime, or comic cel shading.
 ```
 
-## Final Pending Candidate After Targeted Correction
+## Accepted Production Asset After Targeted Correction
 
-- Path: `studies/A20/queen-of-swords.png`
+- Path: `cards/minor/swords/queen.png`
 - Original generated dimensions: `958 × 1642 px`
 - Normalized dimensions: `952 × 1632 px` (exact `7:12`), produced by centered crop at `+3,+5` without stretching
 - Normalized SHA-256: `8381a085cce80541903ba550b88f8c6a7c3c8845c9c7de599ff294f9ef643d31`
@@ -153,4 +153,5 @@ Every person has obvious solid support and complete feet on visible paving. The 
 - Literal inventory and exact-weapon review: Exactly four people are visible: one Queen, two admitted travelers, and one stopped suspect. Exactly one complete sword is visible in the Queen's right hand, with one pommel, one grip, one guard, one continuous blade, and one unobscured tip. No second sword, scabbard, sheath, dagger, knife, spear, halberd, sabre, musket, axe, arrow, staff, blade-like tool, weapon-shaped ornament, or armed secondary figure is visible. A narrow brown belt end at the Queen's waist reads as flexible fastening, not a rigid sheath or second blade.
 - Technical, meaning, and role-legibility review: At full size and target card size, the Queen's stern gaze, open admitting arm, controlled downward sword, the two vulnerable travelers moving into warm shelter, and the prosperous suspect halted in the cold communicate incisive judgment, honest boundary, protection, and refusal of manipulation without Justice or courtroom staging. Faces, hands, fingers, complete feet, sword components, clothing, bundles, paving, parapets, gate leaves, hinges, stone, timber, and mountain background are coherent and remain inside safe margins. The independent casting and solid architectural composition contrast with recent accepted work. No embedded text, watermark, frame, logo, forced motif, physical wolf, animal, pop-fantasy franchise stack, or historical/material contradiction is visible.
 - Independent absurdity review: Every full foot is supported by continuous stone paving; both parapets lie between people and the ravine; the broad bridge/landing, open gate, and warm inner courtyard form one unobstructed walkable route. Both gate leaves have visible plausible hinges. The Queen stands causally between the admitted and rejected flows, the suspect remains safely inside the parapet, the travelers can pass behind her, and the sword does not touch a person or architecture. No unsupported figure, missing platform, impossible route, conflicting hand action, or acceptance-blocking spatial, causal, narrative, or compositional absurdity remains. `G4` is not authorized or needed.
-- Decision: **Pending owner review**; technically eligible for owner visual review, not owner accepted and not promoted
+- Owner decision: **Accepted**. The owner confirmed exactly one complete sword, no additional weapon, continuous stone support for every figure, protective parapets, and a physically usable landing-to-gate-to-courtyard route.
+- Decision: **owner Accepted and promoted byte-for-byte to production**
