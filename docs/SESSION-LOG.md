@@ -9,6 +9,19 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-05: ART-SKILL-RM Tarot Artwork Skill Removal
+
+Summary:
+
+- Removed the sole repository-owned Tarot generation skill, its dedicated synchronization script, and its exact user-level installation. The system skill directory and historical repository evidence remain untouched.
+- Returned prompt creation, visible-image review, and artistic acceptance to the owner working with ChatGPT outside Codex. The canonical Lupus Noctis handoff now starts with 3–5 owner-approved PNGs and limits Codex to technical batch import and repository integration.
+- Preserved all artwork PNGs, card records, manifest entries, production paths, and the accepted 63/78 production plus 15/78 fallback inventory.
+
+Verification:
+
+- `skills/list` with `forceReload: true` returned six enabled system skills, omitted the removed skill, and reported no discovery errors. The exact repository and user-level implementation paths are absent.
+- Active operational references now point to the owner handoff contract; older session chronology, archives, and card provenance remain factual history. `git diff --check` is the only content gate; builds, tests, routes, application smoke, and documentation validation are excluded by task scope.
+
 ## 2026-08-05: ART-SKILL-2 + A22-P + A23 Significance Gate, Promotion, and Review Batch
 
 Summary:

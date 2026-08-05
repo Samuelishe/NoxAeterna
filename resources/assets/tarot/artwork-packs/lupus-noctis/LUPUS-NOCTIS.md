@@ -3,8 +3,8 @@
 | Metadata | Definition |
 | --- | --- |
 | Role | Canonical human-readable owner document for the Lupus Noctis artwork pack. |
-| Read when | Researching, generating, reviewing, accepting, replacing, or productionizing any Lupus Noctis card. |
-| Authoritative for | Working identity, world and art-direction rules, rejection history, meaning-first workflow, casting policy, generation provenance, and production-card records. |
+| Read when | Preparing owner-side artwork or importing, replacing, or productionizing an owner-approved Lupus Noctis card. |
+| Authoritative for | Working identity, world and art-direction rules, owner-to-Codex handoff, rejection history, meaning-first workflow, casting policy, generation provenance, and production-card records. |
 | Not authoritative for | Tarot semantic identities, runtime manifests, programmatic frame/typography implementation, or owner artistic acceptance outside an explicit recorded decision. |
 
 ## Identity
@@ -151,6 +151,13 @@ The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17,
 
 Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **63/78 accepted production cards** while that staged architecture is implemented independently.
 
+## Artwork Creation and Codex Handoff
+
+- The owner creates Tarot prompts and final illustrations with ChatGPT outside Codex and visually accepts every image before handoff. Artistic acceptance belongs exclusively to the owner.
+- A normal handoff contains **3–5 owner-approved PNGs**. Codex does not generate, regenerate, or artistically review Tarot images.
+- Codex imports the supplied PNGs and checks only file-level technical parameters, dimensions, SHA-256, canonical paths, and repository consistency.
+- After receiving the complete batch, Codex updates the relevant records, manifest, tests, and project documentation once for the batch.
+
 ## Core World
 
 Lupus Noctis is a narrative fantasy artwork pack built around a world of lycanthropic mythology, not a deck of repetitive wolf portraits.
@@ -186,7 +193,7 @@ Prominence follows meaning. Do not add a large wolf head automatically, replace 
 - Every new brief selects one Wolf Motif Mode and target prominence. Ambient-only is valid when concrete architecture, institution, costume, or lore makes the world legible; the absence of a separate wolf icon is not a defect.
 - When a brief promises a subtle anchor or visible secondary motif, it must remain readable in the final PNG at Tarot-card scale. Words such as *tiny*, *at most*, or *optional* do not satisfy the contract when the promised anchor cannot actually be found.
 - Suitable anchors include a wolf or paw seal, visible heraldic clasp, carved lintel, saddle embroidery, tracks, mask, pelt, serious lycanthropic anatomy, or unmistakable wolf-world institution or architecture. The anchor stays secondary and never turns the card into wolf-calendar art.
-- Technical review names exactly where the anchor is visible. A missing promised anchor is a review defect. A15 Seven of Swords is an explicit owner-accepted exception: its meaning and seven-sword contract succeed, but its promised wolf-world anchor is weak or absent and must not establish precedent.
+- Owner artistic review names exactly where the anchor is visible. A missing promised anchor is a review defect. A15 Seven of Swords is an explicit owner-accepted exception: its meaning and seven-sword contract succeed, but its promised wolf-world anchor is weak or absent and must not establish precedent.
 
 ## Casting Policy
 
@@ -222,27 +229,27 @@ Before approving a new card brief, compare it with recent accepted cards by domi
 
 Before acceptance, check whether hair, costume, animal, pose, and effect have stacked into an overly recognizable mass-market fantasy archetype or an obvious existing heroine or franchise association. Resemblance in one element is acceptable; dense trope stacking requires a correction or an explicit honest owner note. The accepted A16 Magician note records one such non-recurring exception.
 
-## Meaning-First Workflow
+## Owner-Side Meaning-First Workflow
 
-Before creating every card:
+Before the owner and ChatGPT create every card outside Codex:
 
 1. Research stable traditional meanings.
 2. Separate the base archetype, emotional tone, constructive aspects, tensions and risks, upright meaning, and materially relevant reversed meaning.
 3. Do not copy modern interpretive prose; paraphrase source ideas.
 4. Write a card brief covering narrative core, characters, event, wolf motif mode and target prominence, framing, lighting, color script, a meaning-derived tone script, symbolic anchors, and forbidden clichés.
-5. Generate only after the research and brief are recorded.
+5. Generate outside Codex only after the research and brief are recorded.
 
 The story must not be inferred only from the English card title.
 
 ### Narrative Novelty Gate
 
-Before generation, compare the main action verb and genre staging with at least the last twelve accepted cards. Do not repeat without semantic necessity: one person handing an object to another, a council around a table, workers inspecting a model, a caretaker treating an injured person, a route planner pointing at terrain, a civic official opening or closing infrastructure, or two people quietly negotiating at a threshold.
+Before owner-side generation, compare the main action verb and genre staging with at least the last twelve accepted cards. Do not repeat without semantic necessity: one person handing an object to another, a council around a table, workers inspecting a model, a caretaker treating an injured person, a route planner pointing at terrain, a civic official opening or closing infrastructure, or two people quietly negotiating at a threshold.
 
 Every batch must contain at least one substantially new genre setting, one new movement structure, and one new social or fantasy archetype. Card meaning remains more important than novelty, but the first literal plot is not accepted automatically. A15 Ace of Cups is an owner-accepted low-novelty exception, and its handoff-centric staging must not recur in the nearest batches.
 
 ### Occlusion and Tangency Gate
 
-Technical review separately checks bars, rails, ropes, doorframes, weapon shafts, branches, furniture edges, and poles for accidental crossings through eyes, mouths, face centers, necks, hands, and joints. Foreground objects may occlude a background figure only when the overlap looks intentional and physically clear. A15 High Priestess is an accepted non-blocking exception: a plausible grille bar crosses the background assistant's face but produces an unfortunate facial tangency.
+Owner artistic review separately checks bars, rails, ropes, doorframes, weapon shafts, branches, furniture edges, and poles for accidental crossings through eyes, mouths, face centers, necks, hands, and joints. Foreground objects may occlude a background figure only when the overlap looks intentional and physically clear. A15 High Priestess is an accepted non-blocking exception: a plausible grille bar crosses the background assistant's face but produces an unfortunate facial tangency.
 
 ## Mood Fidelity and Emotional Range
 

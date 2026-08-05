@@ -514,3 +514,11 @@ Decision: Keep curated built-in packs as versioned repository/installation seed 
 Reason: Shipped assets must remain reproducible and reviewable, while installed updates, user packs, caches, validation evidence, and platform paths require a writable runtime boundary. Fuzzy discovery, destructive sync, and duplicated runtime/tool validators would make pack identity and user ownership unsafe.
 
 Consequences: ART-LN can continue in the accepted repository structure before AppData work. AP1–AP5 stage seeding, registry/normalization, tooling, manual discovery, and import UI; PKG1 verifies the same seed contract across published platforms. Detailed contracts belong to `ASSET-PACK-RUNTIME.md`.
+
+## 2026-08-05: Return Tarot Artwork Creation to the Owner
+
+Decision: Retire the repository-owned and user-level Tarot generation skill. The owner creates and artistically accepts future illustrations with ChatGPT outside Codex; the detailed handoff contract belongs to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md`.
+
+Reason: Codex-driven generation and artistic review consumed disproportionate time and limits, encouraged unnecessary regeneration, and did not provide reliable visual judgment.
+
+Consequences: Codex starts only from owner-approved PNG batches and owns their technical import and repository integration. The dedicated skill source, installer, installed copy, and active installation or invocation instructions are removed.
