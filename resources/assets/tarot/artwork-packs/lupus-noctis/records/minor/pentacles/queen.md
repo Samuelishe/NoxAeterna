@@ -4,9 +4,16 @@
 
 - Semantic card ID: `minor.pentacles.queen`
 - Batch: **A22 — earthy care / intellectual authority / first impulse**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, independent text-only; no attachment or image reference
-- Pending candidate path: `studies/A22/queen-of-pentacles.png`
+- Production path: `cards/minor/pentacles/queen.png`
+
+## Owner Review Clarification
+
+- The owner considers the G1 correction for tiny garment fasteners and the G2 correction for small earrings overly strict. Those incidental details should not have been acceptance-blocking when they did not read as additional pentacles at target card size.
+- The current G3 candidate remains explicitly **Accepted** and is the production asset.
+- Superseded PNG files remain deleted. Their full prompts, hashes, dimensions, and factual generation history remain below without rewriting or concealment.
+- This clarification corrects the review process; it does not erase or reverse the actual generation chronology.
 
 ## Meaning-First Brief
 
@@ -134,18 +141,18 @@ Absolute constraints: Exactly one principal Queen; exactly one ewe; exactly one 
 - Technical review: **pass** — both empty hands contact separate areas of the lamb's ribs, fingers and limbs are coherent, the lamb is fully supported on a rectangular blanket, the ewe and all people occupy continuous straw-covered floor, critical elements remain inside safe margins, and no text/frame/watermark appears
 - Meaning/role review: **pass** — direct breath-and-warmth care, ordered feed, bedding, mature casting, low camera, and warm/cold contrast communicate competent earthy stewardship rather than Empress abundance, charity, or ownership display
 - Independent absurdity review: **pass** — hands perform compatible care, animal bodies and weight are supported, the chest is usable practical storage, the doorway and barn form coherent space, the background worker is subordinate, and no physically, spatially, causally, historically, or narratively acceptance-blocking absurdity is visible
-- Decision: **Pending owner review**
+- Decision: **owner Accepted**
 - Cumulative generation count after this attempt: **3**
-- Next legal transition: owner handoff
+- Next legal transition: production promotion authorized by owner
 
 ## Owner Handoff
 
-- Canonical candidate: `studies/A22/queen-of-pentacles.png`
+- Canonical candidate: `cards/minor/pentacles/queen.png`
 - Normalized dimensions: `952 × 1632 px`
 - Normalized SHA-256: `69e0129d6aeb8408a87a61b3f1b3a6e55b0851f9a13b08f7b4c26cc11a116460`
 - Generations used / default maximum: **3 / 4**
 - Image references: **none for every attempt**
 - Remaining blockers: **none detected**
 - Technical eligibility: **eligible for owner review**
-- Owner decision: **pending**
-- Production promotion: **not performed**
+- Owner decision: **Accepted** — explicit ART-SKILL-2 + A22-P + A23 task decision
+- Production promotion: **performed byte-preserving**

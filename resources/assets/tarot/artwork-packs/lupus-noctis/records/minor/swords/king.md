@@ -4,9 +4,9 @@
 
 - Semantic card ID: `minor.swords.king`
 - Batch: **A22 — earthy care / intellectual authority / first impulse**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, independent text-only; no attachment or image reference
-- Pending candidate path: `studies/A22/king-of-swords.png`
+- Production path: `cards/minor/swords/king.png`
 
 ## Meaning-First Brief
 
@@ -98,18 +98,18 @@ Absolute constraints: Exactly one complete sword and zero other weapons or blade
 - Technical review: **pass** — the counterweight hangs from a rope routed over the visible internal pulley toward the top axle/flywheel; examiner, charlatan and witnesses have coherent hands, feet, gaze and floor support; critical components remain inside safe margins; no text/frame/watermark appears
 - Meaning/role review: **pass** — the examiner is principal through the controlled reveal and institutional bearing, the charlatan recoils with empty hands, and a witness points directly at the exposed evidence; the scene reads as final proof rather than Magician, Justice, combat, or throne authority
 - Independent absurdity review: **pass** — the hinged door can occupy its open position while held by the handle, gravity supports the weight, the rope/pulley/axle route supplies a plausible hidden drive, every person occupies continuous steps or floor, hands perform compatible actions, and no acceptance-blocking spatial, causal, historical, or narrative absurdity is visible
-- Decision: **Pending owner review**
+- Decision: **owner Accepted**
 - Cumulative generation count after this attempt: **2**
-- Next legal transition: owner handoff
+- Next legal transition: production promotion authorized by owner
 
 ## Owner Handoff
 
-- Canonical candidate: `studies/A22/king-of-swords.png`
+- Canonical candidate: `cards/minor/swords/king.png`
 - Normalized dimensions: `952 × 1632 px`
 - Normalized SHA-256: `5037eb657b4004f4aa4e6eece8d887ae47f3be95fe79593b65e3fc12b3362414`
 - Generations used / default maximum: **2 / 4**
 - Image references: **none for every attempt**
 - Remaining blockers: **none detected**
 - Technical eligibility: **eligible for owner review**
-- Owner decision: **pending**
-- Production promotion: **not performed**
+- Owner decision: **Accepted** — explicit ART-SKILL-2 + A22-P + A23 task decision
+- Production promotion: **performed byte-preserving**

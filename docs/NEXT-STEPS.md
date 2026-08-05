@@ -1,10 +1,10 @@
 # Next Steps
 
-The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. A21 is accepted and promoted, Lupus Noctis now has 57/78 accepted production illustrations with prototype fallback for 21 omitted cards, and three new A22 candidates remain Pending outside the manifest and Release output.
+The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. A22 is accepted and promoted, Lupus Noctis now has 60/78 accepted production illustrations with prototype fallback for 18 omitted cards, and three new A23 candidates remain Pending outside the manifest and Release output.
 
 Immediate next steps:
 
-1. **ART-LN:** visually review Pending `minor.pentacles.queen`, `minor.swords.king`, and `minor.wands.ace`. Queen and Ace used `G3` critical recovery; King passed after `G2`. All three now pass exact-object, technical, meaning/role and independent absurdity review, but remain outside production until explicit owner decisions. Do not begin A22-P, A23, or AP1 automatically.
+1. **ART-LN:** visually review Pending `minor.wands.king`, `minor.swords.eight`, and `minor.pentacles.four`. King and Four passed at `G1`; Eight used `G2` after its initial wrist rope read as a real tight restraint. All three now pass exact-object, technical, meaning/role and independent absurdity review, but remain outside production until explicit owner decisions. Do not begin A23-P, A24, or AP1 automatically.
 2. **AP1:** app-data path service, built-in no-delete seed synchronization, and Settings action to open application data.
 3. **AP2:** runtime registry, validation fingerprints, exact-stem extension audit/fallback, normalized PNG cache, and placeholders.
 4. **AP3–AP5:** separate Assets tool, manual user-pack discovery, then Settings import wizard.

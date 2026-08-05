@@ -525,6 +525,33 @@
       "sha256": "3e40fbc3584f2a5f6d9a1f181566c1edfde60b721aa34b671fb19de83579a32b",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/cups/two.md"
+    },
+    {
+      "cardId": "minor.pentacles.queen",
+      "assetPath": "cards/minor/pentacles/queen.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "69e0129d6aeb8408a87a61b3f1b3a6e55b0851f9a13b08f7b4c26cc11a116460",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/queen.md"
+    },
+    {
+      "cardId": "minor.swords.king",
+      "assetPath": "cards/minor/swords/king.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "5037eb657b4004f4aa4e6eece8d887ae47f3be95fe79593b65e3fc12b3362414",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/swords/king.md"
+    },
+    {
+      "cardId": "minor.wands.ace",
+      "assetPath": "cards/minor/wands/ace.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "89850fe51171ba613a8eb2be05a86d780d5c93a544c6813be8a1aedb4daf3900",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/ace.md"
     }
   ]
 }

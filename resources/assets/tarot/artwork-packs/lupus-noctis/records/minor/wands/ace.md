@@ -4,9 +4,9 @@
 
 - Semantic card ID: `minor.wands.ace`
 - Batch: **A22 — earthy care / intellectual authority / first impulse**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, independent text-only; no attachment or image reference
-- Pending candidate path: `studies/A22/ace-of-wands.png`
+- Production path: `cards/minor/wands/ace.png`
 
 ## Meaning-First Brief
 
@@ -137,18 +137,18 @@ Absolute constraints: Exactly one full wand with lower end, full shaft, grip, an
 - Technical review: **pass** — both complete feet, heels, toes and sole contacts rest on continuous sloped sand with generous margins; the empty hand, face, limbs and joints are coherent; flame, smoke, hair, scarf and sash all stream viewer-left; oasis, caravan, wand and anatomy remain inside safe margins; no text/frame/watermark appears
 - Meaning/role review: **pass** — the solitary exhausted scout, first and only fire, safe water below, empty cold distance and caravan turning toward her signal communicate the first impulse and a newly opened path without Sun, Star, Moon, Six of Wands, victory, or completed arrival
 - Independent absurdity review: **pass** — gravity, foot support and wand grip are usable; fire is attached to resin at the top; all wind indicators agree; a continuous dune route descends to the oasis; the dark caravan occupies a separate supported ridge and responds causally; no acceptance-blocking spatial, physical, historical, narrative, or compositional absurdity is visible
-- Decision: **Pending owner review**
+- Decision: **owner Accepted**
 - Cumulative generation count after this attempt: **3**
-- Next legal transition: owner handoff
+- Next legal transition: production promotion authorized by owner
 
 ## Owner Handoff
 
-- Canonical candidate: `studies/A22/ace-of-wands.png`
+- Canonical candidate: `cards/minor/wands/ace.png`
 - Normalized dimensions: `952 × 1632 px`
 - Normalized SHA-256: `89850fe51171ba613a8eb2be05a86d780d5c93a544c6813be8a1aedb4daf3900`
 - Generations used / default maximum: **3 / 4**
 - Image references: **none for every attempt**
 - Remaining blockers: **none detected**
 - Technical eligibility: **eligible for owner review**
-- Owner decision: **pending**
-- Production promotion: **not performed**
+- Owner decision: **Accepted** — explicit ART-SKILL-2 + A22-P + A23 task decision
+- Production promotion: **performed byte-preserving**

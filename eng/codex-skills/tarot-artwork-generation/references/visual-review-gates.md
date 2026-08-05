@@ -38,6 +38,16 @@ Do not carry forward a previous self-review. Reinspect the new pixels after ever
 - Record group counts and total, for example `top 4 + bottom 6 = 10`.
 - Reject wrong count, a required object missing, a forbidden extra, or an incomplete required object.
 
+### Card-size significance and count-confusion gate
+
+Apply exact-object contracts primarily to deliberately depicted semantic objects, objects that actually participate in the count, noticeable items that could reasonably be mistaken for an additional counted object at target card size, and explicitly forbidden story-significant objects.
+
+Do not treat tiny buttons, rivets, eyelets, fasteners, small earrings, ordinary hardware, animal eyes, small nail heads, or fine geometric ornament as automatic blockers when, at target card size, they do not read as a separate pentacle, cup, sword, wand, seal, or other counted object; do not compete with the principal objects; do not change the story; and do not create a physical or anatomical error.
+
+Use detail crops to verify promised details, anatomy, and real defects. Do not turn practically invisible hardware into an acceptance-blocking defect merely because strong magnification reveals a round or metallic shape. Do not authorize a new generation solely for small incidental geometry unless the owner forbids that specific item for a substantive content reason.
+
+Briefs and correction prompts must target the actual confusion risk. Avoid blanket prohibitions such as `no other round metal object anywhere` when the real contract is to prevent another pentacle or other noticeable count-confusing symbol. Prefer precise language such as: `no additional noticeable coin-like or pentacle-like object that could be mistaken for a counted pentacle at target card size`.
+
 ## 4. Anatomy
 
 - Inspect faces, hands, fingers, limbs, joints, posture, weight distribution, and body intersections.
