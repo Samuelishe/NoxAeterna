@@ -9,8 +9,14 @@
 - Accepted asset source: **owner-supplied replacement after G5**
 - Production status: **accepted**
 - Production asset path: `cards/minor/pentacles/four.png`
-- Production dimensions: `958 × 1642 px`
-- Production SHA-256: `cdc8f8cbc008b2b7bd07f391a7cafe49ddb160faed2dd72921bdfcff7a413835`
+- Production dimensions: `952 × 1632 px`
+- Production SHA-256: `8a7e1a0c8822621f2999b58691a071251ac77f595fb0433bb9ec59eb4396f6cc`
+
+### Technical Production Normalization
+
+- The owner-supplied accepted source was `958 × 1642 px` with SHA-256 `cdc8f8cbc008b2b7bd07f391a7cafe49ddb160faed2dd72921bdfcff7a413835`.
+- The production asset was later normalized to `952 × 1632 px` by an exact symmetric center crop: `3 px` from each vertical side and `5 px` from each horizontal side.
+- No stretching, scaling, color change, or artistic editing was applied. The correction removes the mismatch with the canonical runtime contract and does not increase the cumulative generation count.
 
 ## Meaning-First Brief
 
@@ -243,17 +249,17 @@ Absolute constraints: Exactly one treasurer. One correctly sized operable door l
 - Accepted dimensions: `958 × 1642 px`
 - Accepted SHA-256: `cdc8f8cbc008b2b7bd07f391a7cafe49ddb160faed2dd72921bdfcff7a413835`
 - Owner decision: **Accepted**
-- Production promotion: byte-preserving move to `cards/minor/pentacles/four.png`
+- Initial production promotion: byte-preserving move to `cards/minor/pentacles/four.png`; the later technical normalization is recorded above
 
 ## Owner Outcome
 
 - Final owner decision: **Accepted**
 - Accepted asset: **owner-supplied replacement after Generation 5**
 - Production asset: `cards/minor/pentacles/four.png`
-- Production dimensions: `958 × 1642 px`
-- Production SHA-256: `cdc8f8cbc008b2b7bd07f391a7cafe49ddb160faed2dd72921bdfcff7a413835`
+- Production dimensions: `952 × 1632 px`
+- Production SHA-256: `8a7e1a0c8822621f2999b58691a071251ac77f595fb0433bb9ec59eb4396f6cc`
 - Cumulative generation count: **5**
 - Image references: **none for every generation**
 - Pending duplicate: **removed**
 - Manifest bookkeeping: **updated**
-- Production promotion: **performed byte-for-byte**
+- Production normalization: **minimal symmetric center crop from the owner-supplied accepted source; no scaling, stretching, or artistic change**

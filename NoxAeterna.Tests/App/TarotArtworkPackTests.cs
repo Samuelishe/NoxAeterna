@@ -391,9 +391,9 @@ public sealed class TarotArtworkPackTests
             (
                 "minor.pentacles.four",
                 "cards/minor/pentacles/four.png",
-                958,
-                1642,
-                "cdc8f8cbc008b2b7bd07f391a7cafe49ddb160faed2dd72921bdfcff7a413835"),
+                952,
+                1632,
+                "8a7e1a0c8822621f2999b58691a071251ac77f595fb0433bb9ec59eb4396f6cc"),
             (
                 "minor.pentacles.nine",
                 "cards/minor/pentacles/nine.png",
@@ -869,21 +869,21 @@ public sealed class TarotArtworkPackTests
     public void PrototypeFallbackVisualPlan_PreservesSemanticCardAndHonestFallbackLabel()
     {
         var catalog = TarotArtworkPackCatalog.CreateForTests(TarotArtworkPackTestData.LoadRepositoryPack());
-        var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == "minor.wands.king");
+        var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == "minor.wands.three");
         var artwork = catalog.Resolve(new TarotArtworkPackId("lupus-noctis"), card);
         var assignment = new TarotDrawnCard(new TarotSpreadPositionId("card"), card, TarotCardOrientation.Upright);
 
         var plan = TarotCardVisualPlan.Create(
             assignment,
             artwork,
-            "King of Wands",
+            "Three of Wands",
             "Wands",
             "Prototype fallback");
 
         Assert.Same(card, plan.Card);
         Assert.Equal(TarotArtworkResolutionKind.Prototype, plan.ArtworkKind);
         Assert.Null(plan.RasterAssetPath);
-        Assert.Equal("King of Wands", plan.LocalizedTitle);
+        Assert.Equal("Three of Wands", plan.LocalizedTitle);
         Assert.Equal("Prototype fallback", plan.PrototypeFallbackText);
         Assert.Equal(0d, plan.RotationDegrees);
         Assert.True(plan.HasLocalizedTitleOverlay);

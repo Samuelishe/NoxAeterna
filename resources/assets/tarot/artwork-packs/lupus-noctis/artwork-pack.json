@@ -574,9 +574,9 @@
     {
       "cardId": "minor.pentacles.four",
       "assetPath": "cards/minor/pentacles/four.png",
-      "width": 958,
-      "height": 1642,
-      "sha256": "cdc8f8cbc008b2b7bd07f391a7cafe49ddb160faed2dd72921bdfcff7a413835",
+      "width": 952,
+      "height": 1632,
+      "sha256": "8a7e1a0c8822621f2999b58691a071251ac77f595fb0433bb9ec59eb4396f6cc",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/pentacles/four.md"
     },

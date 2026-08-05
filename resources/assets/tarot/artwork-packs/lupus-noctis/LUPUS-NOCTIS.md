@@ -145,7 +145,7 @@
 - A23 production cards and owner outcomes:
   - [`minor.wands.king`](records/minor/wands/king.md) — owner acceptance: **Accepted** after `G2`, cumulative generation count **2**. G2 followed the owner's request for a calmer, less repetitive forest background.
   - [`minor.swords.eight`](records/minor/swords/eight.md) — owner acceptance: **Accepted** after `G2`, cumulative generation count **2**. G2 replaced G1's tight wrist restraint with the owner-accepted candidate.
-  - [`minor.pentacles.four`](records/minor/pentacles/four.md) — owner acceptance: **Accepted** as an owner-supplied replacement after `G5`, cumulative generation count **5**. The promoted owner file is retained byte-for-byte at `958 × 1642 px` with SHA-256 `cdc8f8cbc008b2b7bd07f391a7cafe49ddb160faed2dd72921bdfcff7a413835`.
+  - [`minor.pentacles.four`](records/minor/pentacles/four.md) — owner acceptance: **Accepted** as an owner-supplied replacement after `G5`, cumulative generation count **5**. The accepted artwork remains that owner-supplied replacement; its production asset was normalized from `958 × 1642 px` to canonical `952 × 1632 px` by a minimal symmetric center crop, without changing artistic content or owner acceptance.
 - A24: **Accepted** self-possession / illusion / conflict / exposed truth / patient duty batch.
 - A24 creation and acceptance: all five illustrations were created by the owner together with ChatGPT outside Codex and artistically accepted by the owner before handoff. Codex performed technical batch import only; it did not generate, regenerate, correct, or artistically review the assets.
 - A24 production cards:
@@ -164,6 +164,7 @@ Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, 
 - The owner creates Tarot prompts and final illustrations with ChatGPT outside Codex and visually accepts every image before handoff. Artistic acceptance belongs exclusively to the owner.
 - A normal handoff contains **3–5 owner-approved PNGs**. Codex does not generate, regenerate, or artistically review Tarot images.
 - Codex imports the supplied PNGs and checks only file-level technical parameters, dimensions, SHA-256, canonical paths, and repository consistency.
+- Owner-approved source dimensions may differ slightly from production dimensions, but every production PNG and manifest entry must exactly match the pack's `expectedSourceDimensions`. Production normalization takes precedence over byte preservation and may use uniform scaling and/or center crop without stretching or artistic modification.
 - After receiving the complete batch, Codex updates the relevant records, manifest, tests, and project documentation once for the batch.
 
 ## Core World

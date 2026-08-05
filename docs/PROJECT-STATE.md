@@ -46,4 +46,3 @@ A24 is complete. Await the next owner-approved artwork batch under the Lupus Noc
 ## Active Blockers
 
 - A24 has no remaining blocker. A25, AP1–AP5, and PKG1 remain unstarted pending the owner's next-stage choice.
-- The focused `App-Workspace` route remains red because the pre-existing A23 `minor.pentacles.four` production asset and manifest entry are `958 × 1642`, while `TarotArtworkPackLoader` requires every card to declare `952 × 1632` at exact `7:12`. A24 did not alter that owner-approved A23 asset or the runtime contract.

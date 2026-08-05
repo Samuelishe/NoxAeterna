@@ -9,6 +9,19 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-05: ART-LN-CI-FIX Canonical Four of Pentacles Production Dimensions
+
+Summary:
+
+- Technically normalized the owner-supplied accepted A23 Four of Pentacles from `958 × 1642` to canonical `952 × 1632` by cropping `3 px` from each vertical side and `5 px` from each horizontal side. No scaling, stretching, generation, artistic edit, owner-decision change, or generation-count change occurred.
+- Updated the production hash and dimensions in the manifest, focused tuple, card record, and A23 summary; added the durable handoff rule that production normalization takes precedence over byte preservation; removed the resolved current-state blocker. Inventory remains 68 production plus 10 fallback with `partialPack: true`.
+- After the loader blocker was removed, the milestone run exposed one stale fallback test still using production A23 King of Wands. Its input was corrected to omitted `minor.wands.three`; runtime code and artwork were unchanged.
+
+Verification:
+
+- The production PNG decode, manifest/record hashes, canonical dimensions, and inventory consistency check passed. `dotnet build NoxAeterna.sln -c Release` passed with 0 warnings and 0 errors.
+- The single requested Full route completed `672` tests with `671` passed and one stale-fixture failure. That fixture was corrected after the run; the Full route was not repeated, honoring the one-run constraint.
+
 ## 2026-08-05: ART-LN A24 Technical Batch Import
 
 Summary:
