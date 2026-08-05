@@ -4,9 +4,13 @@
 
 - Semantic card ID: `minor.swords.eight`
 - Batch: **A23 — charismatic leadership / inner trap / resource retention**
-- Owner acceptance: **Pending**
+- Owner acceptance: **Accepted**
 - Generation method: built-in `imagegen`, independent text-only; no attachment or image reference
-- Pending candidate path: `studies/A23/eight-of-swords.png`
+- Production status: **accepted**
+- Production asset path: `cards/minor/swords/eight.png`
+- Accepted generation: **G2**
+- Production dimensions: `952 × 1632 px`
+- Production SHA-256: `03b1c79f0fe0383f607e6c65a04ad1191a4b14acdfafb7966c969a60e3a8f8ab`
 
 ## Meaning-First Brief
 
@@ -95,18 +99,18 @@ Absolute constraints: Exactly one prisoner and no other people. One loose single
 - Technical review: **pass** — one prisoner only; both feet and body occupy real stone support; one hand lifts the loose blindfold while the other remains inside a large slack rope loop; the door is open on visible hinges and a continuous wet but walkable floor reaches the pale exit; no text/frame/watermark appears
 - Meaning/role review: **pass** — literal freedom is available through the open route, loose loop, free hand, and removable blindfold, while the crouched backward glance and weapon-lined corridor make fear rather than material restraint the trap
 - Independent absurdity review: **pass** — the door clears the passage, floor and threshold are usable, shallow water does not block travel, all swords belong to fixed wall racks, the prisoner is physically supported, and no spatial, causal, historical, or narrative absurdity blocks acceptance
-- Decision: **Pending owner review**
+- Decision: **Accepted by owner**
 - Cumulative generation count after this attempt: **2**
 - Next legal transition: owner handoff
 
-## Owner Handoff
+## Owner Outcome
 
-- Canonical candidate: `studies/A23/eight-of-swords.png`
-- Normalized dimensions: `952 × 1632 px`
-- Normalized SHA-256: `03b1c79f0fe0383f607e6c65a04ad1191a4b14acdfafb7966c969a60e3a8f8ab`
+- Accepted generation: **G2**
+- Production asset: `cards/minor/swords/eight.png`
+- Production dimensions: `952 × 1632 px`
+- Production SHA-256: `03b1c79f0fe0383f607e6c65a04ad1191a4b14acdfafb7966c969a60e3a8f8ab`
 - Generations used / default maximum: **2 / 4**
 - Image references: **none for every attempt**
-- Remaining blockers: **none detected**
-- Technical eligibility: **eligible for owner review**
-- Owner decision: **pending**
-- Production promotion: **not performed**
+- Owner decision: **Accepted**
+- Pending duplicate: **removed**
+- Production promotion: **performed byte-for-byte**

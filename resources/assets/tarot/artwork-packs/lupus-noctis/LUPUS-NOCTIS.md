@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **60/78**.
+- Accepted production cards: **63/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -139,18 +139,17 @@
   - [`minor.pentacles.queen`](records/minor/pentacles/queen.md) — owner acceptance: **Accepted** after `G3`, cumulative generation count **3**. One principal Queen, one ewe, one newborn lamb, one complete bronze pentacle and physically plausible direct care are retained. The owner considers the G1 correction for tiny garment fasteners and G2 correction for small earrings overly strict because those details did not read as extra pentacles at target card size. G3 remains accepted; superseded PNGs remain deleted and the factual G1–G3 provenance remains unchanged.
   - [`minor.swords.king`](records/minor/swords/king.md) — owner acceptance: **Accepted** after `G2`, cumulative generation count **2**. One full sword and the examiner's literal hand-to-hinged-panel action expose the counterweight/rope/pulley/axle fraud while examiner and charlatan roles remain legible.
   - [`minor.wands.ace`](records/minor/wands/ace.md) — owner acceptance: **Accepted** after `G3`, cumulative generation count **3**. One complete wand, one attached flame, unified wind, two supported feet, the oasis and responding unlit caravan communicate the first impulse and new route.
-- A23: **Pending** charismatic leadership / inner trap / resource retention batch.
-- A23 generation method: built-in `imagegen`, independent text-only; no attachment, accepted card, rejected candidate, superseded candidate, or newly generated A23 card was used as an image reference.
+- A23: **Accepted** charismatic leadership / inner trap / resource retention batch.
+- A23 generation method: built-in `imagegen`, independent text-only; no attachment, accepted card, rejected candidate, superseded candidate, or newly generated A23 card was used as an image reference. The accepted Four of Pentacles asset is an owner-supplied replacement after G5 rather than an additional generation.
 - A23 used one shared diversity audit of the last twelve accepted cards, A19–A22. Recent work covers maritime crisis, large mechanisms, cultivation, formal initiation, salon fulfillment, threshold judgment, public performance and acclaim, intimate winter care, institutional evidence exposure, and solitary desert signaling. A23 therefore separates into a populated kinetic green-forest redirection, a solitary cold dungeon threshold, and a morally ambiguous fire-lit civic reserve vault; casting, palette, camera, action density, spatial procedure, and silhouette differ across all three and from the recent set.
-- A23 review candidates:
-  - [`minor.wands.king`](records/minor/wands/king.md) — owner acceptance: **Pending** at `G1`, cumulative generation count **1**. Exactly one complete command wand, two travelers being freed, the supported red-haired captain's redirection gesture, the already-moving band, dissatisfied lieutenant, and lower-road tax convoy pass literal, meaning and absurdity review.
-  - [`minor.swords.eight`](records/minor/swords/eight.md) — owner acceptance: **Pending** after `G2`, cumulative generation count **2**. G1's tight multi-wrap wrist binding contradicted self-release and was deleted; G2 contains exactly left `4` + right `4` = `8` complete non-crossing swords, one already-free hand lifting the blindfold, one large slack rope loop, an open hinged door, and a continuous unblocked floor.
-  - [`minor.pentacles.four`](records/minor/pentacles/four.md) — owner acceptance: **Pending** at `G1`, cumulative generation count **1**. Exactly top `2` + bottom `2` = `4` complete pentacle seals belong to one hinged door; the key aligns with its lock, ordinary small hardware does not create count confusion at card size, and communal supplies contrast with the visible fire rescue outside.
-- All three A23 candidates pass hard, technical, meaning/role and independent absurdity gates. None qualified for `G4`; technical eligibility does not confer owner acceptance.
+- A23 production cards and owner outcomes:
+  - [`minor.wands.king`](records/minor/wands/king.md) — owner acceptance: **Accepted** after `G2`, cumulative generation count **2**. G2 followed the owner's request for a calmer, less repetitive forest background.
+  - [`minor.swords.eight`](records/minor/swords/eight.md) — owner acceptance: **Accepted** after `G2`, cumulative generation count **2**. G2 replaced G1's tight wrist restraint with the owner-accepted candidate.
+  - [`minor.pentacles.four`](records/minor/pentacles/four.md) — owner acceptance: **Accepted** as an owner-supplied replacement after `G5`, cumulative generation count **5**. The promoted owner file is retained byte-for-byte at `958 × 1642 px` with SHA-256 `cdc8f8cbc008b2b7bd07f391a7cafe49ddb160faed2dd72921bdfcff7a413835`.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, and A22 images are shipped production assets listed by `artwork-pack.json`. A23 is a bounded tracked-review batch outside the manifest and production inventory. No accepted-wave study copies remain, A23-P and A24 do not start automatically, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, and A23 images are shipped production assets listed by `artwork-pack.json`. No accepted-wave study copies remain, A23-P and A24 do not start automatically, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **60/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **63/78 accepted production cards** while that staged architecture is implemented independently.
 
 ## Core World
 
