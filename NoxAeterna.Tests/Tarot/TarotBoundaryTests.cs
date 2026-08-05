@@ -106,7 +106,9 @@ public sealed class TarotBoundaryTests
             path.Equals("studies/A23", StringComparison.OrdinalIgnoreCase) ||
             path.StartsWith("studies/A23/", StringComparison.OrdinalIgnoreCase) ||
             path.Equals("studies/A24", StringComparison.OrdinalIgnoreCase) ||
-            path.StartsWith("studies/A24/", StringComparison.OrdinalIgnoreCase));
+            path.StartsWith("studies/A24/", StringComparison.OrdinalIgnoreCase) ||
+            path.Equals("studies/A25", StringComparison.OrdinalIgnoreCase) ||
+            path.StartsWith("studies/A25/", StringComparison.OrdinalIgnoreCase));
         Assert.DoesNotContain(relativePaths, path =>
             path.Contains("contact-sheet", StringComparison.OrdinalIgnoreCase) ||
             path.Contains("collage", StringComparison.OrdinalIgnoreCase) ||

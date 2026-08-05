@@ -9,6 +9,19 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-05: ART-LN A25 Technical Batch Import
+
+Summary:
+
+- Imported the three owner-approved A25 illustrations for `minor.cups.knight`, `minor.swords.page`, and `minor.pentacles.six`. The owner created and artistically accepted every image with ChatGPT outside Codex; Codex performed technical batch import only and did not generate, correct, evaluate, or artistically review artwork.
+- Losslessly decoded each `958 × 1642` handoff PNG, applied only a minimal symmetric center crop of `3 px` per vertical side and `5 px` per horizontal side without scaling or stretching, and stored each `952 × 1632` result at its canonical production path. Added concise per-card records, expanded the manifest to 71 accepted cards with 7 fallbacks and `partialPack: true`, and removed `studies/A25` after successful verification.
+- Updated only the focused manifest/resolver and repository-boundary fixtures plus the current owner documents. A26 does not start automatically.
+
+Verification:
+
+- The A25 consistency audit covers PNG decoding, exact dimensions, manifest/record/fixture hashes, canonical path and record ownership, 71 production plus 7 fallback identities, duplicate and missing-file checks, complete removal of `studies/A25`, and confirmation that `minor.wands.three` remains a real fallback.
+- The focused `App-Workspace` and `Architecture-Boundaries` routes, documentation validation, and `git diff --check` are the local completion gates; hosted CI remains responsible for broad validation after the owner's commit and push.
+
 ## 2026-08-05: ART-LN-CI-FIX Canonical Four of Pentacles Production Dimensions
 
 Summary:

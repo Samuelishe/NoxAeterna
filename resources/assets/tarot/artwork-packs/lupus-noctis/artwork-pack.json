@@ -624,6 +624,33 @@
       "sha256": "95e2fb5d12b568383e0c15a68c2e4fa495453560e5378585a742ac1b8f085728",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/pentacles/knight.md"
+    },
+    {
+      "cardId": "minor.cups.knight",
+      "assetPath": "cards/minor/cups/knight.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "66686c2dfda0fad05569616982c94bbfcbf1047b74017c65f7f18697b5b68a9c",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/cups/knight.md"
+    },
+    {
+      "cardId": "minor.swords.page",
+      "assetPath": "cards/minor/swords/page.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "240af51d40936a5a7f19315f65ef86953bf46ed634ce50d1717c219b35c75a28",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/swords/page.md"
+    },
+    {
+      "cardId": "minor.pentacles.six",
+      "assetPath": "cards/minor/pentacles/six.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "7d3c22d59151d86973117c0f780d70e5d4ff0c2521e3f23cb98a0aea4f19c222",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/six.md"
     }
   ]
 }

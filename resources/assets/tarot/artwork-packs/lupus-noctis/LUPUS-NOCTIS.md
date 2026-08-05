@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **68/78**.
+- Accepted production cards: **71/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -154,10 +154,16 @@
   - [`minor.wands.five`](records/minor/wands/five.md) — owner acceptance: **Accepted**.
   - [`minor.swords.ace`](records/minor/swords/ace.md) — owner acceptance: **Accepted**.
   - [`minor.pentacles.knight`](records/minor/pentacles/knight.md) — owner acceptance: **Accepted**.
+- A25: **Accepted** sincere action / exposed deception / costly generosity batch.
+- A25 creation and acceptance: all three illustrations were created by the owner together with ChatGPT outside Codex and artistically accepted by the owner before handoff. Codex performed technical batch import only; it did not generate, regenerate, correct, evaluate, or artistically review the assets.
+- A25 production cards:
+  - [`minor.cups.knight`](records/minor/cups/knight.md) — owner acceptance: **Accepted**.
+  - [`minor.swords.page`](records/minor/swords/page.md) — owner acceptance: **Accepted**.
+  - [`minor.pentacles.six`](records/minor/pentacles/six.md) — owner acceptance: **Accepted**.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, and A24 images are shipped production assets listed by `artwork-pack.json`. No accepted-wave study copies remain, the next artwork batch does not start automatically, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, and A25 images are shipped production assets listed by `artwork-pack.json`. No accepted-wave study copies remain, A25 no longer awaits handoff, A26 does not start automatically, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **68/78 accepted production cards** and uses fallback for the remaining **10/78** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **71/78 accepted production cards** and uses fallback for the remaining **7/78** with `partialPack: true` while that staged architecture is implemented independently.
 
 ## Artwork Creation and Codex Handoff
 

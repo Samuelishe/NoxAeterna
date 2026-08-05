@@ -22,14 +22,14 @@
 - T1 first playable Tarot workspace is complete at checkpoint commit `4e7e3d61bc11b875af9fb5591f5a10ed986c8962`: real single-card and three-card in-memory readings, explicit reversal preference, responsive programmatic prototype cards, two selectable backs, localized inspection, and presentation-owned session state are ready for owner visual review. Hosted run `30791606505` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - A3 partial-pack integration is functionally and visually accepted at commit `4977852287051c95945b55f78d18c263dc35de20`: Lupus Noctis contributes three accepted raster cards over the unchanged semantic reading, with Classic first, controlled fallback, localized overlays, and validated built-in resources. Single-card scale remains deferred to T-UX1 and native title-bar replacement to S2.
 - AP0 asset-pack runtime architecture is complete at checkpoint commit `37dc91e24a8c73ec949312c21a684f5e2998398d`; hosted run `30806291467` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
-- A24 is owner-accepted and technically imported: `minor.pentacles.nine`, `minor.cups.seven`, `minor.wands.five`, `minor.swords.ace`, and `minor.pentacles.knight` bring Lupus Noctis to 68/78 production illustrations with fallback for 10 cards. The owner created and artistically accepted the batch with ChatGPT outside Codex; Codex performed technical batch import only.
+- A25 is owner-accepted and technically imported: `minor.cups.knight`, `minor.swords.page`, and `minor.pentacles.six` bring Lupus Noctis to 71/78 production illustrations with fallback for 7 cards and `partialPack: true`. The owner created and artistically accepted the batch with ChatGPT outside Codex; Codex performed technical batch import only.
 - ART-SKILL-RM retired the repository-owned and user-level Tarot generation skill. Future artwork creation and artistic acceptance belong to the owner outside Codex; the active handoff contract is owned by [`LUPUS-NOCTIS.md`](../resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md#artwork-creation-and-codex-handoff).
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-A24 is complete. Await the next owner-approved artwork batch under the Lupus Noctis handoff contract; A25 and AP1 do not start automatically.
+A25 is complete. Await the next owner-approved artwork batch under the Lupus Noctis handoff contract; A26 does not start automatically, and no active artwork blocker exists.
 
 ## Preserved Contracts
 
@@ -38,11 +38,11 @@ A24 is complete. Await the next owner-approved artwork batch under the Lupus Noc
 - UnknownTime has no houses or principal angles and retains its documented technical-noon planet policy.
 - Runtime and user data belong in AppData or the platform user-data location; shipped assets belong in the repository.
 - Tarot semantic decks, artwork packs, presentation skins, back variants, and interpretation sets have independent typed identities. T1 uses only honest programmatic prototype visuals and adds no persistence or interpretation prose.
-- Lupus Noctis A0 and A1 remain rejected. The owner accepted all A2, A4, A5, A6, A7, A8, A9, A10, A11, the two promoted A12 cards, all four A13 cards, and all A14–A24 cards; the built-in partial pack now owns 68/78 production illustrations and uses the existing programmatic face for 10 omitted cards. Detailed card state, provenance, hashes, and accepted exceptions belong only to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md` and its linked records.
+- Lupus Noctis A0 and A1 remain rejected. The owner accepted all A2, A4, A5, A6, A7, A8, A9, A10, A11, the two promoted A12 cards, all four A13 cards, and all A14–A25 cards; the built-in partial pack now owns 71/78 production illustrations and uses the existing programmatic face for 7 omitted cards. Detailed card state, provenance, hashes, and accepted exceptions belong only to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md` and its linked records.
 - Repository packs are versioned seed sources; the target runtime reads synchronized built-in and user packs from AppData. Discovery, no-delete synchronization, fingerprints, normalization, import, tooling, and packaging are staged under `ASSET-PACK-RUNTIME.md`; A3 direct output loading is temporary built-in-only behavior.
 - Visual semantics belong to `VISUAL-DESIGN-SYSTEM.md`; Avalonia theme topology belongs to `THEMES.md`.
 - Meaningful UI changes require manual smoke through the real application and real controls.
 
 ## Active Blockers
 
-- A24 has no remaining blocker. A25, AP1–AP5, and PKG1 remain unstarted pending the owner's next-stage choice.
+- A25 has no remaining blocker. A26, AP1–AP5, and PKG1 remain unstarted pending the owner's next-stage choice.
