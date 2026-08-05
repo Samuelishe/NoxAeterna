@@ -1,10 +1,10 @@
 # Next Steps
 
-The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. A23 is accepted and promoted, and Lupus Noctis has 63/78 accepted production illustrations with prototype fallback for 15 omitted cards.
+The repository-foundation wave, P1, S1, and T0-A are accepted with green hosted evidence. A24 is accepted and technically imported, and Lupus Noctis has 68/78 accepted production illustrations with prototype fallback for 10 omitted cards.
 
 Immediate next steps:
 
-1. **ART-LN:** await the next owner-approved PNG batch and import it under the [`Lupus Noctis handoff contract`](../resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md#artwork-creation-and-codex-handoff). Do not begin A24 automatically.
+1. **ART-LN:** await the next owner-approved PNG batch and import it under the [`Lupus Noctis handoff contract`](../resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md#artwork-creation-and-codex-handoff). Do not begin A25 automatically.
 2. **AP1:** app-data path service, built-in no-delete seed synchronization, and Settings action to open application data.
 3. **AP2:** runtime registry, validation fingerprints, exact-stem extension audit/fallback, normalized PNG cache, and placeholders.
 4. **AP3–AP5:** separate Assets tool, manual user-pack discovery, then Settings import wizard.

@@ -22,3 +22,4 @@ Archived content is retained historical evidence, not current status. Use [`PROJ
 - [`2026-08-03, part 05`](session-log/SESSION-LOG_2026-08-03_part-05.md) — remaining partial-day evidence for A12-P+A13 and A13-P+A14; this completes the archived chronology for August 3.
 - [`2026-08-04, part 01`](session-log/SESSION-LOG_2026-08-04_part-01.md) — partial-day evidence for A14-P+A15 through A17-P+A18; later August 4 entries remain in the active log.
 - [`2026-08-04, part 02`](session-log/SESSION-LOG_2026-08-04_part-02.md) — partial-day evidence for A18-P+A19; later August 4 entries remain in the active log.
+- [`2026-08-04, part 03`](session-log/SESSION-LOG_2026-08-04_part-03.md) — remaining partial-day evidence for the A19 correction pass through A21-P+A22; this completes the archived chronology for August 4.

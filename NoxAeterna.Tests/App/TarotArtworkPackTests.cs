@@ -11,7 +11,7 @@ namespace NoxAeterna.Tests.App;
 public sealed class TarotArtworkPackTests
 {
     [Fact]
-    public void LupusNoctisManifest_DeclaresVersionedPartialPackWithSixtyExactAcceptedStandardCards()
+    public void LupusNoctisManifest_DeclaresVersionedPartialPackWithSixtyEightAcceptedStandardCards()
     {
         var definition = TarotArtworkPackTestData.LoadRepositoryPack();
         (string CardId, string AssetPath, int Width, int Height, string Sha256)[] expectedCards =
@@ -375,7 +375,55 @@ public sealed class TarotArtworkPackTests
                 "cards/minor/wands/ace.png",
                 952,
                 1632,
-                "89850fe51171ba613a8eb2be05a86d780d5c93a544c6813be8a1aedb4daf3900")
+                "89850fe51171ba613a8eb2be05a86d780d5c93a544c6813be8a1aedb4daf3900"),
+            (
+                "minor.swords.eight",
+                "cards/minor/swords/eight.png",
+                952,
+                1632,
+                "03b1c79f0fe0383f607e6c65a04ad1191a4b14acdfafb7966c969a60e3a8f8ab"),
+            (
+                "minor.wands.king",
+                "cards/minor/wands/king.png",
+                952,
+                1632,
+                "9e10451450866e9799cde1ef6e4a04a43db2b5f218cbc3e676980102a50ba503"),
+            (
+                "minor.pentacles.four",
+                "cards/minor/pentacles/four.png",
+                958,
+                1642,
+                "cdc8f8cbc008b2b7bd07f391a7cafe49ddb160faed2dd72921bdfcff7a413835"),
+            (
+                "minor.pentacles.nine",
+                "cards/minor/pentacles/nine.png",
+                952,
+                1632,
+                "dbec2384b1bcdd09eb0f375594f03bc934db3606d26ebb25bf7aa127cb1766de"),
+            (
+                "minor.cups.seven",
+                "cards/minor/cups/seven.png",
+                952,
+                1632,
+                "fc634f73dd3e38d44195924bc0359d094ff3c3385b039528bb0f158f5738539b"),
+            (
+                "minor.wands.five",
+                "cards/minor/wands/five.png",
+                952,
+                1632,
+                "88c3ad1382f26d820a51c051bac64295776b3a499c9059d58de5c7386597c724"),
+            (
+                "minor.swords.ace",
+                "cards/minor/swords/ace.png",
+                952,
+                1632,
+                "09b3142e09713d404f1ba5e5fe3e0976faa297fc13a623edb97cb84c3bd07e44"),
+            (
+                "minor.pentacles.knight",
+                "cards/minor/pentacles/knight.png",
+                952,
+                1632,
+                "95e2fb5d12b568383e0c15a68c2e4fa495453560e5378585a742ac1b8f085728")
         ];
 
         Assert.Equal(1, definition.SchemaVersion);
@@ -726,7 +774,15 @@ public sealed class TarotArtworkPackTests
     [InlineData("minor.pentacles.queen", "cards/minor/pentacles/queen.png")]
     [InlineData("minor.swords.king", "cards/minor/swords/king.png")]
     [InlineData("minor.wands.ace", "cards/minor/wands/ace.png")]
-    public void PartialPackResolver_AllSixtyAcceptedCardsResolveRasterArtwork(string cardId, string assetPath)
+    [InlineData("minor.swords.eight", "cards/minor/swords/eight.png")]
+    [InlineData("minor.wands.king", "cards/minor/wands/king.png")]
+    [InlineData("minor.pentacles.four", "cards/minor/pentacles/four.png")]
+    [InlineData("minor.pentacles.nine", "cards/minor/pentacles/nine.png")]
+    [InlineData("minor.cups.seven", "cards/minor/cups/seven.png")]
+    [InlineData("minor.wands.five", "cards/minor/wands/five.png")]
+    [InlineData("minor.swords.ace", "cards/minor/swords/ace.png")]
+    [InlineData("minor.pentacles.knight", "cards/minor/pentacles/knight.png")]
+    public void PartialPackResolver_AllSixtyEightAcceptedCardsResolveRasterArtwork(string cardId, string assetPath)
     {
         var catalog = TarotArtworkPackCatalog.CreateForTests(TarotArtworkPackTestData.LoadRepositoryPack());
         var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == cardId);
@@ -748,8 +804,8 @@ public sealed class TarotArtworkPackTests
             .Select(card => catalog.Resolve(new TarotArtworkPackId("lupus-noctis"), card))
             .ToArray();
 
-        Assert.Equal(60, resolutions.Count(static resolution => resolution.Kind == TarotArtworkResolutionKind.Raster));
-        Assert.Equal(18, resolutions.Count(static resolution => resolution.IsPartialPackFallback));
+        Assert.Equal(68, resolutions.Count(static resolution => resolution.Kind == TarotArtworkResolutionKind.Raster));
+        Assert.Equal(10, resolutions.Count(static resolution => resolution.IsPartialPackFallback));
         Assert.All(resolutions, resolution =>
         {
             Assert.Contains(resolution.Card, StandardTarotCatalog.Deck.Cards);

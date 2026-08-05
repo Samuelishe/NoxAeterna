@@ -15,7 +15,7 @@
 
 ## Current Status
 
-- Accepted production cards: **63/78**.
+- Accepted production cards: **68/78**.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -146,10 +146,18 @@
   - [`minor.wands.king`](records/minor/wands/king.md) — owner acceptance: **Accepted** after `G2`, cumulative generation count **2**. G2 followed the owner's request for a calmer, less repetitive forest background.
   - [`minor.swords.eight`](records/minor/swords/eight.md) — owner acceptance: **Accepted** after `G2`, cumulative generation count **2**. G2 replaced G1's tight wrist restraint with the owner-accepted candidate.
   - [`minor.pentacles.four`](records/minor/pentacles/four.md) — owner acceptance: **Accepted** as an owner-supplied replacement after `G5`, cumulative generation count **5**. The promoted owner file is retained byte-for-byte at `958 × 1642 px` with SHA-256 `cdc8f8cbc008b2b7bd07f391a7cafe49ddb160faed2dd72921bdfcff7a413835`.
+- A24: **Accepted** self-possession / illusion / conflict / exposed truth / patient duty batch.
+- A24 creation and acceptance: all five illustrations were created by the owner together with ChatGPT outside Codex and artistically accepted by the owner before handoff. Codex performed technical batch import only; it did not generate, regenerate, correct, or artistically review the assets.
+- A24 production cards:
+  - [`minor.pentacles.nine`](records/minor/pentacles/nine.md) — owner acceptance: **Accepted**.
+  - [`minor.cups.seven`](records/minor/cups/seven.md) — owner acceptance: **Accepted**.
+  - [`minor.wands.five`](records/minor/wands/five.md) — owner acceptance: **Accepted**.
+  - [`minor.swords.ace`](records/minor/swords/ace.md) — owner acceptance: **Accepted**.
+  - [`minor.pentacles.knight`](records/minor/pentacles/knight.md) — owner acceptance: **Accepted**.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, and A23 images are shipped production assets listed by `artwork-pack.json`. No accepted-wave study copies remain, A23-P and A24 do not start automatically, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, and A24 images are shipped production assets listed by `artwork-pack.json`. No accepted-wave study copies remain, the next artwork batch does not start automatically, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **63/78 accepted production cards** while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **68/78 accepted production cards** and uses fallback for the remaining **10/78** while that staged architecture is implemented independently.
 
 ## Artwork Creation and Codex Handoff
 
