@@ -1,4 +1,4 @@
 interface:
   display_name: "Tarot Artwork Generation"
-  short_description: "Meaning-first Tarot artwork generation and review"
-  default_prompt: "Use $tarot-artwork-generation to create or rigorously review Tarot artwork."
+  short_description: "Owner-gated Tarot generation, one candidate at a time"
+  default_prompt: "Use $tarot-artwork-generation to generate one independent Tarot candidate, save and report it, then pause for my decision without judging or correcting it yourself."

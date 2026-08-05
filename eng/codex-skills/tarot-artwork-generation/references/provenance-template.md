@@ -1,53 +1,52 @@
 # Provenance Template
 
-Use this repository-neutral structure for one through four generations. Omit unused generation blocks; never invent attempts. Preserve metadata for superseded candidates but do not retain their PNG files unless the governing task explicitly requires it.
+Use this repository-neutral structure for any number of owner-directed generations. Never invent a generation, owner comment, or decision. Preserve metadata for replaced candidates; retain or remove their PNG files according to repository policy and explicit owner instructions.
 
-## Asset
+## Asset and approved brief
 
 - **Asset role:**
-- **Semantic identity:**
+- **Semantic ID and title:**
 - **Artwork-pack identity:**
-- **Canonical output path:**
-- **Target dimensions / aspect ratio:**
+- **Approved brief:** exact approved text or an accurate structured rendering
+- **Canonical Pending path:**
+- **Canonical production path, if applicable:**
+- **Target dimensions and aspect ratio:**
+- **Normalization policy:**
 - **Provenance destination:**
-- **Owner attempt override:** none | details
-- **Cumulative generation count:** 1–4 by default
-- **Current status:** `Pending owner review` | `blocking defect remains` | `attempt budget exhausted` | `owner Accepted` | `owner Rejected`
+- **Current queue state:** awaiting generation | awaiting owner decision | Accepted | Pending/Hold | Rejected
+- **Cumulative generation count:** actual total
 
-## Generation `<G1|G2|G3|G4>`
+## Generation `<ordinal>`
 
-- **Generation ordinal:** `<1|2|3|4>`
-- **Generation mode:** `initial` | `targeted correction` | `critical recovery` | `absurdity rescue`
-- **Full text-only prompt:**
+- **Generation ordinal:** positive integer
+- **Trigger:** initial approved brief | owner-directed redo
+- **Owner feedback that triggered this generation:** none | exact quotation or faithful rendering
+- **Full independent text-only prompt:**
 
 ```text
 <complete prompt exactly as submitted>
 ```
 
-- **Image reference:** `none` by default | explicit override and source
+- **Attachments:** none
+- **Image reference:** none
 - **Original dimensions:** `<width> × <height>`
-- **Normalized dimensions:** `<width> × <height>`
-- **Normalized SHA-256:**
-- **Literal blocking defects:** none | exact observations
-- **Non-blocking notes:** none | exact observations
-- **Hard-contract review:** pass | fail, with evidence
-- **Technical review:** pass | fail, with evidence
-- **Meaning/role review:** pass | fail, with evidence
-- **Independent absurdity review:** not reached | pass | fail, with evidence
-- **Decision:** `superseded` | `Pending owner review` | `owner Accepted` | `owner Rejected`
-- **Cumulative generation count after this attempt:**
-- **Next legal transition:** owner handoff | `G2` | `G3` | `G4` | stop; owner override required
+- **Normalization performed:** none | uniform scale | task-authorized crop and uniform scale
+- **Saved dimensions:** `<width> × <height>`
+- **Saved SHA-256:**
+- **Canonical Pending path:**
+- **Mechanical checks:** file exists; PNG decodes; dimensions readable; target dimensions/aspect ratio satisfied; no stretching; hash computed; path correct
+- **Owner decision for this candidate:** awaiting | Accepted | Redo | Pending/Hold | Rejected
+- **Owner decision evidence or feedback:** pending | exact quotation or faithful rendering
 
-Repeat the generation block for each actual attempt, up to `G4` by default.
+Repeat this block once for every actual generation, continuing with `Generation 2`, `Generation 3`, and higher ordinals without a skill-defined limit.
 
-## Owner handoff
+## Owner outcome
 
-- **Canonical candidate:**
-- **Normalized dimensions:**
-- **Normalized SHA-256:**
-- **Generations used / default maximum:** `<n> / 4`
-- **Unused attempts:** no obligation to spend them
-- **Remaining blockers:**
-- **Technical eligibility:** eligible for owner review | ineligible
-- **Owner decision:** pending | Accepted with explicit citation | Rejected with explicit citation
-- **Production promotion:** not performed unless separately authorized
+- **Final owner decision for this asset:** awaiting | Accepted | Pending/Hold | Rejected
+- **Decision evidence:** exact quotation or faithful rendering
+- **Accepted generation ordinal, if any:**
+- **Production asset path, if accepted:**
+- **Production dimensions and SHA-256, if accepted:**
+- **Pending or rejected PNG disposition:** retained at canonical Pending path | removed under repository policy | other explicit owner instruction
+- **Manifest bookkeeping:** not applicable | pending finalization | updated
+- **Notes:** technical or repository facts only; do not add Codex artistic judgments

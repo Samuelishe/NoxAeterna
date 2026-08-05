@@ -1,90 +1,71 @@
 ---
 name: tarot-artwork-generation
-description: Orchestrate meaning-first generation, correction, and strict visual review of Tarot card artwork, full card faces, alternate artwork packs, deck covers, and pack key art. Use for new Tarot illustrations, approved-brief generation, text-only correction passes, exact object-count checks, composition, meaning, or absurdity review of existing Tarot imagery, provenance handoff, or batches of independent Tarot assets. Do not use for generic icons, UI assets or layouts, non-Tarot imagery, software code review, or C# testing.
+description: Interactive, owner-gated generation of Tarot illustrations, full card faces, artwork packs, deck covers, and pack key art. Use for batches that require owner approval after every card, owner-directed corrections, or promotion of an accepted candidate. Generate one independent text-only candidate at a time, pause for owner inspection, and never self-correct from the model's own visual judgment.
 ---
 
 # Tarot Artwork Generation
 
 ## Purpose
 
-Create and assess Tarot imagery through a meaning-first workflow. Make the scene communicate the semantic identity before adding familiar symbols. Orchestrate `$imagegen` for generation, inspection, normalization, dimensions, cropping or resizing, and SHA-256 work; do not recreate its backend.
+Create meaning-first Tarot artwork through a strictly interactive, human-in-the-loop process. Codex prepares the prompt and technical provenance, generates exactly one candidate, saves it, reports its location and metadata, then pauses for the owner to inspect the PNG and decide what happens next.
 
-## Modes
+## Supported modes
 
-Choose exactly one mode per asset:
-
-1. **Brief and generate** — derive a meaning-first brief, then generate a new candidate.
-2. **Generate from approved brief** — preserve the approved core requirements; do not artistically reinvent them.
-3. **Review existing candidate** — load the local candidate with the available image-inspection tool, then perform literal and adversarial review only. Consume no generation attempt.
-4. **Correct rejected candidate** — read provenance and owner rejection, diagnose the blocker, then issue the next legal independent text-only generation.
-5. **Batch** — process each asset independently with its own brief, budget, provenance, and final status. Never use one card as another card's image reference. Continue technically independent items after one fails unless the task explicitly requires atomicity.
+1. **Prepare batch** — propose and pause on a queue of one to five cards when cards or briefs are not yet approved.
+2. **Generate next candidate** — generate one independent text-only candidate for the first unprocessed approved item, save it to the canonical Pending path, report technical metadata, and pause.
+3. **Apply owner decision** — accept, redo from specific owner feedback, hold, or reject the current candidate.
+4. **Batch finalization** — reconcile owner decisions once every queue item has an owner outcome.
 
 ## Required inputs
 
-Resolve these from the task, authoritative semantic catalog, pack owner document, card record, manifest, or nearby accepted records before asking the user:
+Resolve these from the task and the smallest authoritative repository sources:
 
-- asset role: card illustration, full card face, deck cover, or pack key art;
-- semantic card ID or title; intended, constructive, and shadow meanings;
-- artwork-pack identity and art direction;
-- canonical output path, target dimensions and aspect ratio;
-- frame and text policy;
-- exact-object contracts, required objects, and forbidden objects;
-- supernatural boundary and recurring-motif policy;
-- provenance destination and recent accepted works for diversity comparison;
-- Git/repository boundaries and any owner attempt override.
+- asset role and semantic identity from the authoritative catalog when applicable;
+- approved meaning-first brief, or enough information to prepare one;
+- artwork-pack identity and hard pack contracts;
+- canonical Pending and production paths where applicable;
+- target dimensions, aspect ratio, and normalization policy;
+- text, frame, image-reference, and exact-object prompt requirements;
+- provenance destination and repository bookkeeping rules;
+- queue order and explicit owner constraints.
 
-Ask only when a required value remains genuinely unresolved. Do not assume a 78-card deck, a fixed size or aspect ratio, a specific motif, or a particular repository layout.
+Ask only when a required value cannot be resolved safely. Do not assume a fixed deck catalog, size, aspect ratio, repository layout, promotion rule, or motif policy.
 
-## Workflow
+## Interactive owner-gated workflow
 
-1. Read [brief-template.md](references/brief-template.md) when creating or validating a brief. Determine the core meaning, separate constructive from shadow meaning, and choose one concrete narrative moment with one main action verb.
-2. Define principal and supporting figures, social roles, setting, time, mood, intensity, composition, and movement. Make the principal role legible through action, reactions, spatial authority, objects, procedure, and consequence—not merely size, centering, costume, or record text.
-3. Compare recent accepted work for scene novelty and casting contrast.
-4. Define hard requirements, artistic preferences, optional details, exact-object contracts, and negative constraints. Integrate any recurring motif meaningfully through story, culture, material, character, or location; treat it neither as a quota nor as a random logo, badge, stamp, relief, or token. Permit physical absence when the pack allows ambient-only use.
-5. For generation or correction, read [generation-state-machine.md](references/generation-state-machine.md) and follow its legal transitions exactly. For all reviews, read and apply [visual-review-gates.md](references/visual-review-gates.md).
-6. Normalize according to the task: preserve aspect ratio, allow uniform scaling, crop only when permitted, never stretch, recheck safe margins, and compute the normalized file's SHA-256.
-7. Inspect the normalized final image at full size, target card size, and with count/detail crops for faces, hands, countable objects, mechanisms, and frame edges. Apply the card-size significance and count-confusion gate: incidental hardware or geometry is blocking only when it reads at target size as a counted object, competes with the principal objects, changes the story, or creates a physical/anatomical defect. Detail crops verify promised details and real defects; they do not promote practically invisible fittings into blockers. State literal observations before comparing them with the brief or record. Never infer hidden, occluded, incomplete, or merely prompted objects.
-8. Once hard requirements, technical review, and meaning review pass, run a separate adversarial absurdity review. Ask: “What in this scene is physically, spatially, causally, historically, or narratively nonsensical without extra textual explanation?”
-9. Record every generation with [provenance-template.md](references/provenance-template.md). Retain only one canonical final candidate; retain prompt, hash, dimensions, and defects for superseded candidates, not their PNG files.
-10. Use [regression-cases.md](references/regression-cases.md) when exact counts, spatial support, role hierarchy, overlays, anachronisms, motifs, or occlusion are risk areas.
+Read and follow [interactive-owner-workflow.md](references/interactive-owner-workflow.md). Use [brief-template.md](references/brief-template.md) for a compact meaning-first approved brief and [provenance-template.md](references/provenance-template.md) for any number of generations.
 
-Do not reduce a Tarot scene to a checklist of recognizable symbols. The image must convey the card's meaning without requiring its record.
+If the task already supplies approved cards and briefs, skip batch preparation. For generation, invoke `$imagegen` only as the raster-generation backend, use an independent text-only prompt with no attachments or image references, create exactly one candidate, complete only the permitted mechanical processing, report it, and pause through the host's standard request-user-input or turn-ending mechanism. Do not start another generation before an explicit owner command.
 
-## Attempt budget
+## Mechanical processing boundaries
 
-Apply the budget per illustration, not per task:
+After generation, Codex may only confirm that the file exists, the PNG decodes, dimensions can be read, dimensions and aspect ratio match the task contract, no stretching was applied, SHA-256 was computed, and the canonical path is correct. Normalization may use only the task-approved uniform scaling or crop policy and must never stretch the image.
 
-- `G1` (`initial`): initial independent text-only generation.
-- `G2` (`targeted correction`): first targeted independent text-only correction after a blocking defect.
-- `G3` (`critical recovery`): second targeted independent text-only correction. A blocking defect after `G2`, including a repeated or replacement blocker, authorizes `G3` automatically; do not stop at `G2` as “correction limit exhausted.”
-- `G4` (`absurdity rescue`): one optional final absurdity-rescue generation, available only when a candidate has passed hard requirements and an independent absurdity review finds an acceptance-blocking spatial, causal, narrative, composition, or story-legibility failure requiring new staging.
+## Explicit prohibition on artistic assessment
 
-Stop as soon as a candidate passes hard requirements, technical and meaning review, and the absurdity gate. The budget is a ceiling, not a quota. Default maximum is `G1 + G2 + G3 + G4`; a fifth or later generation requires explicit owner override. After `G4`, rerun every gate and stop regardless of outcome.
+Codex must not decide whether generated pixels satisfy artistic, semantic, narrative, historical, anatomical, compositional, object-count, legibility, mood, casting, originality, or plausibility requirements. Hard requirements belong in the prompt, but only the owner decides whether the visible result fulfills them. Codex must not classify visual details as blocking or non-blocking, declare a candidate ready for review, invent rejection reasons, or initiate another generation from its own judgment.
 
-## Calling imagegen
+## Owner decision commands
 
-- Invoke `$imagegen` and follow its built-in-first workflow for every actual generation. Do not invoke image generation in review-only mode.
-- Default every `G1`–`G4` to a new text-only generation with no attachment or image reference.
-- Do not use a rejected candidate, an accepted card, or another new card as an image reference. Depart only under explicit owner override or a pack contract.
-- Build each correction prompt anew from the literal diagnosis. Do not phrase it as editing the previous image.
-- Preserve semantic identity, core meaning, pack identity, hard required/forbidden objects, canonical output contract, and explicit owner constraints.
-- Freely change camera angle, staging, placement, movement, poses, some casting, background, allowed location, meaning visualization, countable-object placement, architecture, props, lighting, or scene density. Simplify when it improves exact counts, story clarity, geometry, or hierarchy.
+- `Принять` — promote the current candidate according to repository policy, then process the next queue item if one exists.
+- `Переделать: <конкретный комментарий владельца>` — preserve the feedback, generate exactly one new independent candidate for the same item, report it, and pause again.
+- `Отложить` — keep the current candidate Pending/Hold and proceed to the next queue item.
+- `Отклонить` — record rejection, handle the PNG according to repository or explicit owner retention policy, and do not create a replacement automatically.
 
-## Final handoff
+Only these explicit owner decisions advance the current candidate. Generation count is not limited by this skill; each additional generation requires a new `Переделать: ...` command.
 
-Report the canonical candidate path, normalized dimensions and SHA-256, generation history and cumulative count, literal blockers or non-blocking notes, gate results, image-reference use, and one honest status:
+## Queue behavior
 
-- `superseded` for an earlier generation;
-- `Pending owner review` for a technically eligible candidate;
-- `owner Accepted` or `owner Rejected` only when explicitly decided by the owner;
-- `blocking defect remains` or `attempt budget exhausted` when applicable.
+Keep one ordered queue of one to five assets. Process it strictly as candidate → save → report → pause → owner decision → bookkeeping → next candidate. Never pre-generate later items, attach prior candidates, use one batch item as another's reference, or continue after the pause without owner input. The owner may stop the batch, revise a brief, replace a future queue item, or change its order before that item is generated.
 
-Never self-promote a candidate to production or mark it Accepted without explicit owner authority or a direct task contract.
+## Batch finalization
 
-## Reference map
+After every queue item is accepted, held, or rejected, perform one short reconciliation pass: align records with owner decisions, update manifest entries for accepted assets when the repository contract requires it, update required focused inventory data, briefly update pack owner state, and show `git status --short`.
 
-- [generation-state-machine.md](references/generation-state-machine.md) — legal attempt transitions and stop conditions.
-- [visual-review-gates.md](references/visual-review-gates.md) — literal, semantic, technical, and absurdity gates.
-- [brief-template.md](references/brief-template.md) — reusable meaning-first brief.
-- [provenance-template.md](references/provenance-template.md) — repository-neutral history for one to four generations.
-- [regression-cases.md](references/regression-cases.md) — known failure patterns used as review training examples.
+Do not automatically run builds, tests, test routes, documentation checks, coverage, Release path-set audits, CI, applications, UI smoke, or subagents. Do not update session, project-state, next-steps, or archive documents after each asset. If the repository requires documentation, update it once after the entire queue and only within explicit task scope.
+
+## References
+
+- [interactive-owner-workflow.md](references/interactive-owner-workflow.md) — exact sequential modes, owner transitions, and pause behavior.
+- [brief-template.md](references/brief-template.md) — compact meaning-first batch proposal and approved brief.
+- [provenance-template.md](references/provenance-template.md) — separate brief, prompt, feedback, decision, and technical history for unlimited owner-directed generations.
