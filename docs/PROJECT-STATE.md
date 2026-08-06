@@ -22,14 +22,14 @@
 - T1 first playable Tarot workspace is complete at checkpoint commit `4e7e3d61bc11b875af9fb5591f5a10ed986c8962`: real single-card and three-card in-memory readings, explicit reversal preference, responsive programmatic prototype cards, two selectable backs, localized inspection, and presentation-owned session state are ready for owner visual review. Hosted run `30791606505` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - A3 partial-pack integration is functionally and visually accepted at commit `4977852287051c95945b55f78d18c263dc35de20`: Lupus Noctis contributes three accepted raster cards over the unchanged semantic reading, with Classic first, controlled fallback, localized overlays, and validated built-in resources. Single-card scale remains deferred to T-UX1 and native title-bar replacement to S2.
 - AP0 asset-pack runtime architecture is complete at checkpoint commit `37dc91e24a8c73ec949312c21a684f5e2998398d`; hosted run `30806291467` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
-- A26 is owner-accepted and technically imported as the final standard-deck completion batch: `minor.swords.knight`, `minor.pentacles.page`, `minor.wands.three`, `minor.wands.seven`, `minor.wands.ten`, `minor.pentacles.ten`, and `minor.wands.nine` bring Lupus Noctis to 78/78 production illustrations with 0 fallbacks and `partialPack: false`. The owner created and artistically accepted the batch with ChatGPT outside Codex; Codex performed technical batch import only. ART-LN standard artwork completion is finished.
+- A26 is owner-accepted and technically imported at checkpoint commit `0acfd17313ac649221c99273b814560e1e899bff`: `minor.swords.knight`, `minor.pentacles.page`, `minor.wands.three`, `minor.wands.seven`, `minor.wands.ten`, `minor.pentacles.ten`, and `minor.wands.nine` complete Lupus Noctis at 78/78 production illustrations with 0 fallbacks and `partialPack: false`. Hosted run `31059508937` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs. ART-LN standard artwork completion is finished.
 - ART-SKILL-RM retired the repository-owned and user-level Tarot generation skill. Future artwork creation and artistic acceptance belong to the owner outside Codex; the active handoff contract is owned by [`LUPUS-NOCTIS.md`](../resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md#artwork-creation-and-codex-handoff).
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-ART-LN standard artwork completion is finished at 78/78. AP1–AP5 and the remaining independent roadmap stages were not started automatically; the next stage remains an explicit owner choice.
+INT0 planning and owner discussion in progress. The current focus is factual Tarot interpretation-runtime discovery and owner + ChatGPT discussion of schema, pair semantics, orientation, storage, localization fallback, authoring/review, validation, and three-card synthesis. No interpretation implementation or corpus authoring begins until the owner approves those decisions and a second documentation reconciliation records them. ART-LN remains complete at 78/78; AP1–AP5 and other independent roadmap stages remain deferred.
 
 ## Preserved Contracts
 
@@ -45,4 +45,4 @@ ART-LN standard artwork completion is finished at 78/78. AP1–AP5 and the remai
 
 ## Active Blockers
 
-- ART-LN standard artwork completion has no remaining blocker; no A27 artwork batch is pending or required. AP1–AP5, PKG1, T-UX1, S2, and other independent roadmap stages remain unstarted pending the owner's explicit next-stage choice.
+- INT0 has no technical defect blocker. Its open architecture decisions are pair ordering and canonical identity, orientation composition/overrides, production schema, storage partitioning and versioning, interpretation-locale fallback implementation, authoring/review lifecycle, validation and controlled failure, and three-card transition/synthesis rules. AP1–AP5, PKG1, T-UX1, S2, and other independent stages remain deferred pending explicit owner choice.

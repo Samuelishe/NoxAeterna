@@ -9,6 +9,18 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-06: INT0-P Tarot Interpretation Planning Baseline
+
+Summary:
+
+- Completed a documentation-only factual baseline after ART-LN had already finished at 78/78. Literal source inspection confirmed the two current spreads, draw-without-replacement and reversed support, independent interpretation-set and language-preference identities, the prose-free foundation set, the empty Interpretation project boundary, placeholder-only interpretation localization JSON, and the UI's honest unavailable-content state.
+- Recorded confirmed cross-layer, structured-first, orientation, Russian-first authoring, and two-phase locale-fallback constraints; separated them from working hypotheses about unordered pair identity, probable 3003 identity entries, and compositional orientation modifiers.
+- Collected the unresolved single-card, pair, three-card, schema/storage, localization, authoring/review, validation, failure, tooling, and versioning questions for owner + ChatGPT discussion. INT0 remains planning and discussion in progress.
+
+Scope boundary and next step:
+
+- No runtime implementation, two-card spread, UI, production schema finalization, corpus authoring, interpretation text, resources, or tests were added. The next step is owner + ChatGPT discussion followed by a second documentation pass that records approved decisions before any bounded implementation prompt.
+
 ## 2026-08-06: ART-LN A26 Final Technical Batch Import
 
 Summary:
