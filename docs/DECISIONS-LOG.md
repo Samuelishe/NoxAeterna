@@ -522,3 +522,35 @@ Decision: Retire the repository-owned and user-level Tarot generation skill. The
 Reason: Codex-driven generation and artistic review consumed disproportionate time and limits, encouraged unnecessary regeneration, and did not provide reliable visual judgment.
 
 Consequences: Codex starts only from owner-approved PNG batches and owns their technical import and repository integration. The dedicated skill source, installer, installed copy, and active installation or invocation instructions are removed.
+
+## 2026-08-06: Store User Preferences in Versioned AppData JSON
+
+Decision: Store application language, interpretation language, theme, and Tarot workspace selections in one App-owned schema-versioned JSON document under the platform LocalApplicationData directory.
+
+Reason: Preferences need restart persistence without introducing SQLite, saved-reading storage, or file/JSON dependencies into Presentation and Domain.
+
+Consequences: App owns path resolution, DTO mapping, validation, atomic save, and diagnostics. Presentation owns typed immutable preference state; actual changes save once, while readings, reveals, selections, and scroll state never persist.
+
+## 2026-08-06: Keep Tarot Reveal State as Presentation Visibility Policy
+
+Decision: Keep revealed positions and auto-reveal behavior in Presentation, independently from the immutable Domain reading.
+
+Reason: Reveal controls when information becomes visible; it does not change which semantic cards were drawn or their orientation.
+
+Consequences: Auto reveal affects only subsequent draws, manual reveal exposes one position, and preference changes never mutate the current reading retroactively.
+
+## 2026-08-06: Forbid Hidden Cards From Influencing Visible Interpretation
+
+Decision: A hidden card cannot influence visible interpretation text, titles, keywords, transitions, advice, synthesis, or diagnostics.
+
+Reason: Manual reveal is meaningful only if unrevealed information cannot leak through adjacent content.
+
+Consequences: Single-card content waits for its reveal, future pair content waits for both cards, three-card fragments are reveal-gated, transitions require both involved cards, and final synthesis requires all cards.
+
+## 2026-08-06: Treat Required Lupus Noctis Failure as Unavailable
+
+Decision: Keep Lupus Noctis as the sole user-facing built-in Tarot artwork pack and never create a user-facing Classic selection when that required pack fails.
+
+Reason: Silent prototype fallback would misrepresent a damaged required built-in contract and weaken the accepted TAROT-ART-RUNTIME-1 behavior.
+
+Consequences: Draw is disabled with a localized controlled diagnostic; `prototype-symbolic` remains only an internal test/diagnostic seam.

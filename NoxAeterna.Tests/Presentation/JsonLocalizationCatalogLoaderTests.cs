@@ -220,6 +220,7 @@ public sealed class JsonLocalizationCatalogLoaderTests
         var requiredKeys = new[]
         {
             "ui.tarot.control.spread", "ui.tarot.control.artwork", "ui.tarot.control.back", "ui.tarot.control.allow-reversed",
+            "ui.tarot.control.auto-reveal",
             "ui.tarot.control.draw", "ui.tarot.control.redraw", "ui.tarot.tableau.title",
             "ui.tarot.empty-state", "ui.tarot.failure.insufficient-deck", "ui.tarot.artwork.unavailable",
             "ui.tarot.spread.single-card", "ui.tarot.spread.three-cards", "ui.tarot.position.card",
@@ -250,6 +251,31 @@ public sealed class JsonLocalizationCatalogLoaderTests
         Assert.Equal("Lupus Noctis", GetRequiredText(russian, "ui.tarot.artwork.lupus-noctis"));
         Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(english, "ui.tarot.artwork.unavailable")));
         Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(russian, "ui.tarot.artwork.unavailable")));
+    }
+
+    [Fact]
+    public void RealUiCatalogs_ContainAutoRevealWithExactRussianAndEnglishCopy()
+    {
+        var english = LoadRealUiCatalog("en");
+        var russian = LoadRealUiCatalog("ru");
+
+        Assert.Equal(
+            "Reveal cards automatically",
+            GetRequiredText(english, "ui.tarot.control.auto-reveal"));
+        Assert.Equal(
+            "Открывать карты автоматически",
+            GetRequiredText(russian, "ui.tarot.control.auto-reveal"));
+    }
+
+    [Fact]
+    public void RussianAndEnglishUiCatalogs_HaveIdenticalKeySets()
+    {
+        var english = LoadRealUiCatalog("en");
+        var russian = LoadRealUiCatalog("ru");
+
+        Assert.Equal(
+            russian.Entries.Select(entry => entry.Key.Value).Order(StringComparer.Ordinal),
+            english.Entries.Select(entry => entry.Key.Value).Order(StringComparer.Ordinal));
     }
 
     [Fact]

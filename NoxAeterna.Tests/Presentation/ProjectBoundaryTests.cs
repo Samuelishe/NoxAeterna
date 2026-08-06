@@ -30,9 +30,35 @@ public sealed class ProjectBoundaryTests
         Assert.DoesNotContain(packageReferences, package => package!.StartsWith("Avalonia", StringComparison.OrdinalIgnoreCase));
     }
 
+    [Fact]
+    public void PresentationPreferenceAndTarotState_DoNotUseFileSystemEnvironmentOrJsonSerialization()
+    {
+        var projectRoot = GetRepositoryPath("NoxAeterna.Presentation");
+        var sourcePaths = Directory.GetFiles(Path.Combine(projectRoot, "Preferences"), "*.cs", SearchOption.AllDirectories)
+            .Concat(Directory.GetFiles(Path.Combine(projectRoot, "Tarot"), "*.cs", SearchOption.AllDirectories))
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        var source = string.Join(Environment.NewLine, sourcePaths.Select(File.ReadAllText));
+
+        Assert.DoesNotContain("using System.IO", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("File.", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Directory.", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Environment.GetFolderPath", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("System.Text.Json", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("JsonSerializer", source, StringComparison.Ordinal);
+    }
+
     private static XDocument LoadProjectDocument(string projectDirectory, string projectFileName)
     {
         var path = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", projectDirectory, projectFileName);
         return XDocument.Load(Path.GetFullPath(path));
+    }
+
+    private static string GetRepositoryPath(params string[] segments)
+    {
+        var pathSegments = new[] { AppContext.BaseDirectory, "..", "..", "..", ".." }
+            .Concat(segments)
+            .ToArray();
+        return Path.GetFullPath(Path.Combine(pathSegments));
     }
 }

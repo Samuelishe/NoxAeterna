@@ -45,7 +45,7 @@ Five concepts must remain independent:
 - **Back variant** owns a selectable card back, not a separate deck.
 - **Interpretation set** identifies future meaning content independently from both semantic and visual selection.
 
-Validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `TarotBackVariantId`, and `TarotInterpretationSetId` contracts keep those selections distinct from `TarotDeckId`. The workspace exposes Classic first and the complete Lupus Noctis artwork pack second, plus one prototype skin, two programmatic back variants, and one foundation interpretation-set identity; none changes the semantic deck or pretends that interpretation prose exists.
+Validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `TarotBackVariantId`, and `TarotInterpretationSetId` contracts keep those selections distinct from `TarotDeckId`. The workspace exposes Lupus Noctis as its sole user-facing artwork pack through an explicit default ID, plus one prototype skin, two programmatic back variants, and one foundation interpretation-set identity; none changes the semantic deck or pretends that interpretation prose exists. `prototype-symbolic` remains an internal test/diagnostic rendering seam, not a user-facing Classic option.
 
 ## Built-In Spreads
 
@@ -64,11 +64,21 @@ Domain contains no Russian or English display names, UI labels, localized string
 
 ## T1 Playable Workspace
 
-`TarotWorkspaceViewModel` in Presentation owns the selected spread, reversal preference, current reading, selected assignment, controlled failure, and independent visual selections. It delegates every draw to the existing `TarotDrawEngine` over `StandardTarotCatalog.Deck`; App supplies the explicit timestamp and composes a runtime `SystemTarotRandomSource` from Infrastructure. Changing to an incompatible spread clears the reading, while leaving and reopening Tarot preserves the in-memory workspace model.
+`TarotWorkspaceViewModel` in Presentation owns the selected spread, reversal and auto-reveal preferences, current reading, revealed positions, selected assignment, controlled failure, and independent visual selections. It delegates every draw to the existing `TarotDrawEngine` over `StandardTarotCatalog.Deck`; App supplies the explicit timestamp and composes a runtime `SystemTarotRandomSource` from Infrastructure. Reveal state remains presentation policy and never mutates the immutable reading or enters Domain.
 
-The App renders responsive 7:12 card surfaces. Single-card and three-card tableaux share one deterministic layout contract; compact widths retain a readable minimum and give horizontal overflow to the tableau only. Black Sun and Lunar Seal are two selectable prototype backs. RU/EN names and inspector labels stay in localization catalogs, and the inspector states honestly that interpretation content is not yet available.
+The App renders responsive 7:12 card surfaces at an explicit `1.5` scale over the original playable-workspace widths: minimum `216` DIP, preferred multi-card `315` DIP, and single-card `378` DIP. A preferred three-card surface is approximately `315 × 540` DIP per card; compact widths never shrink below the minimum and give horizontal overflow to the tableau only. Black Sun and Lunar Seal remain two selectable prototype backs.
 
-Classic uses the existing project-owned symbolic geometry. Lupus Noctis now resolves every standard card to shipped raster artwork. Programmatic frame, localized title/structure overlay, selection state, and reversal remain separate layers and rotate together under the same 180-degree visual contract. The current UI continues to report honestly that interpretation content is unavailable.
+Lupus Noctis resolves every standard card to shipped raster artwork with zero normal-runtime fallback. Programmatic frame, localized title/structure overlay, selection state, and reversal remain separate layers and rotate together under the same 180-degree visual contract. If the required pack is damaged, Draw is disabled and a localized controlled diagnostic is shown; no Classic option or silent prototype fallback appears.
+
+## T-UX1A Reading Surface and Reveal Preferences
+
+The fixed control panel sits above one stretching reading surface. That surface owns the only vertical Tarot scrollbar and contains, in order, the tableau viewport and a full-width interpretation content host. The tableau alone owns horizontal overflow. The former visible tableau heading and selected-card metadata inspector are not materialized; the tableau retains a localized automation name, and the spread selector retains its visible control label.
+
+Auto reveal defaults to `true`. A successful draw then reveals every position immediately. When disabled, a new draw starts entirely face-down and each card activation reveals only that position. Changing the toggle affects later draws only: it neither reveals nor hides the current reading, resets selection, nor changes the immutable Domain result. Draw failure clears reading, selection, and revealed state.
+
+Until a real corpus exists, the interpretation host stays empty with no reading or with no revealed cards. After at least one reveal it shows the existing localized unavailable message directly below the tableau in supporting presentation, without a separate inspector surface or visible interpretation heading.
+
+Application language, interpretation language, theme, selected spread, Lupus Noctis ID, back ID, reversal policy, and auto-reveal policy are persisted together in the versioned AppData `settings.json`. Current readings, revealed positions, selection, and scroll state remain session-only.
 
 ## Historical A3 Built-In Partial Artwork Pack
 
@@ -79,6 +89,8 @@ The App-owned read-only loader accepts only shipped package-relative resources a
 ## Current Post-A26 Artwork State
 
 ART-LN is complete. The current `lupus-noctis` manifest contains 78/78 accepted standard-card raster entries, has 0 partial-pack fallbacks, and declares `partialPack: false`. This does not rewrite the historical A3 integration: A3 proved the partial-pack loader with three raster cards and 75 controlled fallbacks; A26 later completed the same pack while preserving semantic identities and runtime validation.
+
+TAROT-ART-RUNTIME-1 subsequently made Lupus Noctis the sole default user-facing pack. The selector remains visible with exactly that option. Required-pack failure now produces a controlled unavailable workspace instead of selecting Classic or resolving production cards through the internal prototype seam.
 
 ## Interpretation Planning Baseline
 

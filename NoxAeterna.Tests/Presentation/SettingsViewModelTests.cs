@@ -68,8 +68,46 @@ public sealed class SettingsViewModelTests
             new UserPreferences(
                 new ApplicationLanguagePreference(new LanguageCode("en")),
                 new InterpretationLanguagePreference(new LanguageCode("ru")),
-                new ThemeId("light")),
+                new ThemeId("light"),
+                TarotWorkspacePreferences.CreateDefault()),
             viewModel.CurrentPreferences);
+    }
+
+    [Fact]
+    public void ApplicationSettingsChanges_PreserveTarotWorkspacePreferences()
+    {
+        var tarot = TarotWorkspacePreferences.CreateDefault() with
+        {
+            AllowReversed = true,
+            AutoRevealCards = false
+        };
+        var viewModel = SettingsViewModel.CreateDefault(CreatePreferences() with { Tarot = tarot });
+
+        viewModel.SetApplicationLanguage(new LanguageCode("en"));
+        Assert.Same(tarot, viewModel.CurrentPreferences.Tarot);
+        viewModel.SetInterpretationLanguage(new LanguageCode("en"));
+        Assert.Same(tarot, viewModel.CurrentPreferences.Tarot);
+        viewModel.SetTheme(new ThemeId("light"));
+
+        Assert.Same(tarot, viewModel.CurrentPreferences.Tarot);
+        Assert.True(viewModel.CurrentPreferences.Tarot.AllowReversed);
+        Assert.False(viewModel.CurrentPreferences.Tarot.AutoRevealCards);
+    }
+
+    [Fact]
+    public void ReplaceCurrentPreferences_SynchronizesCompleteRootSnapshot()
+    {
+        var viewModel = SettingsViewModel.CreateDefault(CreatePreferences());
+        var replacement = CreatePreferences() with
+        {
+            ThemeId = new ThemeId("light"),
+            Tarot = TarotWorkspacePreferences.CreateDefault() with { AutoRevealCards = false }
+        };
+
+        viewModel.ReplaceCurrentPreferences(replacement);
+
+        Assert.Same(replacement, viewModel.CurrentPreferences);
+        Assert.False(viewModel.CurrentPreferences.Tarot.AutoRevealCards);
     }
 
     [Fact]
@@ -88,5 +126,6 @@ public sealed class SettingsViewModelTests
         new(
             new ApplicationLanguagePreference(new LanguageCode("ru")),
             new InterpretationLanguagePreference(new LanguageCode("ru")),
-            new ThemeId("dark"));
+            new ThemeId("dark"),
+            TarotWorkspacePreferences.CreateDefault());
 }

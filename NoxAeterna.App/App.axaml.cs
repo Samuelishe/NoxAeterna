@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using NoxAeterna.App.Preferences;
 using NoxAeterna.App.Themes;
 using NoxAeterna.Presentation.Theming;
 
@@ -15,11 +16,13 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         _themeController = new AppThemeController(this, ThemeRegistry.CreateDefault());
-        _themeController.ApplyTheme(new ThemeId("dark"));
+        var preferencesStore = new JsonUserPreferencesStore(ResolveSettingsPath());
+        var preferencesCoordinator = new UserPreferencesCoordinator(preferencesStore, preferencesStore.Load());
+        _themeController.ApplyTheme(preferencesCoordinator.Current.ThemeId);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow();
+            desktop.MainWindow = new MainWindow(preferencesCoordinator);
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -29,5 +32,17 @@ public partial class App : Application
     {
         _themeController ??= new AppThemeController(this, ThemeRegistry.CreateDefault());
         _themeController.ApplyTheme(themeId);
+    }
+
+    private static string ResolveSettingsPath()
+    {
+#if DEBUG
+        var debugRoot = Environment.GetEnvironmentVariable("NOXAETERNA_DEBUG_APPDATA_ROOT");
+        if (!string.IsNullOrWhiteSpace(debugRoot))
+        {
+            return UserPreferencesPathResolver.GetSettingsPath(debugRoot);
+        }
+#endif
+        return UserPreferencesPathResolver.GetSettingsPath();
     }
 }

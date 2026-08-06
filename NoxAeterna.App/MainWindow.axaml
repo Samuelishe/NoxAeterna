@@ -95,7 +95,9 @@
                      Margin="0,6,0,0" />
           <ContentControl x:Name="SectionContentHost"
                           Grid.Row="2"
-                          Margin="0,16,0,0" />
+                          Margin="0,16,0,0"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch" />
         </Grid>
       </SplitView.Content>
     </SplitView>

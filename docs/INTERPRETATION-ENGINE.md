@@ -117,6 +117,20 @@ Literal source inspection confirms:
 
 ## Confirmed Constraints
 
+### Confirmed UX Decision: Reveal-Gated Visibility
+
+Reveal state is a Presentation-owned visibility policy. With auto reveal enabled, every card is revealed after Draw and a future MVP interpretation appears immediately. With auto reveal disabled:
+
+- a single-card interpretation appears only after that card is manually revealed;
+- a future two-card combination may reveal cards separately, but its one pair interpretation appears only after both are revealed;
+- Past / Present / Future may progressively add a position-aware fragment for each revealed card;
+- transition content requires both cards involved in that transition to be revealed;
+- whole-spread synthesis requires all three cards to be revealed.
+
+A hidden card must never influence visible text, titles, keywords, transitions, advice, or diagnostics. Progressive content must not rewrite already visible meaning with information from a card that is still hidden.
+
+This decision defines presentation visibility only. It does not decide corpus schema, pair ordering, reversed composition, interpretation-set identity, semantic IDs, storage partitioning, or authoring workflow; those remain INT0 decisions.
+
 ### Independent Interpretation-Set Boundary
 
 Semantic deck, artwork pack, presentation skin, card back, and interpretation set remain independent typed concepts. Interpretation content:

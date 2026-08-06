@@ -102,7 +102,7 @@ Focus never uses glow. Selected and focused states remain independently recogniz
 
 Applying the already active theme is a no-op. Repeated dark/light switching must retain exactly one project theme dictionary and must resolve every required semantic brush after each switch.
 
-The current settings flow remains in-memory. Persistence is outside this theme lifecycle.
+The current settings flow persists `ThemeId` through the App-owned settings coordinator. Loading and validation remain outside the theme controller itself; App applies the loaded normalized theme before constructing MainWindow, and applying an already active theme remains a no-op.
 
 Shell navigation follows the same session-only rule. `ShellNavigationState` owns the last wide-mode expanded preference and the effective compact state; `ShellNavigationLayout` owns pane lengths and the compact threshold. `MainWindow` maps that presentation state to native `SplitView` properties and semantic style classes. Theme switching changes brushes without reconstructing the selected workspace or navigation state.
 
@@ -147,7 +147,7 @@ Check both dark and light variants:
 - visible non-dominant scrollbars;
 - settings page;
 - Russian and English UI.
-- Tarot single/three-card layouts, both backs, revealed/selected/reversed cards, inspector, compact tableau overflow, and section reopen state.
+- Tarot single/three-card layouts, both backs, auto/manual reveal, selected/reversed cards, unified reading-surface scrolling, compact tableau overflow, and section reopen state.
 
 Required evidence must include popup states because platform-accent leakage is most visible there.
 

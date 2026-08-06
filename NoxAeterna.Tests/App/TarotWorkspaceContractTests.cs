@@ -30,6 +30,169 @@ public sealed class TarotWorkspaceContractTests
     }
 
     [Fact]
+    public void TarotWorkspace_UsesFixedControlPanelAndStretchingUnifiedReadingSurface()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+
+        Assert.Contains("var root = new Grid", source, StringComparison.Ordinal);
+        Assert.Contains("RowDefinitions = new RowDefinitions(\"Auto,*\")", source, StringComparison.Ordinal);
+        Assert.Contains("var controlPanel = CreateControlPanel();", source, StringComparison.Ordinal);
+        Assert.Contains("var readingSurface = CreateReadingSurface();", source, StringComparison.Ordinal);
+        Assert.Contains("Grid.SetRow(readingSurface, 1);", source, StringComparison.Ordinal);
+        Assert.Contains("VerticalAlignment = VerticalAlignment.Stretch", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("return new ScrollViewer", MethodSlice(source, "private Control BuildContent()", "private Control CreateControlPanel()"), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ReadingSurfaceOwnsOnlyVerticalScrollAndTableauOwnsOnlyHorizontalScroll()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+        var readingSurface = MethodSlice(source, "private Control CreateReadingSurface()", "private Control CreateLabeledControl");
+
+        Assert.Contains("Name = \"TarotTableauScrollViewer\"", readingSurface, StringComparison.Ordinal);
+        Assert.Contains("HorizontalScrollBarVisibility = ScrollBarVisibility.Auto", readingSurface, StringComparison.Ordinal);
+        Assert.Contains("VerticalScrollBarVisibility = ScrollBarVisibility.Disabled", readingSurface, StringComparison.Ordinal);
+        Assert.Contains("Name = \"TarotReadingScrollViewer\"", readingSurface, StringComparison.Ordinal);
+        Assert.Contains("VerticalScrollBarVisibility = ScrollBarVisibility.Auto", readingSurface, StringComparison.Ordinal);
+        Assert.Contains("HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled", readingSurface, StringComparison.Ordinal);
+        Assert.Equal(1, CountOccurrences(source, "VerticalScrollBarVisibility = ScrollBarVisibility.Auto"));
+        Assert.Equal(1, CountOccurrences(source, "HorizontalScrollBarVisibility = ScrollBarVisibility.Auto"));
+    }
+
+    [Fact]
+    public void TableauAndInterpretationHost_ShareOneOrderedReadingSurface()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+        var readingSurface = MethodSlice(source, "private Control CreateReadingSurface()", "private Control CreateLabeledControl");
+        var tableauIndex = readingSurface.IndexOf("tableauScrollViewer,", StringComparison.Ordinal);
+        var interpretationIndex = readingSurface.IndexOf("interpretationHost", tableauIndex, StringComparison.Ordinal);
+
+        Assert.True(tableauIndex >= 0);
+        Assert.True(interpretationIndex > tableauIndex);
+        Assert.Contains("HorizontalContentAlignment = HorizontalAlignment.Stretch", source, StringComparison.Ordinal);
+        Assert.Contains("TextWrapping = TextWrapping.Wrap", MethodSlice(source, "private void RefreshInterpretation()", "private static TextBlock CreateStateText"), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void SelectedCardInspector_IsNotMaterializedInProductionUi()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+
+        Assert.DoesNotContain("inspectorHost", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("RefreshInspector", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("CreateInspectorRow", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("tarot-inspector", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("ui.tarot.inspector.", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ReadingSurface_HasNoVisibleTableauOrInterpretationHeading()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+
+        Assert.DoesNotContain("Text = Localize(\"ui.tarot.tableau.title\")", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("ui.tarot.interpretation.title", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Interpretation\"", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Толкование", source, StringComparison.Ordinal);
+        Assert.Contains("AutomationProperties.SetName(tableauScrollViewer, Localize(\"ui.tarot.tableau.title\"))", source, StringComparison.Ordinal);
+        Assert.Contains("CreateLabeledControl(\"ui.tarot.control.spread\", spreadSelector)", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void InterpretationHost_IsHiddenUntilAtLeastOneCardIsRevealed()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+        var refresh = MethodSlice(source, "private void RefreshInterpretation()", "private static TextBlock CreateStateText");
+
+        Assert.Contains("viewModel.CurrentReading is null || !viewModel.HasRevealedCards", refresh, StringComparison.Ordinal);
+        Assert.Contains("interpretationHost.IsVisible = false", refresh, StringComparison.Ordinal);
+        Assert.Contains("interpretationHost.Content = null", refresh, StringComparison.Ordinal);
+        Assert.Contains("interpretationHost.IsVisible = true", refresh, StringComparison.Ordinal);
+        Assert.Contains("Localize(viewModel.InterpretationUnavailableKey)", refresh, StringComparison.Ordinal);
+        Assert.Contains("unavailable.Classes.Add(\"subtle\")", refresh, StringComparison.Ordinal);
+        Assert.DoesNotContain("MinHeight", refresh, StringComparison.Ordinal);
+        Assert.DoesNotContain("surface-card", refresh, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void AutoRevealToggle_IsLocalizedAccessibleAndBoundToPreference()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+
+        Assert.Contains("Name = \"TarotAutoRevealToggle\"", source, StringComparison.Ordinal);
+        Assert.Contains("Content = Localize(\"ui.tarot.control.auto-reveal\")", source, StringComparison.Ordinal);
+        Assert.Contains("IsChecked = viewModel.AutoRevealCards", source, StringComparison.Ordinal);
+        Assert.Contains("AutomationProperties.SetName(autoRevealToggle, Localize(\"ui.tarot.control.auto-reveal\"))", source, StringComparison.Ordinal);
+        Assert.Contains("viewModel.SetAutoRevealCards(autoRevealToggle.IsChecked == true)", source, StringComparison.Ordinal);
+        Assert.Contains("controls.Children.Add(autoRevealToggle)", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("IsTabStop = false", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void TableauFallbackWidth_UsesScaledPreferredThreeCardContentWidth()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+
+        Assert.Contains(
+            "private const double TableauFallbackWidth = TarotTableauLayout.PreferredThreeCardContentWidth;",
+            source,
+            StringComparison.Ordinal);
+        Assert.DoesNotContain("TableauFallbackWidth = 760d", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void MainWindowContentHost_StretchesTarotWorkspaceInStarRow()
+    {
+        var document = XDocument.Load(AppPath("MainWindow.axaml"));
+        XNamespace ns = "https://github.com/avaloniaui";
+        var contentHost = document.Descendants(ns + "ContentControl")
+            .Single(element => element.Attributes()
+                .Any(attribute => attribute.Name.LocalName == "Name" && attribute.Value == "SectionContentHost"));
+
+        Assert.Equal("2", (string?)contentHost.Attribute("Grid.Row"));
+        Assert.Equal("Stretch", (string?)contentHost.Attribute("HorizontalContentAlignment"));
+        Assert.Equal("Stretch", (string?)contentHost.Attribute("VerticalContentAlignment"));
+        Assert.Equal("Auto,Auto,*", (string?)contentHost.Parent?.Attribute("RowDefinitions"));
+    }
+
+    [Fact]
+    public void Startup_LoadsPreferencesAndAppliesPersistedThemeBeforeCreatingMainWindow()
+    {
+        var source = File.ReadAllText(AppPath("App.axaml.cs"));
+        var loadIndex = source.IndexOf("preferencesStore.Load()", StringComparison.Ordinal);
+        var themeIndex = source.IndexOf("ApplyTheme(preferencesCoordinator.Current.ThemeId)", StringComparison.Ordinal);
+        var windowIndex = source.IndexOf("desktop.MainWindow = new MainWindow(preferencesCoordinator)", StringComparison.Ordinal);
+
+        Assert.True(loadIndex >= 0);
+        Assert.True(themeIndex > loadIndex);
+        Assert.True(windowIndex > themeIndex);
+    }
+
+    [Fact]
+    public void CompositionPassesPersistedTarotPreferencesAndDoesNotSaveOnGeneralStateChanged()
+    {
+        var source = File.ReadAllText(AppPath("MainWindow.axaml.cs"));
+
+        Assert.Contains("_userPreferences.Tarot", source, StringComparison.Ordinal);
+        Assert.Contains("_tarotWorkspaceViewModel.PreferencesChanged += OnTarotPreferencesChanged", source, StringComparison.Ordinal);
+        Assert.Contains("ApplyTarotPreferences(preferences)", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("_tarotWorkspaceViewModel.StateChanged +=", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void SettingsUi_NoLongerClaimsMemoryOnlyBehaviorOrDuplicatesAutoReveal()
+    {
+        var settingsControl = File.ReadAllText(AppPath("Debug", "DebugSettingsControl.cs"));
+        var russian = File.ReadAllText(RepositoryPath("resources", "localization", "ui", "ru.json"));
+        var english = File.ReadAllText(RepositoryPath("resources", "localization", "ui", "en.json"));
+
+        Assert.DoesNotContain("in-memory", settingsControl, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("auto-reveal", settingsControl, StringComparison.Ordinal);
+        Assert.DoesNotContain("Изменения пока действуют только в памяти", russian, StringComparison.Ordinal);
+        Assert.DoesNotContain("Changes currently apply in memory only", english, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void CardVisuals_AreAccessibleAndComposeRasterOrPrototypeBehindOneRotationContract()
     {
         var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
@@ -176,5 +339,27 @@ public sealed class TarotWorkspaceContractTests
             .Concat(segments)
             .ToArray();
         return Path.GetFullPath(Path.Combine(pathSegments));
+    }
+
+    private static string MethodSlice(string source, string startMarker, string endMarker)
+    {
+        var start = source.IndexOf(startMarker, StringComparison.Ordinal);
+        Assert.True(start >= 0, $"Start marker '{startMarker}' was not found.");
+        var end = source.IndexOf(endMarker, start + startMarker.Length, StringComparison.Ordinal);
+        Assert.True(end > start, $"End marker '{endMarker}' was not found after '{startMarker}'.");
+        return source[start..end];
+    }
+
+    private static int CountOccurrences(string source, string value)
+    {
+        var count = 0;
+        var offset = 0;
+        while ((offset = source.IndexOf(value, offset, StringComparison.Ordinal)) >= 0)
+        {
+            count++;
+            offset += value.Length;
+        }
+
+        return count;
     }
 }

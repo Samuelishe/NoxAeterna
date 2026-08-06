@@ -60,6 +60,12 @@ Refine visual identity, asset pipeline, chart export, packaging, logging, diagno
 
 ART-LN standard artwork is complete at 78/78 and is independent from interpretation work. This preliminary sequence does not replace the global stages above.
 
+### T-UX1A — Unified Tarot Reading Surface
+
+Status: **Implemented**.
+
+Cards use exact `1.5×` widths inside one unified vertically scrolling reading surface with tableau-local horizontal overflow. The inspector is removed, reveal behavior is explicit and persisted, and AppData JSON now stores application and Tarot workspace preferences. No interpretation corpus or two-card runtime was added.
+
 ### INT0 — Interpretation Architecture
 
 Status: **Planning and owner discussion in progress**.

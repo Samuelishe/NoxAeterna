@@ -20,7 +20,7 @@ Do not:
 - store runtime state in the repository;
 - commit user-specific settings, recent places, caches, generated local data, or personal profile data to GitHub.
 
-Future AppData-only data includes:
+AppData-only data includes:
 
 - user preferences;
 - saved birth profiles;
@@ -95,17 +95,25 @@ Options to evaluate later:
 
 Record the migration decision in `DECISIONS-LOG.md`.
 
-## Current Deferred Areas
+## Implemented Settings Persistence
 
-Settings persistence is still deferred.
+The App composition boundary owns a narrow `System.Text.Json` adapter at the logical platform path `<LocalApplicationData>/NoxAeterna/settings.json` (on Windows, `%LOCALAPPDATA%\NoxAeterna\settings.json`). Presentation owns only typed immutable preferences; it does not use file, environment, or JSON APIs. Domain and Infrastructure do not participate.
 
-Current implemented state:
+Schema version `1` persists:
 
-- language and theme preferences can exist in presentation and app memory;
-- dark/light theme switching can already be applied in memory through `ThemeId`;
-- birth-data input currently works in memory only and supports offline manual entry;
-- no `settings.json` writing exists yet;
-- no app-data path resolver exists yet;
-- no infrastructure settings adapter exists yet.
+- application and interpretation language IDs;
+- theme ID;
+- Tarot spread, artwork-pack, and back-variant IDs;
+- Tarot reversal and auto-reveal booleans.
 
-Do not treat the current in-memory settings foundation as a persistence solution.
+The document does not persist a reading, drawn or revealed cards, selection, interpretation, random state, timestamps, bitmap/cache state, failures, navigation, resize, scroll offset, profile, or history data.
+
+Missing files are normal first-run state and return `ru` / `ru` / `dark` plus `single-card` / `lupus-noctis` / `black-sun` / reversed `false` / auto reveal `true`, without a diagnostic or write. Malformed JSON, unsupported schema, and read failures return controlled defaults with structured diagnostics. For a supported document, invalid string IDs are normalized independently so other valid fields and booleans survive.
+
+An actual preference change updates one App-owned immutable root snapshot and triggers one save attempt. Draw, redraw, reveal, selection, navigation, resizing, control recreation, and bitmap loading do not save. Writes create the directory, serialize to a same-directory temporary file, flush and close it, then replace/move the final file; controlled failure does not crash the application and performs best-effort temporary cleanup.
+
+Theme is loaded and applied before MainWindow is created. A DEBUG-only injected AppData root supports isolated real-control smoke without reading or modifying the real user file.
+
+## Deferred Persistence Areas
+
+Birth-data input, profiles, saved readings, reading history, interpretations, archive data, SQLite, repositories, and a migrations framework remain deferred. The settings JSON foundation does not select the later SQLite design.

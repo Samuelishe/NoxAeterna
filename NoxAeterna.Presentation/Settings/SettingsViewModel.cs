@@ -5,14 +5,14 @@ using NoxAeterna.Presentation.Theming;
 namespace NoxAeterna.Presentation.Settings;
 
 /// <summary>
-/// Represents the minimal in-memory settings state for language and theme selection.
+/// Represents application language and theme settings over one synchronized preference snapshot.
 /// </summary>
 public sealed class SettingsViewModel
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
     /// </summary>
-    /// <param name="userPreferences">The current in-memory user preferences.</param>
+    /// <param name="userPreferences">The current user preferences.</param>
     /// <param name="availableLanguages">The available language options.</param>
     /// <param name="availableThemes">The available theme options.</param>
     public SettingsViewModel(
@@ -60,7 +60,7 @@ public sealed class SettingsViewModel
     public LocalizationKey ThemeLabelKey { get; } = new("ui.settings.theme");
 
     /// <summary>
-    /// Gets the current in-memory user preferences.
+    /// Gets the current user preferences.
     /// </summary>
     public UserPreferences CurrentPreferences { get; private set; }
 
@@ -80,7 +80,7 @@ public sealed class SettingsViewModel
     public IReadOnlyList<ThemeOption> AvailableThemes { get; }
 
     /// <summary>
-    /// Updates the selected application language in memory.
+    /// Updates the selected application language.
     /// </summary>
     /// <param name="languageCode">The selected application language.</param>
     public void SetApplicationLanguage(LanguageCode languageCode) =>
@@ -90,7 +90,7 @@ public sealed class SettingsViewModel
         };
 
     /// <summary>
-    /// Updates the selected interpretation language in memory.
+    /// Updates the selected interpretation language.
     /// </summary>
     /// <param name="languageCode">The selected interpretation language.</param>
     public void SetInterpretationLanguage(LanguageCode languageCode) =>
@@ -100,7 +100,7 @@ public sealed class SettingsViewModel
         };
 
     /// <summary>
-    /// Updates the selected theme in memory.
+    /// Updates the selected theme.
     /// </summary>
     /// <param name="themeId">The selected theme identifier.</param>
     public void SetTheme(ThemeId themeId) =>
@@ -109,8 +109,12 @@ public sealed class SettingsViewModel
             ThemeId = themeId
         };
 
+    /// <summary>Synchronizes the snapshot after another preference owner changes its fields.</summary>
+    public void ReplaceCurrentPreferences(UserPreferences userPreferences) =>
+        CurrentPreferences = userPreferences ?? throw new ArgumentNullException(nameof(userPreferences));
+
     /// <summary>
-    /// Creates the current default in-memory settings state.
+    /// Creates the current settings state.
     /// </summary>
     /// <param name="userPreferences">The current preferences.</param>
     /// <returns>A new settings view model.</returns>

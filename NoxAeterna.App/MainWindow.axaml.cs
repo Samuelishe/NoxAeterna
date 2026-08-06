@@ -7,6 +7,7 @@ using NoxAeterna.Astronomy.Time;
 using NoxAeterna.App.Astrology;
 using NoxAeterna.App.Debug;
 using NoxAeterna.App.Localization;
+using NoxAeterna.App.Preferences;
 using NoxAeterna.App.Shell;
 using NoxAeterna.App.Tarot;
 using NoxAeterna.Infrastructure.Ephemeris;
@@ -28,6 +29,7 @@ public partial class MainWindow : Window
 {
     private ILocalizationProvider _localizationProvider;
     private UserPreferences _userPreferences;
+    private readonly UserPreferencesCoordinator _preferencesCoordinator;
     private readonly ShellViewModel _shellViewModel;
     private readonly AstrologyWorkspaceViewModel _astrologyWorkspaceViewModel;
     private readonly TarotWorkspaceViewModel _tarotWorkspaceViewModel;
@@ -45,7 +47,13 @@ public partial class MainWindow : Window
     private ShellNavigationItemView[] _navigationItemViews = [];
 
     public MainWindow()
+        : this(CreatePreferencesCoordinator())
     {
+    }
+
+    public MainWindow(UserPreferencesCoordinator preferencesCoordinator)
+    {
+        _preferencesCoordinator = preferencesCoordinator ?? throw new ArgumentNullException(nameof(preferencesCoordinator));
         InitializeComponent();
 
         _shellSplitView = this.FindControl<SplitView>("ShellSplitView")
@@ -65,10 +73,7 @@ public partial class MainWindow : Window
         _sectionContentHost = this.FindControl<ContentControl>("SectionContentHost")
             ?? throw new InvalidOperationException("SectionContentHost was not found.");
 
-        _userPreferences = new UserPreferences(
-            new ApplicationLanguagePreference(new LanguageCode("ru")),
-            new InterpretationLanguagePreference(new LanguageCode("ru")),
-            new ThemeId("dark"));
+        _userPreferences = _preferencesCoordinator.Current;
         ApplicationCultureController.Apply(_userPreferences.ApplicationLanguage.Language);
         _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
         _shellViewModel = ShellViewModel.CreateDefault();
@@ -84,7 +89,9 @@ public partial class MainWindow : Window
 #endif
         _tarotWorkspaceViewModel = TarotWorkspaceViewModel.CreateFoundation(
             new TarotDrawEngine(tarotRandomSource),
-            _tarotArtworkPackCatalog.AvailableOptions);
+            _tarotArtworkPackCatalog.AvailableOptions,
+            _userPreferences.Tarot);
+        _tarotWorkspaceViewModel.PreferencesChanged += OnTarotPreferencesChanged;
         _settingsViewModel = SettingsViewModel.CreateDefault(_userPreferences);
         _astrologyChartCoordinator = new DevelopmentAstrologyChartCoordinator(
             new DevelopmentAstrologyChartPipeline(
@@ -178,7 +185,13 @@ public partial class MainWindow : Window
 
     private void ApplyUserPreferences(UserPreferences updatedPreferences)
     {
-        _userPreferences = updatedPreferences;
+        if (!_preferencesCoordinator.ApplyApplicationPreferences(updatedPreferences))
+        {
+            return;
+        }
+
+        _userPreferences = _preferencesCoordinator.Current;
+        _settingsViewModel.ReplaceCurrentPreferences(_userPreferences);
         ApplicationCultureController.Apply(_userPreferences.ApplicationLanguage.Language);
         _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
         if (Application.Current is App app)
@@ -187,6 +200,17 @@ public partial class MainWindow : Window
         }
 
         RefreshShell();
+    }
+
+    private void OnTarotPreferencesChanged(object? sender, TarotWorkspacePreferences preferences)
+    {
+        if (!_preferencesCoordinator.ApplyTarotPreferences(preferences))
+        {
+            return;
+        }
+
+        _userPreferences = _preferencesCoordinator.Current;
+        _settingsViewModel.ReplaceCurrentPreferences(_userPreferences);
     }
 
     private void RefreshShell()
@@ -242,5 +266,11 @@ public partial class MainWindow : Window
 
     private string Localize(LocalizationKey key) =>
         _localizationProvider.Get(LocalizationScope.Ui, _userPreferences.ApplicationLanguage.Language, key).Text;
+
+    private static UserPreferencesCoordinator CreatePreferencesCoordinator()
+    {
+        var store = new JsonUserPreferencesStore(UserPreferencesPathResolver.GetSettingsPath());
+        return new UserPreferencesCoordinator(store, store.Load());
+    }
 
 }

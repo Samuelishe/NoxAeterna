@@ -13,20 +13,30 @@ public sealed record TarotTableauLayoutResult(
 /// <summary>Calculates responsive 7:12 Tarot-card bounds without Avalonia dependencies.</summary>
 public static class TarotTableauLayout
 {
+    private const double BaseMinimumCardWidth = 144d;
+    private const double BasePreferredCardWidth = 210d;
+    private const double BaseSingleCardWidth = 252d;
+
     /// <summary>Gets the canonical width-to-height ratio.</summary>
     public const double CardAspectRatio = 7d / 12d;
 
+    /// <summary>Gets the scale applied to the original playable-workspace card widths.</summary>
+    public const double CardScale = 1.5d;
+
     /// <summary>Gets the readable minimum card width in device-independent pixels.</summary>
-    public const double MinimumCardWidth = 144d;
+    public const double MinimumCardWidth = BaseMinimumCardWidth * CardScale;
 
     /// <summary>Gets the preferred multi-card width in device-independent pixels.</summary>
-    public const double PreferredCardWidth = 210d;
+    public const double PreferredCardWidth = BasePreferredCardWidth * CardScale;
 
     /// <summary>Gets the maximum single-card width in device-independent pixels.</summary>
-    public const double SingleCardWidth = 252d;
+    public const double SingleCardWidth = BaseSingleCardWidth * CardScale;
 
     /// <summary>Gets the gap between cards in device-independent pixels.</summary>
     public const double CardGap = 20d;
+
+    /// <summary>Gets the preferred content width of the current three-card tableau.</summary>
+    public const double PreferredThreeCardContentWidth = (PreferredCardWidth * 3d) + (CardGap * 2d);
 
     /// <summary>Calculates a centered row, retaining the readable minimum through tableau-owned horizontal scrolling.</summary>
     public static TarotTableauLayoutResult Calculate(double availableWidth, int cardCount)

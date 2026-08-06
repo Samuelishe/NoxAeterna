@@ -18,6 +18,21 @@ public sealed class InfrastructureBoundaryTests
         Assert.DoesNotContain(packageReferences, package => package!.StartsWith("Avalonia", StringComparison.OrdinalIgnoreCase));
     }
 
+    [Fact]
+    public void InfrastructureProject_DoesNotReferencePresentation()
+    {
+        var projectDocument = LoadProjectDocument("NoxAeterna.Infrastructure", "NoxAeterna.Infrastructure.csproj");
+        var projectReferences = projectDocument
+            .Descendants("ProjectReference")
+            .Select(element => (string?)element.Attribute("Include"))
+            .Where(static value => value is not null)
+            .Cast<string>()
+            .ToArray();
+
+        Assert.DoesNotContain(projectReferences, reference =>
+            reference.Contains("NoxAeterna.Presentation", StringComparison.OrdinalIgnoreCase));
+    }
+
     private static XDocument LoadProjectDocument(string projectDirectory, string projectFileName)
     {
         var path = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", projectDirectory, projectFileName);

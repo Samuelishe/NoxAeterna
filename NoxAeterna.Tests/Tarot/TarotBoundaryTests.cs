@@ -27,6 +27,43 @@ public sealed class TarotBoundaryTests
     }
 
     [Fact]
+    public void DomainDoesNotReferencePreferencesPersistenceOrJson()
+    {
+        var domain = LoadProjectDocument("NoxAeterna.Domain", "NoxAeterna.Domain.csproj");
+        var references = domain.Descendants("ProjectReference")
+            .Select(reference => (string?)reference.Attribute("Include"))
+            .Where(static value => value is not null)
+            .Cast<string>()
+            .ToArray();
+        var source = string.Join(
+            Environment.NewLine,
+            Directory.GetFiles(GetRepositoryPath("NoxAeterna.Domain", "Tarot"), "*.cs", SearchOption.AllDirectories)
+                .Order(StringComparer.Ordinal)
+                .Select(File.ReadAllText));
+
+        Assert.DoesNotContain(references, value => value.Contains("Presentation", StringComparison.OrdinalIgnoreCase));
+        Assert.DoesNotContain(references, value => value.Contains("App", StringComparison.OrdinalIgnoreCase));
+        Assert.DoesNotContain(source, "Preferences", StringComparison.Ordinal);
+        Assert.DoesNotContain(source, "System.Text.Json", StringComparison.Ordinal);
+        Assert.DoesNotContain(source, "JsonSerializer", StringComparison.Ordinal);
+        Assert.DoesNotContain(source, "settings.json", StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void InterpretationProject_DoesNotReferenceAppOrPresentation()
+    {
+        var interpretation = LoadProjectDocument("NoxAeterna.Interpretation", "NoxAeterna.Interpretation.csproj");
+        var references = interpretation.Descendants("ProjectReference")
+            .Select(reference => (string?)reference.Attribute("Include"))
+            .Where(static value => value is not null)
+            .Cast<string>()
+            .ToArray();
+
+        Assert.DoesNotContain(references, value => value.Contains("NoxAeterna.App", StringComparison.OrdinalIgnoreCase));
+        Assert.DoesNotContain(references, value => value.Contains("NoxAeterna.Presentation", StringComparison.OrdinalIgnoreCase));
+    }
+
+    [Fact]
     public void TarotFoundation_DoesNotAddExternalPackages()
     {
         var domainPackages = GetPackageReferences(LoadProjectDocument("NoxAeterna.Domain", "NoxAeterna.Domain.csproj"));

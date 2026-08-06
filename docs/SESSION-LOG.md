@@ -9,6 +9,18 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-06: T-UX1A Unified Tarot Reading Surface and Persisted Reveal Preferences
+
+Summary:
+
+- Increased Tarot card widths by exact `1.5×`, fixed the control panel above one vertically scrolling reading surface, kept horizontal overflow local to the tableau, removed the selected-card inspector and visible tableau/interpretation headings, and placed the interpretation host directly below the cards.
+- Added default-on auto reveal plus manual one-position reveal, presentation-owned reveal counters and preference signaling, and reveal-gated unavailable interpretation copy without hidden-card meaning leakage.
+- Added versioned AppData `settings.json` persistence for languages, theme, spread, Lupus Noctis, back, reversal, and auto reveal with independent validation, controlled diagnostics, atomic writes, and no saves for draw/reveal/session state.
+
+Scope boundary:
+
+- No interpretation corpus, two-card runtime, saved reading/history, SQLite, asset-pack AP1–AP5 work, artwork, manifest, record, or hash change was included.
+
 ## 2026-08-06: INT0-P Tarot Interpretation Planning Baseline
 
 Summary:

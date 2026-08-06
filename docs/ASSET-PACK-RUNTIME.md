@@ -11,7 +11,7 @@
 
 This document owns the target runtime architecture. [`ASSETS-PIPELINE.md`](ASSETS-PIPELINE.md) owns artistic generation, curation, provenance, and repository-ready source assets. [`PERSISTENCE.md`](PERSISTENCE.md) owns the general rule that runtime and user data belong under a platform user-data location. [`TAROT-ENGINE.md`](TAROT-ENGINE.md) owns semantic Tarot and workspace behavior.
 
-AP0 records the target and audits A3; it does not add AppData access, a seeder, a registry, normalization, import UI, tooling, or installer logic. A3 continues to load the one built-in partial pack directly from the application output until the staged runtime work replaces that bridge.
+AP0 records the target and historical A3 audit; it does not add AppData asset access, a seeder, a registry, normalization, import UI, tooling, or installer logic. The current built-in-only bridge loads the complete required Lupus Noctis pack directly from application output. TAROT-ART-RUNTIME-1 made that pack the sole user-facing option and replaced silent prototype fallback for required-pack damage with a controlled unavailable workspace.
 
 ## Source, Seed, and Runtime Model
 
@@ -63,8 +63,8 @@ The synchronizer must:
 - never perform a destructive directory mirror;
 - never automatically delete unknown or additional AppData files;
 - tolerate a missing optional asset and leave per-card fallback to runtime resolution;
-- keep Classic prototype available when seeding or built-in discovery fails;
-- report controlled diagnostics without preventing application startup.
+- report controlled diagnostics without preventing application startup;
+- keep any programmatic prototype rendering only as an internal test/diagnostic seam, not as an automatically selected user-facing Classic pack.
 
 An explicit `sync-builtins --no-delete` CLI command may support diagnostics and repair later. It is an auxiliary operation, not a command that every Codex session or normal application launch must invoke separately; ordinary application startup owns required idempotent synchronization.
 
@@ -99,9 +99,9 @@ For an exact semantic card stem, runtime resolution follows this order:
 1. Use the exact PNG when it exists and passes minimum safety checks.
 2. If PNG is absent, probe only confirmed supported extensions for the same exact stem.
 3. If a supported non-PNG decodes, use or create its PNG representation in the normalized cache.
-4. If no file exists, decoding fails, or safety limits reject it, use the programmatic placeholder.
+4. For a future optional user pack, apply the approved controlled placeholder policy for that pack; do not silently substitute it for the required built-in Lupus Noctis contract.
 
-Missing or invalid artwork never changes the semantic card identity or reading. A malformed whole pack is diagnosed and may be disabled as a selectable pack, but the application does not crash and Classic prototype remains available. There is no fuzzy fallback.
+Missing or invalid artwork never changes the semantic card identity or reading. The current required built-in Lupus Noctis pack is all-or-unavailable: a malformed or incomplete pack disables Draw and produces a localized controlled diagnostic without crashing the application or exposing Classic. Future optional user-pack failure and placeholder policy remains an AP2 decision. There is no fuzzy fallback.
 
 ## Validation and Fingerprint State
 
@@ -176,7 +176,7 @@ Development and packaged applications use the same seed contract.
 
 - **Development:** the project/build copies repository built-in packs into the app output seed directory; startup seeds AppData, so another checkout/build carries every missing built-in resource in its output.
 - **Publish/installer:** the same seed payload is included in publish/install output; first run synchronizes it into AppData, and updates add or replace only managed built-in files.
-- **Both:** unknown AppData files are preserved, user packs are untouched, and Classic remains available after controlled seed failure.
+- **Both:** unknown AppData files are preserved and user packs are untouched. Required Lupus Noctis failure remains controlled and diagnosable rather than silently selecting a user-facing Classic pack.
 
 PKG1 must verify seed inclusion, first-run synchronization, update behavior, path service results, permissions, atomic replacement, and no-delete guarantees on Windows, Linux, and macOS.
 
@@ -199,7 +199,7 @@ The full Lupus Noctis artwork pack does not depend on the future AppData subsyst
 
 These are intentionally independent from asset-pack runtime work:
 
-- **T-UX1 — Tarot artwork scale and detail:** a single card uses materially more tableau space; add card zoom/detail; allow 5+ card layouts to reduce size; give the tableau its own scroll when necessary; keep interpretation/inspector below through vertical scroll; never make detailed artwork unreadably small.
+- **T-UX1A — unified Tarot reading surface:** implemented `1.5×` card widths, fixed controls, one vertically scrolling reading surface, tableau-local horizontal overflow, an adjacent interpretation host, auto reveal, and persisted workspace preferences. Card zoom/detail and 5+ card policies remain separate future scope.
 - **S2 — seamless custom window chrome:** the title may remain visible while native Windows chrome is removed; preserve drag, double-click maximize, minimize/maximize/close, system menu, Windows Snap Layouts, DPI behavior, Linux/macOS behavior, and keyboard accessibility.
 - **BRAND1 — project-owned application icon:** select one accepted source design with repository provenance; produce multi-size Windows `.ico`, desktop/package PNG sizes, and future macOS `.icns`; update README/THIRD-PARTY for generated or external material; verify executable, window, taskbar, and packaged application surfaces.
 
@@ -210,8 +210,8 @@ AP0 implements none of these stages and generates no icon.
 | Classification | Current A3 evidence | Planned treatment |
 | --- | --- | --- |
 | Already reusable | Typed `TarotArtworkPackId`; schema-versioned manifest foundation; exact standard card IDs; package-relative paths; hash/dimension/status checks; partial-pack fallback; unchanged semantic reading; raster/frame/title/reversal separation; per-card raster resolution concept. | Preserve these behaviors as runtime/tool contracts. |
-| Temporary built-in-only behavior | `NoxAeterna.App` directly opens one hard-coded `lupus-noctis` directory below `AppContext.BaseDirectory`; pack options are statically composed; assets are loaded into memory from app output. | Keep as the verified A3 bridge until AP1/AP2 replace discovery and storage. |
+| Temporary built-in-only behavior | `NoxAeterna.App` directly opens the complete required `lupus-noctis` directory below `AppContext.BaseDirectory`; the sole user-facing option is statically composed; assets are loaded into memory from app output. | Keep as the verified post-TAROT-ART-RUNTIME-1 bridge until AP1/AP2 replace discovery and storage. |
 | Must migrate | Final runtime source, pack enumeration, built-in synchronization, app-data path ownership, validation/fingerprint state, decoder limits, exact-stem extension probing, normalization cache, and diagnostics persistence. | Implement incrementally in AP1/AP2 with shared contracts before user-pack workflows. |
-| Deferred | Asset CLI, manual drop-in, import wizard, packaging verification, larger Tarot artwork UX, custom chrome, and application icon. | AP3–AP5, PKG1, T-UX1, S2, and BRAND1 respectively. |
+| Deferred | Asset CLI, manual drop-in, import wizard, packaging verification, card zoom/detail and 5+ card policies, custom chrome, and application icon. | AP3–AP5, PKG1, later Tarot UX, S2, and BRAND1 respectively. |
 
-The audit found no reason to rewrite A3 during AP0. Its built-in-only loader is safe for the present shipped partial pack and has focused path, identity, dimension, checksum, fallback, display-order, localization, and composition coverage; it is not represented as the final AppData runtime architecture.
+The A3 audit remains historical evidence for the earlier partial-pack bridge. The current built-in-only loader now validates the complete 78-card required pack and preserves focused path, identity, dimension, checksum, output, localization, and composition coverage; it is not represented as the final AppData asset runtime architecture.

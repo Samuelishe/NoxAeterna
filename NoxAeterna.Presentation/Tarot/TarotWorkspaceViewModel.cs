@@ -1,6 +1,7 @@
 using NodaTime;
 using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Presentation.Localization;
+using NoxAeterna.Presentation.Preferences;
 
 namespace NoxAeterna.Presentation.Tarot;
 
@@ -20,7 +21,7 @@ public sealed class TarotWorkspaceViewModel
         IEnumerable<TarotArtworkPackOption> artworkPacks,
         TarotPresentationSkinId presentationSkinId,
         TarotInterpretationSetId interpretationSetId,
-        TarotArtworkPackId? defaultArtworkPackId = null)
+        TarotWorkspacePreferences initialPreferences)
     {
         this.drawEngine = drawEngine ?? throw new ArgumentNullException(nameof(drawEngine));
         this.deck = deck ?? throw new ArgumentNullException(nameof(deck));
@@ -44,21 +45,27 @@ public sealed class TarotWorkspaceViewModel
             throw new ArgumentException("Tarot artwork packs must contain unique options.", nameof(artworkPacks));
         }
 
+        ArgumentNullException.ThrowIfNull(initialPreferences);
         PresentationSkinId = presentationSkinId ?? throw new ArgumentNullException(nameof(presentationSkinId));
         InterpretationSetId = interpretationSetId ?? throw new ArgumentNullException(nameof(interpretationSetId));
         SpreadOptions = Array.AsReadOnly(copiedSpreads);
         BackVariants = Array.AsReadOnly(copiedBacks);
         ArtworkPacks = Array.AsReadOnly(copiedArtworkPacks);
-        SelectedSpread = SpreadOptions[0];
-        SelectedBackVariant = BackVariants[0];
-        SelectedArtworkPack = defaultArtworkPackId is null
-            ? ArtworkPacks[0]
-            : ArtworkPacks.FirstOrDefault(option => option.Id == defaultArtworkPackId)
-              ?? throw new ArgumentException("The default Tarot artwork pack must be available.", nameof(defaultArtworkPackId));
+        SelectedSpread = SpreadOptions.FirstOrDefault(option => option.Definition.Id == initialPreferences.SpreadId)
+            ?? throw new ArgumentException("The initial Tarot spread must be available.", nameof(initialPreferences));
+        SelectedBackVariant = BackVariants.FirstOrDefault(option => option.Id == initialPreferences.BackVariantId)
+            ?? throw new ArgumentException("The initial Tarot back variant must be available.", nameof(initialPreferences));
+        SelectedArtworkPack = ArtworkPacks.FirstOrDefault(option => option.Id == initialPreferences.ArtworkPackId)
+            ?? throw new ArgumentException("The initial Tarot artwork pack must be available.", nameof(initialPreferences));
+        AllowReversed = initialPreferences.AllowReversed;
+        AutoRevealCards = initialPreferences.AutoRevealCards;
     }
 
     /// <summary>Raised after visible workspace state changes.</summary>
     public event EventHandler? StateChanged;
+
+    /// <summary>Raised only after an actual Tarot workspace preference change.</summary>
+    public event EventHandler<TarotWorkspacePreferences>? PreferencesChanged;
 
     /// <summary>Gets the available built-in spread options.</summary>
     public IReadOnlyList<TarotSpreadOption> SpreadOptions { get; }
@@ -68,6 +75,9 @@ public sealed class TarotWorkspaceViewModel
 
     /// <summary>Gets whether reversed cards are allowed.</summary>
     public bool AllowReversed { get; private set; }
+
+    /// <summary>Gets whether successful future draws reveal every card immediately.</summary>
+    public bool AutoRevealCards { get; private set; }
 
     /// <summary>Gets the available card-back variants.</summary>
     public IReadOnlyList<TarotBackVariantOption> BackVariants { get; }
@@ -99,6 +109,24 @@ public sealed class TarotWorkspaceViewModel
     /// <summary>Gets the current controlled draw failure.</summary>
     public TarotDrawFailure? CurrentFailure { get; private set; }
 
+    /// <summary>Gets the number of positions revealed in the current reading.</summary>
+    public int RevealedCardCount => revealedPositions.Count;
+
+    /// <summary>Gets whether the current reading contains at least one revealed card.</summary>
+    public bool HasRevealedCards => RevealedCardCount > 0;
+
+    /// <summary>Gets whether every position in the current reading is revealed.</summary>
+    public bool AreAllCardsRevealed => CurrentReading is { Cards.Count: > 0 } reading &&
+                                       RevealedCardCount == reading.Cards.Count;
+
+    /// <summary>Gets the current immutable Tarot preference snapshot.</summary>
+    public TarotWorkspacePreferences Preferences => new(
+        SelectedSpread.Definition.Id,
+        SelectedArtworkPack.Id,
+        SelectedBackVariant.Id,
+        AllowReversed,
+        AutoRevealCards);
+
     /// <summary>Gets the empty-state localization key.</summary>
     public LocalizationKey EmptyStateKey { get; } = new("ui.tarot.empty-state");
 
@@ -111,7 +139,8 @@ public sealed class TarotWorkspaceViewModel
     /// <summary>Creates the default workspace over the real standard deck and spreads.</summary>
     public static TarotWorkspaceViewModel CreateFoundation(
         TarotDrawEngine drawEngine,
-        IEnumerable<TarotArtworkPackOption>? artworkPacks = null) => new(
+        IEnumerable<TarotArtworkPackOption>? artworkPacks = null,
+        TarotWorkspacePreferences? initialPreferences = null) => new(
         drawEngine,
         StandardTarotCatalog.Deck,
         [
@@ -122,7 +151,7 @@ public sealed class TarotWorkspaceViewModel
         artworkPacks ?? TarotPrototypeSelections.ArtworkPacks,
         TarotPrototypeSelections.PresentationSkinId,
         TarotPrototypeSelections.InterpretationSetId,
-        TarotPrototypeSelections.DefaultArtworkPackId);
+        initialPreferences ?? TarotWorkspacePreferences.CreateDefault());
 
     /// <summary>Selects a spread and clears a reading that belongs to another spread.</summary>
     public void SelectSpread(TarotSpreadId spreadId)
@@ -141,6 +170,7 @@ public sealed class TarotWorkspaceViewModel
             ClearReading();
         }
 
+        OnPreferencesChanged();
         OnStateChanged();
     }
 
@@ -153,6 +183,20 @@ public sealed class TarotWorkspaceViewModel
         }
 
         AllowReversed = allowReversed;
+        OnPreferencesChanged();
+        OnStateChanged();
+    }
+
+    /// <summary>Updates the auto-reveal policy for future draws only.</summary>
+    public void SetAutoRevealCards(bool value)
+    {
+        if (AutoRevealCards == value)
+        {
+            return;
+        }
+
+        AutoRevealCards = value;
+        OnPreferencesChanged();
         OnStateChanged();
     }
 
@@ -168,6 +212,7 @@ public sealed class TarotWorkspaceViewModel
         }
 
         SelectedBackVariant = option;
+        OnPreferencesChanged();
         OnStateChanged();
     }
 
@@ -183,6 +228,7 @@ public sealed class TarotWorkspaceViewModel
         }
 
         SelectedArtworkPack = option;
+        OnPreferencesChanged();
         OnStateChanged();
     }
 
@@ -201,6 +247,11 @@ public sealed class TarotWorkspaceViewModel
         CurrentFailure = result.Failure;
         SelectedCard = null;
         revealedPositions.Clear();
+        if (CurrentReading is { } reading && AutoRevealCards)
+        {
+            revealedPositions.UnionWith(reading.Cards.Select(static card => card.PositionId));
+        }
+
         OnStateChanged();
     }
 
@@ -232,4 +283,6 @@ public sealed class TarotWorkspaceViewModel
     }
 
     private void OnStateChanged() => StateChanged?.Invoke(this, EventArgs.Empty);
+
+    private void OnPreferencesChanged() => PreferencesChanged?.Invoke(this, Preferences);
 }

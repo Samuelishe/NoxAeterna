@@ -17,7 +17,7 @@ namespace NoxAeterna.App.Tarot;
 /// <summary>Hosts the playable in-memory Tarot workspace with built-in raster artwork.</summary>
 public sealed class TarotWorkspaceControl : UserControl
 {
-    private const double TableauFallbackWidth = 760d;
+    private const double TableauFallbackWidth = TarotTableauLayout.PreferredThreeCardContentWidth;
     private const double PositionLabelHeight = 34d;
 
     private readonly TarotWorkspaceViewModel viewModel;
@@ -26,7 +26,7 @@ public sealed class TarotWorkspaceControl : UserControl
     private readonly LanguageCode applicationLanguage;
     private readonly Func<Instant> getCurrentInstant;
     private readonly ContentControl tableauStateHost;
-    private readonly ContentControl inspectorHost;
+    private readonly ContentControl interpretationHost;
     private readonly Dictionary<string, Bitmap> rasterImageCache = new(StringComparer.Ordinal);
     private ScrollViewer? tableauScrollViewer;
     private Button? drawButton;
@@ -47,7 +47,7 @@ public sealed class TarotWorkspaceControl : UserControl
         this.getCurrentInstant = getCurrentInstant ?? throw new ArgumentNullException(nameof(getCurrentInstant));
 
         tableauStateHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch };
-        inspectorHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch };
+        interpretationHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch };
         Content = BuildContent();
         viewModel.StateChanged += OnViewModelStateChanged;
         DetachedFromVisualTree += (_, _) =>
@@ -65,24 +65,18 @@ public sealed class TarotWorkspaceControl : UserControl
 
     private Control BuildContent()
     {
-        var root = new StackPanel
+        var root = new Grid
         {
-            Spacing = 16,
-            Children =
-            {
-                CreateControlPanel(),
-                CreateTableauPanel(),
-                inspectorHost
-            }
+            RowDefinitions = new RowDefinitions("Auto,*"),
+            RowSpacing = 16
         };
+        var controlPanel = CreateControlPanel();
+        var readingSurface = CreateReadingSurface();
+        Grid.SetRow(readingSurface, 1);
+        root.Children.Add(controlPanel);
+        root.Children.Add(readingSurface);
 
-        return new ScrollViewer
-        {
-            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
-            Padding = new Thickness(0, 0, 16, 8),
-            Content = root
-        };
+        return root;
     }
 
     private Control CreateControlPanel()
@@ -137,6 +131,17 @@ public sealed class TarotWorkspaceControl : UserControl
         orientationToggle.IsCheckedChanged += (_, _) =>
             viewModel.SetAllowReversed(orientationToggle.IsChecked == true);
 
+        var autoRevealToggle = new CheckBox
+        {
+            Name = "TarotAutoRevealToggle",
+            Content = Localize("ui.tarot.control.auto-reveal"),
+            IsChecked = viewModel.AutoRevealCards,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        AutomationProperties.SetName(autoRevealToggle, Localize("ui.tarot.control.auto-reveal"));
+        autoRevealToggle.IsCheckedChanged += (_, _) =>
+            viewModel.SetAutoRevealCards(autoRevealToggle.IsChecked == true);
+
         var backSelector = new ComboBox
         {
             Name = "TarotBackSelector",
@@ -172,6 +177,7 @@ public sealed class TarotWorkspaceControl : UserControl
         controls.Children.Add(CreateLabeledControl("ui.tarot.control.artwork", artworkSelector));
         controls.Children.Add(CreateLabeledControl("ui.tarot.control.back", backSelector));
         controls.Children.Add(orientationToggle);
+        controls.Children.Add(autoRevealToggle);
         controls.Children.Add(drawButton);
         foreach (var control in controls.Children)
         {
@@ -197,7 +203,7 @@ public sealed class TarotWorkspaceControl : UserControl
         return panel;
     }
 
-    private Control CreateTableauPanel()
+    private Control CreateReadingSurface()
     {
         tableauScrollViewer = new ScrollViewer
         {
@@ -207,30 +213,36 @@ public sealed class TarotWorkspaceControl : UserControl
             HorizontalContentAlignment = HorizontalAlignment.Stretch,
             Content = tableauStateHost
         };
+        ScrollViewer.SetIsScrollChainingEnabled(tableauScrollViewer, true);
         AutomationProperties.SetName(tableauScrollViewer, Localize("ui.tarot.tableau.title"));
         tableauScrollViewer.SizeChanged += (_, _) => RefreshTableau();
 
-        var panel = new Border
+        var readingContent = new StackPanel
         {
-            Padding = new Thickness(20, 16, 20, 20),
-            MinHeight = 360,
-            Child = new StackPanel
+            Spacing = 14,
+            Children =
             {
-                Spacing = 14,
-                Children =
-                {
-                    new TextBlock
-                    {
-                        Text = Localize("ui.tarot.tableau.title"),
-                        FontSize = 16,
-                        FontWeight = FontWeight.SemiBold
-                    },
-                    tableauScrollViewer
-                }
+                tableauScrollViewer,
+                interpretationHost
             }
         };
-        panel.Classes.Add("surface-card");
-        return panel;
+        var readingScrollViewer = new ScrollViewer
+        {
+            Name = "TarotReadingScrollViewer",
+            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            Padding = new Thickness(20, 16, 12, 20),
+            Content = readingContent
+        };
+        var surface = new Border
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Child = readingScrollViewer
+        };
+        surface.Classes.Add("surface-card");
+        return surface;
     }
 
     private Control CreateLabeledControl(string labelKey, Control control) => new StackPanel
@@ -257,7 +269,7 @@ public sealed class TarotWorkspaceControl : UserControl
         }
 
         RefreshTableau();
-        RefreshInspector();
+        RefreshInterpretation();
     }
 
     private void RefreshTableau()
@@ -506,75 +518,26 @@ public sealed class TarotWorkspaceControl : UserControl
         return back;
     }
 
-    private void RefreshInspector()
+    private void RefreshInterpretation()
     {
-        if (viewModel.SelectedCard is not { } selected)
+        if (viewModel.CurrentReading is null || !viewModel.HasRevealedCards)
         {
-            inspectorHost.IsVisible = false;
-            inspectorHost.Content = null;
+            interpretationHost.IsVisible = false;
+            interpretationHost.Content = null;
             return;
         }
 
-        inspectorHost.IsVisible = true;
-        var details = new StackPanel
+        interpretationHost.IsVisible = true;
+        var unavailable = new TextBlock
         {
-            Spacing = 9,
-            Children =
-            {
-                CreateInspectorRow("ui.tarot.inspector.card", TarotCardTextResolver.GetCardName(selected.Card, localizationProvider, applicationLanguage)),
-                CreateInspectorRow("ui.tarot.inspector.position", TarotCardTextResolver.GetPositionName(selected.PositionId, localizationProvider, applicationLanguage)),
-                CreateInspectorRow("ui.tarot.inspector.orientation", TarotCardTextResolver.GetOrientationName(selected.Orientation, localizationProvider, applicationLanguage)),
-                CreateInspectorRow("ui.tarot.inspector.arcana", TarotCardTextResolver.GetArcanaName(selected.Card.Arcana, localizationProvider, applicationLanguage))
-            }
+            Text = Localize(viewModel.InterpretationUnavailableKey),
+            TextWrapping = TextWrapping.Wrap,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Margin = new Thickness(0, 4, 8, 0)
         };
-        if (selected.Card.Arcana == TarotArcana.Minor)
-        {
-            details.Children.Add(CreateInspectorRow("ui.tarot.inspector.suit", TarotCardTextResolver.GetSuitName(selected.Card.Suit!.Value, localizationProvider, applicationLanguage)));
-            details.Children.Add(CreateInspectorRow("ui.tarot.inspector.rank", TarotCardTextResolver.GetRankName(selected.Card.Rank!.Value, localizationProvider, applicationLanguage)));
-        }
-
-        var unavailable = CreateStateText(Localize(viewModel.InterpretationUnavailableKey), "subtle");
-        details.Children.Add(unavailable);
-
-        var inspector = new Border
-        {
-            Padding = new Thickness(20, 16),
-            Child = new StackPanel
-            {
-                Spacing = 12,
-                Children =
-                {
-                    new TextBlock
-                    {
-                        Text = Localize("ui.tarot.inspector.title"),
-                        FontSize = 16,
-                        FontWeight = FontWeight.SemiBold
-                    },
-                    details
-                }
-            }
-        };
-        inspector.Classes.Add("surface-card");
-        inspector.Classes.Add("tarot-inspector");
-        inspectorHost.Content = inspector;
-    }
-
-    private Control CreateInspectorRow(string labelKey, string value) => new Grid
-    {
-        ColumnDefinitions = new ColumnDefinitions("150,*"),
-        ColumnSpacing = 12,
-        Children =
-        {
-            new TextBlock { Text = Localize(labelKey), Classes = { "supporting" } },
-            CreateInspectorValue(value)
-        }
-    };
-
-    private static TextBlock CreateInspectorValue(string value)
-    {
-        var text = new TextBlock { Text = value, TextWrapping = TextWrapping.Wrap };
-        Grid.SetColumn(text, 1);
-        return text;
+        unavailable.Classes.Add("supporting");
+        unavailable.Classes.Add("subtle");
+        interpretationHost.Content = unavailable;
     }
 
     private static TextBlock CreateStateText(string text, string styleClass)

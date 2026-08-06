@@ -86,11 +86,13 @@ public sealed class LocalizationContractsTests
         var preferences = new UserPreferences(
             new ApplicationLanguagePreference(new LanguageCode("ru")),
             new InterpretationLanguagePreference(new LanguageCode("en")),
-            new ThemeId("dark"));
+            new ThemeId("dark"),
+            TarotWorkspacePreferences.CreateDefault());
 
         Assert.Equal(new LanguageCode("ru"), preferences.ApplicationLanguage.Language);
         Assert.Equal(new LanguageCode("en"), preferences.InterpretationLanguage.Language);
         Assert.Equal(new ThemeId("dark"), preferences.ThemeId);
+        Assert.Equal(TarotWorkspacePreferences.CreateDefault(), preferences.Tarot);
     }
 
     [Fact]

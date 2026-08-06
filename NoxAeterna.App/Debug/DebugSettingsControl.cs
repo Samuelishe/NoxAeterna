@@ -7,8 +7,7 @@ using NoxAeterna.Presentation.Theming;
 namespace NoxAeterna.App.Debug;
 
 /// <summary>
-/// Hosts the first temporary settings foundation using in-memory presentation state only.
-/// This control is bootstrap infrastructure and does not implement persistence.
+/// Hosts the application language and theme settings editors.
 /// </summary>
 public sealed class DebugSettingsControl : UserControl
 {
