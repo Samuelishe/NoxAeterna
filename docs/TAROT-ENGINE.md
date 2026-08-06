@@ -45,7 +45,7 @@ Five concepts must remain independent:
 - **Back variant** owns a selectable card back, not a separate deck.
 - **Interpretation pack** identifies meaning content independently from both semantic and visual selection.
 
-Current code has validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `TarotBackVariantId`, and `TarotInterpretationSetId` contracts. The workspace exposes Lupus Noctis as its sole user-facing artwork pack, one prototype skin, two programmatic backs, and the prose-free `foundation` interpretation-set identity; none changes the semantic deck or pretends that prose exists. The frozen target replaces Set/foundation with `TarotInterpretationPackId`/`classic` without parallel identities; exact migration belongs to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). `prototype-symbolic` remains an internal test/diagnostic rendering seam.
+Current code has validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `TarotBackVariantId`, and `TarotInterpretationPackId` contracts. The workspace exposes Lupus Noctis as its sole user-facing artwork pack, one prototype skin, two programmatic backs, and the prose-free active interpretation-pack identity `classic`; none changes the semantic deck or pretends that prose exists. No parallel interpretation-set identity remains. `prototype-symbolic` remains an internal test/diagnostic rendering seam.
 
 ## Built-In Spreads
 
@@ -66,7 +66,7 @@ The planned `two-cards` mode does not exist in Domain or UI. It will draw exactl
 
 ## Boundary With Meaning and Presentation
 
-Domain contains no Russian or English display names, UI labels, localized strings, meanings, keywords, interpretation text, astrology correspondences, layout geometry, or persistence. It owns semantic cards, spreads, unique assignments, and typed orientation. `NoxAeterna.Interpretation` owns future structured meaning composition but currently contains only its project boundary and no Tarot runtime or corpus. Presentation orchestrates selections and will display prepared results without owning prose or storage. Artwork remains a visual mapping only. General composition belongs to [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md); pack readiness/fallback to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); single-card authoring to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); mode corpora/storage/routing to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); exact serialization, layers, and migration to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
+Domain contains no Russian or English display names, UI labels, localized strings, meanings, keywords, interpretation text, astrology correspondences, layout geometry, or persistence. It owns semantic cards, spreads, unique assignments, typed orientation, and the stable pack identity. `NoxAeterna.Interpretation` now owns pure schema documents, immutable validated contracts, canonical keys, JSON validation, and typed result contracts, but no Tarot resolver, filesystem source, cache, or corpus. Presentation orchestrates the current identity without a selector or content. Artwork remains a visual mapping only. General composition belongs to [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md); pack readiness/fallback to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); single-card authoring to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); mode corpora/storage/routing to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); exact serialization, layers, and migration to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 ## T1 Playable Workspace
 
@@ -102,9 +102,9 @@ TAROT-ART-RUNTIME-1 subsequently made Lupus Noctis the sole default user-facing 
 
 - Only `single-card/card` and ordered `three-cards/past,present,future` are implemented.
 - Draws are without replacement and already support upright and reversed orientation.
-- The foundation interpretation set contains no prose, and the UI reports interpretation unavailability.
-- No two-card spread, Tarot interpretation runtime, production schema, or Tarot meaning corpus exists.
-- INT0-D1 and D2 are accepted. INT0-D3 is accepted at `67218ccc071719f6425da84b6579c550e4e6b0b6`; hosted run `31093430806` passed all five jobs. D4 freezes the implementation handoff locally, pending owner commit/push and hosted verification. No selector, manifest file, runtime, production corpus, or authoring tool was added.
+- The active `classic` interpretation-pack identity contains no prose, and the UI reports interpretation unavailability.
+- Pure schema/document, validation, canonical-key, and typed-result contracts exist; no two-card spread, Tarot interpretation runtime, manifest file, or Tarot meaning corpus exists.
+- INT0-D1–D4 are accepted; D4 checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e` and hosted run `31095939556` passed all five jobs. INT0-I1 is complete locally and awaits owner commit/push plus hosted verification. No selector, filesystem source, runtime resolver, production corpus, or authoring tool was added.
 
 ## Asset Direction
 

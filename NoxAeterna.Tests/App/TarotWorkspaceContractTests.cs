@@ -22,7 +22,7 @@ public sealed class TarotWorkspaceContractTests
     {
         var source = File.ReadAllText(AppPath("MainWindow.axaml.cs"));
 
-        Assert.Contains("TarotWorkspaceViewModel.CreateFoundation", source, StringComparison.Ordinal);
+        Assert.Contains("TarotWorkspaceViewModel.CreateClassic", source, StringComparison.Ordinal);
         Assert.Contains("ITarotRandomSource tarotRandomSource = new SystemTarotRandomSource();", source, StringComparison.Ordinal);
         Assert.Contains("new TarotDrawEngine(tarotRandomSource)", source, StringComparison.Ordinal);
         Assert.Contains("DebugTarotSmokeRandomSource.CreateFromEnvironment() ?? tarotRandomSource", source, StringComparison.Ordinal);

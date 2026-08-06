@@ -68,20 +68,20 @@ Cards use exact `1.5×` widths inside one unified vertically scrolling reading s
 
 ### INT0 — Interpretation Architecture
 
-Status: **Architecture complete locally; D4 pending owner commit/push and hosted verification**.
+Status: **Accepted and complete**.
 
 Architecture passes:
 
 1. **INT0-D1 — package and localization architecture:** **Accepted.** Own independent plugin-like interpretation packs, `classic`, locale/mode readiness, silent fallback/absence, spread independence, selection refresh, preference direction, and implementation gates in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md). No runtime was implemented.
 2. **INT0-D2 — Classic content and tags:** **Accepted.** Checkpoint `e625b68bb424c589fbc840c600ab377237530434` and hosted run `31091471397` passed all five jobs, including the explicit 16-case repair for run 49. [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md) owns Classic voice, single-card content, tags/metrics, translation, authoring quality, and typography direction.
 3. **INT0-D3 — modes, exhaustive corpora, and routing:** **Accepted.** Checkpoint `67218ccc071719f6425da84b6579c550e4e6b0b6` and hosted run `31093430806` passed all five jobs. [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md) owns stable modes, 3003 unordered identities, 12,012 independently authored states, 468 position entries, composition, paths/indexes, routing, inventory, batching, and validation.
-4. **INT0-D4 — final reconciliation and implementation handoff:** **Complete locally; pending hosted verification.** [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md) freezes exact JSON/version/hash contracts, layers, migration, settings/selector gates, decision coverage, and staged delivery. No runtime or corpus was added.
+4. **INT0-D4 — final reconciliation and implementation handoff:** **Accepted.** Checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e` and hosted run `31095939556` passed all five jobs. [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md) freezes exact JSON/version/hash contracts, layers, migration, settings/selector gates, decision coverage, and staged delivery.
 
 ### INT0 Implementation Foundation
 
-Status: **Not started**. Start only after owner acceptance and hosted-green D4 evidence.
+Status: **I1 complete locally; pending owner commit/push and hosted verification. I2 next.**
 
-1. **INT0-I1 — Pack Identity and Schema Contracts:** Set→Pack, `classic`, pure DTOs/enums/canonical keys/typed results/validation; no UI, filesystem, settings, resources, or prose.
+1. **INT0-I1 — Pack Identity and Schema Contracts:** **Complete locally.** Pack/classic identity, pure raw/validated schema contracts, exact JSON/enums, canonical keys/pairs, typed results/diagnostics, and focused tests; no UI, filesystem, settings, resources, or prose.
 2. **INT0-I2 — Validator and Index Tooling:** repository tooling and synthetic fixtures for path/schema/hash/index/inventory checks; no production prose.
 3. **INT0-I3 — Built-In Pack Source and Resolver:** source abstraction, manifest/index loading, same-locale resolution, broken-ready behavior, bounded cache, and an all-not-ready Classic skeleton.
 4. **INT0-I4 — Selector, Settings v2 and Silent Host:** selector, v1→v2 settings migration, removal of foundation/unavailable placeholder, immediate re-resolution, and real-control UI smoke.

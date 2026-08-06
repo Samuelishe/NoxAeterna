@@ -131,7 +131,7 @@ public sealed class UserPreferencesCoordinatorTests
         };
         var store = new RecordingStore();
         var coordinator = CreateCoordinator(store, initial);
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource(0, 0, 0)),
             initialPreferences: initial.Tarot);
         viewModel.PreferencesChanged += (_, preferences) => coordinator.ApplyTarotPreferences(preferences);
@@ -173,7 +173,7 @@ public sealed class UserPreferencesCoordinatorTests
         var persisted = CreatePreferences();
         var coordinator = CreateCoordinator(new RecordingStore(), persisted);
 
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource()),
             initialPreferences: coordinator.Current.Tarot);
 

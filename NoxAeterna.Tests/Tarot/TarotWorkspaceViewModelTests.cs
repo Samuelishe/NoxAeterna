@@ -8,9 +8,9 @@ namespace NoxAeterna.Tests.Tarot;
 public sealed class TarotWorkspaceViewModelTests
 {
     [Fact]
-    public void Foundation_ExposesRealSpreadsAndDefaultsToSoleLupusNoctisArtworkPack()
+    public void ClassicWorkspace_ExposesRealSpreadsAndDefaultsToSoleLupusNoctisArtworkPack()
     {
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource(0)));
 
         Assert.Equal(
@@ -24,14 +24,14 @@ public sealed class TarotWorkspaceViewModelTests
         Assert.True(viewModel.AutoRevealCards);
         Assert.Equal(TarotWorkspacePreferences.CreateDefault(), viewModel.Preferences);
         Assert.Equal("astral-archive-prototype", viewModel.PresentationSkinId.Value);
-        Assert.Equal("foundation", viewModel.InterpretationSetId.Value);
+        Assert.Equal("classic", viewModel.InterpretationPackId.Value);
     }
 
     [Fact]
     public void Draw_UsesDomainEngineAndPassesUprightOnlyPreference()
     {
         var random = new SequenceRandomSource(0);
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(new TarotDrawEngine(random));
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(new TarotDrawEngine(random));
         var timestamp = Instant.FromUtc(2026, 8, 3, 12, 0);
 
         viewModel.Draw(timestamp);
@@ -54,7 +54,7 @@ public sealed class TarotWorkspaceViewModelTests
     public void Draw_PassesUprightAndReversedPreferenceToDomainEngine()
     {
         var random = new SequenceRandomSource(0, 1);
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(new TarotDrawEngine(random));
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(new TarotDrawEngine(random));
         viewModel.SetAllowReversed(true);
 
         viewModel.Draw(Instant.FromUnixTimeTicks(10));
@@ -68,7 +68,7 @@ public sealed class TarotWorkspaceViewModelTests
     [Fact]
     public void Redraw_ReplacesCurrentReadingWithNewDomainResult()
     {
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource(0, 1)));
         viewModel.Draw(Instant.FromUnixTimeTicks(20));
         var firstReading = Assert.IsType<TarotReading>(viewModel.CurrentReading);
@@ -84,7 +84,7 @@ public sealed class TarotWorkspaceViewModelTests
     [Fact]
     public void RevealAndSelect_PreservesExactSpreadAssignment()
     {
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource(2, 0, 0)));
         viewModel.SelectSpread(StandardTarotSpreads.ThreeCards.Id);
         viewModel.SetAutoRevealCards(false);
@@ -215,7 +215,7 @@ public sealed class TarotWorkspaceViewModelTests
     [Fact]
     public void ChangingSpread_ClearsIncompatibleReadingAndSelection()
     {
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource(0)));
         viewModel.Draw(Instant.FromUnixTimeTicks(40));
         var positionId = Assert.Single(viewModel.CurrentReading!.Cards).PositionId;
@@ -242,7 +242,7 @@ public sealed class TarotWorkspaceViewModelTests
             TarotPrototypeSelections.BackVariants,
             TarotPrototypeSelections.ArtworkPacks,
             TarotPrototypeSelections.PresentationSkinId,
-            TarotPrototypeSelections.InterpretationSetId,
+            TarotPrototypeSelections.InterpretationPackId,
             new TarotWorkspacePreferences(
                 StandardTarotSpreads.ThreeCards.Id,
                 TarotPrototypeSelections.DefaultArtworkPackId,
@@ -262,7 +262,7 @@ public sealed class TarotWorkspaceViewModelTests
     }
 
     [Fact]
-    public void CreateFoundation_AppliesPersistedTarotPreferencesByExplicitIds()
+    public void CreateClassic_AppliesPersistedTarotPreferencesByExplicitIds()
     {
         var initial = new TarotWorkspacePreferences(
             StandardTarotSpreads.ThreeCards.Id,
@@ -271,7 +271,7 @@ public sealed class TarotWorkspaceViewModelTests
             AllowReversed: true,
             AutoRevealCards: false);
 
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource()),
             initialPreferences: initial);
 
@@ -308,7 +308,7 @@ public sealed class TarotWorkspaceViewModelTests
             TarotPrototypeSelections.BackVariants,
             TarotPrototypeSelections.ArtworkPacks,
             TarotPrototypeSelections.PresentationSkinId,
-            TarotPrototypeSelections.InterpretationSetId,
+            TarotPrototypeSelections.InterpretationPackId,
             initial));
 
         Assert.Equal("initialPreferences", exception.ParamName);
@@ -340,7 +340,7 @@ public sealed class TarotWorkspaceViewModelTests
     [Fact]
     public void SettingSameTarotPreferences_DoesNotRaiseTypedEvent()
     {
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource()));
         var count = 0;
         viewModel.PreferencesChanged += (_, _) => count++;
@@ -374,7 +374,7 @@ public sealed class TarotWorkspaceViewModelTests
     [Fact]
     public void PrototypeBackVariants_HaveTwoUniqueIdsAndSelectionDoesNotChangeReading()
     {
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource(0)));
         viewModel.Draw(Instant.FromUnixTimeTicks(60));
         var reading = viewModel.CurrentReading;
@@ -392,7 +392,7 @@ public sealed class TarotWorkspaceViewModelTests
     [Fact]
     public void SelectingCurrentLupusNoctisArtworkPack_PreservesCurrentReadingRevealAndSelection()
     {
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource(0)));
         viewModel.Draw(Instant.FromUnixTimeTicks(70));
         var reading = Assert.IsType<TarotReading>(viewModel.CurrentReading);
@@ -412,7 +412,7 @@ public sealed class TarotWorkspaceViewModelTests
     [Fact]
     public void SelectArtworkPack_RejectsUnavailableIdWithoutChangingState()
     {
-        var viewModel = TarotWorkspaceViewModel.CreateFoundation(
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(new SequenceRandomSource(0)));
 
         var exception = Assert.Throws<ArgumentException>(() =>
@@ -436,7 +436,7 @@ public sealed class TarotWorkspaceViewModelTests
             TarotPrototypeSelections.BackVariants,
             [alternate, lupus],
             TarotPrototypeSelections.PresentationSkinId,
-            TarotPrototypeSelections.InterpretationSetId,
+            TarotPrototypeSelections.InterpretationPackId,
             TarotWorkspacePreferences.CreateDefault());
 
         Assert.Same(lupus, viewModel.SelectedArtworkPack);
@@ -458,7 +458,7 @@ public sealed class TarotWorkspaceViewModelTests
                 new TarotArtworkPackOption(duplicateId, new("ui.test.second"))
             ],
             TarotPrototypeSelections.PresentationSkinId,
-            TarotPrototypeSelections.InterpretationSetId,
+            TarotPrototypeSelections.InterpretationPackId,
             TarotWorkspacePreferences.CreateDefault()));
 
         Assert.Equal("artworkPacks", exception.ParamName);
@@ -466,7 +466,7 @@ public sealed class TarotWorkspaceViewModelTests
 
     private static TarotWorkspaceViewModel CreateThreeCardWorkspace(
         bool autoRevealCards,
-        ITarotRandomSource randomSource) => TarotWorkspaceViewModel.CreateFoundation(
+        ITarotRandomSource randomSource) => TarotWorkspaceViewModel.CreateClassic(
         new TarotDrawEngine(randomSource),
         initialPreferences: new TarotWorkspacePreferences(
             StandardTarotSpreads.ThreeCards.Id,
@@ -486,7 +486,7 @@ public sealed class TarotWorkspaceViewModelTests
         TarotPrototypeSelections.BackVariants,
         artworkPacks,
         TarotPrototypeSelections.PresentationSkinId,
-        TarotPrototypeSelections.InterpretationSetId,
+        TarotPrototypeSelections.InterpretationPackId,
         TarotWorkspacePreferences.CreateDefault());
 
     private sealed class SequenceRandomSource(params int[] values) : ITarotRandomSource

@@ -11,7 +11,7 @@ public sealed class StandardTarotCatalogTests
         var artworkId = new TarotArtworkPackId("prototype-symbolic");
         var skinId = new TarotPresentationSkinId("astral-archive-prototype");
         var backId = new TarotBackVariantId("black-sun");
-        var interpretationId = new TarotInterpretationSetId("foundation");
+        var interpretationId = new TarotInterpretationPackId("classic");
         var idTypes = new object[] { deckId, artworkId, skinId, backId, interpretationId }
             .Select(value => value.GetType())
             .ToArray();
@@ -21,7 +21,7 @@ public sealed class StandardTarotCatalogTests
         Assert.Equal("prototype-symbolic", artworkId.Value);
         Assert.Equal("astral-archive-prototype", skinId.Value);
         Assert.Equal("black-sun", backId.Value);
-        Assert.Equal("foundation", interpretationId.Value);
+        Assert.Equal("classic", interpretationId.Value);
     }
 
     [Theory]

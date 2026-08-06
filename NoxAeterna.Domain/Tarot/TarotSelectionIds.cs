@@ -39,11 +39,11 @@ public sealed record TarotBackVariantId
     public override string ToString() => Value;
 }
 
-/// <summary>Identifies an interpretation set independently from semantic and visual packs.</summary>
-public sealed record TarotInterpretationSetId
+/// <summary>Identifies an interpretation pack independently from semantic and visual packs.</summary>
+public sealed record TarotInterpretationPackId
 {
-    /// <summary>Initializes a validated stable interpretation-set identifier.</summary>
-    public TarotInterpretationSetId(string value) => Value = StableTarotId.Normalize(value, nameof(value));
+    /// <summary>Initializes a validated stable interpretation-pack identifier.</summary>
+    public TarotInterpretationPackId(string value) => Value = StableTarotId.Normalize(value, nameof(value));
 
     /// <summary>Gets the stable identifier value.</summary>
     public string Value { get; }

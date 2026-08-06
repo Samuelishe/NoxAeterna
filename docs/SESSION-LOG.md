@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-06: INT0-I1 Tarot Interpretation Pack Identity and Schema Contracts
+
+- Reconciled accepted D4 checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e` and green run `31095939556`; migrated Set/foundation to Pack/classic without a compatibility identity.
+- Added raw and immutable validated manifest/content/index contracts, exact JSON/enums, canonical keys/pairs, typed diagnostics/results, and the focused `Interpretation` route while retaining 16 context evaluations.
+- No filesystem, resolver, cache, UI, settings-v2, selector, resources, prose, corpus, or authoring work was added; INT0-I2 follows hosted I1 acceptance.
+
 ## 2026-08-06: INT0-D4 Final Schema Reconciliation and Implementation Handoff
 
 - Reconciled the four canonical Tarot interpretation owners after accepted D3 checkpoint `67218ccc071719f6425da84b6579c550e4e6b0b6` and green hosted run `31093430806`; froze common JSON/version/hash schemas, typed absence/cache, production/working separation, and exact layer boundaries.

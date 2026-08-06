@@ -87,7 +87,7 @@ public partial class MainWindow : Window
 #if DEBUG
         tarotRandomSource = DebugTarotSmokeRandomSource.CreateFromEnvironment() ?? tarotRandomSource;
 #endif
-        _tarotWorkspaceViewModel = TarotWorkspaceViewModel.CreateFoundation(
+        _tarotWorkspaceViewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(tarotRandomSource),
             _tarotArtworkPackCatalog.AvailableOptions,
             _userPreferences.Tarot);

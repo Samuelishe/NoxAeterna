@@ -9,7 +9,7 @@
 
 ## Scope and Owner Hierarchy
 
-This document freezes the shared implementation contract approved after INT0-D1 through D3. It does not implement a runtime, write corpus content, create `resources/interpretation/**`, or claim that target behavior already exists.
+This document freezes the shared implementation contract approved in INT0-D1 through D4. D4 is accepted at checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e`; hosted run `31095939556` passed all five jobs. INT0-I1 now implements the pure contract subset without adding runtime, corpus content, or `resources/interpretation/**`.
 
 | Owner | Canonical responsibility |
 | --- | --- |
@@ -24,9 +24,9 @@ Other documents may summarize or link these decisions, but do not become competi
 
 ### Current Implementation Versus Target
 
-Current code still uses `TarotInterpretationSetId`, `InterpretationSetId`, and the prose-free `foundation` identity. It has settings schema 1, no interpretation-pack selector, manifest, resolver, cache, or production Tarot corpus, and it shows `ui.tarot.interpretation.unavailable` after a reveal. The two placeholder files under `resources/localization/interpretation/` are not the target pack format.
+Current code now uses `TarotInterpretationPackId`, `InterpretationPackId`, and the prose-free `classic` identity. `NoxAeterna.Interpretation` implements schema-v1 raw documents, immutable validated contracts, exact in-memory JSON, stable enums/IDs, canonical keys/pairs, typed diagnostics, and `Resolved`/`NoContent` contracts. These are contracts only: no manifest file is loaded and no resolver or cache exists.
 
-The frozen target uses `TarotInterpretationPackId`, `InterpretationPackId`, default `classic`, a pack selector, settings schema 2, typed resolution, a silent empty host, and indexed pack resources. These are implementation requirements, not current-runtime claims.
+The application still has settings schema 1, no interpretation-pack selector, filesystem source, resolver, cache, or production Tarot corpus, and it still shows `ui.tarot.interpretation.unavailable` after a reveal. The two placeholder files under `resources/localization/interpretation/` are not the target pack format. Settings schema 2, selector wiring, silent host, and indexed pack resources remain later implementation requirements.
 
 ## Common JSON Contract
 
@@ -383,7 +383,7 @@ Working files never enter package indexes or application output. Built-in source
 
 ### Set/Foundation to Pack/Classic
 
-The first implementation wave replaces `TarotInterpretationSetId` with `TarotInterpretationPackId`, changes ViewModel and property terminology from Set to Pack, removes the `foundation` placeholder identity, and defaults to `classic`. It does not preserve parallel Set and Pack concepts. Semantic deck, artwork, skin, and back identities remain independent. Compile-time coverage must prove the migration; saved-reading compatibility is not required because readings are not persisted.
+INT0-I1 replaced the former Set identity and terminology with `TarotInterpretationPackId`/Pack, removed the former placeholder identity, and made `classic` the active compile-time identity without a compatibility alias. Semantic deck, artwork, skin, and back identities remain independent. Focused compile-time and source-boundary tests cover the migration; saved-reading compatibility was not required because readings are not persisted.
 
 ### Settings Schema 2
 
@@ -484,6 +484,8 @@ Every approved D1–D3 area has an implementation stage or an explicit independe
 
 ## Staged Implementation Roadmap
 
+Implementation status after local INT0-I1: I1 is complete locally and awaits owner commit/push plus hosted verification; I2 is next. I1 added no filesystem, UI, settings-v2, selector, resources, or corpus work.
+
 | Stage | Scope | Primary gates |
 | --- | --- | --- |
 | **INT0-I1 — Pack Identity and Schema Contracts** | Rename Set → Pack; add `classic`; manifest/content/index DTOs, enums, canonical keys, typed results, and pure validation models. No filesystem, UI, or production pack. | Domain/Interpretation boundaries; JSON round trips; canonical-pair keys; schema validation; no Avalonia or file I/O in Interpretation core. |
@@ -500,17 +502,17 @@ Every approved D1–D3 area has an implementation stage or an explicit independe
 
 Stages are deliberately bounded and are not combined into one implementation task. English translation follows a stabilized Russian single-card module; the 12,012-pair authoring wave does not precede the single-card foundation.
 
-## First Implementation Handoff
+## Current Implementation Handoff
 
-The immediate next implementation stage after owner acceptance and hosted-green D4 evidence is:
+The immediate next implementation stage after owner acceptance and hosted-green I1 evidence is:
 
 ```text
-INT0-I1 — Pack Identity and Schema Contracts
+INT0-I2 — Validator and Index Tooling
 ```
 
-Its scope is only the Set→Pack identity migration, `classic` identity, pure manifest/content/index contracts, canonical enums/keys, typed resolution result, and pure validation models with focused tests.
+Its scope is repository validation/index tooling over synthetic fixtures: content/path/hash checks, generated indexes, exact inventory checks, and authoring-inventory validation. Production Classic prose remains excluded.
 
-Its explicit exclusions are UI, settings migration, production resources, prose, filesystem/AppData, selector implementation, `two-cards` spread, and corpus authoring. D4 supplies this boundary and its gates; it does not write or execute the future implementation prompt.
+INT0-I1 completed the Pack/classic migration, schema documents, immutable contracts, exact JSON/enums, canonical keys, typed results, and pure validation. Filesystem/AppData sources, resolver/cache behavior, UI, settings migration, production resources, prose, selector implementation, `two-cards`, and corpus authoring remain unimplemented.
 
 ## Independent Deferred Work
 

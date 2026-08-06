@@ -236,7 +236,7 @@ Implemented language-neutral structural card definition:
 
 Meanings, localization, and visual references are deliberately outside the card definition.
 
-Current code has validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `TarotBackVariantId`, and `TarotInterpretationSetId` value objects for independent selections. None is interchangeable with `TarotDeckId`; they add no manifests, asset references, or interpretation content to Domain. The frozen implementation target replaces only Set with `TarotInterpretationPackId`/Pack and default `classic`, as owned by [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
+Current code has validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `TarotBackVariantId`, and `TarotInterpretationPackId` value objects for independent selections. None is interchangeable with `TarotDeckId`; Domain adds no manifests, JSON, readiness, paths, asset references, or interpretation content. The active compile-time interpretation identity is `classic`; catalog and selector behavior remain unimplemented and are staged by [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 ### TarotSpread
 

@@ -85,7 +85,7 @@ Runtime LLM generation is absent. Optional narrative presentation remains downst
 
 ## Tarot INT0 Architecture Status
 
-INT0-D1 and D2 are accepted. INT0-D3 is accepted at checkpoint `67218ccc071719f6425da84b6579c550e4e6b0b6`; hosted run `31093430806` passed all five jobs. INT0-D4 freezes exact serialization, layer allocation, migration, and staged handoff locally in [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md), pending owner commit/push and hosted verification. No Tarot interpretation runtime, `two-cards` spread, production corpus, loader, selector, or authoring tool is implemented.
+INT0-D1–D4 are accepted; D4 checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e` and hosted run `31095939556` passed all five jobs. INT0-I1 implements the pure serialization documents, immutable validated contracts, canonical keys/pairs, diagnostics, and typed result contracts from [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md) locally, pending owner commit/push and hosted verification. No Tarot interpretation runtime, `two-cards` spread, production corpus, filesystem loader, selector, or authoring tool is implemented.
 
 ## Current Implementation Baseline
 
@@ -93,9 +93,9 @@ Literal source inspection confirms:
 
 - Domain provides only `single-card` with position `card` and ordered `three-cards` with positions `past`, `present`, and `future`; no two-card spread exists.
 - `TarotDrawEngine` already draws without replacement and supports explicit upright-only or upright/reversed orientation policies.
-- Current code still has `TarotInterpretationSetId` as a separate typed identity from the semantic deck, artwork pack, presentation skin, and back variant.
-- Presentation currently has a separate `InterpretationLanguagePreference` and a prose-free `foundation` interpretation-set identity. The frozen target migrates Set/foundation to Pack/classic without keeping parallel concepts.
-- `NoxAeterna.Interpretation` currently provides only the project boundary over Domain and Symbolics; it contains no Tarot interpretation runtime.
+- Current code has `TarotInterpretationPackId` as a separate typed identity from the semantic deck, artwork pack, presentation skin, and back variant; the active compile-time value is `classic`.
+- Presentation still has a separate `InterpretationLanguagePreference`, but no pack selector or selected-pack preference; it carries the prose-free `classic` identity only.
+- `NoxAeterna.Interpretation` now provides pure schema-v1 documents, exact in-memory JSON, immutable validation models, canonical keys/pairs, and typed resolution-result contracts over Domain and Symbolics. It contains no resolver, filesystem source, cache, or Tarot prose.
 - `resources/localization/interpretation/ru.json` and `en.json` contain only the early `interpretation.aspect.square` placeholder. They are not an approved production storage format for a future Tarot corpus.
 - The current Tarot UI honestly reports that interpretation content is unavailable.
 
@@ -165,7 +165,7 @@ The earlier hypotheses that pair identity might remain ordered, that 3003 base t
 - **INT5:** meaning-preserving English modules after stabilized Russian sources.
 - **INT6:** future languages through the same readiness and schema family.
 
-The exact bounded order, exclusions, and gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). No implementation or authoring stage has started.
+The exact bounded order, exclusions, and gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). INT0-I1 is complete locally; runtime and authoring stages have not started.
 
 ## Authoring and Validation Direction
 

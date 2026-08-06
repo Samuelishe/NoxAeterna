@@ -20,7 +20,7 @@ public sealed class TarotWorkspaceViewModel
         IEnumerable<TarotBackVariantOption> backVariants,
         IEnumerable<TarotArtworkPackOption> artworkPacks,
         TarotPresentationSkinId presentationSkinId,
-        TarotInterpretationSetId interpretationSetId,
+        TarotInterpretationPackId interpretationPackId,
         TarotWorkspacePreferences initialPreferences)
     {
         this.drawEngine = drawEngine ?? throw new ArgumentNullException(nameof(drawEngine));
@@ -47,7 +47,7 @@ public sealed class TarotWorkspaceViewModel
 
         ArgumentNullException.ThrowIfNull(initialPreferences);
         PresentationSkinId = presentationSkinId ?? throw new ArgumentNullException(nameof(presentationSkinId));
-        InterpretationSetId = interpretationSetId ?? throw new ArgumentNullException(nameof(interpretationSetId));
+        InterpretationPackId = interpretationPackId ?? throw new ArgumentNullException(nameof(interpretationPackId));
         SpreadOptions = Array.AsReadOnly(copiedSpreads);
         BackVariants = Array.AsReadOnly(copiedBacks);
         ArtworkPacks = Array.AsReadOnly(copiedArtworkPacks);
@@ -97,8 +97,8 @@ public sealed class TarotWorkspaceViewModel
     /// <summary>Gets the active prototype presentation-skin identity.</summary>
     public TarotPresentationSkinId PresentationSkinId { get; }
 
-    /// <summary>Gets the foundation interpretation-set identity.</summary>
-    public TarotInterpretationSetId InterpretationSetId { get; }
+    /// <summary>Gets the active interpretation-pack identity.</summary>
+    public TarotInterpretationPackId InterpretationPackId { get; }
 
     /// <summary>Gets the current successful in-memory reading.</summary>
     public TarotReading? CurrentReading { get; private set; }
@@ -137,7 +137,7 @@ public sealed class TarotWorkspaceViewModel
     public LocalizationKey InterpretationUnavailableKey { get; } = new("ui.tarot.interpretation.unavailable");
 
     /// <summary>Creates the default workspace over the real standard deck and spreads.</summary>
-    public static TarotWorkspaceViewModel CreateFoundation(
+    public static TarotWorkspaceViewModel CreateClassic(
         TarotDrawEngine drawEngine,
         IEnumerable<TarotArtworkPackOption>? artworkPacks = null,
         TarotWorkspacePreferences? initialPreferences = null) => new(
@@ -150,7 +150,7 @@ public sealed class TarotWorkspaceViewModel
         TarotPrototypeSelections.BackVariants,
         artworkPacks ?? TarotPrototypeSelections.ArtworkPacks,
         TarotPrototypeSelections.PresentationSkinId,
-        TarotPrototypeSelections.InterpretationSetId,
+        TarotPrototypeSelections.InterpretationPackId,
         initialPreferences ?? TarotWorkspacePreferences.CreateDefault());
 
     /// <summary>Selects a spread and clears a reading that belongs to another spread.</summary>

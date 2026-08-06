@@ -39,6 +39,18 @@
       "milestoneOnly": false
     },
     {
+      "name": "Interpretation",
+      "description": "Tarot interpretation identities, schema contracts, canonical keys, JSON and pure validation.",
+      "kind": "leaf",
+      "category": "core",
+      "tags": ["interpretation", "tarot", "offline"],
+      "testProject": "NoxAeterna.Tests/NoxAeterna.Tests.csproj",
+      "filter": "FullyQualifiedName~NoxAeterna.Tests.Interpretation",
+      "defaultTimeoutSeconds": 240,
+      "hardwareEvidence": false,
+      "milestoneOnly": false
+    },
+    {
       "name": "Astronomy",
       "description": "Astronomy orchestration and chart calculation contracts.",
       "kind": "leaf",
