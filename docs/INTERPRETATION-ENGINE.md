@@ -56,23 +56,11 @@ Operational direction:
 5. Produce structured interpretation blocks.
 6. Optionally produce atmospheric prose from curated lexicon and narrative templates.
 
-## Avoiding Combinatorial Explosion
+## Bounded Corpora and Combinatorial Explosion
 
-Do not create a static rule for every possible combination of planet, sign, house, aspect, transit, lunar phase, and profile context.
+Do not mechanically enumerate effectively unbounded combinations such as every possible planet, sign, house, aspect, transit, lunar phase, and profile context without a meaningful authored reason. Those domains should prefer atomic symbolic fragments, typed modifiers, composition rules, and explicit tension/reinforcement analysis.
 
-Avoid:
-
-- Giant rule tables.
-- Giant if-else systems.
-- Hardcoded every-combination logic.
-
-Instead:
-
-- Store atomic symbolic fragments.
-- Add typed modifiers.
-- Define composition rules.
-- Track tensions and reinforcements.
-- Produce structured blocks with clear contributing factors.
+This rule does not prohibit finite, owner-approved Tarot corpora, exhaustive tables, thousands of manually prepared interpretations, or one authored result for every state in a bounded semantic space. A large curated offline corpus may be an intentional quality strategy. Exact Tarot counts and pair architecture remain INT0-D3 decisions.
 
 ## Output Shape
 
@@ -131,17 +119,9 @@ A hidden card must never influence visible text, titles, keywords, transitions, 
 
 This decision defines presentation visibility only. It does not decide corpus schema, pair ordering, reversed composition, interpretation-set identity, semantic IDs, storage partitioning, or authoring workflow; those remain INT0 decisions.
 
-### Independent Interpretation-Set Boundary
+### Tarot Interpretation-Pack Boundary
 
-Semantic deck, artwork pack, presentation skin, card back, and interpretation set remain independent typed concepts. Interpretation content:
-
-- binds to stable semantic card IDs rather than `lupus-noctis` or another artwork pack;
-- contains no artwork provenance and does not change when artwork, skin, application theme, or card back changes;
-- owns no Avalonia controls, geometry, colors, typography, or layout;
-- must survive UI redesign without corpus rewrites;
-- must not force Presentation to depend on a specific production storage mechanism.
-
-Presentation orchestrates selection and displays a prepared structured interpretation result. It does not own the meaning corpus. Interpretation composes content and must remain independent from Presentation and persistence infrastructure.
+Tarot interpretation packages remain independent from semantic and visual selections. Their canonical identity, capability, readiness, locale resolution, selection, and content-absence rules now belong to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md). This document continues to own the cross-domain structured-first composition boundary; it does not redefine pack runtime policy.
 
 ### Structured-First Meaning
 
@@ -155,18 +135,9 @@ The future contract cannot model upright meanings only. It must account explicit
 - pair interpretation;
 - position-conditioned three-card interpretation.
 
-### Russian-First Authoring
+### Russian-First Authoring and Locale Resolution
 
-The first production corpus is authored in Russian. Mass authoring must not begin before schema and authoring-pipeline approval, including the minimum 156 single-card orientation meanings, the probable 3003 identity pairs, or position-conditioned three-card content.
-
-### Interpretation Locale Selection
-
-UI localization and interpretation localization have different responsibilities and must not share an implicit fallback pipeline. Runtime selects one complete interpretation corpus for one result and never mixes languages within that result. A structured result should retain diagnosable knowledge of the corpus locale actually selected, even if it is not normally displayed.
-
-The owner direction has two future implementation and test phases:
-
-1. **Phase 1 — Russian production corpus only:** `requested locale -> Russian`. Russian, English, and every other UI locale receive the complete Russian interpretation corpus. Runtime must not return empty text or substitute prototype English fragments.
-2. **Phase 2 — complete English corpus exists:** `requested locale -> exact complete locale corpus -> English -> controlled failure only for a damaged built-in corpus`. Russian continues to receive Russian; English receives English; a future complete locale receives itself; an unsupported locale receives English. Languages are never mixed in one result.
+Russian is the primary Tarot authoring locale, but exact entry and translation workflows remain INT0-D2 scope. The approved per-pack/per-mode readiness and `requested -> English -> Russian -> no content` resolution contract belongs only to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
 
 ## Tarot Mode Planning
 
@@ -204,13 +175,13 @@ These are discussion candidates, not an approved schema or implementation contra
 
 ## Preliminary Roadmap
 
-- **INT0 — Interpretation architecture:** **Planning and owner discussion in progress.** Future scope includes typed set identity, schema and storage, ownership, loader/lookup, locale selection and fallback, validation, versioning/migrations, authoring/review workflow, tests, failure behavior, semantic-deck relationship, visual independence, and content granularity for every mode.
+- **INT0 — Interpretation architecture:** **Planning and owner discussion in progress.** INT0-D1 has approved package and localization architecture; INT0-D2 through INT0-D4 still own content/schema, mode/corpus routing, and final implementation handoff.
 - **INT1 — Russian single-card corpus:** 78 cards, upright and reversed, at least 156 orientation entries, machine completeness, and owner-reviewed Russian production content.
 - **INT2 — Two-card runtime and UX:** a new spread identity, two distinct cards, reversal behavior, tableau, combination result panel, localized UI labels, artwork independence, and tests. The 3003-entry corpus must not be authored before INT0 schema approval.
 - **INT3 — Russian pair corpus:** probable 3003 unordered distinct identity pairs, canonical symmetric lookup, approved orientation composition/override strategy, progress inventory, batch authoring, completeness/duplicate validation, and owner review gates. The count is probable scope, not final approval.
 - **INT4 — Russian past/present/future interpretation:** position-conditioned meanings, orientation, transitions, relationships, and compositional synthesis without all-triple enumeration.
-- **INT5 — English corpus:** translate the stabilized Russian corpus while preserving semantic keys and schema; change unsupported-language fallback from Russian to English only after English completeness is proven.
-- **INT6 — Future languages:** reuse schema and validation, select an exact complete locale corpus, otherwise use English, and never change semantic IDs or artwork for language support.
+- **INT5 — English corpus:** translate stabilized Russian modules while preserving semantic keys and schema, then mark each pack/locale/mode module ready through explicit owner-controlled readiness.
+- **INT6 — Future languages:** reuse the approved schema and readiness model without changing semantic IDs or artwork.
 
 INT1–INT6 are not started.
 
@@ -226,32 +197,28 @@ Preliminary requirements, pending detailed INT0 decisions:
 - Generated drafts are separate from accepted production content and never become production automatically.
 - Review status and progress are machine-verifiable; owner review is the acceptance boundary.
 - Draft tooling produces reviewable drafts without writing unreviewed prose directly into production.
-- A missing or damaged built-in entry produces controlled, diagnosable runtime failure rather than silent language mixing, empty output, or invented prose.
+- Missing-content presentation and damaged-ready-module behavior follow the silent contract in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); internal validation remains diagnosable and never invents prose.
 - Corpus versioning is independent from UI theme and artwork version.
 
 ## Open Decisions
 
 The owner and ChatGPT discussion must decide, without INT0-P pre-answering:
 
-1. Identity and metadata of the first production interpretation set.
-2. Schema fields for upright and reversed single-card entries, including required and optional fields.
-3. Short versus expanded output, and whether both are needed.
-4. Whether reversed meaning is independently authored or a structured transformation of upright meaning.
-5. Whether pair identity is definitively unordered.
-6. Canonical pair-key ordering for two semantic IDs.
-7. Whether orientation retains an internal order within an unordered identity pair.
-8. Whether compositional orientation modifiers are sufficient.
-9. Whether selected orientation combinations need explicit override texts.
-10. A pair-entry structure that is meaningfully specific rather than template filler.
-11. Validation of all probable 3003 pair identities and behavior for missing or damaged entries.
-12. Reviewable authoring batch size and progress inventory.
-13. Draft generation boundaries and the draft/review/accepted lifecycle.
-14. Owner-review acceptance mechanics and content QA criteria.
-15. Three-card position modifiers, transition rules, reinforcement/tension rules, synthesis layers, and ownership.
-16. Production storage partitioning, manifest/schema versioning, and migration policy.
-17. Locale representation, corpus completeness definition, and fallback diagnostics.
-18. Tooling boundaries and representative test fixtures.
-19. Optional future narrative formatter boundaries.
-20. Whether interpretation-set selection is visible in the first implementation.
-21. Whether one interpretation set may support multiple semantic decks.
-22. Behavior when an interpretation set supports only some reading modes.
+1. Schema fields for upright and reversed single-card entries, including required and optional fields.
+2. Short versus expanded output, and whether both are needed.
+3. Whether reversed meaning is independently authored or a structured transformation of upright meaning.
+4. Whether pair identity is definitively unordered.
+5. Canonical pair-key ordering for two semantic IDs.
+6. Whether orientation retains an internal order within an unordered identity pair.
+7. Whether compositional orientation modifiers are sufficient.
+8. Whether selected orientation combinations need explicit override texts.
+9. A pair-entry structure that is meaningfully specific rather than template filler.
+10. Validation of all probable 3003 pair identities and behavior for missing or damaged entries.
+11. Reviewable authoring batch size and progress inventory.
+12. Draft generation boundaries and the draft/review/accepted lifecycle.
+13. Owner-review acceptance mechanics and content QA criteria.
+14. Three-card position modifiers, transition rules, reinforcement/tension rules, synthesis layers, and ownership.
+15. Production storage partitioning, manifest/schema versioning, and migration policy.
+16. Tooling boundaries and representative test fixtures.
+17. Optional future narrative formatter boundaries.
+18. Exact semantic-deck capability declaration for an interpretation pack.

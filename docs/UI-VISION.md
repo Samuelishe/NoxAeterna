@@ -94,6 +94,8 @@ Current Tarot direction:
 - the selected-card metadata inspector is absent from production UI; selection remains available for card state, keyboard focus, accessibility, and future navigation;
 - auto reveal defaults on; manual mode reveals one activated position at a time, and hidden cards never leak future meaning content;
 - language, theme, spread, artwork, back, reversal, and auto-reveal preferences persist in AppData JSON, while current reading, revealed positions, and selection remain session-only.
+- artwork, interpretation pack, back, spread, application theme, and interpretation language remain independent selections; changing pack or interpretation language will re-resolve currently visible meaning immediately without redrawing cards or resetting reveals;
+- after real interpretation runtime begins, absent content is silent: the host is empty with no heading, empty surface, placeholder, fallback explanation, or diagnostic banner. The current unavailable placeholder is removed at that implementation gate; canonical resolution behavior belongs to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
 
 Current birth-input direction:
 
@@ -122,6 +124,7 @@ Current settings direction:
 - the shell hosts a minimal settings section whose language and theme changes save immediately through one App-owned preference coordinator;
 - settings use a versioned platform AppData JSON document and restore theme before MainWindow construction;
 - real settings UX can continue to arrive incrementally without duplicating Tarot-local controls;
+- future settings add one confirmed `Сбросить настройки` action for all preferences and one `Открыть папку данных приложения` action for the `<LocalApplicationData>/NoxAeterna` root; Open AppData remains the existing AP1 deliverable rather than a second plan;
 - localization now loads from JSON UI catalogs;
 - dark/light theme switching now works through `ThemeId`-driven Avalonia resource dictionaries;
 - saved readings, profiles, history, SQLite, and other persistence remain deferred; settings use the same semantic cards, editors, popup states, and focus language as the main workspace.

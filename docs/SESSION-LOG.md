@@ -9,6 +9,10 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-06: INT0-D1 Tarot Interpretation Pack and Locale Resolution Architecture
+
+- Documentation-only: established the canonical plugin-like `classic` pack, manual pack/locale/mode readiness, silent EN/RU fallback, partial-pack and spread independence, persisted selection plus linked AppData/reset plans, and tableau-size debt; no schema, content, or runtime implementation.
+
 ## 2026-08-06: T-UX1A Unified Tarot Reading Surface and Persisted Reveal Preferences
 
 Summary:

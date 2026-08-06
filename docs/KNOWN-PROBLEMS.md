@@ -45,7 +45,7 @@ A full 78-card deck is large. MVP should avoid committing to full illustrated de
 
 ## Interpretation Combinatorial Explosion
 
-The interpretation engine can become unmaintainable if it hardcodes every possible factor combination. It must stay layered and compositional.
+The interpretation engine can become unmaintainable if it mechanically hardcodes an effectively unbounded space of astrology factors. It should stay layered and compositional for that problem. This risk does not prohibit bounded, owner-approved exhaustive Tarot corpora or thousands of curated authored results; the distinction is owned by [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md).
 
 ## Extreme Planet Cluster Presentation
 

@@ -19,6 +19,7 @@ Use this file to decide what to read next without opening every document.
 | `GEOMETRY-ENGINE.md` | Chart geometry responsibilities, angular math, radial layout, collision avoidance, render-independent geometry models, rendering handoff. | Implementing chart layout or hit testing. |
 | `RENDERING-ENGINE.md` | Avalonia rendering approach, drawing models, DPI awareness, export direction, asset constraints. | Building chart rendering or visual export. |
 | `INTERPRETATION-ENGINE.md` | Structured-first interpretation pipeline, symbolic fragments, modifiers, block composition, narrative layer limits. | Implementing user-facing meanings or interpretation APIs. |
+| [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md) | Canonical Tarot interpretation-pack identity/boundaries, capabilities, manifest direction, locale/module readiness, fallback, selection, and silent partial-content behavior. | Designing Tarot pack discovery, capabilities, locale resolution, or partial-package behavior. |
 | `SYMBOLICS.md` | Typed symbolic catalog direction, archetypes, correspondences, relationships, source curation. | Adding structured symbolic knowledge. |
 | `TAROT-ENGINE.md` | Tarot module goals, card model, spreads, readings, profile and transit context. | Implementing Tarot features. |
 | `PERSISTENCE.md` | SQLite direction, repository principles, archive/history needs, migration concerns. | Designing storage, repositories, or migrations. |

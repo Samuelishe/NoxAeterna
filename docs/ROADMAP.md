@@ -70,7 +70,12 @@ Cards use exact `1.5×` widths inside one unified vertically scrolling reading s
 
 Status: **Planning and owner discussion in progress**.
 
-Define and approve interpretation-set identity usage, schema and storage direction, content ownership, loader/lookup, locale selection and fallback, validation, versioning/migrations, authoring and review workflow, tests, failure behavior, semantic-deck relationship, independence from artwork/presentation, and content granularity for supported modes. INT0-P records constraints, hypotheses, and open decisions; it does not finalize them.
+INT0 is four consecutive documentation passes; completing one pass does not complete INT0:
+
+1. **INT0-D1 — package and localization architecture:** **Documentation complete.** Own independent plugin-like interpretation packs, `classic`, locale/mode readiness, silent fallback/absence, spread independence, selection refresh, preference direction, and implementation gates in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md). No runtime was implemented.
+2. **INT0-D2 — Classic content and tags:** **Next.** Approve the Classic single-card content contract, tag model, valence/intensity, Russian-source authoring, translation workflow, and related validation boundaries.
+3. **INT0-D3 — modes, exhaustive corpora, and routing:** **Not started.** Approve pair and three-card mode contracts, bounded exhaustive corpora, orientation strategy, synthesis, and content routing.
+4. **INT0-D4 — final reconciliation and implementation handoff:** **Not started.** Reconcile the complete INT0 owner set, remove remaining ambiguity, and prepare bounded implementation stages.
 
 ### INT1 — Russian Single-Card Corpus
 
@@ -100,10 +105,16 @@ Compose position-conditioned card meaning, orientation, relationship transitions
 
 Status: **Not started**.
 
-Translate the stabilized Russian production corpus while preserving semantic keys and schema. Unsupported-language interpretation fallback changes from Russian to English only after the English corpus is complete.
+Translate stabilized Russian modules while preserving semantic keys and schema. English readiness is declared independently for each pack/locale/mode module; runtime fallback already follows the canonical pack-level chain rather than waiting for every English mode to complete together.
 
 ### INT6 — Future Languages
 
 Status: **Not started**.
 
-Reuse the approved schema and validation, select an exact complete locale corpus when available, otherwise fall back to English, and make no language-specific change to semantic IDs or artwork.
+Reuse the approved schema and manual module-readiness model, follow the canonical per-mode locale chain, and make no language-specific change to semantic IDs or artwork.
+
+### Future Mode — Celtic Cross
+
+Status: **Not started**.
+
+Celtic Cross becomes available when its Domain, Presentation, and UI mode is implemented, independently from interpretation-pack completeness. Its larger card count needs smaller surfaces than single-, two-, and three-card modes; exact layout and dimensions belong to a separate UX design stage. Interpretation is a separate `celtic-cross` mode module. INT0-D1 starts no Celtic Cross semantics or implementation.

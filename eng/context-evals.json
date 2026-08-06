@@ -74,6 +74,14 @@
       "maxSelectedFiles": 7, "maxSelectedChars": 70000
     },
     {
+      "name": "planned-tarot-interpretation-pack-change", "task": "CodeChange",
+      "paths": ["NoxAeterna.Interpretation/Tarot/TarotInterpretationPackResolver.cs"], "budgetChars": 80000,
+      "mustInclude": ["docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/INTERPRETATION-ENGINE.md", "docs/SYMBOLICS.md", "docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-ENGINE.md"],
+      "mustExclude": ["docs/archive/**", "docs/RENDERING-ENGINE.md"],
+      "expectedMatchedRules": ["interpretation", "tarot-interpretation-packs"], "expectedTestRoutes": [], "forbiddenTestRoutes": ["Rendering"],
+      "maxSelectedFiles": 8, "maxSelectedChars": 80000
+    },
+    {
       "name": "project-stats-tooling", "task": "Tooling",
       "paths": ["NoxAeterna.Tools.Repository/Stats/ProjectStatsAnalyzer.cs"], "budgetChars": 100000,
       "mustInclude": ["NoxAeterna.Tools.Repository/Stats/ProjectStatsAnalyzer.cs", "docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/TEST-EXECUTION.md", "docs/DOCUMENTATION-GOVERNANCE.md", "docs/PROJECT-STATS.md"],

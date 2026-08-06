@@ -161,6 +161,13 @@
       "testRoutes": []
     },
     {
+      "name": "tarot-interpretation-packs", "priority": 90,
+      "patterns": ["NoxAeterna.Interpretation/Tarot/**", "NoxAeterna.Presentation/Tarot/*Interpretation*", "NoxAeterna.App/Tarot/*Interpretation*", "NoxAeterna.Tests/Interpretation/Tarot/**", "NoxAeterna.Tests/Presentation/*TarotInterpretation*", "NoxAeterna.Tests/App/*TarotInterpretation*", "docs/TAROT-INTERPRETATION-PACKS.md"],
+      "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "Documentation"],
+      "documents": ["docs/TAROT-INTERPRETATION-PACKS.md", "docs/INTERPRETATION-ENGINE.md", "docs/TAROT-ENGINE.md"],
+      "testRoutes": []
+    },
+    {
       "name": "persistence-production", "priority": 100,
       "patterns": ["NoxAeterna.Persistence/**", "NoxAeterna.Tests/Persistence/**"],
       "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange"],

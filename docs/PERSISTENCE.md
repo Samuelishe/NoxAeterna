@@ -117,3 +117,14 @@ Theme is loaded and applied before MainWindow is created. A DEBUG-only injected 
 ## Deferred Persistence Areas
 
 Birth-data input, profiles, saved readings, reading history, interpretations, archive data, SQLite, repositories, and a migrations framework remain deferred. The settings JSON foundation does not select the later SQLite design.
+
+## Approved Settings Direction
+
+A future settings schema adds `selectedInterpretationPackId`. It defaults to `classic`, restores at startup, and changes when the user selects another interpretation pack. It persists only the selected stable ID: current interpretation text is not settings state, and a resolved fallback locale is runtime provenance rather than a user preference. Pack selection and resolution semantics belong to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
+
+Settings also gains two shared actions:
+
+- **`Сбросить настройки` / Reset settings:** one application-wide button restores all application preferences from program defaults. It has a normal confirmation step and no separate reset buttons per section. It does not delete artwork packs, user content, or saved readings without another explicit decision.
+- **`Открыть папку данных приложения` / Open application data folder:** opens the `<LocalApplicationData>/NoxAeterna` root, not only `settings.json`. This action already belongs to the AP1 plan in [`ASSET-PACK-RUNTIME.md`](ASSET-PACK-RUNTIME.md#completion-gates-and-staged-roadmap); this settings direction links to that plan rather than creating a competing implementation stage.
+
+Neither action is implemented by INT0-D1.

@@ -54,13 +54,15 @@ Two immutable definitions exist:
 - `single-card` with internal position ID `card`;
 - `three-cards` with ordered internal position IDs `past`, `present`, and `future`.
 
-These IDs are semantic keys, not user-facing labels. Spreads contain no Avalonia geometry, pixel coordinates, localized names, or meanings. Celtic Cross remains future scope.
+These IDs are semantic keys, not user-facing labels. Spreads contain no Avalonia geometry, pixel coordinates, localized names, or meanings. A spread becomes selectable when its Domain, Presentation, and UI behavior is implemented; interpretation-pack completeness never gates it. The canonical pack/mode relationship belongs to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
+
+Celtic Cross remains future scope. Its larger card count will require smaller card surfaces than the single-, two-, and three-card modes; exact layout and dimensions belong to a separate UX design stage. Its meanings will be a separate interpretation mode module, and neither semantics nor implementation begins in INT0-D1.
 
 The planned two-card combination mode does not exist in Domain or UI. Owner direction is to draw exactly two distinct cards without replacement and make the primary result one pair meaning, not necessarily a positional “card 1/card 2” model. Pair ordering, canonical identity, orientation composition, schema, and content granularity remain INT0 open decisions owned by [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md).
 
 ## Boundary With Meaning and Presentation
 
-Domain contains no Russian or English display names, UI labels, localized strings, meanings, keywords, interpretation text, astrology correspondences, layout geometry, or persistence. It owns semantic cards, spreads, unique assignments, and typed orientation. `NoxAeterna.Interpretation` owns future structured meaning composition but currently contains only its project boundary and no Tarot runtime or corpus. Presentation orchestrates selections and will display prepared results without owning prose or depending on a concrete corpus storage format. Artwork remains a visual mapping only. General interpretation architecture and the INT0 planning state belong to [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md).
+Domain contains no Russian or English display names, UI labels, localized strings, meanings, keywords, interpretation text, astrology correspondences, layout geometry, or persistence. It owns semantic cards, spreads, unique assignments, and typed orientation. `NoxAeterna.Interpretation` owns future structured meaning composition but currently contains only its project boundary and no Tarot runtime or corpus. Presentation orchestrates selections and will display prepared results without owning prose or depending on a concrete corpus storage format. Artwork remains a visual mapping only. General structured interpretation belongs to [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md); Tarot pack identity, readiness, fallback, and silent absence belong to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
 
 ## T1 Playable Workspace
 
@@ -76,7 +78,7 @@ The fixed control panel sits above one stretching reading surface. That surface 
 
 Auto reveal defaults to `true`. A successful draw then reveals every position immediately. When disabled, a new draw starts entirely face-down and each card activation reveals only that position. Changing the toggle affects later draws only: it neither reveals nor hides the current reading, resets selection, nor changes the immutable Domain result. Draw failure clears reading, selection, and revealed state.
 
-Until a real corpus exists, the interpretation host stays empty with no reading or with no revealed cards. After at least one reveal it shows the existing localized unavailable message directly below the tableau in supporting presentation, without a separate inspector surface or visible interpretation heading.
+Until a real corpus exists, the current implementation keeps the interpretation host empty with no reading or revealed cards and shows the localized unavailable message after a reveal. This is a temporary honest placeholder, not the future missing-content policy. The first real interpretation implementation stage removes `ui.tarot.interpretation.unavailable` from production UI; thereafter no displayable content means an empty host with no heading, bordered surface, placeholder, or diagnostic copy, as defined by [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
 
 Application language, interpretation language, theme, selected spread, Lupus Noctis ID, back ID, reversal policy, and auto-reveal policy are persisted together in the versioned AppData `settings.json`. Current readings, revealed positions, selection, and scroll state remain session-only.
 
@@ -98,7 +100,7 @@ TAROT-ART-RUNTIME-1 subsequently made Lupus Noctis the sole default user-facing 
 - Draws are without replacement and already support upright and reversed orientation.
 - The foundation interpretation set contains no prose, and the UI reports interpretation unavailability.
 - No two-card spread, Tarot interpretation runtime, production schema, or Tarot meaning corpus exists.
-- INT0 planning and owner discussion are in progress; no implementation begins until the owner approves the open architecture decisions.
+- INT0-D1 package/localization documentation is complete, while INT0 owner discussion remains in progress and INT0-D2 is next. No selector, manifest, runtime, schema, or corpus implementation was added.
 
 ## Asset Direction
 

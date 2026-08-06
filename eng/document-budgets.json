@@ -49,6 +49,11 @@
       "archiveDestination": "docs/archive/session-log"
     },
     {
+      "path": "docs/TAROT-INTERPRETATION-PACKS.md",
+      "hardLimit": 16000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
       "path": "docs/TEST-EXECUTION.md",
       "hardLimit": 16000,
       "overflowStrategy": "manual-reconcile"

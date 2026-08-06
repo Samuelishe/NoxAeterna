@@ -554,3 +554,59 @@ Decision: Keep Lupus Noctis as the sole user-facing built-in Tarot artwork pack 
 Reason: Silent prototype fallback would misrepresent a damaged required built-in contract and weaken the accepted TAROT-ART-RUNTIME-1 behavior.
 
 Consequences: Draw is disabled with a localized controlled diagnostic; `prototype-symbolic` remains only an internal test/diagnostic seam.
+
+## 2026-08-06: Ship Tarot Interpretations as Independent Selectable Data Packs
+
+Decision: Use non-executable interpretation data packs independently from artwork, semantic deck, skin, back, theme, profile, reading, and UI layout; make `classic` (`Классика` / `Classic`) the future default.
+
+Reason: Meaning systems and visual/application selections must evolve and switch independently.
+
+Consequences: Stable language-neutral pack IDs and localized names support multiple selectable packs without changing drawn cards.
+
+## 2026-08-06: Declare Locale Readiness Per Pack and Mode
+
+Decision: Declare one manual `ready` flag per interpretation pack, locale, and reading-mode module, with no per-entry readiness.
+
+Reason: Intentional partial publication needs an explicit coarse owner-controlled boundary.
+
+Consequences: Runtime and validators never infer or mutate readiness; partial packs and unfinished locales remain selectable.
+
+## 2026-08-06: Resolve Tarot Interpretation Locales Through English and Russian
+
+Decision: Resolve each mode module through the deduplicated chain `requested locale -> English -> Russian -> no displayable content`.
+
+Reason: Predictable fallback must support partial locale progress without mixing languages inside one result.
+
+Consequences: One resolved mode result uses one locale for all of its content.
+
+## 2026-08-06: Do Not Fall Back From a Damaged Ready Module
+
+Decision: If a module declared ready has missing, unreadable, or incomplete required content, return no displayable interpretation and do not try another locale.
+
+Reason: Locale fallback must not mask a broken published module.
+
+Consequences: Internal diagnostics may identify the damage, while the application remains operational.
+
+## 2026-08-06: Keep Missing Tarot Interpretation Content Silent
+
+Decision: Show no placeholder, unavailable message, fallback explanation, empty surface, heading, or technical banner when interpretation content is absent.
+
+Reason: Package and localization implementation details are not useful reading content.
+
+Consequences: The interpretation host stays empty; resolved locale and diagnostics remain internal evidence only.
+
+## 2026-08-06: Keep Reading Modes Independent From Interpretation Completeness
+
+Decision: Make a spread available when its Domain, Presentation, and UI behavior is implemented, regardless of pack content.
+
+Reason: Card-reading capability must not be blocked by an incomplete meaning corpus.
+
+Consequences: Unsupported modes still draw and present cards while their interpretation host remains empty.
+
+## 2026-08-06: Persist Interpretation-Pack Selection and Re-Resolve Immediately
+
+Decision: Persist the selected interpretation-pack ID and immediately re-resolve visible content when the pack or interpretation language changes.
+
+Reason: Preference continuity and responsive selection must not require a new draw.
+
+Consequences: The current semantic reading, artwork, reveal state, and hidden-card policy remain unchanged; fallback locale and rendered prose are not settings.

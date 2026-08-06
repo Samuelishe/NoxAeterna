@@ -28,6 +28,7 @@
 | `docs/ASTRONOMY-ENGINE.md` | Astronomy contracts | UI and layout | Astronomy |
 | `docs/GEOMETRY-ENGINE.md` | Render-independent chart geometry | Avalonia styling | Geometry |
 | `docs/RENDERING-ENGINE.md` | Renderer contracts | Astronomy | Rendering |
+| `docs/TAROT-INTERPRETATION-PACKS.md` | Tarot interpretation-pack identity/boundaries, capabilities and manifest direction, readiness, locale resolution, selection, and partial/missing-content behavior | Entry schema, authored content, Avalonia layout, artwork, and general persistence | Tarot interpretation-pack or locale-resolution work |
 | `docs/NEXT-STEPS.md` | Immediate forward queue | Current checkpoint and history | Planning |
 | `docs/DECISIONS-LOG.md` | Durable decisions | Chronology and current status | Decision review |
 | `docs/SESSION-LOG.md` | Bounded current-wave chronology | Current truth and architecture | Recent provenance |
