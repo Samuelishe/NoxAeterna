@@ -51,6 +51,8 @@ Keep the ownership distinction clear:
 
 This document owns the general platform-data rule. Pack discovery, synchronization, no-delete behavior, fingerprints, and import are not persistence contracts and belong only to the asset-pack runtime owner.
 
+Future installed Tarot interpretation packs use their own `<LocalApplicationData>/NoxAeterna/interpretation/tarot/` root, independent from artwork-pack directories. Repository source paths, built-in/user subroots, manifests, generated indexes, and lazy routing belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); interpretation seeding/import still requires later implementation planning rather than inheriting artwork-pack behavior automatically.
+
 ## Responsibilities
 
 Persistence should eventually store:
@@ -117,6 +119,8 @@ Theme is loaded and applied before MainWindow is created. A DEBUG-only injected 
 ## Deferred Persistence Areas
 
 Birth-data input, profiles, saved readings, reading history, interpretations, archive data, SQLite, repositories, and a migrations framework remain deferred. The settings JSON foundation does not select the later SQLite design.
+
+A future saved Tarot reading should be able to retain interpretation pack ID, content version, mode ID, requested/resolved interpretation locales, and semantic card IDs/orientations for provenance. Whether it also archives rendered prose remains an unresolved persistence/history decision.
 
 ## Approved Settings Direction
 

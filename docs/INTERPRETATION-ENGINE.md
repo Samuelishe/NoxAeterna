@@ -60,7 +60,7 @@ Operational direction:
 
 Do not mechanically enumerate effectively unbounded combinations such as every possible planet, sign, house, aspect, transit, lunar phase, and profile context without a meaningful authored reason. Those domains should prefer atomic symbolic fragments, typed modifiers, composition rules, and explicit tension/reinforcement analysis.
 
-This rule does not prohibit finite, owner-approved Tarot corpora, exhaustive tables, thousands of manually prepared interpretations, or one authored result for every state in a bounded semantic space. A large curated offline corpus may be an intentional quality strategy. Exact Tarot counts and pair architecture remain INT0-D3 decisions.
+This rule does not prohibit finite, owner-approved Tarot corpora, exhaustive tables, thousands of manually prepared interpretations, or one authored result for every state in a bounded semantic space. A large curated offline corpus may be an intentional quality strategy. The approved 12,012-state oriented-pair corpus and compositional three-card boundary belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
 ## Output Shape
 
@@ -87,7 +87,7 @@ Runtime LLM generation is absent. Optional narrative presentation remains downst
 
 `INT0 planning and owner discussion in progress`.
 
-INT0-D1 package/localization and INT0-D2 Classic content architecture are approved locally, but they are not a production serialization or completed INT0 contract. No Tarot interpretation runtime, two-card spread, production corpus, corpus storage format, loader, or authoring tool is implemented by this stage. INT0-D3 remains next and INT0-D4 will reconcile the implementation handoff.
+INT0-D1 and INT0-D2 are accepted, including D2 checkpoint `e625b68bb424c589fbc840c600ab377237530434` and green hosted run `31091471397`. INT0-D3 mode/storage/routing architecture is complete locally, but no Tarot interpretation runtime, `two-cards` spread, production corpus, loader, selector, or authoring tool is implemented. INT0-D4 remains the final reconciliation and implementation handoff.
 
 ## Current Implementation Baseline
 
@@ -108,14 +108,14 @@ Literal source inspection confirms:
 Reveal state is a Presentation-owned visibility policy. With auto reveal enabled, every card is revealed after Draw and a future MVP interpretation appears immediately. With auto reveal disabled:
 
 - a single-card interpretation appears only after that card is manually revealed;
-- a future two-card combination may reveal cards separately, but its one pair interpretation appears only after both are revealed;
+- the future non-positional `two-cards` mode may reveal cards separately, but shows no interpretation or tags until both are revealed and never substitutes temporary single-card content;
 - Past / Present / Future may progressively add a position-aware fragment for each revealed card;
 - transition content requires both cards involved in that transition to be revealed;
 - whole-spread synthesis requires all three cards to be revealed.
 
 A hidden card must never influence visible text, titles, keywords, transitions, advice, or diagnostics. Progressive content must not rewrite already visible meaning with information from a card that is still hidden.
 
-This decision defines presentation visibility only. It does not decide corpus schema, pair ordering, reversed composition, interpretation-set identity, semantic IDs, storage partitioning, or authoring workflow; those remain INT0 decisions.
+This cross-layer decision defines the visibility boundary. Exact pair identity, progressive three-card relations, storage, indexes, and authoring inventory are now owned by [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
 ### Tarot Interpretation-Pack Boundary
 
@@ -147,37 +147,23 @@ INT0-D2 approves expanded standalone content with five visible sections, indepen
 
 ### INT2/INT3 — Two-Card Combination Mode
 
-Owner product direction is a separate mode that draws exactly two distinct cards without replacement and interprets the pair primarily as one combination, not necessarily as positional “card 1/card 2” prose. No spread or UI is added during INT0-P.
-
-The mathematical design space is:
-
-- unordered identity pairs: `78 × 77 / 2 = 3003`;
-- ordered identity pairs: `78 × 77 = 6006`;
-- four orientation combinations for a canonical unordered pair: upright/upright, upright/reversed, reversed/upright, reversed/reversed;
-- potential oriented states under that model: `3003 × 4 = 12012`.
-
-`4004` is not a valid scope count.
+The future `two-cards` mode draws two distinct cards without replacement and has no positional roles. It canonicalizes an unordered identity through ordinal semantic-ID order, attaches four orientation states to the canonical card slots, and requires all `3003 × 4 = 12012` states to have independent authored prose. It shows nothing until both cards are revealed. Pair fields, tags, paths, indexes, batching, and validation belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); no spread, runtime, or corpus is added during INT0.
 
 ### INT4 — Past / Present / Future
 
-The implemented `three-cards` spread is ordered as `past`, `present`, `future`. Future interpretation should be compositional rather than manually enumerating every possible ordered triple. Candidate composition layers are base card meaning, orientation meaning, position-conditioned meaning, past-to-present transition, present-to-future transition, reinforcement or tension between cards, and final spread synthesis. Their exact shape and ownership remain open.
+The implemented `three-cards` spread is ordered as `past`, `present`, `future`. Its target interpretation uses 468 independently authored position/orientation entries, all three oriented pair relations including past-future, typed trajectory rules, curated localized fragments, and deterministic synthesis. It deliberately rejects an exhaustive 3,651,648-state oriented triple corpus. Exact contracts belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
-## Working Hypotheses
+## Superseded Pair Hypotheses
 
-These are discussion candidates, not an approved schema or implementation contract:
-
-- Pair identity is likely unordered, with canonical symmetric lookup so `A+B == B+A`.
-- The production corpus is likely to contain 3003 meaningful identity-pair entries.
-- Orientation should not automatically require 12012 independently authored long texts.
-- The likely direction is an identity-level pair meaning composed with orientation modifiers, with the possibility of explicitly approved overrides where composition is insufficient.
+The earlier hypotheses that pair identity might remain ordered, that 3003 base texts could receive orientation modifiers, or that 12,012 independent texts might be unnecessary are superseded by INT0-D3. The durable target is an unordered canonical identity and one independently authored interpretation for each of four orientation states.
 
 ## Preliminary Roadmap
 
-- **INT0 — Interpretation architecture:** **Planning and owner discussion in progress.** INT0-D1 has approved package/localization architecture and INT0-D2 has approved Classic content architecture locally; INT0-D3 and INT0-D4 still own mode/corpus routing, exact storage direction, reconciliation, and implementation handoff.
+- **INT0 — Interpretation architecture:** **Planning and owner discussion in progress.** INT0-D1 and D2 are accepted; INT0-D3 is complete locally pending hosted verification; INT0-D4 owns final reconciliation and implementation handoff.
 - **INT1 — Russian single-card corpus:** 78 cards, upright and reversed, at least 156 orientation entries, machine completeness, and owner-reviewed Russian production content.
-- **INT2 — Two-card runtime and UX:** a new spread identity, two distinct cards, reversal behavior, tableau, combination result panel, localized UI labels, artwork independence, and tests. The 3003-entry corpus must not be authored before INT0 schema approval.
-- **INT3 — Russian pair corpus:** probable 3003 unordered distinct identity pairs, canonical symmetric lookup, approved orientation composition/override strategy, progress inventory, batch authoring, completeness/duplicate validation, and owner review gates. The count is probable scope, not final approval.
-- **INT4 — Russian past/present/future interpretation:** position-conditioned meanings, orientation, transitions, relationships, and compositional synthesis without all-triple enumeration.
+- **INT2 — Two-card runtime and UX:** implement canonical `two-cards`, two distinct cards, reveal gating, tableau/result presentation, localized UI, artwork independence, and tests against the approved mode contract.
+- **INT3 — Russian pair corpus:** author and review exactly 12,012 oriented states over 3003 canonical identities in bounded batches with generated indexes and validation.
+- **INT4 — Russian past/present/future interpretation:** author 468 position entries and curated synthesis resources, then compose all three relations deterministically without triple enumeration.
 - **INT5 — English corpus:** translate stabilized Russian modules while preserving semantic keys and schema, then mark each pack/locale/mode module ready through explicit owner-controlled readiness.
 - **INT6 — Future languages:** reuse the approved schema and readiness model without changing semantic IDs or artwork.
 
@@ -185,31 +171,17 @@ INT1–INT6 are not started.
 
 ## Authoring and Validation Direction
 
-Preliminary requirements, pending detailed INT0 decisions:
+Approved Tarot-specific detail is delegated to the mode owner; the generic engine requirements are:
 
 - Production content is machine-readable and keyed by stable semantic identities.
 - Large corpora do not live in one giant Markdown file. Markdown owns architecture, decisions, workflows, and progress summaries, not thousands of production texts.
-- Storage partitioning and the final format remain unapproved; the current placeholder interpretation JSON does not select them automatically.
+- The current placeholder interpretation JSON is not a production corpus format; approved Tarot source paths and generated index direction belong to the mode owner.
 - Missing and duplicate entries are detected mechanically. Completeness is evaluated against the semantic deck and supported reading mode.
-- If INT0-D3 approves unordered pair identity, it must also approve one canonical representation; no pair ordering decision is made here.
-- Draft/review/accepted direction and owner acceptance belong to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); exact inventories remain INT0-D3 work.
+- Canonical pair identity, orientations, paths, counts, and dependency gates are fixed by the mode owner.
+- Draft/review/accepted quality belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); exact inventories and batching belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 - Missing-content presentation and damaged-ready-module behavior follow the silent contract in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); internal validation remains diagnosable and never invents prose.
 - Corpus versioning is independent from UI theme and artwork version.
 
-## Open Decisions
+## Remaining INT0-D4 Reconciliation
 
-The owner and ChatGPT discussion must decide, without INT0-P pre-answering:
-
-1. Whether pair identity is definitively unordered.
-2. Canonical pair-key ordering for two semantic IDs.
-3. Whether orientation retains an internal order within an unordered identity pair.
-4. Whether compositional orientation modifiers are sufficient.
-5. Whether selected orientation combinations need explicit override texts.
-6. A pair-entry structure that is meaningfully specific rather than template filler.
-7. Validation of all probable 3003 pair identities and behavior for missing or damaged entries.
-8. Exact reviewable batch inventory and storage boundaries.
-9. Three-card position modifiers, transition rules, reinforcement/tension rules, synthesis layers, and ownership.
-10. Production storage partitioning, manifest/schema versioning, and migration policy.
-11. Tooling boundaries and representative test fixtures.
-12. Optional deterministic narrative formatter boundaries.
-13. Exact semantic-deck capability declaration for an interpretation pack.
+INT0-D4 still reconciles exact JSON punctuation/property casing, schema and generated-index version handoff, implementation class boundaries, concrete deterministic rule fixtures, migration/seed staging, and the first bounded implementation prompt. It does not reopen the D3 mode identities, exhaustive pair target, position inventory, locale integrity, or indexed-routing decisions.

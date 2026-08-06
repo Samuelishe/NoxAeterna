@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-06: INT0-D3 Oriented Pair Corpus and Multi-Card Routing Architecture
+
+- Documentation-only: approved unordered ordinal pair identity, exactly 3003 identities and 12,012 independently authored orientation states, plus 468 three-card position entries and a three-relation graph with deterministic corpus-backed synthesis.
+- Fixed canonical mode IDs, progressive reveal/tag behavior, bounded source paths, manifest/index and lazy-routing direction, same-locale dependencies, non-shipped authoring inventory/batches, validation gates, and deferred compositional Celtic Cross scope.
+- Recorded D2 acceptance at `e625b68bb424c589fbc840c600ab377237530434` with green hosted run `31091471397`; created no production corpus, resource directories, runtime, spread, selector, loader, UI, or authoring tool.
+
 ## 2026-08-06: CI-R49-FIX and INT0-D2 Classic Content Architecture
 
 - Repaired run 49's exact `15`-expected/`16`-registered context-evaluation regression by renaming the guard to sixteen and retaining an explicit `16` assertion, all-case checks, and the final `pass` assertion.
@@ -37,6 +43,7 @@ Summary:
 
 - Completed a documentation-only factual baseline after ART-LN had already finished at 78/78. Literal source inspection confirmed the two current spreads, draw-without-replacement and reversed support, independent interpretation-set and language-preference identities, the prose-free foundation set, the empty Interpretation project boundary, placeholder-only interpretation localization JSON, and the UI's honest unavailable-content state.
 - Recorded confirmed cross-layer, structured-first, orientation, Russian-first authoring, and two-phase locale-fallback constraints; separated them from working hypotheses about unordered pair identity, probable 3003 identity entries, and compositional orientation modifiers.
+- Historical supersession: INT0-D3 later replaced those pair hypotheses with exact unordered ordinal identity and 12,012 independently authored orientation states.
 - Collected the unresolved single-card, pair, three-card, schema/storage, localization, authoring/review, validation, failure, tooling, and versioning questions for owner + ChatGPT discussion. INT0 remains planning and discussion in progress.
 
 Scope boundary and next step:

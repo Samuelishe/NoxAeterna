@@ -706,3 +706,131 @@ Decision: Choose actual interpretation fonts later under redistribution, script-
 Reason: Typography roles are approved direction, but no unverified asset should be named or shipped during content architecture.
 
 Consequences: Selected files become documented repository-owned shipped assets; INT0-D2 downloads no font and approves no family.
+
+## 2026-08-06: Standardize Tarot Interpretation Mode IDs
+
+Decision: Use `single-card`, `two-cards`, `three-cards`, and `celtic-cross` as stable mode IDs, normally identical to semantic spread IDs.
+
+Reason: Pack capabilities, readiness, storage, indexes, and saved provenance require one language-neutral routing identity.
+
+Consequences: Earlier singular conceptual examples are superseded; a future positional two-card spread requires another ID and contract.
+
+## 2026-08-06: Make Non-Positional Two-Card Pairs Unordered
+
+Decision: In `two-cards`, draw two distinct cards without positions and treat `A + B` as identical to `B + A`.
+
+Reason: Draw order has no authored semantic role in this mode.
+
+Consequences: Exactly 3003 distinct non-self identities exist, and no interpretation or tags appear before both cards reveal.
+
+## 2026-08-06: Canonicalize Pairs by Ordinal Semantic ID
+
+Decision: Compare complete normalized semantic card ID strings ordinally and case-sensitively; the smaller ID is canonical card A.
+
+Reason: Canonical identity must not depend on display names, artwork, numbers, catalog order, or draw order.
+
+Consequences: Paths, keys, validation, and lookup share one deterministic pair representation.
+
+## 2026-08-06: Attach Pair Orientations to Canonical Card Slots
+
+Decision: Define `upright-upright`, `upright-reversed`, `reversed-upright`, and `reversed-reversed` against canonical cards A and B.
+
+Reason: Orientation must move with its semantic card when input draw order is canonicalized.
+
+Consequences: Every canonical identity has exactly four stable orientation-state keys.
+
+## 2026-08-06: Author All 12012 Oriented Pair States Independently
+
+Decision: Give every `3003 × 4 = 12012` oriented state its own complete reviewed Classic interpretation.
+
+Reason: Base-pair templates, mechanical reversal modifiers, and sparse overrides cannot provide the intended offline quality.
+
+Consequences: Corpus authoring is deliberate multi-week work; runtime generation and shared prose across orientation states are forbidden.
+
+## 2026-08-06: Give Pair Entries Interaction and Direction
+
+Decision: Require `interaction` and `direction` prose, a pair-specific tag pool, and authored overall metrics for every oriented state.
+
+Reason: One field explains the combined dynamic and the other its likely movement or handling without concatenating card meanings.
+
+Consequences: Presentation may show one compact paragraph and four deterministic distinct tags without requiring field headings.
+
+## 2026-08-06: Share One Oriented-Pair Corpus Across Modes
+
+Decision: Store one oriented-pair corpus per pack/locale for `two-cards`, `three-cards` relations, and explicitly approved later composition.
+
+Reason: Duplicating 12,012 texts under every mode would create drift without adding meaning.
+
+Consequences: Ready modes declare same-locale dependencies on the shared corpus and follow broken-ready semantics if it is missing or damaged.
+
+## 2026-08-06: Author 468 Three-Card Position Entries
+
+Decision: Give every card separate past/present/future content for both orientations, totaling `78 × 3 × 2 = 468` entries.
+
+Reason: Position meaning is not a shortened copy of the five-section single-card reading.
+
+Consequences: Each entry owns concise prose, synthesis tags, and authored overall metrics.
+
+## 2026-08-06: Compose Three Cards From Three Pair Relations
+
+Decision: Resolve past-present, present-future, and past-future oriented pair states, then combine them with position entries and typed trajectory rules.
+
+Reason: Adjacent relations alone lose the long arc from past to future.
+
+Consequences: Progressive visibility exposes only fully revealed inputs; past-future remains reserved for complete synthesis.
+
+## 2026-08-06: Reject Exhaustive Triple Prose
+
+Decision: Use deterministic corpus-backed synthesis instead of authoring `78 × 77 × 76 × 8 = 3651648` oriented triple texts.
+
+Reason: Position entries, three pair relations, curated fragments, and typed trajectories provide bounded explainable composition.
+
+Consequences: Synthesis is reproducible, uses no runtime LLM, avoids concatenation/arithmetic averaging, and treats future as direction rather than guaranteed fate.
+
+## 2026-08-06: Show Three Relation-Derived Tags for Complete Three-Card Readings
+
+Decision: Select one distinct tag from each of past-present, present-future, and past-future when enough candidates exist.
+
+Reason: Three compact relation-level signals represent the whole spread better than displaying every card tag.
+
+Consequences: Selection prefers relevance/intensity, deduplicates concepts, never invents absent concepts, and stays stable within a reading/content version.
+
+## 2026-08-06: Store One Bounded Authored State Per File
+
+Decision: Store each single-card state, oriented pair state, three-card position state, vocabulary concept, and synthesis fragment/rule in its own bounded file.
+
+Reason: Giant hand-authored JSON corpora are hard to review, merge, validate, and batch safely.
+
+Consequences: Accepted source uses canonical paths; machine-owned prose-free indexes may contain thousands of routing records.
+
+## 2026-08-06: Route Interpretation Content Through Generated Indexes
+
+Decision: Generate locale indexes with canonical keys, paths, hashes, counts, and routing metadata, then perform direct lazy lookup.
+
+Reason: Runtime must not recursively scan or eagerly load more than 12,000 prose files for each reading or startup.
+
+Consequences: Indexes contain no prose and are never manually authored; fuzzy lookup, file-order semantics, and recursive per-reading search are forbidden.
+
+## 2026-08-06: Resolve Every Mode Result From One Locale
+
+Decision: Resolve locale once for the pack/mode and require every position, pair, synthesis, label, tag, and dependency from that locale.
+
+Reason: Independent dependency fallback would create mixed-language readings and mask damaged ready modules.
+
+Consequences: A missing same-locale dependency in a ready module yields silent no-content without another locale attempt.
+
+## 2026-08-06: Record Reversal Mechanisms as Internal Metadata
+
+Decision: Let reversed entries declare one to three of `blocked`, `delayed`, `internalized`, `excessive`, `distorted`, `resisted`, and `depleted`; upright entries declare none.
+
+Reason: Controlled language-neutral metadata supports authoring consistency, validation, and future synthesis.
+
+Consequences: Mechanisms are not user-facing and never generate or replace independent pair/reversed prose.
+
+## 2026-08-06: Separate Interpretation Source and AppData Roots From Artwork
+
+Decision: Own built-in source under `resources/interpretation/tarot/packs/<pack-id>/` and future installed packs under `<LocalApplicationData>/NoxAeterna/interpretation/tarot/`.
+
+Reason: Interpretation packages have independent identity, content, indexes, versioning, and authoring lifecycle.
+
+Consequences: They never live inside artwork directories; seeding/discovery/import remain later implementation planning, and working drafts stay in a non-shipped source area.

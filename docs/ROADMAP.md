@@ -72,10 +72,10 @@ Status: **Planning and owner discussion in progress**.
 
 INT0 is four consecutive documentation passes; completing one pass does not complete INT0:
 
-1. **INT0-D1 — package and localization architecture:** **Documentation complete.** Own independent plugin-like interpretation packs, `classic`, locale/mode readiness, silent fallback/absence, spread independence, selection refresh, preference direction, and implementation gates in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md). No runtime was implemented.
-2. **INT0-D2 — Classic content and tags:** **Documentation complete locally; pending hosted verification after push.** [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md) owns Classic voice, five-section upright/reversed single-card content, tags and metrics, Russian-source translation, Codex authoring boundaries, quality, and typography direction. No runtime, production content, final serialization, or font asset was added.
-3. **INT0-D3 — modes, exhaustive corpora, and routing:** **Next.** Approve oriented pair and three-card mode contracts, finite exhaustive corpora, orientation strategy, synthesis, exact storage/inventory direction, and content routing.
-4. **INT0-D4 — final reconciliation and implementation handoff:** **Not started.** Reconcile the complete INT0 owner set, remove remaining ambiguity, and prepare bounded implementation stages.
+1. **INT0-D1 — package and localization architecture:** **Accepted.** Own independent plugin-like interpretation packs, `classic`, locale/mode readiness, silent fallback/absence, spread independence, selection refresh, preference direction, and implementation gates in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md). No runtime was implemented.
+2. **INT0-D2 — Classic content and tags:** **Accepted.** Checkpoint `e625b68bb424c589fbc840c600ab377237530434` and hosted run `31091471397` passed all five jobs, including the explicit 16-case repair for run 49. [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md) owns Classic voice, single-card content, tags/metrics, translation, authoring quality, and typography direction.
+3. **INT0-D3 — modes, exhaustive corpora, and routing:** **Documentation complete locally; pending owner commit/push and hosted verification.** [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md) owns stable modes, 3003 unordered identities and 12,012 independently authored oriented states, 468 three-card position entries, relation/synthesis composition, source paths, manifests/indexes, lazy routing, authoring inventory, batching, and validation. No runtime or corpus was added.
+4. **INT0-D4 — final reconciliation and implementation handoff:** **Next.** Reconcile the complete INT0 owner set, finalize remaining serialization/version handoff details, and prepare bounded implementation stages.
 
 ### INT1 — Russian Single-Card Corpus
 
@@ -87,19 +87,19 @@ Author and owner-review Russian upright and reversed meanings for 78 cards, at l
 
 Status: **Not started**.
 
-Add an approved two-card spread identity, draw two distinct cards, support reversal behavior, provide a two-card tableau and combination panel, localize UI labels, preserve artwork independence, and add tests. Do not author the probable 3003-entry corpus before INT0 schema approval.
+Implement the approved non-positional `two-cards` spread, draw two distinct cards, gate meaning until both reveal, provide a combination panel with four tags, localize UI labels, preserve artwork independence, and add tests against canonical ordinal pair/orientation routing.
 
 ### INT3 — Russian Pair Corpus
 
 Status: **Not started**.
 
-Probable scope is 3003 unordered distinct identity pairs with canonical symmetric lookup, an approved orientation composition/override strategy, progress inventory, batch authoring, machine completeness/duplicate validation, and owner review gates. The pair count is a working scope hypothesis, not final implementation approval.
+Author and owner-review all 12,012 independent orientation-state interpretations over exactly 3003 canonical unordered identities, using bounded 24–40-file batches, machine inventory/index generation, completeness/duplicate/hash validation, and the accepted production paths.
 
 ### INT4 — Russian Past / Present / Future Interpretation
 
 Status: **Not started**.
 
-Compose position-conditioned card meaning, orientation, relationship transitions, reinforcement/tension, and spread synthesis without enumerating every ordered triple.
+Author 468 position/orientation entries and curated synthesis resources, then compose past-present, present-future, and past-future relations through deterministic trajectory rules without enumerating 3,651,648 oriented triples.
 
 ### INT5 — English Corpus
 
@@ -117,4 +117,4 @@ Reuse the approved schema and manual module-readiness model, follow the canonica
 
 Status: **Not started**.
 
-Celtic Cross becomes available when its Domain, Presentation, and UI mode is implemented, independently from interpretation-pack completeness. Its larger card count needs smaller surfaces than single-, two-, and three-card modes; exact layout and dimensions belong to a separate UX design stage. Interpretation is a separate `celtic-cross` mode module. INT0-D1 starts no Celtic Cross semantics or implementation.
+Celtic Cross becomes available when its Domain, Presentation, and UI mode is implemented, independently from interpretation-pack completeness. Its larger card count needs smaller surfaces than single-, two-, and three-card modes; exact layout and dimensions belong to a separate UX design stage. Interpretation is a separate compositional `celtic-cross` module. INT0-D3 defines no position names, relation graph, synthesis, layout, or implementation.

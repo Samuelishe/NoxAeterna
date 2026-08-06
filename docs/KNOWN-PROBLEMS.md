@@ -59,7 +59,7 @@ Automated coverage confirms deterministic line occlusion and cluster bounds. V1 
 
 Symbolic sources require careful curation. The project should distinguish traditional, modern, editorial, and experimental meanings.
 
-Classic source bibliography and provenance still require deliberate curation, and a large 156-entry single-card corpus plus later exhaustive mode corpora will require structural, repetition, and style-quality tooling. These are implementation and authoring risks, not blockers to the approved INT0-D2 content architecture.
+Classic source bibliography and provenance still require deliberate curation. The approved 156 single-card entries, 12,012 independently authored oriented pair states, 468 three-card position entries, and synthesis resources require generated indexes plus structural, dependency, repetition, and style-quality tooling. Their scale is deliberate offline quality work and an implementation/authoring risk, not a blocker to the approved INT0-D3 architecture.
 
 ## Licensing
 

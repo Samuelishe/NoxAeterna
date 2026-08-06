@@ -162,9 +162,9 @@
     },
     {
       "name": "tarot-interpretation-packs", "priority": 90,
-      "patterns": ["NoxAeterna.Interpretation/Tarot/**", "NoxAeterna.Presentation/Tarot/*Interpretation*", "NoxAeterna.App/Tarot/*Interpretation*", "NoxAeterna.Tests/Interpretation/Tarot/**", "NoxAeterna.Tests/Presentation/*TarotInterpretation*", "NoxAeterna.Tests/App/*TarotInterpretation*", "docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md"],
+      "patterns": ["NoxAeterna.Interpretation/Tarot/**", "NoxAeterna.Presentation/Tarot/*Interpretation*", "NoxAeterna.App/Tarot/*Interpretation*", "NoxAeterna.Tests/Interpretation/Tarot/**", "NoxAeterna.Tests/Presentation/*TarotInterpretation*", "NoxAeterna.Tests/App/*TarotInterpretation*", "docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md"],
       "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "Documentation"],
-      "documents": ["docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/INTERPRETATION-ENGINE.md", "docs/TAROT-ENGINE.md"],
+      "documents": ["docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md", "docs/INTERPRETATION-ENGINE.md", "docs/TAROT-ENGINE.md"],
       "testRoutes": []
     },
     {

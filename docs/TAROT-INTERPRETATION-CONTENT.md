@@ -5,7 +5,7 @@
 | Role | Canonical authorial and single-card content architecture for Tarot interpretation packs. |
 | Read when | Authoring, translating, reviewing, validating, or presenting Tarot interpretation content and semantic tags. |
 | Authoritative for | Interpretation-pack authorial identity; Classic style guide; single-card content structure; upright/reversed requirements; semantic content sections and visible headings; tag concepts and labels; valence/intensity scales and overall metrics; deterministic tag presentation; Russian-source authoring; translation fidelity; authoring-time Codex use; draft/review/accepted direction; content-quality rules; and future interpretation typography/font direction. |
-| Not authoritative for | Pack discovery, readiness, fallback, missing-content behavior, selector behavior, exact manifests or filesystem paths, pairs, three-card synthesis, mode routing, Avalonia implementation, actual palette or font choice, artwork, or card backs. |
+| Not authoritative for | Pack discovery, readiness, fallback, missing-content behavior, selector behavior, production manifests/filesystem paths/indexes, pairs, three-card synthesis, mode routing, Avalonia implementation, actual palette or font choice, artwork, or card backs. |
 
 ## Authorial Identity and Classic
 
@@ -102,7 +102,7 @@ Each of the 78 cards receives two complete standalone single-card interpretation
 
 Every upright and reversed entry has all five sections, its own candidate tag pool, its own overall valence, and its own overall intensity. Reversed content is not automatic negation, word rearrangement, mechanical insertion of `не`, or an automatically weakened upright entry. It is an independently authored interpretation of the traditional reversed meaning.
 
-Possible internal mechanisms such as `blocked`, `delayed`, `internalized`, `excessive`, `distorted`, or `resisted` are not approved here; orientation and pair routing belong to INT0-D3.
+The optional internal reversed mechanisms `blocked`, `delayed`, `internalized`, `excessive`, `distorted`, `resisted`, and `depleted` are approved and owned by [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md). They support consistency and synthesis without replacing independently authored reversed prose.
 
 ## Semantic Tags
 
@@ -125,7 +125,7 @@ Each pack owns its tag vocabulary and localized display labels. A tag concept is
 
 Each upright/reversed single-card entry has a candidate pool of roughly `5–10` semantic tag assignments. Tags must reflect the entry, differ meaningfully rather than pad the pool with synonyms, and match the orientation.
 
-Single-card UI normally shows a compact subset of `2–4` tags rather than the full pool. These ranges are presentation defaults, not content-completeness validators; pair and three-card counts remain INT0-D3.
+Single-card UI normally shows a compact subset of `2–4` tags rather than the full pool. These ranges are presentation defaults, not content-completeness validators; pair and three-card tag contracts belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
 The subset may vary between different readings, but it is stable for one reading, pack, and content version. It does not change on resize, a UI redraw, tab switch, navigation away/back, language or theme switch, repeated layout, card click, or scroll. A language change preserves selected concept IDs and changes only localized labels. A pack change may select from the new pack's vocabulary while preserving cards and the semantic reading. The seed algorithm remains an implementation decision; non-flickering stability is the contract.
 
@@ -188,7 +188,7 @@ Conceptual lifecycle:
 draft -> reviewed -> accepted production
 ```
 
-Codex may create drafts; the owner remains the acceptance authority for reviewable batches. Acceptance does not require one runtime flag per line. Production content is separated from incomplete drafts, mechanically checkable, versioned in Git, and never appears in the app merely because it exists in a draft location. Exact files, directories, and inventory belong to INT0-D3.
+Codex may create drafts; the owner remains the acceptance authority for reviewable batches. Acceptance does not require one runtime flag per line. Production content is separated from incomplete drafts, mechanically checkable, versioned in Git, and never appears in the app merely because it exists in a draft location. Production/working roots, bounded-file direction, inventories, and batching belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
 Future validation and authoring tools should detect at least:
 
@@ -212,6 +212,6 @@ Interpretation UI implementation includes a separate typography stage for sectio
 
 Selected font files become repository-owned shipped assets. Their provenance and redistribution license must be recorded in `README.md`, [THIRD-PARTY.md](THIRD-PARTY.md), and asset documentation. INT0-D2 selects and downloads no font, changes no palette, and adds no hypothetical third-party entry.
 
-## Deferred to INT0-D3
+## Relationship to Mode Architecture
 
-INT0-D2 does not approve exact production JSON, property names, filesystem layout, filenames, pair ordering or canonical pair filenames, an exact `12,012` oriented-pair architecture, pair/multi-card tag counts, three-card transitions or synthesis, Celtic Cross composition, or runtime routing. Those decisions belong to INT0-D3; INT0-D4 later reconciles the complete architecture for implementation handoff.
+INT0-D3 now owns exact production path patterns, unordered canonical pairs, all 12,012 independently authored orientation states, pair/multi-card tag counts, three-card position/relation/synthesis architecture, Celtic Cross composition direction, indexes, and lazy routing in [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md). INT0-D4 still owns final JSON punctuation/property casing, reconciliation, and implementation handoff. This document continues to own authorial quality and the complete single-card content contract.
