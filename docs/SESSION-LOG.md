@@ -9,6 +9,19 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-06: ART-LN A26 Final Technical Batch Import
+
+Summary:
+
+- Technically imported the seven owner-approved A26 illustrations for `minor.swords.knight`, `minor.pentacles.page`, `minor.wands.three`, `minor.wands.seven`, `minor.wands.ten`, `minor.pentacles.ten`, and `minor.wands.nine`. The owner created and artistically accepted all seven with ChatGPT outside Codex; Codex performed technical import only and did not generate, regenerate, correct, evaluate, or artistically review artwork.
+- Fully decoded each `958 × 1642` handoff PNG, applied only the minimal symmetric center crop of `3 px` from left and right and `5 px` from top and bottom without scaling or stretching, and stored each `952 × 1632` result at its canonical production path. Added concise records, completed the manifest at 78 accepted cards with 0 fallbacks and `partialPack: false`, and removed `studies/A26` after consistency verification.
+- ART-LN standard artwork completion is finished. No A27 artwork batch is pending or required; AP1–AP5 and the other independent roadmap stages were not started automatically.
+
+Verification:
+
+- The A26 consistency audit covers full production PNG decoding, exact dimensions, manifest/record/fixture hashes, the exact standard-78 semantic set, unique semantic IDs and asset paths, canonical production files, seven records, 78 raster resolutions, 0 Lupus Noctis fallbacks, forbidden study/duplicate/backup artifacts, and complete removal of `studies/A26`.
+- The focused `App-Workspace` and `Architecture-Boundaries` routes, documentation validation, and `git diff --check` are the local completion gates. Hosted CI remains unclaimed until the owner commits, pushes, and GitHub Actions completes.
+
 ## 2026-08-05: ART-LN A25 Technical Batch Import
 
 Summary:

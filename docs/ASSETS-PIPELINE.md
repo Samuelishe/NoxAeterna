@@ -126,10 +126,10 @@ Astrological charts should be rendered programmatically.
 
 ## Tarot Art Scope
 
-The full 78-card deck is a large art commitment. The first built-in partial pack proves the controlled scope without presenting an unfinished pack as complete:
+The full 78-card Lupus Noctis deck is complete in the controlled repository structure:
 
-- `Lupus Noctis` ships owner-accepted `952 × 1632` (`7:12`) production illustrations mapped by a versioned pack-local manifest; the exact current inventory belongs to `artwork-pack.json`;
-- omitted semantic cards resolve to the honest programmatic prototype face while retaining their identity and localized overlay;
+- `Lupus Noctis` ships all 78 owner-accepted `952 × 1632` (`7:12`) production illustrations mapped by a versioned complete pack-local manifest; the exact current inventory belongs to `artwork-pack.json`;
+- the complete pack has no omitted semantic cards and uses no partial-pack prototype fallback; the separate Classic prototype remains available;
 - programmatic frame, selection state, title, and reversal transform remain separate from the raster illustration;
 - provenance details belong to `LUPUS-NOCTIS.md` and its linked records, which retain meaning briefs, full prompts, review decisions, hashes, and generation history.
 

@@ -15,7 +15,10 @@
 
 ## Current Status
 
-- Accepted production cards: **71/78**.
+- Accepted production cards: **78/78**.
+- Prototype fallback: **0/78**.
+- Manifest state: `partialPack: false`.
+- The standard Lupus Noctis deck artwork and ART-LN artwork completion are finished; no A27 artwork batch is pending or required for the standard deck.
 - A0: **Rejected**.
 - A1: **Rejected**.
 - A2: **Accepted** as the first production wave.
@@ -160,10 +163,20 @@
   - [`minor.cups.knight`](records/minor/cups/knight.md) — owner acceptance: **Accepted**.
   - [`minor.swords.page`](records/minor/swords/page.md) — owner acceptance: **Accepted**.
   - [`minor.pentacles.six`](records/minor/pentacles/six.md) — owner acceptance: **Accepted**.
+- A26: **Accepted** as the final standard-deck completion batch.
+- A26 creation and acceptance: all seven illustrations were created by the owner together with ChatGPT outside Codex and artistically accepted by the owner before handoff. Codex performed technical import only; it did not generate, regenerate, correct, evaluate, or artistically review the assets.
+- A26 production cards:
+  - [`minor.swords.knight`](records/minor/swords/knight.md) — owner acceptance: **Accepted**.
+  - [`minor.pentacles.page`](records/minor/pentacles/page.md) — owner acceptance: **Accepted**.
+  - [`minor.wands.three`](records/minor/wands/three.md) — owner acceptance: **Accepted**.
+  - [`minor.wands.seven`](records/minor/wands/seven.md) — owner acceptance: **Accepted**.
+  - [`minor.wands.ten`](records/minor/wands/ten.md) — owner acceptance: **Accepted**.
+  - [`minor.pentacles.ten`](records/minor/pentacles/ten.md) — owner acceptance: **Accepted**.
+  - [`minor.wands.nine`](records/minor/wands/nine.md) — owner acceptance: **Accepted**.
 
-The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, and A25 images are shipped production assets listed by `artwork-pack.json`. No accepted-wave study copies remain, A25 no longer awaits handoff, A26 does not start automatically, and no contact sheets belong to this pack.
+The accepted A2, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21, A22, A23, A24, A25, and A26 images are shipped production assets listed by `artwork-pack.json`. No accepted-wave study copies remain, ART-LN standard artwork completion is finished, no A27 artwork batch is pending or required for the standard deck, and no contact sheets belong to this pack.
 
-Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This pack contains **71/78 accepted production cards** and uses fallback for the remaining **7/78** with `partialPack: true` while that staged architecture is implemented independently.
+Runtime discovery, AppData seeding, user-pack behavior, normalization, tooling, and packaging are owned by [`docs/ASSET-PACK-RUNTIME.md`](../../../../../docs/ASSET-PACK-RUNTIME.md). This complete pack contains **78/78 accepted production cards**, uses **0/78** prototype fallbacks, and declares `partialPack: false`; the independent runtime architecture stages remain separate.
 
 ## Artwork Creation and Codex Handoff
 

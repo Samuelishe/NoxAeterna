@@ -11,7 +11,7 @@
     "width": 952,
     "height": 1632
   },
-  "partialPack": true,
+  "partialPack": false,
   "cards": [
     {
       "cardId": "major.death",
@@ -651,6 +651,69 @@
       "sha256": "7d3c22d59151d86973117c0f780d70e5d4ff0c2521e3f23cb98a0aea4f19c222",
       "status": "accepted",
       "generationProvenanceReference": "records/minor/pentacles/six.md"
+    },
+    {
+      "cardId": "minor.swords.knight",
+      "assetPath": "cards/minor/swords/knight.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "addf8c927e529ad3fdf3860358ddc035013548003579bec1a823f4faab29107f",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/swords/knight.md"
+    },
+    {
+      "cardId": "minor.pentacles.page",
+      "assetPath": "cards/minor/pentacles/page.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "ef24e35b5d99c5b4bcd6557acb27565b146b1db04c961226070e53604f286c70",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/page.md"
+    },
+    {
+      "cardId": "minor.wands.three",
+      "assetPath": "cards/minor/wands/three.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "fe16255fbb98314399736fd7911f8bade7343289a8ad708816a3c0eceab098bd",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/three.md"
+    },
+    {
+      "cardId": "minor.wands.seven",
+      "assetPath": "cards/minor/wands/seven.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "4e06ff46b845396b68090ed1bce97dd353f2251c88e46831a8db964230f2231c",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/seven.md"
+    },
+    {
+      "cardId": "minor.wands.ten",
+      "assetPath": "cards/minor/wands/ten.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "1c85c115e67eeb6dc7b558c87534ce8cbd9f73574084e1e6f26f0f296be0ca27",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/ten.md"
+    },
+    {
+      "cardId": "minor.pentacles.ten",
+      "assetPath": "cards/minor/pentacles/ten.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "f37a48c14b6525e1ec08d957c9a7560a1d562e6da714cef07364b905cf6aec08",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/pentacles/ten.md"
+    },
+    {
+      "cardId": "minor.wands.nine",
+      "assetPath": "cards/minor/wands/nine.png",
+      "width": 952,
+      "height": 1632,
+      "sha256": "744b0d36f59f737efd271c4e55f350b30f2d7d22029331d358c8bd3317fe4d94",
+      "status": "accepted",
+      "generationProvenanceReference": "records/minor/wands/nine.md"
     }
   ]
 }

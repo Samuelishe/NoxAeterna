@@ -108,11 +108,18 @@ public sealed class TarotBoundaryTests
             path.Equals("studies/A24", StringComparison.OrdinalIgnoreCase) ||
             path.StartsWith("studies/A24/", StringComparison.OrdinalIgnoreCase) ||
             path.Equals("studies/A25", StringComparison.OrdinalIgnoreCase) ||
-            path.StartsWith("studies/A25/", StringComparison.OrdinalIgnoreCase));
+            path.StartsWith("studies/A25/", StringComparison.OrdinalIgnoreCase) ||
+            path.Equals("studies/A26", StringComparison.OrdinalIgnoreCase) ||
+            path.StartsWith("studies/A26/", StringComparison.OrdinalIgnoreCase));
         Assert.DoesNotContain(relativePaths, path =>
             path.Contains("contact-sheet", StringComparison.OrdinalIgnoreCase) ||
             path.Contains("collage", StringComparison.OrdinalIgnoreCase) ||
             path.Contains("combined-preview", StringComparison.OrdinalIgnoreCase));
+        Assert.DoesNotContain(relativePaths, path =>
+            path.Contains("backup", StringComparison.OrdinalIgnoreCase) ||
+            path.EndsWith(".bak", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("-copy", StringComparison.OrdinalIgnoreCase) ||
+            path.Contains("_copy", StringComparison.OrdinalIgnoreCase));
         Assert.DoesNotContain(relativePaths, path =>
             path.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase) ||
             path.EndsWith(".otf", StringComparison.OrdinalIgnoreCase) ||
@@ -126,6 +133,16 @@ public sealed class TarotBoundaryTests
             .Where(path => path.StartsWith("cards/", StringComparison.Ordinal))
             .Order(StringComparer.Ordinal)
             .ToArray();
+        var duplicateProductionHashes = productionPngPaths
+            .GroupBy(
+                path => Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(
+                    File.ReadAllBytes(Path.Combine(
+                        packRoot,
+                        path.Replace('/', Path.DirectorySeparatorChar))))),
+                StringComparer.Ordinal)
+            .Where(static group => group.Count() > 1)
+            .ToArray();
+        Assert.Empty(duplicateProductionHashes);
         const string canonicalStudyPattern = @"^studies/A[1-9][0-9]*/[^/]+\.png$";
         var studyPngPaths = pngPaths
             .Where(path => System.Text.RegularExpressions.Regex.IsMatch(
