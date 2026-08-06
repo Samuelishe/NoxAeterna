@@ -641,7 +641,7 @@ Decision: Give all 78 cards separate complete upright and reversed single-card i
 
 Reason: Reversal meaning is not reliably expressed by mechanical negation, word order, or automatic weakening.
 
-Consequences: Each orientation owns all five sections, its tag pool, and its overall metrics; exact serialization remains deferred.
+Consequences: Each orientation owns all five sections, its tag pool, and its overall metrics; D4 later froze their common serialization without changing this content decision.
 
 ## 2026-08-06: Separate Tag Meaning Identity From Visible Labels
 
@@ -793,7 +793,7 @@ Decision: Select one distinct tag from each of past-present, present-future, and
 
 Reason: Three compact relation-level signals represent the whole spread better than displaying every card tag.
 
-Consequences: Selection prefers relevance/intensity, deduplicates concepts, never invents absent concepts, and stays stable within a reading/content version.
+Consequences: Selection may prefer authored intensity, deduplicates concepts, never invents absent concepts, and stays stable within a reading/content version; no separate relevance/weight field exists.
 
 ## 2026-08-06: Store One Bounded Authored State Per File
 
@@ -834,3 +834,107 @@ Decision: Own built-in source under `resources/interpretation/tarot/packs/<pack-
 Reason: Interpretation packages have independent identity, content, indexes, versioning, and authoring lifecycle.
 
 Consequences: They never live inside artwork directories; seeding/discovery/import remain later implementation planning, and working drafts stay in a non-shipped source area.
+
+## 2026-08-06: Freeze Common Interpretation JSON Conventions
+
+Decision: Use camelCase UTF-8-without-BOM JSON with one trailing newline, lowercase IDs/enums, package-relative `/` paths, plain-text prose, strict finite values, integer schema versions, and lowercase SHA-256.
+
+Reason: One deterministic data-only format is required across packs, tools, platforms, and runtime validation.
+
+Consequences: Comments, duplicate names, HTML/Markdown contracts, NaN/Infinity, YAML, XML, SQLite source content, and uncontrolled enum values are rejected.
+
+## 2026-08-06: Freeze the Interpretation-Pack Manifest Schema
+
+Decision: Name the manifest `interpretation-pack.json` and require its schema/version, pack/deck/source identity, content version, locales/display names, canonical mode matrix, readiness, index paths, dependencies, and index hashes.
+
+Reason: Discovery and locale/mode resolution need one exact reviewed entry point without per-entry readiness.
+
+Consequences: Every declared locale has every canonical mode entry; missing indexes are allowed only for not-ready modules, while ready modules require all same-locale dependencies.
+
+## 2026-08-06: Freeze Common Entry Fields and Index Keys
+
+Decision: Fix vocabulary, tag-assignment, single-card, oriented-pair, and three-card-position field names plus canonical keys for each corpus.
+
+Reason: Tooling, validation, direct lookup, and independent authoring files cannot depend on provisional property names.
+
+Consequences: Tags use only `conceptId`, `valence`, and `intensity`; keys are `<cardId>|<orientation>`, `<cardAId>__<cardBId>|<orientationState>`, `position|<position>|<cardId>|<orientation>`, and `synthesis|<resourceType>|<resourceId>`.
+
+## 2026-08-06: Use a Manifest-Index-Content SHA Trust Chain
+
+Decision: Let the manifest hash indexes and each index hash exact accepted content bytes; content files contain no self-hash.
+
+Reason: Direct lazy lookup needs deterministic integrity from package entry point to one bounded content file.
+
+Consequences: Runtime validates identity/version/count/hash at each step, and generated indexes remain prose-free and machine-owned.
+
+## 2026-08-06: Version Accepted Interpretation Meaning at Pack Level
+
+Decision: Use a positive monotonic `contentVersion` starting at 1, separate from file and index schema versions.
+
+Reason: Visible prose, labels, tags, metrics, selection, synthesis, caches, and saved provenance need one reviewed meaning identity.
+
+Consequences: Meaning-affecting accepted changes increment it; themes, artwork, backs, layout, and authoring revision metadata do not.
+
+## 2026-08-06: Represent Interpretation Absence With a Typed Result
+
+Decision: Return structured `Resolved` or `NoContent` results rather than require a raw empty-string sentinel.
+
+Reason: Tests and diagnostics need controlled internal reasons while the user-facing host remains silent.
+
+Consequences: `NoContent` may carry internal diagnostics but materializes no prose, placeholder, surface, heading, or technical explanation.
+
+## 2026-08-06: Pair Strict Built-In Acceptance With Silent Runtime Safety
+
+Decision: Fail CI/package acceptance for an incomplete or invalid built-in ready module, while returning silent `NoContent` if an installed ready module is later damaged.
+
+Reason: Repository quality gates must be strict without letting post-package damage crash the application or become user-facing implementation copy.
+
+Consequences: Runtime does not fall back from the damaged ready locale; built-in ready content cannot merge with missing dependencies, indexes, counts, schemas, hashes, or locale integrity.
+
+## 2026-08-06: Migrate Interpretation Set/Foundation to Pack/Classic
+
+Decision: Replace `TarotInterpretationSetId`/Set terminology and `foundation` with `TarotInterpretationPackId`/Pack and default `classic` in the first implementation wave.
+
+Reason: One canonical plugin-like pack identity must replace the temporary prose-free placeholder rather than coexist with it.
+
+Consequences: Compile-time migration keeps semantic deck, artwork, skin, and back independent; no saved-reading compatibility is needed because readings are not persisted.
+
+## 2026-08-06: Migrate Pack Selection Through Settings Schema 2
+
+Decision: Add `selectedInterpretationPackId` in settings schema 2 with `classic` default and lazy write-on-next-real-save migration from version 1.
+
+Reason: Pack selection must persist without startup rewrites or a user-facing migration ceremony.
+
+Consequences: Missing/unknown IDs normalize to Classic when available; no installed pack leaves cards usable and interpretation empty.
+
+## 2026-08-06: Separate Pack-Name and Interpretation-Language Resolution
+
+Decision: Resolve selector names from UI language with silent English/Russian/pack-ID fallback, while prose and tag/section labels use interpretation language and module fallback.
+
+Reason: Control localization and authored-content localization are independent preferences.
+
+Consequences: UI-language changes refresh controls/names, interpretation-language changes re-resolve content, and neither redraws cards.
+
+## 2026-08-06: Keep Production and Working Interpretation Roots Physically Separate
+
+Decision: Limit a production pack to manifest, indexes, and accepted content; keep drafts/inventories exclusively under `resources/interpretation/tarot/working/<pack-id>/`.
+
+Reason: Non-shipped authoring state must never enter package indexes or application output.
+
+Consequences: A production pack has no `authoring/` subtree, and packaging/validation can enforce the boundary directly.
+
+## 2026-08-06: Stage Interpretation Implementation From INT0-I1
+
+Decision: Begin with bounded Pack Identity and Schema Contracts, then validator/index tooling, built-in source/resolver, and selector/settings/silent-host integration before corpus presentation and authoring.
+
+Reason: Contracts, tooling, source resolution, and UI migration have distinct evidence and failure boundaries.
+
+Consequences: INT0-I1 excludes UI, settings, resources, filesystem/AppData, spreads, prose, and corpus authoring; later content stages remain independently reviewable.
+
+## 2026-08-06: Defer Three-Card Threshold Grammar Specifically to INT4-I1
+
+Decision: Freeze typed data-only synthesis resource categories now and finalize numerical trajectory thresholds plus the typed trajectory-profile record in INT4-I1 fixtures.
+
+Reason: Thresholds are a mode-specific implementation rule that needs real composition tests, not an unresolved common schema question.
+
+Consequences: D4 closes cross-owner architecture while forbidding an arbitrary executable expression language.

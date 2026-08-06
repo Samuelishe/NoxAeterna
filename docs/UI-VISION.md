@@ -95,8 +95,10 @@ Current Tarot direction:
 - auto reveal defaults on; manual mode reveals one activated position at a time, and hidden cards never leak future meaning content;
 - language, theme, spread, artwork, back, reversal, and auto-reveal preferences persist in AppData JSON, while current reading, revealed positions, and selection remain session-only.
 - artwork, interpretation pack, back, spread, application theme, and interpretation language remain independent selections; changing pack or interpretation language will re-resolve currently visible meaning immediately without redrawing cards or resetting reveals;
-- after real interpretation runtime begins, absent content is silent: the host is empty with no heading, empty surface, placeholder, fallback explanation, or diagnostic banner. The current unavailable placeholder is removed at that implementation gate; canonical resolution behavior belongs to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
+- the future `TarotInterpretationPackSelector` stays visible in the control panel even with only Classic; its `Толкование / Interpretation` control label and pack display name follow UI language, while prose follows interpretation language. Exact selector and settings gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
+- after real interpretation runtime begins, absent content is silent: the host is empty with no heading, empty surface, placeholder, fallback explanation, or diagnostic banner. The current unavailable placeholder is removed in INT0-I4; canonical resolution behavior belongs to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
 - available interpretation content uses visible localized section headings for scanability, compact tags, and semantic typography rather than a headingless wall of text; headings are content structure, not implementation or fallback explanations. Content carries no hardcoded fonts, colors, or Avalonia styles; its contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
+- the content host has no top-level visible `Интерпретация` or `Толкование` heading; that text labels the selector, while single-card section and three-card position/relation headings remain useful navigation.
 
 Current birth-input direction:
 

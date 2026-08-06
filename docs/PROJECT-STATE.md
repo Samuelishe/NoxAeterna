@@ -26,13 +26,13 @@
 - ART-SKILL-RM retired the repository-owned and user-level Tarot generation skill. Future artwork creation and artistic acceptance belong to the owner outside Codex; the active handoff contract is owned by [`LUPUS-NOCTIS.md`](../resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md#artwork-creation-and-codex-handoff).
 - TAROT-ART-RUNTIME-1 is accepted at checkpoint commit `916ef59a081c4a465c5c1275944aa7b7da0f3afb`. Lupus Noctis is the sole default user-facing artwork pack, all 78 cards resolve to raster with zero normal fallback, required-pack damage produces a controlled unavailable workspace, and hosted run `31062978166` passed all five documentation, desktop-platform, and diagnostic coverage jobs.
 - T-UX1A is complete at checkpoint commit `540bcc4e010780ea4aaf1b5c547b9541e27adc78`: cards use exact `1.5×` widths, controls remain fixed above one vertically scrolling surface, tableau overflow is locally horizontal, the selected-card inspector is removed, auto reveal defaults on with manual reveal available, and versioned AppData JSON restores language/theme and Tarot selections without restoring a reading. Hosted run `31065568715` passed all five jobs.
-- INT0-D1 is accepted. INT0-D2 is accepted at checkpoint `e625b68bb424c589fbc840c600ab377237530434`; hosted run `31091471397` passed all five jobs and confirms that run 49's stale `15`/`16` context-evaluation guard was repaired explicitly. INT0-D3 mode/storage/routing architecture is complete locally in [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md), pending owner commit/push and hosted verification. No interpretation runtime, production corpus, selector, loader, or authoring tool was implemented.
+- INT0-D1 and D2 are accepted; D2 checkpoint `e625b68bb424c589fbc840c600ab377237530434` and hosted run `31091471397` passed all five jobs and include the explicit run-49 `15`/`16` guard repair. INT0-D3 is accepted at checkpoint `67218ccc071719f6425da84b6579c550e4e6b0b6`; hosted run `31093430806` passed all five jobs. INT0-D4 and the four-owner interpretation architecture are complete locally in [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md), pending owner commit/push and hosted verification. No runtime, production corpus, selector, loader, or authoring tool was implemented.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-INT0 owner discussion remains in progress after local INT0-D3 completion. The next focus is INT0-D4 final reconciliation and implementation handoff. No interpretation implementation or corpus authoring has begun. ART-LN remains complete at 78/78; AP1–AP5 and other independent roadmap stages remain deferred.
+After owner acceptance and hosted-green D4 evidence, the next focus is **INT0-I1 — Pack Identity and Schema Contracts**. INT0 architecture is complete locally, but implementation and corpus authoring have not begun. ART-LN remains complete at 78/78; AP1–AP5 and other independent roadmap stages remain deferred.
 
 ## Preserved Contracts
 
@@ -48,4 +48,4 @@ INT0 owner discussion remains in progress after local INT0-D3 completion. The ne
 
 ## Active Blockers
 
-- INT0 has no technical blocker. D1–D2 are accepted and D3 decisions are closed locally; D4 still owns final cross-owner reconciliation, remaining serialization/version handoff, implementation staging, and the first bounded implementation prompt. D3 hosted confirmation awaits an owner commit/push. AP1–AP5, PKG1, S2, later Tarot zoom/detail work, and other independent stages remain deferred.
+- No unresolved architecture blocker remains for INT0-I1. D4 local changes still need owner commit/push and hosted verification before implementation starts. AP1–AP5, PKG1, S2, T-UX1B, later Tarot zoom/detail work, and other independent stages remain deferred.

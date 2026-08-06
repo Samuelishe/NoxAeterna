@@ -54,6 +54,11 @@
       "overflowStrategy": "manual-reconcile"
     },
     {
+      "path": "docs/TAROT-INTERPRETATION-IMPLEMENTATION.md",
+      "hardLimit": 42000,
+      "overflowStrategy": "manual-reconcile"
+    },
+    {
       "path": "docs/TAROT-INTERPRETATION-MODES.md",
       "hardLimit": 28000,
       "overflowStrategy": "manual-reconcile"

@@ -83,11 +83,9 @@ Narrative tone belongs to the selected interpretation pack. Structured meaning r
 
 Runtime LLM generation is absent. Optional narrative presentation remains downstream from structured interpretation and cannot be required for a complete result.
 
-## INT0 Planning Status
+## Tarot INT0 Architecture Status
 
-`INT0 planning and owner discussion in progress`.
-
-INT0-D1 and INT0-D2 are accepted, including D2 checkpoint `e625b68bb424c589fbc840c600ab377237530434` and green hosted run `31091471397`. INT0-D3 mode/storage/routing architecture is complete locally, but no Tarot interpretation runtime, `two-cards` spread, production corpus, loader, selector, or authoring tool is implemented. INT0-D4 remains the final reconciliation and implementation handoff.
+INT0-D1 and D2 are accepted. INT0-D3 is accepted at checkpoint `67218ccc071719f6425da84b6579c550e4e6b0b6`; hosted run `31093430806` passed all five jobs. INT0-D4 freezes exact serialization, layer allocation, migration, and staged handoff locally in [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md), pending owner commit/push and hosted verification. No Tarot interpretation runtime, `two-cards` spread, production corpus, loader, selector, or authoring tool is implemented.
 
 ## Current Implementation Baseline
 
@@ -95,8 +93,8 @@ Literal source inspection confirms:
 
 - Domain provides only `single-card` with position `card` and ordered `three-cards` with positions `past`, `present`, and `future`; no two-card spread exists.
 - `TarotDrawEngine` already draws without replacement and supports explicit upright-only or upright/reversed orientation policies.
-- `TarotInterpretationSetId` is a separate typed identity from the semantic deck, artwork pack, presentation skin, and back variant.
-- Presentation has a separate `InterpretationLanguagePreference` and a foundation interpretation-set identity that honestly contains no prose.
+- Current code still has `TarotInterpretationSetId` as a separate typed identity from the semantic deck, artwork pack, presentation skin, and back variant.
+- Presentation currently has a separate `InterpretationLanguagePreference` and a prose-free `foundation` interpretation-set identity. The frozen target migrates Set/foundation to Pack/classic without keeping parallel concepts.
 - `NoxAeterna.Interpretation` currently provides only the project boundary over Domain and Symbolics; it contains no Tarot interpretation runtime.
 - `resources/localization/interpretation/ru.json` and `en.json` contain only the early `interpretation.aspect.square` placeholder. They are not an approved production storage format for a future Tarot corpus.
 - The current Tarot UI honestly reports that interpretation content is unavailable.
@@ -143,7 +141,7 @@ Russian is the primary Tarot authoring locale. The approved entry-level authorin
 
 The implemented semantic mode draws one card into `single-card/card` with upright or reversed orientation. Minimum future corpus scope is 78 semantic cards × 2 orientations = 156 orientation meanings, with machine completeness validation and owner-reviewed Russian production content.
 
-INT0-D2 approves expanded standalone content with five visible sections, independent upright/reversed meanings, tags, and authored metrics. Exact serialization remains deferred; the content contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
+INT0-D2 approves expanded standalone content with five visible sections, independent upright/reversed meanings, tags, and authored metrics. The content contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); exact serialization belongs to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 ### INT2/INT3 — Two-Card Combination Mode
 
@@ -157,17 +155,17 @@ The implemented `three-cards` spread is ordered as `past`, `present`, `future`. 
 
 The earlier hypotheses that pair identity might remain ordered, that 3003 base texts could receive orientation modifiers, or that 12,012 independent texts might be unnecessary are superseded by INT0-D3. The durable target is an unordered canonical identity and one independently authored interpretation for each of four orientation states.
 
-## Preliminary Roadmap
+## Tarot Implementation Sequence
 
-- **INT0 — Interpretation architecture:** **Planning and owner discussion in progress.** INT0-D1 and D2 are accepted; INT0-D3 is complete locally pending hosted verification; INT0-D4 owns final reconciliation and implementation handoff.
-- **INT1 — Russian single-card corpus:** 78 cards, upright and reversed, at least 156 orientation entries, machine completeness, and owner-reviewed Russian production content.
-- **INT2 — Two-card runtime and UX:** implement canonical `two-cards`, two distinct cards, reveal gating, tableau/result presentation, localized UI, artwork independence, and tests against the approved mode contract.
-- **INT3 — Russian pair corpus:** author and review exactly 12,012 oriented states over 3003 canonical identities in bounded batches with generated indexes and validation.
-- **INT4 — Russian past/present/future interpretation:** author 468 position entries and curated synthesis resources, then compose all three relations deterministically without triple enumeration.
-- **INT5 — English corpus:** translate stabilized Russian modules while preserving semantic keys and schema, then mark each pack/locale/mode module ready through explicit owner-controlled readiness.
-- **INT6 — Future languages:** reuse the approved schema and readiness model without changing semantic IDs or artwork.
+- **INT0-I1 through I4:** pack/schema contracts, validator/index tooling, built-in resolver, then selector/settings v2/silent host.
+- **INT1:** single-card runtime foundation followed by 156 reviewed Russian entries and promotion.
+- **INT2:** canonical `two-cards` Domain and UX.
+- **INT3:** tooling and 12,012 reviewed Russian oriented-pair states.
+- **INT4:** 468 position entries and deterministic three-card composition.
+- **INT5:** meaning-preserving English modules after stabilized Russian sources.
+- **INT6:** future languages through the same readiness and schema family.
 
-INT1–INT6 are not started.
+The exact bounded order, exclusions, and gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). No implementation or authoring stage has started.
 
 ## Authoring and Validation Direction
 
@@ -182,6 +180,6 @@ Approved Tarot-specific detail is delegated to the mode owner; the generic engin
 - Missing-content presentation and damaged-ready-module behavior follow the silent contract in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); internal validation remains diagnosable and never invents prose.
 - Corpus versioning is independent from UI theme and artwork version.
 
-## Remaining INT0-D4 Reconciliation
+## Frozen Implementation Handoff
 
-INT0-D4 still reconciles exact JSON punctuation/property casing, schema and generated-index version handoff, implementation class boundaries, concrete deterministic rule fixtures, migration/seed staging, and the first bounded implementation prompt. It does not reopen the D3 mode identities, exhaustive pair target, position inventory, locale integrity, or indexed-routing decisions.
+INT0-D4 freezes JSON conventions, schema and generated-index versions, the manifest/entry/index shapes, SHA trust chain, typed absence, layers, Set/foundation migration, settings v2 direction, and staged delivery in [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). Exact three-card trajectory thresholds remain deliberately bounded to INT4-I1 fixtures; they do not reopen D3 mode identities, exhaustive pair scope, position inventory, locale integrity, or indexed routing.

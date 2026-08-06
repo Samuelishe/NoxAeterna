@@ -5,11 +5,11 @@
 | Role | Canonical mode-level content, corpus, storage, indexing, and routing architecture for Tarot interpretation packs. |
 | Read when | Designing two-card or multi-card interpretation semantics, oriented-pair identity, three-card composition, production source layout, indexes, authoring inventory, or mode validation. |
 | Authoritative for | Stable interpretation mode IDs; two-card combination semantics; canonical unordered pair and orientation-state identity; exhaustive oriented-pair scope; pair content and tags; reversed mechanism metadata; three-card position content, relation graph, progressive visibility, synthesis, tags, and metrics; Celtic Cross composition direction; production source and authoring paths; manifest/index direction; direct lazy routing; mode dependencies; expected inventories; validation gates; and batching. |
-| Not authoritative for | Pack identity, readiness, fallback, or silent absence; Classic prose style or single-card five-section content; actual interpretation prose; Avalonia layout; palette or fonts; artwork; general settings persistence; or exact implementation classes. |
+| Not authoritative for | Pack identity, readiness, fallback, or silent absence; Classic prose style or single-card five-section content; exact common serialization, layer allocation, or migration; actual interpretation prose; Avalonia layout; palette or fonts; artwork; or general settings persistence. |
 
 ## Ownership and Current Boundary
 
-Interpretation-pack identity, coarse `pack + locale + mode` readiness, locale fallback, and broken-ready behavior remain owned by [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md). Classic voice, single-card prose, tag concepts, metrics, Russian-source translation, and content quality remain owned by [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md). [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md) owns the generic structured-first boundary; [`TAROT-ENGINE.md`](TAROT-ENGINE.md) owns Domain spread semantics.
+Interpretation-pack identity, coarse `pack + locale + mode` readiness, locale fallback, and broken-ready behavior remain owned by [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md). Classic voice, single-card prose, tag concepts, metrics, Russian-source translation, and content quality remain owned by [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md). Exact common JSON, layers, migration, hashes, and implementation stages belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md) owns the generic structured-first boundary; [`TAROT-ENGINE.md`](TAROT-ENGINE.md) owns Domain spread semantics.
 
 INT0-D3 approves target architecture only. It creates no spread, runtime, loader, selector, authoring tool, production JSON, corpus directory, or interpretation prose.
 
@@ -123,7 +123,7 @@ Reversed single-card entries may declare one to three internal language-neutral 
 - `resisted`;
 - `depleted`.
 
-Upright entries declare none. These values support authoring consistency, validation, and future synthesis; they are never exposed as technical user-facing labels and never generate pair prose. All four pair states remain independently authored. This metadata extends rather than replaces the D2 upright/reversed prose contract; the field name remains subject to final D4 serialization reconciliation.
+Upright entries declare none. These values support authoring consistency, validation, and future synthesis; they are never exposed as technical user-facing labels and never generate pair prose. All four pair states remain independently authored. This metadata extends rather than replaces the D2 upright/reversed prose contract; D4 freezes the field name and exact entry serialization in the implementation owner.
 
 ## Ordered Three-Card Mode
 
@@ -221,7 +221,7 @@ A complete reading shows exactly three spread-level tags when enough candidates 
 2. one from `present-future`;
 3. one from `past-future`.
 
-Selection uses oriented pair pools, prefers high relevance/intensity, avoids duplicate concept IDs by taking the next suitable candidate, and never invents an absent concept. The three concepts remain stable for one reading, pack, and content version; a language change changes labels only. Position-entry tags remain synthesis inputs and do not create extra default tag rows.
+Selection uses oriented pair pools and deterministic pack rules, may prefer authored intensity, avoids duplicate concept IDs by taking the next suitable candidate, and never invents an absent concept. Every accepted candidate is already relevant; there is no separate relevance or weight field. The three concepts remain stable for one reading, pack, and content version; a language change changes labels only. Position-entry tags remain synthesis inputs and do not create extra default tag rows.
 
 Complete-spread `overallValence` (`-2..+2`) and `overallIntensity` (`1..3`) come from deterministic pack rules. They are not a simple average, a clamped sum, a random choice, or an automatic copy of the future card. Dominant relations, future direction, and high-intensity conflicts may outweigh weaker themes; exact rule tables are pack data validated during implementation.
 
@@ -259,11 +259,10 @@ The first pack target is `resources/interpretation/tarot/packs/classic/`. This t
 classic/
 ├── interpretation-pack.json
 ├── indexes/
-├── content/
-└── authoring/
+└── content/
 ```
 
-Only accepted production content and generated runtime indexes are packaged.
+Only accepted production content and generated runtime indexes are packaged. The production pack never contains an `authoring/` subtree; non-shipped work lives exclusively under the separate working root below.
 
 ### Accepted Content Paths
 
@@ -304,7 +303,7 @@ The versioned manifest logically requires:
 - module dependencies;
 - generated index paths.
 
-For Classic, `packId = classic`, `semanticDeckId = standard-78`, and `sourceLocale = ru`. These logical fields are mandatory; D4 may finalize JSON punctuation and property casing.
+For Classic, `packId = classic`, `semanticDeckId = standard-78`, and `sourceLocale = ru`. These logical fields are mandatory; their exact schema is frozen in [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 Version dimensions stay separate:
 
@@ -325,7 +324,7 @@ indexes/<locale>/oriented-pairs.json
 indexes/<locale>/three-cards.json
 ```
 
-Each conceptually contains index schema version, pack ID, locale, corpus/mode ID, expected count, canonical entry key, package-relative path, SHA-256, and only optional compact routing metadata. Indexes contain no prose, are generated from accepted content, and are never manually authored.
+Each contains index schema version, pack ID, locale, corpus/mode ID, expected count, canonical entry key, package-relative path, SHA-256, and only approved compact routing metadata. Indexes contain no prose, are generated from accepted content, and are never manually authored. The shared envelope, canonical key strings, and manifest-index-content trust chain are frozen in [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 Target resolution loads the pack manifest, resolves pack/locale/mode once, loads only required same-locale indexes, computes canonical keys directly, opens only files needed for the revealed result, verifies expected paths/hashes, caches bounded immutable results, and re-resolves on pack, language, or content-version change.
 

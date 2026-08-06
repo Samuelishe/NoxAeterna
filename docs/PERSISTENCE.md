@@ -51,7 +51,7 @@ Keep the ownership distinction clear:
 
 This document owns the general platform-data rule. Pack discovery, synchronization, no-delete behavior, fingerprints, and import are not persistence contracts and belong only to the asset-pack runtime owner.
 
-Future installed Tarot interpretation packs use their own `<LocalApplicationData>/NoxAeterna/interpretation/tarot/` root, independent from artwork-pack directories. Repository source paths, built-in/user subroots, manifests, generated indexes, and lazy routing belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); interpretation seeding/import still requires later implementation planning rather than inheriting artwork-pack behavior automatically.
+Future installed Tarot interpretation packs use their own `<LocalApplicationData>/NoxAeterna/interpretation/tarot/` root, independent from artwork-pack directories. Repository source and built-in/user runtime roots belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); exact schemas, layers, and staged implementation belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). Interpretation seeding/import does not inherit artwork-pack behavior automatically.
 
 ## Responsibilities
 
@@ -122,13 +122,15 @@ Birth-data input, profiles, saved readings, reading history, interpretations, ar
 
 A future saved Tarot reading should be able to retain interpretation pack ID, content version, mode ID, requested/resolved interpretation locales, and semantic card IDs/orientations for provenance. Whether it also archives rendered prose remains an unresolved persistence/history decision.
 
-## Approved Settings Direction
+## Approved Settings Schema 2 Direction
 
-A future settings schema adds `selectedInterpretationPackId`. It defaults to `classic`, restores at startup, and changes when the user selects another interpretation pack. It persists only the selected stable ID: current interpretation text is not settings state, and a resolved fallback locale is runtime provenance rather than a user preference. Pack selection and resolution semantics belong to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
+The first pack-selection implementation migrates settings schema 1 to schema 2 and adds stable semantic field `selectedInterpretationPackId`, nested according to the existing DTO. It defaults to `classic`, restores at startup, and changes when the user selects another pack. Version 1 loads and normalizes in memory; startup does not rewrite merely for migration, while the next actual preference save writes version 2. An unknown ID resolves to `classic` when available; with no available pack, cards remain usable and interpretation remains empty. No migration message is shown.
+
+Settings persist only the selected stable ID: current interpretation text is not settings state, and resolved fallback locale is runtime provenance rather than a user preference. Pack selection/fallback belongs to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); exact migration and selector gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 Settings also gains two shared actions:
 
 - **`Сбросить настройки` / Reset settings:** one application-wide button restores all application preferences from program defaults. It has a normal confirmation step and no separate reset buttons per section. It does not delete artwork packs, user content, or saved readings without another explicit decision.
 - **`Открыть папку данных приложения` / Open application data folder:** opens the `<LocalApplicationData>/NoxAeterna` root, not only `settings.json`. This action already belongs to the AP1 plan in [`ASSET-PACK-RUNTIME.md`](ASSET-PACK-RUNTIME.md#completion-gates-and-staged-roadmap); this settings direction links to that plan rather than creating a competing implementation stage.
 
-Neither action is implemented by INT0-D1.
+Neither action is implemented by INT0-D4 or required for INT0-I1.

@@ -68,20 +68,29 @@ Cards use exact `1.5×` widths inside one unified vertically scrolling reading s
 
 ### INT0 — Interpretation Architecture
 
-Status: **Planning and owner discussion in progress**.
+Status: **Architecture complete locally; D4 pending owner commit/push and hosted verification**.
 
-INT0 is four consecutive documentation passes; completing one pass does not complete INT0:
+Architecture passes:
 
 1. **INT0-D1 — package and localization architecture:** **Accepted.** Own independent plugin-like interpretation packs, `classic`, locale/mode readiness, silent fallback/absence, spread independence, selection refresh, preference direction, and implementation gates in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md). No runtime was implemented.
 2. **INT0-D2 — Classic content and tags:** **Accepted.** Checkpoint `e625b68bb424c589fbc840c600ab377237530434` and hosted run `31091471397` passed all five jobs, including the explicit 16-case repair for run 49. [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md) owns Classic voice, single-card content, tags/metrics, translation, authoring quality, and typography direction.
-3. **INT0-D3 — modes, exhaustive corpora, and routing:** **Documentation complete locally; pending owner commit/push and hosted verification.** [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md) owns stable modes, 3003 unordered identities and 12,012 independently authored oriented states, 468 three-card position entries, relation/synthesis composition, source paths, manifests/indexes, lazy routing, authoring inventory, batching, and validation. No runtime or corpus was added.
-4. **INT0-D4 — final reconciliation and implementation handoff:** **Next.** Reconcile the complete INT0 owner set, finalize remaining serialization/version handoff details, and prepare bounded implementation stages.
+3. **INT0-D3 — modes, exhaustive corpora, and routing:** **Accepted.** Checkpoint `67218ccc071719f6425da84b6579c550e4e6b0b6` and hosted run `31093430806` passed all five jobs. [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md) owns stable modes, 3003 unordered identities, 12,012 independently authored states, 468 position entries, composition, paths/indexes, routing, inventory, batching, and validation.
+4. **INT0-D4 — final reconciliation and implementation handoff:** **Complete locally; pending hosted verification.** [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md) freezes exact JSON/version/hash contracts, layers, migration, settings/selector gates, decision coverage, and staged delivery. No runtime or corpus was added.
 
-### INT1 — Russian Single-Card Corpus
+### INT0 Implementation Foundation
+
+Status: **Not started**. Start only after owner acceptance and hosted-green D4 evidence.
+
+1. **INT0-I1 — Pack Identity and Schema Contracts:** Set→Pack, `classic`, pure DTOs/enums/canonical keys/typed results/validation; no UI, filesystem, settings, resources, or prose.
+2. **INT0-I2 — Validator and Index Tooling:** repository tooling and synthetic fixtures for path/schema/hash/index/inventory checks; no production prose.
+3. **INT0-I3 — Built-In Pack Source and Resolver:** source abstraction, manifest/index loading, same-locale resolution, broken-ready behavior, bounded cache, and an all-not-ready Classic skeleton.
+4. **INT0-I4 — Selector, Settings v2 and Silent Host:** selector, v1→v2 settings migration, removal of foundation/unavailable placeholder, immediate re-resolution, and real-control UI smoke.
+
+### INT1 — Single-Card Runtime, Russian Authoring, and Promotion
 
 Status: **Not started**.
 
-Author and owner-review Russian upright and reversed meanings for 78 cards, at least 156 orientation entries, with machine completeness validation.
+Implement fixture-backed five-section presentation in **INT1-I1**. Then author and owner-review exactly 156 Russian upright/reversed entries in small batches under **INT1-AUTH-RU** while readiness stays false; promote only after exact validation and index generation in **INT1-PROMOTE-RU**.
 
 ### INT2 — Two-Card Runtime and UX
 
@@ -89,23 +98,23 @@ Status: **Not started**.
 
 Implement the approved non-positional `two-cards` spread, draw two distinct cards, gate meaning until both reveal, provide a combination panel with four tags, localize UI labels, preserve artwork independence, and add tests against canonical ordinal pair/orientation routing.
 
-### INT3 — Russian Pair Corpus
+### INT3 — Pair Tooling and Russian Pair Corpus
 
 Status: **Not started**.
 
-Author and owner-review all 12,012 independent orientation-state interpretations over exactly 3003 canonical unordered identities, using bounded 24–40-file batches, machine inventory/index generation, completeness/duplicate/hash validation, and the accepted production paths.
+After the single-card foundation, implement batch tooling and owner-review all 12,012 independent orientation-state interpretations over exactly 3003 canonical unordered identities, using bounded 24–40-file batches, inventory/index generation, and completeness/duplicate/hash validation. Readiness remains false until complete.
 
 ### INT4 — Russian Past / Present / Future Interpretation
 
 Status: **Not started**.
 
-Author 468 position/orientation entries and curated synthesis resources, then compose past-present, present-future, and past-future relations through deterministic trajectory rules without enumerating 3,651,648 oriented triples.
+In **INT4-I1 and later**, finalize the typed trajectory profile/threshold fixtures, author 468 position/orientation entries and curated synthesis resources, and compose all three relations deterministically without enumerating 3,651,648 oriented triples.
 
-### INT5 — English Corpus
+### INT5 — English Content
 
 Status: **Not started**.
 
-Translate stabilized Russian modules while preserving semantic keys and schema. English readiness is declared independently for each pack/locale/mode module; runtime fallback already follows the canonical pack-level chain rather than waiting for every English mode to complete together.
+Begin with **INT5-EN-SINGLE** after the stabilized Russian single-card module. Translate meaning-preservingly while retaining semantic keys/schema; English readiness is declared independently per pack/locale/mode and never waits for all modes together.
 
 ### INT6 — Future Languages
 

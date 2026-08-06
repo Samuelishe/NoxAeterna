@@ -9,6 +9,8 @@ This document is intentionally explicit. It exists to prevent layer leakage duri
 - Presentation must not calculate chart geometry.
 - Interpretation must not access SQLite directly.
 - Interpretation must not contain UI workflow logic.
+- Interpretation must not depend on App, Presentation, Avalonia, or AppData path construction.
+- Tarot pack JSON, indexes, validation, canonical keys, locale/mode resolution, typed results, and deterministic composition belong to Interpretation; file sources and visual controls do not.
 - Symbolics must not contain user-facing prose generation.
 - Geometry must remain Avalonia-independent.
 - Geometry must not return Avalonia controls, brushes, pens, or UI objects.
@@ -28,6 +30,8 @@ This document is intentionally explicit. It exists to prevent layer leakage duri
 - Symbolics provides structured symbolic catalog data and typed relationships.
 - Interpretation consumes symbolic factors and symbolics data and produces structured interpretation blocks.
 - Presentation orchestrates use cases and view state; it does not own core symbolic logic.
+- App supplies shipped/future AppData pack sources, catalog composition, selector controls, settings wiring, and silent visual materialization without moving pack semantics into UI.
+- Repository tooling may validate schemas and inventories and generate indexes/hashes, but it owns no production resolver behavior.
 
 ## What To Reject In Review
 
@@ -37,6 +41,7 @@ Reject changes that:
 - Put Avalonia types into geometry contracts.
 - Put prose generation into Symbolics.
 - Put SQL access into interpretation code.
+- Put Avalonia controls, AppData path construction, file-source composition, or settings I/O into interpretation-core contracts.
 - Put Swiss Ephemeris calls into UI or rendering code.
 - Put raw domain entities directly into rendering code when prepared render models are warranted.
 - Hide critical calculation behavior in static helpers with shared mutable state.

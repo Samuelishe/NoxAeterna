@@ -5,7 +5,7 @@
 | Role | Canonical authorial and single-card content architecture for Tarot interpretation packs. |
 | Read when | Authoring, translating, reviewing, validating, or presenting Tarot interpretation content and semantic tags. |
 | Authoritative for | Interpretation-pack authorial identity; Classic style guide; single-card content structure; upright/reversed requirements; semantic content sections and visible headings; tag concepts and labels; valence/intensity scales and overall metrics; deterministic tag presentation; Russian-source authoring; translation fidelity; authoring-time Codex use; draft/review/accepted direction; content-quality rules; and future interpretation typography/font direction. |
-| Not authoritative for | Pack discovery, readiness, fallback, missing-content behavior, selector behavior, production manifests/filesystem paths/indexes, pairs, three-card synthesis, mode routing, Avalonia implementation, actual palette or font choice, artwork, or card backs. |
+| Not authoritative for | Pack discovery, readiness, fallback, missing-content behavior, selector behavior, exact serialization, production paths/indexes, pairs, three-card synthesis, mode routing, Avalonia implementation, actual palette or font choice, artwork, or card backs. |
 
 ## Authorial Identity and Classic
 
@@ -55,7 +55,7 @@ Literary sharpness, tension, a light barb without sarcasm or humiliation, direct
 
 A single-card interpretation is a developed standalone reading. It is neither a five-word tag, a single short sentence, a dry keyword list, nor an enormous story. It should support thoughtful reading through the existing vertical scroll. Sentence and word counts are style targets, not hard schema validators; Codex retains creative freedom inside this content contract.
 
-Conceptual shape, without approving JSON names or nesting:
+The semantic shape is:
 
 ```text
 single-card entry
@@ -72,7 +72,7 @@ single-card entry
 └── overall intensity
 ```
 
-This does not approve filenames, directory paths, one-file-per-entry storage, or exact serialization properties.
+This document owns the meaning and quality of those fields. Exact JSON names, paths, and serialization belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md) and the mode owner.
 
 ### Stable Sections and Visible Headings
 
@@ -106,9 +106,9 @@ The optional internal reversed mechanisms `blocked`, `delayed`, `internalized`, 
 
 ## Semantic Tags
 
-A tag concept has a stable language-neutral semantic identity. Working examples include `conflict`, `choice`, `renewal`, `failure`, `release`, `uncertainty`, and `opportunity`. `conceptId` is a working term, not an approved JSON property name.
+A tag concept has a stable language-neutral semantic identity. Examples include `conflict`, `choice`, `renewal`, `failure`, `release`, `uncertainty`, and `opportunity`.
 
-Visible tag labels belong to the interpretation pack and locale. For the concept `failure`, Classic may show `Неудача` in Russian and `Failure` in English. A future meme pack could render the same concept as `Это фиаско, братан` while retaining the internal meaning `failure`.
+Visible tag labels belong to the interpretation pack and locale. For the concept `failure`, Classic may show `Неудача` in Russian and `Failure` in English. A future meme pack could render the same concept as `Это фиаско, братан` while retaining the internal meaning `failure`. D4 freezes `conceptId` as the serialized property name in the implementation owner.
 
 There is no mandatory closed global vocabulary for every pack:
 
@@ -212,6 +212,6 @@ Interpretation UI implementation includes a separate typography stage for sectio
 
 Selected font files become repository-owned shipped assets. Their provenance and redistribution license must be recorded in `README.md`, [THIRD-PARTY.md](THIRD-PARTY.md), and asset documentation. INT0-D2 selects and downloads no font, changes no palette, and adds no hypothetical third-party entry.
 
-## Relationship to Mode Architecture
+## Relationship to Mode and Implementation Architecture
 
-INT0-D3 now owns exact production path patterns, unordered canonical pairs, all 12,012 independently authored orientation states, pair/multi-card tag counts, three-card position/relation/synthesis architecture, Celtic Cross composition direction, indexes, and lazy routing in [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md). INT0-D4 still owns final JSON punctuation/property casing, reconciliation, and implementation handoff. This document continues to own authorial quality and the complete single-card content contract.
+[`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md) owns production path patterns, unordered canonical pairs, all 12,012 independently authored orientation states, pair/multi-card tag counts, three-card position/relation/synthesis architecture, Celtic Cross composition direction, indexes, and lazy routing. [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md) owns exact JSON fields, versioning, layers, migration, and staged handoff. This document continues to own authorial quality and the complete single-card content contract.

@@ -5,7 +5,7 @@
 | Role | Canonical architecture for selectable Tarot interpretation data packages. |
 | Read when | Designing interpretation-pack discovery, selection, localization, readiness, fallback, or missing-content behavior. |
 | Authoritative for | Interpretation-pack identity and boundaries; package capabilities; locale/module readiness; locale fallback; content-absence behavior; pack discovery and selection direction; active-pack preference; package relationships with semantic decks and spread modes; runtime locale resolution semantics; and partial-package behavior. |
-| Not authoritative for | Exact interpretation text; authorial style guide; single-card sections, tags, metrics, or upright/reversed content; pair/multi-card composition; production source paths, manifest/index structure, or authoring inventory; Avalonia layout; artwork; card backs; or general persistence. |
+| Not authoritative for | Exact interpretation text; authorial style guide; single-card sections, tags, metrics, or upright/reversed content; pair/multi-card composition; production source paths, exact serialization or implementation allocation; Avalonia layout; artwork; card backs; or general persistence. |
 
 ## Identity and Independent Selections
 
@@ -38,7 +38,7 @@ All interpretation packs use one schema family. A pack contains data, not arbitr
 
 The stable pack ID is language-neutral. Its display name is localized. The first pack has stable ID `classic`, Russian display name `Классика`, and English display name `Classic`; `classic` is the future default interpretation pack.
 
-A pack binds meanings to stable semantic card identities and declares capabilities for reading modes. It does not create a semantic deck or a spread. A semantic reading therefore survives pack changes, and a newly implemented spread does not wait for pack content. Stable mode IDs, the logical supported-deck/manifest fields, production paths, indexes, and mode dependencies belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
+A pack binds meanings to stable semantic card identities and declares capabilities for reading modes. It does not create a semantic deck or a spread. A semantic reading therefore survives pack changes, and a newly implemented spread does not wait for pack content. Stable mode IDs, production paths, indexes, and mode dependencies belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); exact manifest serialization and implementation allocation belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 Partial packages are valid and remain selectable. A package may support only some locale/mode modules; incompleteness is represented at module readiness, not by hiding the package or language.
 
@@ -119,7 +119,7 @@ Each `ready = false` candidate is skipped and resolution continues. The first re
 
 `ready = true` with unreadable or incomplete content is package damage. Missing expected files, folders, required sections or keys, unreadable JSON, or a route to a missing entry all produce no displayable interpretation content from that resolution attempt. Runtime must not fall back to another locale and thereby mask the broken published module. The application remains operational, while internal diagnostics and tests may identify the damage.
 
-The future API may represent absence with a typed result, `null`, or an empty display model. This architecture does not require a raw empty-string sentinel.
+The implementation contract represents absence with a typed result rather than a raw empty-string, `null`, or untyped empty-model architecture; exact fields and internal reason codes belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 ## Silent Presentation Policy
 
@@ -147,10 +147,10 @@ Any selection change that affects visible UI refreshes immediately rather than w
 
 ## Discovery and Preference Direction
 
-Future discovery reads manifests and exposes valid installed packages, including partial packages. No selector or manifest is implemented by INT0-D1.
+Future discovery reads manifests and exposes valid installed packages, including partial packages. No selector or manifest is implemented by INT0-D4. The exact future selector, display-name resolution, migration, and serialization gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 The future `selectedInterpretationPackId` preference lives in the versioned AppData `settings.json`, defaults to `classic`, restores at startup, and updates when the user selects a pack. Settings do not persist current interpretation text or fallback locale, because the latter is a runtime resolution result rather than a user preference. General settings storage and the shared Reset settings/Open AppData actions belong to [PERSISTENCE.md](PERSISTENCE.md).
 
 ## Related Content and Mode Owners
 
-Single-card voice, sections, tags, metrics, and translation belong to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md). Canonical mode IDs, exhaustive oriented pairs, three-card composition, production source paths, logical manifest fields, generated indexes, authoring inventory, and dependency validation belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md). General structured-first rules remain owned by [INTERPRETATION-ENGINE.md](INTERPRETATION-ENGINE.md); spread semantics remain owned by [TAROT-ENGINE.md](TAROT-ENGINE.md). INT0-D4 will reconcile exact serialization and implementation handoff without changing this document's readiness/fallback ownership.
+Single-card voice, sections, tags, metrics, and translation belong to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md). Canonical mode IDs, exhaustive oriented pairs, three-card composition, production source paths, generated indexes, authoring inventory, and dependency validation belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md). Exact serialization, layers, migration, selector gates, and staged delivery belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). General structured-first rules remain owned by [INTERPRETATION-ENGINE.md](INTERPRETATION-ENGINE.md); spread semantics remain owned by [TAROT-ENGINE.md](TAROT-ENGINE.md).

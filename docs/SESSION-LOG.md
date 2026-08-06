@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-06: INT0-D4 Final Schema Reconciliation and Implementation Handoff
+
+- Reconciled the four canonical Tarot interpretation owners after accepted D3 checkpoint `67218ccc071719f6425da84b6579c550e4e6b0b6` and green hosted run `31093430806`; froze common JSON/version/hash schemas, typed absence/cache, production/working separation, and exact layer boundaries.
+- Approved Set/foundation → Pack/classic migration, settings schema 2 and selector/presentation gates, plus bounded implementation stages beginning with INT0-I1.
+- Documentation/tooling-registry only: no runtime, UI, settings code, resource tree, manifest, fixture pack, index, prose, corpus, or authoring implementation was created.
+
 ## 2026-08-06: INT0-D3 Oriented Pair Corpus and Multi-Card Routing Architecture
 
 - Documentation-only: approved unordered ordinal pair identity, exactly 3003 identities and 12,012 independently authored orientation states, plus 468 three-card position entries and a three-relation graph with deterministic corpus-backed synthesis.

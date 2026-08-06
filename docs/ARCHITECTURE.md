@@ -53,7 +53,7 @@ Stores structured symbolic knowledge: planetary archetypes, zodiac archetypes, h
 
 ### Interpretation
 
-Combines symbolic factors into user-facing meaning. It consumes structured symbolic knowledge and context. It should not know UI or persistence details.
+Combines symbolic factors into structured user-facing meaning. For Tarot it owns pack contracts, manifest/content/index models, validation, canonical keys, locale/mode resolution, deterministic composition, and cache-independent resolver logic. It knows neither Avalonia nor AppData path construction; exact Tarot allocation belongs to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 ### Rendering
 
@@ -73,7 +73,7 @@ Application composition root, Avalonia startup, dependency injection, configurat
 
 ### Repository Tooling
 
-`NoxAeterna.Tools.Repository` is a standalone BCL-only executable for factual public-file inventory and structural diagnostics. It has no references to product layers, does not infer semantic dependencies, and remains separate from future context-selection policy.
+`NoxAeterna.Tools.Repository` is a standalone BCL-only executable for factual inventory, structural diagnostics, and future interpretation schema/inventory/index/hash authoring tooling. It has no production runtime behavior or product-layer references; context selection and interpretation authoring rules remain explicit contracts rather than inferred semantics.
 
 ### Tests
 
@@ -87,7 +87,7 @@ Initial dependency direction for scaffold:
 - `NoxAeterna.Symbolics`: depends on `NoxAeterna.Domain` only if shared primitives are required.
 - `NoxAeterna.Astronomy`: may depend on `NoxAeterna.Domain` and NodaTime; must not depend on Avalonia.
 - `NoxAeterna.Geometry`: may depend on `NoxAeterna.Domain` and astronomy-facing data contracts where justified; must not depend on Avalonia UI objects.
-- `NoxAeterna.Interpretation`: may depend on `NoxAeterna.Domain` and `NoxAeterna.Symbolics`; must not depend on Presentation or persistence infrastructure.
+- `NoxAeterna.Interpretation`: may depend on `NoxAeterna.Domain` and `NoxAeterna.Symbolics`; must not depend on App, Presentation, Avalonia, or AppData/filesystem construction.
 - `NoxAeterna.Rendering`: may depend on `NoxAeterna.Geometry` and render models; must not contain astronomy or interpretation logic.
 - `NoxAeterna.Presentation`: may depend on domain-facing application contracts and presentation models; should not own core calculation logic.
 - `NoxAeterna.Infrastructure`: contains adapters to ephemeris, SQLite, logging, and external services; references core abstractions but should not redefine them. The first real ephemeris-backed calculator now lives here.
@@ -124,7 +124,7 @@ Current architectural direction:
 
 - Domain stays language-neutral.
 - Presentation owns localization contracts and preference models.
-- Interpretation and symbolic systems should eventually expose keys or structured content, not hardcoded localized prose.
+- Interpretation exposes validated structured localized pack content; Domain and UI controls do not hardcode that prose, and Symbolics remains distinct from user-facing composition.
 - Application language and interpretation language are separate preferences even when they share the same initial value.
 - Theme selection uses stable theme identifiers rather than a boolean dark-mode flag.
 
@@ -158,7 +158,7 @@ Current theme implementation direction:
 - `ThemeRegistry` lives in `NoxAeterna.Presentation`.
 - `AppThemeController` in `NoxAeterna.App` applies the active `ThemeId` to Avalonia resource dictionaries.
 - Dark and light theme resources currently define only foundational shell and preview brushes.
-- Theme switching is in memory only. No persistence adapter exists yet.
+- Theme and language preferences are persisted by the App-owned versioned settings adapter; future interpretation-pack selection follows the schema-2 migration owned by the Tarot implementation handoff.
 
 MVP fallback chain:
 
@@ -193,7 +193,7 @@ NoxAeterna.App/Themes/LightThemeResources.axaml
 
 These are application resource dictionaries, not a final design system.
 
-User preferences should eventually be persisted as JSON in a user app-data location. That persistence is not implemented yet.
+User preferences are persisted as versioned JSON in the platform user-data location. Interpretation-pack selection is not implemented yet and will enter through the schema-2 migration contract.
 
 Local runtime data such as user preferences, saved profiles, recent places, caches, and generated user-specific artifacts must not live in the repository or next to the executable. Those belong in AppData or the equivalent platform-specific user data location once persistence is introduced.
 
