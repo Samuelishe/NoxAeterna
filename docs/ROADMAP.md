@@ -79,12 +79,12 @@ Architecture passes:
 
 ### INT0 Implementation Foundation
 
-Status: **I1 implemented; run 53's test-only separator regression repaired locally. I2 complete locally/pending hosted verification; I3 next.**
+Status: **I1 and I2 accepted; I2 checkpoint `93a26fd8942fe0a519d60e9d5ac1a29f09930340` and run `31105509521` are green. I3 is complete locally/pending hosted verification; I4 next.**
 
-1. **INT0-I1 — Pack Identity and Schema Contracts:** **Implemented at `9c1f68962e84d21d87b2af8072bb0fadf9c4a2f0`.** Pack/classic identity, pure raw/validated schema contracts, exact JSON/enums, canonical keys/pairs, typed results/diagnostics, and focused tests. Run 53's cross-platform boundary-test regression is repaired locally without changing I1 production contracts.
-2. **INT0-I2 — Validator and Index Tooling:** **Complete locally; pending owner commit/push and hosted verification.** Repository CLI/tooling and synthetic fixtures cover path/schema/hash/index/inventory checks, deterministic check mode, and authoring status; no production prose or runtime.
-3. **INT0-I3 — Built-In Pack Source and Resolver:** source abstraction, manifest/index loading, same-locale resolution, broken-ready behavior, bounded cache, and an all-not-ready Classic skeleton.
-4. **INT0-I4 — Selector, Settings v2 and Silent Host:** selector, v1→v2 settings migration, removal of foundation/unavailable placeholder, immediate re-resolution, and real-control UI smoke.
+1. **INT0-I1 — Pack Identity and Schema Contracts:** **Accepted at `9c1f68962e84d21d87b2af8072bb0fadf9c4a2f0`.** Pack/classic identity, pure raw/validated schema contracts, exact JSON/enums, canonical keys/pairs, typed results/diagnostics, and focused tests.
+2. **INT0-I2 — Validator and Index Tooling:** **Accepted at `93a26fd8942fe0a519d60e9d5ac1a29f09930340`; run `31105509521` passed 5/5.** Repository CLI/tooling and synthetic fixtures cover path/schema/hash/index/inventory checks, deterministic check mode, and authoring status; no production prose or runtime UI.
+3. **INT0-I3 — Built-In Pack Source and Resolver:** **Complete locally; pending owner commit/push and hosted verification.** App-packaged all-not-ready Classic skeleton, pure source/resolver contracts, same-locale trust-chain loading, broken-ready behavior, lazy entries, and bounded caches; no visible integration or prose.
+4. **INT0-I4 — Selector, Settings v2 and Silent Host:** **Next.** Selector, v1→v2 settings migration, removal of foundation/unavailable placeholder, immediate re-resolution, and real-control UI smoke.
 
 ### INT1 — Single-Card Runtime, Russian Authoring, and Promotion
 

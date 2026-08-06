@@ -51,7 +51,7 @@ pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone
 
 The registry is responsibility-oriented, not stage-oriented. A leaf route must remain bounded and non-overlapping with its peers. A composite is an ordered plan, not a parallel scheduler.
 
-`Interpretation` owns the focused `NoxAeterna.Tests.Interpretation` namespace for pack identities, schema contracts, JSON, canonical keys, and pure validation. `Repository-Tooling` owns `NoxAeterna.Tests.Tooling.Interpretation` for explicit-root filesystem validation, generated indexes/check mode, and authoring reports in addition to its existing tooling scope. `Project-Stats` and `Agent-Context` own separate non-overlapping namespaces. `Repository-Verification` executes architecture boundaries, repository tooling, Project Stats, and Agent Context in that order.
+`Interpretation` owns the focused `NoxAeterna.Tests.Interpretation` namespace for pack identities, schemas, JSON, canonical keys, pure validation, source contracts, locale/mode resolution, trust-chain loading, lazy entries, and bounded caches. `App-Workspace` owns built-in source/catalog and packaging/output tests. `Repository-Tooling` owns explicit-root validation, generated indexes/check mode, and authoring reports. `Architecture-Boundaries` proves the one-way App → Interpretation dependency and filesystem ownership. `Project-Stats` and `Agent-Context` retain their separate namespaces.
 
 Tooling CLI examples use an explicit synthetic or future pack root:
 

@@ -9,7 +9,7 @@
 
 ## Scope and Owner Hierarchy
 
-This document freezes the shared implementation contract approved in INT0-D1 through D4. D4 is accepted at checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e`; hosted run `31095939556` passed all five jobs. I1 was published at `9c1f68962e84d21d87b2af8072bb0fadf9c4a2f0`; run 53's test-only Unix separator defect is repaired locally. I2 now implements repository-side validation/index/authoring tooling over synthetic fixtures without adding runtime, corpus content, or `resources/interpretation/**`.
+This document freezes the shared implementation contract approved in INT0-D1 through D4. D4 is accepted at checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e`; hosted run `31095939556` passed all five jobs. I1 was published at `9c1f68962e84d21d87b2af8072bb0fadf9c4a2f0`. I2 is accepted at `93a26fd8942fe0a519d60e9d5ac1a29f09930340`; hosted run `31105509521` passed all five jobs. I3 is complete locally and awaits owner commit/push plus hosted verification.
 
 | Owner | Canonical responsibility |
 | --- | --- |
@@ -24,9 +24,9 @@ Other documents may summarize or link these decisions, but do not become competi
 
 ### Current Implementation Versus Target
 
-Current code now uses `TarotInterpretationPackId`, `InterpretationPackId`, and the prose-free `classic` identity. `NoxAeterna.Interpretation` implements schema-v1 raw documents, immutable validated contracts, exact in-memory JSON, stable enums/IDs, canonical keys/pairs, typed diagnostics, and `Resolved`/`NoContent` contracts. These are contracts only: no manifest file is loaded and no resolver or cache exists.
+Current code uses `TarotInterpretationPackId`, `InterpretationPackId`, and the prose-free `classic` identity. `NoxAeterna.Interpretation` implements schema-v1 raw documents, immutable validated contracts, exact in-memory JSON, stable enums/IDs, canonical keys/pairs, typed diagnostics/results, filesystem-free source abstractions, mode-level locale resolution, manifest/index/content trust-chain validation, lazy entry routing, and bounded LRU caches.
 
-The application still has settings schema 1, no interpretation-pack selector, filesystem source, resolver, cache, or production Tarot corpus, and it still shows `ui.tarot.interpretation.unavailable` after a reveal. The two placeholder files under `resources/localization/interpretation/` are not the target pack format. Settings schema 2, selector wiring, silent host, and indexed pack resources remain later implementation requirements.
+The App now references Interpretation, packages the built-in `resources/interpretation/tarot/packs/classic/interpretation-pack.json`, and owns the contained filesystem source plus immutable Classic-only source catalog. All Classic modules are `ready = false`, so the resolver returns typed `NoContent/no-ready-locale` without opening indexes or content. The application still has settings schema 1, no selector or resolver-to-workspace wiring, no AppData pack source, no production indexes/content/prose, and still shows `ui.tarot.interpretation.unavailable` after a reveal. Settings schema 2, selector wiring, and silent host remain I4.
 
 ## Common JSON Contract
 
@@ -484,7 +484,7 @@ Every approved D1–D3 area has an implementation stage or an explicit independe
 
 ## Staged Implementation Roadmap
 
-Implementation status after local INT0-I2: I1 contracts are published and unchanged; the run-53 test portability regression and I2 tooling are complete locally, awaiting owner commit/push plus hosted verification. I3 is next. I2 added no application filesystem source, runtime resolver/cache, UI, settings-v2, selector, production resources, or corpus prose.
+Implementation status after local INT0-I3: I1 and I2 are accepted; I3 packages the exact all-not-ready Classic skeleton, adds App-owned contained file sourcing/catalog assembly, and implements Interpretation-owned same-locale trust-chain resolution, lazy entry loading, typed broken-ready absence, and bounded invalidatable caches. I3 awaits owner commit/push plus hosted verification. I4 is next; no UI integration, AppData, settings-v2, selector, production index/content, or corpus prose exists.
 
 | Stage | Scope | Primary gates |
 | --- | --- | --- |
@@ -504,16 +504,16 @@ Stages are deliberately bounded and are not combined into one implementation tas
 
 ## Current Implementation Handoff
 
-The immediate next implementation stage after owner acceptance and hosted-green CI-R53-FIX + I2 evidence is:
+The immediate next implementation stage after owner acceptance and hosted-green I3 evidence is:
 
 ```text
-INT0-I3 — Built-In Pack Source and Resolver
+INT0-I4 — Selector, Settings v2 and Silent Host
 ```
 
-Its scope is a shipped pack-source abstraction, manifest/index loading, D1 locale/mode resolution, broken-ready handling, and bounded cache over a `classic` skeleton whose modules remain `ready = false`. Visible prose remains excluded.
+Its scope is the pack selector, settings v1→v2 migration, `classic` persistence, removal of the unavailable placeholder, immediate re-resolution orchestration, and silent empty-host rendering with real-control UI smoke.
 
-INT0-I1 completed the Pack/classic migration and pure contracts. INT0-I2 added explicit-root, repository-only validation; deterministic generated indexes and manifest hashes; read-only drift checking; exact in-memory inventory gates; and tooling-only `authoring-inventory.json` reports. Application filesystem/AppData sources, resolver/cache behavior, UI, settings migration, production resources, prose, selector implementation, `two-cards`, and corpus authoring remain unimplemented.
+INT0-I1 completed the Pack/classic migration and pure contracts. INT0-I2 added explicit-root repository validation/index/authoring tooling. INT0-I3 added the production skeleton manifest, App-owned built-in source/catalog, pure resolver, trust-chain loading, and bounded caches. AppData sources, UI wiring, settings migration, prose, selector implementation, `two-cards`, and corpus authoring remain unimplemented.
 
 ## Independent Deferred Work
 
-T-UX1B stale card-size refresh debt, interpretation typography/font selection, Reset settings, Open AppData, Celtic Cross layout/composition, AP1–AP5, PKG1, S2, saved readings/history/SQLite, and other interpretation packs remain separate. None blocks INT0-I3.
+T-UX1B stale card-size refresh debt, interpretation typography/font selection, Reset settings, Open AppData, Celtic Cross layout/composition, AP1–AP5, PKG1, S2, saved readings/history/SQLite, and other interpretation packs remain separate. None blocks INT0-I4.

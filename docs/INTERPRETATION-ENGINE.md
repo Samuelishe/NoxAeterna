@@ -95,7 +95,7 @@ Literal source inspection confirms:
 - `TarotDrawEngine` already draws without replacement and supports explicit upright-only or upright/reversed orientation policies.
 - Current code has `TarotInterpretationPackId` as a separate typed identity from the semantic deck, artwork pack, presentation skin, and back variant; the active compile-time value is `classic`.
 - Presentation still has a separate `InterpretationLanguagePreference`, but no pack selector or selected-pack preference; it carries the prose-free `classic` identity only.
-- `NoxAeterna.Interpretation` now provides pure schema-v1 documents, exact in-memory JSON, immutable validation models, canonical keys/pairs, and typed resolution-result contracts over Domain and Symbolics. It contains no resolver, filesystem source, cache, or Tarot prose.
+- `NoxAeterna.Interpretation` now provides pure schema-v1 documents, exact in-memory JSON, immutable validation models, canonical keys/pairs, typed results, source abstractions, locale/mode resolution, trust-chain entry loading, and bounded in-memory caches over Domain and Symbolics. It contains no filesystem implementation, AppData path, UI wiring, or Tarot prose; the built-in file source is App-owned.
 - `resources/localization/interpretation/ru.json` and `en.json` contain only the early `interpretation.aspect.square` placeholder. They are not an approved production storage format for a future Tarot corpus.
 - The current Tarot UI honestly reports that interpretation content is unavailable.
 

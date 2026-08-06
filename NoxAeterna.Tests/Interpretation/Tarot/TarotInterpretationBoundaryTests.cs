@@ -55,9 +55,14 @@ public sealed class TarotInterpretationBoundaryTests
     }
 
     [Fact]
-    public void I2_KeepsSyntheticFixturesTestOnlyAndCreatesNoProductionPackResources()
+    public void I3_KeepsSyntheticFixturesTestOnlyAndCreatesOnlyClassicSkeletonResource()
     {
-        Assert.False(Directory.Exists(RepositoryPath("resources", "interpretation")));
+        var productionRoot = RepositoryPath("resources", "interpretation", "tarot", "packs", "classic");
+        var productionFiles = Directory.GetFiles(productionRoot, "*", SearchOption.AllDirectories);
+        Assert.Equal(new[] { Path.Combine(productionRoot, "interpretation-pack.json") }, productionFiles);
+        Assert.False(Directory.Exists(RepositoryPath("resources", "interpretation", "tarot", "working")));
+        Assert.False(Directory.Exists(Path.Combine(productionRoot, "content")));
+        Assert.False(Directory.Exists(Path.Combine(productionRoot, "indexes")));
         var fixtureRoot = RepositoryPath("NoxAeterna.Tests", "TestData", "Interpretation");
         Assert.True(Directory.Exists(fixtureRoot));
         Assert.All(
@@ -67,6 +72,10 @@ public sealed class TarotInterpretationBoundaryTests
         Assert.DoesNotContain(
             Directory.GetFiles(fixtureRoot, "*.json", SearchOption.AllDirectories).Select(File.ReadAllText),
             text => text.Contains("Classic prose", StringComparison.OrdinalIgnoreCase));
+        Assert.DoesNotContain(
+            productionFiles.Select(File.ReadAllText),
+            text => text.Contains("situation", StringComparison.OrdinalIgnoreCase) ||
+                    text.Contains("interaction", StringComparison.OrdinalIgnoreCase));
     }
 
     [Fact]

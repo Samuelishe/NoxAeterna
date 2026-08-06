@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-06: INT0-I3 Built-In Classic Pack Source and Resolver
+
+- Reconciled accepted I2 checkpoint `93a26fd8942fe0a519d60e9d5ac1a29f09930340` and green hosted run `31105509521`; added the exact production Classic skeleton manifest and App output/publish packaging while every module remains `ready = false`.
+- Added filesystem-free source contracts, the App-owned contained built-in source/catalog, requested→English→Russian mode resolution, broken-ready trust-chain handling, exact lazy canonical entry loads, and bounded invalidatable LRU caches.
+- Added cross-platform source, resolver, cache, packaging, boundary, and routing evidence without selector, settings-v2, AppData, visible UI integration, production indexes/content, vocabulary, or Classic prose.
+
 ## 2026-08-06: CI-R53-FIX and INT0-I2 Interpretation Validator and Index Tooling
 
 - Repaired run 53's exact Unix-only boundary-test failure by normalizing both `\\` and `/` in test-local project-reference extraction; production project-reference paths and I1 contracts remain unchanged.

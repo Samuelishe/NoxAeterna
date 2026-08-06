@@ -14,6 +14,7 @@
     <ProjectReference Include="..\\NoxAeterna.Astronomy\\NoxAeterna.Astronomy.csproj" />
     <ProjectReference Include="..\NoxAeterna.Domain\NoxAeterna.Domain.csproj" />
     <ProjectReference Include="..\NoxAeterna.Geometry\NoxAeterna.Geometry.csproj" />
+    <ProjectReference Include="..\NoxAeterna.Interpretation\NoxAeterna.Interpretation.csproj" />
     <ProjectReference Include="..\NoxAeterna.Presentation\NoxAeterna.Presentation.csproj" />
     <ProjectReference Include="..\NoxAeterna.Rendering\NoxAeterna.Rendering.csproj" />
     <ProjectReference Include="..\NoxAeterna.Infrastructure\NoxAeterna.Infrastructure.csproj" />
@@ -29,6 +30,18 @@
           CopyToPublishDirectory="Always" />
     <None Include="..\resources\assets\tarot\artwork-packs\lupus-noctis\cards\**\*.png"
           Link="resources\assets\tarot\artwork-packs\lupus-noctis\cards\%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest" />
+    <None Include="..\resources\interpretation\tarot\packs\**\interpretation-pack.json"
+          Link="resources\interpretation\tarot\packs\%(RecursiveDir)interpretation-pack.json"
+          CopyToOutputDirectory="Always"
+          CopyToPublishDirectory="Always" />
+    <None Include="..\resources\interpretation\tarot\packs\**\indexes\**\*.json"
+          Link="resources\interpretation\tarot\packs\%(RecursiveDir)%(Filename)%(Extension)"
+          CopyToOutputDirectory="Always"
+          CopyToPublishDirectory="Always" />
+    <None Include="..\resources\interpretation\tarot\packs\**\content\**\*.json"
+          Link="resources\interpretation\tarot\packs\%(RecursiveDir)%(Filename)%(Extension)"
           CopyToOutputDirectory="PreserveNewest"
           CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>

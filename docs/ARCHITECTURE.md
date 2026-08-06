@@ -53,7 +53,7 @@ Stores structured symbolic knowledge: planetary archetypes, zodiac archetypes, h
 
 ### Interpretation
 
-Combines symbolic factors into structured user-facing meaning. For Tarot it owns pack contracts, manifest/content/index models, validation, canonical keys, locale/mode resolution, deterministic composition, and cache-independent resolver logic. It knows neither Avalonia nor AppData path construction; exact Tarot allocation belongs to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
+Combines symbolic factors into structured user-facing meaning. For Tarot it owns pack/source contracts, manifest/content/index models, validation, canonical keys, locale/mode resolution, trust-chain loading, bounded immutable caches, and deterministic composition. It knows neither filesystem implementation, Avalonia, nor AppData path construction; exact Tarot allocation belongs to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 ### Rendering
 
@@ -88,6 +88,7 @@ Initial dependency direction for scaffold:
 - `NoxAeterna.Astronomy`: may depend on `NoxAeterna.Domain` and NodaTime; must not depend on Avalonia.
 - `NoxAeterna.Geometry`: may depend on `NoxAeterna.Domain` and astronomy-facing data contracts where justified; must not depend on Avalonia UI objects.
 - `NoxAeterna.Interpretation`: may depend on `NoxAeterna.Domain` and `NoxAeterna.Symbolics`; must not depend on App, Presentation, Avalonia, or AppData/filesystem construction.
+- `NoxAeterna.App` may depend on `NoxAeterna.Interpretation` as the composition root and owns the exact built-in filesystem adapter/catalog; interpretation semantics and resolver behavior remain outside App.
 - `NoxAeterna.Rendering`: may depend on `NoxAeterna.Geometry` and render models; must not contain astronomy or interpretation logic.
 - `NoxAeterna.Presentation`: may depend on domain-facing application contracts and presentation models; should not own core calculation logic.
 - `NoxAeterna.Infrastructure`: contains adapters to ephemeris, SQLite, logging, and external services; references core abstractions but should not redefine them. The first real ephemeris-backed calculator now lives here.
