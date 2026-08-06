@@ -24,3 +24,5 @@ Archived content is retained historical evidence, not current status. Use [`PROJ
 - [`2026-08-04, part 02`](session-log/SESSION-LOG_2026-08-04_part-02.md) — partial-day evidence for A18-P+A19; later August 4 entries remain in the active log.
 - [`2026-08-04, part 03`](session-log/SESSION-LOG_2026-08-04_part-03.md) — remaining partial-day evidence for the A19 correction pass through A21-P+A22; this completes the archived chronology for August 4.
 - [`2026-08-05, part 01`](session-log/SESSION-LOG_2026-08-05_part-01.md) — partial-day evidence for ART-SKILL-2, A22 promotion, and the A23 review batch; later August 5 entries remain in the active log.
+- [`2026-08-05, part 02`](session-log/SESSION-LOG_2026-08-05_part-02.md) — remaining August 5 evidence for A24/A25 and the A23 CI correction; this completes the archived chronology for August 5.
+- [`2026-08-06, part 01`](session-log/SESSION-LOG_2026-08-06_part-01.md) — partial-day evidence for T-UX1A, INT0 planning, and A26 completion; later August 6 entries remain in the active log.

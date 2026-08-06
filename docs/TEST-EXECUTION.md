@@ -37,6 +37,7 @@ Run a focused or area route:
 ```powershell
 pwsh eng/test-route.ps1 run Geometry
 pwsh eng/test-route.ps1 run Interpretation
+pwsh eng/test-route.ps1 run Repository-Tooling
 pwsh eng/test-route.ps1 run Project-Stats
 pwsh eng/test-route.ps1 run Agent-Context
 pwsh eng/test-route.ps1 run Repository-Verification -NoBuild
@@ -50,7 +51,15 @@ pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone
 
 The registry is responsibility-oriented, not stage-oriented. A leaf route must remain bounded and non-overlapping with its peers. A composite is an ordered plan, not a parallel scheduler.
 
-`Interpretation` owns the focused `NoxAeterna.Tests.Interpretation` namespace for pack identities, schema contracts, JSON, canonical keys, and pure validation. `Project-Stats` and `Agent-Context` own separate non-overlapping namespaces. `Repository-Verification` executes architecture boundaries, existing repository tooling, Project Stats, and Agent Context in that order.
+`Interpretation` owns the focused `NoxAeterna.Tests.Interpretation` namespace for pack identities, schema contracts, JSON, canonical keys, and pure validation. `Repository-Tooling` owns `NoxAeterna.Tests.Tooling.Interpretation` for explicit-root filesystem validation, generated indexes/check mode, and authoring reports in addition to its existing tooling scope. `Project-Stats` and `Agent-Context` own separate non-overlapping namespaces. `Repository-Verification` executes architecture boundaries, repository tooling, Project Stats, and Agent Context in that order.
+
+Tooling CLI examples use an explicit synthetic or future pack root:
+
+```powershell
+dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack validate --pack-root <path>
+dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack generate-indexes --pack-root <path> --check
+dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack authoring-status --working-root <path>
+```
 
 ## Build and `-NoBuild`
 

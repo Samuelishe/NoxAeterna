@@ -11,7 +11,7 @@ public sealed class TarotInterpretationBoundaryTests
         var project = XDocument.Load(RepositoryPath(
             "NoxAeterna.Interpretation", "NoxAeterna.Interpretation.csproj"));
         var references = project.Descendants("ProjectReference")
-            .Select(item => Path.GetFileNameWithoutExtension((string?)item.Attribute("Include")))
+            .Select(ProjectReferenceName)
             .Order(StringComparer.Ordinal)
             .ToArray();
         var packages = project.Descendants("PackageReference").ToArray();
@@ -19,6 +19,20 @@ public sealed class TarotInterpretationBoundaryTests
         Assert.Equal(new[] { "NoxAeterna.Domain", "NoxAeterna.Symbolics" }, references);
         Assert.Empty(packages);
         Assert.DoesNotContain(references, name => name is "NoxAeterna.App" or "NoxAeterna.Presentation" or "NoxAeterna.Infrastructure");
+    }
+
+    [Theory]
+    [InlineData(@"..\NoxAeterna.Domain\NoxAeterna.Domain.csproj", "NoxAeterna.Domain")]
+    [InlineData("../NoxAeterna.Domain/NoxAeterna.Domain.csproj", "NoxAeterna.Domain")]
+    [InlineData(@"NoxAeterna.Symbolics\NoxAeterna.Symbolics.csproj", "NoxAeterna.Symbolics")]
+    [InlineData("NoxAeterna.Symbolics/NoxAeterna.Symbolics.csproj", "NoxAeterna.Symbolics")]
+    public void ProjectReferenceName_NormalizesBothSeparatorsIndependentlyOfHost(
+        string include,
+        string expected)
+    {
+        var item = new XElement("ProjectReference", new XAttribute("Include", include));
+
+        Assert.Equal(expected, ProjectReferenceName(item));
     }
 
     [Fact]
@@ -41,12 +55,18 @@ public sealed class TarotInterpretationBoundaryTests
     }
 
     [Fact]
-    public void I1_CreatesNoProductionPackResourcesOrFixturePack()
+    public void I2_KeepsSyntheticFixturesTestOnlyAndCreatesNoProductionPackResources()
     {
         Assert.False(Directory.Exists(RepositoryPath("resources", "interpretation")));
+        var fixtureRoot = RepositoryPath("NoxAeterna.Tests", "TestData", "Interpretation");
+        Assert.True(Directory.Exists(fixtureRoot));
+        Assert.All(
+            Directory.GetFiles(fixtureRoot, "*.json", SearchOption.AllDirectories),
+            path => Assert.StartsWith(RepositoryPath("NoxAeterna.Tests"), path, StringComparison.OrdinalIgnoreCase));
+        Assert.False(Directory.Exists(Path.Combine(AppContext.BaseDirectory, "TestData", "Interpretation")));
         Assert.DoesNotContain(
-            Directory.GetDirectories(RepositoryPath("NoxAeterna.Tests"), "*", SearchOption.AllDirectories),
-            path => path.Contains("fixture-pack", StringComparison.OrdinalIgnoreCase));
+            Directory.GetFiles(fixtureRoot, "*.json", SearchOption.AllDirectories).Select(File.ReadAllText),
+            text => text.Contains("Classic prose", StringComparison.OrdinalIgnoreCase));
     }
 
     [Fact]
@@ -82,6 +102,14 @@ public sealed class TarotInterpretationBoundaryTests
             .Where(path => !path.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
             .Order(StringComparer.Ordinal)
             .Select(File.ReadAllText));
+
+    private static string ProjectReferenceName(XElement item)
+    {
+        var include = (string?)item.Attribute("Include")
+            ?? throw new InvalidOperationException("ProjectReference Include is missing.");
+        var normalized = include.Replace('\\', '/');
+        return Path.GetFileNameWithoutExtension(normalized);
+    }
 
     private static string RepositoryPath(params string[] segments)
     {

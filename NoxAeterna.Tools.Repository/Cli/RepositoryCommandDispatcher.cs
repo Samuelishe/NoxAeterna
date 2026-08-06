@@ -1,5 +1,6 @@
 using NoxAeterna.Tools.Repository.Analysis;
 using NoxAeterna.Tools.Repository.Context.Cli;
+using NoxAeterna.Tools.Repository.Interpretation.Cli;
 using NoxAeterna.Tools.Repository.Stats;
 
 namespace NoxAeterna.Tools.Repository.Cli;
@@ -18,6 +19,7 @@ public static class RepositoryCommandDispatcher
             "stats" => RunStats(args, output, error),
             "context-plan" => ContextPlanCli.Run(args, output, error),
             "context-eval" => Context.Evaluation.ContextEvalCli.Run(args, output, error),
+            "interpretation-pack" => InterpretationPackCli.Run(args, output, error),
             _ => Unknown(args[0], error)
         };
     }
@@ -89,7 +91,7 @@ public static class RepositoryCommandDispatcher
         return 2;
     }
 
-    private static string TopHelp() => "Nox Aeterna repository tools\n\nCommands:\n  stats\n  context-plan\n  context-eval\n";
+    private static string TopHelp() => "Nox Aeterna repository tools\n\nCommands:\n  stats\n  context-plan\n  context-eval\n  interpretation-pack\n";
     private static string StatsHelp() =>
         "Nox Aeterna factual repository diagnostics\n\nUsage:\n  stats [repository-root] [--top N] [--json | --markdown] [--output PATH]\n  --help\n\nDefaults to the current Git repository and bounded console output.\n--top accepts 1 through 100. Relative output paths must remain inside the repository.\n";
 }

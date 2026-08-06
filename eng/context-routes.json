@@ -162,10 +162,10 @@
     },
     {
       "name": "tarot-interpretation-packs", "priority": 90,
-      "patterns": ["NoxAeterna.Interpretation/Tarot/**", "NoxAeterna.Presentation/Tarot/*Interpretation*", "NoxAeterna.App/Tarot/*Interpretation*", "NoxAeterna.Tests/Interpretation/Tarot/**", "NoxAeterna.Tests/Presentation/*TarotInterpretation*", "NoxAeterna.Tests/App/*TarotInterpretation*", "docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md", "docs/TAROT-INTERPRETATION-IMPLEMENTATION.md"],
+      "patterns": ["NoxAeterna.Interpretation/Tarot/**", "NoxAeterna.Tools.Repository/Interpretation/**", "NoxAeterna.Presentation/Tarot/*Interpretation*", "NoxAeterna.App/Tarot/*Interpretation*", "NoxAeterna.Tests/Interpretation/Tarot/**", "NoxAeterna.Tests/Tooling/Interpretation/**", "NoxAeterna.Tests/Presentation/*TarotInterpretation*", "NoxAeterna.Tests/App/*TarotInterpretation*", "docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md", "docs/TAROT-INTERPRETATION-IMPLEMENTATION.md"],
       "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "Documentation"],
       "documents": ["docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md", "docs/TAROT-INTERPRETATION-IMPLEMENTATION.md", "docs/INTERPRETATION-ENGINE.md", "docs/TAROT-ENGINE.md"],
-      "testRoutes": ["Interpretation"]
+      "testRoutes": ["Interpretation", "Repository-Tooling"]
     },
     {
       "name": "persistence-production", "priority": 100,
@@ -204,9 +204,9 @@
     },
     {
       "name": "repository-tooling", "priority": 500,
-      "patterns": ["eng/**", ".github/workflows/**", "NoxAeterna.Tests/Tooling/**"],
+      "patterns": ["eng/**", ".github/workflows/**", "NoxAeterna.Tools.Repository/Interpretation/**", "NoxAeterna.Tests/Tooling/**"],
       "taskKinds": ["Tooling", "TestChange", "Documentation"],
-      "documents": ["docs/DOCUMENTATION-GOVERNANCE.md", "docs/TEST-EXECUTION.md"],
+      "documents": ["docs/DOCUMENTATION-GOVERNANCE.md", "docs/TEST-EXECUTION.md", "docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md", "docs/TAROT-INTERPRETATION-IMPLEMENTATION.md"],
       "testRoutes": ["Repository-Tooling"]
     },
     {

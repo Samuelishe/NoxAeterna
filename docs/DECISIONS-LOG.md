@@ -938,3 +938,11 @@ Decision: Freeze typed data-only synthesis resource categories now and finalize 
 Reason: Thresholds are a mode-specific implementation rule that needs real composition tests, not an unresolved common schema question.
 
 Consequences: D4 closes cross-owner architecture while forbidding an arbitrary executable expression language.
+
+## 2026-08-06: Permit One-Way Interpretation Contracts in Repository Tooling
+
+Decision: `NoxAeterna.Tools.Repository` may reference pure `NoxAeterna.Interpretation` contracts for build-time Tarot pack validation, index/hash generation, and authoring reports; no runtime or product layer may reference Tools.Repository.
+
+Reason: Tooling must reuse the authoritative I1 schemas and validators rather than duplicate them.
+
+Consequences: Interpretation keeps no reverse dependency, while Tools.Repository remains independent from App, Presentation, Infrastructure, Avalonia, and runtime resolver behavior.

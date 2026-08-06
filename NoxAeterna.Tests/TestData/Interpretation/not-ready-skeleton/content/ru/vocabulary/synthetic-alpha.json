@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "conceptId": "synthetic-alpha",
+  "label": "Synthetic Alpha",
+  "meaning": "Synthetic validation-only concept."
+}

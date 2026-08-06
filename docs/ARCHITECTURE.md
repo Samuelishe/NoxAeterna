@@ -73,7 +73,7 @@ Application composition root, Avalonia startup, dependency injection, configurat
 
 ### Repository Tooling
 
-`NoxAeterna.Tools.Repository` is a standalone BCL-only executable for factual inventory, structural diagnostics, and future interpretation schema/inventory/index/hash authoring tooling. It has no production runtime behavior or product-layer references; context selection and interpretation authoring rules remain explicit contracts rather than inferred semantics.
+`NoxAeterna.Tools.Repository` is a standalone executable for factual inventory and structural diagnostics. Its Tarot pack tooling may reference the pure contracts in `NoxAeterna.Interpretation` for build-time validation, deterministic index/hash generation, and authoring reports. It has no production runtime behavior and must not reference App, Presentation, Infrastructure, Avalonia, or runtime composition; no production project references Tools.Repository.
 
 ### Tests
 

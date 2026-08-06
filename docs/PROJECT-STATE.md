@@ -26,13 +26,13 @@
 - ART-SKILL-RM retired the repository-owned and user-level Tarot generation skill. Future artwork creation and artistic acceptance belong to the owner outside Codex; the active handoff contract is owned by [`LUPUS-NOCTIS.md`](../resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md#artwork-creation-and-codex-handoff).
 - TAROT-ART-RUNTIME-1 is accepted at checkpoint commit `916ef59a081c4a465c5c1275944aa7b7da0f3afb`. Lupus Noctis is the sole default user-facing artwork pack, all 78 cards resolve to raster with zero normal fallback, required-pack damage produces a controlled unavailable workspace, and hosted run `31062978166` passed all five documentation, desktop-platform, and diagnostic coverage jobs.
 - T-UX1A is complete at checkpoint commit `540bcc4e010780ea4aaf1b5c547b9541e27adc78`: cards use exact `1.5×` widths, controls remain fixed above one vertically scrolling surface, tableau overflow is locally horizontal, the selected-card inspector is removed, auto reveal defaults on with manual reveal available, and versioned AppData JSON restores language/theme and Tarot selections without restoring a reading. Hosted run `31065568715` passed all five jobs.
-- INT0-D1–D4 and the four-owner interpretation architecture are accepted. D4 checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e` and hosted run `31095939556` passed all five jobs. INT0-I1 is complete locally: Set/foundation is migrated to Pack/classic, and Interpretation now owns in-memory schema documents, immutable validated contracts, exact JSON/enums, canonical keys/pairs, typed diagnostics, and typed resolution-result contracts. Owner commit/push and hosted verification remain pending; no filesystem source, resolver, cache, UI, settings-v2 migration, selector, production corpus, or authoring tool was implemented.
+- INT0-D1–D4 and the four-owner interpretation architecture are accepted. D4 checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e` and hosted run `31095939556` passed all five jobs. INT0-I1 was published at `9c1f68962e84d21d87b2af8072bb0fadf9c4a2f0`; hosted run 53 (`31099808099`) exposed one test-only Unix path-separator regression while the I1 production contracts remained accepted. CI-R53-FIX now normalizes both project-reference separators locally. INT0-I2 is complete locally with synthetic-only pack validation, deterministic index/hash generation and checking, and authoring-inventory reports; owner commit/push and hosted verification remain pending.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-After owner acceptance and hosted-green I1 evidence, the next focus is **INT0-I2 — Validator and Index Tooling**. INT0 architecture is accepted and complete; the first contract implementation is complete locally, while filesystem/runtime work and corpus authoring have not begun. ART-LN remains complete at 78/78; AP1–AP5 and other independent roadmap stages remain deferred.
+After owner acceptance and hosted-green CI-R53-FIX + INT0-I2 evidence, the next focus is **INT0-I3 — Built-In Pack Source and Resolver**. INT0 architecture and I1 contracts are accepted; repository tooling is complete locally, while application filesystem/runtime work and corpus authoring have not begun. ART-LN remains complete at 78/78; AP1–AP5 and other independent roadmap stages remain deferred.
 
 ## Preserved Contracts
 
@@ -48,4 +48,4 @@ After owner acceptance and hosted-green I1 evidence, the next focus is **INT0-I2
 
 ## Active Blockers
 
-- No unresolved architecture blocker remains for INT0-I2. I1 local changes still need owner commit/push and hosted verification. AP1–AP5, PKG1, S2, T-UX1B, later Tarot zoom/detail work, and other independent stages remain deferred.
+- No unresolved architecture blocker remains for INT0-I3. CI-R53-FIX + I2 local changes still need owner commit/push and hosted verification. AP1–AP5, PKG1, S2, T-UX1B, later Tarot zoom/detail work, and other independent stages remain deferred.

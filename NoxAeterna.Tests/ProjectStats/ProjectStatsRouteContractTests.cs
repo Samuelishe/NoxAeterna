@@ -23,7 +23,7 @@ public sealed class ProjectStatsRouteContractTests
     }
 
     [Fact]
-    public void ToolProjectIsNetTenExecutableWithNoPackagesOrProductReferences()
+    public void ToolProjectIsNetTenExecutableWithOnlyPureInterpretationReferenceAndNoPackages()
     {
         var path = Path.Combine(
             ProjectStatsTestFixture.RepositoryRoot,
@@ -34,7 +34,9 @@ public sealed class ProjectStatsRouteContractTests
         Assert.Equal("net10.0", document.Descendants("TargetFramework").Single().Value);
         Assert.Equal("Exe", document.Descendants("OutputType").Single().Value);
         Assert.Empty(document.Descendants("PackageReference"));
-        Assert.Empty(document.Descendants("ProjectReference"));
+        Assert.Equal(
+            @"..\NoxAeterna.Interpretation\NoxAeterna.Interpretation.csproj",
+            document.Descendants("ProjectReference").Single().Attribute("Include")?.Value);
     }
 
     [Fact]

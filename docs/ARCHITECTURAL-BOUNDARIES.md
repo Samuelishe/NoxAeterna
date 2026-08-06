@@ -31,7 +31,7 @@ This document is intentionally explicit. It exists to prevent layer leakage duri
 - Interpretation consumes symbolic factors and symbolics data and produces structured interpretation blocks.
 - Presentation orchestrates use cases and view state; it does not own core symbolic logic.
 - App supplies shipped/future AppData pack sources, catalog composition, selector controls, settings wiring, and silent visual materialization without moving pack semantics into UI.
-- Repository tooling may validate schemas and inventories and generate indexes/hashes, but it owns no production resolver behavior.
+- Repository tooling may depend one-way on pure `NoxAeterna.Interpretation` contracts to validate schemas/inventories and generate indexes/hashes. It owns no production resolver behavior, has no App/Presentation/Infrastructure/Avalonia dependency, and no production project may depend on it.
 
 ## What To Reject In Review
 
@@ -42,6 +42,7 @@ Reject changes that:
 - Put prose generation into Symbolics.
 - Put SQL access into interpretation code.
 - Put Avalonia controls, AppData path construction, file-source composition, or settings I/O into interpretation-core contracts.
+- Copy Interpretation schema contracts into repository tooling instead of using the approved one-way Tools.Repository → Interpretation reference, or add a reverse/product-runtime dependency on Tools.Repository.
 - Put Swiss Ephemeris calls into UI or rendering code.
 - Put raw domain entities directly into rendering code when prepared render models are warranted.
 - Hide critical calculation behavior in static helpers with shared mutable state.

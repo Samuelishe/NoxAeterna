@@ -9,7 +9,7 @@
 
 ## Scope and Owner Hierarchy
 
-This document freezes the shared implementation contract approved in INT0-D1 through D4. D4 is accepted at checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e`; hosted run `31095939556` passed all five jobs. INT0-I1 now implements the pure contract subset without adding runtime, corpus content, or `resources/interpretation/**`.
+This document freezes the shared implementation contract approved in INT0-D1 through D4. D4 is accepted at checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e`; hosted run `31095939556` passed all five jobs. I1 was published at `9c1f68962e84d21d87b2af8072bb0fadf9c4a2f0`; run 53's test-only Unix separator defect is repaired locally. I2 now implements repository-side validation/index/authoring tooling over synthetic fixtures without adding runtime, corpus content, or `resources/interpretation/**`.
 
 | Owner | Canonical responsibility |
 | --- | --- |
@@ -407,7 +407,7 @@ The separate planned actions remain unchanged: `Сбросить настрой�
 | `NoxAeterna.Interpretation` | Pack contracts; manifest/content/index models; validation; canonical keys; locale/mode resolution; structured results; deterministic composition; cache-independent resolver logic. | Avalonia, AppData path construction, App, or Presentation dependencies. |
 | `NoxAeterna.Presentation` | Selected-pack and interpretation-language preferences; reveal-gated view state; prepared display blocks; immediate re-resolution orchestration signals. | JSON/file I/O or prose authoring. |
 | `NoxAeterna.App` | Composition root; shipped/file and future AppData sources; catalog assembly; selector controls; headings/tags rendering; silent empty host; settings migration and persistence wiring. | Semantic meaning or Domain rules. |
-| `NoxAeterna.Tools.Repository` | Schema/inventory validation CLI; index/hash generation; authoring progress reports; batch tooling. | Production runtime behavior. |
+| `NoxAeterna.Tools.Repository` | Schema/inventory validation CLI; index/hash generation; authoring progress reports; batch tooling; one-way reuse of pure Interpretation contracts. | Production runtime behavior; App, Presentation, Infrastructure, Avalonia, or reverse dependencies. |
 | `resources/interpretation` | Accepted and working content under the separate D3/D4 roots. | Runtime state or user preferences. |
 
 `NoxAeterna.Interpretation` never depends on `NoxAeterna.App` or `NoxAeterna.Presentation`.
@@ -484,7 +484,7 @@ Every approved D1–D3 area has an implementation stage or an explicit independe
 
 ## Staged Implementation Roadmap
 
-Implementation status after local INT0-I1: I1 is complete locally and awaits owner commit/push plus hosted verification; I2 is next. I1 added no filesystem, UI, settings-v2, selector, resources, or corpus work.
+Implementation status after local INT0-I2: I1 contracts are published and unchanged; the run-53 test portability regression and I2 tooling are complete locally, awaiting owner commit/push plus hosted verification. I3 is next. I2 added no application filesystem source, runtime resolver/cache, UI, settings-v2, selector, production resources, or corpus prose.
 
 | Stage | Scope | Primary gates |
 | --- | --- | --- |
@@ -504,16 +504,16 @@ Stages are deliberately bounded and are not combined into one implementation tas
 
 ## Current Implementation Handoff
 
-The immediate next implementation stage after owner acceptance and hosted-green I1 evidence is:
+The immediate next implementation stage after owner acceptance and hosted-green CI-R53-FIX + I2 evidence is:
 
 ```text
-INT0-I2 — Validator and Index Tooling
+INT0-I3 — Built-In Pack Source and Resolver
 ```
 
-Its scope is repository validation/index tooling over synthetic fixtures: content/path/hash checks, generated indexes, exact inventory checks, and authoring-inventory validation. Production Classic prose remains excluded.
+Its scope is a shipped pack-source abstraction, manifest/index loading, D1 locale/mode resolution, broken-ready handling, and bounded cache over a `classic` skeleton whose modules remain `ready = false`. Visible prose remains excluded.
 
-INT0-I1 completed the Pack/classic migration, schema documents, immutable contracts, exact JSON/enums, canonical keys, typed results, and pure validation. Filesystem/AppData sources, resolver/cache behavior, UI, settings migration, production resources, prose, selector implementation, `two-cards`, and corpus authoring remain unimplemented.
+INT0-I1 completed the Pack/classic migration and pure contracts. INT0-I2 added explicit-root, repository-only validation; deterministic generated indexes and manifest hashes; read-only drift checking; exact in-memory inventory gates; and tooling-only `authoring-inventory.json` reports. Application filesystem/AppData sources, resolver/cache behavior, UI, settings migration, production resources, prose, selector implementation, `two-cards`, and corpus authoring remain unimplemented.
 
 ## Independent Deferred Work
 
-T-UX1B stale card-size refresh debt, interpretation typography/font selection, Reset settings, Open AppData, Celtic Cross layout/composition, AP1–AP5, PKG1, S2, saved readings/history/SQLite, and other interpretation packs remain separate. None blocks INT0-I1.
+T-UX1B stale card-size refresh debt, interpretation typography/font selection, Reset settings, Open AppData, Celtic Cross layout/composition, AP1–AP5, PKG1, S2, saved readings/history/SQLite, and other interpretation packs remain separate. None blocks INT0-I3.
