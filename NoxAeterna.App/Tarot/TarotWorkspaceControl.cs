@@ -14,7 +14,7 @@ using AvaloniaGeometry = Avalonia.Media.Geometry;
 
 namespace NoxAeterna.App.Tarot;
 
-/// <summary>Hosts the first playable in-memory Tarot workspace with programmatic prototype visuals.</summary>
+/// <summary>Hosts the playable in-memory Tarot workspace with built-in raster artwork.</summary>
 public sealed class TarotWorkspaceControl : UserControl
 {
     private const double TableauFallbackWidth = 760d;
@@ -30,7 +30,7 @@ public sealed class TarotWorkspaceControl : UserControl
     private readonly Dictionary<string, Bitmap> rasterImageCache = new(StringComparer.Ordinal);
     private ScrollViewer? tableauScrollViewer;
     private Button? drawButton;
-    private TextBlock? artworkNotice;
+    private TextBlock? artworkDiagnostic;
 
     /// <summary>Initializes a real Tarot workspace over presentation-owned state.</summary>
     public TarotWorkspaceControl(
@@ -113,7 +113,7 @@ public sealed class TarotWorkspaceControl : UserControl
             ItemsSource = viewModel.ArtworkPacks
                 .Select(option => new LocalizedArtworkOption(option, Localize(option.LabelKey)))
                 .ToArray(),
-            IsVisible = viewModel.ArtworkPacks.Count > 1
+            IsVisible = true
         };
         artworkSelector.SelectedItem = ((LocalizedArtworkOption[])artworkSelector.ItemsSource!)
             .First(option => option.Option == viewModel.SelectedArtworkPack);
@@ -160,7 +160,8 @@ public sealed class TarotWorkspaceControl : UserControl
         {
             Name = "TarotDrawButton",
             Content = Localize("ui.tarot.control.draw"),
-            HorizontalAlignment = HorizontalAlignment.Left
+            HorizontalAlignment = HorizontalAlignment.Left,
+            IsEnabled = artworkCatalog.IsReady
         };
         drawButton.Classes.Add("primary-action");
         AutomationProperties.SetName(drawButton, Localize("ui.tarot.control.draw"));
@@ -168,11 +169,7 @@ public sealed class TarotWorkspaceControl : UserControl
 
         var controls = new WrapPanel { Orientation = Orientation.Horizontal };
         controls.Children.Add(CreateLabeledControl("ui.tarot.control.spread", spreadSelector));
-        if (viewModel.ArtworkPacks.Count > 1)
-        {
-            controls.Children.Add(CreateLabeledControl("ui.tarot.control.artwork", artworkSelector));
-        }
-
+        controls.Children.Add(CreateLabeledControl("ui.tarot.control.artwork", artworkSelector));
         controls.Children.Add(CreateLabeledControl("ui.tarot.control.back", backSelector));
         controls.Children.Add(orientationToggle);
         controls.Children.Add(drawButton);
@@ -181,7 +178,8 @@ public sealed class TarotWorkspaceControl : UserControl
             control.Margin = new Thickness(0, 0, 18, 12);
         }
 
-        artworkNotice = CreateStateText(Localize(GetArtworkNoticeKey()), "subtle");
+        artworkDiagnostic = CreateStateText(Localize("ui.tarot.artwork.unavailable"), "validation-error");
+        artworkDiagnostic.IsVisible = !artworkCatalog.IsReady;
         var panel = new Border
         {
             Padding = new Thickness(18, 16),
@@ -191,7 +189,7 @@ public sealed class TarotWorkspaceControl : UserControl
                 Children =
                 {
                     controls,
-                    artworkNotice
+                    artworkDiagnostic
                 }
             }
         };
@@ -256,11 +254,6 @@ public sealed class TarotWorkspaceControl : UserControl
                 : "ui.tarot.control.redraw";
             drawButton.Content = Localize(actionKey);
             AutomationProperties.SetName(drawButton, Localize(actionKey));
-        }
-
-        if (artworkNotice is not null)
-        {
-            artworkNotice.Text = Localize(GetArtworkNoticeKey());
         }
 
         RefreshTableau();
@@ -364,7 +357,7 @@ public sealed class TarotWorkspaceControl : UserControl
             artwork,
             title,
             structuralText,
-            artwork.IsPartialPackFallback ? Localize("ui.tarot.artwork.fallback") : null);
+            prototypeFallbackText: null);
         var visual = artwork.Kind == TarotArtworkResolutionKind.Raster
             ? CreateRasterArtwork(artwork.RasterAsset!)
             : CreatePrototypeArtwork(assignment);
@@ -489,10 +482,6 @@ public sealed class TarotWorkspaceControl : UserControl
         footer.Classes.Add("supporting");
         return footer;
     }
-
-    private LocalizationKey GetArtworkNoticeKey() => viewModel.SelectedArtworkPack.Id == TarotPrototypeSelections.ArtworkPackId
-        ? new LocalizationKey("ui.tarot.prototype.notice")
-        : new LocalizationKey("ui.tarot.artwork.partial-notice");
 
     private Border CreateCardBack(TarotBackVariantId backVariantId, double width)
     {

@@ -17,7 +17,7 @@ public sealed record TarotArtworkResolution(
     TarotArtworkPackCardAsset? RasterAsset,
     bool IsPartialPackFallback);
 
-/// <summary>Owns built-in artwork definitions and controlled prototype fallback.</summary>
+/// <summary>Owns built-in artwork definitions and an explicit internal prototype resolution seam.</summary>
 public sealed class TarotArtworkPackCatalog
 {
     private readonly IReadOnlyDictionary<TarotArtworkPackId, TarotArtworkPackDefinition> packs;
@@ -28,24 +28,28 @@ public sealed class TarotArtworkPackCatalog
     {
         this.packs = packs;
         Diagnostics = Array.AsReadOnly(diagnostics);
-        AvailableOptions = Array.AsReadOnly(
-            TarotPrototypeSelections.ArtworkPacks
-                .Where(option => option.Id == TarotPrototypeSelections.ArtworkPackId || packs.ContainsKey(option.Id))
-                .ToArray());
+        AvailableOptions = TarotPrototypeSelections.ArtworkPacks;
+        IsReady = packs.ContainsKey(TarotPrototypeSelections.LupusNoctisArtworkPackId);
     }
 
     public IReadOnlyList<TarotArtworkPackOption> AvailableOptions { get; }
 
     public IReadOnlyList<string> Diagnostics { get; }
 
-    public static TarotArtworkPackCatalog CreateBuiltIn()
+    public bool IsReady { get; }
+
+    public static TarotArtworkPackCatalog CreateBuiltIn() => CreateFromSource(
+        new BuiltInLupusNoctisResourceSource());
+
+    public static TarotArtworkPackCatalog CreateFromSource(ITarotArtworkPackResourceSource source)
     {
+        ArgumentNullException.ThrowIfNull(source);
         var packs = new Dictionary<TarotArtworkPackId, TarotArtworkPackDefinition>();
         var diagnostics = new List<string>();
         try
         {
             var pack = TarotArtworkPackLoader.Load(
-                new BuiltInLupusNoctisResourceSource(),
+                source,
                 StandardTarotCatalog.Deck);
             packs.Add(pack.Id, pack);
         }
@@ -73,7 +77,7 @@ public sealed class TarotArtworkPackCatalog
         ArgumentNullException.ThrowIfNull(artworkPackId);
         ArgumentNullException.ThrowIfNull(card);
 
-        if (artworkPackId == TarotPrototypeSelections.ArtworkPackId)
+        if (artworkPackId == TarotPrototypeSelections.PrototypeArtworkPackId)
         {
             return new TarotArtworkResolution(card, TarotArtworkResolutionKind.Prototype, null, false);
         }

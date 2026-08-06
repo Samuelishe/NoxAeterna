@@ -221,12 +221,12 @@ public sealed class JsonLocalizationCatalogLoaderTests
         {
             "ui.tarot.control.spread", "ui.tarot.control.artwork", "ui.tarot.control.back", "ui.tarot.control.allow-reversed",
             "ui.tarot.control.draw", "ui.tarot.control.redraw", "ui.tarot.tableau.title",
-            "ui.tarot.empty-state", "ui.tarot.failure.insufficient-deck", "ui.tarot.prototype.notice",
+            "ui.tarot.empty-state", "ui.tarot.failure.insufficient-deck", "ui.tarot.artwork.unavailable",
             "ui.tarot.spread.single-card", "ui.tarot.spread.three-cards", "ui.tarot.position.card",
             "ui.tarot.position.past", "ui.tarot.position.present", "ui.tarot.position.future",
             "ui.tarot.orientation.upright", "ui.tarot.orientation.reversed", "ui.tarot.arcana.major",
             "ui.tarot.arcana.minor", "ui.tarot.back.black-sun", "ui.tarot.back.lunar-seal",
-            "ui.tarot.artwork.prototype-symbolic", "ui.tarot.artwork.lupus-noctis", "ui.tarot.artwork.fallback",
+            "ui.tarot.artwork.lupus-noctis",
             "ui.tarot.skin.astral-archive-prototype",
             "ui.tarot.interpretation.foundation", "ui.tarot.inspector.title", "ui.tarot.inspector.card",
             "ui.tarot.inspector.position", "ui.tarot.inspector.orientation", "ui.tarot.inspector.arcana",
@@ -241,17 +241,15 @@ public sealed class JsonLocalizationCatalogLoaderTests
     }
 
     [Fact]
-    public void RealUiCatalogs_LocalizeClassicAndPreserveLupusNoctisProperName()
+    public void RealUiCatalogs_PreserveLupusNoctisProperNameAndLocalizeUnavailableDiagnostic()
     {
         var english = LoadRealUiCatalog("en");
         var russian = LoadRealUiCatalog("ru");
 
-        Assert.Equal("Classic", GetRequiredText(english, "ui.tarot.artwork.prototype-symbolic"));
-        Assert.Equal("Классическая", GetRequiredText(russian, "ui.tarot.artwork.prototype-symbolic"));
         Assert.Equal("Lupus Noctis", GetRequiredText(english, "ui.tarot.artwork.lupus-noctis"));
         Assert.Equal("Lupus Noctis", GetRequiredText(russian, "ui.tarot.artwork.lupus-noctis"));
-        Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(english, "ui.tarot.artwork.fallback")));
-        Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(russian, "ui.tarot.artwork.fallback")));
+        Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(english, "ui.tarot.artwork.unavailable")));
+        Assert.False(string.IsNullOrWhiteSpace(GetRequiredText(russian, "ui.tarot.artwork.unavailable")));
     }
 
     [Fact]

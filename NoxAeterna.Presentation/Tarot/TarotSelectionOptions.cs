@@ -12,20 +12,23 @@ public sealed record TarotBackVariantOption(TarotBackVariantId Id, LocalizationK
 /// <summary>Represents one selectable artwork pack and its localized display-name key.</summary>
 public sealed record TarotArtworkPackOption(TarotArtworkPackId Id, LocalizationKey LabelKey);
 
-/// <summary>Owns the honest prototype selections available during the first Tarot vertical slice.</summary>
+/// <summary>Owns the built-in Tarot selection identities used by the foundation workspace.</summary>
 public static class TarotPrototypeSelections
 {
-    /// <summary>Gets the built-in Classic prototype artwork-pack identity.</summary>
-    public static TarotArtworkPackId ArtworkPackId { get; } = new("prototype-symbolic");
+    /// <summary>Gets the internal programmatic prototype artwork identity.</summary>
+    public static TarotArtworkPackId PrototypeArtworkPackId { get; } = new("prototype-symbolic");
+
+    /// <summary>Gets the sole user-facing built-in artwork-pack identity.</summary>
+    public static TarotArtworkPackId LupusNoctisArtworkPackId { get; } = new("lupus-noctis");
+
+    /// <summary>Gets the explicit default user-facing artwork-pack identity.</summary>
+    public static TarotArtworkPackId DefaultArtworkPackId { get; } = LupusNoctisArtworkPackId;
 
     /// <summary>Gets the real built-in artwork packs in stable user-facing display order.</summary>
     public static IReadOnlyList<TarotArtworkPackOption> ArtworkPacks { get; } = Array.AsReadOnly(
     [
         new TarotArtworkPackOption(
-            ArtworkPackId,
-            new LocalizationKey("ui.tarot.artwork.prototype-symbolic")),
-        new TarotArtworkPackOption(
-            new TarotArtworkPackId("lupus-noctis"),
+            LupusNoctisArtworkPackId,
             new LocalizationKey("ui.tarot.artwork.lupus-noctis"))
     ]);
 

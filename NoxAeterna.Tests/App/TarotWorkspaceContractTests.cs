@@ -111,16 +111,32 @@ public sealed class TarotWorkspaceContractTests
     }
 
     [Fact]
-    public void ArtworkSelector_UsesOrderedPresentationOptionsAndDoesNotAddAUserCheatControl()
+    public void ArtworkSelector_RemainsVisibleWithSoleUserFacingLupusNoctisOption()
     {
         var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
 
         Assert.Contains("Name = \"TarotArtworkSelector\"", source, StringComparison.Ordinal);
         Assert.Contains("ItemsSource = viewModel.ArtworkPacks", source, StringComparison.Ordinal);
         Assert.Contains("viewModel.SelectArtworkPack(selected.Option.Id)", source, StringComparison.Ordinal);
-        Assert.Contains("IsVisible = viewModel.ArtworkPacks.Count > 1", source, StringComparison.Ordinal);
+        Assert.Contains("IsVisible = true", source, StringComparison.Ordinal);
+        Assert.Contains("controls.Children.Add(CreateLabeledControl(\"ui.tarot.control.artwork\", artworkSelector))", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("ui.tarot.prototype.notice", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("ui.tarot.artwork.partial-notice", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("ui.tarot.artwork.fallback", source, StringComparison.Ordinal);
         Assert.DoesNotContain("ForceCard", source, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("Cheat", source, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void RequiredArtworkFailure_DisablesDrawingAndShowsLocalizedDiagnosticWithoutClassicFallback()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+
+        Assert.Contains("IsEnabled = artworkCatalog.IsReady", source, StringComparison.Ordinal);
+        Assert.Contains("Localize(\"ui.tarot.artwork.unavailable\")", source, StringComparison.Ordinal);
+        Assert.Contains("artworkDiagnostic.IsVisible = !artworkCatalog.IsReady", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("PrototypeArtworkPackId", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("prototype-symbolic", source, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -139,6 +155,15 @@ public sealed class TarotWorkspaceContractTests
         Assert.Contains(resourceIncludes, include => include.Contains("cards\\**\\*.png", StringComparison.OrdinalIgnoreCase));
         Assert.DoesNotContain(resourceIncludes, include => include.Contains("studies", StringComparison.OrdinalIgnoreCase));
         Assert.DoesNotContain(resourceIncludes, Path.IsPathRooted);
+
+        var manifestItem = project.Descendants("None").Single(element =>
+            ((string?)element.Attribute("Include"))?.EndsWith("artwork-pack.json", StringComparison.OrdinalIgnoreCase) == true);
+        var cardsItem = project.Descendants("None").Single(element =>
+            ((string?)element.Attribute("Include"))?.Contains("cards\\**\\*.png", StringComparison.OrdinalIgnoreCase) == true);
+        Assert.Equal("Always", (string?)manifestItem.Attribute("CopyToOutputDirectory"));
+        Assert.Equal("Always", (string?)manifestItem.Attribute("CopyToPublishDirectory"));
+        Assert.Equal("PreserveNewest", (string?)cardsItem.Attribute("CopyToOutputDirectory"));
+        Assert.Equal("PreserveNewest", (string?)cardsItem.Attribute("CopyToPublishDirectory"));
     }
 
     private static string AppPath(params string[] segments) => RepositoryPath("NoxAeterna.App", segments);

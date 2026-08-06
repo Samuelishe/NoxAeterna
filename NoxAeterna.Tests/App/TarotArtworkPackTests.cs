@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using NoxAeterna.App.Tarot;
 using NoxAeterna.Domain.Tarot;
+using NoxAeterna.Presentation.Tarot;
 
 namespace NoxAeterna.Tests.App;
 
@@ -536,6 +537,44 @@ public sealed class TarotArtworkPackTests
     }
 
     [Fact]
+    public void BuiltAppOutput_ExactlyMatchesCompleteRepositoryManifestAndSeventyEightProductionAssets()
+    {
+        var sourceManifestPath = Path.Combine(TarotArtworkPackTestData.PackRoot, "artwork-pack.json");
+        var outputPackRoot = TarotArtworkPackTestData.AppOutputPackRoot;
+        var outputManifestPath = Path.Combine(outputPackRoot, "artwork-pack.json");
+
+        Assert.True(File.Exists(outputManifestPath));
+        Assert.Equal(File.ReadAllBytes(sourceManifestPath), File.ReadAllBytes(outputManifestPath));
+
+        using var manifest = JsonDocument.Parse(File.ReadAllText(outputManifestPath));
+        Assert.False(manifest.RootElement.GetProperty("partialPack").GetBoolean());
+        var entries = manifest.RootElement.GetProperty("cards").EnumerateArray().ToArray();
+        Assert.Equal(78, entries.Length);
+
+        var expectedPaths = entries
+            .Select(entry => entry.GetProperty("assetPath").GetString()!)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        var actualPaths = Directory.GetFiles(Path.Combine(outputPackRoot, "cards"), "*.png", SearchOption.AllDirectories)
+            .Select(path => Path.GetRelativePath(outputPackRoot, path).Replace('\\', '/'))
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        Assert.Equal(expectedPaths, actualPaths);
+        Assert.False(Directory.Exists(Path.Combine(outputPackRoot, "studies")));
+
+        Assert.All(entries, entry =>
+        {
+            var relativePath = entry.GetProperty("assetPath").GetString()!;
+            var sourcePath = Path.Combine(TarotArtworkPackTestData.PackRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
+            var outputPath = Path.Combine(outputPackRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
+            Assert.Equal(File.ReadAllBytes(sourcePath), File.ReadAllBytes(outputPath));
+            Assert.Equal(
+                entry.GetProperty("sha256").GetString(),
+                Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(outputPath))));
+        });
+    }
+
+    [Fact]
     public void LupusNoctisManifest_OriginalSixRgbaProductionPngsRemainDecodableAtExpectedDimensions()
     {
         var definition = TarotArtworkPackTestData.LoadRepositoryPack();
@@ -812,14 +851,33 @@ public sealed class TarotArtworkPackTests
     }
 
     [Fact]
-    public void BuiltInCatalog_OrdersClassicBeforeLupusNoctisWithoutDiagnostics()
+    public void BuiltInCatalog_ExposesOnlyReadyLupusNoctisWithoutDiagnostics()
     {
         var catalog = TarotArtworkPackCatalog.CreateBuiltIn();
 
         Assert.Empty(catalog.Diagnostics);
-        Assert.Equal(
-            ["prototype-symbolic", "lupus-noctis"],
-            catalog.AvailableOptions.Select(static option => option.Id.Value));
+        Assert.True(catalog.IsReady);
+        Assert.Equal("lupus-noctis", Assert.Single(catalog.AvailableOptions).Id.Value);
+        Assert.DoesNotContain(
+            catalog.AvailableOptions,
+            option => option.Id == TarotPrototypeSelections.PrototypeArtworkPackId);
+    }
+
+    [Fact]
+    public void BuiltInCatalog_InvalidRequiredPackReportsDiagnosticWithoutUserFacingPrototypeFallback()
+    {
+        var catalog = TarotArtworkPackCatalog.CreateFromSource(
+            new TarotArtworkPackTestData.InMemorySource("{ invalid json", new Dictionary<string, byte[]>()));
+        var card = StandardTarotCatalog.Deck.Cards[0];
+
+        Assert.False(catalog.IsReady);
+        Assert.Single(catalog.Diagnostics);
+        Assert.Equal("lupus-noctis", Assert.Single(catalog.AvailableOptions).Id.Value);
+        Assert.DoesNotContain(
+            catalog.AvailableOptions,
+            option => option.Id == TarotPrototypeSelections.PrototypeArtworkPackId);
+        Assert.Throws<ArgumentException>(() =>
+            catalog.Resolve(TarotPrototypeSelections.LupusNoctisArtworkPackId, card));
     }
 
     [Theory]
@@ -939,7 +997,7 @@ public sealed class TarotArtworkPackTests
     }
 
     [Fact]
-    public void PartialPackResolver_PromotedWorldUsesRasterArtwork()
+    public void CompletePackResolver_WorldUsesRasterArtwork()
     {
         var catalog = TarotArtworkPackCatalog.CreateForTests(TarotArtworkPackTestData.LoadRepositoryPack());
         var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == "major.world");
@@ -988,7 +1046,7 @@ public sealed class TarotArtworkPackTests
     {
         var catalog = TarotArtworkPackCatalog.CreateBuiltIn();
         var card = StandardTarotCatalog.Deck.Cards.Single(candidate => candidate.Id.Value == "minor.wands.three");
-        var artwork = catalog.Resolve(new TarotArtworkPackId("prototype-symbolic"), card);
+        var artwork = catalog.Resolve(TarotPrototypeSelections.PrototypeArtworkPackId, card);
         var assignment = new TarotDrawnCard(new TarotSpreadPositionId("card"), card, TarotCardOrientation.Upright);
 
         var plan = TarotCardVisualPlan.Create(
@@ -1012,10 +1070,21 @@ public sealed class TarotArtworkPackTests
 
 internal static class TarotArtworkPackTestData
 {
-    public static string PackRoot { get; } = Path.GetFullPath(Path.Combine(
+    private static string RepositoryRoot { get; } = Path.GetFullPath(Path.Combine(
         AppContext.BaseDirectory,
-        "..", "..", "..", "..",
+        "..", "..", "..", ".."));
+
+    public static string PackRoot { get; } = Path.GetFullPath(Path.Combine(
+        RepositoryRoot,
         "resources", "assets", "tarot", "artwork-packs", "lupus-noctis"));
+
+    public static string AppOutputPackRoot { get; } = Path.Combine(
+        RepositoryRoot,
+        "NoxAeterna.App",
+        "bin",
+        new DirectoryInfo(AppContext.BaseDirectory).Parent!.Name,
+        "net10.0",
+        "resources", "assets", "tarot", "artwork-packs", "lupus-noctis");
 
     public static TarotArtworkPackDefinition LoadRepositoryPack() => TarotArtworkPackLoader.Load(
         new RepositoryPackSource(PackRoot),

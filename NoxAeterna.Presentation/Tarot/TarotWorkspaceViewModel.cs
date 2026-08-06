@@ -19,7 +19,8 @@ public sealed class TarotWorkspaceViewModel
         IEnumerable<TarotBackVariantOption> backVariants,
         IEnumerable<TarotArtworkPackOption> artworkPacks,
         TarotPresentationSkinId presentationSkinId,
-        TarotInterpretationSetId interpretationSetId)
+        TarotInterpretationSetId interpretationSetId,
+        TarotArtworkPackId? defaultArtworkPackId = null)
     {
         this.drawEngine = drawEngine ?? throw new ArgumentNullException(nameof(drawEngine));
         this.deck = deck ?? throw new ArgumentNullException(nameof(deck));
@@ -50,7 +51,10 @@ public sealed class TarotWorkspaceViewModel
         ArtworkPacks = Array.AsReadOnly(copiedArtworkPacks);
         SelectedSpread = SpreadOptions[0];
         SelectedBackVariant = BackVariants[0];
-        SelectedArtworkPack = ArtworkPacks[0];
+        SelectedArtworkPack = defaultArtworkPackId is null
+            ? ArtworkPacks[0]
+            : ArtworkPacks.FirstOrDefault(option => option.Id == defaultArtworkPackId)
+              ?? throw new ArgumentException("The default Tarot artwork pack must be available.", nameof(defaultArtworkPackId));
     }
 
     /// <summary>Raised after visible workspace state changes.</summary>
@@ -117,7 +121,8 @@ public sealed class TarotWorkspaceViewModel
         TarotPrototypeSelections.BackVariants,
         artworkPacks ?? TarotPrototypeSelections.ArtworkPacks,
         TarotPrototypeSelections.PresentationSkinId,
-        TarotPrototypeSelections.InterpretationSetId);
+        TarotPrototypeSelections.InterpretationSetId,
+        TarotPrototypeSelections.DefaultArtworkPackId);
 
     /// <summary>Selects a spread and clears a reading that belongs to another spread.</summary>
     public void SelectSpread(TarotSpreadId spreadId)

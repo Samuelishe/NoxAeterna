@@ -7,7 +7,7 @@ namespace NoxAeterna.Tests.Tarot;
 public sealed class TarotWorkspaceViewModelTests
 {
     [Fact]
-    public void Foundation_ExposesRealSingleAndThreeCardSpreadsAndIndependentSelections()
+    public void Foundation_ExposesRealSpreadsAndDefaultsToSoleLupusNoctisArtworkPack()
     {
         var viewModel = TarotWorkspaceViewModel.CreateFoundation(
             new TarotDrawEngine(new SequenceRandomSource(0)));
@@ -17,11 +17,9 @@ public sealed class TarotWorkspaceViewModelTests
             viewModel.SpreadOptions.Select(option => option.Definition.Id));
         Assert.Same(StandardTarotSpreads.SingleCard, viewModel.SpreadOptions[0].Definition);
         Assert.Same(StandardTarotSpreads.ThreeCards, viewModel.SpreadOptions[1].Definition);
-        Assert.Equal("prototype-symbolic", viewModel.ArtworkPackId.Value);
-        Assert.Equal(
-            new[] { "prototype-symbolic", "lupus-noctis" },
-            viewModel.ArtworkPacks.Select(option => option.Id.Value));
-        Assert.Same(viewModel.ArtworkPacks[0], viewModel.SelectedArtworkPack);
+        Assert.Equal("lupus-noctis", viewModel.ArtworkPackId.Value);
+        Assert.Equal("lupus-noctis", Assert.Single(viewModel.ArtworkPacks).Id.Value);
+        Assert.Same(Assert.Single(viewModel.ArtworkPacks), viewModel.SelectedArtworkPack);
         Assert.Equal("astral-archive-prototype", viewModel.PresentationSkinId.Value);
         Assert.Equal("foundation", viewModel.InterpretationSetId.Value);
     }
@@ -152,7 +150,7 @@ public sealed class TarotWorkspaceViewModelTests
     }
 
     [Fact]
-    public void SelectingArtworkPack_PreservesCurrentReadingRevealAndSelection()
+    public void SelectingCurrentLupusNoctisArtworkPack_PreservesCurrentReadingRevealAndSelection()
     {
         var viewModel = TarotWorkspaceViewModel.CreateFoundation(
             new TarotDrawEngine(new SequenceRandomSource(0)));
@@ -181,8 +179,28 @@ public sealed class TarotWorkspaceViewModelTests
             viewModel.SelectArtworkPack(new TarotArtworkPackId("not-installed")));
 
         Assert.Equal("artworkPackId", exception.ParamName);
-        Assert.Equal("prototype-symbolic", viewModel.ArtworkPackId.Value);
+        Assert.Equal("lupus-noctis", viewModel.ArtworkPackId.Value);
         Assert.Null(viewModel.CurrentReading);
+    }
+
+    [Fact]
+    public void Constructor_UsesExplicitDefaultArtworkPackInsteadOfListPosition()
+    {
+        var alternate = new TarotArtworkPackOption(new("alternate-pack"), new("ui.test.alternate"));
+        var lupus = Assert.Single(TarotPrototypeSelections.ArtworkPacks);
+
+        var viewModel = new TarotWorkspaceViewModel(
+            new TarotDrawEngine(new SequenceRandomSource()),
+            StandardTarotCatalog.Deck,
+            [new TarotSpreadOption(StandardTarotSpreads.SingleCard, new("ui.test.spread"))],
+            TarotPrototypeSelections.BackVariants,
+            [alternate, lupus],
+            TarotPrototypeSelections.PresentationSkinId,
+            TarotPrototypeSelections.InterpretationSetId,
+            TarotPrototypeSelections.DefaultArtworkPackId);
+
+        Assert.Same(lupus, viewModel.SelectedArtworkPack);
+        Assert.Equal("lupus-noctis", viewModel.ArtworkPackId.Value);
     }
 
     [Fact]
