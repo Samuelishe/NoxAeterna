@@ -6,7 +6,7 @@ The interpretation engine produces structured user-facing meaning from symbolic 
 
 Do not generate meaningless LLM-style text.
 
-The interpretation system should not use a language model as the source of symbolic logic. Future LLM use may exist only as an optional narrative polishing layer over already structured meanings.
+The runtime interpretation system does not use a language model as the source of symbolic logic or per-reading prose. Authoring-time Codex may create curated, reviewed repository content; the shipped application remains deterministic and corpus-backed.
 
 Interpretation is structured-first.
 
@@ -79,17 +79,15 @@ Expected future output:
 
 ## Optional Narrative Layer
 
-If a future LLM or template system is added, it may only polish or reshape curated structured output. It must not invent the symbolic basis.
+Narrative tone belongs to the selected interpretation pack. Structured meaning remains authoritative: deterministic presentation may reshape validated fragments but must not invent their symbolic basis. Classic uses a living, literary, direct, predictive voice; future psychological, mystical, or meme packs may use another tone. Detailed Tarot authoring policy belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
 
-Generated narrative should remain calm, restrained, serious, and non-ironic.
+Runtime LLM generation is absent. Optional narrative presentation remains downstream from structured interpretation and cannot be required for a complete result.
 
-The narrative layer must always remain optional and downstream from structured interpretation.
-
-## INT0-P Planning Status
+## INT0 Planning Status
 
 `INT0 planning and owner discussion in progress`.
 
-This is a preliminary architecture and discussion baseline, not an approved production schema or completed INT0 contract. No Tarot interpretation runtime, two-card spread, production corpus, corpus storage format, loader, or authoring tool is implemented by this stage. Durable decisions belong in `DECISIONS-LOG.md` only after the owner completes the discussion with ChatGPT and approves them.
+INT0-D1 package/localization and INT0-D2 Classic content architecture are approved locally, but they are not a production serialization or completed INT0 contract. No Tarot interpretation runtime, two-card spread, production corpus, corpus storage format, loader, or authoring tool is implemented by this stage. INT0-D3 remains next and INT0-D4 will reconcile the implementation handoff.
 
 ## Current Implementation Baseline
 
@@ -125,7 +123,7 @@ Tarot interpretation packages remain independent from semantic and visual select
 
 ### Structured-First Meaning
 
-The existing structured-first rule remains cross-domain. An LLM is not a source of Tarot meanings or symbolic logic. A future LLM or template narrative layer may only be an optional downstream formatter over selected, validated meaning fragments; disabling it must leave a complete structured result.
+The existing structured-first rule remains cross-domain. Runtime LLM generation is not a source of Tarot meanings, symbolic logic, or per-reading prose. Authoring-time Codex may create curated content under the review and quality contract in [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); disabling any optional deterministic narrative formatter still leaves a complete structured result.
 
 ### Orientation Is Required Input
 
@@ -137,7 +135,7 @@ The future contract cannot model upright meanings only. It must account explicit
 
 ### Russian-First Authoring and Locale Resolution
 
-Russian is the primary Tarot authoring locale, but exact entry and translation workflows remain INT0-D2 scope. The approved per-pack/per-mode readiness and `requested -> English -> Russian -> no content` resolution contract belongs only to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
+Russian is the primary Tarot authoring locale. The approved entry-level authoring and literary translation contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); per-pack/per-mode readiness and `requested -> English -> Russian -> no content` resolution belong only to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
 
 ## Tarot Mode Planning
 
@@ -145,7 +143,7 @@ Russian is the primary Tarot authoring locale, but exact entry and translation w
 
 The implemented semantic mode draws one card into `single-card/card` with upright or reversed orientation. Minimum future corpus scope is 78 semantic cards × 2 orientations = 156 orientation meanings, with machine completeness validation and owner-reviewed Russian production content.
 
-The exact fields remain open: short and/or expanded form; keywords; central theme; constructive expression; shadow; advice; warning; reflection prompt; required versus optional fields; and whether reversed meaning is independent authored content or a structured transformation of upright meaning.
+INT0-D2 approves expanded standalone content with five visible sections, independent upright/reversed meanings, tags, and authored metrics. Exact serialization remains deferred; the content contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
 
 ### INT2/INT3 — Two-Card Combination Mode
 
@@ -175,7 +173,7 @@ These are discussion candidates, not an approved schema or implementation contra
 
 ## Preliminary Roadmap
 
-- **INT0 — Interpretation architecture:** **Planning and owner discussion in progress.** INT0-D1 has approved package and localization architecture; INT0-D2 through INT0-D4 still own content/schema, mode/corpus routing, and final implementation handoff.
+- **INT0 — Interpretation architecture:** **Planning and owner discussion in progress.** INT0-D1 has approved package/localization architecture and INT0-D2 has approved Classic content architecture locally; INT0-D3 and INT0-D4 still own mode/corpus routing, exact storage direction, reconciliation, and implementation handoff.
 - **INT1 — Russian single-card corpus:** 78 cards, upright and reversed, at least 156 orientation entries, machine completeness, and owner-reviewed Russian production content.
 - **INT2 — Two-card runtime and UX:** a new spread identity, two distinct cards, reversal behavior, tableau, combination result panel, localized UI labels, artwork independence, and tests. The 3003-entry corpus must not be authored before INT0 schema approval.
 - **INT3 — Russian pair corpus:** probable 3003 unordered distinct identity pairs, canonical symmetric lookup, approved orientation composition/override strategy, progress inventory, batch authoring, completeness/duplicate validation, and owner review gates. The count is probable scope, not final approval.
@@ -193,10 +191,8 @@ Preliminary requirements, pending detailed INT0 decisions:
 - Large corpora do not live in one giant Markdown file. Markdown owns architecture, decisions, workflows, and progress summaries, not thousands of production texts.
 - Storage partitioning and the final format remain unapproved; the current placeholder interpretation JSON does not select them automatically.
 - Missing and duplicate entries are detected mechanically. Completeness is evaluated against the semantic deck and supported reading mode.
-- An unordered pair has one canonical representation.
-- Generated drafts are separate from accepted production content and never become production automatically.
-- Review status and progress are machine-verifiable; owner review is the acceptance boundary.
-- Draft tooling produces reviewable drafts without writing unreviewed prose directly into production.
+- If INT0-D3 approves unordered pair identity, it must also approve one canonical representation; no pair ordering decision is made here.
+- Draft/review/accepted direction and owner acceptance belong to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); exact inventories remain INT0-D3 work.
 - Missing-content presentation and damaged-ready-module behavior follow the silent contract in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); internal validation remains diagnosable and never invents prose.
 - Corpus versioning is independent from UI theme and artwork version.
 
@@ -204,21 +200,16 @@ Preliminary requirements, pending detailed INT0 decisions:
 
 The owner and ChatGPT discussion must decide, without INT0-P pre-answering:
 
-1. Schema fields for upright and reversed single-card entries, including required and optional fields.
-2. Short versus expanded output, and whether both are needed.
-3. Whether reversed meaning is independently authored or a structured transformation of upright meaning.
-4. Whether pair identity is definitively unordered.
-5. Canonical pair-key ordering for two semantic IDs.
-6. Whether orientation retains an internal order within an unordered identity pair.
-7. Whether compositional orientation modifiers are sufficient.
-8. Whether selected orientation combinations need explicit override texts.
-9. A pair-entry structure that is meaningfully specific rather than template filler.
-10. Validation of all probable 3003 pair identities and behavior for missing or damaged entries.
-11. Reviewable authoring batch size and progress inventory.
-12. Draft generation boundaries and the draft/review/accepted lifecycle.
-13. Owner-review acceptance mechanics and content QA criteria.
-14. Three-card position modifiers, transition rules, reinforcement/tension rules, synthesis layers, and ownership.
-15. Production storage partitioning, manifest/schema versioning, and migration policy.
-16. Tooling boundaries and representative test fixtures.
-17. Optional future narrative formatter boundaries.
-18. Exact semantic-deck capability declaration for an interpretation pack.
+1. Whether pair identity is definitively unordered.
+2. Canonical pair-key ordering for two semantic IDs.
+3. Whether orientation retains an internal order within an unordered identity pair.
+4. Whether compositional orientation modifiers are sufficient.
+5. Whether selected orientation combinations need explicit override texts.
+6. A pair-entry structure that is meaningfully specific rather than template filler.
+7. Validation of all probable 3003 pair identities and behavior for missing or damaged entries.
+8. Exact reviewable batch inventory and storage boundaries.
+9. Three-card position modifiers, transition rules, reinforcement/tension rules, synthesis layers, and ownership.
+10. Production storage partitioning, manifest/schema versioning, and migration policy.
+11. Tooling boundaries and representative test fixtures.
+12. Optional deterministic narrative formatter boundaries.
+13. Exact semantic-deck capability declaration for an interpretation pack.

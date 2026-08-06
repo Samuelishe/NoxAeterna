@@ -92,3 +92,5 @@ These links should be data-driven and explainable, not hidden in UI text.
 Interpretation consumes symbolic data and combines it with context. Symbolics should not directly decide how a full reading is phrased for a specific user.
 
 Symbolics may provide keywords, themes, meaning fragments, and relationship metadata. It must not become a prose-generation layer.
+
+For Tarot tags, a language-neutral concept ID identifies semantic meaning; a visible label belongs to the selected interpretation pack and locale. Packs may reuse an ID for genuinely equivalent meaning or define package-specific concepts, so labels alone do not establish semantic identity. The exact Tarot tag assignments, localized vocabulary, single-card sections, and authored metrics belong to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md), not to Symbolics or user-facing prose here.

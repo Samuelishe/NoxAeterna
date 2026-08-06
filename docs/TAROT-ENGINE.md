@@ -56,13 +56,15 @@ Two immutable definitions exist:
 
 These IDs are semantic keys, not user-facing labels. Spreads contain no Avalonia geometry, pixel coordinates, localized names, or meanings. A spread becomes selectable when its Domain, Presentation, and UI behavior is implemented; interpretation-pack completeness never gates it. The canonical pack/mode relationship belongs to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
 
+`classic` (`Классика` / `Classic`) is the first future interpretation pack. Its complete single-card corpus will give each upright and reversed card an independent interpretation with five visible structured sections; the authorial, section, tag, metric, and translation contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md). This is approved direction, not a claim that a loader or corpus now exists.
+
 Celtic Cross remains future scope. Its larger card count will require smaller card surfaces than the single-, two-, and three-card modes; exact layout and dimensions belong to a separate UX design stage. Its meanings will be a separate interpretation mode module, and neither semantics nor implementation begins in INT0-D1.
 
 The planned two-card combination mode does not exist in Domain or UI. Owner direction is to draw exactly two distinct cards without replacement and make the primary result one pair meaning, not necessarily a positional “card 1/card 2” model. Pair ordering, canonical identity, orientation composition, schema, and content granularity remain INT0 open decisions owned by [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md).
 
 ## Boundary With Meaning and Presentation
 
-Domain contains no Russian or English display names, UI labels, localized strings, meanings, keywords, interpretation text, astrology correspondences, layout geometry, or persistence. It owns semantic cards, spreads, unique assignments, and typed orientation. `NoxAeterna.Interpretation` owns future structured meaning composition but currently contains only its project boundary and no Tarot runtime or corpus. Presentation orchestrates selections and will display prepared results without owning prose or depending on a concrete corpus storage format. Artwork remains a visual mapping only. General structured interpretation belongs to [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md); Tarot pack identity, readiness, fallback, and silent absence belong to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
+Domain contains no Russian or English display names, UI labels, localized strings, meanings, keywords, interpretation text, astrology correspondences, layout geometry, or persistence. It owns semantic cards, spreads, unique assignments, and typed orientation. `NoxAeterna.Interpretation` owns future structured meaning composition but currently contains only its project boundary and no Tarot runtime or corpus. Presentation orchestrates selections and will display prepared results without owning prose or depending on a concrete corpus storage format. Artwork remains a visual mapping only. General structured interpretation belongs to [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md); Tarot pack identity, readiness, fallback, and silent absence belong to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); authored single-card content belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
 
 ## T1 Playable Workspace
 
@@ -100,7 +102,7 @@ TAROT-ART-RUNTIME-1 subsequently made Lupus Noctis the sole default user-facing 
 - Draws are without replacement and already support upright and reversed orientation.
 - The foundation interpretation set contains no prose, and the UI reports interpretation unavailability.
 - No two-card spread, Tarot interpretation runtime, production schema, or Tarot meaning corpus exists.
-- INT0-D1 package/localization documentation is complete, while INT0 owner discussion remains in progress and INT0-D2 is next. No selector, manifest, runtime, schema, or corpus implementation was added.
+- INT0-D1 package/localization and INT0-D2 Classic content documentation are complete locally, while INT0 owner discussion remains in progress and INT0-D3 is next. No selector, manifest, runtime, production schema, or corpus implementation was added.
 
 ## Asset Direction
 

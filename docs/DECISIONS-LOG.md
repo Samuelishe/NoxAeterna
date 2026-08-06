@@ -610,3 +610,99 @@ Decision: Persist the selected interpretation-pack ID and immediately re-resolve
 Reason: Preference continuity and responsive selection must not require a new draw.
 
 Consequences: The current semantic reading, artwork, reveal state, and hidden-card policy remain unchanged; fallback locale and rendered prose are not settings.
+
+## 2026-08-06: Define Classic Through Traditional Meaning and Original Prose
+
+Decision: Base `classic` on common traditional Tarot meanings while making every shipped formulation original project-authored editorial work.
+
+Reason: A recognizable classical school does not require copied modern website prose or a dead reference-book voice.
+
+Consequences: Source curation may consult compatible traditions, but bibliography and provenance remain tracked separately and long borrowed formulations do not enter the corpus.
+
+## 2026-08-06: Give Classic a Living Predictive Voice
+
+Decision: Write Classic in a living, direct, emotionally expressive, literary, and predictive voice, without profanity, slang, insults, sarcasm, or memes.
+
+Reason: Traditional meaning should remain vivid and applicable rather than bureaucratic, encyclopedic, or mechanically hedged.
+
+Consequences: Interpretive openness permits natural breadth and occasional direct address, while future packs may deliberately choose another voice.
+
+## 2026-08-06: Structure Single-Card Content Into Five Visible Sections
+
+Decision: Require the stable section IDs `situation`, `development`, `risk`, `outcome`, and `advice`, each with a visible localized heading.
+
+Reason: A complete single-card reading needs scan-friendly semantic structure rather than a headingless wall of prose.
+
+Consequences: All five sections are non-empty in a complete Classic entry; packs localize their labels while Presentation owns fonts, colors, and layout.
+
+## 2026-08-06: Author Independent Upright and Reversed Meanings
+
+Decision: Give all 78 cards separate complete upright and reversed single-card interpretations, for a minimum corpus of 156 entries.
+
+Reason: Reversal meaning is not reliably expressed by mechanical negation, word order, or automatic weakening.
+
+Consequences: Each orientation owns all five sections, its tag pool, and its overall metrics; exact serialization remains deferred.
+
+## 2026-08-06: Separate Tag Meaning Identity From Visible Labels
+
+Decision: Identify tag meaning with language-neutral concept IDs and let each interpretation pack and locale own visible labels.
+
+Reason: Semantic stability across languages must coexist with distinct pack voices.
+
+Consequences: Language switches retain selected concepts while changing labels; identical labels do not prove identical concepts.
+
+## 2026-08-06: Allow Shared and Package-Specific Tag Concepts
+
+Decision: Let packs reuse a concept ID for genuinely equivalent meaning and define package-specific concept IDs when needed.
+
+Reason: One mandatory closed global vocabulary would erase meaningful differences between authorial systems.
+
+Consequences: Packs may have different vocabularies and tag counts; cross-pack comparison is not a primary product goal.
+
+## 2026-08-06: Author Tag Valence and Intensity Per Assignment
+
+Decision: Assign every tag use a valence from `-2` through `+2` and intensity from `1` through `3`.
+
+Reason: A concept can carry different emotional direction and strength in different interpretations.
+
+Consequences: Metrics belong to the assignment rather than permanently to the dictionary concept, and content stores no presentation colors or glyphs.
+
+## 2026-08-06: Author Overall Interpretation Metrics Separately
+
+Decision: Give each interpretation separately authored overall valence and intensity on the same scales.
+
+Reason: Dominant meaning and the reading's total emotional force cannot be recovered by simply averaging its tags.
+
+Consequences: Overall metrics express the complete interpretation's vibe and remain explicit reviewed content.
+
+## 2026-08-06: Keep Russian as the Source Locale
+
+Decision: Accept Russian source content first and produce literary, natural, meaning-preserving translations afterward.
+
+Reason: Translation quality depends on preserving semantic structure, tone, predictive force, concepts, and metrics rather than literal syntax.
+
+Consequences: Material meaning changes begin in Russian and synchronize to translations; authoring progress metadata never becomes per-entry runtime readiness.
+
+## 2026-08-06: Separate Codex Authoring From Runtime Interpretation
+
+Decision: Allow Codex to draft, translate, edit, tag, score, and audit curated repository content while keeping runtime interpretation deterministic and corpus-backed.
+
+Reason: Creative authoring assistance is compatible with an offline application only when accepted content is reviewed and versioned before shipping.
+
+Consequences: Runtime never calls an LLM, invents meaning after Draw, requires cloud access, or fills missing content dynamically; drafts remain outside accepted production.
+
+## 2026-08-06: Keep Presented Tag Selection Stable Within a Reading
+
+Decision: Select a limited semantic tag subset deterministically for one reading, pack, and content version.
+
+Reason: Moderate variation between readings must not become visual flicker during ordinary UI activity.
+
+Consequences: Resize, redraw, navigation, theme/language changes, card clicks, scrolling, and repeated layout passes retain concept IDs; language changes only their labels.
+
+## 2026-08-06: Select Interpretation Fonts at UI Implementation Time
+
+Decision: Choose actual interpretation fonts later under redistribution, script-support, missing-glyph fallback, and provenance requirements.
+
+Reason: Typography roles are approved direction, but no unverified asset should be named or shipped during content architecture.
+
+Consequences: Selected files become documented repository-owned shipped assets; INT0-D2 downloads no font and approves no family.

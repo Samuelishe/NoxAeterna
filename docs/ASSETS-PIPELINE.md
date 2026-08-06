@@ -153,6 +153,10 @@ Future style guide should define:
 
 Repository-approved assets remain reviewable source material. The canonical pack structure, seed payload, runtime AppData layout, manifest loading, extension behavior, normalization, user import, and publish/installer contract are defined only in [`ASSET-PACK-RUNTIME.md`](ASSET-PACK-RUNTIME.md).
 
+## Future Interpretation Fonts
+
+Interpretation UI implementation will select typography only after checking Russian and English coverage, anticipated future scripts, redistribution rights, and safe missing-glyph fallback. Section headings, body text, and tags may use distinct semantic typography roles. Any selected font files become repository-owned shipped assets with provenance and license recorded in `README.md`, [`THIRD-PARTY.md`](THIRD-PARTY.md), and applicable asset documentation. No font family or file is selected or introduced during INT0-D2.
+
 ## Attribution Rule
 
 Every future session that introduces assets, fonts, textures, icon sets, or generated imagery must document:

@@ -26,13 +26,13 @@
 - ART-SKILL-RM retired the repository-owned and user-level Tarot generation skill. Future artwork creation and artistic acceptance belong to the owner outside Codex; the active handoff contract is owned by [`LUPUS-NOCTIS.md`](../resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md#artwork-creation-and-codex-handoff).
 - TAROT-ART-RUNTIME-1 is accepted at checkpoint commit `916ef59a081c4a465c5c1275944aa7b7da0f3afb`. Lupus Noctis is the sole default user-facing artwork pack, all 78 cards resolve to raster with zero normal fallback, required-pack damage produces a controlled unavailable workspace, and hosted run `31062978166` passed all five documentation, desktop-platform, and diagnostic coverage jobs.
 - T-UX1A is complete at checkpoint commit `540bcc4e010780ea4aaf1b5c547b9541e27adc78`: cards use exact `1.5×` widths, controls remain fixed above one vertically scrolling surface, tableau overflow is locally horizontal, the selected-card inspector is removed, auto reveal defaults on with manual reveal available, and versioned AppData JSON restores language/theme and Tarot selections without restoring a reading. Hosted run `31065568715` passed all five jobs.
-- INT0-D1 documentation is complete: [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md) now owns independent data-pack identity, `classic`, pack/locale/mode readiness, silent locale fallback and absence, partial-pack/spread independence, selection refresh, and active-pack persistence direction. No interpretation selector, manifest, runtime, schema, or corpus was implemented.
+- INT0-D1 package/localization architecture is complete. Its published commit `6cfa1ad55fcb92d15da856451a9dc68987a794b8` exposed CI run 49's exact stale inventory assertion (`15` expected versus `16` registered context evaluations); this working change narrowly updates that regression guard to 16. INT0-D2 content architecture is complete locally in [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md), pending hosted verification after a future owner commit/push. No interpretation selector, manifest, runtime, production schema, or corpus was implemented.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-INT0 owner discussion remains in progress after INT0-D1 documentation completion. The next focus is INT0-D2: the Classic content contract, tags, valence/intensity, Russian-source authoring, translation, and validation boundaries. No interpretation implementation or corpus authoring has begun. ART-LN remains complete at 78/78; AP1–AP5 and other independent roadmap stages remain deferred.
+INT0 owner discussion remains in progress after local INT0-D2 documentation completion. The next focus is INT0-D3: modes, exhaustive oriented pair corpora, three-card synthesis, and routing. No interpretation implementation or corpus authoring has begun. ART-LN remains complete at 78/78; AP1–AP5 and other independent roadmap stages remain deferred.
 
 ## Preserved Contracts
 
@@ -48,4 +48,4 @@ INT0 owner discussion remains in progress after INT0-D1 documentation completion
 
 ## Active Blockers
 
-- INT0 has no technical blocker. D1 package/localization decisions are closed; D2–D4 still own the entry/tag schema, valence/intensity, translation and authoring workflow, pair/orientation architecture, bounded corpus scope, three-card synthesis, exact storage/manifest details, validation, and implementation handoff. AP1–AP5, PKG1, S2, later Tarot zoom/detail work, and other independent stages remain deferred pending explicit owner choice.
+- INT0 has no technical blocker. D1 package/localization and D2 Classic content decisions are closed locally; D3–D4 still own pair/orientation architecture, exhaustive mode corpora, multi-card synthesis and routing, exact storage/manifest details, final validation reconciliation, and implementation handoff. Hosted confirmation of the run-49 fix and D2 awaits a future owner push. AP1–AP5, PKG1, S2, later Tarot zoom/detail work, and other independent stages remain deferred.

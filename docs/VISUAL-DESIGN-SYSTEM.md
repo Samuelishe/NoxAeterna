@@ -105,6 +105,7 @@ The Avalonia dark/light dictionaries expose these values as paired `Design*Color
 - Validation and operation states use `Success`, `Warning`, and `Error`; do not substitute these roles for decorative accents.
 - Disabled controls use the explicit `DisabledFill` and `DisabledText` pair and must not look like active data.
 - Prototype Tarot faces and backs use their paired card-surface roles; restrained line ornament uses `TarotOrnament`. Hover, pressed, selected, and focus remain normal semantic control states rather than glow or casino effects.
+- Tarot interpretation valence and intensity may later map to accessible semantic color, glyph, icon, or shape roles. Content JSON owns numeric meaning, never exact colors, brushes, emoji, or glyph assets; the actual visual roles and palette are approved only during interpretation UI implementation.
 
 ## Adaptive Navigation Rail
 

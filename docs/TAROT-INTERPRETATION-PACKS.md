@@ -5,7 +5,7 @@
 | Role | Canonical architecture for selectable Tarot interpretation data packages. |
 | Read when | Designing interpretation-pack discovery, selection, localization, readiness, fallback, or missing-content behavior. |
 | Authoritative for | Interpretation-pack identity and boundaries; package capabilities; locale/module readiness; locale fallback; content-absence behavior; pack discovery and selection direction; active-pack preference; package relationships with semantic decks and spread modes; runtime resolution semantics; future manifest direction; and partial-package behavior. |
-| Not authoritative for | Exact interpretation text; authorial style guide; tag or upright/reversed entry schemas; pair content; three-card synthesis; Avalonia layout; artwork; card backs; general persistence; or the authoring workflow. |
+| Not authoritative for | Exact interpretation text; authorial style guide; single-card sections, tags, metrics, or upright/reversed content; pair content; three-card synthesis; Avalonia layout; artwork; card backs; general persistence; or the authoring workflow. |
 
 ## Identity and Independent Selections
 
@@ -67,7 +67,7 @@ This tree is conceptual and does not approve an exact filesystem layout or manif
 
 Adding an application UI locale immediately makes it a normal UI language and keeps interpretation-language selection available. Every installed interpretation pack receives a readiness-matrix entry for the new locale, while its content modules may remain unfinished. Neither the locale nor a partial pack is hidden, and publishing the UI locale does not require every pack to be fully translated.
 
-Russian is the primary authoring locale. Other languages are semantic literary translations: they need not be literal, but they preserve meaning, emotional tone, valence, intensity, semantic tags/concepts, and content-entry structure. A material meaning change is made in the Russian source first and then synchronized into translations. INT0-D2 will define the exact translation workflow and content contract.
+Russian is the primary authoring locale. Other languages are semantic literary translations: they need not be literal, but they preserve meaning, emotional tone, valence, intensity, semantic tags/concepts, and content-entry structure. A material meaning change is made in the Russian source first and then synchronized into translations. The detailed authorial, single-card, tag, and translation contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
 
 ## Coarse Module Readiness
 
@@ -153,4 +153,4 @@ The future `selectedInterpretationPackId` preference lives in the versioned AppD
 
 ## Deferred Content Decisions
 
-INT0-D1 deliberately does not approve the single-card field schema, tag schema, upright/reversed representation, pair identity or counts, oriented-pair strategy, three-card synthesis, exact manifest JSON, exact storage paths, or authoring workflow. Those boundaries proceed through INT0-D2, INT0-D3, and the final INT0-D4 reconciliation described in [ROADMAP.md](ROADMAP.md). General structured-first interpretation rules remain owned by [INTERPRETATION-ENGINE.md](INTERPRETATION-ENGINE.md); spread semantics remain owned by [TAROT-ENGINE.md](TAROT-ENGINE.md).
+INT0-D1 deliberately does not own single-card content, tags, voice, pair identity or counts, oriented-pair strategy, three-card synthesis, exact manifest JSON, or exact storage paths. INT0-D2 content decisions now belong to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); pair and multi-card routing proceed through INT0-D3 and the final INT0-D4 reconciliation in [ROADMAP.md](ROADMAP.md). General structured-first rules remain owned by [INTERPRETATION-ENGINE.md](INTERPRETATION-ENGINE.md); spread semantics remain owned by [TAROT-ENGINE.md](TAROT-ENGINE.md).

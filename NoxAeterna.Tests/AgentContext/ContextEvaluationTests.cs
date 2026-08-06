@@ -6,13 +6,13 @@ namespace NoxAeterna.Tests.AgentContext;
 public sealed class ContextEvaluationTests
 {
     [Fact]
-    public void CurrentFifteenEvaluationCasesPass()
+    public void CurrentSixteenEvaluationCasesPass()
     {
         var (runner, routes, registry, inventory) = Load();
 
         var report = runner.Run(AgentContextTestSupport.Root, routes, registry, inventory.Files);
 
-        Assert.Equal(15, report.Cases.Count);
+        Assert.Equal(16, report.Cases.Count);
         Assert.All(report.Cases, item => Assert.True(item.Passed, string.Join(Environment.NewLine, item.Differences)));
         Assert.Equal("pass", report.Result);
     }

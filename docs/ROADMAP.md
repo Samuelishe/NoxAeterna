@@ -73,8 +73,8 @@ Status: **Planning and owner discussion in progress**.
 INT0 is four consecutive documentation passes; completing one pass does not complete INT0:
 
 1. **INT0-D1 — package and localization architecture:** **Documentation complete.** Own independent plugin-like interpretation packs, `classic`, locale/mode readiness, silent fallback/absence, spread independence, selection refresh, preference direction, and implementation gates in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md). No runtime was implemented.
-2. **INT0-D2 — Classic content and tags:** **Next.** Approve the Classic single-card content contract, tag model, valence/intensity, Russian-source authoring, translation workflow, and related validation boundaries.
-3. **INT0-D3 — modes, exhaustive corpora, and routing:** **Not started.** Approve pair and three-card mode contracts, bounded exhaustive corpora, orientation strategy, synthesis, and content routing.
+2. **INT0-D2 — Classic content and tags:** **Documentation complete locally; pending hosted verification after push.** [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md) owns Classic voice, five-section upright/reversed single-card content, tags and metrics, Russian-source translation, Codex authoring boundaries, quality, and typography direction. No runtime, production content, final serialization, or font asset was added.
+3. **INT0-D3 — modes, exhaustive corpora, and routing:** **Next.** Approve oriented pair and three-card mode contracts, finite exhaustive corpora, orientation strategy, synthesis, exact storage/inventory direction, and content routing.
 4. **INT0-D4 — final reconciliation and implementation handoff:** **Not started.** Reconcile the complete INT0 owner set, remove remaining ambiguity, and prepare bounded implementation stages.
 
 ### INT1 — Russian Single-Card Corpus
