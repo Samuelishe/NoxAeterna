@@ -35,7 +35,7 @@
 
 ## Current Focus
 
-**INT2-PAIR-RU-W3 — Russian Classic oriented-pair authoring**: canonical pair indices 0..1499 now contain 1,500/3,003 complete bundles and 6,000/12,012 orientation states. Accepted W1R/W2 remain unchanged, the next missing identity is `minor.cups.ace__minor.swords.six`, `two-cards` remains unready, and W4 has not started.
+**INT2-PAIR-RU-W3I — W3 semantic-intensity correction**: indices 0..1499 still contain 1,500/3,003 bundles and 6,000/12,012 states; all 2,000 W3 states now have semantically reviewed tag and overall intensities with prose and W1R/W2 unchanged. The next missing identity is `minor.cups.ace__minor.swords.six`, `two-cards` remains unready, and W4 has not started.
 
 ## Preserved Contracts
 
