@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-07: INT2-PAIR-RU-W1 Russian Classic Oriented-Pair Authoring
+
+- Authored canonical pair indices 0..499, from `major.chariot__major.death` through `major.hanged-man__minor.swords.seven`: 500 complete bundles / 2,000 independent orientation states. Existing RU single-card source, EN content, readiness, runtime, and UI remain unchanged; W2 was not started.
+- Iterative structural/editorial correction removed positional language, generic rank leakage, reversal-as-negation assumptions, metadata monoculture, and actionable lexical findings. Final scoped inventory is 500 present / 2,503 missing bundles and 2,000 present / 10,012 missing states; final content audit reports zero findings.
+- Strict validation, deterministic package compile/check/inspection, and focused Interpretation/Repository-Tooling routes passed. Generated packages and temporary authoring helpers remained untracked, and the application was not launched for visual smoke.
+
 ## 2026-08-07: T-UX2A Responsive Single-Card Reading Workspace
 
 - Replaced the always-vertical single-card reading with a Presentation-calculated wide card/interpretation grid and deterministic stacked fallback. The left card keeps the accepted `216..378` DIP scale while fitting available height; the right column owns vertical reading and a `720` DIP text measure. Controls, reveal/orientation, artwork, tags, section order, persistence, and semantic resolution are unchanged.
@@ -46,49 +52,3 @@ Older retained evidence is indexed in [the documentation archive](archive/README
 - Recorded I4 commit `b684bb08b2b1369bfd9c014e45bb6748154534da` and run `31153781317`: 4/5 jobs passed; Windows alone exposed Git checkout CRLF bytes against the retained canonical serializer assertion. Added scoped LF attributes and canonical source-byte validation for manifests, indexes, and accepted content.
 - Added the immutable five-section Presentation model, SHA-256 deterministic three-tag subset, pack-local label seam, App-owned semantic valence styles/intensity dots, and coordinator-driven reveal/locale refresh with fully silent `NoContent`.
 - Added explicit Debug-only RU/EN visual fixtures; real-control smoke covered production silence, Obsidian/Porcelain, localized stable tag identity, 1–3 intensity dots, all five sections, manual reveal, shared scrolling, and resolved→`NoContent` clearing. Production Classic remains manifest-only with every module `ready = false`; no production prose, vocabulary, indexes/content, font, AppData source, or user-pack flow was added.
-
-## 2026-08-06: INT0-I4 Interpretation Pack Selector, Settings v2 and Silent Host
-
-- Checked published I3 commit `062e1e193d1a62b8c5f61c828e24314a112e7984`: hosted run `31110289276` ended with Documentation green and four failures caused by one test-local Debug path under Release jobs; repaired that configuration assumption locally without changing I3 production behavior.
-- Added one App-owned manifest catalog/composition graph, RU/EN Classic selector, typed Presentation selection, schema-2 persistence with lazy v1 migration and silent unknown-ID normalization, plus immediate resolver refresh on draw/reveal/pack/interpretation-language changes.
-- Resolution receives only revealed single-card or three-card-position entries; `NoContent` and broken-ready outcomes leave a completely empty hidden host. No production prose, indexes/content, five-section/tag renderer, AppData interpretation source, or user-pack flow was added.
-
-## 2026-08-06: INT0-I3 Built-In Classic Pack Source and Resolver
-
-- Reconciled accepted I2 checkpoint `93a26fd8942fe0a519d60e9d5ac1a29f09930340` and green hosted run `31105509521`; added the exact production Classic skeleton manifest and App output/publish packaging while every module remains `ready = false`.
-- Added filesystem-free source contracts, the App-owned contained built-in source/catalog, requested→English→Russian mode resolution, broken-ready trust-chain handling, exact lazy canonical entry loads, and bounded invalidatable LRU caches.
-- Added cross-platform source, resolver, cache, packaging, boundary, and routing evidence without selector, settings-v2, AppData, visible UI integration, production indexes/content, vocabulary, or Classic prose.
-
-## 2026-08-06: CI-R53-FIX and INT0-I2 Interpretation Validator and Index Tooling
-
-- Repaired run 53's exact Unix-only boundary-test failure by normalizing both `\\` and `/` in test-local project-reference extraction; production project-reference paths and I1 contracts remain unchanged.
-- Added explicit-root synthetic pack validation, deterministic index/hash generation and check-only drift detection, strict ready-module inventories, tooling-only authoring inventory/status reports, and focused CLI/boundary tests.
-- Synthetic fixtures remain test-only; no production pack, Classic prose, runtime resolver/cache, AppData, UI, selector, settings migration, or interpretation content was added.
-
-## 2026-08-06: INT0-I1 Tarot Interpretation Pack Identity and Schema Contracts
-
-- Reconciled accepted D4 checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e` and green run `31095939556`; migrated Set/foundation to Pack/classic without a compatibility identity.
-- Added raw and immutable validated manifest/content/index contracts, exact JSON/enums, canonical keys/pairs, typed diagnostics/results, and the focused `Interpretation` route while retaining 16 context evaluations.
-- No filesystem, resolver, cache, UI, settings-v2, selector, resources, prose, corpus, or authoring work was added; INT0-I2 follows hosted I1 acceptance.
-
-## 2026-08-06: INT0-D4 Final Schema Reconciliation and Implementation Handoff
-
-- Reconciled the four canonical Tarot interpretation owners after accepted D3 checkpoint `67218ccc071719f6425da84b6579c550e4e6b0b6` and green hosted run `31093430806`; froze common JSON/version/hash schemas, typed absence/cache, production/working separation, and exact layer boundaries.
-- Approved Set/foundation → Pack/classic migration, settings schema 2 and selector/presentation gates, plus bounded implementation stages beginning with INT0-I1.
-- Documentation/tooling-registry only: no runtime, UI, settings code, resource tree, manifest, fixture pack, index, prose, corpus, or authoring implementation was created.
-
-## 2026-08-06: INT0-D3 Oriented Pair Corpus and Multi-Card Routing Architecture
-
-- Documentation-only: approved unordered ordinal pair identity, exactly 3003 identities and 12,012 independently authored orientation states, plus 468 three-card position entries and a three-relation graph with deterministic corpus-backed synthesis.
-- Fixed canonical mode IDs, progressive reveal/tag behavior, bounded source paths, manifest/index and lazy-routing direction, same-locale dependencies, non-shipped authoring inventory/batches, validation gates, and deferred compositional Celtic Cross scope.
-- Recorded D2 acceptance at `e625b68bb424c589fbc840c600ab377237530434` with green hosted run `31091471397`; created no production corpus, resource directories, runtime, spread, selector, loader, UI, or authoring tool.
-
-## 2026-08-06: CI-R49-FIX and INT0-D2 Classic Content Architecture
-
-- Repaired run 49's exact `15`-expected/`16`-registered context-evaluation regression by renaming the guard to sixteen and retaining an explicit `16` assertion, all-case checks, and the final `pass` assertion.
-- Added the canonical Classic content owner: living traditional voice, five visible sections, 156 independent upright/reversed entries, semantic tags with authored valence/intensity and stable presentation, Russian-source literary translation, reviewed Codex authoring, and future licensed-font direction.
-- Documentation/tooling only beyond the narrow test fix: no runtime, production interpretation text, exact JSON/storage, pair or multi-card routing, UI, localization catalog, or font implementation.
-
-## 2026-08-06: INT0-D1 Tarot Interpretation Pack and Locale Resolution Architecture
-
-- Documentation-only: established the canonical plugin-like `classic` pack, manual pack/locale/mode readiness, silent EN/RU fallback, partial-pack and spread independence, persisted selection plus linked AppData/reset plans, and tableau-size debt; no schema, content, or runtime implementation.

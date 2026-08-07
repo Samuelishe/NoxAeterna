@@ -55,12 +55,13 @@ public sealed class TarotInterpretationBoundaryTests
     }
 
     [Fact]
-    public void SourceTreeContainsCanonicalRussianSingleCardCorpusAndRetainsExcludedProseBoundaries()
+    public void SourceTreeContainsCanonicalRussianSingleCardAndW1PairCorporaAndRetainsExcludedProseBoundaries()
     {
         var productionRoot = RepositoryPath("resources", "interpretation", "tarot", "sources", "classic");
         var russianRoot = Path.Combine(productionRoot, "content", "ru");
         var englishRoot = Path.Combine(productionRoot, "content", "en");
         var singleCardRoot = Path.Combine(russianRoot, "single-card");
+        var orientedPairRoot = Path.Combine(russianRoot, "oriented-pairs");
         var vocabularyRoot = Path.Combine(russianRoot, "vocabulary");
         var productionFiles = Directory.GetFiles(productionRoot, "*", SearchOption.AllDirectories).Order(StringComparer.Ordinal).ToArray();
         var singleCardFiles = Directory.GetFiles(singleCardRoot, "*.json", SearchOption.TopDirectoryOnly)
@@ -70,13 +71,30 @@ public sealed class TarotInterpretationBoundaryTests
             .Select(card => Path.Combine(singleCardRoot, $"{card.Id.Value}.json"))
             .Order(StringComparer.Ordinal)
             .ToArray();
+        var canonicalCardIds = StandardTarotCatalog.Deck.Cards.Select(card => card.Id.Value).ToArray();
+        var expectedW1PairIdentities = canonicalCardIds
+            .SelectMany((cardAId, index) => canonicalCardIds.Skip(index + 1)
+                .Select(cardBId => $"{cardAId}__{cardBId}"))
+            .Take(500)
+            .ToArray();
+        var orientedPairFiles = Directory.GetFiles(orientedPairRoot, "*.json", SearchOption.TopDirectoryOnly)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        var expectedOrientedPairFiles = expectedW1PairIdentities
+            .Select(identity => Path.Combine(orientedPairRoot, $"{identity}.json"))
+            .Order(StringComparer.Ordinal)
+            .ToArray();
         var vocabularyFiles = Directory.GetFiles(vocabularyRoot, "*.json", SearchOption.TopDirectoryOnly);
         var englishFiles = Directory.GetFiles(englishRoot, "*", SearchOption.AllDirectories);
         using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(productionRoot, "interpretation-pack.json")));
 
-        Assert.Equal(142, productionFiles.Length);
+        Assert.Equal(642, productionFiles.Length);
         Assert.Equal(78, singleCardFiles.Length);
         Assert.Equal(expectedSingleCardFiles, singleCardFiles);
+        Assert.Equal(500, orientedPairFiles.Length);
+        Assert.Equal(expectedOrientedPairFiles, orientedPairFiles);
+        Assert.Equal("major.chariot__major.death", expectedW1PairIdentities[0]);
+        Assert.Equal("major.hanged-man__minor.swords.seven", expectedW1PairIdentities[^1]);
         Assert.Equal(61, vocabularyFiles.Length);
         Assert.Contains(Path.Combine(productionRoot, "interpretation-pack.json"), productionFiles);
         Assert.Contains(Path.Combine(russianRoot, "labels.json"), productionFiles);
@@ -94,7 +112,6 @@ public sealed class TarotInterpretationBoundaryTests
         Assert.True(Assert.Single(readiness, item => item.Identity == "single-card/ru").Ready);
         Assert.DoesNotContain(readiness, item => item.Identity != "single-card/ru" && item.Ready);
         Assert.False(Directory.Exists(RepositoryPath("resources", "interpretation", "tarot", "working")));
-        Assert.False(Directory.Exists(Path.Combine(russianRoot, "oriented-pairs")));
         Assert.False(Directory.Exists(Path.Combine(russianRoot, "three-card-positions")));
         Assert.False(Directory.Exists(Path.Combine(russianRoot, "synthesis")));
         Assert.False(Directory.Exists(Path.Combine(AppContext.BaseDirectory, "TestData", "Interpretation")));
