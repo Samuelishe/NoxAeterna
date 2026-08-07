@@ -12,6 +12,9 @@ public sealed record TarotBackVariantOption(TarotBackVariantId Id, LocalizationK
 /// <summary>Represents one selectable artwork pack and its localized display-name key.</summary>
 public sealed record TarotArtworkPackOption(TarotArtworkPackId Id, LocalizationKey LabelKey);
 
+/// <summary>Represents one selectable interpretation pack by stable semantic identity.</summary>
+public sealed record TarotInterpretationPackOption(TarotInterpretationPackId Id);
+
 /// <summary>Owns the built-in Tarot selection identities used by the current workspace.</summary>
 public static class TarotPrototypeSelections
 {

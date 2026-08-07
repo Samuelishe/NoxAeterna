@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using NoxAeterna.App.Preferences;
 using NoxAeterna.App.Themes;
+using NoxAeterna.App.Tarot;
 using NoxAeterna.Presentation.Theming;
 
 namespace NoxAeterna.App;
@@ -16,13 +17,16 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         _themeController = new AppThemeController(this, ThemeRegistry.CreateDefault());
-        var preferencesStore = new JsonUserPreferencesStore(ResolveSettingsPath());
+        var interpretation = TarotInterpretationComposition.CreateBuiltIn();
+        var preferencesStore = new JsonUserPreferencesStore(
+            ResolveSettingsPath(),
+            interpretation.PackCatalog.AvailablePackIds);
         var preferencesCoordinator = new UserPreferencesCoordinator(preferencesStore, preferencesStore.Load());
         _themeController.ApplyTheme(preferencesCoordinator.Current.ThemeId);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow(preferencesCoordinator);
+            desktop.MainWindow = new MainWindow(preferencesCoordinator, interpretation);
         }
 
         base.OnFrameworkInitializationCompleted();

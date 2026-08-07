@@ -22,6 +22,7 @@ public sealed class TarotWorkspaceControl : UserControl
 
     private readonly TarotWorkspaceViewModel viewModel;
     private readonly TarotArtworkPackCatalog artworkCatalog;
+    private readonly TarotInterpretationPackCatalog interpretationPackCatalog;
     private readonly ILocalizationProvider localizationProvider;
     private readonly LanguageCode applicationLanguage;
     private readonly Func<Instant> getCurrentInstant;
@@ -36,12 +37,15 @@ public sealed class TarotWorkspaceControl : UserControl
     public TarotWorkspaceControl(
         TarotWorkspaceViewModel viewModel,
         TarotArtworkPackCatalog artworkCatalog,
+        TarotInterpretationPackCatalog interpretationPackCatalog,
         ILocalizationProvider localizationProvider,
         LanguageCode applicationLanguage,
         Func<Instant> getCurrentInstant)
     {
         this.viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
         this.artworkCatalog = artworkCatalog ?? throw new ArgumentNullException(nameof(artworkCatalog));
+        this.interpretationPackCatalog = interpretationPackCatalog ??
+            throw new ArgumentNullException(nameof(interpretationPackCatalog));
         this.localizationProvider = localizationProvider ?? throw new ArgumentNullException(nameof(localizationProvider));
         this.applicationLanguage = applicationLanguage;
         this.getCurrentInstant = getCurrentInstant ?? throw new ArgumentNullException(nameof(getCurrentInstant));
@@ -120,6 +124,33 @@ public sealed class TarotWorkspaceControl : UserControl
             }
         };
 
+        var interpretationPackItems = viewModel.InterpretationPacks
+            .Select(option => new LocalizedInterpretationPackOption(
+                option,
+                interpretationPackCatalog.ResolveDisplayName(option.Id, applicationLanguage)))
+            .ToArray();
+        var interpretationPackSelector = new ComboBox
+        {
+            Name = "TarotInterpretationPackSelector",
+            MinWidth = 150,
+            ItemsSource = interpretationPackItems,
+            IsVisible = true,
+            IsEnabled = interpretationPackItems.Length > 0
+        };
+        interpretationPackSelector.SelectedItem = viewModel.SelectedInterpretationPack is { } selectedPack
+            ? interpretationPackItems.FirstOrDefault(item => item.Option == selectedPack)
+            : null;
+        AutomationProperties.SetName(
+            interpretationPackSelector,
+            Localize("ui.tarot.control.interpretation-pack"));
+        interpretationPackSelector.SelectionChanged += (_, _) =>
+        {
+            if (interpretationPackSelector.SelectedItem is LocalizedInterpretationPackOption selected)
+            {
+                viewModel.SelectInterpretationPack(selected.Option.Id);
+            }
+        };
+
         var orientationToggle = new CheckBox
         {
             Name = "TarotOrientationToggle",
@@ -175,6 +206,7 @@ public sealed class TarotWorkspaceControl : UserControl
         var controls = new WrapPanel { Orientation = Orientation.Horizontal };
         controls.Children.Add(CreateLabeledControl("ui.tarot.control.spread", spreadSelector));
         controls.Children.Add(CreateLabeledControl("ui.tarot.control.artwork", artworkSelector));
+        controls.Children.Add(CreateLabeledControl("ui.tarot.control.interpretation-pack", interpretationPackSelector));
         controls.Children.Add(CreateLabeledControl("ui.tarot.control.back", backSelector));
         controls.Children.Add(orientationToggle);
         controls.Children.Add(autoRevealToggle);
@@ -520,24 +552,8 @@ public sealed class TarotWorkspaceControl : UserControl
 
     private void RefreshInterpretation()
     {
-        if (viewModel.CurrentReading is null || !viewModel.HasRevealedCards)
-        {
-            interpretationHost.IsVisible = false;
-            interpretationHost.Content = null;
-            return;
-        }
-
-        interpretationHost.IsVisible = true;
-        var unavailable = new TextBlock
-        {
-            Text = Localize(viewModel.InterpretationUnavailableKey),
-            TextWrapping = TextWrapping.Wrap,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Margin = new Thickness(0, 4, 8, 0)
-        };
-        unavailable.Classes.Add("supporting");
-        unavailable.Classes.Add("subtle");
-        interpretationHost.Content = unavailable;
+        interpretationHost.Content = null;
+        interpretationHost.IsVisible = false;
     }
 
     private static TextBlock CreateStateText(string text, string styleClass)
@@ -570,6 +586,11 @@ public sealed class TarotWorkspaceControl : UserControl
     }
 
     private sealed record LocalizedArtworkOption(TarotArtworkPackOption Option, string Label)
+    {
+        public override string ToString() => Label;
+    }
+
+    private sealed record LocalizedInterpretationPackOption(TarotInterpretationPackOption Option, string Label)
     {
         public override string ToString() => Label;
     }

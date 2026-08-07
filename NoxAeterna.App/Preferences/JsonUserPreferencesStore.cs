@@ -10,7 +10,8 @@ namespace NoxAeterna.App.Preferences;
 /// <summary>Loads and atomically saves the versioned AppData settings document.</summary>
 public sealed class JsonUserPreferencesStore : IUserPreferencesStore
 {
-    public const int CurrentSchemaVersion = 1;
+    public const int CurrentSchemaVersion = 2;
+    private static readonly TarotInterpretationPackId CompiledDefaultInterpretationPackId = new("classic");
 
     private static readonly JsonSerializerOptions SerializerOptions = new()
     {
@@ -27,11 +28,21 @@ public sealed class JsonUserPreferencesStore : IUserPreferencesStore
         [TarotPrototypeSelections.LupusNoctisArtworkPackId.Value],
         StringComparer.Ordinal);
     private static readonly HashSet<string> SupportedBackVariants = new(["black-sun", "lunar-seal"], StringComparer.Ordinal);
+    private readonly IReadOnlyList<TarotInterpretationPackId> availableInterpretationPackIds;
 
-    public JsonUserPreferencesStore(string settingsPath)
+    public JsonUserPreferencesStore(
+        string settingsPath,
+        IEnumerable<TarotInterpretationPackId>? availableInterpretationPackIds = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(settingsPath);
         SettingsPath = Path.GetFullPath(settingsPath);
+        var ids = (availableInterpretationPackIds ?? [CompiledDefaultInterpretationPackId]).ToArray();
+        if (ids.Distinct().Count() != ids.Length)
+        {
+            throw new ArgumentException("Available interpretation pack IDs must be unique.", nameof(availableInterpretationPackIds));
+        }
+
+        this.availableInterpretationPackIds = Array.AsReadOnly(ids.ToArray());
     }
 
     public string SettingsPath { get; }
@@ -53,7 +64,7 @@ public sealed class JsonUserPreferencesStore : IUserPreferencesStore
                 return Malformed(defaults, "The settings document is empty.");
             }
 
-            if (document.SchemaVersion != CurrentSchemaVersion)
+            if (document.SchemaVersion is not (1 or CurrentSchemaVersion))
             {
                 return new UserPreferencesLoadResult(
                     defaults,
@@ -123,7 +134,7 @@ public sealed class JsonUserPreferencesStore : IUserPreferencesStore
         }
     }
 
-    private static UserPreferences Normalize(UserPreferencesDocument document, UserPreferences defaults)
+    private UserPreferences Normalize(UserPreferencesDocument document, UserPreferences defaults)
     {
         var tarot = document.Tarot;
         return new UserPreferences(
@@ -135,6 +146,8 @@ public sealed class JsonUserPreferencesStore : IUserPreferencesStore
             new TarotWorkspacePreferences(
                 new TarotSpreadId(Normalize(tarot?.SpreadId, SupportedSpreads, defaults.Tarot.SpreadId.Value)),
                 new TarotArtworkPackId(Normalize(tarot?.ArtworkPackId, SupportedArtworkPacks, defaults.Tarot.ArtworkPackId.Value)),
+                NormalizeInterpretationPackId(
+                    document.SchemaVersion == 1 ? null : tarot?.SelectedInterpretationPackId),
                 new TarotBackVariantId(Normalize(tarot?.BackVariantId, SupportedBackVariants, defaults.Tarot.BackVariantId.Value)),
                 tarot?.AllowReversed ?? defaults.Tarot.AllowReversed,
                 tarot?.AutoRevealCards ?? defaults.Tarot.AutoRevealCards));
@@ -142,6 +155,32 @@ public sealed class JsonUserPreferencesStore : IUserPreferencesStore
 
     private static string Normalize(string? value, HashSet<string> supported, string fallback) =>
         value is not null && supported.Contains(value) ? value : fallback;
+
+    private TarotInterpretationPackId NormalizeInterpretationPackId(string? value)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            try
+            {
+                var stored = new TarotInterpretationPackId(value);
+                if (availableInterpretationPackIds.Contains(stored))
+                {
+                    return stored;
+                }
+            }
+            catch (ArgumentException)
+            {
+                // Invalid persisted IDs follow the same silent normalization policy as unknown IDs.
+            }
+        }
+
+        if (availableInterpretationPackIds.Contains(CompiledDefaultInterpretationPackId))
+        {
+            return CompiledDefaultInterpretationPackId;
+        }
+
+        return availableInterpretationPackIds.FirstOrDefault() ?? CompiledDefaultInterpretationPackId;
+    }
 
     private static UserPreferencesDocument CreateDocument(UserPreferences preferences) => new()
     {
@@ -153,6 +192,7 @@ public sealed class JsonUserPreferencesStore : IUserPreferencesStore
         {
             SpreadId = preferences.Tarot.SpreadId.Value,
             ArtworkPackId = preferences.Tarot.ArtworkPackId.Value,
+            SelectedInterpretationPackId = preferences.Tarot.InterpretationPackId.Value,
             BackVariantId = preferences.Tarot.BackVariantId.Value,
             AllowReversed = preferences.Tarot.AllowReversed,
             AutoRevealCards = preferences.Tarot.AutoRevealCards

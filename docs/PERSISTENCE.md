@@ -101,16 +101,16 @@ Record the migration decision in `DECISIONS-LOG.md`.
 
 The App composition boundary owns a narrow `System.Text.Json` adapter at the logical platform path `<LocalApplicationData>/NoxAeterna/settings.json` (on Windows, `%LOCALAPPDATA%\NoxAeterna\settings.json`). Presentation owns only typed immutable preferences; it does not use file, environment, or JSON APIs. Domain and Infrastructure do not participate.
 
-Schema version `1` persists:
+Schema version `2` persists:
 
 - application and interpretation language IDs;
 - theme ID;
-- Tarot spread, artwork-pack, and back-variant IDs;
+- Tarot spread, artwork-pack, selected interpretation-pack, and back-variant IDs;
 - Tarot reversal and auto-reveal booleans.
 
 The document does not persist a reading, drawn or revealed cards, selection, interpretation, random state, timestamps, bitmap/cache state, failures, navigation, resize, scroll offset, profile, or history data.
 
-Missing files are normal first-run state and return `ru` / `ru` / `dark` plus `single-card` / `lupus-noctis` / `black-sun` / reversed `false` / auto reveal `true`, without a diagnostic or write. Malformed JSON, unsupported schema, and read failures return controlled defaults with structured diagnostics. For a supported document, invalid string IDs are normalized independently so other valid fields and booleans survive.
+Missing files are normal first-run state and return `ru` / `ru` / `dark` plus `single-card` / `lupus-noctis` / `classic` / `black-sun` / reversed `false` / auto reveal `true`, without a diagnostic or write. Schema 1 and schema 2 load; v1 becomes current in memory with `classic` but startup does not rewrite bytes, and the next actual preference change writes schema 2 with nested `selectedInterpretationPackId`. Unknown, missing, or empty v2 pack IDs normalize silently to Classic when available; an empty catalog retains the safe compiled identity while cards remain usable. Malformed JSON, unsupported schemas, and read failures return controlled defaults with structured diagnostics.
 
 An actual preference change updates one App-owned immutable root snapshot and triggers one save attempt. Draw, redraw, reveal, selection, navigation, resizing, control recreation, and bitmap loading do not save. Writes create the directory, serialize to a same-directory temporary file, flush and close it, then replace/move the final file; controlled failure does not crash the application and performs best-effort temporary cleanup.
 
@@ -122,9 +122,9 @@ Birth-data input, profiles, saved readings, reading history, interpretations, ar
 
 A future saved Tarot reading should be able to retain interpretation pack ID, content version, mode ID, requested/resolved interpretation locales, and semantic card IDs/orientations for provenance. Whether it also archives rendered prose remains an unresolved persistence/history decision.
 
-## Approved Settings Schema 2 Direction
+## Implemented Settings Schema 2
 
-The first pack-selection implementation migrates settings schema 1 to schema 2 and adds stable semantic field `selectedInterpretationPackId`, nested according to the existing DTO. It defaults to `classic`, restores at startup, and changes when the user selects another pack. Version 1 loads and normalizes in memory; startup does not rewrite merely for migration, while the next actual preference save writes version 2. An unknown ID resolves to `classic` when available; with no available pack, cards remain usable and interpretation remains empty. No migration message is shown.
+Schema 2 adds stable semantic field `selectedInterpretationPackId` inside the existing Tarot DTO. It defaults to `classic`, restores at startup, and changes only when the user selects another available pack. Version 1 loads and normalizes in memory; startup does not rewrite merely for migration, while the next actual preference save writes version 2. An unknown ID resolves to `classic` when available; with no available pack, cards remain usable and interpretation remains empty. No migration message is shown.
 
 Settings persist only the selected stable ID: current interpretation text is not settings state, and resolved fallback locale is runtime provenance rather than a user preference. Pack selection/fallback belongs to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); exact migration and selector gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 

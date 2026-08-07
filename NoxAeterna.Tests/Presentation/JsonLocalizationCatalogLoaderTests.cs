@@ -219,7 +219,8 @@ public sealed class JsonLocalizationCatalogLoaderTests
     {
         var requiredKeys = new[]
         {
-            "ui.tarot.control.spread", "ui.tarot.control.artwork", "ui.tarot.control.back", "ui.tarot.control.allow-reversed",
+            "ui.tarot.control.spread", "ui.tarot.control.artwork", "ui.tarot.control.interpretation-pack",
+            "ui.tarot.control.back", "ui.tarot.control.allow-reversed",
             "ui.tarot.control.auto-reveal",
             "ui.tarot.control.draw", "ui.tarot.control.redraw", "ui.tarot.tableau.title",
             "ui.tarot.empty-state", "ui.tarot.failure.insufficient-deck", "ui.tarot.artwork.unavailable",
@@ -228,10 +229,9 @@ public sealed class JsonLocalizationCatalogLoaderTests
             "ui.tarot.orientation.upright", "ui.tarot.orientation.reversed", "ui.tarot.arcana.major",
             "ui.tarot.arcana.minor", "ui.tarot.back.black-sun", "ui.tarot.back.lunar-seal",
             "ui.tarot.artwork.lupus-noctis",
-            "ui.tarot.skin.astral-archive-prototype",
-            "ui.tarot.interpretation.foundation", "ui.tarot.inspector.title", "ui.tarot.inspector.card",
+            "ui.tarot.skin.astral-archive-prototype", "ui.tarot.inspector.title", "ui.tarot.inspector.card",
             "ui.tarot.inspector.position", "ui.tarot.inspector.orientation", "ui.tarot.inspector.arcana",
-            "ui.tarot.inspector.suit", "ui.tarot.inspector.rank", "ui.tarot.interpretation.unavailable"
+            "ui.tarot.inspector.suit", "ui.tarot.inspector.rank"
         };
 
         foreach (var language in new[] { "ru", "en" })

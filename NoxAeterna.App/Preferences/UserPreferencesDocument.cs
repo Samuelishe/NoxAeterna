@@ -21,6 +21,8 @@ public sealed class TarotWorkspacePreferencesDocument
 
     public string? ArtworkPackId { get; set; }
 
+    public string? SelectedInterpretationPackId { get; set; }
+
     public string? BackVariantId { get; set; }
 
     public bool AllowReversed { get; set; }

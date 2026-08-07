@@ -70,7 +70,6 @@ public sealed class TarotWorkspaceContractTests
         Assert.True(tableauIndex >= 0);
         Assert.True(interpretationIndex > tableauIndex);
         Assert.Contains("HorizontalContentAlignment = HorizontalAlignment.Stretch", source, StringComparison.Ordinal);
-        Assert.Contains("TextWrapping = TextWrapping.Wrap", MethodSlice(source, "private void RefreshInterpretation()", "private static TextBlock CreateStateText"), StringComparison.Ordinal);
     }
 
     [Fact]
@@ -99,17 +98,16 @@ public sealed class TarotWorkspaceContractTests
     }
 
     [Fact]
-    public void InterpretationHost_IsHiddenUntilAtLeastOneCardIsRevealed()
+    public void InterpretationHost_IsAlwaysSilentUntilStructuredRendererStage()
     {
         var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
         var refresh = MethodSlice(source, "private void RefreshInterpretation()", "private static TextBlock CreateStateText");
 
-        Assert.Contains("viewModel.CurrentReading is null || !viewModel.HasRevealedCards", refresh, StringComparison.Ordinal);
         Assert.Contains("interpretationHost.IsVisible = false", refresh, StringComparison.Ordinal);
         Assert.Contains("interpretationHost.Content = null", refresh, StringComparison.Ordinal);
-        Assert.Contains("interpretationHost.IsVisible = true", refresh, StringComparison.Ordinal);
-        Assert.Contains("Localize(viewModel.InterpretationUnavailableKey)", refresh, StringComparison.Ordinal);
-        Assert.Contains("unavailable.Classes.Add(\"subtle\")", refresh, StringComparison.Ordinal);
+        Assert.DoesNotContain("interpretationHost.IsVisible = true", refresh, StringComparison.Ordinal);
+        Assert.DoesNotContain("TextBlock", refresh, StringComparison.Ordinal);
+        Assert.DoesNotContain("Localize", refresh, StringComparison.Ordinal);
         Assert.DoesNotContain("MinHeight", refresh, StringComparison.Ordinal);
         Assert.DoesNotContain("surface-card", refresh, StringComparison.Ordinal);
     }
@@ -161,9 +159,12 @@ public sealed class TarotWorkspaceContractTests
         var source = File.ReadAllText(AppPath("App.axaml.cs"));
         var loadIndex = source.IndexOf("preferencesStore.Load()", StringComparison.Ordinal);
         var themeIndex = source.IndexOf("ApplyTheme(preferencesCoordinator.Current.ThemeId)", StringComparison.Ordinal);
-        var windowIndex = source.IndexOf("desktop.MainWindow = new MainWindow(preferencesCoordinator)", StringComparison.Ordinal);
+        var compositionIndex = source.IndexOf("TarotInterpretationComposition.CreateBuiltIn()", StringComparison.Ordinal);
+        var windowIndex = source.IndexOf("desktop.MainWindow = new MainWindow(preferencesCoordinator, interpretation)", StringComparison.Ordinal);
 
+        Assert.True(compositionIndex >= 0);
         Assert.True(loadIndex >= 0);
+        Assert.True(loadIndex > compositionIndex);
         Assert.True(themeIndex > loadIndex);
         Assert.True(windowIndex > themeIndex);
     }
@@ -259,7 +260,7 @@ public sealed class TarotWorkspaceContractTests
     }
 
     [Fact]
-    public void InterpretationUnavailableCopy_LivesOnlyInLocalizationCatalogs()
+    public void InterpretationUnavailablePlaceholder_IsAbsentFromActiveProductionAndUiCatalogs()
     {
         var productionSources = Directory.GetFiles(AppPath("Tarot"), "*.cs", SearchOption.AllDirectories)
             .Concat(Directory.GetFiles(PresentationPath("Tarot"), "*.cs", SearchOption.AllDirectories))
@@ -270,7 +271,37 @@ public sealed class TarotWorkspaceContractTests
         {
             Assert.DoesNotContain("Толкование для выбранного набора", source, StringComparison.Ordinal);
             Assert.DoesNotContain("Interpretation for the selected set", source, StringComparison.Ordinal);
+            Assert.DoesNotContain("InterpretationUnavailableKey", source, StringComparison.Ordinal);
+            Assert.DoesNotContain("ui.tarot.interpretation.unavailable", source, StringComparison.Ordinal);
         });
+        Assert.DoesNotContain(
+            "ui.tarot.interpretation.unavailable",
+            File.ReadAllText(RepositoryPath("resources", "localization", "ui", "ru.json")),
+            StringComparison.Ordinal);
+        Assert.DoesNotContain(
+            "ui.tarot.interpretation.unavailable",
+            File.ReadAllText(RepositoryPath("resources", "localization", "ui", "en.json")),
+            StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void InterpretationPackSelector_IsVisibleLocalizedManifestNamedAndOrderedAfterArtwork()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+        var spread = source.IndexOf("controls.Children.Add(CreateLabeledControl(\"ui.tarot.control.spread\"", StringComparison.Ordinal);
+        var artwork = source.IndexOf("controls.Children.Add(CreateLabeledControl(\"ui.tarot.control.artwork\"", StringComparison.Ordinal);
+        var interpretation = source.IndexOf("controls.Children.Add(CreateLabeledControl(\"ui.tarot.control.interpretation-pack\"", StringComparison.Ordinal);
+        var back = source.IndexOf("controls.Children.Add(CreateLabeledControl(\"ui.tarot.control.back\"", StringComparison.Ordinal);
+
+        Assert.Contains("Name = \"TarotInterpretationPackSelector\"", source, StringComparison.Ordinal);
+        Assert.Contains("interpretationPackCatalog.ResolveDisplayName(option.Id, applicationLanguage)", source, StringComparison.Ordinal);
+        Assert.Contains("IsVisible = true", source, StringComparison.Ordinal);
+        Assert.Contains("IsEnabled = interpretationPackItems.Length > 0", source, StringComparison.Ordinal);
+        Assert.Contains("AutomationProperties.SetName(", source, StringComparison.Ordinal);
+        Assert.Contains("viewModel.SelectInterpretationPack(selected.Option.Id)", source, StringComparison.Ordinal);
+        Assert.True(spread >= 0 && spread < artwork && artwork < interpretation && interpretation < back);
+        Assert.DoesNotContain("Классика", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Classic", source, StringComparison.Ordinal);
     }
 
     [Fact]

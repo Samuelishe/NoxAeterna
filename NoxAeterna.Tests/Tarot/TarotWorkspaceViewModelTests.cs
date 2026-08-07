@@ -241,11 +241,12 @@ public sealed class TarotWorkspaceViewModelTests
             [new TarotSpreadOption(StandardTarotSpreads.ThreeCards, new("ui.test.spread"))],
             TarotPrototypeSelections.BackVariants,
             TarotPrototypeSelections.ArtworkPacks,
+            [new TarotInterpretationPackOption(TarotPrototypeSelections.InterpretationPackId)],
             TarotPrototypeSelections.PresentationSkinId,
-            TarotPrototypeSelections.InterpretationPackId,
             new TarotWorkspacePreferences(
                 StandardTarotSpreads.ThreeCards.Id,
                 TarotPrototypeSelections.DefaultArtworkPackId,
+                TarotPrototypeSelections.InterpretationPackId,
                 new TarotBackVariantId("black-sun"),
                 AllowReversed: false,
                 AutoRevealCards: true));
@@ -267,6 +268,7 @@ public sealed class TarotWorkspaceViewModelTests
         var initial = new TarotWorkspacePreferences(
             StandardTarotSpreads.ThreeCards.Id,
             TarotPrototypeSelections.LupusNoctisArtworkPackId,
+            TarotPrototypeSelections.InterpretationPackId,
             new TarotBackVariantId("lunar-seal"),
             AllowReversed: true,
             AutoRevealCards: false);
@@ -307,8 +309,8 @@ public sealed class TarotWorkspaceViewModelTests
             ],
             TarotPrototypeSelections.BackVariants,
             TarotPrototypeSelections.ArtworkPacks,
+            [new TarotInterpretationPackOption(TarotPrototypeSelections.InterpretationPackId)],
             TarotPrototypeSelections.PresentationSkinId,
-            TarotPrototypeSelections.InterpretationPackId,
             initial));
 
         Assert.Equal("initialPreferences", exception.ParamName);
@@ -435,8 +437,8 @@ public sealed class TarotWorkspaceViewModelTests
             [new TarotSpreadOption(StandardTarotSpreads.SingleCard, new("ui.test.spread"))],
             TarotPrototypeSelections.BackVariants,
             [alternate, lupus],
+            [new TarotInterpretationPackOption(TarotPrototypeSelections.InterpretationPackId)],
             TarotPrototypeSelections.PresentationSkinId,
-            TarotPrototypeSelections.InterpretationPackId,
             TarotWorkspacePreferences.CreateDefault());
 
         Assert.Same(lupus, viewModel.SelectedArtworkPack);
@@ -457,11 +459,121 @@ public sealed class TarotWorkspaceViewModelTests
                 new TarotArtworkPackOption(duplicateId, new("ui.test.first")),
                 new TarotArtworkPackOption(duplicateId, new("ui.test.second"))
             ],
+            [new TarotInterpretationPackOption(TarotPrototypeSelections.InterpretationPackId)],
             TarotPrototypeSelections.PresentationSkinId,
-            TarotPrototypeSelections.InterpretationPackId,
             TarotWorkspacePreferences.CreateDefault()));
 
         Assert.Equal("artworkPacks", exception.ParamName);
+    }
+
+    [Fact]
+    public void ClassicWorkspace_ExposesClassicInterpretationPackAsSelectedDefault()
+    {
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(new TarotDrawEngine(new SequenceRandomSource(0)));
+
+        var option = Assert.Single(viewModel.InterpretationPacks);
+        Assert.Equal(TarotPrototypeSelections.InterpretationPackId, option.Id);
+        Assert.Same(option, viewModel.SelectedInterpretationPack);
+        Assert.Equal(option.Id, viewModel.Preferences.InterpretationPackId);
+    }
+
+    [Fact]
+    public void Constructor_RestoresSelectedInterpretationPackByPreferenceIdentity()
+    {
+        var second = new TarotInterpretationPackOption(new("second-pack"));
+        var preferences = TarotWorkspacePreferences.CreateDefault() with { InterpretationPackId = second.Id };
+
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
+            new TarotDrawEngine(new SequenceRandomSource(0)),
+            interpretationPacks: [new(TarotPrototypeSelections.InterpretationPackId), second],
+            initialPreferences: preferences);
+
+        Assert.Same(second, viewModel.SelectedInterpretationPack);
+        Assert.Equal(second.Id, viewModel.InterpretationPackId);
+        Assert.Equal(preferences, viewModel.Preferences);
+    }
+
+    [Fact]
+    public void Constructor_RejectsDuplicateInterpretationPackOptions()
+    {
+        var duplicate = new TarotInterpretationPackId("duplicate-pack");
+
+        var exception = Assert.Throws<ArgumentException>(() => TarotWorkspaceViewModel.CreateClassic(
+            new TarotDrawEngine(new SequenceRandomSource(0)),
+            interpretationPacks: [new(duplicate), new(duplicate)]));
+
+        Assert.Equal("interpretationPacks", exception.ParamName);
+    }
+
+    [Fact]
+    public void SelectInterpretationPack_ChangesPreferencesAndStateOnceWithoutChangingReadingState()
+    {
+        var second = new TarotInterpretationPackOption(new("second-pack"));
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
+            new TarotDrawEngine(new SequenceRandomSource(0, 0, 0, 0, 0, 0)),
+            interpretationPacks: [new(TarotPrototypeSelections.InterpretationPackId), second]);
+        viewModel.SelectSpread(StandardTarotSpreads.ThreeCards.Id);
+        viewModel.SetAllowReversed(true);
+        viewModel.SetAutoRevealCards(false);
+        viewModel.Draw(Instant.FromUnixTimeTicks(71));
+        var reading = Assert.IsType<TarotReading>(viewModel.CurrentReading);
+        var selected = reading.Cards[1];
+        viewModel.RevealAndSelect(selected.PositionId);
+        var preferenceEvents = 0;
+        var stateEvents = 0;
+        viewModel.PreferencesChanged += (_, _) => preferenceEvents++;
+        viewModel.StateChanged += (_, _) => stateEvents++;
+
+        viewModel.SelectInterpretationPack(second.Id);
+
+        Assert.Same(reading, viewModel.CurrentReading);
+        Assert.Same(selected, viewModel.SelectedCard);
+        Assert.True(viewModel.IsRevealed(selected.PositionId));
+        Assert.Equal(1, viewModel.RevealedCardCount);
+        Assert.Equal(StandardTarotSpreads.ThreeCards.Id, viewModel.SelectedSpread.Definition.Id);
+        Assert.Equal(TarotPrototypeSelections.LupusNoctisArtworkPackId, viewModel.ArtworkPackId);
+        Assert.Equal(new TarotBackVariantId("black-sun"), viewModel.SelectedBackVariant.Id);
+        Assert.True(viewModel.AllowReversed);
+        Assert.False(viewModel.AutoRevealCards);
+        Assert.Equal(second.Id, viewModel.InterpretationPackId);
+        Assert.Equal(1, preferenceEvents);
+        Assert.Equal(1, stateEvents);
+    }
+
+    [Fact]
+    public void SelectCurrentInterpretationPack_IsNoOp()
+    {
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(new TarotDrawEngine(new SequenceRandomSource(0)));
+        var preferenceEvents = 0;
+        var stateEvents = 0;
+        viewModel.PreferencesChanged += (_, _) => preferenceEvents++;
+        viewModel.StateChanged += (_, _) => stateEvents++;
+
+        viewModel.SelectInterpretationPack(TarotPrototypeSelections.InterpretationPackId);
+
+        Assert.Equal(0, preferenceEvents);
+        Assert.Equal(0, stateEvents);
+        Assert.Null(viewModel.CurrentReading);
+    }
+
+    [Fact]
+    public void EmptyInterpretationPackOptions_KeepDrawAndRevealUsable()
+    {
+        var preferences = TarotWorkspacePreferences.CreateDefault() with { AutoRevealCards = false };
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
+            new TarotDrawEngine(new SequenceRandomSource(0)),
+            interpretationPacks: [],
+            initialPreferences: preferences);
+
+        viewModel.Draw(Instant.FromUnixTimeTicks(72));
+        var assignment = Assert.Single(Assert.IsType<TarotReading>(viewModel.CurrentReading).Cards);
+        viewModel.RevealAndSelect(assignment.PositionId);
+
+        Assert.Empty(viewModel.InterpretationPacks);
+        Assert.Null(viewModel.SelectedInterpretationPack);
+        Assert.Equal(TarotPrototypeSelections.InterpretationPackId, viewModel.InterpretationPackId);
+        Assert.Same(assignment, viewModel.SelectedCard);
+        Assert.True(viewModel.IsRevealed(assignment.PositionId));
     }
 
     private static TarotWorkspaceViewModel CreateThreeCardWorkspace(
@@ -471,6 +583,7 @@ public sealed class TarotWorkspaceViewModelTests
         initialPreferences: new TarotWorkspacePreferences(
             StandardTarotSpreads.ThreeCards.Id,
             TarotPrototypeSelections.DefaultArtworkPackId,
+            TarotPrototypeSelections.InterpretationPackId,
             new TarotBackVariantId("black-sun"),
             AllowReversed: false,
             AutoRevealCards: autoRevealCards));
@@ -485,8 +598,8 @@ public sealed class TarotWorkspaceViewModelTests
         ],
         TarotPrototypeSelections.BackVariants,
         artworkPacks,
+        [new TarotInterpretationPackOption(TarotPrototypeSelections.InterpretationPackId)],
         TarotPrototypeSelections.PresentationSkinId,
-        TarotPrototypeSelections.InterpretationPackId,
         TarotWorkspacePreferences.CreateDefault());
 
     private sealed class SequenceRandomSource(params int[] values) : ITarotRandomSource

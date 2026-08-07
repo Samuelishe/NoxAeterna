@@ -58,7 +58,7 @@ These IDs are semantic keys, not user-facing labels. Spreads contain no Avalonia
 
 Canonical interpretation mode IDs are `single-card`, `two-cards`, `three-cards`, and `celtic-cross`. A mode normally shares its semantic spread ID; the future non-positional pair spread is therefore `two-cards`, while any future ordered two-card spread must use another ID and content contract. Mode content and routing belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
-`classic` (`Классика` / `Classic`) is the first future interpretation pack. Its complete single-card corpus will give each upright and reversed card an independent interpretation with five visible structured sections; the authorial, section, tag, metric, and translation contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md). This is approved direction, not a claim that a loader or corpus now exists.
+`classic` (`Классика` / `Classic`) is the built-in selectable interpretation pack; its user-facing names come from the manifest under application UI language and its selection is independent from artwork, back, spread, and interpretation language. Every production module remains `ready = false`, so no visible interpretation exists yet. Its future complete single-card corpus will give each upright and reversed card an independent interpretation with five visible structured sections; the authorial contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
 
 Celtic Cross remains future scope. Its larger card count will require smaller card surfaces than the one-, two-, and three-card modes; exact positions, relation graph, synthesis, layout, and dimensions belong to later design stages. Its `celtic-cross` interpretation module will be compositional rather than exhaustive, and no implementation begins in INT0.
 
@@ -66,7 +66,7 @@ The planned `two-cards` mode does not exist in Domain or UI. It will draw exactl
 
 ## Boundary With Meaning and Presentation
 
-Domain contains no Russian or English display names, UI labels, localized strings, meanings, keywords, interpretation text, astrology correspondences, layout geometry, or persistence. It owns semantic cards, spreads, unique assignments, typed orientation, and the stable pack identity. `NoxAeterna.Interpretation` owns pure schemas/validation, canonical keys, typed results, locale/mode resolution, trust-chain loading, and bounded caches without filesystem ownership. App owns the built-in Classic file source/catalog and packaged skeleton; Presentation remains unwired and has no selector or content. Artwork remains a visual mapping only. General composition belongs to [`INTERPRETATION-ENGINE.md`](INTERPRETATION-ENGINE.md); pack readiness/fallback to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); single-card authoring to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); mode corpora/storage/routing to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); exact serialization, layers, and migration to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
+Domain contains no Russian or English display names, UI labels, localized strings, meanings, keywords, interpretation text, astrology correspondences, layout geometry, or persistence. It owns semantic cards, spreads, unique assignments, typed orientation, and the stable pack identity. `NoxAeterna.Interpretation` owns pure schemas/validation, canonical keys, typed results, locale/mode resolution, trust-chain loading, and bounded caches without filesystem ownership. App owns the single built-in source graph, user-facing manifest catalog, settings normalization, reveal-gated resolver coordinator, and silent UI host; Presentation owns typed selection and workspace signals without filesystem access. Artwork remains a visual mapping only.
 
 ## T1 Playable Workspace
 
@@ -82,9 +82,9 @@ The fixed control panel sits above one stretching reading surface. That surface 
 
 Auto reveal defaults to `true`. A successful draw then reveals every position immediately. When disabled, a new draw starts entirely face-down and each card activation reveals only that position. Changing the toggle affects later draws only: it neither reveals nor hides the current reading, resets selection, nor changes the immutable Domain result. Draw failure clears reading, selection, and revealed state.
 
-Until a real corpus exists, the current implementation keeps the interpretation host empty with no reading or revealed cards and shows the localized unavailable message after a reveal. This is a temporary honest placeholder, not the future missing-content policy. The first real interpretation implementation stage removes `ui.tarot.interpretation.unavailable` from production UI; thereafter no displayable content means an empty host with no heading, bordered surface, placeholder, or diagnostic copy, as defined by [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
+Until a real corpus and section renderer exist, every `NoContent`, hidden-card, unavailable-pack, and broken-ready result leaves the interpretation host empty and hidden. There is no overall heading, bordered empty surface, placeholder, fallback explanation, readiness state, or technical diagnostic; card drawing and reveal remain usable.
 
-Application language, interpretation language, theme, selected spread, Lupus Noctis ID, back ID, reversal policy, and auto-reveal policy are persisted together in the versioned AppData `settings.json`. Current readings, revealed positions, selection, and scroll state remain session-only.
+Application language, interpretation language, theme, selected spread, Lupus Noctis ID, selected interpretation-pack ID, back ID, reversal policy, and auto-reveal policy are persisted together in schema-2 AppData `settings.json`. Current readings, revealed positions, selected card, resolved locale/content, diagnostics, and scroll state remain session-only.
 
 ## Historical A3 Built-In Partial Artwork Pack
 
@@ -102,9 +102,9 @@ TAROT-ART-RUNTIME-1 subsequently made Lupus Noctis the sole default user-facing 
 
 - Only `single-card/card` and ordered `three-cards/past,present,future` are implemented.
 - Draws are without replacement and already support upright and reversed orientation.
-- The active `classic` interpretation-pack identity contains no prose, and the UI reports interpretation unavailability.
-- Pure schema/document, validation, canonical-key, and typed-result contracts exist; no two-card spread, Tarot interpretation runtime, manifest file, or Tarot meaning corpus exists.
-- INT0-D1–D4, I1, and I2 are accepted; I2 checkpoint `93a26fd8942fe0a519d60e9d5ac1a29f09930340` and hosted run `31105509521` passed all five jobs. I3 is complete locally with the packaged all-not-ready Classic skeleton, App-owned file source/catalog, and pure resolver/cache foundation. No selector, workspace wiring, AppData, production corpus, or prose was added; I4 is next.
+- The active `classic` interpretation-pack identity contains no prose; it appears as the sole manifest-named selector item and `NoContent` is silent.
+- Pure schema/document, validation, canonical-key, typed-result, source/resolver, catalog, settings-v2, and reveal-gated orchestration contracts exist; no two-card spread, production indexes/content, Tarot meaning corpus, or five-section renderer exists.
+- INT0-D1–D4, I1, and I2 are accepted. Published I3 plus its run-55 configuration-test repair and I4 are complete locally, pending owner commit/push and hosted-green evidence. The infrastructure wave now includes selector, settings, and workspace wiring without AppData interpretation sources, production corpus, or prose; INT1-I1 is next.
 
 ## Asset Direction
 

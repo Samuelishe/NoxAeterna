@@ -34,6 +34,8 @@ public partial class MainWindow : Window
     private readonly AstrologyWorkspaceViewModel _astrologyWorkspaceViewModel;
     private readonly TarotWorkspaceViewModel _tarotWorkspaceViewModel;
     private readonly TarotArtworkPackCatalog _tarotArtworkPackCatalog;
+    private readonly TarotInterpretationPackCatalog _tarotInterpretationPackCatalog;
+    private readonly TarotWorkspaceInterpretationCoordinator _tarotInterpretationCoordinator;
     private readonly SettingsViewModel _settingsViewModel;
     private readonly DevelopmentAstrologyChartCoordinator _astrologyChartCoordinator;
     private readonly SplitView _shellSplitView;
@@ -47,13 +49,21 @@ public partial class MainWindow : Window
     private ShellNavigationItemView[] _navigationItemViews = [];
 
     public MainWindow()
-        : this(CreatePreferencesCoordinator())
+        : this(CreateDefaultDependencies())
     {
     }
 
     public MainWindow(UserPreferencesCoordinator preferencesCoordinator)
+        : this(preferencesCoordinator, TarotInterpretationComposition.CreateBuiltIn())
+    {
+    }
+
+    public MainWindow(
+        UserPreferencesCoordinator preferencesCoordinator,
+        TarotInterpretationComposition interpretationComposition)
     {
         _preferencesCoordinator = preferencesCoordinator ?? throw new ArgumentNullException(nameof(preferencesCoordinator));
+        ArgumentNullException.ThrowIfNull(interpretationComposition);
         InitializeComponent();
 
         _shellSplitView = this.FindControl<SplitView>("ShellSplitView")
@@ -83,6 +93,7 @@ public partial class MainWindow : Window
                 : ShellNavigationLayout.CompactViewportThreshold);
         _astrologyWorkspaceViewModel = AstrologyWorkspaceViewModel.CreateFoundation();
         _tarotArtworkPackCatalog = TarotArtworkPackCatalog.CreateBuiltIn();
+        _tarotInterpretationPackCatalog = interpretationComposition.PackCatalog;
         ITarotRandomSource tarotRandomSource = new SystemTarotRandomSource();
 #if DEBUG
         tarotRandomSource = DebugTarotSmokeRandomSource.CreateFromEnvironment() ?? tarotRandomSource;
@@ -90,7 +101,12 @@ public partial class MainWindow : Window
         _tarotWorkspaceViewModel = TarotWorkspaceViewModel.CreateClassic(
             new TarotDrawEngine(tarotRandomSource),
             _tarotArtworkPackCatalog.AvailableOptions,
+            _tarotInterpretationPackCatalog.Options,
             _userPreferences.Tarot);
+        _tarotInterpretationCoordinator = new TarotWorkspaceInterpretationCoordinator(
+            interpretationComposition.Resolver,
+            _tarotWorkspaceViewModel,
+            _userPreferences.InterpretationLanguage);
         _tarotWorkspaceViewModel.PreferencesChanged += OnTarotPreferencesChanged;
         _settingsViewModel = SettingsViewModel.CreateDefault(_userPreferences);
         _astrologyChartCoordinator = new DevelopmentAstrologyChartCoordinator(
@@ -102,6 +118,7 @@ public partial class MainWindow : Window
         _shellSplitView.OpenPaneLength = ShellNavigationLayout.ExpandedPaneLength;
         _shellSplitView.CompactPaneLength = ShellNavigationLayout.CompactPaneLength;
         SizeChanged += OnWindowSizeChanged;
+        Closed += (_, _) => _tarotInterpretationCoordinator.Dispose();
 
         RefreshShell();
     }
@@ -168,6 +185,7 @@ public partial class MainWindow : Window
             _sectionContentHost.Content = new TarotWorkspaceControl(
                 _tarotWorkspaceViewModel,
                 _tarotArtworkPackCatalog,
+                _tarotInterpretationPackCatalog,
                 _localizationProvider,
                 _userPreferences.ApplicationLanguage.Language,
                 SystemClock.Instance.GetCurrentInstant);
@@ -191,6 +209,7 @@ public partial class MainWindow : Window
         }
 
         _userPreferences = _preferencesCoordinator.Current;
+        _tarotInterpretationCoordinator.SetInterpretationLanguage(_userPreferences.InterpretationLanguage);
         _settingsViewModel.ReplaceCurrentPreferences(_userPreferences);
         ApplicationCultureController.Apply(_userPreferences.ApplicationLanguage.Language);
         _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
@@ -267,10 +286,24 @@ public partial class MainWindow : Window
     private string Localize(LocalizationKey key) =>
         _localizationProvider.Get(LocalizationScope.Ui, _userPreferences.ApplicationLanguage.Language, key).Text;
 
-    private static UserPreferencesCoordinator CreatePreferencesCoordinator()
+    private MainWindow(DefaultDependencies dependencies)
+        : this(dependencies.PreferencesCoordinator, dependencies.InterpretationComposition)
     {
-        var store = new JsonUserPreferencesStore(UserPreferencesPathResolver.GetSettingsPath());
-        return new UserPreferencesCoordinator(store, store.Load());
     }
+
+    private static DefaultDependencies CreateDefaultDependencies()
+    {
+        var interpretation = TarotInterpretationComposition.CreateBuiltIn();
+        var store = new JsonUserPreferencesStore(
+            UserPreferencesPathResolver.GetSettingsPath(),
+            interpretation.PackCatalog.AvailablePackIds);
+        return new DefaultDependencies(
+            new UserPreferencesCoordinator(store, store.Load()),
+            interpretation);
+    }
+
+    private sealed record DefaultDependencies(
+        UserPreferencesCoordinator PreferencesCoordinator,
+        TarotInterpretationComposition InterpretationComposition);
 
 }

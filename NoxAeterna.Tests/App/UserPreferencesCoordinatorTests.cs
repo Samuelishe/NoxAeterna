@@ -1,5 +1,6 @@
 using NodaTime;
 using NoxAeterna.App.Preferences;
+using NoxAeterna.App.Tarot;
 using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Presentation.Localization;
 using NoxAeterna.Presentation.Preferences;
@@ -104,15 +105,17 @@ public sealed class UserPreferencesCoordinatorTests
         ApplyApplication(coordinator, preferences => preferences with { ThemeId = new ThemeId("light") });
         ApplyTarot(coordinator, tarot => tarot with { SpreadId = StandardTarotSpreads.ThreeCards.Id });
         ApplyTarot(coordinator, tarot => tarot with { ArtworkPackId = TarotPrototypeSelections.LupusNoctisArtworkPackId });
+        ApplyTarot(coordinator, tarot => tarot with { InterpretationPackId = new TarotInterpretationPackId("second-pack") });
         ApplyTarot(coordinator, tarot => tarot with { BackVariantId = new TarotBackVariantId("lunar-seal") });
         ApplyTarot(coordinator, tarot => tarot with { AllowReversed = true });
         ApplyTarot(coordinator, tarot => tarot with { AutoRevealCards = false });
 
         // The sole artwork ID is already the persisted default, so its no-op is intentionally suppressed.
-        Assert.Equal(7, store.SavedPreferences.Count);
-        Assert.Equal(7, eventCount);
+        Assert.Equal(8, store.SavedPreferences.Count);
+        Assert.Equal(8, eventCount);
         Assert.Equal(coordinator.Current, store.SavedPreferences[^1]);
         Assert.Equal("three-cards", coordinator.Current.Tarot.SpreadId.Value);
+        Assert.Equal("second-pack", coordinator.Current.Tarot.InterpretationPackId.Value);
         Assert.Equal("lunar-seal", coordinator.Current.Tarot.BackVariantId.Value);
         Assert.True(coordinator.Current.Tarot.AllowReversed);
         Assert.False(coordinator.Current.Tarot.AutoRevealCards);
@@ -144,6 +147,40 @@ public sealed class UserPreferencesCoordinatorTests
         Assert.Equal(1, viewModel.RevealedCardCount);
         Assert.Same(assignment, viewModel.SelectedCard);
         Assert.Empty(store.SavedPreferences);
+    }
+
+    [Fact]
+    public void InterpretationPackSelectionWritesOnceWhileRepeatDrawRevealAndResolutionWriteNothing()
+    {
+        var initial = UserPreferencesDefaults.Create() with
+        {
+            Tarot = TarotWorkspacePreferences.CreateDefault() with { AutoRevealCards = false }
+        };
+        var store = new RecordingStore();
+        var preferences = CreateCoordinator(store, initial);
+        var second = new TarotInterpretationPackOption(new("second-pack"));
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
+            new TarotDrawEngine(new SequenceRandomSource(0)),
+            interpretationPacks: [new(TarotPrototypeSelections.InterpretationPackId), second],
+            initialPreferences: initial.Tarot);
+        viewModel.PreferencesChanged += (_, value) => preferences.ApplyTarotPreferences(value);
+        var resolver = new SilentResolver();
+        using var interpretation = new TarotWorkspaceInterpretationCoordinator(
+            resolver,
+            viewModel,
+            initial.InterpretationLanguage);
+
+        viewModel.SelectInterpretationPack(second.Id);
+        viewModel.SelectInterpretationPack(second.Id);
+        viewModel.Draw(Instant.FromUnixTimeTicks(101));
+        var card = Assert.Single(Assert.IsType<TarotReading>(viewModel.CurrentReading).Cards);
+        viewModel.RevealAndSelect(card.PositionId);
+        interpretation.Refresh();
+
+        var saved = Assert.Single(store.SavedPreferences);
+        Assert.Equal(second.Id, saved.Tarot.InterpretationPackId);
+        Assert.DoesNotContain("resolved", saved.ToString(), StringComparison.OrdinalIgnoreCase);
+        Assert.Equal(2, resolver.CallCount);
     }
 
     [Fact]
@@ -206,6 +243,7 @@ public sealed class UserPreferencesCoordinatorTests
         new TarotWorkspacePreferences(
             StandardTarotSpreads.ThreeCards.Id,
             TarotPrototypeSelections.LupusNoctisArtworkPackId,
+            TarotPrototypeSelections.InterpretationPackId,
             new TarotBackVariantId("lunar-seal"),
             AllowReversed: true,
             AutoRevealCards: false));
@@ -222,6 +260,38 @@ public sealed class UserPreferencesCoordinatorTests
         {
             SavedPreferences.Add(preferences);
             return saveResult ?? UserPreferencesSaveResult.Success;
+        }
+    }
+
+    private sealed class SilentResolver : NoxAeterna.App.Tarot.ITarotWorkspaceInterpretationResolver
+    {
+        public int CallCount { get; private set; }
+
+        public NoxAeterna.Interpretation.Tarot.Resolution.TarotInterpretationResolution<
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotSingleCardEntry> ResolveSingleCard(
+            TarotInterpretationPackId packId,
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotInterpretationLocale requestedLocale,
+            TarotCardId cardId,
+            TarotCardOrientation orientation)
+        {
+            CallCount++;
+            return new NoxAeterna.Interpretation.Tarot.Resolution.NoTarotInterpretationContent<
+                NoxAeterna.Interpretation.Tarot.Contracts.TarotSingleCardEntry>(
+                NoxAeterna.Interpretation.Tarot.Contracts.TarotNoContentReason.NoReadyLocale);
+        }
+
+        public NoxAeterna.Interpretation.Tarot.Resolution.TarotInterpretationResolution<
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotThreeCardPositionEntry> ResolveThreeCardPosition(
+            TarotInterpretationPackId packId,
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotInterpretationLocale requestedLocale,
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotThreeCardPosition position,
+            TarotCardId cardId,
+            TarotCardOrientation orientation)
+        {
+            CallCount++;
+            return new NoxAeterna.Interpretation.Tarot.Resolution.NoTarotInterpretationContent<
+                NoxAeterna.Interpretation.Tarot.Contracts.TarotThreeCardPositionEntry>(
+                NoxAeterna.Interpretation.Tarot.Contracts.TarotNoContentReason.NoReadyLocale);
         }
     }
 

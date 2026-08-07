@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-06: INT0-I4 Interpretation Pack Selector, Settings v2 and Silent Host
+
+- Checked published I3 commit `062e1e193d1a62b8c5f61c828e24314a112e7984`: hosted run `31110289276` ended with Documentation green and four failures caused by one test-local Debug path under Release jobs; repaired that configuration assumption locally without changing I3 production behavior.
+- Added one App-owned manifest catalog/composition graph, RU/EN Classic selector, typed Presentation selection, schema-2 persistence with lazy v1 migration and silent unknown-ID normalization, plus immediate resolver refresh on draw/reveal/pack/interpretation-language changes.
+- Resolution receives only revealed single-card or three-card-position entries; `NoContent` and broken-ready outcomes leave a completely empty hidden host. No production prose, indexes/content, five-section/tag renderer, AppData interpretation source, or user-pack flow was added.
+
 ## 2026-08-06: INT0-I3 Built-In Classic Pack Source and Resolver
 
 - Reconciled accepted I2 checkpoint `93a26fd8942fe0a519d60e9d5ac1a29f09930340` and green hosted run `31105509521`; added the exact production Classic skeleton manifest and App output/publish packaging while every module remains `ready = false`.

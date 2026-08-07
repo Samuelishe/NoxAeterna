@@ -26,13 +26,13 @@
 - ART-SKILL-RM retired the repository-owned and user-level Tarot generation skill. Future artwork creation and artistic acceptance belong to the owner outside Codex; the active handoff contract is owned by [`LUPUS-NOCTIS.md`](../resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md#artwork-creation-and-codex-handoff).
 - TAROT-ART-RUNTIME-1 is accepted at checkpoint commit `916ef59a081c4a465c5c1275944aa7b7da0f3afb`. Lupus Noctis is the sole default user-facing artwork pack, all 78 cards resolve to raster with zero normal fallback, required-pack damage produces a controlled unavailable workspace, and hosted run `31062978166` passed all five documentation, desktop-platform, and diagnostic coverage jobs.
 - T-UX1A is complete at checkpoint commit `540bcc4e010780ea4aaf1b5c547b9541e27adc78`: cards use exact `1.5×` widths, controls remain fixed above one vertically scrolling surface, tableau overflow is locally horizontal, the selected-card inspector is removed, auto reveal defaults on with manual reveal available, and versioned AppData JSON restores language/theme and Tarot selections without restoring a reading. Hosted run `31065568715` passed all five jobs.
-- INT0-D1–D4 and the four-owner interpretation architecture are accepted. D4 checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e` and hosted run `31095939556` passed all five jobs. INT0-I1 was published at `9c1f68962e84d21d87b2af8072bb0fadf9c4a2f0`; its test-only Unix separator regression was repaired with I2. INT0-I2 is accepted at checkpoint `93a26fd8942fe0a519d60e9d5ac1a29f09930340`; hosted run `31105509521` passed all five jobs. INT0-I3 is complete locally with the all-not-ready built-in Classic skeleton, App packaging/source catalog, Interpretation-owned locale/mode resolver, trust-chain lazy loading, and bounded caches; owner commit/push and hosted verification remain pending.
+- INT0-D1–D4, I1, and I2 are accepted; I2 checkpoint `93a26fd8942fe0a519d60e9d5ac1a29f09930340` and run `31105509521` passed 5/5. I3 was published at `062e1e193d1a62b8c5f61c828e24314a112e7984`, but run `31110289276` (55) had Documentation green and three Full jobs plus coverage fail because one test hardcoded Debug output under Release. That test-only regression is repaired locally; I3 awaits replacement green evidence. I4 is complete locally with manifest selector, settings schema 2/lazy v1 migration, reveal-gated resolution, and silent host; owner commit/push and hosted verification remain pending.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-After owner acceptance and hosted-green INT0-I3 evidence, the next focus is **INT0-I4 — Selector, Settings v2 and Silent Host**. I1 and I2 are accepted; I3 is complete locally without visible integration, AppData, or corpus prose. ART-LN remains complete at 78/78; AP1–AP5 and other independent roadmap stages remain deferred.
+After owner acceptance and hosted-green INT0-I4 evidence, the next focus is **INT1-I1 — Single-Card Runtime Presentation**. I1 and I2 are accepted; the published I3 code plus its run-55 test-path repair and I4 are complete locally. No interpretation corpus, production prose, AppData interpretation source, or user-pack flow exists. ART-LN remains complete at 78/78; AP1–AP5 and other independent roadmap stages remain deferred.
 
 ## Preserved Contracts
 
@@ -48,4 +48,4 @@ After owner acceptance and hosted-green INT0-I3 evidence, the next focus is **IN
 
 ## Active Blockers
 
-- No unresolved architecture blocker remains for INT0-I4. INT0-I3 local changes still need owner commit/push and hosted verification. AP1–AP5, PKG1, S2, T-UX1B, later Tarot zoom/detail work, and other independent stages remain deferred.
+- No unresolved architecture blocker remains. The known run-55 test-path failure is repaired locally, but I3/I4 still require owner commit/push and replacement hosted-green evidence before INT1-I1 starts. AP1–AP5, PKG1, S2, T-UX1B, later Tarot zoom/detail work, and other independent stages remain deferred.

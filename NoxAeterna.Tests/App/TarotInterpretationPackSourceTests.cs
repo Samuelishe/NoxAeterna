@@ -93,8 +93,7 @@ public sealed class TarotInterpretationPackSourceTests : IDisposable
     [Fact]
     public void CurrentDebugBuiltInSkeleton_ReturnsTypedNoReadyForRuAndZhAndPackUnavailableForUnknown()
     {
-        var debugBase = RepositoryPath("NoxAeterna.App", "bin", "Debug", "net10.0");
-        var source = new BuiltInClassicInterpretationPackSource(debugBase);
+        var source = new BuiltInClassicInterpretationPackSource(AppContext.BaseDirectory);
         var catalog = new BuiltInTarotInterpretationPackSourceCatalog([source]);
         var resolver = new TarotInterpretationPackResolver(catalog, StandardTarotCatalog.Deck);
 

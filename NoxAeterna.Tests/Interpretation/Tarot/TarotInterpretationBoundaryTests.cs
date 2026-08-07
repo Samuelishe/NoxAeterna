@@ -79,7 +79,7 @@ public sealed class TarotInterpretationBoundaryTests
     }
 
     [Fact]
-    public void PresentationStillHasNoPackSelectorAndSettingsRemainSchemaOne()
+    public void PresentationOwnsTypedPackSelectionWhileSettingsUseSchemaTwo()
     {
         var presentationSource = string.Join(
             Environment.NewLine,
@@ -87,22 +87,25 @@ public sealed class TarotInterpretationBoundaryTests
                 .Order(StringComparer.Ordinal)
                 .Select(File.ReadAllText));
 
-        Assert.DoesNotContain("TarotInterpretationPackSelector", presentationSource, StringComparison.Ordinal);
-        Assert.DoesNotContain("TarotInterpretationPackOption", presentationSource, StringComparison.Ordinal);
-        Assert.Equal(1, JsonUserPreferencesStore.CurrentSchemaVersion);
-        Assert.Null(typeof(TarotWorkspacePreferencesDocument).GetProperty("SelectedInterpretationPackId"));
+        Assert.DoesNotContain("File.", presentationSource, StringComparison.Ordinal);
+        Assert.DoesNotContain("Directory.", presentationSource, StringComparison.Ordinal);
+        Assert.Contains("TarotInterpretationPackOption", presentationSource, StringComparison.Ordinal);
+        Assert.Equal(2, JsonUserPreferencesStore.CurrentSchemaVersion);
+        Assert.NotNull(typeof(TarotWorkspacePreferencesDocument).GetProperty("SelectedInterpretationPackId"));
     }
 
     [Fact]
-    public void CurrentUnavailablePlaceholderRemainsUntilI4()
+    public void I4RemovesUnavailablePlaceholderFromActiveProductionCode()
     {
         var presentation = File.ReadAllText(RepositoryPath(
             "NoxAeterna.Presentation", "Tarot", "TarotWorkspaceViewModel.cs"));
         var app = File.ReadAllText(RepositoryPath(
             "NoxAeterna.App", "Tarot", "TarotWorkspaceControl.cs"));
 
-        Assert.Contains("ui.tarot.interpretation.unavailable", presentation, StringComparison.Ordinal);
-        Assert.Contains("InterpretationUnavailableKey", app, StringComparison.Ordinal);
+        Assert.DoesNotContain("ui.tarot.interpretation.unavailable", presentation, StringComparison.Ordinal);
+        Assert.DoesNotContain("InterpretationUnavailableKey", app, StringComparison.Ordinal);
+        Assert.Contains("interpretationHost.Content = null", app, StringComparison.Ordinal);
+        Assert.Contains("interpretationHost.IsVisible = false", app, StringComparison.Ordinal);
     }
 
     private static string InterpretationSource() => string.Join(

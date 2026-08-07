@@ -50,7 +50,77 @@ public sealed class JsonUserPreferencesStoreTests
     }
 
     [Fact]
-    public void SaveAndLoad_RoundTripsEveryPreferenceAndWritesSchemaVersionOne()
+    public void Load_VersionOneMigratesInMemoryWithoutRewritingUntilNextRealSave()
+    {
+        using var fixture = new SettingsFixture();
+        var original = ValidJson(schemaVersion: 1);
+        fixture.WriteRaw(original);
+
+        var load = fixture.CreateStore().Load();
+
+        Assert.Null(load.Diagnostic);
+        Assert.Equal(CreateDistinctPreferences(), load.Preferences);
+        Assert.Equal(TarotPrototypeSelections.InterpretationPackId, load.Preferences.Tarot.InterpretationPackId);
+        Assert.Equal(original, File.ReadAllText(fixture.SettingsPath));
+
+        var changed = load.Preferences with
+        {
+            Tarot = load.Preferences.Tarot with { AutoRevealCards = !load.Preferences.Tarot.AutoRevealCards }
+        };
+        Assert.True(fixture.CreateStore().Save(changed).IsSuccess);
+
+        using var json = JsonDocument.Parse(File.ReadAllText(fixture.SettingsPath));
+        Assert.Equal(2, json.RootElement.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal(
+            "classic",
+            json.RootElement.GetProperty("tarot").GetProperty("selectedInterpretationPackId").GetString());
+        Assert.Equal("three-cards", json.RootElement.GetProperty("tarot").GetProperty("spreadId").GetString());
+        Assert.Equal("lunar-seal", json.RootElement.GetProperty("tarot").GetProperty("backVariantId").GetString());
+    }
+
+    [Fact]
+    public void Load_VersionTwoRestoresKnownSyntheticInterpretationPack()
+    {
+        using var fixture = new SettingsFixture();
+        fixture.WriteRaw(VersionTwoJson("second-pack"));
+        var store = fixture.CreateStore([new("classic"), new("second-pack")]);
+
+        var result = store.Load();
+
+        Assert.Null(result.Diagnostic);
+        Assert.Equal(new TarotInterpretationPackId("second-pack"), result.Preferences.Tarot.InterpretationPackId);
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("not-installed")]
+    public void Load_VersionTwoMissingEmptyOrUnknownInterpretationPackNormalizesToClassic(string? storedId)
+    {
+        using var fixture = new SettingsFixture();
+        fixture.WriteRaw(VersionTwoJson(storedId));
+
+        var result = fixture.CreateStore().Load();
+
+        Assert.Null(result.Diagnostic);
+        Assert.Equal(TarotPrototypeSelections.InterpretationPackId, result.Preferences.Tarot.InterpretationPackId);
+        Assert.Equal(VersionTwoJson(storedId), File.ReadAllText(fixture.SettingsPath));
+    }
+
+    [Fact]
+    public void Load_EmptyAvailableCatalogKeepsSafeCompiledClassicIdentity()
+    {
+        using var fixture = new SettingsFixture();
+        fixture.WriteRaw(VersionTwoJson("not-installed"));
+
+        var result = fixture.CreateStore([]).Load();
+
+        Assert.Null(result.Diagnostic);
+        Assert.Equal(TarotPrototypeSelections.InterpretationPackId, result.Preferences.Tarot.InterpretationPackId);
+    }
+
+    [Fact]
+    public void SaveAndLoad_RoundTripsEveryPreferenceAndWritesSchemaVersionTwo()
     {
         using var fixture = new SettingsFixture();
         var store = fixture.CreateStore();
@@ -64,7 +134,10 @@ public sealed class JsonUserPreferencesStoreTests
         Assert.Null(load.Diagnostic);
         Assert.Equal(expected, load.Preferences);
         using var json = JsonDocument.Parse(File.ReadAllText(fixture.SettingsPath));
-        Assert.Equal(1, json.RootElement.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal(2, json.RootElement.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal(
+            "classic",
+            json.RootElement.GetProperty("tarot").GetProperty("selectedInterpretationPackId").GetString());
     }
 
     [Fact]
@@ -81,7 +154,11 @@ public sealed class JsonUserPreferencesStoreTests
             json.RootElement.EnumerateObject().Select(property => property.Name));
         var tarot = json.RootElement.GetProperty("tarot");
         Assert.Equal(
-            new[] { "spreadId", "artworkPackId", "backVariantId", "allowReversed", "autoRevealCards" },
+            new[]
+            {
+                "spreadId", "artworkPackId", "selectedInterpretationPackId", "backVariantId",
+                "allowReversed", "autoRevealCards"
+            },
             tarot.EnumerateObject().Select(property => property.Name));
         Assert.Equal(JsonValueKind.String, json.RootElement.GetProperty("applicationLanguage").ValueKind);
         Assert.Equal(JsonValueKind.String, tarot.GetProperty("spreadId").ValueKind);
@@ -112,7 +189,7 @@ public sealed class JsonUserPreferencesStoreTests
         Assert.True(Directory.Exists(Path.GetDirectoryName(fixture.SettingsPath)));
         var content = File.ReadAllText(fixture.SettingsPath);
         Assert.Contains(Environment.NewLine, content, StringComparison.Ordinal);
-        Assert.Contains("  \"schemaVersion\": 1", content, StringComparison.Ordinal);
+        Assert.Contains("  \"schemaVersion\": 2", content, StringComparison.Ordinal);
         using var json = JsonDocument.Parse(content);
         Assert.Equal(JsonValueKind.Object, json.RootElement.ValueKind);
     }
@@ -168,13 +245,13 @@ public sealed class JsonUserPreferencesStoreTests
     public void Load_UnsupportedSchemaVersion_ReturnsControlledDefaultsAndStructuredDiagnostic()
     {
         using var fixture = new SettingsFixture();
-        fixture.WriteRaw(ValidJson(schemaVersion: 2));
+        fixture.WriteRaw(ValidJson(schemaVersion: 3));
 
         var result = fixture.CreateStore().Load();
 
         Assert.Equal(UserPreferencesDefaults.Create(), result.Preferences);
         Assert.Equal(UserPreferencesDiagnosticCode.UnsupportedSchemaVersion, result.Diagnostic?.Code);
-        Assert.Contains("2", result.Diagnostic!.Message, StringComparison.Ordinal);
+        Assert.Contains("3", result.Diagnostic!.Message, StringComparison.Ordinal);
     }
 
     [Theory]
@@ -344,6 +421,7 @@ public sealed class JsonUserPreferencesStoreTests
         new TarotWorkspacePreferences(
             StandardTarotSpreads.ThreeCards.Id,
             TarotPrototypeSelections.LupusNoctisArtworkPackId,
+            TarotPrototypeSelections.InterpretationPackId,
             new TarotBackVariantId("lunar-seal"),
             AllowReversed: true,
             AutoRevealCards: false));
@@ -375,6 +453,28 @@ public sealed class JsonUserPreferencesStoreTests
                  """;
     }
 
+    private static string VersionTwoJson(string? selectedInterpretationPackId)
+    {
+        var selectedField = selectedInterpretationPackId is null
+            ? string.Empty
+            : $"\n    \"selectedInterpretationPackId\": {JsonSerializer.Serialize(selectedInterpretationPackId)},";
+        return $$"""
+                 {
+                   "schemaVersion": 2,
+                   "applicationLanguage": "en",
+                   "interpretationLanguage": "en",
+                   "theme": "light",
+                   "tarot": {
+                     "spreadId": "three-cards",
+                     "artworkPackId": "lupus-noctis",{{selectedField}}
+                     "backVariantId": "lunar-seal",
+                     "allowReversed": true,
+                     "autoRevealCards": false
+                   }
+                 }
+                 """;
+    }
+
     private sealed class SettingsFixture : IDisposable
     {
         public SettingsFixture()
@@ -387,7 +487,9 @@ public sealed class JsonUserPreferencesStoreTests
 
         public string SettingsPath { get; }
 
-        public JsonUserPreferencesStore CreateStore() => new(SettingsPath);
+        public JsonUserPreferencesStore CreateStore(
+            IEnumerable<TarotInterpretationPackId>? availableInterpretationPackIds = null) =>
+            new(SettingsPath, availableInterpretationPackIds);
 
         public void WriteRaw(string content)
         {

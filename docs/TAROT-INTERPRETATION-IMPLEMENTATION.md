@@ -26,7 +26,9 @@ Other documents may summarize or link these decisions, but do not become competi
 
 Current code uses `TarotInterpretationPackId`, `InterpretationPackId`, and the prose-free `classic` identity. `NoxAeterna.Interpretation` implements schema-v1 raw documents, immutable validated contracts, exact in-memory JSON, stable enums/IDs, canonical keys/pairs, typed diagnostics/results, filesystem-free source abstractions, mode-level locale resolution, manifest/index/content trust-chain validation, lazy entry routing, and bounded LRU caches.
 
-The App now references Interpretation, packages the built-in `resources/interpretation/tarot/packs/classic/interpretation-pack.json`, and owns the contained filesystem source plus immutable Classic-only source catalog. All Classic modules are `ready = false`, so the resolver returns typed `NoContent/no-ready-locale` without opening indexes or content. The application still has settings schema 1, no selector or resolver-to-workspace wiring, no AppData pack source, no production indexes/content/prose, and still shows `ui.tarot.interpretation.unavailable` after a reveal. Settings schema 2, selector wiring, and silent host remain I4.
+The App references Interpretation, packages the built-in `resources/interpretation/tarot/packs/classic/interpretation-pack.json`, and owns one contained source graph, an immutable user-facing pack catalog, settings normalization, and reveal-gated workspace resolver orchestration. Presentation exposes typed pack options/selection without manifest or filesystem access. Settings schema 2 persists `selectedInterpretationPackId` and lazily accepts schema 1 without startup rewrite. The visible RU/EN selector name comes from the manifest under UI language; interpretation language independently drives resolver locale. All Classic modules are `ready = false`, so resolution is typed `NoContent` and the host stays empty and hidden. There is no AppData pack source, production index/content/prose, five-section renderer, tag UI, or user-pack flow.
+
+The existing `resources/localization/interpretation/ru.json` and `en.json` remain generic cross-domain localization catalogs. They are not Tarot pack documents, were not moved into Classic, and are not used as resolver fallback content.
 
 ## Common JSON Contract
 
@@ -414,7 +416,7 @@ The separate planned actions remain unchanged: `Сбросить настрой�
 
 ## Selector, Language, and Presentation Gates
 
-The future control is named `TarotInterpretationPackSelector`. Its default label is `Толкование` in Russian and `Interpretation` in English. It appears in the Tarot control panel and remains visible with the single real `Классика / Classic` option, matching the established artwork-selector direction.
+The implemented control is named `TarotInterpretationPackSelector`. Its label is `Толкование` in Russian and `Interpretation` in English. It appears in the Tarot control panel and remains visible with the single real manifest-named `Классика / Classic` option, matching the artwork-selector direction.
 
 The selector display name follows UI-language resolution. Its selected stable pack ID persists. A pack switch immediately re-resolves currently visible revealed content without redrawing cards or changing artwork, back, spread, or reveal state.
 
@@ -425,7 +427,7 @@ Presentation gates are:
 - two-card `interaction` and `direction` may render as one compact paragraph without field headings;
 - three-card position, relation, and overall headings follow the mode contract;
 - no content produces no visible block;
-- `ui.tarot.interpretation.unavailable` is removed during the first UI/runtime implementation stage;
+- `ui.tarot.interpretation.unavailable` and its ViewModel key are absent from active production UI;
 - no fallback-language, readiness, or damaged-file explanation is shown.
 
 Application UI language controls control labels and pack display names. Interpretation language controls section/tag labels and prose. UI-language changes refresh controls and pack names; interpretation-language changes re-resolve content. Neither change redraws cards.
@@ -444,7 +446,7 @@ Application UI language controls control labels and pack display names. Interpre
 | Missing/fallback content gives no user explanation | Packs | I3–I4 | Typed result tests and real-control UI smoke | Frozen; not implemented |
 | Pack and language switches re-resolve immediately | Packs | I4 | Presentation orchestration tests and UI smoke | Frozen; not implemented |
 | Selector remains visible with one real pack; its name follows UI language | Packs / Implementation | I4 | Catalog/display-name tests and RU/EN UI smoke | Frozen; not implemented |
-| No placeholder or overall interpretation heading | Packs / UI Vision | I4 | Host materialization and UI smoke | Frozen; current placeholder remains |
+| No placeholder or overall interpretation heading | Packs / UI Vision | I4 | Host materialization and UI smoke | Implemented; no-content host is empty and hidden |
 | Auto/manual reveal gates content; hidden cards never leak | Tarot Engine / Modes | I4, INT1-I1, INT2-I1, INT4-I1 | View-state and progressive-reveal fixtures | Frozen; reveal state exists, content does not |
 | Selector preference persists | Packs / Implementation | I4 | Settings v1→v2 and restart tests | Frozen; not implemented |
 | Classic uses traditional meanings and original prose | Content | INT1-AUTH-RU onward | Owner review, provenance, similarity audits | Frozen; corpus not authored |
@@ -484,7 +486,7 @@ Every approved D1–D3 area has an implementation stage or an explicit independe
 
 ## Staged Implementation Roadmap
 
-Implementation status after local INT0-I3: I1 and I2 are accepted; I3 packages the exact all-not-ready Classic skeleton, adds App-owned contained file sourcing/catalog assembly, and implements Interpretation-owned same-locale trust-chain resolution, lazy entry loading, typed broken-ready absence, and bounded invalidatable caches. I3 awaits owner commit/push plus hosted verification. I4 is next; no UI integration, AppData, settings-v2, selector, production index/content, or corpus prose exists.
+Implementation status after local INT0-I4: I1 and I2 are accepted. I3 is published at `062e1e193d1a62b8c5f61c828e24314a112e7984`; hosted run `31110289276` exposed only a test-local Debug/Release output-path assumption, repaired locally. I4 implements the manifest-backed selector, settings schema 2 with lazy v1 migration, immediate pack/language/reading refresh, revealed-entry-only calls, typed snapshots, and the silent host. I3 replacement evidence and I4 remain pending owner commit/push and hosted verification. No AppData pack source, production index/content, corpus prose, sections, tags, or vocabulary renderer exists; INT1-I1 is next after green evidence.
 
 | Stage | Scope | Primary gates |
 | --- | --- | --- |
@@ -504,16 +506,16 @@ Stages are deliberately bounded and are not combined into one implementation tas
 
 ## Current Implementation Handoff
 
-The immediate next implementation stage after owner acceptance and hosted-green I3 evidence is:
+The immediate next implementation stage after owner acceptance and hosted-green I4 evidence is:
 
 ```text
-INT0-I4 — Selector, Settings v2 and Silent Host
+INT1-I1 — Single-Card Runtime Presentation
 ```
 
-Its scope is the pack selector, settings v1→v2 migration, `classic` persistence, removal of the unavailable placeholder, immediate re-resolution orchestration, and silent empty-host rendering with real-control UI smoke.
+Its scope is fixture-backed five-section presentation over the typed snapshot established by I4; it does not begin the full production corpus.
 
-INT0-I1 completed the Pack/classic migration and pure contracts. INT0-I2 added explicit-root repository validation/index/authoring tooling. INT0-I3 added the production skeleton manifest, App-owned built-in source/catalog, pure resolver, trust-chain loading, and bounded caches. AppData sources, UI wiring, settings migration, prose, selector implementation, `two-cards`, and corpus authoring remain unimplemented.
+INT0-I1 completed the Pack/classic migration and pure contracts. INT0-I2 added explicit-root repository validation/index/authoring tooling. INT0-I3 added the production skeleton manifest, App-owned built-in source catalog, pure resolver, trust-chain loading, and bounded caches. INT0-I4 added the user-facing catalog/selector, settings migration, resolver orchestration, reveal gating, and silent host. AppData sources, prose/section/tag rendering, `two-cards`, and corpus authoring remain unimplemented.
 
 ## Independent Deferred Work
 
-T-UX1B stale card-size refresh debt, interpretation typography/font selection, Reset settings, Open AppData, Celtic Cross layout/composition, AP1–AP5, PKG1, S2, saved readings/history/SQLite, and other interpretation packs remain separate. None blocks INT0-I4.
+T-UX1B stale card-size refresh debt, interpretation typography/font selection, Reset settings, Open AppData, Celtic Cross layout/composition, AP1–AP5, PKG1, S2, saved readings/history/SQLite, and other interpretation packs remain separate. None blocks INT1-I1.
