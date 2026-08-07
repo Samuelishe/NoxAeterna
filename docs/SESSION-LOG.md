@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-07: INT1-AUTH-RU-BULK Complete Russian Classic Single-Card Corpus
+
+- Reconciled accepted INT1-QA0 checkpoint `1aa77fb0fcdc2a755658b0263dd828031f2dd374` and green hosted run `31174870501` (59), then authored the complete Russian Classic single-card source: 78 canonical bundles, 156 independent upright/reversed states with five sections each, and 61 used same-locale vocabulary concepts.
+- Repeated strict validation, scoped inventory, and lexical audit after structural and editorial corrections. Final source has zero missing, invalid, duplicate, or noncanonical identities; machine audit has zero warnings across 780 text units, and corpus-wide semantic review covered Major/Minor differentiation, Aces, courts, numbered cards, orientation independence, section logic, tags/metrics, reversal mechanisms, agency, and certainty boundaries.
+- Compilation and package inspection confirm 78 Russian single-card bundles / 156 states while every readiness declaration remains false. No English, oriented-pair, three-card-position, synthesis, artwork, runtime-selection, settings, or UI content was added; owner acceptance and the bounded INT1-PROMOTE-RU readiness change remain separate.
+
 ## 2026-08-07: INT1-QA0 Scoped Authoring Inventory and Content Audit
 
 - Added locale/corpus-scoped `authoring-status` with complete deterministic missing identities for single-card, oriented-pair, and three-card-position corpora, plus bounded console output and backward-compatible aggregate status.

@@ -1,5 +1,7 @@
+using System.Text.Json;
 using System.Xml.Linq;
 using NoxAeterna.App.Preferences;
+using NoxAeterna.Domain.Tarot;
 
 namespace NoxAeterna.Tests.Interpretation.Tarot;
 
@@ -53,22 +55,44 @@ public sealed class TarotInterpretationBoundaryTests
     }
 
     [Fact]
-    public void SourceTreeContainsOnlyManifestAndTrustedLabelsWithoutInterpretationProse()
+    public void SourceTreeContainsCanonicalRussianSingleCardCorpusAndRetainsExcludedProseBoundaries()
     {
         var productionRoot = RepositoryPath("resources", "interpretation", "tarot", "sources", "classic");
+        var russianRoot = Path.Combine(productionRoot, "content", "ru");
+        var englishRoot = Path.Combine(productionRoot, "content", "en");
+        var singleCardRoot = Path.Combine(russianRoot, "single-card");
+        var vocabularyRoot = Path.Combine(russianRoot, "vocabulary");
         var productionFiles = Directory.GetFiles(productionRoot, "*", SearchOption.AllDirectories).Order(StringComparer.Ordinal).ToArray();
-        Assert.Equal(3, productionFiles.Length);
+        var singleCardFiles = Directory.GetFiles(singleCardRoot, "*.json", SearchOption.TopDirectoryOnly)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        var expectedSingleCardFiles = StandardTarotCatalog.Deck.Cards
+            .Select(card => Path.Combine(singleCardRoot, $"{card.Id.Value}.json"))
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        var vocabularyFiles = Directory.GetFiles(vocabularyRoot, "*.json", SearchOption.TopDirectoryOnly);
+        var englishFiles = Directory.GetFiles(englishRoot, "*", SearchOption.AllDirectories);
+        using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(productionRoot, "interpretation-pack.json")));
+
+        Assert.Equal(142, productionFiles.Length);
+        Assert.Equal(78, singleCardFiles.Length);
+        Assert.Equal(expectedSingleCardFiles, singleCardFiles);
+        Assert.Equal(61, vocabularyFiles.Length);
         Assert.Contains(Path.Combine(productionRoot, "interpretation-pack.json"), productionFiles);
-        Assert.Contains(Path.Combine(productionRoot, "content", "ru", "labels.json"), productionFiles);
-        Assert.Contains(Path.Combine(productionRoot, "content", "en", "labels.json"), productionFiles);
+        Assert.Contains(Path.Combine(russianRoot, "labels.json"), productionFiles);
+        Assert.Equal([Path.Combine(englishRoot, "labels.json")], englishFiles);
+        foreach (var mode in manifest.RootElement.GetProperty("modules").EnumerateObject())
+        foreach (var locale in mode.Value.EnumerateObject())
+        {
+            Assert.False(
+                locale.Value.GetProperty("ready").GetBoolean(),
+                $"{mode.Name}/{locale.Name} must remain unready until explicit owner promotion.");
+        }
         Assert.False(Directory.Exists(RepositoryPath("resources", "interpretation", "tarot", "working")));
-        Assert.False(Directory.Exists(Path.Combine(productionRoot, "content", "ru", "single-card")));
-        Assert.False(Directory.Exists(Path.Combine(productionRoot, "content", "ru", "oriented-pairs")));
-        Assert.False(Directory.Exists(Path.Combine(productionRoot, "content", "ru", "three-card-positions")));
+        Assert.False(Directory.Exists(Path.Combine(russianRoot, "oriented-pairs")));
+        Assert.False(Directory.Exists(Path.Combine(russianRoot, "three-card-positions")));
+        Assert.False(Directory.Exists(Path.Combine(russianRoot, "synthesis")));
         Assert.False(Directory.Exists(Path.Combine(AppContext.BaseDirectory, "TestData", "Interpretation")));
-        Assert.DoesNotContain(
-            productionFiles.Select(File.ReadAllText),
-            text => text.Contains("overallValence", StringComparison.Ordinal) || text.Contains("interaction", StringComparison.Ordinal));
     }
 
     [Fact]

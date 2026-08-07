@@ -28,12 +28,13 @@
 - T-UX1A is complete at checkpoint commit `540bcc4e010780ea4aaf1b5c547b9541e27adc78`: cards use exact `1.5×` widths, controls remain fixed above one vertically scrolling surface, tableau overflow is locally horizontal, the selected-card inspector is removed, auto reveal defaults on with manual reveal available, and versioned AppData JSON restores language/theme and Tarot selections without restoring a reading. Hosted run `31065568715` passed all five jobs.
 - INT0-D1–D4, INT0-I1–I4, and INT1-I1 are accepted at checkpoint `11514633ace93585b6ab88905790aeaebf85eb4b`; hosted run `31159098001` (57) passed Documentation, Windows, Ubuntu, macOS, and Diagnostic coverage (5/5). The scoped LF repair and structured single-card presentation are accepted.
 - INT-SQL1 is recorded at baseline commit `5ce1be8677a52b3e0e5bd249868671013c1648e5`: canonical JSON bundles compile into immutable SQLite `.noxinterp` packages while runtime selection, fallback, presentation, and silent-host semantics remain preserved.
+- INT1-QA0 is accepted at `1aa77fb0fcdc2a755658b0263dd828031f2dd374`; hosted run `31174870501` (59) passed CI.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-**INT1-QA0 — scoped interpretation authoring inventory and deterministic corpus-quality audit** is complete locally, pending owner review/commit and hosted verification. Locale/corpus status now returns exact missing canonical identities; source-backed audit warnings cover lexical repetition, similarity, length, locale leakage, and metadata distribution without becoming a readiness gate or editorial verdict. No production interpretation prose or ready module exists.
+**INT1-AUTH-RU-BULK — Russian Classic single-card authoring** is complete locally, pending owner review: 78/78 bundles, 156/156 states, 61 used concepts, and all authoring/package checks are green. `classic/ru/single-card` remains unready until INT1-PROMOTE-RU.
 
 ## Preserved Contracts
 
@@ -41,7 +42,7 @@
 - Zodiac projection is counterclockwise; known-time charts use Placidus and the accepted orientation.
 - UnknownTime has no houses or principal angles and retains its documented technical-noon planet policy.
 - Runtime and user data belong in AppData or the platform user-data location; shipped assets belong in the repository.
-- Tarot semantic decks, artwork packs, presentation skins, back variants, and interpretation packs are independent. `classic` remains the sole built-in pack and all eight locale/mode declarations remain `ready = false`. The resolver uses read-only SQLite package stores, applies requested locale then English then Russian then typed silent absence, and stops on a broken ready locale. Presentation retains five sections, deterministic tag selection, semantic valence/intensity, reveal gating, and silent `NoContent`. No production interpretation prose, vocabulary, or corpus exists.
+- Tarot semantic decks, artwork packs, skins, backs, and interpretation packs are independent. `classic` remains the sole built-in pack; all eight locale/mode declarations remain unready. The resolver retains read-only SQLite stores, requested→English→Russian→silent absence, and broken-ready stop behavior. Five-section presentation, deterministic tags, metrics, reveal gating, and silent `NoContent` remain unchanged. Complete RU single-card source is reviewable but runtime-silent; EN and multi-card prose are absent.
 - Interpretation authoring status and audit are repository tooling under the Interpretation owner, not Project Stats. Audit warnings are deterministic review suspicions; structural source errors remain errors, and no progress/report file controls authoring or runtime state.
 - Lupus Noctis A0 and A1 remain rejected. The owner accepted all A2, A4, A5, A6, A7, A8, A9, A10, A11, the two promoted A12 cards, all four A13 cards, and all A14–A26 cards; the built-in complete pack now owns 78/78 production illustrations, uses no prototype fallback, and declares `partialPack: false`. Detailed card state, provenance, hashes, and accepted exceptions belong only to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md` and its linked records.
 - Repository packs are versioned seed sources; the target runtime reads synchronized built-in and user packs from AppData. Discovery, no-delete synchronization, fingerprints, normalization, import, tooling, and packaging are staged under `ASSET-PACK-RUNTIME.md`; A3 direct output loading is temporary built-in-only behavior.
@@ -50,4 +51,4 @@
 
 ## Active Blockers
 
-- No unresolved implementation blocker remains. INT1-QA0 needs owner review/commit and hosted verification. Before `classic/ru/single-card` becomes ready, a separate INT1-AUTH-RU-BULK stage must author and correct all 78 bundles / 156 states plus used vocabulary, then pass validation, scoped inventory, repeated content audit, compilation, package inspection, runtime smoke, owner spot-check, and an explicit readiness change.
+- No implementation blocker remains. Owner review precedes the separate INT1-PROMOTE-RU readiness change.
