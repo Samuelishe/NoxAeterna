@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-07: INT1-PROMOTE-RU Bounded Russian Single-Card Readiness Promotion
+
+- Reconciled accepted INT1-AUTH-RU-BULK checkpoint `8c6d1ad4744394965eec4b09f155608fa8d6d537` and green hosted run 60, then changed only Classic `ru + single-card` readiness from false to true; the other seven locale/mode declarations remain false and authored prose/vocabulary are unchanged.
+- Strict validation and scoped inventory retain 78/78 bundles, 156/156 states, zero missing/invalid/duplicate/noncanonical identities, and a zero-warning content audit. Compile/check/inspection produced source digest `303c1a634de4085324ecf477e87fd2879a53d82697a8db20ae279191b9fbe264`, 61 vocabulary rows, and no pair, position, or synthesis content.
+- Real canonical-package integration now proves RU upright/reversed resolution, five-section Presentation output, same-locale Russian section/vocabulary labels, preserved EN→RU fallback, silent unready multi-card modes, broken-ready semantics, and App output isolation. No English or multi-card prose, runtime-semantic, settings, UI-layout, or artwork change was introduced.
+
 ## 2026-08-07: INT1-AUTH-RU-BULK Complete Russian Classic Single-Card Corpus
 
 - Reconciled accepted INT1-QA0 checkpoint `1aa77fb0fcdc2a755658b0263dd828031f2dd374` and green hosted run `31174870501` (59), then authored the complete Russian Classic single-card source: 78 canonical bundles, 156 independent upright/reversed states with five sections each, and 61 used same-locale vocabulary concepts.

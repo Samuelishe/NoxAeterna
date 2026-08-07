@@ -1,9 +1,12 @@
+using System.Text.Json;
 using System.Xml.Linq;
+using NodaTime;
 using NoxAeterna.App.Tarot;
 using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Interpretation.Tarot.Contracts;
 using NoxAeterna.Interpretation.Tarot.Resolution;
 using NoxAeterna.Presentation.Localization;
+using NoxAeterna.Presentation.Tarot;
 using NoxAeterna.Tests.Tooling.Interpretation;
 using NoxAeterna.Tools.Repository.Interpretation.Compilation;
 
@@ -11,6 +14,102 @@ namespace NoxAeterna.Tests.App;
 
 public sealed class TarotInterpretationPackageIntegrationTests
 {
+    [Fact]
+    public void PromotedCanonicalRussianSingleCardCorpusResolvesAndBuildsLocalizedPresentationWhileOtherModesStayUnready()
+    {
+        var sourceRoot = PathAt("resources", "interpretation", "tarot", "sources", "classic");
+        using var output = BuiltInOutput.Create(sourceRoot);
+        var stores = BuiltInTarotInterpretationPackStoreCatalog.Create(output.Root);
+        var packId = new TarotInterpretationPackId("classic");
+        var russian = new TarotInterpretationLocale("ru");
+        var english = new TarotInterpretationLocale("en");
+
+        Assert.Empty(stores.Diagnostics);
+        Assert.True(stores.TryGetStore(packId, out var store));
+        Assert.NotNull(store);
+        Assert.True(store.Manifest.Modules[TarotInterpretationMode.SingleCard][russian].Ready);
+        Assert.False(store.Manifest.Modules[TarotInterpretationMode.SingleCard][english].Ready);
+
+        var resolver = new TarotInterpretationPackResolver(stores, StandardTarotCatalog.Deck);
+        var labelSource = new TarotPackagePresentationLabelSource(stores);
+        var presentationBuilder = new TarotSingleCardInterpretationPresentationBuilder();
+        var card = StandardTarotCatalog.Deck.Cards.Single(static item => item.Id.Value == "major.fool");
+        var expectedSectionLabels = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["situation"] = "Основная ситуация",
+            ["development"] = "Развитие",
+            ["risk"] = "Риск",
+            ["outcome"] = "Возможный исход",
+            ["advice"] = "Совет"
+        };
+        var expectedTagLabels = RussianVocabularyLabels(sourceRoot);
+
+        foreach (var orientation in Enum.GetValues<TarotCardOrientation>())
+        {
+            var resolved = Assert.IsType<ResolvedTarotInterpretation<TarotSingleCardEntry>>(
+                resolver.ResolveSingleCard(packId, russian, card.Id, orientation));
+            Assert.Equal("ru", resolved.RequestedLocale.Value);
+            Assert.Equal("ru", resolved.ResolvedLocale.Value);
+            Assert.Equal(orientation, resolved.Content.Orientation);
+            Assert.Equal(expectedSectionLabels.Keys.Order(StringComparer.Ordinal), resolved.Content.Sections.Keys.Order(StringComparer.Ordinal));
+            Assert.All(resolved.Content.Sections.Values, static text => Assert.False(string.IsNullOrWhiteSpace(text)));
+            Assert.NotEmpty(resolved.Content.Tags);
+
+            var labels = labelSource.Resolve(packId, resolved.ContentVersion, resolved.ResolvedLocale);
+            Assert.NotNull(labels);
+            foreach (var expected in expectedSectionLabels)
+            {
+                Assert.Equal(expected.Value, labels.SectionLabels[expected.Key]);
+            }
+            Assert.Equal(expectedTagLabels.Count, labels.TagLabels.Count);
+            foreach (var expected in expectedTagLabels)
+            {
+                Assert.Equal(expected.Value, labels.TagLabels[new(expected.Key)]);
+            }
+
+            var assignment = new TarotDrawnCard(
+                StandardTarotSpreads.SingleCard.Positions.Single().Id,
+                card,
+                orientation);
+            var reading = new TarotReading(
+                StandardTarotCatalog.Deck.Id,
+                StandardTarotSpreads.SingleCard.Id,
+                Instant.FromUnixTimeTicks(17),
+                [assignment]);
+            var presentation = Assert.IsType<TarotSingleCardInterpretationPresentation>(
+                presentationBuilder.Build(reading, resolved, labels));
+            Assert.Equal(5, presentation.Sections.Count);
+            Assert.All(presentation.Sections, static section =>
+            {
+                Assert.False(string.IsNullOrWhiteSpace(section.Label));
+                Assert.False(string.IsNullOrWhiteSpace(section.Text));
+            });
+            Assert.NotEmpty(presentation.Tags);
+            Assert.All(presentation.Tags, tag =>
+            {
+                Assert.Equal(expectedTagLabels[tag.ConceptId.Value], tag.Label);
+                Assert.NotEqual(tag.ConceptId.Value, tag.Label);
+            });
+        }
+
+        var englishFallback = Assert.IsType<ResolvedTarotInterpretation<TarotSingleCardEntry>>(
+            resolver.ResolveSingleCard(packId, english, card.Id, TarotCardOrientation.Upright));
+        Assert.Equal("en", englishFallback.RequestedLocale.Value);
+        Assert.Equal("ru", englishFallback.ResolvedLocale.Value);
+
+        foreach (var mode in new[]
+                 {
+                     TarotInterpretationMode.TwoCards,
+                     TarotInterpretationMode.ThreeCards,
+                     TarotInterpretationMode.CelticCross
+                 })
+        {
+            var noContent = Assert.IsType<NoTarotInterpretationContent<TarotResolvedModuleSnapshot>>(
+                resolver.ResolveMode(packId, mode, russian));
+            Assert.Equal(TarotNoContentReason.NoReadyLocale, noContent.Reason);
+        }
+    }
+
     [Fact]
     public void BuiltInSkeletonRegistersSelectorNamesAndRemainsSilentlyNotReady()
     {
@@ -50,10 +149,25 @@ public sealed class TarotInterpretationPackageIntegrationTests
     }
 
     private static string PathAt(params string[] segments)=>Path.Combine(new[]{Path.GetFullPath(Path.Combine(AppContext.BaseDirectory,"..","..","..",".."))}.Concat(segments).ToArray());
+
+    private static Dictionary<string, string> RussianVocabularyLabels(string sourceRoot)
+    {
+        var result = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var path in Directory.GetFiles(Path.Combine(sourceRoot, "content", "ru", "vocabulary"), "*.json"))
+        {
+            using var document = JsonDocument.Parse(File.ReadAllText(path));
+            result.Add(
+                document.RootElement.GetProperty("conceptId").GetString()!,
+                document.RootElement.GetProperty("label").GetString()!);
+        }
+        return result;
+    }
+
     private sealed class BuiltInOutput:IDisposable
     {
         private BuiltInOutput(string root,string path)=>(Root,PackagePath)=(root,path);public string Root{get;}public string PackagePath{get;}
-        public static BuiltInOutput Create(InterpretationToolingFixture fixture){var root=Path.Combine(Path.GetTempPath(),$"NoxAeterna-app-package-{Guid.NewGuid():N}");var path=Path.Combine(root,BuiltInTarotInterpretationPackStoreCatalog.ClassicPackageOutputPath.Replace('/',Path.DirectorySeparatorChar));var report=new InterpretationPackageCompiler().Compile(fixture.Root,path,false);Assert.True(report.Success,string.Join(Environment.NewLine,report.Diagnostics.Select(static item=>item.Message)));return new(root,path);}
+        public static BuiltInOutput Create(InterpretationToolingFixture fixture)=>Create(fixture.Root);
+        public static BuiltInOutput Create(string sourceRoot){var root=Path.Combine(Path.GetTempPath(),$"NoxAeterna-app-package-{Guid.NewGuid():N}");var path=Path.Combine(root,BuiltInTarotInterpretationPackStoreCatalog.ClassicPackageOutputPath.Replace('/',Path.DirectorySeparatorChar));var report=new InterpretationPackageCompiler().Compile(sourceRoot,path,false);Assert.True(report.Success,string.Join(Environment.NewLine,report.Diagnostics.Select(static item=>item.Message)));return new(root,path);}
         public void Dispose(){if(Directory.Exists(Root))Directory.Delete(Root,true);}
     }
 }

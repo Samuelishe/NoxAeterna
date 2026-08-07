@@ -58,7 +58,7 @@ These IDs are semantic keys, not user-facing labels. Spreads contain no Avalonia
 
 Canonical interpretation mode IDs are `single-card`, `two-cards`, `three-cards`, and `celtic-cross`. A mode normally shares its semantic spread ID; the future non-positional pair spread is therefore `two-cards`, while any future ordered two-card spread must use another ID and content contract. Mode content and routing belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
-`classic` (`Классика` / `Classic`) is the built-in selectable interpretation pack; its user-facing names come from the manifest under application UI language and its selection is independent from artwork, back, spread, and interpretation language. Every production module remains `ready = false`, so no visible interpretation exists yet. Its review-pending Russian single-card source contains all 78 cards and 156 independently authored upright/reversed states with five structured sections; the authorial contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
+`classic` (`Классика` / `Classic`) is the built-in selectable interpretation pack; its user-facing names come from the manifest under application UI language and its selection is independent from artwork, back, spread, and interpretation language. Its accepted Russian single-card module is `ready = true` and contains all 78 cards and 156 independently authored upright/reversed states with five structured sections. The other seven locale/mode modules remain unready; the authorial contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
 
 Celtic Cross remains future scope. Its larger card count will require smaller card surfaces than the one-, two-, and three-card modes; exact positions, relation graph, synthesis, layout, and dimensions belong to later design stages. Its `celtic-cross` interpretation module will be compositional rather than exhaustive, and no implementation begins in INT0.
 
@@ -102,9 +102,9 @@ TAROT-ART-RUNTIME-1 subsequently made Lupus Noctis the sole default user-facing 
 
 - Only `single-card/card` and ordered `three-cards/past,present,future` are implemented.
 - Draws are without replacement and already support upright and reversed orientation.
-- The active `classic` interpretation-pack source contains the complete review-pending Russian single-card prose, but all module declarations remain unready; it appears as the sole manifest-named selector item and production `NoContent` remains silent.
-- Schema-v2 source bundles, strict validation/compiler direction, typed package-store resolution, settings-v2, selector, five-section presentation, and reveal-gated orchestration are the current contracts. No production Tarot meaning corpus exists.
-- INT0-D1–D4, INT0-I1–I4, INT1-I1, INT-SQL1, and INT1-QA0 are accepted through checkpoint `1aa77fb0fcdc2a755658b0263dd828031f2dd374`; hosted run 59 (`31174870501`) passed CI. The complete Russian single-card authoring source now awaits owner review and a separate bounded promotion stage.
+- The active `classic` interpretation-pack resolves the complete accepted Russian single-card prose; only `ru + single-card` is ready, while English and multi-card `NoContent` remains silent.
+- Schema-v2 source bundles, strict validation/compiler direction, typed package-store resolution, settings-v2, selector, five-section presentation, and reveal-gated orchestration are the current contracts. The accepted Russian single-card corpus is the only production Tarot meaning corpus.
+- INT1-AUTH-RU-BULK is accepted at checkpoint `8c6d1ad4744394965eec4b09f155608fa8d6d537`; hosted run 60 passed CI. INT1-PROMOTE-RU performs only the bounded `classic + ru + single-card` readiness promotion.
 
 ## Asset Direction
 

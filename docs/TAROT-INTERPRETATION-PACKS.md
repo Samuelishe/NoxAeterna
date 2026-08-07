@@ -57,7 +57,7 @@ Dependencies are same-locale:
 - `three-cards`: `oriented-pairs`, `three-card-positions`, `three-card-synthesis`;
 - `celtic-cross`: none until its future contract is frozen.
 
-Classic currently declares all eight Russian/English mode combinations `ready = false`. Labels may exist in an unready locale; they do not imply prose readiness.
+Classic declares only `ru + single-card` as `ready = true`. The other seven Russian/English mode combinations remain `ready = false`; labels in an unready locale do not imply prose readiness.
 
 ## Locale resolution
 

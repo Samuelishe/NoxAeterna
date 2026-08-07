@@ -85,7 +85,7 @@ Runtime LLM generation is absent. Optional narrative presentation remains downst
 
 ## Tarot INT0 Architecture Status
 
-INT0-D1–D4, I1–I4, INT1-I1, INT-SQL1, and INT1-QA0 are accepted. The runtime resolver, selector/settings orchestration, silent host, and structured single-card renderer exist. The complete Russian Classic single-card authoring source is present for owner review, but no module is ready; no `two-cards` spread, AppData pack source, or user-pack flow is implemented.
+INT0-D1–D4, I1–I4, INT1-I1, INT-SQL1, INT1-QA0, and the Russian Classic single-card corpus are accepted. The runtime resolver, selector/settings orchestration, silent host, and structured single-card renderer exist. Classic `ru + single-card` is ready; the other seven locale/mode modules remain unready, and no `two-cards` spread, AppData pack source, or user-pack flow is implemented.
 
 ## Current Implementation Baseline
 
@@ -97,7 +97,7 @@ Literal source inspection confirms:
 - Presentation owns separate interpretation-language and selected-pack preferences plus the pure structured single-card display builder; it reads no files and resolves no fallback/readiness.
 - `NoxAeterna.Interpretation` owns schema-v2 source-manifest and bundle contracts, canonical keys/pairs, typed results, package-store abstractions, locale/mode resolution, and bounded semantic caching. `NoxAeterna.Interpretation.Sqlite` is the SQL-specific adapter; neither layer owns AppData settings, UI, or Tarot prose.
 - `resources/localization/interpretation/ru.json` and `en.json` contain only the early `interpretation.aspect.square` placeholder. They are not an approved production storage format for a future Tarot corpus.
-- The normal all-not-ready Classic pack leaves the interpretation host completely hidden even though the compiled package contains the review-pending Russian single-card corpus. A Debug-only injected preview exercises five sections, tags, valence, intensity, locale switching, and reveal gating without becoming production fallback.
+- The production Classic package resolves its accepted Russian single-card corpus into the five-section host with package-local Russian labels and vocabulary. Unready English and multi-card modules retain silent `NoContent`; Debug-only injected fixtures remain diagnostic seams rather than production fallback.
 
 ## Confirmed Constraints
 

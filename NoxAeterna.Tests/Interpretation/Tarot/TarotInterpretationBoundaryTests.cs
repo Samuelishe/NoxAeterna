@@ -81,13 +81,18 @@ public sealed class TarotInterpretationBoundaryTests
         Assert.Contains(Path.Combine(productionRoot, "interpretation-pack.json"), productionFiles);
         Assert.Contains(Path.Combine(russianRoot, "labels.json"), productionFiles);
         Assert.Equal([Path.Combine(englishRoot, "labels.json")], englishFiles);
-        foreach (var mode in manifest.RootElement.GetProperty("modules").EnumerateObject())
-        foreach (var locale in mode.Value.EnumerateObject())
-        {
-            Assert.False(
-                locale.Value.GetProperty("ready").GetBoolean(),
-                $"{mode.Name}/{locale.Name} must remain unready until explicit owner promotion.");
-        }
+        var readiness = manifest.RootElement.GetProperty("modules")
+            .EnumerateObject()
+            .SelectMany(mode => mode.Value.EnumerateObject()
+                .Select(locale => new
+                {
+                    Identity = $"{mode.Name}/{locale.Name}",
+                    Ready = locale.Value.GetProperty("ready").GetBoolean()
+                }))
+            .ToArray();
+        Assert.Equal(8, readiness.Length);
+        Assert.True(Assert.Single(readiness, item => item.Identity == "single-card/ru").Ready);
+        Assert.DoesNotContain(readiness, item => item.Identity != "single-card/ru" && item.Ready);
         Assert.False(Directory.Exists(RepositoryPath("resources", "interpretation", "tarot", "working")));
         Assert.False(Directory.Exists(Path.Combine(russianRoot, "oriented-pairs")));
         Assert.False(Directory.Exists(Path.Combine(russianRoot, "three-card-positions")));
