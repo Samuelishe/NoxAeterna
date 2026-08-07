@@ -75,11 +75,11 @@
     },
     {
       "name": "planned-tarot-interpretation-pack-change", "task": "CodeChange",
-      "paths": ["NoxAeterna.Interpretation/Tarot/Resolution/TarotInterpretationPackResolver.cs", "NoxAeterna.App/Tarot/TarotWorkspaceInterpretationCoordinator.cs", "resources/localization/ui/ru.json"], "budgetChars": 190000,
+      "paths": ["NoxAeterna.Interpretation/Tarot/Resolution/TarotInterpretationPackResolver.cs", "NoxAeterna.Presentation/Tarot/TarotSingleCardInterpretationPresentation.cs", "NoxAeterna.Tools.Repository/Interpretation/Analysis/InterpretationPackValidator.cs", "resources/localization/ui/ru.json"], "budgetChars": 220000,
       "mustInclude": ["docs/PROJECT-STATE.md", "docs/CODING-GUIDELINES.md", "docs/INTERPRETATION-ENGINE.md", "docs/SYMBOLICS.md", "docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md", "docs/TAROT-INTERPRETATION-IMPLEMENTATION.md", "docs/TAROT-ENGINE.md"],
       "mustExclude": ["docs/archive/**", "docs/RENDERING-ENGINE.md"],
-      "expectedMatchedRules": ["interpretation", "tarot-interpretation-packs", "localization"], "expectedTestRoutes": ["Interpretation", "Presentation", "App-Workspace", "Localization", "Architecture-Boundaries"], "forbiddenTestRoutes": ["Rendering", "Repository-Tooling"],
-      "maxSelectedFiles": 14, "maxSelectedChars": 190000
+      "expectedMatchedRules": ["interpretation", "tarot-interpretation-packs", "localization", "tarot-interpretation-repository-tooling"], "expectedTestRoutes": ["Interpretation", "Presentation", "App-Workspace", "Localization", "Architecture-Boundaries", "Repository-Tooling"], "forbiddenTestRoutes": ["Rendering"],
+      "maxSelectedFiles": 14, "maxSelectedChars": 220000
     },
     {
       "name": "project-stats-tooling", "task": "Tooling",

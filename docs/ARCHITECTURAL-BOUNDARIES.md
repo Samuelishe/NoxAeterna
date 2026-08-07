@@ -29,8 +29,8 @@ This document is intentionally explicit. It exists to prevent layer leakage duri
 - Rendering consumes prepared geometry and rendering models and turns them into Avalonia drawing operations.
 - Symbolics provides structured symbolic catalog data and typed relationships.
 - Interpretation consumes symbolic factors and symbolics data and produces structured interpretation blocks.
-- Presentation orchestrates use cases and view state; it does not own core symbolic logic.
-- App supplies shipped/future AppData pack sources, catalog composition, selector controls, settings wiring, and silent visual materialization without moving pack semantics into UI. I3 implements only the contained built-in Classic file source/catalog; AppData, selector, settings, and visual wiring remain later stages.
+- Presentation orchestrates use cases/view state and may transform typed Interpretation results plus already resolved pack-local labels into immutable display models; it owns neither filesystem access nor Avalonia/color/font types.
+- App supplies the shipped pack source, catalog composition, selector/settings wiring, coordinator, pack-label seam, and Avalonia materialization without moving meaning or resolver fallback into UI. The current source remains contained built-in Classic only; interpretation AppData sources remain future work.
 - Repository tooling may depend one-way on pure `NoxAeterna.Interpretation` contracts to validate schemas/inventories and generate indexes/hashes. It owns no production resolver behavior, has no App/Presentation/Infrastructure/Avalonia dependency, and no production project may depend on it.
 
 ## What To Reject In Review

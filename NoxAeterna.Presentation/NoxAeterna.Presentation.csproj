@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NoxAeterna.Domain\NoxAeterna.Domain.csproj" />
+    <ProjectReference Include="..\NoxAeterna.Interpretation\NoxAeterna.Interpretation.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

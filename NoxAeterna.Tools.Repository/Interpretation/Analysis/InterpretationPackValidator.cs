@@ -18,12 +18,20 @@ public sealed class InterpretationPackValidator
             return new(diagnostics.Items);
         }
 
-        var parsedManifest = TarotInterpretationJson.Parse<TarotInterpretationPackDocument>(File.ReadAllBytes(manifestPath));
+        var manifestBytes = File.ReadAllBytes(manifestPath);
+        var parsedManifest = TarotInterpretationJson.Parse<TarotInterpretationPackDocument>(manifestBytes);
         if (!parsedManifest.IsSuccess || parsedManifest.Document is null)
         {
             diagnostics.Error("pack.manifest-json", "interpretation-pack.json", parsedManifest.Failure?.Message ?? "Manifest JSON is malformed.");
             return new(diagnostics.Items);
         }
+
+        ValidateCanonicalBytes(
+            manifestBytes,
+            TarotInterpretationJson.Serialize(parsedManifest.Document),
+            "pack.canonical-bytes",
+            "interpretation-pack.json",
+            diagnostics);
 
         var validatedManifest = TarotInterpretationValidator.ValidateManifest(parsedManifest.Document);
         diagnostics.AddValidation("interpretation-pack.json", validatedManifest.Diagnostics);
@@ -101,6 +109,13 @@ public sealed class InterpretationPackValidator
             diagnostics.Error("index.json", relative, parsed.Failure?.Message ?? "Index JSON is malformed.");
             return;
         }
+
+        ValidateCanonicalBytes(
+            bytes,
+            TarotInterpretationJson.Serialize(parsed.Document),
+            "index.canonical-bytes",
+            relative,
+            diagnostics);
 
         var validated = TarotInterpretationValidator.ValidateGeneratedIndex(parsed.Document);
         diagnostics.AddValidation(relative, validated.Diagnostics);
@@ -284,6 +299,22 @@ public sealed class InterpretationPackValidator
         TarotInterpretationCorpus.ThreeCards => $"indexes/{locale}/three-cards.json",
         _ => throw new ArgumentOutOfRangeException(nameof(corpus))
     };
+
+    internal static void ValidateCanonicalBytes(
+        byte[] source,
+        byte[] canonical,
+        string code,
+        string target,
+        InterpretationDiagnosticBag diagnostics)
+    {
+        if (!source.SequenceEqual(canonical))
+        {
+            diagnostics.Error(
+                code,
+                target,
+                "Interpretation JSON bytes must exactly match the canonical UTF-8 serializer output.");
+        }
+    }
 
     private static void Add(InterpretationDiagnosticBag bag, InterpretationToolDiagnostic diagnostic)
     {

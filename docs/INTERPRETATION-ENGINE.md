@@ -85,7 +85,7 @@ Runtime LLM generation is absent. Optional narrative presentation remains downst
 
 ## Tarot INT0 Architecture Status
 
-INT0-D1–D4 are accepted; D4 checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e` and hosted run `31095939556` passed all five jobs. INT0-I1 implements the pure serialization documents, immutable validated contracts, canonical keys/pairs, diagnostics, and typed result contracts from [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md) locally, pending owner commit/push and hosted verification. No Tarot interpretation runtime, `two-cards` spread, production corpus, filesystem loader, selector, or authoring tool is implemented.
+INT0-D1–D4 and I1–I3 are accepted. I4 product implementation is owner/review accepted at `b684bb08b2b1369bfd9c014e45bb6748154534da`; run `31153781317` was 4/5 green because Windows checkout changed canonical LF bytes, repaired locally together with INT1-I1. The runtime resolver, selector/settings orchestration, silent host, and synthetic-only single-card renderer now exist; no production corpus, ready module, `two-cards` spread, AppData pack source, or user-pack flow is implemented.
 
 ## Current Implementation Baseline
 
@@ -94,10 +94,10 @@ Literal source inspection confirms:
 - Domain provides only `single-card` with position `card` and ordered `three-cards` with positions `past`, `present`, and `future`; no two-card spread exists.
 - `TarotDrawEngine` already draws without replacement and supports explicit upright-only or upright/reversed orientation policies.
 - Current code has `TarotInterpretationPackId` as a separate typed identity from the semantic deck, artwork pack, presentation skin, and back variant; the active compile-time value is `classic`.
-- Presentation still has a separate `InterpretationLanguagePreference`, but no pack selector or selected-pack preference; it carries the prose-free `classic` identity only.
+- Presentation owns separate interpretation-language and selected-pack preferences plus the pure structured single-card display builder; it reads no files and resolves no fallback/readiness.
 - `NoxAeterna.Interpretation` now provides pure schema-v1 documents, exact in-memory JSON, immutable validation models, canonical keys/pairs, typed results, source abstractions, locale/mode resolution, trust-chain entry loading, and bounded in-memory caches over Domain and Symbolics. It contains no filesystem implementation, AppData path, UI wiring, or Tarot prose; the built-in file source is App-owned.
 - `resources/localization/interpretation/ru.json` and `en.json` contain only the early `interpretation.aspect.square` placeholder. They are not an approved production storage format for a future Tarot corpus.
-- The current Tarot UI honestly reports that interpretation content is unavailable.
+- The normal all-not-ready Classic pack leaves the interpretation host completely hidden. A Debug-only injected preview exercises five sections, tags, valence, intensity, locale switching, and reveal gating without becoming production fallback or corpus.
 
 ## Confirmed Constraints
 

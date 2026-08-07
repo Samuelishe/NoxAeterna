@@ -1,6 +1,8 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using NoxAeterna.Interpretation.Tarot.Contracts;
+using NoxAeterna.Interpretation.Tarot.Serialization;
 using NoxAeterna.Tools.Repository.Interpretation.Indexing;
 
 namespace NoxAeterna.Tests.Tooling.Interpretation;
@@ -62,7 +64,13 @@ public sealed class InterpretationIndexGeneratorTests
         var current = new InterpretationIndexGenerator().Generate(fixture.Root, checkOnly: true);
         var indexBefore = File.ReadAllBytes(indexPath);
         var manifestBefore = File.ReadAllBytes(fixture.ManifestPath);
-        File.AppendAllText(fixture.FirstSingleCardPath(), " ");
+        var contentPath = fixture.FirstSingleCardPath();
+        var parsedContent = TarotInterpretationJson.Parse<TarotSingleCardDocument>(File.ReadAllBytes(contentPath));
+        Assert.True(parsedContent.IsSuccess, parsedContent.Failure?.Message);
+        var contentDocument = Assert.IsType<TarotSingleCardDocument>(parsedContent.Document);
+        var sections = Assert.IsType<Dictionary<string, string?>>(contentDocument.Sections);
+        sections["situation"] = Assert.IsType<string>(sections["situation"]) + " changed";
+        File.WriteAllBytes(contentPath, TarotInterpretationJson.Serialize(contentDocument));
         var drift = new InterpretationIndexGenerator().Generate(fixture.Root, checkOnly: true);
 
         Assert.True(current.Success);

@@ -31,6 +31,43 @@ public sealed class ProjectBoundaryTests
     }
 
     [Fact]
+    public void PresentationProject_ReferencesInterpretationOneWayForTypedMeaningInput()
+    {
+        var presentation = LoadProjectDocument("NoxAeterna.Presentation", "NoxAeterna.Presentation.csproj");
+        var interpretation = LoadProjectDocument("NoxAeterna.Interpretation", "NoxAeterna.Interpretation.csproj");
+        var presentationReferences = presentation.Descendants("ProjectReference")
+            .Select(element => ((string?)element.Attribute("Include"))?.Replace('\\', '/'))
+            .Where(static value => value is not null)
+            .Cast<string>()
+            .ToArray();
+        var interpretationReferences = interpretation.Descendants("ProjectReference")
+            .Select(element => ((string?)element.Attribute("Include"))?.Replace('\\', '/'))
+            .Where(static value => value is not null)
+            .Cast<string>()
+            .ToArray();
+
+        Assert.Contains(presentationReferences, reference => reference.EndsWith(
+            "NoxAeterna.Interpretation/NoxAeterna.Interpretation.csproj", StringComparison.Ordinal));
+        Assert.DoesNotContain(interpretationReferences, reference => reference.Contains(
+            "NoxAeterna.Presentation", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void SingleCardPresentationModel_HasNoAvaloniaColorsFontsOrStorageDetails()
+    {
+        var source = File.ReadAllText(GetRepositoryPath(
+            "NoxAeterna.Presentation", "Tarot", "TarotSingleCardInterpretationPresentation.cs"));
+
+        Assert.DoesNotContain("Avalonia", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Brush", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Color", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Font", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Json", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Readiness", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("Diagnostic", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void PresentationPreferenceAndTarotState_DoNotUseFileSystemEnvironmentOrJsonSerialization()
     {
         var projectRoot = GetRepositoryPath("NoxAeterna.Presentation");

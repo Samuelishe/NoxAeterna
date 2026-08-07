@@ -8,6 +8,37 @@ namespace NoxAeterna.Tests.Tooling.Interpretation;
 public sealed class InterpretationPackValidatorTests
 {
     [Fact]
+    public void CanonicalLfManifestPassesAndEquivalentCrlfManifestFailsCanonicalByteGate()
+    {
+        using var canonical = InterpretationToolingFixture.CreateSkeleton();
+        Assert.True(new InterpretationPackValidator().Validate(canonical.Root).Success);
+
+        using var crlf = InterpretationToolingFixture.CreateSkeleton();
+        var bytes = File.ReadAllBytes(crlf.ManifestPath);
+        File.WriteAllBytes(crlf.ManifestPath, ReplaceLfWithCrlf(bytes));
+
+        var report = new InterpretationPackValidator().Validate(crlf.Root);
+
+        Assert.False(report.Success);
+        Assert.Contains(report.Diagnostics, item => item.Code == "pack.canonical-bytes");
+    }
+
+    [Fact]
+    public void EquivalentCrlfIndexAndAcceptedContentFailCanonicalByteGate()
+    {
+        using var fixture = CompleteGeneratedPack();
+        var indexPath = Path.Combine(fixture.Root, "indexes", "ru", "single-card.json");
+        File.WriteAllBytes(indexPath, ReplaceLfWithCrlf(File.ReadAllBytes(indexPath)));
+        File.WriteAllBytes(fixture.FirstSingleCardPath(), ReplaceLfWithCrlf(File.ReadAllBytes(fixture.FirstSingleCardPath())));
+
+        var report = new InterpretationPackValidator().Validate(fixture.Root);
+
+        Assert.False(report.Success);
+        Assert.Contains(report.Diagnostics, item => item.Code == "index.canonical-bytes");
+        Assert.Contains(report.Diagnostics, item => item.Code == "content.canonical-bytes");
+    }
+
+    [Fact]
     public void ValidNotReadySkeletonAllowsIncompleteInventories()
     {
         using var fixture = InterpretationToolingFixture.CreateSkeleton();
@@ -191,5 +222,11 @@ public sealed class InterpretationPackValidatorTests
         var manifest = ReadObject(manifestPath);
         manifest["indexFiles"]![0]!["sha256"] = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(indexPath)));
         WriteNode(manifestPath, manifest);
+    }
+
+    private static byte[] ReplaceLfWithCrlf(byte[] bytes)
+    {
+        Assert.Equal((byte)'\n', bytes[^1]);
+        return bytes[..^1].Concat("\r\n"u8.ToArray()).ToArray();
     }
 }

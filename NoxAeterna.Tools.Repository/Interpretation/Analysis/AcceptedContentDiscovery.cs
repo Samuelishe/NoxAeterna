@@ -154,7 +154,7 @@ public sealed class AcceptedContentDiscovery
         InterpretationDiagnosticBag diagnostics)
     {
         var parsed = TarotInterpretationJson.Parse<TarotVocabularyDocument>(bytes);
-        if (!AddParse(parsed, path, diagnostics) || parsed.Document is null)
+        if (!AddParse(parsed, path, bytes, diagnostics) || parsed.Document is null)
         {
             return null;
         }
@@ -185,7 +185,7 @@ public sealed class AcceptedContentDiscovery
         InterpretationDiagnosticBag diagnostics)
     {
         var parsed = TarotInterpretationJson.Parse<TarotSingleCardDocument>(bytes);
-        if (!AddParse(parsed, path, diagnostics) || parsed.Document is null)
+        if (!AddParse(parsed, path, bytes, diagnostics) || parsed.Document is null)
         {
             return null;
         }
@@ -218,7 +218,7 @@ public sealed class AcceptedContentDiscovery
         InterpretationDiagnosticBag diagnostics)
     {
         var parsed = TarotInterpretationJson.Parse<TarotOrientedPairDocument>(bytes);
-        if (!AddParse(parsed, path, diagnostics) || parsed.Document is null)
+        if (!AddParse(parsed, path, bytes, diagnostics) || parsed.Document is null)
         {
             return null;
         }
@@ -252,7 +252,7 @@ public sealed class AcceptedContentDiscovery
         InterpretationDiagnosticBag diagnostics)
     {
         var parsed = TarotInterpretationJson.Parse<TarotThreeCardPositionDocument>(bytes);
-        if (!AddParse(parsed, path, diagnostics) || parsed.Document is null)
+        if (!AddParse(parsed, path, bytes, diagnostics) || parsed.Document is null)
         {
             return null;
         }
@@ -294,6 +294,12 @@ public sealed class AcceptedContentDiscovery
                 CommentHandling = JsonCommentHandling.Disallow
             });
             var root = json.RootElement;
+            InterpretationPackValidator.ValidateCanonicalBytes(
+                bytes,
+                TarotInterpretationJson.Serialize(root),
+                "content.canonical-bytes",
+                path,
+                diagnostics);
             if (root.ValueKind != JsonValueKind.Object ||
                 !root.TryGetProperty("schemaVersion", out var schema) || schema.GetInt32() != 1 ||
                 !root.TryGetProperty("resourceType", out var typeValue) || typeValue.GetString() is not { } typeText ||
@@ -325,11 +331,18 @@ public sealed class AcceptedContentDiscovery
     private static bool AddParse<T>(
         TarotJsonParseResult<T> parsed,
         string path,
+        byte[] bytes,
         InterpretationDiagnosticBag diagnostics)
         where T : class
     {
         if (parsed.IsSuccess)
         {
+            InterpretationPackValidator.ValidateCanonicalBytes(
+                bytes,
+                TarotInterpretationJson.Serialize(parsed.Document!),
+                "content.canonical-bytes",
+                path,
+                diagnostics);
             return true;
         }
 

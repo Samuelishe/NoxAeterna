@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-07: CI-R56-FIX and INT1-I1 Single-Card Structured Presentation
+
+- Recorded I4 commit `b684bb08b2b1369bfd9c014e45bb6748154534da` and run `31153781317`: 4/5 jobs passed; Windows alone exposed Git checkout CRLF bytes against the retained canonical serializer assertion. Added scoped LF attributes and canonical source-byte validation for manifests, indexes, and accepted content.
+- Added the immutable five-section Presentation model, SHA-256 deterministic three-tag subset, pack-local label seam, App-owned semantic valence styles/intensity dots, and coordinator-driven reveal/locale refresh with fully silent `NoContent`.
+- Added explicit Debug-only RU/EN visual fixtures; real-control smoke covered production silence, Obsidian/Porcelain, localized stable tag identity, 1–3 intensity dots, all five sections, manual reveal, shared scrolling, and resolved→`NoContent` clearing. Production Classic remains manifest-only with every module `ready = false`; no production prose, vocabulary, indexes/content, font, AppData source, or user-pack flow was added.
+
 ## 2026-08-06: INT0-I4 Interpretation Pack Selector, Settings v2 and Silent Host
 
 - Checked published I3 commit `062e1e193d1a62b8c5f61c828e24314a112e7984`: hosted run `31110289276` ended with Documentation green and four failures caused by one test-local Debug path under Release jobs; repaired that configuration assumption locally without changing I3 production behavior.

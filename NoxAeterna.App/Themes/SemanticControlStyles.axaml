@@ -61,6 +61,43 @@
   <Style Selector="Path.tarot-ornament">
     <Setter Property="Stroke" Value="{DynamicResource DesignTarotOrnamentBrush}" />
   </Style>
+  <Style Selector="TextBlock.tarot-interpretation-section-heading">
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextPrimaryBrush}" />
+    <Setter Property="FontSize" Value="16" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+  <Style Selector="TextBlock.tarot-interpretation-section-body">
+    <Setter Property="Foreground" Value="{DynamicResource DesignTextPrimaryBrush}" />
+    <Setter Property="FontSize" Value="14.5" />
+    <Setter Property="LineHeight" Value="22" />
+  </Style>
+  <Style Selector="Border.tarot-interpretation-tag">
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="12" />
+  </Style>
+  <Style Selector="Border.tarot-interpretation-tag.valence-negative-strong">
+    <Setter Property="Background" Value="{DynamicResource DesignInterpretationValenceNegativeStrongBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignErrorBrush}" />
+  </Style>
+  <Style Selector="Border.tarot-interpretation-tag.valence-negative">
+    <Setter Property="Background" Value="{DynamicResource DesignInterpretationValenceNegativeBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignWarningBrush}" />
+  </Style>
+  <Style Selector="Border.tarot-interpretation-tag.valence-neutral">
+    <Setter Property="Background" Value="{DynamicResource DesignInterpretationValenceNeutralBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignBorderStrongBrush}" />
+  </Style>
+  <Style Selector="Border.tarot-interpretation-tag.valence-positive">
+    <Setter Property="Background" Value="{DynamicResource DesignInterpretationValencePositiveBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignAccentSecondaryBrush}" />
+  </Style>
+  <Style Selector="Border.tarot-interpretation-tag.valence-positive-strong">
+    <Setter Property="Background" Value="{DynamicResource DesignInterpretationValencePositiveStrongBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignSuccessBrush}" />
+  </Style>
+  <Style Selector="Ellipse.tarot-interpretation-intensity-dot">
+    <Setter Property="Fill" Value="{DynamicResource DesignTextPrimaryBrush}" />
+  </Style>
   <Style Selector="Button.tarot-card">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderBrush" Value="Transparent" />

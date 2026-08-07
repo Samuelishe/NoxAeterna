@@ -30,6 +30,11 @@
   <Color x:Key="DesignTarotCardFaceColor">#18213A</Color>
   <Color x:Key="DesignTarotCardBackColor">#0D1424</Color>
   <Color x:Key="DesignTarotOrnamentColor">#F2C14E</Color>
+  <Color x:Key="DesignInterpretationValenceNegativeStrongColor">#4A1F2D</Color>
+  <Color x:Key="DesignInterpretationValenceNegativeColor">#49331C</Color>
+  <Color x:Key="DesignInterpretationValenceNeutralColor">#293249</Color>
+  <Color x:Key="DesignInterpretationValencePositiveColor">#143C43</Color>
+  <Color x:Key="DesignInterpretationValencePositiveStrongColor">#153C30</Color>
 
   <SolidColorBrush x:Key="DesignCanvasBrush" Color="{StaticResource DesignCanvasColor}" />
   <SolidColorBrush x:Key="DesignSurfaceBrush" Color="{StaticResource DesignSurfaceColor}" />
@@ -59,6 +64,11 @@
   <SolidColorBrush x:Key="DesignTarotCardFaceBrush" Color="{StaticResource DesignTarotCardFaceColor}" />
   <SolidColorBrush x:Key="DesignTarotCardBackBrush" Color="{StaticResource DesignTarotCardBackColor}" />
   <SolidColorBrush x:Key="DesignTarotOrnamentBrush" Color="{StaticResource DesignTarotOrnamentColor}" />
+  <SolidColorBrush x:Key="DesignInterpretationValenceNegativeStrongBrush" Color="{StaticResource DesignInterpretationValenceNegativeStrongColor}" />
+  <SolidColorBrush x:Key="DesignInterpretationValenceNegativeBrush" Color="{StaticResource DesignInterpretationValenceNegativeColor}" />
+  <SolidColorBrush x:Key="DesignInterpretationValenceNeutralBrush" Color="{StaticResource DesignInterpretationValenceNeutralColor}" />
+  <SolidColorBrush x:Key="DesignInterpretationValencePositiveBrush" Color="{StaticResource DesignInterpretationValencePositiveColor}" />
+  <SolidColorBrush x:Key="DesignInterpretationValencePositiveStrongBrush" Color="{StaticResource DesignInterpretationValencePositiveStrongColor}" />
 
   <!-- Public Fluent 12.0.2 resource seams retained for native editor and popup behavior. -->
   <StaticResource x:Key="SystemAccentColor" ResourceKey="DesignAccentPrimaryColor" />

@@ -23,7 +23,12 @@ public sealed class SemanticThemeContractTests
         "DesignFocusRingColor",
         "DesignTarotCardFaceColor",
         "DesignTarotCardBackColor",
-        "DesignTarotOrnamentColor"
+        "DesignTarotOrnamentColor",
+        "DesignInterpretationValenceNegativeStrongColor",
+        "DesignInterpretationValenceNegativeColor",
+        "DesignInterpretationValenceNeutralColor",
+        "DesignInterpretationValencePositiveColor",
+        "DesignInterpretationValencePositiveStrongColor"
     ];
 
     [Fact]
@@ -91,6 +96,29 @@ public sealed class SemanticThemeContractTests
     }
 
     [Fact]
+    public void InterpretationValenceRolesRemainReadableInBothThemes()
+    {
+        var dark = new DarkThemeResources();
+        var light = new LightThemeResources();
+        var roleKeys = new[]
+        {
+            "DesignInterpretationValenceNegativeStrongColor",
+            "DesignInterpretationValenceNegativeColor",
+            "DesignInterpretationValenceNeutralColor",
+            "DesignInterpretationValencePositiveColor",
+            "DesignInterpretationValencePositiveStrongColor"
+        };
+
+        Assert.Equal(roleKeys.Length, roleKeys.Select(key => GetColor(dark, key)).Distinct().Count());
+        Assert.Equal(roleKeys.Length, roleKeys.Select(key => GetColor(light, key)).Distinct().Count());
+        Assert.All(roleKeys, key =>
+        {
+            Assert.True(Contrast(GetColor(dark, "DesignTextPrimaryColor"), GetColor(dark, key)) >= 4.5d);
+            Assert.True(Contrast(GetColor(light, "DesignTextPrimaryColor"), GetColor(light, key)) >= 4.5d);
+        });
+    }
+
+    [Fact]
     public void LegacyShellPaletteLiteralsAreAbsentFromThemeDictionaries()
     {
         var source = File.ReadAllText(AppPath("Themes", "DarkThemeResources.axaml")) +
@@ -133,6 +161,10 @@ public sealed class SemanticThemeContractTests
         Assert.Contains("Border.tarot-card-face", source, StringComparison.Ordinal);
         Assert.Contains("Border.tarot-card-back", source, StringComparison.Ordinal);
         Assert.Contains("Path.tarot-ornament", source, StringComparison.Ordinal);
+        Assert.Contains("TextBlock.tarot-interpretation-section-heading", source, StringComparison.Ordinal);
+        Assert.Contains("Border.tarot-interpretation-tag.valence-negative-strong", source, StringComparison.Ordinal);
+        Assert.Contains("Border.tarot-interpretation-tag.valence-positive-strong", source, StringComparison.Ordinal);
+        Assert.Contains("Ellipse.tarot-interpretation-intensity-dot", source, StringComparison.Ordinal);
     }
 
     [Fact]

@@ -1,11 +1,11 @@
 # Next Steps
 
-The repository-foundation wave, P1, S1, T0-A, ART-LN, TAROT-ART-RUNTIME-1, and T-UX1A are complete. INT0-D1–D4, I1, and I2 are accepted. Published I3 commit `062e1e193d1a62b8c5f61c828e24314a112e7984` had a known Release-path test failure in hosted run `31110289276`; that test-only issue and I4 are complete locally, pending owner commit/push and replacement hosted verification. Corpus authoring has not started.
+The interpretation infrastructure and INT1-I1 presentation foundation are complete locally. I4 product work is owner/review accepted at `b684bb08b2b1369bfd9c014e45bb6748154534da`; run `31153781317` was 4/5 green because Windows checkout changed canonical interpretation JSON bytes, now repaired locally with explicit LF policy and source-byte validation. Corpus authoring has not started.
 
 Immediate next steps:
 
-1. After owner acceptance and hosted-green I4 evidence, start **INT1-I1 — Single-Card Runtime Presentation**.
-2. Follow with small-batch Russian authoring and **INT1-PROMOTE-RU**.
+1. After hosted-green replacement evidence, begin Russian Classic single-card authoring in small owner-reviewable batches.
+2. Before any `classic/ru/single-card` `ready = true`, complete trusted pack-local vocabulary/section-label routing, accept exactly 156 entries, and generate/verify indexes and hashes; only then run **INT1-PROMOTE-RU**.
 
 The 12,012-state pair authoring wave follows the single-card foundation rather than preceding it. Deferred independent tracks remain available but are not started by D4: AP1–AP5, PKG1, T-UX1B, Tarot zoom/detail, Celtic Cross/other 5+ card layout, S2, font selection, Reset settings, Open AppData, and other owner-selected stages. ART-LN is complete; no A27 standard-deck artwork batch is pending or required.
 

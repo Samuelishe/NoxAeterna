@@ -173,6 +173,28 @@ public sealed class AppBoundaryTests
         Assert.Equal(new[] { "Avalonia", "Avalonia.Desktop", "Avalonia.Themes.Fluent" }, packages);
     }
 
+    [Fact]
+    public void Int1SingleCardRenderingIsAppOwnedAndDebugPreviewCannotEnterReleaseAssembly()
+    {
+        var control = File.ReadAllText(RepositoryPath(
+            "NoxAeterna.App", "Tarot", "TarotWorkspaceControl.cs"));
+        var preview = File.ReadAllText(RepositoryPath(
+            "NoxAeterna.App", "Debug", "DebugTarotInterpretationPreview.cs"));
+        var presentation = File.ReadAllText(RepositoryPath(
+            "NoxAeterna.Presentation", "Tarot", "TarotSingleCardInterpretationPresentation.cs"));
+
+        Assert.Contains("public sealed record TarotSingleCardInterpretationSection", presentation, StringComparison.Ordinal);
+        Assert.DoesNotContain("Avalonia", presentation, StringComparison.Ordinal);
+        Assert.Contains("new Avalonia.Controls.Shapes.Ellipse", control, StringComparison.Ordinal);
+        Assert.Contains("NOXAETERNA_DEBUG_INTERPRETATION_PREVIEW", preview, StringComparison.Ordinal);
+        Assert.StartsWith("#if DEBUG", preview.TrimStart('\uFEFF', '\r', '\n'));
+#if DEBUG
+        Assert.NotNull(typeof(NoxAeterna.App.App).Assembly.GetType("NoxAeterna.App.Debug.DebugTarotInterpretationPreview"));
+#else
+        Assert.Null(typeof(NoxAeterna.App.App).Assembly.GetType("NoxAeterna.App.Debug.DebugTarotInterpretationPreview"));
+#endif
+    }
+
     private static XDocument LoadProjectDocument(string projectDirectory, string projectFileName)
     {
         var path = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", projectDirectory, projectFileName);

@@ -12,6 +12,28 @@ namespace NoxAeterna.Tests.App;
 public sealed class TarotInterpretationPackagingTests
 {
     [Fact]
+    public void RepositoryAttributes_KeepInterpretationJsonCanonicalAcrossCheckouts()
+    {
+        var attributesPath = RepositoryPath(".gitattributes");
+        Assert.True(File.Exists(attributesPath));
+        var lines = File.ReadAllLines(attributesPath);
+
+        Assert.Contains("resources/interpretation/**/*.json text eol=lf", lines);
+        Assert.Contains("NoxAeterna.Tests/TestData/Interpretation/**/*.json text eol=lf", lines);
+
+        var jsonFiles = Directory.GetFiles(RepositoryPath("resources", "interpretation"), "*.json", SearchOption.AllDirectories)
+            .Concat(Directory.GetFiles(RepositoryPath("NoxAeterna.Tests", "TestData", "Interpretation"), "*.json", SearchOption.AllDirectories));
+        Assert.All(jsonFiles, path =>
+        {
+            var bytes = File.ReadAllBytes(path);
+            Assert.False(bytes.AsSpan().StartsWith(Encoding.UTF8.Preamble));
+            Assert.False(bytes.AsSpan().IndexOf("\r\n"u8) >= 0);
+            Assert.Equal((byte)'\n', bytes[^1]);
+            Assert.NotEqual((byte)'\n', bytes[^2]);
+        });
+    }
+
+    [Fact]
     public void RepositoryClassicSkeleton_IsExactValidNotReadyManifestAndOnlyProductionFile()
     {
         var root = RepositoryPackRoot();

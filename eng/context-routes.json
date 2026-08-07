@@ -203,8 +203,15 @@
       "testRoutes": ["Agent-Context"]
     },
     {
+      "name": "tarot-interpretation-repository-tooling", "priority": 490,
+      "patterns": [".gitattributes", "NoxAeterna.Tools.Repository/Interpretation/**", "NoxAeterna.Tests/Tooling/Interpretation/**"],
+      "taskKinds": ["CodeChange"],
+      "documents": [],
+      "testRoutes": ["Repository-Tooling"]
+    },
+    {
       "name": "repository-tooling", "priority": 500,
-      "patterns": ["eng/**", ".github/workflows/**", "NoxAeterna.Tools.Repository/Interpretation/**", "NoxAeterna.Tests/Tooling/**"],
+      "patterns": ["eng/**", ".gitattributes", ".github/workflows/**", "NoxAeterna.Tools.Repository/Interpretation/**", "NoxAeterna.Tests/Tooling/**"],
       "taskKinds": ["Tooling", "TestChange", "Documentation"],
       "documents": ["docs/DOCUMENTATION-GOVERNANCE.md", "docs/TEST-EXECUTION.md", "docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md", "docs/TAROT-INTERPRETATION-IMPLEMENTATION.md"],
       "testRoutes": ["Repository-Tooling"]

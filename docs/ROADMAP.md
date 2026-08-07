@@ -79,18 +79,18 @@ Architecture passes:
 
 ### INT0 Implementation Foundation
 
-Status: **D1–D4, I1, and I2 accepted. I3 is published but its known run-55 Release-path test failure is repaired only locally; I4 and the interpretation infrastructure foundation are complete locally/pending owner commit, push, and hosted verification. INT1-I1 is next after green evidence.**
+Status: **D1–D4 and I1–I3 accepted. I4 product implementation is complete and owner/review accepted at `b684bb08b2b1369bfd9c014e45bb6748154534da`; run 56 was 4/5 green because Windows checkout changed canonical JSON LF bytes. The systemic repair and interpretation infrastructure foundation are complete locally/pending owner commit, push, and replacement hosted verification.**
 
 1. **INT0-I1 — Pack Identity and Schema Contracts:** **Accepted at `9c1f68962e84d21d87b2af8072bb0fadf9c4a2f0`.** Pack/classic identity, pure raw/validated schema contracts, exact JSON/enums, canonical keys/pairs, typed results/diagnostics, and focused tests.
 2. **INT0-I2 — Validator and Index Tooling:** **Accepted at `93a26fd8942fe0a519d60e9d5ac1a29f09930340`; run `31105509521` passed 5/5.** Repository CLI/tooling and synthetic fixtures cover path/schema/hash/index/inventory checks, deterministic check mode, and authoring status; no production prose or runtime UI.
-3. **INT0-I3 — Built-In Pack Source and Resolver:** **Published at `062e1e193d1a62b8c5f61c828e24314a112e7984`; run `31110289276` failed only because one packaging test selected Debug output during Release jobs, repaired locally.** App-packaged all-not-ready Classic skeleton, pure source/resolver contracts, same-locale trust-chain loading, broken-ready behavior, lazy entries, and bounded caches; no prose.
-4. **INT0-I4 — Selector, Settings v2 and Silent Host:** **Complete locally; pending owner commit/push and hosted verification.** Manifest-named Classic selector, lazy v1→v2 settings migration, immediate reveal-gated re-resolution, removal of the unavailable placeholder, silent host, and real-control UI evidence.
+3. **INT0-I3 — Built-In Pack Source and Resolver:** **Accepted at `062e1e193d1a62b8c5f61c828e24314a112e7984`.** App-packaged all-not-ready Classic skeleton, pure source/resolver contracts, same-locale trust-chain loading, broken-ready behavior, lazy entries, and bounded caches; no prose.
+4. **INT0-I4 — Selector, Settings v2 and Silent Host:** **Product complete and owner/review accepted at `b684bb08b2b1369bfd9c014e45bb6748154534da`; replacement hosted green pending after the local R56 repair.** Manifest-named Classic selector, lazy v1→v2 settings migration, immediate reveal-gated re-resolution, removal of the unavailable placeholder, silent host, and real-control UI evidence.
 
 ### INT1 — Single-Card Runtime, Russian Authoring, and Promotion
 
-Status: **Not started**.
+Status: **INT1-I1 presentation foundation complete locally; authoring next.**
 
-Implement fixture-backed five-section presentation in **INT1-I1**. Then author and owner-review exactly 156 Russian upright/reversed entries in small batches under **INT1-AUTH-RU** while readiness stays false; promote only after exact validation and index generation in **INT1-PROMOTE-RU**.
+**INT1-I1** adds fixture-backed five-section presentation, deterministic three-tag selection, semantic valence roles, intensity markers, reveal gating, and a Debug-only visual seam without production prose. Next, author and owner-review exactly 156 Russian upright/reversed entries in small batches under **INT1-AUTH-RU** while readiness stays false; trusted same-locale label routing, exact validation, and index generation are mandatory before **INT1-PROMOTE-RU**.
 
 ### INT2 — Two-Card Runtime and UX
 

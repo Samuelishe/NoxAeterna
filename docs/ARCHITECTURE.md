@@ -90,7 +90,7 @@ Initial dependency direction for scaffold:
 - `NoxAeterna.Interpretation`: may depend on `NoxAeterna.Domain` and `NoxAeterna.Symbolics`; must not depend on App, Presentation, Avalonia, or AppData/filesystem construction.
 - `NoxAeterna.App` may depend on `NoxAeterna.Interpretation` as the composition root and owns the exact built-in filesystem adapter/catalog; interpretation semantics and resolver behavior remain outside App.
 - `NoxAeterna.Rendering`: may depend on `NoxAeterna.Geometry` and render models; must not contain astronomy or interpretation logic.
-- `NoxAeterna.Presentation`: may depend on domain-facing application contracts and presentation models; should not own core calculation logic.
+- `NoxAeterna.Presentation`: may depend on Domain and typed structured `NoxAeterna.Interpretation` results to prepare filesystem-free display models; it must not own core meaning/resolution logic, Avalonia controls, or source I/O.
 - `NoxAeterna.Infrastructure`: contains adapters to ephemeris, SQLite, logging, and external services; references core abstractions but should not redefine them. The first real ephemeris-backed calculator now lives here.
 - `NoxAeterna.App`: composition root only.
 - `NoxAeterna.Tests`: references whichever project each test actually exercises.

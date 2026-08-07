@@ -5,6 +5,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using System.Globalization;
 using NodaTime;
 using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Presentation.Localization;
@@ -23,6 +24,7 @@ public sealed class TarotWorkspaceControl : UserControl
     private readonly TarotWorkspaceViewModel viewModel;
     private readonly TarotArtworkPackCatalog artworkCatalog;
     private readonly TarotInterpretationPackCatalog interpretationPackCatalog;
+    private readonly TarotWorkspaceInterpretationCoordinator interpretationCoordinator;
     private readonly ILocalizationProvider localizationProvider;
     private readonly LanguageCode applicationLanguage;
     private readonly Func<Instant> getCurrentInstant;
@@ -38,6 +40,7 @@ public sealed class TarotWorkspaceControl : UserControl
         TarotWorkspaceViewModel viewModel,
         TarotArtworkPackCatalog artworkCatalog,
         TarotInterpretationPackCatalog interpretationPackCatalog,
+        TarotWorkspaceInterpretationCoordinator interpretationCoordinator,
         ILocalizationProvider localizationProvider,
         LanguageCode applicationLanguage,
         Func<Instant> getCurrentInstant)
@@ -46,6 +49,8 @@ public sealed class TarotWorkspaceControl : UserControl
         this.artworkCatalog = artworkCatalog ?? throw new ArgumentNullException(nameof(artworkCatalog));
         this.interpretationPackCatalog = interpretationPackCatalog ??
             throw new ArgumentNullException(nameof(interpretationPackCatalog));
+        this.interpretationCoordinator = interpretationCoordinator ??
+            throw new ArgumentNullException(nameof(interpretationCoordinator));
         this.localizationProvider = localizationProvider ?? throw new ArgumentNullException(nameof(localizationProvider));
         this.applicationLanguage = applicationLanguage;
         this.getCurrentInstant = getCurrentInstant ?? throw new ArgumentNullException(nameof(getCurrentInstant));
@@ -54,9 +59,11 @@ public sealed class TarotWorkspaceControl : UserControl
         interpretationHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch };
         Content = BuildContent();
         viewModel.StateChanged += OnViewModelStateChanged;
+        interpretationCoordinator.SnapshotChanged += OnInterpretationSnapshotChanged;
         DetachedFromVisualTree += (_, _) =>
         {
             viewModel.StateChanged -= OnViewModelStateChanged;
+            interpretationCoordinator.SnapshotChanged -= OnInterpretationSnapshotChanged;
             foreach (var bitmap in rasterImageCache.Values)
             {
                 bitmap.Dispose();
@@ -288,6 +295,8 @@ public sealed class TarotWorkspaceControl : UserControl
     };
 
     private void OnViewModelStateChanged(object? sender, EventArgs e) => RefreshWorkspaceState();
+
+    private void OnInterpretationSnapshotChanged(object? sender, EventArgs e) => RefreshInterpretation();
 
     private void RefreshWorkspaceState()
     {
@@ -554,6 +563,108 @@ public sealed class TarotWorkspaceControl : UserControl
     {
         interpretationHost.Content = null;
         interpretationHost.IsVisible = false;
+        if (interpretationCoordinator.Current.SingleCardPresentation is not { } presentation)
+        {
+            return;
+        }
+
+        var content = new StackPanel { Spacing = 20 };
+        if (presentation.Tags.Count > 0)
+        {
+            var tagRow = new WrapPanel
+            {
+                Name = "TarotInterpretationTagRow",
+                Orientation = Orientation.Horizontal
+            };
+            foreach (var tag in presentation.Tags)
+            {
+                var chip = CreateInterpretationTag(tag);
+                chip.Margin = new Thickness(0, 0, 10, 8);
+                tagRow.Children.Add(chip);
+            }
+
+            content.Children.Add(tagRow);
+        }
+
+        foreach (var section in presentation.Sections)
+        {
+            content.Children.Add(CreateInterpretationSection(section));
+        }
+
+        interpretationHost.Content = content;
+        interpretationHost.IsVisible = true;
+    }
+
+    private Border CreateInterpretationTag(TarotSingleCardInterpretationTag tag)
+    {
+        var intensity = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Spacing = 3,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        for (var index = 0; index < tag.Intensity; index++)
+        {
+            var dot = new Avalonia.Controls.Shapes.Ellipse { Width = 4, Height = 4 };
+            dot.Classes.Add("tarot-interpretation-intensity-dot");
+            intensity.Children.Add(dot);
+        }
+
+        var chip = new Border
+        {
+            Padding = new Thickness(10, 5),
+            Child = new StackPanel
+            {
+                Orientation = Orientation.Horizontal,
+                Spacing = 8,
+                Children =
+                {
+                    new TextBlock { Text = tag.Label, VerticalAlignment = VerticalAlignment.Center },
+                    intensity
+                }
+            }
+        };
+        chip.Classes.Add("tarot-interpretation-tag");
+        chip.Classes.Add(tag.Valence switch
+        {
+            -2 => "valence-negative-strong",
+            -1 => "valence-negative",
+            0 => "valence-neutral",
+            1 => "valence-positive",
+            2 => "valence-positive-strong",
+            _ => throw new ArgumentOutOfRangeException(nameof(tag), tag.Valence, "Unknown interpretation valence.")
+        });
+        AutomationProperties.SetName(chip, tag.Label);
+        AutomationProperties.SetHelpText(
+            chip,
+            string.Format(
+                CultureInfo.GetCultureInfo(applicationLanguage.Value),
+                Localize("ui.tarot.interpretation.intensity"),
+                tag.Intensity));
+        return chip;
+    }
+
+    private static Control CreateInterpretationSection(TarotSingleCardInterpretationSection section)
+    {
+        var heading = new TextBlock
+        {
+            Name = $"TarotInterpretationSectionHeading_{section.SectionId}",
+            Text = section.Label,
+            TextWrapping = TextWrapping.Wrap
+        };
+        heading.Classes.Add("tarot-interpretation-section-heading");
+        var body = new TextBlock
+        {
+            Text = section.Text,
+            TextWrapping = TextWrapping.Wrap
+        };
+        body.Classes.Add("tarot-interpretation-section-body");
+        return new StackPanel
+        {
+            Spacing = 6,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Children = { heading, body }
+        };
     }
 
     private static TextBlock CreateStateText(string text, string styleClass)

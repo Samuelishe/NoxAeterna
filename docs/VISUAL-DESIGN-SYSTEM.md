@@ -38,6 +38,11 @@ Dark and light themes share semantic roles and hue families, but never assume id
 | TarotCardFace | `#18213A` |
 | TarotCardBack | `#0D1424` |
 | TarotOrnament | `#F2C14E` |
+| InterpretationValenceNegativeStrong | `#4A1F2D` |
+| InterpretationValenceNegative | `#49331C` |
+| InterpretationValenceNeutral | `#293249` |
+| InterpretationValencePositive | `#143C43` |
+| InterpretationValencePositiveStrong | `#153C30` |
 
 ### Light — Porcelain
 
@@ -60,6 +65,11 @@ Dark and light themes share semantic roles and hue families, but never assume id
 | TarotCardFace | `#FFFFFF` |
 | TarotCardBack | `#E9E3FF` |
 | TarotOrnament | `#8C5A00` |
+| InterpretationValenceNegativeStrong | `#F6DCE2` |
+| InterpretationValenceNegative | `#F5E7D2` |
+| InterpretationValenceNeutral | `#E8E5EF` |
+| InterpretationValencePositive | `#DDF3F6` |
+| InterpretationValencePositiveStrong | `#DDF1E8` |
 
 The Avalonia dark/light dictionaries expose these values as paired `Design*Color` and `Design*Brush` resources. V2 applies those roles across the application shell and controls; Avalonia topology and style ownership belong to [`THEMES.md`](THEMES.md).
 
@@ -105,7 +115,7 @@ The Avalonia dark/light dictionaries expose these values as paired `Design*Color
 - Validation and operation states use `Success`, `Warning`, and `Error`; do not substitute these roles for decorative accents.
 - Disabled controls use the explicit `DisabledFill` and `DisabledText` pair and must not look like active data.
 - Prototype Tarot faces and backs use their paired card-surface roles; restrained line ornament uses `TarotOrnament`. Hover, pressed, selected, and focus remain normal semantic control states rather than glow or casino effects.
-- Tarot interpretation valence and intensity may later map to accessible semantic color, glyph, icon, or shape roles. Content JSON owns numeric meaning, never exact colors, brushes, emoji, or glyph assets; the actual visual roles and palette are approved only during interpretation UI implementation.
+- Tarot interpretation valence maps to the five paired `InterpretationValence*` chip-fill roles; the accompanying text and border preserve contrast and meaning is not carried by color alone. Intensity uses one to three small semantic-foreground shape markers. Content JSON owns numeric meaning, never exact colors, brushes, emoji, glyph assets, or font choices.
 
 ## Adaptive Navigation Rail
 

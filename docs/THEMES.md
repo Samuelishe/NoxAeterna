@@ -59,7 +59,8 @@ Verified Fluent mappings such as `SystemAccentColor`, `ComboBoxDropDownBackgroun
 - ComboBox popup chrome;
 - scrollbars;
 - reusable surface cards, table separators, and validation/supporting-text classes.
-- prototype Tarot face/back/ornament surfaces and native button hover, pressed, selected, and focus-visible states.
+- prototype Tarot face/back/ornament surfaces and native button hover, pressed, selected, and focus-visible states;
+- single-card interpretation section typography, compact tag chips, five valence fills, and intensity-dot shapes.
 
 Styles change visual properties while retaining Fluent control templates, keyboard navigation, picker mechanics, popup behavior, automation semantics, and accessibility behavior.
 
@@ -71,7 +72,8 @@ Reusable classes express local role rather than color:
 - `primary-action` together with the verified Fluent `accent` behavior;
 - `supporting`, `subtle`, and `table-header`;
 - `validation-success`, `validation-warning`, and `validation-error`.
-- `tarot-card`, `tarot-face`, `tarot-back`, and `tarot-ornament`.
+- `tarot-card`, `tarot-face`, `tarot-back`, and `tarot-ornament`;
+- `tarot-interpretation-section-heading`, `tarot-interpretation-section-body`, `tarot-interpretation-tag` with one exact `valence-*` class, and `tarot-interpretation-intensity-dot`.
 
 Do not add new use of old `Shell*`, `Workspace*`, or `PreviewSurface*` keys.
 

@@ -73,6 +73,7 @@
   "ui.tarot.control.spread": "Расклад",
   "ui.tarot.control.artwork": "Иллюстрации",
   "ui.tarot.control.interpretation-pack": "Толкование",
+  "ui.tarot.interpretation.intensity": "Интенсивность: {0}",
   "ui.tarot.control.back": "Рубашка",
   "ui.tarot.control.allow-reversed": "Разрешить перевёрнутые карты",
   "ui.tarot.control.auto-reveal": "Открывать карты автоматически",

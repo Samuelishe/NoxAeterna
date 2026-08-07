@@ -125,7 +125,7 @@ Each pack owns its tag vocabulary and localized display labels. A tag concept is
 
 Each upright/reversed single-card entry has a candidate pool of roughly `5–10` semantic tag assignments. Tags must reflect the entry, differ meaningfully rather than pad the pool with synonyms, and match the orientation.
 
-Single-card UI normally shows a compact subset of `2–4` tags rather than the full pool. These ranges are presentation defaults, not content-completeness validators; pair and three-card tag contracts belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
+Single-card UI normally shows a compact subset of `2–4` tags rather than the full pool. INT1-I1 uses exactly three distinct labeled tags when at least three candidates are available, otherwise all available labeled candidates; zero candidates produces no row. Selection is deterministic from semantic reading/pack/content identity and never from translated labels, theme, control size, culture, or process hash codes. These ranges are presentation defaults, not content-completeness validators; pair and three-card tag contracts belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
 The subset may vary between different readings, but it is stable for one reading, pack, and content version. It does not change on resize, a UI redraw, tab switch, navigation away/back, language or theme switch, repeated layout, card click, or scroll. A language change preserves selected concept IDs and changes only localized labels. A pack change may select from the new pack's vocabulary while preserving cards and the semantic reading. The seed algorithm remains an implementation decision; non-flickering stability is the contract.
 
@@ -158,6 +158,8 @@ Intensity uses this three-level scale:
 Intensity belongs to a tag assignment or to the interpretation as a whole and can distinguish mild concern, serious tension, and a crisis turning point.
 
 Every single-card interpretation also receives separately authored `overall valence` (`-2..+2`) and `overall intensity` (`1..3`). They express the overall vibe and are not a simple average of tag metrics. Opposing tags do not necessarily yield neutrality, and one dominant theme may control the reading.
+
+INT1-I1 renders each visible tag with one of five theme-owned semantic valence roles and one, two, or three small shape markers for intensity. Content continues to store only numbers. Overall metrics remain in the typed presentation model for later stages; no separate visible “overall vibe” widget is shown yet.
 
 Content stores no red/orange/yellow/green names, hex colors, brushes, emoji, PNG paths, fonts, or Avalonia styles. A later UI may express these scales through semantic colors, glyphs, icons, shapes, or another accessible representation.
 

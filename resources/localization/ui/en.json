@@ -73,6 +73,7 @@
   "ui.tarot.control.spread": "Spread",
   "ui.tarot.control.artwork": "Artwork",
   "ui.tarot.control.interpretation-pack": "Interpretation",
+  "ui.tarot.interpretation.intensity": "Intensity: {0}",
   "ui.tarot.control.back": "Card back",
   "ui.tarot.control.allow-reversed": "Allow reversed cards",
   "ui.tarot.control.auto-reveal": "Reveal cards automatically",

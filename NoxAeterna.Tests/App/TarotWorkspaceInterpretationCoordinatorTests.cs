@@ -146,7 +146,7 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
     {
         var resolvedResolver = new RecordingResolver(resolveSingle: true);
         var viewModel = Workspace(autoRevealCards: true, new SequenceRandomSource(0));
-        using var coordinator = Coordinator(resolvedResolver, viewModel);
+        using var coordinator = Coordinator(resolvedResolver, viewModel, new RecordingLabelSource());
         viewModel.Draw(Instant.FromUnixTimeTicks(7));
         var resolved = Assert.IsType<ResolvedTarotInterpretation<TarotSingleCardEntry>>(coordinator.Current.SingleCard);
         Assert.Equal("classic", resolved.PackId.Value);
@@ -154,6 +154,7 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
         Assert.Equal("ru", resolved.RequestedLocale.Value);
         Assert.Equal("en", resolved.ResolvedLocale.Value);
         Assert.True(coordinator.Current.HasResolvedContent);
+        Assert.NotNull(coordinator.Current.SingleCardPresentation);
 
         var noContentResolver = new RecordingResolver(
             diagnostic: new TarotResolutionDiagnostic("manifest.sha256", "Technical trust-chain detail."));
@@ -162,8 +163,34 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
         var absent = Assert.IsType<NoTarotInterpretationContent<TarotSingleCardEntry>>(coordinator.Current.SingleCard);
         Assert.Equal(TarotNoContentReason.BrokenReadyModule, absent.Reason);
         Assert.False(coordinator.Current.HasResolvedContent);
+        Assert.Null(coordinator.Current.SingleCardPresentation);
         Assert.DoesNotContain("Technical", coordinator.Current.GetType().GetProperties().Select(static property => property.Name));
         Assert.Single(noContentResolver.SingleCalls);
+    }
+
+    [Fact]
+    public void InterpretationLanguageRefresh_RebuildsLabelsAndPreservesDeterministicConcepts()
+    {
+        var resolver = new RecordingResolver(resolveSingle: true, resolvedLocaleFollowsRequest: true);
+        var viewModel = Workspace(autoRevealCards: true, new SequenceRandomSource(0));
+        using var coordinator = Coordinator(resolver, viewModel, new RecordingLabelSource());
+        viewModel.Draw(Instant.FromUnixTimeTicks(71));
+        var reading = Assert.IsType<TarotReading>(viewModel.CurrentReading);
+        var russian = Assert.IsType<TarotSingleCardInterpretationPresentation>(
+            coordinator.Current.SingleCardPresentation);
+
+        coordinator.SetInterpretationLanguage(new(new LanguageCode("en")));
+
+        var english = Assert.IsType<TarotSingleCardInterpretationPresentation>(
+            coordinator.Current.SingleCardPresentation);
+        Assert.Equal(3, russian.Tags.Count);
+        Assert.Equal(
+            russian.Tags.Select(static tag => tag.ConceptId),
+            english.Tags.Select(static tag => tag.ConceptId));
+        Assert.All(russian.Tags, tag => Assert.StartsWith("ru ", tag.Label, StringComparison.Ordinal));
+        Assert.All(english.Tags, tag => Assert.StartsWith("en ", tag.Label, StringComparison.Ordinal));
+        Assert.Same(reading, viewModel.CurrentReading);
+        Assert.True(viewModel.AreAllCardsRevealed);
     }
 
     [Fact]
@@ -185,8 +212,9 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
 
     private static TarotWorkspaceInterpretationCoordinator Coordinator(
         ITarotWorkspaceInterpretationResolver resolver,
-        TarotWorkspaceViewModel viewModel) =>
-        new(resolver, viewModel, new InterpretationLanguagePreference(new LanguageCode("ru")));
+        TarotWorkspaceViewModel viewModel,
+        ITarotSingleCardPresentationLabelSource? labelSource = null) =>
+        new(resolver, viewModel, new InterpretationLanguagePreference(new LanguageCode("ru")), labelSource);
 
     private static TarotWorkspaceViewModel Workspace(
         bool autoRevealCards,
@@ -202,7 +230,8 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
 
     private sealed class RecordingResolver(
         bool resolveSingle = false,
-        TarotResolutionDiagnostic? diagnostic = null) : ITarotWorkspaceInterpretationResolver
+        TarotResolutionDiagnostic? diagnostic = null,
+        bool resolvedLocaleFollowsRequest = false) : ITarotWorkspaceInterpretationResolver
     {
         public List<SingleCall> SingleCalls { get; } = [];
         public List<PositionCall> PositionCalls { get; } = [];
@@ -228,7 +257,7 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
                 7,
                 TarotInterpretationMode.SingleCard,
                 requestedLocale,
-                new TarotInterpretationLocale("en"),
+                resolvedLocaleFollowsRequest ? requestedLocale : new TarotInterpretationLocale("en"),
                 content);
         }
 
@@ -242,6 +271,25 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
             PositionCalls.Add(new(packId, requestedLocale, position, cardId, orientation));
             return new NoTarotInterpretationContent<TarotThreeCardPositionEntry>(TarotNoContentReason.NoReadyLocale);
         }
+    }
+
+    private sealed class RecordingLabelSource : ITarotSingleCardPresentationLabelSource
+    {
+        public TarotSingleCardInterpretationLabels Resolve(
+            TarotInterpretationPackId packId,
+            int contentVersion,
+            TarotInterpretationLocale resolvedLocale) => new(
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["situation"] = $"{resolvedLocale.Value} situation",
+                ["development"] = $"{resolvedLocale.Value} development",
+                ["risk"] = $"{resolvedLocale.Value} risk",
+                ["outcome"] = $"{resolvedLocale.Value} outcome",
+                ["advice"] = $"{resolvedLocale.Value} advice"
+            },
+            Enumerable.Range(1, 5).ToDictionary(
+                static index => new TarotTagConceptId($"synthetic-{index}"),
+                index => $"{resolvedLocale.Value} tag {index}"));
     }
 
     private sealed record SingleCall(

@@ -106,7 +106,8 @@ public partial class MainWindow : Window
         _tarotInterpretationCoordinator = new TarotWorkspaceInterpretationCoordinator(
             interpretationComposition.Resolver,
             _tarotWorkspaceViewModel,
-            _userPreferences.InterpretationLanguage);
+            _userPreferences.InterpretationLanguage,
+            interpretationComposition.PresentationLabels);
         _tarotWorkspaceViewModel.PreferencesChanged += OnTarotPreferencesChanged;
         _settingsViewModel = SettingsViewModel.CreateDefault(_userPreferences);
         _astrologyChartCoordinator = new DevelopmentAstrologyChartCoordinator(
@@ -186,6 +187,7 @@ public partial class MainWindow : Window
                 _tarotWorkspaceViewModel,
                 _tarotArtworkPackCatalog,
                 _tarotInterpretationPackCatalog,
+                _tarotInterpretationCoordinator,
                 _localizationProvider,
                 _userPreferences.ApplicationLanguage.Language,
                 SystemClock.Instance.GetCurrentInstant);

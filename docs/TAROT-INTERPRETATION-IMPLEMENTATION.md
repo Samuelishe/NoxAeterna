@@ -48,6 +48,8 @@ All interpretation-pack source and generated indexes follow these conventions:
 
 Pack source content does not use YAML, XML, SQLite, or an executable expression language.
 
+Repository-owned interpretation JSON is checked out as LF on every host through explicit `.gitattributes` rules for production and tracked TestData trees. Validator/index tooling compares the original manifest, generated-index, and accepted-content bytes with the frozen canonical serializer output; BOM, CRLF, alternate formatting, or extra final LF is an error even when JSON parses. `authoring-inventory.json` is excluded until its separate schema owns an exact canonical writer.
+
 ## Version Dimensions
 
 `schemaVersion` is a positive integer describing a file or contract structure. It changes only for an incompatible or explicitly versioned structural change.
@@ -407,7 +409,7 @@ The separate planned actions remain unchanged: `Сбросить настрой�
 | --- | --- | --- |
 | `NoxAeterna.Domain` | Stable `TarotInterpretationPackId`, semantic Tarot identities, spreads, and readings. | Prose, JSON, file paths, readiness, Avalonia, or persistence. |
 | `NoxAeterna.Interpretation` | Pack contracts; manifest/content/index models; validation; canonical keys; locale/mode resolution; structured results; deterministic composition; cache-independent resolver logic. | Avalonia, AppData path construction, App, or Presentation dependencies. |
-| `NoxAeterna.Presentation` | Selected-pack and interpretation-language preferences; reveal-gated view state; prepared display blocks; immediate re-resolution orchestration signals. | JSON/file I/O or prose authoring. |
+| `NoxAeterna.Presentation` | Selected-pack and interpretation-language preferences; reveal-gated view state; typed single-card display model and deterministic tag selection from validated Interpretation input; immediate re-resolution orchestration signals. | JSON/file I/O, Avalonia/color/font types, or prose authoring. |
 | `NoxAeterna.App` | Composition root; shipped/file and future AppData sources; catalog assembly; selector controls; headings/tags rendering; silent empty host; settings migration and persistence wiring. | Semantic meaning or Domain rules. |
 | `NoxAeterna.Tools.Repository` | Schema/inventory validation CLI; index/hash generation; authoring progress reports; batch tooling; one-way reuse of pure Interpretation contracts. | Production runtime behavior; App, Presentation, Infrastructure, Avalonia, or reverse dependencies. |
 | `resources/interpretation` | Accepted and working content under the separate D3/D4 roots. | Runtime state or user preferences. |
@@ -432,34 +434,38 @@ Presentation gates are:
 
 Application UI language controls control labels and pack display names. Interpretation language controls section/tag labels and prose. UI-language changes refresh controls and pack names; interpretation-language changes re-resolve content. Neither change redraws cards.
 
+INT1-I1 materializes the compact tag row followed by `situation`, `development`, `risk`, `outcome`, and `advice` in the existing outer reading scroll, with no overall heading or nested scroller. Presentation accepts already resolved pack-local section/tag labels and never derives labels from `conceptId` or the generic UI catalog. Missing tag labels omit those chips; missing section labels suppress an unsafe incomplete presentation. Trusted same-locale vocabulary and section-label index/routing remains a mandatory `INT1-PROMOTE-RU` gate before a production module can become ready.
+
+The default single-card subset contains exactly three distinct labeled candidates when at least three exist, otherwise all available candidates. Candidates are ordered by ordinal hexadecimal SHA-256 of UTF-8 `packId`, `contentVersion`, spread ID, stable `DrawnAt` ticks, position ID, card ID, orientation, and candidate `conceptId`; UI locale, interpretation locale, label text, theme, size, and process hash codes do not participate. Therefore locale switching changes visible labels/prose without changing selected semantic concept IDs for the same reading/pack/content version.
+
 ## Decision-Coverage Matrix
 
 | Owner decision | Canonical owner | Implementation stage | Validation/evidence | Status |
 | --- | --- | --- | --- | --- |
-| Independent selectable non-executable packs; default `classic`; partial packs remain selectable | Packs | I1–I3 | Identity, manifest, catalog, and partial-readiness fixtures | Frozen; not implemented |
+| Independent selectable non-executable packs; default `classic`; partial packs remain selectable | Packs | I1–I3 | Identity, manifest, catalog, and partial-readiness fixtures | Implemented |
 | Reading modes remain available independently from interpretation completeness | Packs / Tarot Engine | INT2-I1 and later spread stages | Selector availability with every module not ready | Frozen; existing modes already ignore corpus completeness |
-| UI locales may precede complete interpretation locales | Packs | I3 | Readiness-matrix locale fixtures | Frozen; not implemented |
-| Readiness is manual `pack + locale + mode`, never per entry | Packs | I1–I3 | Manifest validation and no-inference tests | Frozen; not implemented |
-| Fallback is requested → EN → RU → no content | Packs | I3 | Deduplicated resolution fixtures | Frozen; not implemented |
-| Broken `ready = true` forbids fallback | Packs | I2–I3 | Damaged same-locale fixture returns `NoContent` | Frozen; not implemented |
-| One locale supplies an entire mode result | Packs / Modes | I2–I3 | Cross-locale dependency rejection | Frozen; not implemented |
-| Missing/fallback content gives no user explanation | Packs | I3–I4 | Typed result tests and real-control UI smoke | Frozen; not implemented |
-| Pack and language switches re-resolve immediately | Packs | I4 | Presentation orchestration tests and UI smoke | Frozen; not implemented |
-| Selector remains visible with one real pack; its name follows UI language | Packs / Implementation | I4 | Catalog/display-name tests and RU/EN UI smoke | Frozen; not implemented |
+| UI locales may precede complete interpretation locales | Packs | I3 | Readiness-matrix locale fixtures | Implemented |
+| Readiness is manual `pack + locale + mode`, never per entry | Packs | I1–I3 | Manifest validation and no-inference tests | Implemented |
+| Fallback is requested → EN → RU → no content | Packs | I3 | Deduplicated resolution fixtures | Implemented |
+| Broken `ready = true` forbids fallback | Packs | I2–I3 | Damaged same-locale fixture returns `NoContent` | Implemented |
+| One locale supplies an entire mode result | Packs / Modes | I2–I3 | Cross-locale dependency rejection | Implemented |
+| Missing/fallback content gives no user explanation | Packs | I3–I4 | Typed result tests and real-control UI smoke | Implemented |
+| Pack and language switches re-resolve immediately | Packs | I4 | Presentation orchestration tests and UI smoke | Implemented |
+| Selector remains visible with one real pack; its name follows UI language | Packs / Implementation | I4 | Catalog/display-name tests and RU/EN UI smoke | Implemented |
 | No placeholder or overall interpretation heading | Packs / UI Vision | I4 | Host materialization and UI smoke | Implemented; no-content host is empty and hidden |
-| Auto/manual reveal gates content; hidden cards never leak | Tarot Engine / Modes | I4, INT1-I1, INT2-I1, INT4-I1 | View-state and progressive-reveal fixtures | Frozen; reveal state exists, content does not |
-| Selector preference persists | Packs / Implementation | I4 | Settings v1→v2 and restart tests | Frozen; not implemented |
+| Auto/manual reveal gates content; hidden cards never leak | Tarot Engine / Modes | I4, INT1-I1, INT2-I1, INT4-I1 | View-state and progressive-reveal fixtures | Implemented for single-card and existing position resolution |
+| Selector preference persists | Packs / Implementation | I4 | Settings v1→v2 and restart tests | Implemented |
 | Classic uses traditional meanings and original prose | Content | INT1-AUTH-RU onward | Owner review, provenance, similarity audits | Frozen; corpus not authored |
 | Classic voice is living and predictive without profanity, slang, memes, insults, or sarcasm | Content | INT1-AUTH-RU onward | Style tooling plus owner review | Frozen; corpus not authored |
 | Interpretive openness remains specific and emotionally strong | Content | INT1-AUTH-RU onward | Batch literary review | Frozen; corpus not authored |
 | Russian is accepted source; translations are literary and meaning-preserving | Content | INT1-AUTH-RU, INT5 onward | Source/translation structural and semantic review | Frozen; corpus not authored |
-| Five visible single-card sections | Content | INT1-I1 | Schema and presentation fixtures | Frozen; not implemented |
+| Five visible single-card sections | Content | INT1-I1 | Schema and presentation fixtures | Implemented for resolved single-card content |
 | 156 independent upright/reversed entries | Content / Modes | INT1-AUTH-RU, INT1-PROMOTE-RU | Exact inventory and orientation checks | Frozen; corpus not authored |
 | Reversed prose is independent; mechanisms remain internal | Content / Modes | I1, INT1-AUTH-RU | Schema and similarity checks | Frozen; not implemented |
-| Single-card pools target 5–10; UI presents 2–4 | Content | INT1-I1 | Quality diagnostics and display tests | Frozen; not implemented |
-| Tag assignments and overall metrics use valence −2..+2 and intensity 1..3 | Content / Implementation | I1, INT1-I1 | Range and round-trip tests | Frozen; not implemented |
+| Single-card pools target 5–10; UI presents 2–4 | Content | INT1-I1 | Quality diagnostics and display tests | Implemented default: exactly 3 when available |
+| Tag assignments and overall metrics use valence −2..+2 and intensity 1..3 | Content / Implementation | I1, INT1-I1 | Range and round-trip tests | Implemented in model; tag metrics render semantically |
 | `conceptId` is stable; visible labels are pack/locale-owned; package-specific concepts are allowed | Content | I1–I2 | Vocabulary and locale fixtures | Frozen; not implemented |
-| Tag selection is deterministic and non-flickering | Content | INT1-I1 onward | Stable reading/content-version tests | Frozen; not implemented |
+| Tag selection is deterministic and non-flickering | Content | INT1-I1 onward | Stable reading/content-version tests | Implemented with SHA-256 ordinal ranking |
 | Content carries no literal UI colors or fonts | Content / Visual Design | I1–I2 | Schema rejection and content audit | Frozen; not implemented |
 | `two-cards` is non-positional and unordered | Modes | INT2-I1 | Spread and reveal-gate tests | Frozen; not implemented |
 | Pair canonicalization is ordinal by semantic ID | Modes / Implementation | I1 | Canonical key tests including reversed input order | Frozen; not implemented |
@@ -486,7 +492,7 @@ Every approved D1–D3 area has an implementation stage or an explicit independe
 
 ## Staged Implementation Roadmap
 
-Implementation status after local INT0-I4: I1 and I2 are accepted. I3 is published at `062e1e193d1a62b8c5f61c828e24314a112e7984`; hosted run `31110289276` exposed only a test-local Debug/Release output-path assumption, repaired locally. I4 implements the manifest-backed selector, settings schema 2 with lazy v1 migration, immediate pack/language/reading refresh, revealed-entry-only calls, typed snapshots, and the silent host. I3 replacement evidence and I4 remain pending owner commit/push and hosted verification. No AppData pack source, production index/content, corpus prose, sections, tags, or vocabulary renderer exists; INT1-I1 is next after green evidence.
+Implementation status after local CI-R56-FIX + INT1-I1: INT0 I1–I3 are accepted; I4 product work is accepted at `b684bb08b2b1369bfd9c014e45bb6748154534da`, while run `31153781317` was 4/5 green because Windows checkout changed canonical LF bytes. The local repair pins interpretation JSON to LF and rejects noncanonical source bytes. INT1-I1 connects the typed snapshot to a pure Presentation builder and App renderer with five sections, deterministic tags, semantic valence, intensity dots, reveal gating, and Debug-only RU/EN fixtures. No AppData pack source, production index/content, corpus prose, or trusted production vocabulary renderer exists; replacement hosted verification and small-batch Russian authoring are next.
 
 | Stage | Scope | Primary gates |
 | --- | --- | --- |
@@ -506,16 +512,16 @@ Stages are deliberately bounded and are not combined into one implementation tas
 
 ## Current Implementation Handoff
 
-The immediate next implementation stage after owner acceptance and hosted-green I4 evidence is:
+After replacement hosted-green evidence, the next content stage is:
 
 ```text
-INT1-I1 — Single-Card Runtime Presentation
+INT1-AUTH-RU — first small owner-reviewable Russian batch
 ```
 
-Its scope is fixture-backed five-section presentation over the typed snapshot established by I4; it does not begin the full production corpus.
+Before any Russian single-card promotion, trusted same-locale pack-local vocabulary/section-label routing, exactly 156 accepted entries, and generated index/hash evidence are mandatory.
 
-INT0-I1 completed the Pack/classic migration and pure contracts. INT0-I2 added explicit-root repository validation/index/authoring tooling. INT0-I3 added the production skeleton manifest, App-owned built-in source catalog, pure resolver, trust-chain loading, and bounded caches. INT0-I4 added the user-facing catalog/selector, settings migration, resolver orchestration, reveal gating, and silent host. AppData sources, prose/section/tag rendering, `two-cards`, and corpus authoring remain unimplemented.
+INT0-I1 completed the Pack/classic migration and pure contracts. INT0-I2 added explicit-root repository validation/index/authoring tooling. INT0-I3 added the production skeleton manifest, App-owned built-in source catalog, pure resolver, trust-chain loading, and bounded caches. INT0-I4 added the user-facing catalog/selector, settings migration, resolver orchestration, reveal gating, and silent host. INT1-I1 adds structured presentation and test-only preview content; AppData sources, production prose/vocabulary/indexes, `two-cards`, and corpus authoring remain unimplemented.
 
 ## Independent Deferred Work
 
-T-UX1B stale card-size refresh debt, interpretation typography/font selection, Reset settings, Open AppData, Celtic Cross layout/composition, AP1–AP5, PKG1, S2, saved readings/history/SQLite, and other interpretation packs remain separate. None blocks INT1-I1.
+T-UX1B stale card-size refresh debt, interpretation typography/font selection, Reset settings, Open AppData, Celtic Cross layout/composition, AP1–AP5, PKG1, S2, saved readings/history/SQLite, and other interpretation packs remain separate. None blocks the authoring preparation stage.

@@ -98,18 +98,59 @@ public sealed class TarotWorkspaceContractTests
     }
 
     [Fact]
-    public void InterpretationHost_IsAlwaysSilentUntilStructuredRendererStage()
+    public void InterpretationHost_UsesCoordinatorPresentationAndStaysSilentWithoutIt()
     {
         var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
         var refresh = MethodSlice(source, "private void RefreshInterpretation()", "private static TextBlock CreateStateText");
 
         Assert.Contains("interpretationHost.IsVisible = false", refresh, StringComparison.Ordinal);
         Assert.Contains("interpretationHost.Content = null", refresh, StringComparison.Ordinal);
-        Assert.DoesNotContain("interpretationHost.IsVisible = true", refresh, StringComparison.Ordinal);
-        Assert.DoesNotContain("TextBlock", refresh, StringComparison.Ordinal);
-        Assert.DoesNotContain("Localize", refresh, StringComparison.Ordinal);
+        Assert.Contains("interpretationCoordinator.Current.SingleCardPresentation", refresh, StringComparison.Ordinal);
+        Assert.Contains("interpretationHost.IsVisible = true", refresh, StringComparison.Ordinal);
+        Assert.Contains("CreateInterpretationTag(tag)", refresh, StringComparison.Ordinal);
+        Assert.Contains("CreateInterpretationSection(section)", refresh, StringComparison.Ordinal);
+        Assert.True(
+            refresh.IndexOf("content.Children.Add(tagRow)", StringComparison.Ordinal) <
+            refresh.IndexOf("content.Children.Add(CreateInterpretationSection(section))", StringComparison.Ordinal));
         Assert.DoesNotContain("MinHeight", refresh, StringComparison.Ordinal);
         Assert.DoesNotContain("surface-card", refresh, StringComparison.Ordinal);
+        Assert.DoesNotContain("ThreeCardPositions", refresh, StringComparison.Ordinal);
+        Assert.DoesNotContain("ConceptId.Value", refresh, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ControlSubscribesToTypedSnapshotAndUnsubscribesOnDetach()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+        var window = File.ReadAllText(AppPath("MainWindow.axaml.cs"));
+
+        Assert.Contains("TarotWorkspaceInterpretationCoordinator interpretationCoordinator", source, StringComparison.Ordinal);
+        Assert.Contains("interpretationCoordinator.SnapshotChanged += OnInterpretationSnapshotChanged", source, StringComparison.Ordinal);
+        Assert.Contains("interpretationCoordinator.SnapshotChanged -= OnInterpretationSnapshotChanged", source, StringComparison.Ordinal);
+        Assert.Contains("_tarotInterpretationCoordinator,", window, StringComparison.Ordinal);
+        Assert.DoesNotContain("ResolveSingleCard(", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("ResolveThreeCardPosition(", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void StructuredSingleCardRendererUsesFiveSectionBlocksThreeTagRolesAndIntensityDots()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+        var styles = File.ReadAllText(AppPath("Themes", "SemanticControlStyles.axaml"));
+
+        Assert.Contains("TarotInterpretationTagRow", source, StringComparison.Ordinal);
+        Assert.Contains("tarot-interpretation-section-heading", source, StringComparison.Ordinal);
+        Assert.Contains("tarot-interpretation-section-body", source, StringComparison.Ordinal);
+        Assert.Contains("for (var index = 0; index < tag.Intensity; index++)", source, StringComparison.Ordinal);
+        Assert.Contains("AutomationProperties.SetName(chip, tag.Label)", source, StringComparison.Ordinal);
+        Assert.Contains("AutomationProperties.SetHelpText(", source, StringComparison.Ordinal);
+        Assert.Contains("valence-negative-strong", styles, StringComparison.Ordinal);
+        Assert.Contains("valence-negative", styles, StringComparison.Ordinal);
+        Assert.Contains("valence-neutral", styles, StringComparison.Ordinal);
+        Assert.Contains("valence-positive", styles, StringComparison.Ordinal);
+        Assert.Contains("valence-positive-strong", styles, StringComparison.Ordinal);
+        Assert.Contains("Ellipse.tarot-interpretation-intensity-dot", styles, StringComparison.Ordinal);
+        Assert.DoesNotContain("FontFamily", source, StringComparison.Ordinal);
     }
 
     [Fact]
