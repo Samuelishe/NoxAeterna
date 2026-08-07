@@ -42,6 +42,39 @@ internal sealed class InterpretationToolingFixture : IDisposable
     public void AddTaggedSingle(string locale, string cardId, string conceptId)
         => AddSingleCore(locale, cardId, filename: null, conceptId);
 
+    public void AddSingleStates(
+        string locale,
+        string cardId,
+        TarotSingleCardStateDocument upright,
+        TarotSingleCardStateDocument reversed,
+        string? filename = null)
+    {
+        Write($"content/{locale}/single-card/{filename ?? cardId}.json", new TarotSingleCardBundleDocument
+        {
+            SchemaVersion = 1,
+            CardId = cardId,
+            States = new Dictionary<string, TarotSingleCardStateDocument?>(StringComparer.Ordinal)
+            {
+                ["upright"] = upright,
+                ["reversed"] = reversed
+            }
+        });
+    }
+
+    public static TarotSingleCardStateDocument CreateSingleState(
+        IReadOnlyDictionary<string, string> sections,
+        IReadOnlyList<TarotTagAssignmentDocument>? tags = null,
+        int overallValence = 0,
+        int overallIntensity = 2,
+        IReadOnlyList<TarotReversalMechanism>? reversalMechanisms = null) => new()
+    {
+        Sections = sections.ToDictionary(pair => pair.Key, pair => (string?)pair.Value, StringComparer.Ordinal),
+        Tags = tags?.Select(tag => (TarotTagAssignmentDocument?)tag).ToList() ?? [],
+        OverallValence = overallValence,
+        OverallIntensity = overallIntensity,
+        ReversalMechanisms = reversalMechanisms?.Select(mechanism => (TarotReversalMechanism?)mechanism).ToList() ?? []
+    };
+
     public void AddSynthesis(string locale, TarotSynthesisResourceType resourceType, string resourceTypePath, string resourceId)
     {
         using var data = JsonDocument.Parse("{\"kind\":\"fixture\"}");
@@ -75,6 +108,21 @@ internal sealed class InterpretationToolingFixture : IDisposable
         });
     }
 
+    public void AddPairStates(
+        string locale,
+        string cardAId,
+        string cardBId,
+        IReadOnlyDictionary<string, TarotOrientedPairStateDocument> states,
+        string? filename = null) => Write(
+        $"content/{locale}/oriented-pairs/{filename ?? $"{cardAId}__{cardBId}"}.json",
+        new TarotOrientedPairBundleDocument
+        {
+            SchemaVersion = 1,
+            CardAId = cardAId,
+            CardBId = cardBId,
+            States = states.ToDictionary(pair => pair.Key, pair => (TarotOrientedPairStateDocument?)pair.Value, StringComparer.Ordinal)
+        });
+
     public void AddPositions(string locale, string cardId, string? filename = null)
     {
         var states = new Dictionary<string, Dictionary<string, TarotThreeCardPositionStateDocument?>?>(StringComparer.Ordinal);
@@ -89,6 +137,25 @@ internal sealed class InterpretationToolingFixture : IDisposable
             SchemaVersion = 1, CardId = cardId, States = states
         });
     }
+
+    public void AddPositionStates(
+        string locale,
+        string cardId,
+        IReadOnlyDictionary<string, IReadOnlyDictionary<string, TarotThreeCardPositionStateDocument>> states,
+        string? filename = null) => Write(
+        $"content/{locale}/three-card-positions/{filename ?? cardId}.json",
+        new TarotThreeCardPositionsBundleDocument
+        {
+            SchemaVersion = 1,
+            CardId = cardId,
+            States = states.ToDictionary(
+                pair => pair.Key,
+                pair => (Dictionary<string, TarotThreeCardPositionStateDocument?>?)pair.Value.ToDictionary(
+                    state => state.Key,
+                    state => (TarotThreeCardPositionStateDocument?)state.Value,
+                    StringComparer.Ordinal),
+                StringComparer.Ordinal)
+        });
 
     public void Write<T>(string relativePath, T value)
     {

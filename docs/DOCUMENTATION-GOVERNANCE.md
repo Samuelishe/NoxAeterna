@@ -75,6 +75,12 @@ Dynamic branch, HEAD, parent, operation markers, and worktree state belong to Gi
 - Context workflow changes update `CONTEXT-ROUTING.md`; exact mappings and retrieval expectations update only their registries.
 - `NEXT-STEPS.md` changes only when the immediate queue changes.
 
+## Persistent Artifact Discipline
+
+- Add a tracked document, registry, or report only when it owns an independent durable responsibility that cannot be reconstructed from canonical source, repository state, existing tooling/context owners, `PROJECT-STATE`, and bounded `SESSION-LOG` chronology.
+- Use those repository owners as agent memory. Do not create surrogate `progress.json`, `plan.json`, `chunk-plan.json`, duplicate planning Markdown, or generated reports merely to remember recoverable work state between sessions.
+- Transient operator reports belong in ignored output or a system temporary directory. Generated output is not a second documentation owner.
+
 ## Active Chronology and Archive
 
 `SESSION-LOG.md` contains only the current wave. Completed entries move intact to indexed chunks under `docs/archive/session-log/`; archiving retains exact headings and evidence rather than summarizing, rewriting, or deleting history.

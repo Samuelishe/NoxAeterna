@@ -246,8 +246,13 @@ CREATE TABLE synthesis_resource(
 interpretation-pack validate-source --source-root PATH [--json]
 interpretation-pack compile --source-root PATH --output PATH [--check] [--json]
 interpretation-pack inspect-package --package PATH [--json]
-interpretation-pack authoring-status --source-root PATH [--json]
+interpretation-pack authoring-status --source-root PATH [--locale LOCALE --corpus CORPUS] [--json]
+interpretation-pack audit-content --source-root PATH --locale LOCALE --corpus CORPUS [--json]
 ```
+
+Scoped `authoring-status` accepts `single-card`, `oriented-pairs`, or `three-card-positions`. It reports expected/present/missing bundle and state counts for one declared locale and returns the complete ordinal `missingIdentities` inventory in JSON. The unscoped form retains the aggregate validation/status report. Missing targets in a not-ready corpus are normal authoring state; malformed, duplicate, or noncanonical source remains an error. Console inventories and diagnostics are bounded, while JSON is complete and deterministic.
+
+`audit-content` requires one declared locale and one corpus. It reuses the strict source loader, stops on structural errors, and then performs deterministic offline lexical heuristics over canonical source: normalized exact duplicates; indexed word-trigram Jaccard near-duplicates; single-card orientation and intra-state section similarity; repeated openings, endings, and advice/outcome formulas; robust token-length outliers; RU Latin-script leakage; and factual tag, valence, intensity, and reversal-mechanism distributions. Near-duplicate candidates come from a bounded inverted shingle index rather than an unconditional all-pairs scan; reports expose possible and candidate comparison counts. Thresholds are named code constants. Findings are stable warnings and do not change exit `0`; structural/execution errors return `1`, and CLI usage errors return `2`. Reports contain no timestamps, random IDs, or absolute source paths, and no tracked audit/progress artifact is created.
 
 Compilation validates source, creates a normalized immutable model, calculates the digest, writes a sibling temporary database, creates/inserts rows in ordinal order, enforces constraints, verifies package identity/integrity, closes it, and atomically replaces the target. Failure leaves no partial final package. Temporary-path randomness is not semantic database data.
 

@@ -11,11 +11,40 @@ public enum InterpretationToolSeverity
     Warning
 }
 
-public sealed record InterpretationToolDiagnostic(
-    string Code,
-    InterpretationToolSeverity Severity,
-    string Target,
-    string Message);
+public sealed class InterpretationToolDiagnostic
+{
+    public InterpretationToolDiagnostic(
+        string code,
+        InterpretationToolSeverity severity,
+        string target,
+        string message,
+        IEnumerable<string>? relatedTargets = null)
+    {
+        Code = code;
+        Severity = severity;
+        Target = target;
+        Message = message;
+        RelatedTargets = Array.AsReadOnly((relatedTargets ?? [])
+            .Where(item => !string.Equals(item, target, StringComparison.Ordinal))
+            .Distinct(StringComparer.Ordinal)
+            .Order(StringComparer.Ordinal)
+            .ToArray());
+    }
+
+    public string Code { get; }
+    public InterpretationToolSeverity Severity { get; }
+    public string Target { get; }
+    public string Message { get; }
+    public IReadOnlyList<string> RelatedTargets { get; }
+}
+
+public sealed record InterpretationTextStatistics(
+    int Count,
+    int Minimum,
+    int FirstQuartile,
+    int Median,
+    int ThirdQuartile,
+    int Maximum);
 
 public sealed class InterpretationToolReport
 {
@@ -24,7 +53,10 @@ public sealed class InterpretationToolReport
         IReadOnlyDictionary<string, int>? counts = null,
         IReadOnlyDictionary<string, string>? details = null,
         IEnumerable<string>? generatedPaths = null,
-        IEnumerable<string>? driftPaths = null)
+        IEnumerable<string>? driftPaths = null,
+        IReadOnlyDictionary<string, IReadOnlyList<string>>? inventories = null,
+        IReadOnlyDictionary<string, IReadOnlyDictionary<string, int>>? distributions = null,
+        IReadOnlyDictionary<string, InterpretationTextStatistics>? statistics = null)
     {
         Diagnostics = Array.AsReadOnly(diagnostics
             .OrderBy(item => item.Target, StringComparer.Ordinal)
@@ -45,6 +77,29 @@ public sealed class InterpretationToolReport
             .Distinct(StringComparer.Ordinal)
             .Order(StringComparer.Ordinal)
             .ToArray());
+        Inventories = new ReadOnlyDictionary<string, IReadOnlyList<string>>((inventories ??
+                new Dictionary<string, IReadOnlyList<string>>())
+            .OrderBy(pair => pair.Key, StringComparer.Ordinal)
+            .ToDictionary(
+                pair => pair.Key,
+                pair => (IReadOnlyList<string>)Array.AsReadOnly(pair.Value
+                    .Distinct(StringComparer.Ordinal)
+                    .Order(StringComparer.Ordinal)
+                    .ToArray()),
+                StringComparer.Ordinal));
+        Distributions = new ReadOnlyDictionary<string, IReadOnlyDictionary<string, int>>((distributions ??
+                new Dictionary<string, IReadOnlyDictionary<string, int>>())
+            .OrderBy(pair => pair.Key, StringComparer.Ordinal)
+            .ToDictionary(
+                pair => pair.Key,
+                pair => (IReadOnlyDictionary<string, int>)new ReadOnlyDictionary<string, int>(pair.Value
+                    .OrderBy(item => item.Key, StringComparer.Ordinal)
+                    .ToDictionary(item => item.Key, item => item.Value, StringComparer.Ordinal)),
+                StringComparer.Ordinal));
+        Statistics = new ReadOnlyDictionary<string, InterpretationTextStatistics>((statistics ??
+                new Dictionary<string, InterpretationTextStatistics>())
+            .OrderBy(pair => pair.Key, StringComparer.Ordinal)
+            .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal));
     }
 
     public bool Success => Diagnostics.All(item => item.Severity != InterpretationToolSeverity.Error) &&
@@ -56,10 +111,15 @@ public sealed class InterpretationToolReport
     public IReadOnlyDictionary<string, string> Details { get; }
     public IReadOnlyList<string> GeneratedPaths { get; }
     public IReadOnlyList<string> DriftPaths { get; }
+    public IReadOnlyDictionary<string, IReadOnlyList<string>> Inventories { get; }
+    public IReadOnlyDictionary<string, IReadOnlyDictionary<string, int>> Distributions { get; }
+    public IReadOnlyDictionary<string, InterpretationTextStatistics> Statistics { get; }
 }
 
 public static class InterpretationToolReportWriter
 {
+    private const int ConsoleDiagnosticLimit = 20;
+    private const int ConsoleInventorySampleLimit = 12;
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -73,9 +133,13 @@ public static class InterpretationToolReportWriter
     public static string WriteConsole(InterpretationToolReport report)
     {
         var builder = new StringBuilder();
-        foreach (var diagnostic in report.Diagnostics)
+        foreach (var diagnostic in report.Diagnostics.Take(ConsoleDiagnosticLimit))
         {
             builder.AppendLine($"{diagnostic.Severity.ToString().ToLowerInvariant()} {diagnostic.Code} [{diagnostic.Target}]: {diagnostic.Message}");
+        }
+        if (report.Diagnostics.Count > ConsoleDiagnosticLimit)
+        {
+            builder.AppendLine($"diagnostics omitted: {report.Diagnostics.Count - ConsoleDiagnosticLimit}");
         }
 
         foreach (var path in report.GeneratedPaths)
@@ -86,6 +150,21 @@ public static class InterpretationToolReportWriter
         foreach (var detail in report.Details)
         {
             builder.AppendLine($"{detail.Key}: {detail.Value}");
+        }
+
+        foreach (var count in report.Counts)
+        {
+            builder.AppendLine($"{count.Key}: {count.Value}");
+        }
+
+        foreach (var inventory in report.Inventories)
+        {
+            var sample = inventory.Value.Take(ConsoleInventorySampleLimit).ToArray();
+            builder.AppendLine($"{inventory.Key}: {inventory.Value.Count}; sample [{string.Join(", ", sample)}]");
+            if (inventory.Value.Count > sample.Length)
+            {
+                builder.AppendLine($"{inventory.Key} omitted: {inventory.Value.Count - sample.Length}");
+            }
         }
 
         foreach (var path in report.DriftPaths)

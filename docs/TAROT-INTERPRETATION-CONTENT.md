@@ -97,4 +97,6 @@ Automated and editorial QA should detect or surface:
 - copied or overly source-like wording;
 - prose that is generic enough to fit nearly every card.
 
+Repository machine audit is a deterministic suspicion finder, not an editorial verdict: warnings neither prove a defect nor produce a synthetic quality score. Card-specific traditional meaning, literary quality, advice quality, external-source copying without a reference corpus, and future RU/EN semantic fidelity still require Codex/editorial review followed by correction and a repeated audit.
+
 Draft/review status may be recorded in normal Markdown chronology when useful. It never controls runtime fallback. Exact bundle files, inventories, wave sizes, and physical paths belong to [TAROT-INTERPRETATION-MODES.md](TAROT-INTERPRETATION-MODES.md).

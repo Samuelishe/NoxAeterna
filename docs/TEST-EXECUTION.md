@@ -51,7 +51,7 @@ pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone
 
 The registry is responsibility-oriented, not stage-oriented. A leaf route must remain bounded and non-overlapping with its peers. A composite is an ordered plan, not a parallel scheduler.
 
-`Interpretation` owns source-manifest/bundle contracts, canonical keys, pure validation, package-store resolution, locale/broken-ready behavior, exact SQLite lookups, and bounded semantic caches. `Presentation` owns the pure single-card display builder and deterministic tag subset. `App-Workspace` owns built-in package catalog, build/output packaging, coordinator, and real-control wiring. `Repository-Tooling` owns explicit-root source validation, canonical-byte gates, deterministic digest, compilation/check/inspection, and authoring status. `Architecture-Boundaries` proves Interpretation.Sqlite → Interpretation and App/Tools one-way usage with no SQL above the store boundary. `Project-Stats` and `Agent-Context` retain their separate namespaces.
+`Interpretation` owns source-manifest/bundle contracts, canonical keys, pure validation, package-store resolution, locale/broken-ready behavior, exact SQLite lookups, and bounded semantic caches. `Presentation` owns the pure single-card display builder and deterministic tag subset. `App-Workspace` owns built-in package catalog, build/output packaging, coordinator, and real-control wiring. `Repository-Tooling` owns explicit-root source validation, canonical-byte gates, deterministic digest, compilation/check/inspection, scoped authoring inventory, and deterministic content audit. `Architecture-Boundaries` proves Interpretation.Sqlite → Interpretation and App/Tools one-way usage with no SQL above the store boundary. `Project-Stats` and `Agent-Context` retain their separate namespaces.
 
 Interpretation package CLI smoke uses the repository tool directly: `validate-source --source-root`, `compile --source-root --output`, `inspect-package --package`, then `compile ... --check`. Stale-source and corrupt-package probes must operate only on temporary copies; generated `.noxinterp` files remain outside tracked repository paths.
 
@@ -63,6 +63,8 @@ dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack compile 
 dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack inspect-package --package <temporary.noxinterp>
 dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack compile --source-root <path> --output <temporary.noxinterp> --check
 dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack authoring-status --source-root <path>
+dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack authoring-status --source-root <path> --locale ru --corpus single-card --json
+dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack audit-content --source-root <path> --locale ru --corpus single-card --json
 ```
 
 ## Build and `-NoBuild`

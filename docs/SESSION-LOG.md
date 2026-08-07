@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-07: INT1-QA0 Scoped Authoring Inventory and Content Audit
+
+- Added locale/corpus-scoped `authoring-status` with complete deterministic missing identities for single-card, oriented-pair, and three-card-position corpora, plus bounded console output and backward-compatible aggregate status.
+- Added source-backed `audit-content`: exact/indexed near duplicates, single-card orientation/section similarity, repeated formulas, robust length outliers, RU Latin leakage, metadata distributions, stable relational diagnostics, and warning-preserving exit semantics. Project Stats and runtime/storage contracts remain unchanged; no production Tarot prose or tracked audit/progress artifact was created.
+- Verification passed `Repository-Tooling` 114/114, `Interpretation` 96/96, solution build with zero warnings/errors, documentation check with zero errors, and Full 958/958. Classic source validation passed; both RU and EN single-card status report 78 missing bundles / 156 missing states, while RU audit completes with zero text units and one non-fatal `audit.empty-corpus` warning.
+
 ## 2026-08-07: Tarot Interpretation SQLite Source/Runtime Pivot
 
 - Reconciled accepted checkpoint `11514633ace93585b6ab88905790aeaebf85eb4b` and hosted run `31159098001` (57), which passed all five Documentation, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
