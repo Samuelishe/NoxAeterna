@@ -9,6 +9,11 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-07: INT2-PAIR-RU-W2 Russian Classic Oriented-Pair Authoring
+
+- Authored canonical pair indices 500..999, from `major.hanged-man__minor.swords.six` through `major.moon__minor.cups.knight`: 500 complete bundles / 2,000 orientation states, bringing the accumulated RU pair corpus to 1,000/3,003 bundles and 4,000/12,012 states. W1R, RU single-card source, English content, readiness, runtime, and UI remain unchanged; W3 was not started.
+- Repeated structural and accumulated lexical review eliminated every new parameterized scaffold and excessive-length suspicion. Remaining repeated openings/endings were deterministically traced to one shared card and orientation rather than an unrelated prose skeleton; the sole scaffold diagnostic is an unchanged accepted W1R baseline finding.
+
 ## 2026-08-07: INT2-PAIR-RU-W1R Pair Editorial Correction and Audit Hardening
 
 - Rewrote `interaction` and `direction` in all 2,000 W1 orientation states to remove card-name narration and the parameterized long-form scaffold, while preserving the 500-bundle canonical range, tags/metrics, readiness, RU single-card source, and absent W2/EN content.
