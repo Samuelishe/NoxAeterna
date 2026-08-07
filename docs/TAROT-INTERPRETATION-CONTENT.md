@@ -33,6 +33,8 @@ Tags use stable language-neutral `conceptId` values. Every locale owns a vocabul
 
 Single-card authoring normally aims for a useful candidate pool, while schema validity is based on uniqueness, known vocabulary, and ranges rather than an arbitrary minimum. Presentation selects three tags deterministically, styles them by authored valence/intensity, and never exposes `conceptId` as fallback text. Overall valence and intensity describe the state as a whole and remain separate from individual tags.
 
+Current single-card source may legitimately contain states whose three displayed assignments share one intensity. Future pair and multi-card authoring must still assign intensity per tag from its actual semantic weight and must not mechanically copy one common intensity across every tag assignment.
+
 ## Stateless Codex continuation
 
 Every authoring Codex session is assumed to remember nothing from any previous session. Before creating content it must:

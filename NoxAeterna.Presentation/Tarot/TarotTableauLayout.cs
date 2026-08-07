@@ -40,6 +40,28 @@ public static class TarotTableauLayout
 
     /// <summary>Calculates a centered row, retaining the readable minimum through tableau-owned horizontal scrolling.</summary>
     public static TarotTableauLayoutResult Calculate(double availableWidth, int cardCount)
+        => CalculateCore(
+            availableWidth,
+            cardCount,
+            cardCount == 1 ? SingleCardWidth : PreferredCardWidth);
+
+    /// <summary>Calculates a centered single-card tableau capped by the responsive workspace width.</summary>
+    public static TarotTableauLayoutResult CalculateSingleCard(double availableWidth, double maximumCardWidth)
+    {
+        if (!double.IsFinite(maximumCardWidth) ||
+            maximumCardWidth < MinimumCardWidth ||
+            maximumCardWidth > SingleCardWidth)
+        {
+            throw new ArgumentOutOfRangeException(nameof(maximumCardWidth));
+        }
+
+        return CalculateCore(availableWidth, 1, maximumCardWidth);
+    }
+
+    private static TarotTableauLayoutResult CalculateCore(
+        double availableWidth,
+        int cardCount,
+        double maximumCardWidth)
     {
         if (!double.IsFinite(availableWidth) || availableWidth < 0d)
         {
@@ -49,9 +71,8 @@ public static class TarotTableauLayout
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(cardCount);
 
         var totalGap = CardGap * (cardCount - 1);
-        var maximumWidth = cardCount == 1 ? SingleCardWidth : PreferredCardWidth;
         var fittedWidth = (availableWidth - totalGap) / cardCount;
-        var cardWidth = Math.Clamp(fittedWidth, MinimumCardWidth, maximumWidth);
+        var cardWidth = Math.Clamp(fittedWidth, MinimumCardWidth, maximumCardWidth);
         var cardHeight = cardWidth / CardAspectRatio;
         var rowWidth = (cardWidth * cardCount) + totalGap;
         var requiresHorizontalScroll = rowWidth > availableWidth;

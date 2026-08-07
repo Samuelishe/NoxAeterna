@@ -30,8 +30,11 @@ public sealed class TarotWorkspaceControl : UserControl
     private readonly Func<Instant> getCurrentInstant;
     private readonly ContentControl tableauStateHost;
     private readonly ContentControl interpretationHost;
+    private readonly ContentControl readingLayoutHost;
     private readonly Dictionary<string, Bitmap> rasterImageCache = new(StringComparer.Ordinal);
     private ScrollViewer? tableauScrollViewer;
+    private ReadingSurfaceComposition? readingSurfaceComposition;
+    private TarotSingleCardReadingLayoutResult? singleCardReadingLayout;
     private Button? drawButton;
     private TextBlock? artworkDiagnostic;
 
@@ -57,6 +60,11 @@ public sealed class TarotWorkspaceControl : UserControl
 
         tableauStateHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch };
         interpretationHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch };
+        readingLayoutHost = new ContentControl
+        {
+            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            VerticalContentAlignment = VerticalAlignment.Stretch
+        };
         Content = BuildContent();
         viewModel.StateChanged += OnViewModelStateChanged;
         interpretationCoordinator.SnapshotChanged += OnInterpretationSnapshotChanged;
@@ -255,33 +263,123 @@ public sealed class TarotWorkspaceControl : UserControl
         ScrollViewer.SetIsScrollChainingEnabled(tableauScrollViewer, true);
         AutomationProperties.SetName(tableauScrollViewer, Localize("ui.tarot.tableau.title"));
         tableauScrollViewer.SizeChanged += (_, _) => RefreshTableau();
+        readingLayoutHost.SizeChanged += (_, _) =>
+        {
+            RefreshReadingLayout();
+            RefreshTableau();
+        };
 
+        var surface = new Border
+        {
+            Name = "TarotReadingSurface",
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Padding = new Thickness(20, 16, 12, 20),
+            Child = readingLayoutHost
+        };
+        surface.Classes.Add("surface-card");
+        return surface;
+    }
+
+    private Control CreateStackedReadingSurface()
+    {
         var readingContent = new StackPanel
         {
             Spacing = 14,
             Children =
             {
-                tableauScrollViewer,
+                tableauScrollViewer!,
                 interpretationHost
             }
         };
-        var readingScrollViewer = new ScrollViewer
+        return new ScrollViewer
         {
             Name = "TarotReadingScrollViewer",
             VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
             HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
             HorizontalContentAlignment = HorizontalAlignment.Stretch,
-            Padding = new Thickness(20, 16, 12, 20),
             Content = readingContent
         };
-        var surface = new Border
+    }
+
+    private Control CreateWideSingleCardReadingSurface(double cardColumnWidth)
+    {
+        var columns = new ColumnDefinitions
         {
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Stretch,
-            Child = readingScrollViewer
+            new ColumnDefinition { Width = new GridLength(cardColumnWidth) },
+            new ColumnDefinition { Width = GridLength.Star }
         };
-        surface.Classes.Add("surface-card");
-        return surface;
+        var grid = new Grid
+        {
+            Name = "TarotSingleCardReadingGrid",
+            ColumnDefinitions = columns,
+            ColumnSpacing = TarotReadingWorkspaceLayout.ColumnGap
+        };
+        var interpretationScrollViewer = new ScrollViewer
+        {
+            Name = "TarotInterpretationScrollViewer",
+            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+            HorizontalContentAlignment = HorizontalAlignment.Left,
+            Padding = new Thickness(0, 0, 8, 0),
+            Content = interpretationHost
+        };
+        Grid.SetColumn(interpretationScrollViewer, 1);
+        grid.Children.Add(tableauScrollViewer!);
+        grid.Children.Add(interpretationScrollViewer);
+        return grid;
+    }
+
+    private void RefreshReadingLayout()
+    {
+        var availableWidth = readingLayoutHost.Bounds.Width > 0d
+            ? readingLayoutHost.Bounds.Width
+            : TableauFallbackWidth;
+        var availableHeight = readingLayoutHost.Bounds.Height > 0d
+            ? readingLayoutHost.Bounds.Height
+            : TarotTableauLayout.SingleCardWidth / TarotTableauLayout.CardAspectRatio;
+        var isSingleCard = viewModel.SelectedSpread.Definition.Id == StandardTarotSpreads.SingleCard.Id;
+        singleCardReadingLayout = isSingleCard
+            ? TarotReadingWorkspaceLayout.CalculateSingleCard(availableWidth, availableHeight)
+            : null;
+        var desiredComposition = singleCardReadingLayout?.Composition ==
+                                 TarotSingleCardReadingComposition.SideBySide
+            ? ReadingSurfaceComposition.SideBySideSingleCard
+            : ReadingSurfaceComposition.Stacked;
+
+        interpretationHost.MaxWidth = TarotReadingWorkspaceLayout.MaximumInterpretationTextWidth;
+        interpretationHost.HorizontalAlignment = HorizontalAlignment.Stretch;
+        tableauScrollViewer!.HorizontalScrollBarVisibility = desiredComposition ==
+                                                              ReadingSurfaceComposition.SideBySideSingleCard
+            ? ScrollBarVisibility.Disabled
+            : ScrollBarVisibility.Auto;
+
+        if (readingSurfaceComposition == desiredComposition)
+        {
+            return;
+        }
+
+        DetachFromLayoutParent(tableauScrollViewer);
+        DetachFromLayoutParent(interpretationHost);
+        readingSurfaceComposition = desiredComposition;
+        readingLayoutHost.Content = null;
+        var newContent = desiredComposition == ReadingSurfaceComposition.SideBySideSingleCard
+            ? CreateWideSingleCardReadingSurface(singleCardReadingLayout!.CardColumnWidth)
+            : CreateStackedReadingSurface();
+        readingLayoutHost.Content = newContent;
+    }
+
+    private static void DetachFromLayoutParent(Control control)
+    {
+        switch (control.Parent)
+        {
+            case Panel panel:
+                panel.Children.Remove(control);
+                break;
+            case ContentControl contentControl when ReferenceEquals(contentControl.Content, control):
+                contentControl.Content = null;
+                break;
+        }
     }
 
     private Control CreateLabeledControl(string labelKey, Control control) => new StackPanel
@@ -309,6 +407,7 @@ public sealed class TarotWorkspaceControl : UserControl
             AutomationProperties.SetName(drawButton, Localize(actionKey));
         }
 
+        RefreshReadingLayout();
         RefreshTableau();
         RefreshInterpretation();
     }
@@ -340,19 +439,25 @@ public sealed class TarotWorkspaceControl : UserControl
 
         var availableWidth = tableauScrollViewer is { Bounds.Width: > 0d }
             ? tableauScrollViewer.Bounds.Width
-            : TableauFallbackWidth;
-        var layout = TarotTableauLayout.Calculate(availableWidth, reading.Cards.Count);
+            : singleCardReadingLayout?.Composition == TarotSingleCardReadingComposition.SideBySide
+                ? singleCardReadingLayout.CardColumnWidth
+                : TableauFallbackWidth;
+        var layout = reading.Cards.Count == 1 &&
+                     singleCardReadingLayout?.Composition == TarotSingleCardReadingComposition.SideBySide
+            ? TarotTableauLayout.CalculateSingleCard(availableWidth, singleCardReadingLayout.CardWidth)
+            : TarotTableauLayout.Calculate(availableWidth, reading.Cards.Count);
+        var showPositionLabels = TarotReadingWorkspaceLayout.ShowPositionLabels(reading.SpreadId);
         var canvas = new Canvas
         {
             Width = layout.ContentWidth,
-            Height = layout.ContentHeight + PositionLabelHeight
+            Height = layout.ContentHeight + (showPositionLabels ? PositionLabelHeight : 0d)
         };
 
         for (var index = 0; index < reading.Cards.Count; index++)
         {
             var assignment = reading.Cards[index];
             var bounds = layout.CardBounds[index];
-            var slot = CreateCardSlot(assignment, bounds.Width, bounds.Height);
+            var slot = CreateCardSlot(assignment, bounds.Width, bounds.Height, showPositionLabels);
             Canvas.SetLeft(slot, bounds.X);
             Canvas.SetTop(slot, bounds.Y);
             canvas.Children.Add(slot);
@@ -361,7 +466,11 @@ public sealed class TarotWorkspaceControl : UserControl
         tableauStateHost.Content = canvas;
     }
 
-    private Control CreateCardSlot(TarotDrawnCard assignment, double width, double height)
+    private Control CreateCardSlot(
+        TarotDrawnCard assignment,
+        double width,
+        double height,
+        bool showPositionLabel)
     {
         var isRevealed = viewModel.IsRevealed(assignment.PositionId);
         var button = new Button
@@ -383,21 +492,26 @@ public sealed class TarotWorkspaceControl : UserControl
         AutomationProperties.SetName(button, $"{TarotCardTextResolver.GetPositionName(assignment.PositionId, localizationProvider, applicationLanguage)}: {cardName}");
         button.Click += (_, _) => viewModel.RevealAndSelect(assignment.PositionId);
 
-        return new StackPanel
+        var slot = new StackPanel
         {
             Width = width,
-            Spacing = 8,
-            Children =
-            {
-                button,
-                new TextBlock
-                {
-                    Text = TarotCardTextResolver.GetPositionName(assignment.PositionId, localizationProvider, applicationLanguage),
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    FontWeight = FontWeight.SemiBold
-                }
-            }
+            Spacing = 8
         };
+        slot.Children.Add(button);
+        if (showPositionLabel)
+        {
+            slot.Children.Add(new TextBlock
+            {
+                Text = TarotCardTextResolver.GetPositionName(
+                    assignment.PositionId,
+                    localizationProvider,
+                    applicationLanguage),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                FontWeight = FontWeight.SemiBold
+            });
+        }
+
+        return slot;
     }
 
     private Control CreateCardFace(TarotDrawnCard assignment)
@@ -704,5 +818,11 @@ public sealed class TarotWorkspaceControl : UserControl
     private sealed record LocalizedInterpretationPackOption(TarotInterpretationPackOption Option, string Label)
     {
         public override string ToString() => Label;
+    }
+
+    private enum ReadingSurfaceComposition
+    {
+        Stacked = 0,
+        SideBySideSingleCard = 1
     }
 }

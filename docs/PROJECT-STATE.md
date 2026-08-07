@@ -35,7 +35,7 @@
 
 ## Current Focus
 
-**INT1-PROMOTE-RU — bounded Russian Classic single-card promotion**: `classic/ru/single-card` is runtime-ready with 78/78 bundles, 156/156 states, and 61 vocabulary concepts. The other seven locale/mode declarations remain unready.
+**T-UX2A — responsive single-card reading workspace**: implementation and local verification preserve `classic/ru/single-card` runtime readiness while correcting only Presentation/App layout. English translation and pair/three-card interpretation authoring remain separate future stages.
 
 ## Preserved Contracts
 

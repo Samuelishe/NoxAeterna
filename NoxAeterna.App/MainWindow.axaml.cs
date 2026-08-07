@@ -43,6 +43,7 @@ public partial class MainWindow : Window
     private readonly Button _navigationToggleButton;
     private readonly ShapePath _navigationToggleIcon;
     private readonly ListBox _navigationListBox;
+    private readonly StackPanel _sectionHeaderPanel;
     private readonly TextBlock _sectionTitleTextBlock;
     private readonly TextBlock _sectionHintTextBlock;
     private readonly ContentControl _sectionContentHost;
@@ -76,6 +77,8 @@ public partial class MainWindow : Window
             ?? throw new InvalidOperationException("NavigationToggleIcon was not found.");
         _navigationListBox = this.FindControl<ListBox>("NavigationListBox")
             ?? throw new InvalidOperationException("NavigationListBox was not found.");
+        _sectionHeaderPanel = this.FindControl<StackPanel>("SectionHeaderPanel")
+            ?? throw new InvalidOperationException("SectionHeaderPanel was not found.");
         _sectionTitleTextBlock = this.FindControl<TextBlock>("SectionTitleTextBlock")
             ?? throw new InvalidOperationException("SectionTitleTextBlock was not found.");
         _sectionHintTextBlock = this.FindControl<TextBlock>("SectionHintTextBlock")
@@ -153,6 +156,7 @@ public partial class MainWindow : Window
     {
         var currentItem = _shellViewModel.NavigationItems.First(item => item.Id == _shellViewModel.SelectedSectionId);
 
+        _sectionHeaderPanel.IsVisible = currentItem.ShowHeader;
         _sectionTitleTextBlock.Text = Localize(currentItem.LabelKey);
 
         if (currentItem.Id == ShellSectionId.Astrology)

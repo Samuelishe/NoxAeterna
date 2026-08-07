@@ -72,7 +72,8 @@ public sealed class ShellViewModel
                 new ShellNavigationItem(
                     ShellSectionId.Tarot,
                     new LocalizationKey("ui.shell.section.tarot"),
-                    ShellNavigationIconId.Tarot),
+                    ShellNavigationIconId.Tarot,
+                    showHeader: false),
                 new ShellNavigationItem(
                     ShellSectionId.Archive,
                     new LocalizationKey("ui.shell.section.archive"),

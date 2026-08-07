@@ -80,6 +80,20 @@ public sealed class TarotTableauLayoutTests
         Assert.False(layout.RequiresHorizontalScroll);
     }
 
+    [Fact]
+    public void HeightFittedSingleCard_DoesNotChangeMultiCardTableauContract()
+    {
+        var single = TarotTableauLayout.CalculateSingleCard(378d, 300d);
+        var three = TarotTableauLayout.Calculate(985d, 3);
+
+        Assert.Equal(300d, Assert.Single(single.CardBounds).Width);
+        Assert.Equal(300d / TarotTableauLayout.CardAspectRatio, single.ContentHeight, precision: 10);
+        Assert.Equal(3, three.CardBounds.Count);
+        Assert.All(three.CardBounds, bounds => Assert.Equal(315d, bounds.Width));
+        Assert.Equal(985d, three.ContentWidth);
+        Assert.False(three.RequiresHorizontalScroll);
+    }
+
     [Theory]
     [InlineData(687.999d, true)]
     [InlineData(688d, false)]

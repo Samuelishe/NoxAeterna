@@ -30,7 +30,7 @@ public sealed class TarotWorkspaceContractTests
     }
 
     [Fact]
-    public void TarotWorkspace_UsesFixedControlPanelAndStretchingUnifiedReadingSurface()
+    public void TarotWorkspace_UsesFixedControlPanelAndStretchingResponsiveReadingSurface()
     {
         var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
 
@@ -44,32 +44,83 @@ public sealed class TarotWorkspaceContractTests
     }
 
     [Fact]
-    public void ReadingSurfaceOwnsOnlyVerticalScrollAndTableauOwnsOnlyHorizontalScroll()
+    public void WideSingleCardUsesGridWithIndependentVerticalInterpretationScroll()
     {
         var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
-        var readingSurface = MethodSlice(source, "private Control CreateReadingSurface()", "private Control CreateLabeledControl");
+        var wide = MethodSlice(
+            source,
+            "private Control CreateWideSingleCardReadingSurface(double cardColumnWidth)",
+            "private void RefreshReadingLayout()");
 
-        Assert.Contains("Name = \"TarotTableauScrollViewer\"", readingSurface, StringComparison.Ordinal);
-        Assert.Contains("HorizontalScrollBarVisibility = ScrollBarVisibility.Auto", readingSurface, StringComparison.Ordinal);
-        Assert.Contains("VerticalScrollBarVisibility = ScrollBarVisibility.Disabled", readingSurface, StringComparison.Ordinal);
-        Assert.Contains("Name = \"TarotReadingScrollViewer\"", readingSurface, StringComparison.Ordinal);
-        Assert.Contains("VerticalScrollBarVisibility = ScrollBarVisibility.Auto", readingSurface, StringComparison.Ordinal);
-        Assert.Contains("HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled", readingSurface, StringComparison.Ordinal);
-        Assert.Equal(1, CountOccurrences(source, "VerticalScrollBarVisibility = ScrollBarVisibility.Auto"));
-        Assert.Equal(1, CountOccurrences(source, "HorizontalScrollBarVisibility = ScrollBarVisibility.Auto"));
+        Assert.Contains("Name = \"TarotSingleCardReadingGrid\"", wide, StringComparison.Ordinal);
+        Assert.Contains("TarotReadingWorkspaceLayout.ColumnGap", wide, StringComparison.Ordinal);
+        Assert.Contains("Name = \"TarotInterpretationScrollViewer\"", wide, StringComparison.Ordinal);
+        Assert.Contains("VerticalScrollBarVisibility = ScrollBarVisibility.Auto", wide, StringComparison.Ordinal);
+        Assert.Contains("HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled", wide, StringComparison.Ordinal);
+        Assert.Contains(
+            "interpretationHost.MaxWidth = TarotReadingWorkspaceLayout.MaximumInterpretationTextWidth",
+            source,
+            StringComparison.Ordinal);
+        Assert.Contains("Grid.SetColumn(interpretationScrollViewer, 1)", wide, StringComparison.Ordinal);
+        Assert.True(
+            wide.IndexOf("tableauScrollViewer!", StringComparison.Ordinal) <
+            wide.IndexOf("interpretationScrollViewer", wide.IndexOf("grid.Children.Add", StringComparison.Ordinal), StringComparison.Ordinal));
     }
 
     [Fact]
-    public void TableauAndInterpretationHost_ShareOneOrderedReadingSurface()
+    public void NarrowSingleCardAndMultiCardRetainOrderedStackedSurfaceAndTableauOverflow()
     {
         var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
-        var readingSurface = MethodSlice(source, "private Control CreateReadingSurface()", "private Control CreateLabeledControl");
-        var tableauIndex = readingSurface.IndexOf("tableauScrollViewer,", StringComparison.Ordinal);
-        var interpretationIndex = readingSurface.IndexOf("interpretationHost", tableauIndex, StringComparison.Ordinal);
+        var stacked = MethodSlice(
+            source,
+            "private Control CreateStackedReadingSurface()",
+            "private Control CreateWideSingleCardReadingSurface");
+        var tableauIndex = stacked.IndexOf("tableauScrollViewer!", StringComparison.Ordinal);
+        var interpretationIndex = stacked.IndexOf("interpretationHost", tableauIndex, StringComparison.Ordinal);
 
         Assert.True(tableauIndex >= 0);
         Assert.True(interpretationIndex > tableauIndex);
-        Assert.Contains("HorizontalContentAlignment = HorizontalAlignment.Stretch", source, StringComparison.Ordinal);
+        Assert.Contains("Name = \"TarotReadingScrollViewer\"", stacked, StringComparison.Ordinal);
+        Assert.Contains("VerticalScrollBarVisibility = ScrollBarVisibility.Auto", stacked, StringComparison.Ordinal);
+        Assert.Contains("HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled", stacked, StringComparison.Ordinal);
+        Assert.Contains("? ScrollBarVisibility.Disabled", source, StringComparison.Ordinal);
+        Assert.Contains(": ScrollBarVisibility.Auto", source, StringComparison.Ordinal);
+        Assert.Contains("TarotTableauLayout.Calculate(availableWidth, reading.Cards.Count)", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ResponsiveCompositionDetachesReusableControlsBeforeChangingVisualParents()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+        var refresh = MethodSlice(
+            source,
+            "private void RefreshReadingLayout()",
+            "private static void DetachFromLayoutParent");
+        var detach = MethodSlice(
+            source,
+            "private static void DetachFromLayoutParent",
+            "private Control CreateLabeledControl");
+
+        Assert.Contains("DetachFromLayoutParent(tableauScrollViewer)", refresh, StringComparison.Ordinal);
+        Assert.Contains("DetachFromLayoutParent(interpretationHost)", refresh, StringComparison.Ordinal);
+        Assert.True(
+            refresh.IndexOf("DetachFromLayoutParent", StringComparison.Ordinal) <
+            refresh.IndexOf("readingLayoutHost.Content = null", StringComparison.Ordinal));
+        Assert.Contains("case Panel panel", detach, StringComparison.Ordinal);
+        Assert.Contains("panel.Children.Remove(control)", detach, StringComparison.Ordinal);
+        Assert.Contains("case ContentControl contentControl", detach, StringComparison.Ordinal);
+        Assert.Contains("contentControl.Content = null", detach, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void SingleCardPositionLabelIsConditionalWhileMultiCardLabelsRemainMaterialized()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+
+        Assert.Contains("TarotReadingWorkspaceLayout.ShowPositionLabels(reading.SpreadId)", source, StringComparison.Ordinal);
+        Assert.Contains("showPositionLabels ? PositionLabelHeight : 0d", source, StringComparison.Ordinal);
+        Assert.Contains("if (showPositionLabel)", source, StringComparison.Ordinal);
+        Assert.Contains("TarotCardTextResolver.GetPositionName(", source, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -180,7 +231,7 @@ public sealed class TarotWorkspaceContractTests
     }
 
     [Fact]
-    public void MainWindowContentHost_StretchesTarotWorkspaceInStarRow()
+    public void MainWindowHeaderPanelCollapsesAsOneSemanticUnitWithoutReducingWorkspaceStretch()
     {
         var document = XDocument.Load(AppPath("MainWindow.axaml"));
         XNamespace ns = "https://github.com/avaloniaui";
@@ -188,10 +239,17 @@ public sealed class TarotWorkspaceContractTests
             .Single(element => element.Attributes()
                 .Any(attribute => attribute.Name.LocalName == "Name" && attribute.Value == "SectionContentHost"));
 
-        Assert.Equal("2", (string?)contentHost.Attribute("Grid.Row"));
         Assert.Equal("Stretch", (string?)contentHost.Attribute("HorizontalContentAlignment"));
         Assert.Equal("Stretch", (string?)contentHost.Attribute("VerticalContentAlignment"));
-        Assert.Equal("Auto,Auto,*", (string?)contentHost.Parent?.Attribute("RowDefinitions"));
+        Assert.Equal("DockPanel", contentHost.Parent?.Name.LocalName);
+
+        var header = document.Descendants(ns + "StackPanel")
+            .Single(element => element.Attributes()
+                .Any(attribute => attribute.Name.LocalName == "Name" && attribute.Value == "SectionHeaderPanel"));
+        var codeBehind = File.ReadAllText(AppPath("MainWindow.axaml.cs"));
+        Assert.Equal("Top", (string?)header.Attribute("DockPanel.Dock"));
+        Assert.Contains("_sectionHeaderPanel.IsVisible = currentItem.ShowHeader", codeBehind, StringComparison.Ordinal);
+        Assert.DoesNotContain("new Thickness(0, -", codeBehind, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -422,16 +480,4 @@ public sealed class TarotWorkspaceContractTests
         return source[start..end];
     }
 
-    private static int CountOccurrences(string source, string value)
-    {
-        var count = 0;
-        var offset = 0;
-        while ((offset = source.IndexOf(value, offset, StringComparison.Ordinal)) >= 0)
-        {
-            count++;
-            offset += value.Length;
-        }
-
-        return count;
-    }
 }

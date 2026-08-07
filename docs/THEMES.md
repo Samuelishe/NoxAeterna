@@ -149,7 +149,7 @@ Check both dark and light variants:
 - visible non-dominant scrollbars;
 - settings page;
 - Russian and English UI.
-- Tarot single/three-card layouts, both backs, auto/manual reveal, selected/reversed cards, unified reading-surface scrolling, compact tableau overflow, and section reopen state.
+- Tarot responsive single-card columns/stack, existing three-card layout, both backs, auto/manual reveal, selected/reversed cards, interpretation/outer-surface scroll ownership, compact tableau overflow, and section reopen state.
 
 Required evidence must include popup states because platform-accent leakage is most visible there.
 

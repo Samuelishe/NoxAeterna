@@ -9,6 +9,12 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-07: T-UX2A Responsive Single-Card Reading Workspace
+
+- Replaced the always-vertical single-card reading with a Presentation-calculated wide card/interpretation grid and deterministic stacked fallback. The left card keeps the accepted `216..378` DIP scale while fitting available height; the right column owns vertical reading and a `720` DIP text measure. Controls, reveal/orientation, artwork, tags, section order, persistence, and semantic resolution are unchanged.
+- Added a per-section shell-header contract so Tarot reserves no redundant title row, hid only the single-card `card` label, and preserved three-card position labels plus the existing outer-vertical/tableau-horizontal multi-card composition. Real-control spread switching exposed and then verified the fix for reusable-control visual-parent detachment.
+- Focused routes passed Presentation 57/57, App-Workspace 216/216, Tarot 71/71, Interpretation 96/96, Localization 20/20, and Architecture-Boundaries 42/42. Debug and Release solution rebuilds completed with zero warnings/errors and regenerated Classic packages; Release Full passed 970/970. Real RU smoke covered Obsidian/Porcelain, maximized/minimum, expanded/forced/user-collapsed navigation, upright/reversed, the longest current Russian state, and three-card regression with temporary screenshots outside the repository.
+
 ## 2026-08-07: INT1-PROMOTE-RU Bounded Russian Single-Card Readiness Promotion
 
 - Reconciled accepted INT1-AUTH-RU-BULK checkpoint `8c6d1ad4744394965eec4b09f155608fa8d6d537` and green hosted run 60, then changed only Classic `ru + single-card` readiness from false to true; the other seven locale/mode declarations remain false and authored prose/vocabulary are unchanged.

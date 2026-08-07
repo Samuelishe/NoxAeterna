@@ -57,6 +57,17 @@ public sealed class ShellViewModelTests
     }
 
     [Fact]
+    public void TarotOmitsRedundantShellHeaderWhileOtherSectionsRetainIt()
+    {
+        var shell = ShellViewModel.CreateDefault();
+
+        Assert.False(shell.NavigationItems.Single(item => item.Id == ShellSectionId.Tarot).ShowHeader);
+        Assert.All(
+            shell.NavigationItems.Where(item => item.Id != ShellSectionId.Tarot),
+            item => Assert.True(item.ShowHeader));
+    }
+
+    [Fact]
     public void NavigationToggleChangesWidePreferenceWithoutChangingSelectedSection()
     {
         var shell = ShellViewModel.CreateDefault();
