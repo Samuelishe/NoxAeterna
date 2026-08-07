@@ -160,6 +160,75 @@ public sealed class InterpretationContentAuditorTests
     }
 
     [Fact]
+    public void ParameterizedScaffoldMasksQuotedCardNamesAndSemanticSlotsThatOrdinaryJaccardMisses()
+    {
+        using var fixture = InterpretationToolingFixture.CreateSkeleton();
+        fixture.AddPairStates(
+            "ru",
+            "major.chariot",
+            "major.death",
+            PairStatesWithInteraction(
+                "chariot-death",
+                "«Колесница — Смерть»: прямой мотив «Колесница» вносит решительный рывок, а прямой мотив «Смерть» — освобождение от исчерпанного."));
+        fixture.AddPairStates(
+            "ru",
+            "major.devil",
+            "major.emperor",
+            PairStatesWithInteraction(
+                "devil-emperor",
+                "«Дьявол — Император»: прямой мотив «Дьявол» вносит опасную зависимость, а прямой мотив «Император» — жесткую систему контроля."));
+        fixture.AddPairStates(
+            "ru",
+            "major.empress",
+            "major.fool",
+            PairStatesWithInteraction(
+                "empress-fool",
+                "«Императрица — Шут»: прямой мотив «Императрица» вносит плодородную заботу, а прямой мотив «Шут» — безоглядную свободу начала."));
+
+        var report = Audit(fixture, InterpretationAuthoringCorpus.OrientedPairs);
+
+        var finding = Assert.Single(report.Diagnostics, item => item.Code == "audit.text.parameterized-scaffold");
+        Assert.Equal("ru/oriented-pairs/major.chariot__major.death/upright-upright:interaction", finding.Target);
+        Assert.Equal(2, finding.RelatedTargets.Count);
+        Assert.Equal(1, report.Counts["parameterizedScaffoldGroups"]);
+        Assert.Equal(3, report.Counts["parameterizedScaffoldAffectedStates"]);
+        Assert.DoesNotContain(report.Diagnostics, item =>
+            item.Code == "audit.text.near-duplicate" &&
+            (item.Target.EndsWith("upright-upright:interaction", StringComparison.Ordinal) ||
+             item.RelatedTargets.Any(target => target.EndsWith("upright-upright:interaction", StringComparison.Ordinal))));
+    }
+
+    [Fact]
+    public void OrientedPairAbsoluteLengthWarningsUseFieldSpecificStrictBoundaries()
+    {
+        using var fixture = InterpretationToolingFixture.CreateSkeleton();
+        var states = new Dictionary<string, TarotOrientedPairStateDocument>(StringComparer.Ordinal)
+        {
+            ["upright-upright"] = PairState(
+                "boundary",
+                interaction: Words(InterpretationContentAuditor.OrientedPairInteractionExcessiveTokens),
+                direction: Words(InterpretationContentAuditor.OrientedPairDirectionExcessiveTokens)),
+            ["upright-reversed"] = PairState(
+                "excessive",
+                interaction: Words(InterpretationContentAuditor.OrientedPairInteractionExcessiveTokens + 1),
+                direction: Words(InterpretationContentAuditor.OrientedPairDirectionExcessiveTokens + 1)),
+            ["reversed-upright"] = PairState("short-ru"),
+            ["reversed-reversed"] = PairState("short-rr")
+        };
+        fixture.AddPairStates("ru", "major.chariot", "major.death", states);
+
+        var report = Audit(fixture, InterpretationAuthoringCorpus.OrientedPairs);
+        var findings = report.Diagnostics.Where(item => item.Code == "audit.pair.excessive-length").ToArray();
+
+        Assert.Equal(2, findings.Length);
+        Assert.All(findings, finding => Assert.Contains("upright-reversed", finding.Target, StringComparison.Ordinal));
+        Assert.Contains(findings, finding => finding.Target.EndsWith(":interaction", StringComparison.Ordinal));
+        Assert.Contains(findings, finding => finding.Target.EndsWith(":direction", StringComparison.Ordinal));
+        Assert.Equal(2, report.Counts["excessiveLengthWarnings"]);
+        Assert.Equal(1, report.Counts["excessiveLengthAffectedStates"]);
+    }
+
+    [Fact]
     public void RuLocaleLeakageFlagsLatinProseButIgnoresOneConventionalToken()
     {
         using var fixture = InterpretationToolingFixture.CreateSkeleton();
@@ -319,6 +388,20 @@ public sealed class InterpretationContentAuditorTests
         OverallValence = 0,
         OverallIntensity = 2
     };
+
+    private static IReadOnlyDictionary<string, TarotOrientedPairStateDocument> PairStatesWithInteraction(
+        string seed,
+        string interaction) =>
+        new Dictionary<string, TarotOrientedPairStateDocument>(StringComparer.Ordinal)
+        {
+            ["upright-upright"] = PairState($"{seed}-uu", interaction: interaction),
+            ["upright-reversed"] = PairState($"{seed}-ur"),
+            ["reversed-upright"] = PairState($"{seed}-ru"),
+            ["reversed-reversed"] = PairState($"{seed}-rr")
+        };
+
+    private static string Words(int count) =>
+        string.Join(' ', Enumerable.Range(0, count).Select(index => $"слово{index}"));
 
     private static IReadOnlyDictionary<string, IReadOnlyDictionary<string, TarotThreeCardPositionStateDocument>> PositionStates(string duplicate) =>
         new Dictionary<string, IReadOnlyDictionary<string, TarotThreeCardPositionStateDocument>>(StringComparer.Ordinal)

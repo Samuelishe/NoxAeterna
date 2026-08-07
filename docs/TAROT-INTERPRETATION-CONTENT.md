@@ -4,7 +4,7 @@
 | --- | --- |
 | Role | Canonical editorial and authoring owner for Tarot interpretation content. |
 | Read when | Researching, drafting, translating, reviewing, or auditing Tarot prose and semantic tags. |
-| Authoritative for | Classic voice; original-prose policy; five single-card sections; upright/reversed independence; tag and metric meaning; Russian-source translation; stateless Codex continuation; research provenance; authoring QA. |
+| Authoritative for | Classic voice; original-prose policy; single-card and oriented-pair prose; upright/reversed independence; tag and metric meaning; Russian-source translation; stateless Codex continuation; research provenance; authoring QA. |
 | Not authoritative for | Source paths, inventories, SQLite DDL, runtime fallback, UI layout, or readiness implementation. |
 
 ## Classic editorial identity
@@ -26,6 +26,12 @@ Every upright and reversed state is independently authored and contains exactly 
 | `advice` | Совет | Advice | A direct, actionable response. |
 
 There is no top-level interpretation heading. Reversed text is not produced by negating upright text. It may express one to three explicit mechanisms from the frozen set: `blocked`, `delayed`, `internalized`, `excessive`, `distorted`, `resisted`, `depleted`. Upright states declare none. These mechanisms are authoring metadata, not visible diagnostic prose.
+
+## Oriented-pair prose
+
+Pair prose interprets the new dynamic created by two meanings in their authored orientations; it does not explain each card separately and then concatenate the explanations. `interaction` states what arises specifically from the meeting, while `direction` gives the compact vector, likely pressure, unresolved conflict, or constructive practical principle that follows without paraphrasing `interaction` or repeating the individual meanings.
+
+Systematic meta-prose about cards or generation is not production interpretation: repeated pair-title prefixes, “прямой мотив”, “перевёрнутый мотив”, “тема карты”, “сюжет пары”, and descriptions of what a card mechanically “вносит” are prohibited. Card names are normally unnecessary because the reading already displays them. As editorial guidance rather than schema, `interaction` is usually one to three sentences and roughly 25–65 meaningful tokens; `direction` is usually one to two sentences and roughly 15–40 tokens. Longer prose needs concrete semantic justification.
 
 ## Tags and semantic presentation
 

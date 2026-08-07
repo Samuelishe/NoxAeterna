@@ -9,6 +9,11 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-07: INT2-PAIR-RU-W1R Pair Editorial Correction and Audit Hardening
+
+- Rewrote `interaction` and `direction` in all 2,000 W1 orientation states to remove card-name narration and the parameterized long-form scaffold, while preserving the 500-bundle canonical range, tags/metrics, readiness, RU single-card source, and absent W2/EN content.
+- Hardened deterministic content audit with quoted-span masking, corpus-frequency skeleton windows, and non-fatal absolute pair-length warnings; synthetic tests prove both masked-template detection beyond ordinary Jaccard and strict `interaction`/`direction` boundaries. Final prose is compact, the prohibited systemic phrases are absent, and remaining lexical suspicions were reviewed as shared-card traditional language or intentional compactness rather than actionable defects.
+
 ## 2026-08-07: INT2-PAIR-RU-W1 Russian Classic Oriented-Pair Authoring
 
 - Authored canonical pair indices 0..499, from `major.chariot__major.death` through `major.hanged-man__minor.swords.seven`: 500 complete bundles / 2,000 independent orientation states. Existing RU single-card source, EN content, readiness, runtime, and UI remain unchanged; W2 was not started.

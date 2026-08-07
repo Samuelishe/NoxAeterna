@@ -19,9 +19,19 @@ public sealed class InterpretationContentAuditor
     public const int RepeatedPhraseTokens = 5;
     public const int RepeatedFormulaTokens = 6;
     public const int RepeatedPhraseMinimumTargets = 3;
+    public const int ParameterizedScaffoldWindowTokens = 6;
+    public const int ParameterizedScaffoldMinimumTargets = 3;
+    public const int ParameterizedScaffoldTargetDivisor = 100;
+    public const int ParameterizedScaffoldFrequentTokenDivisor = 50;
+    public const int MaximumParameterizedScaffoldFindings = 100;
+    public const int OrientedPairInteractionExcessiveTokens = 80;
+    public const int OrientedPairDirectionExcessiveTokens = 55;
 
     private static readonly Regex TokenPattern = new(
         @"[\p{L}\p{Nd}]+",
+        RegexOptions.CultureInvariant | RegexOptions.NonBacktracking);
+    private static readonly Regex QuotedSpanPattern = new(
+        "«[^»]+»",
         RegexOptions.CultureInvariant | RegexOptions.NonBacktracking);
     private static readonly string[] SectionIds = ["situation", "development", "risk", "outcome", "advice"];
 
@@ -67,13 +77,20 @@ public sealed class InterpretationContentAuditor
             FindSingleCardSimilarity(loaded.Compilation.SingleCards[locale], locale.Value, diagnostics);
         }
         FindRepeatedPhrases(units, diagnostics);
+        var scaffoldSummary = FindParameterizedScaffolds(units, diagnostics);
         var statistics = FindLengthOutliers(units, diagnostics);
+        var excessiveLengthSummary = FindAbsoluteExcessiveLengths(units, corpus, diagnostics);
         FindLocaleLeakage(units, locale.Value, diagnostics);
         FindReversalDominance(metadata.ReversalMechanisms, locale.Value, corpus, diagnostics);
 
         var counts = new Dictionary<string, int>(StringComparer.Ordinal)
         {
             ["candidateComparisons"] = candidateComparisons,
+            ["excessiveLengthAffectedStates"] = excessiveLengthSummary.AffectedStates,
+            ["excessiveLengthWarnings"] = excessiveLengthSummary.Findings,
+            ["parameterizedScaffoldAffectedStates"] = scaffoldSummary.AffectedStates,
+            ["parameterizedScaffoldGroups"] = scaffoldSummary.Groups,
+            ["parameterizedScaffoldWarnings"] = scaffoldSummary.Findings,
             ["possibleComparisons"] = possibleComparisons,
             ["textUnits"] = units.Count
         };
@@ -82,7 +99,9 @@ public sealed class InterpretationContentAuditor
             ["corpus"] = InterpretationAuthoringCorpusNames.Get(corpus),
             ["locale"] = locale.Value,
             ["nearDuplicateMetric"] = $"word-{ShingleSize}-shingle Jaccard >= {NearDuplicateThreshold.ToString("0.00", CultureInfo.InvariantCulture)}",
-            ["nearDuplicateCandidates"] = $"shared shingle with posting size <= {MaximumShinglePostingSize}"
+            ["nearDuplicateCandidates"] = $"shared shingle with posting size <= {MaximumShinglePostingSize}",
+            ["parameterizedScaffoldMetric"] = $"quoted spans masked; corpus-frequent token skeletons; {ParameterizedScaffoldWindowTokens}-token windows",
+            ["orientedPairExcessiveLength"] = $"interaction > {OrientedPairInteractionExcessiveTokens}; direction > {OrientedPairDirectionExcessiveTokens} tokens"
         };
         var distributions = new Dictionary<string, IReadOnlyDictionary<string, int>>(StringComparer.Ordinal)
         {
@@ -343,6 +362,120 @@ public sealed class InterpretationContentAuditor
         }
     }
 
+    private static ScaffoldSummary FindParameterizedScaffolds(
+        IReadOnlyList<AuditTextUnit> units,
+        ICollection<InterpretationToolDiagnostic> diagnostics)
+    {
+        var distinctStateCount = units.Select(unit => unit.StateTarget).Distinct(StringComparer.Ordinal).Count();
+        if (distinctStateCount < ParameterizedScaffoldMinimumTargets)
+        {
+            return new(0, 0, 0);
+        }
+
+        var maskedUnits = units.Select(unit => new
+        {
+            Unit = unit,
+            Tokens = Tokenize(QuotedSpanPattern.Replace(unit.Text, " quoted "))
+        }).ToArray();
+        var tokenStates = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
+        foreach (var item in maskedUnits)
+        foreach (var token in item.Tokens.Distinct(StringComparer.Ordinal))
+        {
+            if (!tokenStates.TryGetValue(token, out var states))
+            {
+                states = new(StringComparer.Ordinal);
+                tokenStates.Add(token, states);
+            }
+            states.Add(item.Unit.StateTarget);
+        }
+
+        var frequentTokenThreshold = Math.Max(
+            ParameterizedScaffoldMinimumTargets,
+            (distinctStateCount + ParameterizedScaffoldFrequentTokenDivisor - 1) / ParameterizedScaffoldFrequentTokenDivisor);
+        var frequentTokens = tokenStates
+            .Where(pair => pair.Value.Count >= frequentTokenThreshold)
+            .Select(pair => pair.Key)
+            .ToHashSet(StringComparer.Ordinal);
+        frequentTokens.Add("quoted");
+
+        var scaffoldUnits = new Dictionary<string, Dictionary<string, AuditTextUnit>>(StringComparer.Ordinal);
+        foreach (var item in maskedUnits)
+        {
+            var skeleton = CollapseSlots(item.Tokens.Select(token => frequentTokens.Contains(token) ? token : "slot"));
+            for (var index = 0; index <= skeleton.Count - ParameterizedScaffoldWindowTokens; index++)
+            {
+                var window = skeleton.Skip(index).Take(ParameterizedScaffoldWindowTokens).ToArray();
+                if (!window.Contains("slot", StringComparer.Ordinal) ||
+                    window.Count(token => token != "slot") < 3)
+                {
+                    continue;
+                }
+                var key = string.Join(' ', window);
+                if (!scaffoldUnits.TryGetValue(key, out var states))
+                {
+                    states = new(StringComparer.Ordinal);
+                    scaffoldUnits.Add(key, states);
+                }
+                states.TryAdd(item.Unit.StateTarget, item.Unit);
+            }
+        }
+
+        var minimumTargets = Math.Max(
+            ParameterizedScaffoldMinimumTargets,
+            (distinctStateCount + ParameterizedScaffoldTargetDivisor - 1) / ParameterizedScaffoldTargetDivisor);
+        var candidates = scaffoldUnits
+            .Where(pair => pair.Value.Count >= minimumTargets)
+            .Select(pair => new ScaffoldGroup(
+                pair.Key,
+                pair.Value.Values.OrderBy(unit => unit.Target, StringComparer.Ordinal).ToArray(),
+                pair.Value.Keys.ToHashSet(StringComparer.Ordinal)))
+            .GroupBy(group => string.Join('\u001f', group.StateTargets.Order(StringComparer.Ordinal)), StringComparer.Ordinal)
+            .Select(group => group.OrderBy(item => item.Skeleton, StringComparer.Ordinal).First())
+            .OrderByDescending(group => group.StateTargets.Count)
+            .ThenBy(group => group.Skeleton, StringComparer.Ordinal)
+            .ToArray();
+
+        var groups = new List<ScaffoldGroup>();
+        foreach (var candidate in candidates)
+        {
+            if (groups.Any(group => candidate.StateTargets.IsSubsetOf(group.StateTargets)))
+            {
+                continue;
+            }
+            groups.Add(candidate);
+        }
+
+        foreach (var group in groups.Take(MaximumParameterizedScaffoldFindings))
+        {
+            diagnostics.Add(new(
+                "audit.text.parameterized-scaffold",
+                InterpretationToolSeverity.Warning,
+                group.Units[0].Target,
+                $"Masked structural skeleton '{group.Skeleton}' occurs in {group.StateTargets.Count} distinct semantic states.",
+                group.Units.Skip(1).Select(unit => unit.Target)));
+        }
+
+        return new(
+            groups.Count,
+            groups.Take(MaximumParameterizedScaffoldFindings).Count(),
+            groups.SelectMany(group => group.StateTargets).Distinct(StringComparer.Ordinal).Count());
+    }
+
+    private static IReadOnlyList<string> CollapseSlots(IEnumerable<string> tokens)
+    {
+        var result = new List<string>();
+        foreach (var token in tokens)
+        {
+            if (token == "slot" && result.Count > 0 && result[^1] == "slot")
+            {
+                continue;
+            }
+            result.Add(token);
+        }
+        return result;
+    }
+
+
     private static IReadOnlyDictionary<string, InterpretationTextStatistics> FindLengthOutliers(
         IReadOnlyList<AuditTextUnit> units,
         ICollection<InterpretationToolDiagnostic> diagnostics)
@@ -392,6 +525,41 @@ public sealed class InterpretationContentAuditor
                 value.Target,
                 $"Token length {value.Length} is outside the robust {name} range {lower}..{upper} (median {median})."));
         }
+    }
+
+    private static ExcessiveLengthSummary FindAbsoluteExcessiveLengths(
+        IReadOnlyList<AuditTextUnit> units,
+        InterpretationAuthoringCorpus corpus,
+        ICollection<InterpretationToolDiagnostic> diagnostics)
+    {
+        if (corpus != InterpretationAuthoringCorpus.OrientedPairs)
+        {
+            return new(0, 0);
+        }
+
+        var findings = 0;
+        var affectedStates = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var unit in units.OrderBy(item => item.Target, StringComparer.Ordinal))
+        {
+            var limit = unit.Field switch
+            {
+                "interaction" => OrientedPairInteractionExcessiveTokens,
+                "direction" => OrientedPairDirectionExcessiveTokens,
+                _ => int.MaxValue
+            };
+            if (unit.Tokens.Count <= limit)
+            {
+                continue;
+            }
+            findings++;
+            affectedStates.Add(unit.StateTarget);
+            diagnostics.Add(new(
+                "audit.pair.excessive-length",
+                InterpretationToolSeverity.Warning,
+                unit.Target,
+                $"Oriented-pair {unit.Field} has {unit.Tokens.Count} tokens; editorial suspicion begins above {limit}."));
+        }
+        return new(findings, affectedStates.Count);
     }
 
     private static void FindLocaleLeakage(
@@ -531,4 +699,12 @@ public sealed class InterpretationContentAuditor
         IReadOnlyDictionary<string, int> OverallValence,
         IReadOnlyDictionary<string, int> OverallIntensity,
         IReadOnlyDictionary<string, int> ReversalMechanisms);
+
+    private sealed record ScaffoldGroup(
+        string Skeleton,
+        IReadOnlyList<AuditTextUnit> Units,
+        HashSet<string> StateTargets);
+
+    private sealed record ScaffoldSummary(int Groups, int Findings, int AffectedStates);
+    private sealed record ExcessiveLengthSummary(int Findings, int AffectedStates);
 }

@@ -35,7 +35,7 @@
 
 ## Current Focus
 
-**INT2-PAIR-RU-W1 — Russian Classic oriented-pair authoring**: canonical pair indices 0..499 are present locally as 500 complete bundles / 2,000 orientation states; global RU pair inventory is 500/3,003 bundles and 2,000/12,012 states, `two-cards` remains unready, and W2 has not started.
+**INT2-PAIR-RU-W1R — Russian Classic oriented-pair editorial correction**: all 2,000 W1 states in canonical pair indices 0..499 have compact rewritten `interaction`/`direction` prose, and reusable audit now detects masked corpus-wide parameterized scaffolds plus absolute pair verbosity. Inventory remains 500/3,003 bundles and 2,000/12,012 states, `two-cards` remains unready, and W2 has not started.
 
 ## Preserved Contracts
 
