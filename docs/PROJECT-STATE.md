@@ -35,7 +35,7 @@
 
 ## Current Focus
 
-**INT2-PAIR-RU-W2 — Russian Classic oriented-pair authoring**: canonical pair indices 0..999 now contain 1,000/3,003 complete bundles and 4,000/12,012 orientation states. W1R remains unchanged, the next missing identity is `major.moon__minor.cups.nine`, `two-cards` remains unready, and W3 has not started.
+**INT2-PAIR-RU-W3 — Russian Classic oriented-pair authoring**: canonical pair indices 0..1499 now contain 1,500/3,003 complete bundles and 6,000/12,012 orientation states. Accepted W1R/W2 remain unchanged, the next missing identity is `minor.cups.ace__minor.swords.six`, `two-cards` remains unready, and W4 has not started.
 
 ## Preserved Contracts
 
@@ -43,7 +43,7 @@
 - Zodiac projection is counterclockwise; known-time charts use Placidus and the accepted orientation.
 - UnknownTime has no houses or principal angles and retains its documented technical-noon planet policy.
 - Runtime and user data belong in AppData or the platform user-data location; shipped assets belong in the repository.
-- Tarot semantic decks, artwork packs, skins, backs, and interpretation packs are independent. `classic` remains the sole built-in pack; only `ru + single-card` is ready and the other seven locale/mode declarations remain unready. The resolver retains read-only SQLite stores, requested→English→Russian→silent absence, and broken-ready stop behavior. Five-section presentation, deterministic tags, metrics, reveal gating, and silent `NoContent` remain unchanged. RU oriented-pair source is intentionally partial at 1,000/3,003 bundles; EN, three-card-position, and synthesis prose remain absent.
+- Tarot semantic decks, artwork packs, skins, backs, and interpretation packs are independent. `classic` remains the sole built-in pack; only `ru + single-card` is ready and the other seven locale/mode declarations remain unready. The resolver retains read-only SQLite stores, requested→English→Russian→silent absence, and broken-ready stop behavior. Five-section presentation, deterministic tags, metrics, reveal gating, and silent `NoContent` remain unchanged. RU oriented-pair source is intentionally partial at 1,500/3,003 bundles; EN, three-card-position, and synthesis prose remain absent.
 - Interpretation authoring status and audit are repository tooling under the Interpretation owner, not Project Stats. Audit warnings are deterministic review suspicions; structural source errors remain errors, and no progress/report file controls authoring or runtime state.
 - Lupus Noctis A0 and A1 remain rejected. The owner accepted all A2, A4, A5, A6, A7, A8, A9, A10, A11, the two promoted A12 cards, all four A13 cards, and all A14–A26 cards; the built-in complete pack now owns 78/78 production illustrations, uses no prototype fallback, and declares `partialPack: false`. Detailed card state, provenance, hashes, and accepted exceptions belong only to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md` and its linked records.
 - Repository packs are versioned seed sources; the target runtime reads synchronized built-in and user packs from AppData. Discovery, no-delete synchronization, fingerprints, normalization, import, tooling, and packaging are staged under `ASSET-PACK-RUNTIME.md`; A3 direct output loading is temporary built-in-only behavior.

@@ -9,6 +9,11 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-07: INT2-PAIR-RU-W3 Russian Classic Oriented-Pair Authoring
+
+- Authored canonical pair indices 1000..1499, from `major.moon__minor.cups.nine` through `minor.cups.ace__minor.swords.seven`: 500 complete bundles / 2,000 orientation states, bringing the accumulated RU pair corpus to 1,500/3,003 bundles and 6,000/12,012 states. Accepted W1R/W2, RU single-card source, English content, readiness, runtime, and UI remain unchanged; W4 was not started.
+- Accumulated audit correction removed the one new near-duplicate and retained only reviewed opening/ending groups whose targets share the same card and orientation; no parameterized scaffold or excessive-length finding remains.
+
 ## 2026-08-07: INT2-PAIR-RU-W2 Russian Classic Oriented-Pair Authoring
 
 - Authored canonical pair indices 500..999, from `major.hanged-man__minor.swords.six` through `major.moon__minor.cups.knight`: 500 complete bundles / 2,000 orientation states, bringing the accumulated RU pair corpus to 1,000/3,003 bundles and 4,000/12,012 states. W1R, RU single-card source, English content, readiness, runtime, and UI remain unchanged; W3 was not started.
