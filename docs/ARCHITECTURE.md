@@ -26,6 +26,7 @@ Starting assumption:
 - `NoxAeterna.Astronomy`
 - `NoxAeterna.Symbolics`
 - `NoxAeterna.Interpretation`
+- `NoxAeterna.Interpretation.Sqlite`
 - `NoxAeterna.Domain`
 - `NoxAeterna.Infrastructure`
 - `NoxAeterna.Tools.Repository`
@@ -53,6 +54,8 @@ Stores structured symbolic knowledge: planetary archetypes, zodiac archetypes, h
 
 ### Interpretation
 
+`NoxAeterna.Interpretation.Sqlite` implements the immutable `.noxinterp` package schema, compiler writer, package inspection, and read-only stores behind Interpretation-owned interfaces. It references Interpretation (and transitively Domain) but never App, Presentation, Avalonia, Tools.Repository, or mutable user persistence.
+
 Combines symbolic factors into structured user-facing meaning. For Tarot it owns pack/source contracts, manifest/content/index models, validation, canonical keys, locale/mode resolution, trust-chain loading, bounded immutable caches, and deterministic composition. It knows neither filesystem implementation, Avalonia, nor AppData path construction; exact Tarot allocation belongs to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
 
 ### Rendering
@@ -73,7 +76,7 @@ Application composition root, Avalonia startup, dependency injection, configurat
 
 ### Repository Tooling
 
-`NoxAeterna.Tools.Repository` is a standalone executable for factual inventory and structural diagnostics. Its Tarot pack tooling may reference the pure contracts in `NoxAeterna.Interpretation` for build-time validation, deterministic index/hash generation, and authoring reports. It has no production runtime behavior and must not reference App, Presentation, Infrastructure, Avalonia, or runtime composition; no production project references Tools.Repository.
+`NoxAeterna.Tools.Repository` is a standalone executable for factual inventory and structural diagnostics. Its Tarot tooling references Interpretation contracts and Interpretation.Sqlite for source validation, package compilation/inspection, and authoring status. It has no production runtime behavior and must not reference App, Presentation, Infrastructure, Avalonia, or runtime composition; App may invoke the tool at build time but does not reference or ship it as a runtime dependency.
 
 ### Tests
 
@@ -88,7 +91,8 @@ Initial dependency direction for scaffold:
 - `NoxAeterna.Astronomy`: may depend on `NoxAeterna.Domain` and NodaTime; must not depend on Avalonia.
 - `NoxAeterna.Geometry`: may depend on `NoxAeterna.Domain` and astronomy-facing data contracts where justified; must not depend on Avalonia UI objects.
 - `NoxAeterna.Interpretation`: may depend on `NoxAeterna.Domain` and `NoxAeterna.Symbolics`; must not depend on App, Presentation, Avalonia, or AppData/filesystem construction.
-- `NoxAeterna.App` may depend on `NoxAeterna.Interpretation` as the composition root and owns the exact built-in filesystem adapter/catalog; interpretation semantics and resolver behavior remain outside App.
+- `NoxAeterna.Interpretation.Sqlite`: depends on Interpretation and owns SQL-specific immutable-package adapters; no semantic/UI/tooling reverse dependency.
+- `NoxAeterna.App` may depend on `NoxAeterna.Interpretation` and `NoxAeterna.Interpretation.Sqlite` as the composition root; interpretation semantics and resolver behavior remain outside App.
 - `NoxAeterna.Rendering`: may depend on `NoxAeterna.Geometry` and render models; must not contain astronomy or interpretation logic.
 - `NoxAeterna.Presentation`: may depend on Domain and typed structured `NoxAeterna.Interpretation` results to prepare filesystem-free display models; it must not own core meaning/resolution logic, Avalonia controls, or source I/O.
 - `NoxAeterna.Infrastructure`: contains adapters to ephemeris, SQLite, logging, and external services; references core abstractions but should not redefine them. The first real ephemeris-backed calculator now lives here.
@@ -194,7 +198,7 @@ NoxAeterna.App/Themes/LightThemeResources.axaml
 
 These are application resource dictionaries, not a final design system.
 
-User preferences are persisted as versioned JSON in the platform user-data location. Interpretation-pack selection is not implemented yet and will enter through the schema-2 migration contract.
+User preferences are persisted as versioned JSON in the platform user-data location. Settings schema 2 already owns interpretation-pack selection and remains separate from immutable SQLite interpretation packages.
 
 Local runtime data such as user preferences, saved profiles, recent places, caches, and generated user-specific artifacts must not live in the repository or next to the executable. Those belong in AppData or the equivalent platform-specific user data location once persistence is introduced.
 

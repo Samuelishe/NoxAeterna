@@ -795,21 +795,21 @@ Reason: Three compact relation-level signals represent the whole spread better t
 
 Consequences: Selection may prefer authored intensity, deduplicates concepts, never invents absent concepts, and stays stable within a reading/content version; no separate relevance/weight field exists.
 
-## 2026-08-06: Store One Bounded Authored State Per File
+## 2026-08-06: Former Per-State Authoring Granularity (Superseded)
 
-Decision: Store each single-card state, oriented pair state, three-card position state, vocabulary concept, and synthesis fragment/rule in its own bounded file.
+Decision: The original design stored each single-card state, oriented pair state, three-card position state, vocabulary concept, and synthesis fragment/rule in its own bounded file. The 2026-08-07 SQLite pivot below supersedes this for cards, pairs, and positions with complete semantic bundles.
 
 Reason: Giant hand-authored JSON corpora are hard to review, merge, validate, and batch safely.
 
-Consequences: Accepted source uses canonical paths; machine-owned prose-free indexes may contain thousands of routing records.
+Consequences: This decision remains history only; current source granularity is one card, one canonical pair, or one card-position bundle, while vocabulary remains one concept per file.
 
-## 2026-08-06: Route Interpretation Content Through Generated Indexes
+## 2026-08-06: Former Generated-Index Runtime (Superseded)
 
-Decision: Generate locale indexes with canonical keys, paths, hashes, counts, and routing metadata, then perform direct lazy lookup.
+Decision: The original runtime generated locale indexes with canonical keys, paths, hashes, counts, and routing metadata. The 2026-08-07 SQLite pivot below supersedes this decision.
 
 Reason: Runtime must not recursively scan or eagerly load more than 12,000 prose files for each reading or startup.
 
-Consequences: Indexes contain no prose and are never manually authored; fuzzy lookup, file-order semantics, and recursive per-reading search are forbidden.
+Consequences: No generated-index runtime remains; exact semantic lookup is now performed by the immutable package store.
 
 ## 2026-08-06: Resolve Every Mode Result From One Locale
 
@@ -829,9 +829,9 @@ Consequences: Mechanisms are not user-facing and never generate or replace indep
 
 ## 2026-08-06: Separate Interpretation Source and AppData Roots From Artwork
 
-Decision: Own built-in source under `resources/interpretation/tarot/packs/<pack-id>/` and future installed packs under `<LocalApplicationData>/NoxAeterna/interpretation/tarot/`.
+Decision (physical source location superseded by the 2026-08-07 SQLite pivot below): Keep interpretation identity independent from artwork and reserve platform user data for future installed packages.
 
-Reason: Interpretation packages have independent identity, content, indexes, versioning, and authoring lifecycle.
+Reason: Interpretation packages have independent identity, content, versioning, and authoring lifecycle.
 
 Consequences: They never live inside artwork directories; seeding/discovery/import remain later implementation planning, and working drafts stay in a non-shipped source area.
 
@@ -845,11 +845,11 @@ Consequences: Comments, duplicate names, HTML/Markdown contracts, NaN/Infinity, 
 
 ## 2026-08-06: Freeze the Interpretation-Pack Manifest Schema
 
-Decision: Name the manifest `interpretation-pack.json` and require its schema/version, pack/deck/source identity, content version, locales/display names, canonical mode matrix, readiness, index paths, dependencies, and index hashes.
+Decision (schema details superseded by source manifest v2 below): Name the source manifest `interpretation-pack.json` and retain pack/deck/source identity, content version, locales/display names, the canonical mode matrix, readiness, and dependencies.
 
 Reason: Discovery and locale/mode resolution need one exact reviewed entry point without per-entry readiness.
 
-Consequences: Every declared locale has every canonical mode entry; missing indexes are allowed only for not-ready modules, while ready modules require all same-locale dependencies.
+Consequences: Every declared locale has every canonical mode entry; ready modules require complete same-locale dependencies.
 
 ## 2026-08-06: Freeze Common Entry Fields and Index Keys
 
@@ -859,13 +859,21 @@ Reason: Tooling, validation, direct lookup, and independent authoring files cann
 
 Consequences: Tags use only `conceptId`, `valence`, and `intensity`; keys are `<cardId>|<orientation>`, `<cardAId>__<cardBId>|<orientationState>`, `position|<position>|<cardId>|<orientation>`, and `synthesis|<resourceType>|<resourceId>`.
 
-## 2026-08-06: Use a Manifest-Index-Content SHA Trust Chain
+## 2026-08-06: Former Filesystem Runtime Trust Chain (Superseded)
 
-Decision: Let the manifest hash indexes and each index hash exact accepted content bytes; content files contain no self-hash.
+Decision: The original implementation used a multi-file byte trust chain. This is superseded by the 2026-08-07 source-digest and immutable-package decision below.
 
-Reason: Direct lazy lookup needs deterministic integrity from package entry point to one bounded content file.
+Reason: Direct multi-file lookup needed deterministic integrity, but the approach coupled authoring granularity to runtime storage.
 
-Consequences: Runtime validates identity/version/count/hash at each step, and generated indexes remain prose-free and machine-owned.
+Consequences: No current production code uses that machinery.
+
+## 2026-08-07: Compile Canonical Interpretation Sources to Immutable SQLite Packages
+
+Decision: Keep canonical bundle JSON under `resources/interpretation/tarot/sources/<pack-id>/`, validate and hash the complete source deterministically, then compile one immutable SQLite `.noxinterp` runtime file per pack. Source manifest v2 contains only semantic metadata; runtime access uses Interpretation-owned store contracts implemented by `NoxAeterna.Interpretation.Sqlite`.
+
+Reason: Human/Codex authoring needs reviewable card/pair/position bundles, while runtime needs one safely inspected package with exact indexed semantic lookups and no coupling to thousands of source files.
+
+Consequences: JSON remains authoritative; `.noxinterp` is generated and untracked; source and runtime trees are distinct; runtime packages are read-only; build/publish compile Classic automatically; settings/history persistence stays separate; the former filesystem routing and per-content-file hash model is removed without compatibility aliases because no production corpus or user packages exist.
 
 ## 2026-08-06: Version Accepted Interpretation Meaning at Pack Level
 

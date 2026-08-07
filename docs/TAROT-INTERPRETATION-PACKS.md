@@ -2,155 +2,92 @@
 
 | Metadata | Definition |
 | --- | --- |
-| Role | Canonical architecture for selectable Tarot interpretation data packages. |
-| Read when | Designing interpretation-pack discovery, selection, localization, readiness, fallback, or missing-content behavior. |
-| Authoritative for | Interpretation-pack identity and boundaries; package capabilities; locale/module readiness; locale fallback; content-absence behavior; pack discovery and selection direction; active-pack preference; package relationships with semantic decks and spread modes; runtime locale resolution semantics; and partial-package behavior. |
-| Not authoritative for | Exact interpretation text; authorial style guide; single-card sections, tags, metrics, or upright/reversed content; pair/multi-card composition; production source paths, exact serialization or implementation allocation; Avalonia layout; artwork; card backs; or general persistence. |
+| Role | Canonical product owner for Tarot interpretation-pack identity, locale selection, readiness, fallback, and distribution. |
+| Read when | Changing pack metadata, selector behavior, locale fallback, readiness, or package discovery. |
+| Authoritative for | `TarotInterpretationPackId`; Classic identity; semantic deck; source and declared locales; display names; mode readiness; fallback and broken-ready behavior; built-in/user package direction; `.noxinterp` distribution. |
+| Not authoritative for | Prose style, bundle JSON schemas, SQLite DDL, resolver implementation, or authoring wave boundaries. |
 
-## Identity and Independent Selections
+## Identity
 
-A Tarot interpretation pack is an independent, pluggable data package in one shared schema family. It contains one authored interpretation system for the locales and reading modes that it supports.
+An interpretation pack is a versioned semantic corpus for one semantic deck. It is independent from artwork, card backs, theme, UI language, and spread layout.
 
-An interpretation pack is not an artwork pack, semantic card illustration set, presentation skin, card back, dark/light theme, application UI layout, Tarot visual pack, user profile, or current reading. The user selects the following dimensions independently:
+The first pack is fixed as:
 
-- artwork pack;
-- interpretation pack;
-- card back;
-- spread;
-- application theme;
-- interpretation language.
+- pack ID: `classic`;
+- semantic deck ID: `standard-78`;
+- source locale: `ru`;
+- declared direction: Russian and English;
+- manifest-owned display names: `Классика` and `Classic`.
 
-For example, this is one valid combination:
+`TarotInterpretationPackId` remains the stable selection identity. Settings schema 2 stores `selectedInterpretationPackId`; interpretation language remains independent from UI language. The selector remains `Толкование / Interpretation`, and its Classic item uses the display name stored in the package rather than a generic UI localization key.
 
-```text
-Artwork: Lupus Noctis
-Interpretation pack: Classic
-Language: Russian
-Back: Black Sun
-Theme: Obsidian
-```
+## Source and runtime are different artifacts
 
-No selection in that list implicitly changes another selection.
-
-## Data-Package Contract
-
-All interpretation packs use one schema family. A pack contains data, not arbitrary executable code, and conceptually consists of a manifest plus content modules. Packs may be installed progressively, and the selector may expose several packs at once.
-
-The stable pack ID is language-neutral. Its display name is localized. The first pack has stable ID `classic`, Russian display name `Классика`, and English display name `Classic`; `classic` is the future default interpretation pack.
-
-A pack binds meanings to stable semantic card identities and declares capabilities for reading modes. It does not create a semantic deck or a spread. A semantic reading therefore survives pack changes, and a newly implemented spread does not wait for pack content. Stable mode IDs, production paths, indexes, and mode dependencies belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); exact manifest serialization and implementation allocation belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
-
-Partial packages are valid and remain selectable. A package may support only some locale/mode modules; incompleteness is represented at module readiness, not by hiding the package or language.
-
-Conceptual package structure:
+The authoritative pipeline is:
 
 ```text
-classic
-├── manifest
-├── ru
-│   ├── single-card
-│   ├── two-cards
-│   ├── three-cards
-│   └── future modes
-├── en
-│   ├── single-card
-│   ├── two-cards
-│   ├── three-cards
-│   └── future modes
-└── future locale
-    └── ...
+Markdown / RAG rules
+        ↓
+canonical reviewable JSON authoring source
+        ↓
+strict validation + compilation
+        ↓
+one immutable SQLite .noxinterp package
+        ↓
+runtime resolver
 ```
 
-This tree is conceptual and does not approve an exact filesystem layout or manifest shape.
+The Git source of truth is `resources/interpretation/tarot/sources/<pack-id>/`. A distributable or built-in runtime pack is one `<pack-id>.noxinterp` file. The database is generated, is never manually edited, and cannot replace source review. Repository source JSON, working files, TestData, and authoring metadata are not copied beside the application.
 
-## Locale Growth and Source Language
+The separate draft root is `resources/interpretation/tarot/working/<pack-id>/`. Runtime packages never live under either authoring root. A future user-installed pack is likewise one `.noxinterp` file after trust and compatibility checks; this stage does not implement user installation.
 
-Adding an application UI locale immediately makes it a normal UI language and keeps interpretation-language selection available. Every installed interpretation pack receives a readiness-matrix entry for the new locale, while its content modules may remain unfinished. Neither the locale nor a partial pack is hidden, and publishing the UI locale does not require every pack to be fully translated.
+## Locale readiness
 
-Russian is the primary authoring locale. Other languages are semantic literary translations: they need not be literal, but they preserve meaning, emotional tone, valence, intensity, semantic tags/concepts, and content-entry structure. A material meaning change is made in the Russian source first and then synchronized into translations. The detailed authorial, single-card, tag, and translation contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
+Readiness is one explicit Boolean per `pack + locale + mode`. There is no per-entry readiness and no inferred promotion. Every declared locale has every frozen mode declaration:
 
-## Coarse Module Readiness
+- `single-card`;
+- `two-cards`;
+- `three-cards`;
+- `celtic-cross`.
 
-Readiness belongs to exactly one coarse unit:
+Dependencies are same-locale:
+
+- `single-card`: none;
+- `two-cards`: `oriented-pairs`;
+- `three-cards`: `oriented-pairs`, `three-card-positions`, `three-card-synthesis`;
+- `celtic-cross`: none until its future contract is frozen.
+
+Classic currently declares all eight Russian/English mode combinations `ready = false`. Labels may exist in an unready locale; they do not imply prose readiness.
+
+## Locale resolution
+
+For an explicitly requested interpretation locale, the resolver tries the unique chain:
 
 ```text
-interpretation pack + locale + reading mode
+requested → en → ru → silent absence
 ```
 
-Examples include `classic / ru / single-card`, `classic / ru / two-cards`, `classic / en / three-cards`, `psychological / zh / two-cards`, and `mystical / en / celtic-cross`.
+Duplicates are removed while preserving order. UI language does not silently replace the interpretation-language choice.
 
-Each unit has one manual owner-controlled declaration:
+For each locale in the chain:
 
-```text
-module(packId, locale, mode).ready = true | false
-```
+1. inspect the selected pack and requested mode;
+2. if the module is not ready, continue;
+3. if it is ready, resolve the entire request in that locale, including dependencies, labels, vocabulary, and content;
+4. return typed `Resolved` on success;
+5. if a ready module is incomplete, corrupt, or invalid, return typed `NoContent/BrokenReadyModule` and stop.
 
-There are no per-card, per-pair, per-section, or per-entry readiness flags.
+Thus a broken ready locale never falls through to another locale. If no locale is ready, return `NoContent/NoReadyLocale`. An unknown, missing, or rejected package returns `NoContent/PackUnavailable`. Expected package damage never escapes as a user-facing technical error; the host remains silent.
 
-- `ready = false` declares intentional incompleteness. Runtime continues through the locale fallback chain.
-- `ready = true` declares the whole locale/mode module published. Runtime resolves content only from that locale module.
+## Package trust
 
-A human or future authoring workflow sets readiness explicitly. Runtime and validators neither infer readiness nor change the flag. A future validator may check consistency and emit technical diagnostics, but those diagnostics do not replace the owner-controlled declaration.
+A runtime catalog admits only packages that pass package-level checks: `.noxinterp` extension, SQLite format, project `application_id`, `user_version`, required schema, one metadata row, expected pack/deck identity, a lower-case 64-hex source digest, and an appropriate SQLite integrity check. Runtime connections are read-only and query-only.
 
-## Locale Resolution
+Pack-local visible section/position/relation labels and vocabulary labels resolve from the same locale as the content. Raw semantic IDs are never a user-facing fallback.
 
-For each individual reading-mode module, runtime builds this ordered chain and removes repeated locales:
+## Ownership links
 
-```text
-requested locale
--> English, when its module is ready
--> Russian, when its module is ready
--> no displayable content
-```
-
-Examples:
-
-```text
-requested Russian: ru -> en -> no content
-requested English: en -> ru -> no content
-requested Chinese: zh -> en -> ru -> no content
-```
-
-Each `ready = false` candidate is skipped and resolution continues. The first ready candidate resolves the entire result for that mode from one locale. Runtime never assembles a three-card result from, for example, Chinese position one, English position two, and Russian synthesis.
-
-### Intentional Incompleteness Versus Damage
-
-`ready = false` is intentional incompleteness and permits fallback.
-
-`ready = true` with unreadable or incomplete content is package damage. Missing expected files, folders, required sections or keys, unreadable JSON, or a route to a missing entry all produce no displayable interpretation content from that resolution attempt. Runtime must not fall back to another locale and thereby mask the broken published module. The application remains operational, while internal diagnostics and tests may identify the damage.
-
-The implementation contract represents absence with a typed result rather than a raw empty-string, `null`, or untyped empty-model architecture; exact fields and internal reason codes belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
-
-## Silent Presentation Policy
-
-When no displayable interpretation content exists, the interpretation host is absent or empty. It has no empty bordered surface, heading without content, placeholder, unavailable message, or diagnostic banner.
-
-The user is never shown fallback or implementation explanations such as “translation missing,” “English was used,” “pack is partial,” “interpretation unavailable,” “mode unsupported,” or “Russian fallback was used.” Requested/resolved locales, readiness flags, missing-file details, and other diagnostics are not user-facing copy.
-
-Resolved locale and technical diagnostics may remain available to automated tests, debugging, saved-reading provenance, and technical reports. This silent policy applies only to absence and fallback of interpretation content; it does not redefine safety-critical or actionable failures in other subsystems.
-
-The current post-T-UX1A UI still shows the localized `ui.tarot.interpretation.unavailable` placeholder after a reveal because no interpretation runtime exists. That is an honest current implementation baseline, not the target contract. The first real interpretation implementation stage must remove that placeholder from production UI and leave the host empty when resolution yields no displayable content.
-
-## Reading-Mode Independence
-
-A reading mode becomes available as soon as its Domain, Presentation, and UI behavior is implemented. It does not wait for interpretation modules or pack completeness and is never hidden from the spread selector for lack of meanings. This applies to `single-card`, `two-cards`, `three-cards`, future `celtic-cross` and relationship spreads, and any later mode. With no displayable interpretation content, the cards still work and the interpretation host remains empty.
-
-## Selection and Immediate Re-Resolution
-
-Changing visual and meaning selections preserves the current semantic reading:
-
-- switching artwork pack refreshes illustrations immediately and changes no interpretation content;
-- switching interpretation pack preserves artwork, drawn cards, revealed state, and hidden-card visibility rules, then immediately re-resolves visible interpretation text and tags without a new Draw;
-- switching interpretation language preserves the cards and revealed state, then immediately re-resolves visible content through the silent locale fallback chain.
-
-Any selection change that affects visible UI refreshes immediately rather than waiting for another click, Draw, navigation cycle, or control recreation.
-
-## Discovery and Preference Direction
-
-Future discovery reads manifests and exposes valid installed packages, including partial packages. No selector or manifest is implemented by INT0-D4. The exact future selector, display-name resolution, migration, and serialization gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
-
-The future `selectedInterpretationPackId` preference lives in the versioned AppData `settings.json`, defaults to `classic`, restores at startup, and updates when the user selects a pack. Settings do not persist current interpretation text or fallback locale, because the latter is a runtime resolution result rather than a user preference. General settings storage and the shared Reset settings/Open AppData actions belong to [PERSISTENCE.md](PERSISTENCE.md).
-
-## Related Content and Mode Owners
-
-Single-card voice, sections, tags, metrics, and translation belong to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md). Canonical mode IDs, exhaustive oriented pairs, three-card composition, production source paths, generated indexes, authoring inventory, and dependency validation belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md). Exact serialization, layers, migration, selector gates, and staged delivery belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). General structured-first rules remain owned by [INTERPRETATION-ENGINE.md](INTERPRETATION-ENGINE.md); spread semantics remain owned by [TAROT-ENGINE.md](TAROT-ENGINE.md).
+- Prose, research, translation, tags, and stateless Codex workflow: [TAROT-INTERPRETATION-CONTENT.md](TAROT-INTERPRETATION-CONTENT.md).
+- Bundle granularity, exact inventories, pair identity, and authoring waves: [TAROT-INTERPRETATION-MODES.md](TAROT-INTERPRETATION-MODES.md).
+- Manifest v2, source digest, SQLite DDL, compiler, store, and build integration: [TAROT-INTERPRETATION-IMPLEMENTATION.md](TAROT-INTERPRETATION-IMPLEMENTATION.md).
+- Resolver and typed-result layering: [INTERPRETATION-ENGINE.md](INTERPRETATION-ENGINE.md).

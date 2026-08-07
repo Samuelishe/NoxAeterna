@@ -56,7 +56,7 @@ Planned technology direction:
 - CommunityToolkit.Mvvm
 - NodaTime
 - SwissEphNet or equivalent Swiss Ephemeris wrapper
-- SQLite
+- SQLite via Microsoft.Data.Sqlite for immutable compiled interpretation packages; mutable user persistence remains planned
 - Dapper or a carefully justified alternative
 - Serilog
 - xUnit

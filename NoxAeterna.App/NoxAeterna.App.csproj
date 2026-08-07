@@ -2,6 +2,9 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
+    <InterpretationSourceRoot>$(MSBuildProjectDirectory)\..\resources\interpretation\tarot\sources\classic</InterpretationSourceRoot>
+    <InterpretationCompiledPackage>$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\interpretation\classic.noxinterp</InterpretationCompiledPackage>
+    <InterpretationCompilerAssembly>$(MSBuildProjectDirectory)\..\NoxAeterna.Tools.Repository\bin\$(Configuration)\net10.0\NoxAeterna.Tools.Repository.dll</InterpretationCompilerAssembly>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +18,11 @@
     <ProjectReference Include="..\NoxAeterna.Domain\NoxAeterna.Domain.csproj" />
     <ProjectReference Include="..\NoxAeterna.Geometry\NoxAeterna.Geometry.csproj" />
     <ProjectReference Include="..\NoxAeterna.Interpretation\NoxAeterna.Interpretation.csproj" />
+    <ProjectReference Include="..\NoxAeterna.Interpretation.Sqlite\NoxAeterna.Interpretation.Sqlite.csproj" />
+    <ProjectReference Include="..\NoxAeterna.Tools.Repository\NoxAeterna.Tools.Repository.csproj"
+                      ReferenceOutputAssembly="false"
+                      Private="false"
+                      PrivateAssets="all" />
     <ProjectReference Include="..\NoxAeterna.Presentation\NoxAeterna.Presentation.csproj" />
     <ProjectReference Include="..\NoxAeterna.Rendering\NoxAeterna.Rendering.csproj" />
     <ProjectReference Include="..\NoxAeterna.Infrastructure\NoxAeterna.Infrastructure.csproj" />
@@ -32,17 +40,18 @@
           Link="resources\assets\tarot\artwork-packs\lupus-noctis\cards\%(RecursiveDir)%(Filename)%(Extension)"
           CopyToOutputDirectory="PreserveNewest"
           CopyToPublishDirectory="PreserveNewest" />
-    <None Include="..\resources\interpretation\tarot\packs\**\interpretation-pack.json"
-          Link="resources\interpretation\tarot\packs\%(RecursiveDir)interpretation-pack.json"
-          CopyToOutputDirectory="Always"
-          CopyToPublishDirectory="Always" />
-    <None Include="..\resources\interpretation\tarot\packs\**\indexes\**\*.json"
-          Link="resources\interpretation\tarot\packs\%(RecursiveDir)%(Filename)%(Extension)"
-          CopyToOutputDirectory="Always"
-          CopyToPublishDirectory="Always" />
-    <None Include="..\resources\interpretation\tarot\packs\**\content\**\*.json"
-          Link="resources\interpretation\tarot\packs\%(RecursiveDir)%(Filename)%(Extension)"
-          CopyToOutputDirectory="PreserveNewest"
-          CopyToPublishDirectory="PreserveNewest" />
+    <InterpretationSource Include="$(InterpretationSourceRoot)\**\*.json" />
+    <Content Include="$(InterpretationCompiledPackage)"
+             Link="resources\interpretation\tarot\packs\classic.noxinterp"
+             CopyToOutputDirectory="Always"
+             CopyToPublishDirectory="Always" />
   </ItemGroup>
+
+  <Target Name="CompileBuiltInInterpretationPackage"
+          BeforeTargets="GetCopyToOutputDirectoryItems;ComputeFilesToPublish"
+          Inputs="@(InterpretationSource);$(InterpretationCompilerAssembly)"
+          Outputs="$(InterpretationCompiledPackage)">
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName('$(InterpretationCompiledPackage)'))" />
+    <Exec Command="dotnet &quot;$(InterpretationCompilerAssembly)&quot; interpretation-pack compile --source-root &quot;$(InterpretationSourceRoot)&quot; --output &quot;$(InterpretationCompiledPackage)&quot;" />
+  </Target>
 </Project>

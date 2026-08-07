@@ -5,18 +5,18 @@ namespace NoxAeterna.App.Tarot;
 
 /// <summary>Holds the single App-owned built-in interpretation graph.</summary>
 public sealed record TarotInterpretationComposition(
-    BuiltInTarotInterpretationPackSourceCatalog SourceCatalog,
+    BuiltInTarotInterpretationPackStoreCatalog StoreCatalog,
     TarotInterpretationPackCatalog PackCatalog,
     ITarotWorkspaceInterpretationResolver Resolver,
     ITarotSingleCardPresentationLabelSource PresentationLabels)
 {
     public static TarotInterpretationComposition CreateBuiltIn()
     {
-        var sourceCatalog = BuiltInTarotInterpretationPackSourceCatalog.CreateDefault();
-        var packCatalog = new TarotInterpretationPackCatalog(sourceCatalog, sourceCatalog.PackIds);
+        var storeCatalog = BuiltInTarotInterpretationPackStoreCatalog.CreateDefault();
+        var packCatalog = new TarotInterpretationPackCatalog(storeCatalog, storeCatalog.PackIds);
         ITarotWorkspaceInterpretationResolver resolver = new TarotWorkspaceInterpretationResolverAdapter(
-            new TarotInterpretationPackResolver(sourceCatalog, StandardTarotCatalog.Deck));
-        ITarotSingleCardPresentationLabelSource labels = EmptyTarotSingleCardPresentationLabelSource.Instance;
+            new TarotInterpretationPackResolver(storeCatalog, StandardTarotCatalog.Deck));
+        ITarotSingleCardPresentationLabelSource labels = new TarotPackagePresentationLabelSource(storeCatalog);
 #if DEBUG
         if (NoxAeterna.App.Debug.DebugTarotInterpretationPreview.TryCreate() is { } preview)
         {
@@ -24,6 +24,6 @@ public sealed record TarotInterpretationComposition(
             labels = preview;
         }
 #endif
-        return new TarotInterpretationComposition(sourceCatalog, packCatalog, resolver, labels);
+        return new TarotInterpretationComposition(storeCatalog, packCatalog, resolver, labels);
     }
 }

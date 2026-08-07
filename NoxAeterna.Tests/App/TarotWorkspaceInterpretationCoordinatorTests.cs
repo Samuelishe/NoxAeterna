@@ -250,8 +250,17 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
                     diagnostic);
             }
 
-            var document = TarotInterpretationResolverTestSource.SyntheticSingleCard(cardId.Value, orientation);
-            var content = TarotInterpretationValidator.ValidateSingleCard(document, StandardTarotCatalog.Deck).Value!;
+            var content = new TarotSingleCardEntry(
+                cardId,
+                orientation,
+                new Dictionary<string,string>(StringComparer.Ordinal)
+                {
+                    ["situation"]="Synthetic situation",["development"]="Synthetic development",["risk"]="Synthetic risk",["outcome"]="Synthetic outcome",["advice"]="Synthetic advice"
+                },
+                Enumerable.Range(1,5).Select(index=>new TarotTagAssignment(new($"synthetic-{index}"),index%3-1,index%3+1)),
+                0,
+                2,
+                orientation == TarotCardOrientation.Reversed ? [TarotReversalMechanism.Blocked] : []);
             return new ResolvedTarotInterpretation<TarotSingleCardEntry>(
                 packId,
                 7,

@@ -142,13 +142,13 @@ public sealed class TarotSingleCardInterpretationPresentationBuilderTests
     [Fact]
     public void DuplicateConceptsCannotReachPresentationBecauseValidatedInputRejectsThem()
     {
-        var document = Document(TarotCardOrientation.Upright, "duplicate");
-        document.Tags![1]!.ConceptId = document.Tags[0]!.ConceptId;
+        var document = Bundle("duplicate");
+        document.States!["upright"]!.Tags![1]!.ConceptId = document.States["upright"]!.Tags![0]!.ConceptId;
 
-        var validation = TarotInterpretationValidator.ValidateSingleCard(document, StandardTarotCatalog.Deck);
+        var validation = TarotInterpretationValidator.ValidateSingleCardBundle(document, StandardTarotCatalog.Deck);
 
         Assert.False(validation.IsValid);
-        Assert.Contains(validation.Diagnostics, item => item.Code == "tags.duplicate");
+        Assert.Contains(validation.Diagnostics, item => item.Code == "tag.duplicate");
     }
 
     private static TestContext Context(
@@ -165,42 +165,44 @@ public sealed class TarotSingleCardInterpretationPresentationBuilderTests
             StandardTarotSpreads.SingleCard.Id,
             Instant.FromUnixTimeTicks(ticks),
             [assignment]);
-        var validated = TarotInterpretationValidator.ValidateSingleCard(
-            Document(orientation, conceptPrefix),
-            StandardTarotCatalog.Deck);
-        Assert.True(validated.IsValid, string.Join(Environment.NewLine, validated.Diagnostics.Select(static item => item.Message)));
+        var content = Entry(orientation, conceptPrefix);
         var resolved = new ResolvedTarotInterpretation<TarotSingleCardEntry>(
             new TarotInterpretationPackId(packId),
             contentVersion,
             TarotInterpretationMode.SingleCard,
             new TarotInterpretationLocale("zh"),
             new TarotInterpretationLocale("ru"),
-            Assert.IsType<TarotSingleCardEntry>(validated.Value));
+            content);
         return new(reading, resolved);
     }
 
-    private static TarotSingleCardDocument Document(TarotCardOrientation orientation, string conceptPrefix) => new()
+    private static TarotSingleCardEntry Entry(TarotCardOrientation orientation,string conceptPrefix)=>new(
+        new("major.fool"),
+        orientation,
+        new Dictionary<string,string>(StringComparer.Ordinal)
+        {
+            ["situation"]=$"{orientation} situation",["development"]=$"{orientation} development",["risk"]=$"{orientation} risk",["outcome"]=$"{orientation} outcome",["advice"]=$"{orientation} advice"
+        },
+        Enumerable.Range(1,10).Select(index=>new TarotTagAssignment(new($"{conceptPrefix}-{index}"),(index%5)-2,((index-1)%3)+1)),
+        orientation==TarotCardOrientation.Upright?1:-1,
+        3,
+        orientation==TarotCardOrientation.Upright?[]:[TarotReversalMechanism.Blocked]);
+
+    private static TarotSingleCardBundleDocument Bundle(string conceptPrefix) => new()
     {
         SchemaVersion = 1,
         CardId = "major.fool",
-        Orientation = orientation,
-        Sections = new(StringComparer.Ordinal)
+        States = new(StringComparer.Ordinal)
         {
-            ["situation"] = $"{orientation} situation",
-            ["development"] = $"{orientation} development",
-            ["risk"] = $"{orientation} risk",
-            ["outcome"] = $"{orientation} outcome",
-            ["advice"] = $"{orientation} advice"
-        },
-        Tags = Enumerable.Range(1, 10).Select(index => (TarotTagAssignmentDocument?)new TarotTagAssignmentDocument
-        {
-            ConceptId = $"{conceptPrefix}-{index}",
-            Valence = (index % 5) - 2,
-            Intensity = ((index - 1) % 3) + 1
-        }).ToList(),
-        OverallValence = orientation == TarotCardOrientation.Upright ? 1 : -1,
-        OverallIntensity = 3,
-        ReversalMechanisms = orientation == TarotCardOrientation.Upright ? [] : [TarotReversalMechanism.Blocked]
+            ["upright"] = State(false,conceptPrefix), ["reversed"] = State(true,conceptPrefix)
+        }
+    };
+
+    private static TarotSingleCardStateDocument State(bool reversed,string prefix)=>new()
+    {
+        Sections=new(StringComparer.Ordinal){{"situation","Situation"},{"development","Development"},{"risk","Risk"},{"outcome","Outcome"},{"advice","Advice"}},
+        Tags=Enumerable.Range(1,10).Select(index=>(TarotTagAssignmentDocument?)new TarotTagAssignmentDocument{ConceptId=$"{prefix}-{index}",Valence=(index%5)-2,Intensity=((index-1)%3)+1}).ToList(),
+        OverallValence=reversed?-1:1,OverallIntensity=3,ReversalMechanisms=reversed?[TarotReversalMechanism.Blocked]:[]
     };
 
     private static TarotSingleCardInterpretationLabels Labels(

@@ -1,6 +1,3 @@
-using System.Security.Cryptography;
-using NoxAeterna.Interpretation.Tarot.Contracts;
-
 namespace NoxAeterna.Tools.Repository.Interpretation.Analysis;
 
 public sealed class InterpretationPackPaths
@@ -21,14 +18,12 @@ public sealed class InterpretationPackPaths
 
     public string Root { get; }
 
-    public string Resolve(TarotPackageRelativePath relativePath) => Resolve(relativePath.Value);
-
     public string Resolve(string relativePath)
     {
-        var safe = new TarotPackageRelativePath(relativePath);
+        ValidateRelativePath(relativePath);
         var candidate = Path.GetFullPath(Path.Combine(
             Root,
-            safe.Value.Replace('/', Path.DirectorySeparatorChar)));
+            relativePath.Replace('/', Path.DirectorySeparatorChar)));
         var relative = Path.GetRelativePath(Root, candidate);
         if (Path.IsPathRooted(relative) || relative == ".." ||
             relative.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
@@ -82,10 +77,11 @@ public sealed class InterpretationPackPaths
         return !Path.IsPathRooted(relative) && relative != ".." &&
                !relative.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal);
     }
-}
 
-public static class InterpretationContentHash
-{
-    public static string Sha256(ReadOnlySpan<byte> bytes) =>
-        Convert.ToHexStringLower(SHA256.HashData(bytes));
+    private static void ValidateRelativePath(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        if(value.Length==0||value!=value.Trim()||value.Contains('\\')||value.StartsWith('/')||value.EndsWith('/')||value.Contains("//",StringComparison.Ordinal)||value.Split('/').Any(static segment=>segment is "" or "." or "..")||Uri.TryCreate(value,UriKind.Absolute,out _))
+            throw new ArgumentException("A source path must be a safe relative '/' path.",nameof(value));
+    }
 }

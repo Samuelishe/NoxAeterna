@@ -1,14 +1,18 @@
 # Next Steps
 
-The interpretation infrastructure and INT1-I1 presentation foundation are complete locally. I4 product work is owner/review accepted at `b684bb08b2b1369bfd9c014e45bb6748154534da`; run `31153781317` was 4/5 green because Windows checkout changed canonical interpretation JSON bytes, now repaired locally with explicit LF policy and source-byte validation. Corpus authoring has not started.
+INT0-D1–D4, INT0-I1–I4, and INT1-I1 are accepted at `11514633ace93585b6ab88905790aeaebf85eb4b`; hosted run `31159098001` (57) passed 5/5. INT-SQL1 is complete locally and pending owner commit/push plus hosted verification. Production interpretation authoring has not started.
 
-Immediate next steps:
+After hosted-green INT-SQL1, the next stage is **INT1-AUTH-RU: bulk Russian Classic single-card authoring**. One autonomous Codex authoring/QA run may create all 78 canonical card bundles / 156 independently authored states while preserving any valid existing bundles.
 
-1. After hosted-green replacement evidence, begin Russian Classic single-card authoring in small owner-reviewable batches.
-2. Before any `classic/ru/single-card` `ready = true`, complete trusted pack-local vocabulary/section-label routing, accept exactly 156 entries, and generate/verify indexes and hashes; only then run **INT1-PROMOTE-RU**.
+Promotion still requires:
 
-The 12,012-state pair authoring wave follows the single-card foundation rather than preceding it. Deferred independent tracks remain available but are not started by D4: AP1–AP5, PKG1, T-UX1B, Tarot zoom/detail, Celtic Cross/other 5+ card layout, S2, font selection, Reset settings, Open AppData, and other owner-selected stages. ART-LN is complete; no A27 standard-deck artwork batch is pending or required.
+1. complete canonical source inventory with zero missing, duplicate, invalid, or noncanonical identities;
+2. same-locale vocabulary for every used tag and existing pack labels;
+3. successful strict source validation and original-prose/repetition QA;
+4. successful `.noxinterp` compilation and package inspection;
+5. runtime smoke against the compiled package;
+6. an explicit owner-controlled `ready = true` change only after completeness.
 
-Separate later work remains for card zoom/detail UX, **S2** accessible cross-platform seamless chrome, and **BRAND1** provenance-tracked application icon work. Saved readings, history, profiles, and SQLite remain later persistence stages; the implemented settings JSON does not start them.
+The 12,012-state pair corpus follows the single-card foundation in several large waves of approximately 1,500–2,500 states, keeping all four states of each canonical pair together. Three-card position authoring may cover all 468 states in one autonomous run. Wave boundaries are prompt/session scope, not filesystem taxonomy, and require no plan JSON.
 
-P2 astrology source/glyph highlighting remains deferred until a concrete usability defect justifies it.
+Deferred independent tracks remain card zoom/detail UX, S2 accessible cross-platform seamless chrome, BRAND1 application icon provenance, Celtic Cross/other 5+ card layout, font selection, Reset settings, Open AppData, user interpretation-pack installation, saved readings/history/profiles, and mutable user persistence. Immutable `.noxinterp` packages do not start the user-history database.

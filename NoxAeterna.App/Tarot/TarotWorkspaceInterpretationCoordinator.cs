@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Interpretation.Tarot.Contracts;
 using NoxAeterna.Interpretation.Tarot.Resolution;
+using NoxAeterna.Interpretation.Tarot.Storage;
 using NoxAeterna.Presentation.Preferences;
 using NoxAeterna.Presentation.Tarot;
 
@@ -68,6 +69,19 @@ public sealed class EmptyTarotSingleCardPresentationLabelSource : ITarotSingleCa
         TarotInterpretationPackId packId,
         int contentVersion,
         TarotInterpretationLocale resolvedLocale) => null;
+}
+
+/// <summary>Maps trusted package-local labels and vocabulary into the pure Presentation model.</summary>
+public sealed class TarotPackagePresentationLabelSource(ITarotInterpretationPackStoreCatalog catalog) : ITarotSingleCardPresentationLabelSource
+{
+    private readonly ITarotInterpretationPackStoreCatalog catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
+    public TarotSingleCardInterpretationLabels? Resolve(TarotInterpretationPackId packId,int contentVersion,TarotInterpretationLocale resolvedLocale)
+    {
+        if(!catalog.TryGetStore(packId,out var store)||store is null||store.Manifest.ContentVersion!=contentVersion)return null;
+        var result=store.GetLabels(resolvedLocale);return result.Status==TarotInterpretationStoreStatus.Found&&result.Value is { } labels
+            ? new TarotSingleCardInterpretationLabels(labels.Labels.SingleCardSections,labels.TagLabels)
+            : null;
+    }
 }
 
 /// <summary>Captures typed entry results for only the currently revealed workspace inputs.</summary>

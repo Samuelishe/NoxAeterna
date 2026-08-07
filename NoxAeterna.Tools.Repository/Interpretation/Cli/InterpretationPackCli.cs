@@ -1,167 +1,61 @@
 using NoxAeterna.Tools.Repository.Interpretation.Analysis;
-using NoxAeterna.Tools.Repository.Interpretation.Authoring;
-using NoxAeterna.Tools.Repository.Interpretation.Indexing;
+using NoxAeterna.Tools.Repository.Interpretation.Compilation;
 using NoxAeterna.Tools.Repository.Interpretation.Reports;
 
 namespace NoxAeterna.Tools.Repository.Interpretation.Cli;
 
-public enum InterpretationPackCommand
-{
-    Validate,
-    GenerateIndexes,
-    AuthoringStatus
-}
+public enum InterpretationPackCommand { ValidateSource, Compile, InspectPackage, AuthoringStatus }
 
 public sealed record InterpretationPackCliOptions(
-    InterpretationPackCommand Command,
-    string? PackRoot,
-    string? WorkingRoot,
-    bool Check,
-    bool Json,
-    bool ShowHelp);
+    InterpretationPackCommand Command, string? SourceRoot, string? PackagePath, string? OutputPath,
+    bool Check, bool Json, bool ShowHelp);
 
 public sealed record InterpretationPackCliParseResult(InterpretationPackCliOptions? Options, string? Error)
-{
-    public bool Succeeded => Options is not null && Error is null;
-}
+{ public bool Succeeded => Options is not null && Error is null; }
 
 public static class InterpretationPackCliParser
 {
     public static InterpretationPackCliParseResult Parse(IReadOnlyList<string> arguments)
     {
-        if (arguments.Count < 2 || arguments[0] != "interpretation-pack")
+        if (arguments.Count < 2 || arguments[0] != "interpretation-pack") return Fail("Usage requires 'interpretation-pack <subcommand>'.");
+        if (arguments[1] is "--help" or "-h") return Ok(new(InterpretationPackCommand.ValidateSource,null,null,null,false,false,true));
+        var command = arguments[1] switch { "validate-source"=>InterpretationPackCommand.ValidateSource,"compile"=>InterpretationPackCommand.Compile,"inspect-package"=>InterpretationPackCommand.InspectPackage,"authoring-status"=>InterpretationPackCommand.AuthoringStatus,_=>(InterpretationPackCommand?)null };
+        if (command is null) return Fail($"Unknown interpretation-pack subcommand '{arguments[1]}'.");
+        string? source=null; string? package=null; string? output=null; var check=false; var json=false; var help=false;
+        for(var i=2;i<arguments.Count;i++) switch(arguments[i])
         {
-            return Failure("Usage requires 'interpretation-pack <subcommand>'.");
+            case "--help" or "-h": help=true; break;
+            case "--json": json=true; break;
+            case "--check" when command==InterpretationPackCommand.Compile: check=true; break;
+            case "--source-root" when ++i<arguments.Count && source is null: source=arguments[i]; break;
+            case "--package" when ++i<arguments.Count && package is null: package=arguments[i]; break;
+            case "--output" when ++i<arguments.Count && output is null: output=arguments[i]; break;
+            default:return Fail($"Unknown or repeated option '{arguments[i]}'.");
         }
-
-        if (arguments[1] is "--help" or "-h")
-        {
-            return Success(new(InterpretationPackCommand.Validate, null, null, false, false, true));
-        }
-
-        var command = arguments[1] switch
-        {
-            "validate" => InterpretationPackCommand.Validate,
-            "generate-indexes" => InterpretationPackCommand.GenerateIndexes,
-            "authoring-status" => InterpretationPackCommand.AuthoringStatus,
-            _ => (InterpretationPackCommand?)null
-        };
-        if (command is null)
-        {
-            return Failure($"Unknown interpretation-pack subcommand '{arguments[1]}'.");
-        }
-
-        string? packRoot = null;
-        string? workingRoot = null;
-        var check = false;
-        var json = false;
-        var help = false;
-        for (var index = 2; index < arguments.Count; index++)
-        {
-            switch (arguments[index])
-            {
-                case "--help" or "-h":
-                    help = true;
-                    break;
-                case "--json":
-                    json = true;
-                    break;
-                case "--check" when command == InterpretationPackCommand.GenerateIndexes:
-                    check = true;
-                    break;
-                case "--pack-root":
-                    if (++index >= arguments.Count || string.IsNullOrWhiteSpace(arguments[index]) || packRoot is not null)
-                    {
-                        return Failure("--pack-root requires exactly one path.");
-                    }
-                    packRoot = arguments[index];
-                    break;
-                case "--working-root" when command == InterpretationPackCommand.AuthoringStatus:
-                    if (++index >= arguments.Count || string.IsNullOrWhiteSpace(arguments[index]) || workingRoot is not null)
-                    {
-                        return Failure("--working-root requires exactly one path.");
-                    }
-                    workingRoot = arguments[index];
-                    break;
-                default:
-                    return Failure($"Unknown option '{arguments[index]}'.");
-            }
-        }
-
-        if (!help)
-        {
-            if ((command is InterpretationPackCommand.Validate or InterpretationPackCommand.GenerateIndexes) && packRoot is null)
-            {
-                return Failure("--pack-root is required.");
-            }
-
-            if (command == InterpretationPackCommand.AuthoringStatus && workingRoot is null)
-            {
-                return Failure("--working-root is required.");
-            }
-        }
-
-        return Success(new(command.Value, packRoot, workingRoot, check, json, help));
+        if(!help && command is InterpretationPackCommand.ValidateSource or InterpretationPackCommand.AuthoringStatus && source is null)return Fail("--source-root is required.");
+        if(!help && command==InterpretationPackCommand.Compile && (source is null||output is null))return Fail("compile requires --source-root and --output.");
+        if(!help && command==InterpretationPackCommand.InspectPackage && package is null)return Fail("--package is required.");
+        return Ok(new(command.Value,source,package,output,check,json,help));
     }
-
-    private static InterpretationPackCliParseResult Success(InterpretationPackCliOptions options) => new(options, null);
-    private static InterpretationPackCliParseResult Failure(string error) => new(null, error);
+    private static InterpretationPackCliParseResult Ok(InterpretationPackCliOptions x)=>new(x,null);
+    private static InterpretationPackCliParseResult Fail(string x)=>new(null,x);
 }
 
 public static class InterpretationPackCli
 {
-    public static int Run(IReadOnlyList<string> arguments, TextWriter output, TextWriter error)
+    public static int Run(IReadOnlyList<string> arguments,TextWriter output,TextWriter error)
     {
-        var parsed = InterpretationPackCliParser.Parse(arguments);
-        if (!parsed.Succeeded)
+        var parsed=InterpretationPackCliParser.Parse(arguments);if(!parsed.Succeeded){error.WriteLine($"Error: {parsed.Error}");error.WriteLine("Use 'interpretation-pack --help' for usage.");return 2;}
+        var x=parsed.Options!;if(x.ShowHelp){output.Write(Help());return 0;}
+        InterpretationToolReport report=x.Command switch
         {
-            error.WriteLine($"Error: {parsed.Error}");
-            error.WriteLine("Use 'interpretation-pack --help' for usage.");
-            return 2;
-        }
-
-        var options = parsed.Options!;
-        if (options.ShowHelp)
-        {
-            output.Write(Help(options.Command, arguments.Count > 1 && arguments[1] is not "--help" and not "-h"));
-            return 0;
-        }
-
-        try
-        {
-            var report = options.Command switch
-            {
-                InterpretationPackCommand.Validate => new InterpretationPackValidator().Validate(options.PackRoot!),
-                InterpretationPackCommand.GenerateIndexes => new InterpretationIndexGenerator().Generate(options.PackRoot!, options.Check),
-                InterpretationPackCommand.AuthoringStatus => new AuthoringInventoryAnalyzer().Analyze(options.WorkingRoot!, options.PackRoot),
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            output.Write(options.Json
-                ? InterpretationToolReportWriter.WriteJson(report)
-                : InterpretationToolReportWriter.WriteConsole(report));
-            return report.Success ? 0 : 1;
-        }
-        catch (Exception exception) when (exception is ArgumentException or IOException or UnauthorizedAccessException)
-        {
-            error.WriteLine($"Error: {exception.Message}");
-            return 2;
-        }
+            InterpretationPackCommand.ValidateSource or InterpretationPackCommand.AuthoringStatus=>new InterpretationPackValidator().Validate(x.SourceRoot!),
+            InterpretationPackCommand.Compile=>new InterpretationPackageCompiler().Compile(x.SourceRoot!,x.OutputPath!,x.Check),
+            InterpretationPackCommand.InspectPackage=>new InterpretationPackageCompiler().Inspect(x.PackagePath!),
+            _=>throw new ArgumentOutOfRangeException()
+        };
+        output.Write(x.Json?InterpretationToolReportWriter.WriteJson(report):InterpretationToolReportWriter.WriteConsole(report));return report.Success?0:1;
     }
-
-    public static string TopHelp() =>
-        "Tarot interpretation pack repository tooling\n\n" +
-        "Usage:\n" +
-        "  interpretation-pack validate --pack-root PATH [--json]\n" +
-        "  interpretation-pack generate-indexes --pack-root PATH [--check] [--json]\n" +
-        "  interpretation-pack authoring-status --working-root PATH [--pack-root PATH] [--json]\n";
-
-    private static string Help(InterpretationPackCommand command, bool focused) => focused
-        ? command switch
-        {
-            InterpretationPackCommand.Validate => "Validate a Tarot interpretation pack without writing files.\nUsage: interpretation-pack validate --pack-root PATH [--json]\n",
-            InterpretationPackCommand.GenerateIndexes => "Generate deterministic indexes or check drift without writes.\nUsage: interpretation-pack generate-indexes --pack-root PATH [--check] [--json]\n",
-            InterpretationPackCommand.AuthoringStatus => "Validate and report authoring inventory progress without promotion.\nUsage: interpretation-pack authoring-status --working-root PATH [--pack-root PATH] [--json]\n",
-            _ => throw new ArgumentOutOfRangeException(nameof(command))
-        }
-        : TopHelp();
+    public static string TopHelp()=>Help();
+    private static string Help()=>"Tarot interpretation source/package tooling\n\nUsage:\n  interpretation-pack validate-source --source-root PATH [--json]\n  interpretation-pack compile --source-root PATH --output PATH [--check] [--json]\n  interpretation-pack inspect-package --package PATH [--json]\n  interpretation-pack authoring-status --source-root PATH [--json]\n";
 }

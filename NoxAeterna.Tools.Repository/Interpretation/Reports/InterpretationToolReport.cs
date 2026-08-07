@@ -22,6 +22,7 @@ public sealed class InterpretationToolReport
     public InterpretationToolReport(
         IEnumerable<InterpretationToolDiagnostic> diagnostics,
         IReadOnlyDictionary<string, int>? counts = null,
+        IReadOnlyDictionary<string, string>? details = null,
         IEnumerable<string>? generatedPaths = null,
         IEnumerable<string>? driftPaths = null)
     {
@@ -31,6 +32,9 @@ public sealed class InterpretationToolReport
             .ThenBy(item => item.Message, StringComparer.Ordinal)
             .ToArray());
         Counts = new ReadOnlyDictionary<string, int>((counts ?? new Dictionary<string, int>())
+            .OrderBy(pair => pair.Key, StringComparer.Ordinal)
+            .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal));
+        Details = new ReadOnlyDictionary<string, string>((details ?? new Dictionary<string, string>())
             .OrderBy(pair => pair.Key, StringComparer.Ordinal)
             .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal));
         GeneratedPaths = Array.AsReadOnly((generatedPaths ?? [])
@@ -49,6 +53,7 @@ public sealed class InterpretationToolReport
     public int Warnings => Diagnostics.Count(item => item.Severity == InterpretationToolSeverity.Warning);
     public IReadOnlyList<InterpretationToolDiagnostic> Diagnostics { get; }
     public IReadOnlyDictionary<string, int> Counts { get; }
+    public IReadOnlyDictionary<string, string> Details { get; }
     public IReadOnlyList<string> GeneratedPaths { get; }
     public IReadOnlyList<string> DriftPaths { get; }
 }
@@ -76,6 +81,11 @@ public static class InterpretationToolReportWriter
         foreach (var path in report.GeneratedPaths)
         {
             builder.AppendLine($"generated [{path}]");
+        }
+
+        foreach (var detail in report.Details)
+        {
+            builder.AppendLine($"{detail.Key}: {detail.Value}");
         }
 
         foreach (var path in report.DriftPaths)

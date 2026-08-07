@@ -38,6 +38,7 @@ Read this file and `docs/PROJECT-STATE.md` first, then use the smallest applicab
 | Rendering or chart | `docs/RENDERING-ENGINE.md` + `docs/VISUAL-DESIGN-SYSTEM.md` |
 | Avalonia, UI, or theme | `docs/UI-VISION.md` + `docs/VISUAL-DESIGN-SYSTEM.md` + `docs/THEMES.md` |
 | Persistence | `docs/PERSISTENCE.md` + `docs/ARCHITECTURAL-BOUNDARIES.md` |
+| Tarot interpretation authoring or packages | `docs/TAROT-INTERPRETATION-PACKS.md` + `docs/TAROT-INTERPRETATION-CONTENT.md` + `docs/TAROT-INTERPRETATION-MODES.md` + `docs/TAROT-INTERPRETATION-IMPLEMENTATION.md` + `docs/INTERPRETATION-ENGINE.md` + `docs/TAROT-ENGINE.md` |
 | Documentation or tooling | `docs/DOCUMENTATION-GOVERNANCE.md` |
 | Repository stats | `docs/PROJECT-STATS.md`; implementation in `NoxAeterna.Tools.Repository` |
 | Context routing | `docs/CONTEXT-ROUTING.md`; exact mappings/evals in `eng/context-routes.json` and `eng/context-evals.json` |
@@ -53,7 +54,10 @@ Read this file and `docs/PROJECT-STATE.md` first, then use the smallest applicab
 - Rendering consumes prepared geometry/render contracts; it does not calculate astronomy.
 - SwissEphNet remains isolated in Infrastructure behind project-owned interfaces.
 - Presentation coordinates view state but does not own astronomy or chart math.
+- Interpretation.Sqlite implements immutable interpretation-package storage behind Interpretation-owned contracts; semantic callers never issue SQL.
 - Runtime and user state do not belong in the repository.
+
+Before bulk-generating or modifying structured repository content, inspect the existing target tree, validate its current state, preserve valid canonical content unless revision is explicit, follow the canonical owner naming/layout, and verify the resulting inventory.
 
 The complete rules belong to `docs/ARCHITECTURAL-BOUNDARIES.md`; do not duplicate or weaken them here.
 

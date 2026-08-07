@@ -3,7 +3,6 @@ using NoxAeterna.App.Tarot;
 using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Interpretation.Tarot.Contracts;
 using NoxAeterna.Interpretation.Tarot.Resolution;
-using NoxAeterna.Interpretation.Tarot.Validation;
 using NoxAeterna.Presentation.Tarot;
 
 namespace NoxAeterna.App.Debug;
@@ -44,22 +43,13 @@ internal sealed class DebugTarotInterpretationPreview :
         }
 
         var locale = requestedLocale.Value == "ru" ? new TarotInterpretationLocale("ru") : new TarotInterpretationLocale("en");
-        var document = CreateDocument(locale, cardId, orientation);
-        var validation = TarotInterpretationValidator.ValidateSingleCard(document, StandardTarotCatalog.Deck);
-        if (!validation.IsValid || validation.Value is null)
-        {
-            return new NoTarotInterpretationContent<TarotSingleCardEntry>(
-                TarotNoContentReason.ValidationFailed,
-                new TarotResolutionDiagnostic("debug.preview.invalid", "The DEBUG preview fixture is invalid."));
-        }
-
         return new ResolvedTarotInterpretation<TarotSingleCardEntry>(
             packId,
             1,
             TarotInterpretationMode.SingleCard,
             requestedLocale,
             locale,
-            validation.Value);
+            CreateEntry(locale, cardId, orientation));
     }
 
     public TarotInterpretationResolution<TarotThreeCardPositionEntry> ResolveThreeCardPosition(
@@ -101,7 +91,7 @@ internal sealed class DebugTarotInterpretationPreview :
         return new TarotSingleCardInterpretationLabels(sectionLabels, tagLabels);
     }
 
-    private static TarotSingleCardDocument CreateDocument(
+    private static TarotSingleCardEntry CreateEntry(
         TarotInterpretationLocale locale,
         TarotCardId cardId,
         TarotCardOrientation orientation)
@@ -115,12 +105,10 @@ internal sealed class DebugTarotInterpretationPreview :
             ? $"{orientationText}: {subject}. Это намеренно длинный синтетический текст для проверки переноса строк и общего вертикального прокручивания; он не является толкованием Classic и не входит в production corpus."
             : $"{orientationText}: {subject}. This deliberately long synthetic text verifies wrapping and the shared vertical scroll surface; it is not Classic meaning and is not part of the production corpus.";
 
-        return new TarotSingleCardDocument
-        {
-            SchemaVersion = 1,
-            CardId = cardId.Value,
-            Orientation = orientation,
-            Sections = new Dictionary<string, string?>(StringComparer.Ordinal)
+        return new TarotSingleCardEntry(
+            cardId,
+            orientation,
+            new Dictionary<string, string>(StringComparer.Ordinal)
             {
                 ["situation"] = Text(russian ? "ситуация для визуального smoke" : "visual-smoke situation"),
                 ["development"] = Text(russian ? "развитие для визуального smoke" : "visual-smoke development"),
@@ -128,16 +116,10 @@ internal sealed class DebugTarotInterpretationPreview :
                 ["outcome"] = Text(russian ? "исход для визуального smoke" : "visual-smoke outcome"),
                 ["advice"] = Text(russian ? "совет для визуального smoke" : "visual-smoke advice")
             },
-            Tags = TagIds.Select((id, index) => (TarotTagAssignmentDocument?)new TarotTagAssignmentDocument
-            {
-                ConceptId = id.Value,
-                Valence = Valences[index],
-                Intensity = Intensities[index]
-            }).ToList(),
-            OverallValence = reversed ? -1 : 1,
-            OverallIntensity = 3,
-            ReversalMechanisms = reversed ? [TarotReversalMechanism.Blocked] : []
-        };
+            TagIds.Select((id,index)=>new TarotTagAssignment(id,Valences[index],Intensities[index])),
+            reversed ? -1 : 1,
+            3,
+            reversed ? [TarotReversalMechanism.Blocked] : []);
     }
 
     private static readonly TarotTagConceptId[] TagIds =

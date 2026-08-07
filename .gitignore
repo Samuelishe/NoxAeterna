@@ -17,6 +17,7 @@ docs/**/*.local.*
 *.local.json
 *.local.yaml
 *.local.yml
+*.noxinterp
 
 # User-specific files
 *.user

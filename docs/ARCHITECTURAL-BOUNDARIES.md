@@ -7,10 +7,10 @@ This document is intentionally explicit. It exists to prevent layer leakage duri
 - Rendering must not calculate astrology.
 - Presentation must not normalize angles.
 - Presentation must not calculate chart geometry.
-- Interpretation must not access SQLite directly.
+- Core Interpretation must not access SQLite directly; `NoxAeterna.Interpretation.Sqlite` is the dedicated adapter behind core-owned store contracts.
 - Interpretation must not contain UI workflow logic.
 - Interpretation must not depend on App, Presentation, Avalonia, or AppData path construction.
-- Tarot pack JSON, indexes, validation, canonical keys, locale/mode resolution, typed results, and deterministic composition belong to Interpretation; file sources and visual controls do not.
+- Tarot source DTOs, validation, canonical keys, package-store contracts, locale/mode resolution, typed results, and deterministic composition belong to Interpretation; SQLite implementation belongs only to Interpretation.Sqlite and visual controls belong to App.
 - Symbolics must not contain user-facing prose generation.
 - Geometry must remain Avalonia-independent.
 - Geometry must not return Avalonia controls, brushes, pens, or UI objects.
@@ -31,7 +31,7 @@ This document is intentionally explicit. It exists to prevent layer leakage duri
 - Interpretation consumes symbolic factors and symbolics data and produces structured interpretation blocks.
 - Presentation orchestrates use cases/view state and may transform typed Interpretation results plus already resolved pack-local labels into immutable display models; it owns neither filesystem access nor Avalonia/color/font types.
 - App supplies the shipped pack source, catalog composition, selector/settings wiring, coordinator, pack-label seam, and Avalonia materialization without moving meaning or resolver fallback into UI. The current source remains contained built-in Classic only; interpretation AppData sources remain future work.
-- Repository tooling may depend one-way on pure `NoxAeterna.Interpretation` contracts to validate schemas/inventories and generate indexes/hashes. It owns no production resolver behavior, has no App/Presentation/Infrastructure/Avalonia dependency, and no production project may depend on it.
+- Repository tooling may depend one-way on Interpretation and Interpretation.Sqlite to validate source and compile/inspect packages. It owns no production resolver behavior, has no App/Presentation/Infrastructure/Avalonia dependency, and is not a runtime App dependency.
 
 ## What To Reject In Review
 
@@ -42,7 +42,7 @@ Reject changes that:
 - Put prose generation into Symbolics.
 - Put SQL access into interpretation code.
 - Put Avalonia controls, AppData path construction, file-source composition, or settings I/O into interpretation-core contracts.
-- Copy Interpretation schema contracts into repository tooling instead of using the approved one-way Tools.Repository → Interpretation reference, or add a reverse/product-runtime dependency on Tools.Repository.
+- Copy Interpretation schema contracts into repository tooling instead of using the approved one-way Tools.Repository → Interpretation/Interpretation.Sqlite references, or add a runtime product dependency on Tools.Repository.
 - Put Swiss Ephemeris calls into UI or rendering code.
 - Put raw domain entities directly into rendering code when prepared render models are warranted.
 - Hide critical calculation behavior in static helpers with shared mutable state.

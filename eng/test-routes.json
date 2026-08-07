@@ -40,7 +40,7 @@
     },
     {
       "name": "Interpretation",
-      "description": "Tarot interpretation identities, schema contracts, canonical keys, JSON and pure validation.",
+      "description": "Tarot interpretation source contracts, SQLite package storage, resolution, and validation.",
       "kind": "leaf",
       "category": "core",
       "tags": ["interpretation", "tarot", "offline"],

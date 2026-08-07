@@ -155,14 +155,14 @@
     },
     {
       "name": "interpretation", "priority": 100,
-      "patterns": ["NoxAeterna.Interpretation/**"],
+      "patterns": ["NoxAeterna.Interpretation/**", "NoxAeterna.Interpretation.Sqlite/**"],
       "taskKinds": ["CodeChange", "StructuralRefactor"],
       "documents": ["docs/INTERPRETATION-ENGINE.md", "docs/SYMBOLICS.md"],
       "testRoutes": ["Interpretation"]
     },
     {
       "name": "tarot-interpretation-packs", "priority": 90,
-      "patterns": ["NoxAeterna.Interpretation/Tarot/**", "NoxAeterna.Tools.Repository/Interpretation/**", "NoxAeterna.Presentation/Tarot/*Interpretation*", "NoxAeterna.Presentation/Tarot/TarotSelectionOptions.cs", "NoxAeterna.Presentation/Tarot/TarotWorkspaceViewModel.cs", "NoxAeterna.Presentation/Preferences/TarotWorkspacePreferences.cs", "NoxAeterna.App/Tarot/*Interpretation*", "NoxAeterna.App/Tarot/TarotWorkspaceControl.cs", "NoxAeterna.App/Preferences/*UserPreferences*", "NoxAeterna.App/App.axaml.cs", "NoxAeterna.App/MainWindow.axaml.cs", "NoxAeterna.Tests/Interpretation/Tarot/**", "NoxAeterna.Tests/Tooling/Interpretation/**", "NoxAeterna.Tests/Presentation/*TarotInterpretation*", "NoxAeterna.Tests/App/*TarotInterpretation*", "NoxAeterna.Tests/App/JsonUserPreferencesStoreTests.cs", "NoxAeterna.Tests/App/TarotWorkspaceContractTests.cs", "resources/interpretation/**", "resources/localization/ui/*.json", "docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md", "docs/TAROT-INTERPRETATION-IMPLEMENTATION.md"],
+      "patterns": ["NoxAeterna.Interpretation/Tarot/**", "NoxAeterna.Interpretation.Sqlite/**", "NoxAeterna.Tools.Repository/Interpretation/**", "NoxAeterna.Presentation/Tarot/*Interpretation*", "NoxAeterna.Presentation/Tarot/TarotSelectionOptions.cs", "NoxAeterna.Presentation/Tarot/TarotWorkspaceViewModel.cs", "NoxAeterna.Presentation/Preferences/TarotWorkspacePreferences.cs", "NoxAeterna.App/Tarot/*Interpretation*", "NoxAeterna.App/Tarot/TarotWorkspaceControl.cs", "NoxAeterna.App/Preferences/*UserPreferences*", "NoxAeterna.App/App.axaml.cs", "NoxAeterna.App/MainWindow.axaml.cs", "NoxAeterna.Tests/Interpretation/Tarot/**", "NoxAeterna.Tests/Tooling/Interpretation/**", "NoxAeterna.Tests/Presentation/*TarotInterpretation*", "NoxAeterna.Tests/App/*TarotInterpretation*", "NoxAeterna.Tests/App/JsonUserPreferencesStoreTests.cs", "NoxAeterna.Tests/App/TarotWorkspaceContractTests.cs", "resources/interpretation/tarot/sources/**", "resources/localization/ui/*.json", "docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md", "docs/TAROT-INTERPRETATION-IMPLEMENTATION.md"],
       "taskKinds": ["CodeChange", "StructuralRefactor", "TestChange", "Documentation"],
       "documents": ["docs/TAROT-INTERPRETATION-PACKS.md", "docs/TAROT-INTERPRETATION-CONTENT.md", "docs/TAROT-INTERPRETATION-MODES.md", "docs/TAROT-INTERPRETATION-IMPLEMENTATION.md", "docs/INTERPRETATION-ENGINE.md", "docs/TAROT-ENGINE.md"],
       "testRoutes": ["Interpretation", "Presentation", "App-Workspace", "Localization", "Architecture-Boundaries"]

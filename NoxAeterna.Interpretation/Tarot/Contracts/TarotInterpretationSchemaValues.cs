@@ -120,28 +120,6 @@ public sealed record TarotSynthesisResourceId
     public override string ToString() => Value;
 }
 
-/// <summary>Represents a validated package-relative path using forward slashes.</summary>
-public sealed record TarotPackageRelativePath
-{
-    public TarotPackageRelativePath(string value)
-    {
-        ArgumentNullException.ThrowIfNull(value);
-        if (value.Length == 0 || value != value.Trim() || value.Contains('\\') || value.StartsWith('/') ||
-            value.EndsWith('/') || value.Contains("//", StringComparison.Ordinal) ||
-            value.Split('/').Any(segment => segment is "" or "." or "..") ||
-            Uri.TryCreate(value, UriKind.Absolute, out _))
-        {
-            throw new ArgumentException("A package path must be a safe relative '/' path.", nameof(value));
-        }
-
-        Value = value;
-    }
-
-    public string Value { get; }
-
-    public override string ToString() => Value;
-}
-
 /// <summary>Represents an exact lowercase SHA-256 value.</summary>
 public sealed record TarotSha256
 {

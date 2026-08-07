@@ -41,7 +41,7 @@ public sealed class AppBoundaryTests
                 .Order(StringComparer.Ordinal)
                 .Select(File.ReadAllText));
         var appAdapter = File.ReadAllText(RepositoryPath(
-            "NoxAeterna.App", "Tarot", "BuiltInClassicInterpretationPackSource.cs"));
+            "NoxAeterna.App", "Tarot", "BuiltInTarotInterpretationPackStoreCatalog.cs"));
 
         Assert.Contains(appReferences, item => item.EndsWith(
             "NoxAeterna.Interpretation/NoxAeterna.Interpretation.csproj", StringComparison.Ordinal));
@@ -49,19 +49,18 @@ public sealed class AppBoundaryTests
         Assert.DoesNotContain("File.", interpretationSource, StringComparison.Ordinal);
         Assert.DoesNotContain("Directory.", interpretationSource, StringComparison.Ordinal);
         Assert.DoesNotContain("AppContext.BaseDirectory", interpretationSource, StringComparison.Ordinal);
-        Assert.Contains("FileStream", appAdapter, StringComparison.Ordinal);
         Assert.Contains("AppContext.BaseDirectory", appAdapter, StringComparison.Ordinal);
+        Assert.Contains("TarotSqlitePackageStore.TryOpen", appAdapter, StringComparison.Ordinal);
     }
 
     [Fact]
-    public void I3AddsNoAppDataSelectorSettingsLocalizationOrExternalPackageWork()
+    public void BuiltInStoreCatalogAddsNoAppDataSettingsOrLocalizationOwnership()
     {
         var source = string.Join(
             Environment.NewLine,
             new[]
             {
-                RepositoryPath("NoxAeterna.App", "Tarot", "BuiltInClassicInterpretationPackSource.cs"),
-                RepositoryPath("NoxAeterna.App", "Tarot", "BuiltInTarotInterpretationPackSourceCatalog.cs")
+                RepositoryPath("NoxAeterna.App", "Tarot", "BuiltInTarotInterpretationPackStoreCatalog.cs")
             }.Select(File.ReadAllText));
         var project = LoadProjectDocument("NoxAeterna.App", "NoxAeterna.App.csproj");
         var packages = project.Descendants("PackageReference")
@@ -73,7 +72,6 @@ public sealed class AppBoundaryTests
 
         Assert.DoesNotContain("AppData", source, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("LocalApplicationData", source, StringComparison.Ordinal);
-        Assert.DoesNotContain("Selector", source, StringComparison.Ordinal);
         Assert.DoesNotContain("UserPreferences", source, StringComparison.Ordinal);
         Assert.DoesNotContain("LocalizationKey", source, StringComparison.Ordinal);
         Assert.Equal(new[] { "Avalonia", "Avalonia.Desktop", "Avalonia.Themes.Fluent" }, packages);

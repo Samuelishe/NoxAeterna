@@ -50,32 +50,25 @@ public sealed class TarotInterpretationBoundaryTests
         Assert.DoesNotContain("SQLite", source, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain("Avalonia", source, StringComparison.Ordinal);
         Assert.DoesNotContain("Microsoft.Extensions.DependencyInjection", source, StringComparison.Ordinal);
-        Assert.Contains("Stream", source, StringComparison.Ordinal);
-        Assert.Contains("MemoryStream", source, StringComparison.Ordinal);
     }
 
     [Fact]
-    public void I3_KeepsSyntheticFixturesTestOnlyAndCreatesOnlyClassicSkeletonResource()
+    public void SourceTreeContainsOnlyManifestAndTrustedLabelsWithoutInterpretationProse()
     {
-        var productionRoot = RepositoryPath("resources", "interpretation", "tarot", "packs", "classic");
-        var productionFiles = Directory.GetFiles(productionRoot, "*", SearchOption.AllDirectories);
-        Assert.Equal(new[] { Path.Combine(productionRoot, "interpretation-pack.json") }, productionFiles);
+        var productionRoot = RepositoryPath("resources", "interpretation", "tarot", "sources", "classic");
+        var productionFiles = Directory.GetFiles(productionRoot, "*", SearchOption.AllDirectories).Order(StringComparer.Ordinal).ToArray();
+        Assert.Equal(3, productionFiles.Length);
+        Assert.Contains(Path.Combine(productionRoot, "interpretation-pack.json"), productionFiles);
+        Assert.Contains(Path.Combine(productionRoot, "content", "ru", "labels.json"), productionFiles);
+        Assert.Contains(Path.Combine(productionRoot, "content", "en", "labels.json"), productionFiles);
         Assert.False(Directory.Exists(RepositoryPath("resources", "interpretation", "tarot", "working")));
-        Assert.False(Directory.Exists(Path.Combine(productionRoot, "content")));
-        Assert.False(Directory.Exists(Path.Combine(productionRoot, "indexes")));
-        var fixtureRoot = RepositoryPath("NoxAeterna.Tests", "TestData", "Interpretation");
-        Assert.True(Directory.Exists(fixtureRoot));
-        Assert.All(
-            Directory.GetFiles(fixtureRoot, "*.json", SearchOption.AllDirectories),
-            path => Assert.StartsWith(RepositoryPath("NoxAeterna.Tests"), path, StringComparison.OrdinalIgnoreCase));
+        Assert.False(Directory.Exists(Path.Combine(productionRoot, "content", "ru", "single-card")));
+        Assert.False(Directory.Exists(Path.Combine(productionRoot, "content", "ru", "oriented-pairs")));
+        Assert.False(Directory.Exists(Path.Combine(productionRoot, "content", "ru", "three-card-positions")));
         Assert.False(Directory.Exists(Path.Combine(AppContext.BaseDirectory, "TestData", "Interpretation")));
         Assert.DoesNotContain(
-            Directory.GetFiles(fixtureRoot, "*.json", SearchOption.AllDirectories).Select(File.ReadAllText),
-            text => text.Contains("Classic prose", StringComparison.OrdinalIgnoreCase));
-        Assert.DoesNotContain(
             productionFiles.Select(File.ReadAllText),
-            text => text.Contains("situation", StringComparison.OrdinalIgnoreCase) ||
-                    text.Contains("interaction", StringComparison.OrdinalIgnoreCase));
+            text => text.Contains("overallValence", StringComparison.Ordinal) || text.Contains("interaction", StringComparison.Ordinal));
     }
 
     [Fact]

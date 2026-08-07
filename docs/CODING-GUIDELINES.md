@@ -11,6 +11,7 @@ These guidelines apply once application code begins.
 - Avoid hidden global state.
 - Avoid clever code where simple code is clearer.
 - Keep commits and pull requests small and reviewable.
+- Before bulk-generating structured repository content, inspect and validate the existing target tree, preserve valid canonical entries unless revision is explicit, follow owner-defined naming/layout, and verify the final inventory.
 
 ## Boundaries
 

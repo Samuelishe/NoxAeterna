@@ -9,6 +9,14 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-07: Tarot Interpretation SQLite Source/Runtime Pivot
+
+- Reconciled accepted checkpoint `11514633ace93585b6ab88905790aeaebf85eb4b` and hosted run `31159098001` (57), which passed all five Documentation, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
+- Separated reviewable canonical JSON authoring source from runtime storage: manifest v2, one bundle per card/pair/position identity, trusted RU/EN labels, stateless Codex continuation, and large autonomous authoring-wave rules now precede strict compilation.
+- Added deterministic source validation/digest and one immutable SQLite `.noxinterp` package with read-only runtime stores; removed the production JSON-index/per-file-hash runtime path while preserving selection, settings schema 2, locale/broken-ready semantics, presentation, and silent host.
+- Local verification built App and solution in Debug/Release, passed all focused routes and Full 923/923, collected diagnostic coverage at 73.17% lines and 66.21% branches, passed documentation/diff checks and CLI success/stale/corruption smoke, and exercised the real Avalonia controls for production silence, RU/EN labels, Obsidian/Porcelain, manual reveal, and resolved-to-NoContent removal.
+- No production single-card, pair, position, synthesis, or vocabulary prose was generated. INT-SQL1 is complete locally and awaits owner commit/push and hosted verification before the all-156-state Russian Classic authoring wave.
+
 ## 2026-08-07: CI-R56-FIX and INT1-I1 Single-Card Structured Presentation
 
 - Recorded I4 commit `b684bb08b2b1369bfd9c014e45bb6748154534da` and run `31153781317`: 4/5 jobs passed; Windows alone exposed Git checkout CRLF bytes against the retained canonical serializer assertion. Added scoped LF attributes and canonical source-byte validation for manifests, indexes, and accepted content.

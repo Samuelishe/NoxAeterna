@@ -1,2 +1,2 @@
-resources/interpretation/**/*.json text eol=lf
+resources/interpretation/tarot/sources/**/*.json text eol=lf
 NoxAeterna.Tests/TestData/Interpretation/**/*.json text eol=lf

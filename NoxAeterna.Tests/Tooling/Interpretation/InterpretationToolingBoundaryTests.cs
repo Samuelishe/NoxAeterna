@@ -5,22 +5,22 @@ namespace NoxAeterna.Tests.Tooling.Interpretation;
 public sealed class InterpretationToolingBoundaryTests
 {
     [Fact]
-    public void ToolsRepository_ReferencesOnlyPureInterpretationWithoutPackagesOrRuntimeLayers()
+    public void SqliteAdapterAndToolingRespectTheDependencyDirection()
     {
-        var project = XDocument.Load(PathAt("NoxAeterna.Tools.Repository", "NoxAeterna.Tools.Repository.csproj"));
-        var references = project.Descendants("ProjectReference")
+        var tooling = XDocument.Load(PathAt("NoxAeterna.Tools.Repository", "NoxAeterna.Tools.Repository.csproj"));
+        var references = tooling.Descendants("ProjectReference")
             .Select(ProjectReferenceName)
             .ToArray();
-        var packages = project.Descendants("PackageReference").ToArray();
-
-        Assert.Equal(new[] { "NoxAeterna.Interpretation" }, references);
-        Assert.Empty(packages);
+        Assert.Equal(new[] { "NoxAeterna.Interpretation", "NoxAeterna.Interpretation.Sqlite" }, references);
         Assert.DoesNotContain(references, name => name is "NoxAeterna.App" or "NoxAeterna.Presentation" or
             "NoxAeterna.Infrastructure" or "Avalonia");
+
+        var sqlite = XDocument.Load(PathAt("NoxAeterna.Interpretation.Sqlite", "NoxAeterna.Interpretation.Sqlite.csproj"));
+        Assert.Equal(new[] { "NoxAeterna.Interpretation" }, sqlite.Descendants("ProjectReference").Select(ProjectReferenceName));
     }
 
     [Fact]
-    public void InterpretationAndProductionProjects_DoNotReferenceRepositoryTooling()
+    public void ProductionProjectsDoNotTakeRuntimeDependencyOnRepositoryTooling()
     {
         var projects = Directory.GetFiles(Root, "*.csproj", SearchOption.AllDirectories)
             .Where(path => !path.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
@@ -30,10 +30,14 @@ public sealed class InterpretationToolingBoundaryTests
         foreach (var path in projects.Where(path => Path.GetFileNameWithoutExtension(path) != "NoxAeterna.Tools.Repository"))
         {
             var references = XDocument.Load(path).Descendants("ProjectReference")
-                .Select(item => (string?)item.Attribute("Include"))
-                .Where(value => value is not null)
-                .Cast<string>();
-            Assert.DoesNotContain(references, value => value.Contains("NoxAeterna.Tools.Repository", StringComparison.Ordinal));
+                .Where(item => ((string?)item.Attribute("Include"))?.Contains("NoxAeterna.Tools.Repository", StringComparison.Ordinal) == true)
+                .ToArray();
+            foreach (var reference in references)
+            {
+                Assert.Equal("NoxAeterna.App", Path.GetFileNameWithoutExtension(path));
+                Assert.Equal("false", (string?)reference.Attribute("ReferenceOutputAssembly"));
+                Assert.Equal("all", (string?)reference.Attribute("PrivateAssets"));
+            }
         }
     }
 

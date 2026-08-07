@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\NoxAeterna.Interpretation\NoxAeterna.Interpretation.csproj" />
+    <ProjectReference Include="..\NoxAeterna.Interpretation.Sqlite\NoxAeterna.Interpretation.Sqlite.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

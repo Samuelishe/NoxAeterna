@@ -3,31 +3,29 @@ using NoxAeterna.Domain.Tarot;
 
 namespace NoxAeterna.Interpretation.Tarot.Contracts;
 
-/// <summary>Validated immutable interpretation-pack manifest.</summary>
+/// <summary>Validated immutable schema-v2 authoring manifest.</summary>
 public sealed class TarotInterpretationPackManifest
 {
-    internal TarotInterpretationPackManifest(
+    public TarotInterpretationPackManifest(
         TarotInterpretationPackId packId,
         TarotDeckId semanticDeckId,
         TarotInterpretationLocale sourceLocale,
         int contentVersion,
         IEnumerable<TarotInterpretationLocale> declaredLocales,
         IReadOnlyDictionary<TarotInterpretationLocale, string> displayNames,
-        IReadOnlyDictionary<TarotInterpretationMode, IReadOnlyDictionary<TarotInterpretationLocale, TarotInterpretationModule>> modules,
-        IEnumerable<TarotInterpretationIndexFile> indexFiles)
+        IReadOnlyDictionary<TarotInterpretationMode, IReadOnlyDictionary<TarotInterpretationLocale, TarotInterpretationModule>> modules)
     {
         PackId = packId;
         SemanticDeckId = semanticDeckId;
         SourceLocale = sourceLocale;
         ContentVersion = contentVersion;
-        DeclaredLocales = Copy(declaredLocales);
-        DisplayNames = Copy(displayNames);
+        DeclaredLocales = Array.AsReadOnly(declaredLocales.ToArray());
+        DisplayNames = ReadOnly(displayNames);
         Modules = new ReadOnlyDictionary<TarotInterpretationMode, IReadOnlyDictionary<TarotInterpretationLocale, TarotInterpretationModule>>(
-            modules.ToDictionary(pair => pair.Key, pair => (IReadOnlyDictionary<TarotInterpretationLocale, TarotInterpretationModule>)Copy(pair.Value)));
-        IndexFiles = Copy(indexFiles);
+            modules.ToDictionary(static pair => pair.Key, static pair => (IReadOnlyDictionary<TarotInterpretationLocale, TarotInterpretationModule>)ReadOnly(pair.Value)));
     }
 
-    public int SchemaVersion => 1;
+    public int SchemaVersion => 2;
     public TarotInterpretationPackId PackId { get; }
     public TarotDeckId SemanticDeckId { get; }
     public TarotInterpretationLocale SourceLocale { get; }
@@ -35,99 +33,62 @@ public sealed class TarotInterpretationPackManifest
     public IReadOnlyList<TarotInterpretationLocale> DeclaredLocales { get; }
     public IReadOnlyDictionary<TarotInterpretationLocale, string> DisplayNames { get; }
     public IReadOnlyDictionary<TarotInterpretationMode, IReadOnlyDictionary<TarotInterpretationLocale, TarotInterpretationModule>> Modules { get; }
-    public IReadOnlyList<TarotInterpretationIndexFile> IndexFiles { get; }
 
-    private static IReadOnlyList<T> Copy<T>(IEnumerable<T> values) => Array.AsReadOnly(values.ToArray());
-
-    private static IReadOnlyDictionary<TKey, TValue> Copy<TKey, TValue>(IReadOnlyDictionary<TKey, TValue> values)
-        where TKey : notnull => new ReadOnlyDictionary<TKey, TValue>(
-            values.ToDictionary(pair => pair.Key, pair => pair.Value));
+    private static IReadOnlyDictionary<TKey, TValue> ReadOnly<TKey, TValue>(IReadOnlyDictionary<TKey, TValue> values)
+        where TKey : notnull => new ReadOnlyDictionary<TKey, TValue>(values.ToDictionary(static pair => pair.Key, static pair => pair.Value));
 }
 
 /// <summary>Validated immutable locale/mode declaration.</summary>
-public sealed record TarotInterpretationModule
+public sealed record TarotInterpretationModule(bool Ready, IReadOnlyList<TarotModuleDependency> Dependencies)
 {
-    internal TarotInterpretationModule(
-        bool ready,
-        IEnumerable<TarotPackageRelativePath> indexPaths,
-        IEnumerable<TarotModuleDependency> dependencies)
-    {
-        Ready = ready;
-        IndexPaths = Array.AsReadOnly(indexPaths.ToArray());
-        Dependencies = Array.AsReadOnly(dependencies.ToArray());
-    }
-
-    public bool Ready { get; }
-    public IReadOnlyList<TarotPackageRelativePath> IndexPaths { get; }
-    public IReadOnlyList<TarotModuleDependency> Dependencies { get; }
+    public TarotInterpretationModule(bool ready, IEnumerable<TarotModuleDependency> dependencies)
+        : this(ready, Array.AsReadOnly(dependencies.ToArray())) { }
 }
 
-/// <summary>Validated immutable manifest reference to a generated index.</summary>
-public sealed record TarotInterpretationIndexFile
+/// <summary>Validated immutable pack-local label set.</summary>
+public sealed class TarotLabels
 {
-    internal TarotInterpretationIndexFile(TarotPackageRelativePath path, TarotSha256 sha256)
+    public TarotLabels(
+        IReadOnlyDictionary<string, string> singleCardSections,
+        IReadOnlyDictionary<string, string> threeCardPositions,
+        IReadOnlyDictionary<string, string> relations)
     {
-        Path = path;
-        Sha256 = sha256;
-    }
-
-    public TarotPackageRelativePath Path { get; }
-    public TarotSha256 Sha256 { get; }
-}
-
-/// <summary>Validated immutable vocabulary concept.</summary>
-public sealed record TarotVocabularyEntry
-{
-    internal TarotVocabularyEntry(TarotTagConceptId conceptId, string label, string meaning)
-    {
-        ConceptId = conceptId;
-        Label = label;
-        Meaning = meaning;
+        SingleCardSections = Copy(singleCardSections);
+        ThreeCardPositions = Copy(threeCardPositions);
+        Relations = Copy(relations);
     }
 
     public int SchemaVersion => 1;
-    public TarotTagConceptId ConceptId { get; }
-    public string Label { get; }
-    public string Meaning { get; }
+    public IReadOnlyDictionary<string, string> SingleCardSections { get; }
+    public IReadOnlyDictionary<string, string> ThreeCardPositions { get; }
+    public IReadOnlyDictionary<string, string> Relations { get; }
+
+    private static IReadOnlyDictionary<string, string> Copy(IReadOnlyDictionary<string, string> source) =>
+        new ReadOnlyDictionary<string, string>(source.ToDictionary(static pair => pair.Key, static pair => pair.Value, StringComparer.Ordinal));
 }
 
-/// <summary>Validated immutable authored tag assignment.</summary>
-public sealed record TarotTagAssignment
+public sealed record TarotVocabularyEntry(TarotTagConceptId ConceptId, string Label, string Meaning)
 {
-    internal TarotTagAssignment(TarotTagConceptId conceptId, int valence, int intensity)
-    {
-        ConceptId = conceptId;
-        Valence = valence;
-        Intensity = intensity;
-    }
-
-    public TarotTagConceptId ConceptId { get; }
-    public int Valence { get; }
-    public int Intensity { get; }
+    public int SchemaVersion => 1;
 }
 
-/// <summary>Validated immutable single-card entry.</summary>
+public sealed record TarotTagAssignment(TarotTagConceptId ConceptId, int Valence, int Intensity);
+
 public sealed class TarotSingleCardEntry
 {
-    internal TarotSingleCardEntry(
-        TarotCardId cardId,
-        TarotCardOrientation orientation,
-        IReadOnlyDictionary<string, string> sections,
-        IEnumerable<TarotTagAssignment> tags,
-        int overallValence,
-        int overallIntensity,
+    public TarotSingleCardEntry(
+        TarotCardId cardId, TarotCardOrientation orientation, IReadOnlyDictionary<string, string> sections,
+        IEnumerable<TarotTagAssignment> tags, int overallValence, int overallIntensity,
         IEnumerable<TarotReversalMechanism> reversalMechanisms)
     {
         CardId = cardId;
         Orientation = orientation;
-        Sections = new ReadOnlyDictionary<string, string>(
-            sections.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal));
+        Sections = new ReadOnlyDictionary<string, string>(sections.ToDictionary(static pair => pair.Key, static pair => pair.Value, StringComparer.Ordinal));
         Tags = Array.AsReadOnly(tags.ToArray());
         OverallValence = overallValence;
         OverallIntensity = overallIntensity;
         ReversalMechanisms = Array.AsReadOnly(reversalMechanisms.ToArray());
     }
-
     public int SchemaVersion => 1;
     public TarotCardId CardId { get; }
     public TarotCardOrientation Orientation { get; }
@@ -138,29 +99,17 @@ public sealed class TarotSingleCardEntry
     public IReadOnlyList<TarotReversalMechanism> ReversalMechanisms { get; }
 }
 
-/// <summary>Validated immutable oriented-pair entry.</summary>
 public sealed class TarotOrientedPairEntry
 {
-    internal TarotOrientedPairEntry(
-        TarotCardId cardAId,
-        TarotCardId cardBId,
-        TarotOrientedPairState orientationState,
-        string interaction,
-        string direction,
-        IEnumerable<TarotTagAssignment> tags,
-        int overallValence,
-        int overallIntensity)
+    public TarotOrientedPairEntry(
+        TarotCardId cardAId, TarotCardId cardBId, TarotOrientedPairState orientationState,
+        string interaction, string direction, IEnumerable<TarotTagAssignment> tags,
+        int overallValence, int overallIntensity)
     {
-        CardAId = cardAId;
-        CardBId = cardBId;
-        OrientationState = orientationState;
-        Interaction = interaction;
-        Direction = direction;
-        Tags = Array.AsReadOnly(tags.ToArray());
-        OverallValence = overallValence;
-        OverallIntensity = overallIntensity;
+        CardAId = cardAId; CardBId = cardBId; OrientationState = orientationState;
+        Interaction = interaction; Direction = direction; Tags = Array.AsReadOnly(tags.ToArray());
+        OverallValence = overallValence; OverallIntensity = overallIntensity;
     }
-
     public int SchemaVersion => 1;
     public TarotCardId CardAId { get; }
     public TarotCardId CardBId { get; }
@@ -172,27 +121,15 @@ public sealed class TarotOrientedPairEntry
     public int OverallIntensity { get; }
 }
 
-/// <summary>Validated immutable three-card position entry.</summary>
 public sealed class TarotThreeCardPositionEntry
 {
-    internal TarotThreeCardPositionEntry(
-        TarotThreeCardPosition position,
-        TarotCardId cardId,
-        TarotCardOrientation orientation,
-        string text,
-        IEnumerable<TarotTagAssignment> tags,
-        int overallValence,
-        int overallIntensity)
+    public TarotThreeCardPositionEntry(
+        TarotThreeCardPosition position, TarotCardId cardId, TarotCardOrientation orientation,
+        string text, IEnumerable<TarotTagAssignment> tags, int overallValence, int overallIntensity)
     {
-        Position = position;
-        CardId = cardId;
-        Orientation = orientation;
-        Text = text;
-        Tags = Array.AsReadOnly(tags.ToArray());
-        OverallValence = overallValence;
-        OverallIntensity = overallIntensity;
+        Position = position; CardId = cardId; Orientation = orientation; Text = text;
+        Tags = Array.AsReadOnly(tags.ToArray()); OverallValence = overallValence; OverallIntensity = overallIntensity;
     }
-
     public int SchemaVersion => 1;
     public TarotThreeCardPosition Position { get; }
     public TarotCardId CardId { get; }
@@ -203,51 +140,7 @@ public sealed class TarotThreeCardPositionEntry
     public int OverallIntensity { get; }
 }
 
-/// <summary>Validated immutable generated-index entry.</summary>
-public sealed record TarotGeneratedIndexEntry
-{
-    internal TarotGeneratedIndexEntry(string key, TarotPackageRelativePath path, TarotSha256 sha256)
-    {
-        Key = key;
-        Path = path;
-        Sha256 = sha256;
-    }
-
-    public string Key { get; }
-    public TarotPackageRelativePath Path { get; }
-    public TarotSha256 Sha256 { get; }
-}
-
-/// <summary>Validated immutable generated index.</summary>
-public sealed class TarotGeneratedIndex
-{
-    internal TarotGeneratedIndex(
-        TarotInterpretationPackId packId,
-        TarotInterpretationLocale locale,
-        TarotInterpretationCorpus corpusId,
-        int contentVersion,
-        int expectedEntryCount,
-        int? expectedIdentityCount,
-        int? expectedPositionEntryCount,
-        IEnumerable<TarotGeneratedIndexEntry> entries)
-    {
-        PackId = packId;
-        Locale = locale;
-        CorpusId = corpusId;
-        ContentVersion = contentVersion;
-        ExpectedEntryCount = expectedEntryCount;
-        ExpectedIdentityCount = expectedIdentityCount;
-        ExpectedPositionEntryCount = expectedPositionEntryCount;
-        Entries = Array.AsReadOnly(entries.ToArray());
-    }
-
-    public int SchemaVersion => 1;
-    public TarotInterpretationPackId PackId { get; }
-    public TarotInterpretationLocale Locale { get; }
-    public TarotInterpretationCorpus CorpusId { get; }
-    public int ContentVersion { get; }
-    public int ExpectedEntryCount { get; }
-    public int? ExpectedIdentityCount { get; }
-    public int? ExpectedPositionEntryCount { get; }
-    public IReadOnlyList<TarotGeneratedIndexEntry> Entries { get; }
-}
+public sealed record TarotSynthesisResource(
+    TarotSynthesisResourceType ResourceType,
+    TarotSynthesisResourceId ResourceId,
+    string CanonicalJson);

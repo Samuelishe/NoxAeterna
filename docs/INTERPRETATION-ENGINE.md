@@ -95,7 +95,7 @@ Literal source inspection confirms:
 - `TarotDrawEngine` already draws without replacement and supports explicit upright-only or upright/reversed orientation policies.
 - Current code has `TarotInterpretationPackId` as a separate typed identity from the semantic deck, artwork pack, presentation skin, and back variant; the active compile-time value is `classic`.
 - Presentation owns separate interpretation-language and selected-pack preferences plus the pure structured single-card display builder; it reads no files and resolves no fallback/readiness.
-- `NoxAeterna.Interpretation` now provides pure schema-v1 documents, exact in-memory JSON, immutable validation models, canonical keys/pairs, typed results, source abstractions, locale/mode resolution, trust-chain entry loading, and bounded in-memory caches over Domain and Symbolics. It contains no filesystem implementation, AppData path, UI wiring, or Tarot prose; the built-in file source is App-owned.
+- `NoxAeterna.Interpretation` owns schema-v2 source-manifest and bundle contracts, canonical keys/pairs, typed results, package-store abstractions, locale/mode resolution, and bounded semantic caching. `NoxAeterna.Interpretation.Sqlite` is the SQL-specific adapter; neither layer owns AppData settings, UI, or Tarot prose.
 - `resources/localization/interpretation/ru.json` and `en.json` contain only the early `interpretation.aspect.square` placeholder. They are not an approved production storage format for a future Tarot corpus.
 - The normal all-not-ready Classic pack leaves the interpretation host completely hidden. A Debug-only injected preview exercises five sections, tags, valence, intensity, locale switching, and reveal gating without becoming production fallback or corpus.
 
@@ -113,7 +113,7 @@ Reveal state is a Presentation-owned visibility policy. With auto reveal enabled
 
 A hidden card must never influence visible text, titles, keywords, transitions, advice, or diagnostics. Progressive content must not rewrite already visible meaning with information from a card that is still hidden.
 
-This cross-layer decision defines the visibility boundary. Exact pair identity, progressive three-card relations, storage, indexes, and authoring inventory are now owned by [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
+This cross-layer decision defines the visibility boundary. Exact pair identity, progressive three-card relations, bundle inventories, and authoring waves are owned by [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); compilation/storage belongs to the implementation owner.
 
 ### Tarot Interpretation-Pack Boundary
 
@@ -145,7 +145,7 @@ INT0-D2 approves expanded standalone content with five visible sections, indepen
 
 ### INT2/INT3 — Two-Card Combination Mode
 
-The future `two-cards` mode draws two distinct cards without replacement and has no positional roles. It canonicalizes an unordered identity through ordinal semantic-ID order, attaches four orientation states to the canonical card slots, and requires all `3003 × 4 = 12012` states to have independent authored prose. It shows nothing until both cards are revealed. Pair fields, tags, paths, indexes, batching, and validation belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md); no spread, runtime, or corpus is added during INT0.
+The future `two-cards` mode draws two distinct cards without replacement and has no positional roles. It canonicalizes an unordered identity through ordinal semantic-ID order, attaches four orientation states to the canonical card slots, and requires all `3003 × 4 = 12012` states to have independent authored prose. It shows nothing until both cards are revealed. Pair fields, tags, bundle paths, large waves, and validation belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
 ### INT4 — Past / Present / Future
 
@@ -157,15 +157,16 @@ The earlier hypotheses that pair identity might remain ordered, that 3003 base t
 
 ## Tarot Implementation Sequence
 
-- **INT0-I1 through I4:** pack/schema contracts, validator/index tooling, built-in resolver, then selector/settings v2/silent host.
-- **INT1:** single-card runtime foundation followed by 156 reviewed Russian entries and promotion.
+- **INT0-I1 through I4:** accepted pack foundations, validator, resolver, selector/settings v2, and silent host.
+- **INT-SQL1:** canonical bundle source, strict compiler, immutable SQLite package store, and removal of filesystem/index runtime routing.
+- **INT1:** single-card runtime foundation followed by all 156 Russian states in one autonomous authoring/QA wave and explicit promotion.
 - **INT2:** canonical `two-cards` Domain and UX.
 - **INT3:** tooling and 12,012 reviewed Russian oriented-pair states.
 - **INT4:** 468 position entries and deterministic three-card composition.
 - **INT5:** meaning-preserving English modules after stabilized Russian sources.
 - **INT6:** future languages through the same readiness and schema family.
 
-The exact bounded order, exclusions, and gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). INT0-I1 is complete locally; runtime and authoring stages have not started.
+The exact gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). INT-SQL1 performs the storage pivot without starting production authoring.
 
 ## Authoring and Validation Direction
 
@@ -173,13 +174,13 @@ Approved Tarot-specific detail is delegated to the mode owner; the generic engin
 
 - Production content is machine-readable and keyed by stable semantic identities.
 - Large corpora do not live in one giant Markdown file. Markdown owns architecture, decisions, workflows, and progress summaries, not thousands of production texts.
-- The current placeholder interpretation JSON is not a production corpus format; approved Tarot source paths and generated index direction belong to the mode owner.
+- Canonical JSON bundles are source-of-truth authoring data; one generated `.noxinterp` SQLite file is the runtime representation.
 - Missing and duplicate entries are detected mechanically. Completeness is evaluated against the semantic deck and supported reading mode.
 - Canonical pair identity, orientations, paths, counts, and dependency gates are fixed by the mode owner.
-- Draft/review/accepted quality belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); exact inventories and batching belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
+- Draft/review/accepted quality and stateless continuation belong to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md); exact inventories and waves belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 - Missing-content presentation and damaged-ready-module behavior follow the silent contract in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); internal validation remains diagnosable and never invents prose.
 - Corpus versioning is independent from UI theme and artwork version.
 
 ## Frozen Implementation Handoff
 
-INT0-D4 freezes JSON conventions, schema and generated-index versions, the manifest/entry/index shapes, SHA trust chain, typed absence, layers, Set/foundation migration, settings v2 direction, and staged delivery in [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). Exact three-card trajectory thresholds remain deliberately bounded to INT4-I1 fixtures; they do not reopen D3 mode identities, exhaustive pair scope, position inventory, locale integrity, or indexed routing.
+INT-SQL1 supersedes the earlier filesystem-runtime handoff with source manifest v2, bundle source schemas, deterministic source digest, SQLite schema v1, typed store contracts, and build-time `.noxinterp` compilation in [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md). It preserves typed absence, settings schema 2, locale integrity, mode identities, exhaustive pair scope, position inventory, and the broken-ready stop rule.

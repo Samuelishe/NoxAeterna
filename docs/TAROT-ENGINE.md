@@ -103,8 +103,8 @@ TAROT-ART-RUNTIME-1 subsequently made Lupus Noctis the sole default user-facing 
 - Only `single-card/card` and ordered `three-cards/past,present,future` are implemented.
 - Draws are without replacement and already support upright and reversed orientation.
 - The active `classic` interpretation-pack identity contains no prose; it appears as the sole manifest-named selector item and `NoContent` is silent.
-- Pure schema/document, validation, canonical-key, typed-result, source/resolver, catalog, settings-v2, and reveal-gated orchestration contracts exist; no two-card spread, production indexes/content, Tarot meaning corpus, or five-section renderer exists.
-- INT0-D1–D4, I1, and I2 are accepted. Published I3 plus its run-55 configuration-test repair and I4 are complete locally, pending owner commit/push and hosted-green evidence. The infrastructure wave now includes selector, settings, and workspace wiring without AppData interpretation sources, production corpus, or prose; INT1-I1 is next.
+- Schema-v2 source bundles, strict validation/compiler direction, typed package-store resolution, settings-v2, selector, five-section presentation, and reveal-gated orchestration are the current contracts. No production Tarot meaning corpus exists.
+- INT0-D1–D4, INT0-I1–I4, and INT1-I1 are accepted through checkpoint `11514633ace93585b6ab88905790aeaebf85eb4b`; hosted run 57 (`31159098001`) passed 5/5. INT-SQL1 is the active source/runtime storage pivot; bulk Russian authoring follows only after its hosted acceptance.
 
 ## Asset Direction
 

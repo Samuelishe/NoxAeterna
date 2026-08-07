@@ -74,23 +74,29 @@ Architecture passes:
 
 1. **INT0-D1 — package and localization architecture:** **Accepted.** Own independent plugin-like interpretation packs, `classic`, locale/mode readiness, silent fallback/absence, spread independence, selection refresh, preference direction, and implementation gates in [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md). No runtime was implemented.
 2. **INT0-D2 — Classic content and tags:** **Accepted.** Checkpoint `e625b68bb424c589fbc840c600ab377237530434` and hosted run `31091471397` passed all five jobs, including the explicit 16-case repair for run 49. [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md) owns Classic voice, single-card content, tags/metrics, translation, authoring quality, and typography direction.
-3. **INT0-D3 — modes, exhaustive corpora, and routing:** **Accepted.** Checkpoint `67218ccc071719f6425da84b6579c550e4e6b0b6` and hosted run `31093430806` passed all five jobs. [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md) owns stable modes, 3003 unordered identities, 12,012 independently authored states, 468 position entries, composition, paths/indexes, routing, inventory, batching, and validation.
+3. **INT0-D3 — modes, exhaustive corpora, and routing:** **Accepted.** Checkpoint `67218ccc071719f6425da84b6579c550e4e6b0b6` and hosted run `31093430806` passed all five jobs. INT-SQL1 later supersedes its physical storage direction while preserving stable modes, 3003 unordered identities, 12,012 independently authored states, 468 position entries, and composition semantics.
 4. **INT0-D4 — final reconciliation and implementation handoff:** **Accepted.** Checkpoint `2937e989e7fcb61b89534171fe80f0dd04166d9e` and hosted run `31095939556` passed all five jobs. [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md) freezes exact JSON/version/hash contracts, layers, migration, settings/selector gates, decision coverage, and staged delivery.
 
 ### INT0 Implementation Foundation
 
-Status: **D1–D4 and I1–I3 accepted. I4 product implementation is complete and owner/review accepted at `b684bb08b2b1369bfd9c014e45bb6748154534da`; run 56 was 4/5 green because Windows checkout changed canonical JSON LF bytes. The systemic repair and interpretation infrastructure foundation are complete locally/pending owner commit, push, and replacement hosted verification.**
+Status: **Accepted through INT1-I1 at `11514633ace93585b6ab88905790aeaebf85eb4b`; hosted run 57 (`31159098001`) passed 5/5.**
 
 1. **INT0-I1 — Pack Identity and Schema Contracts:** **Accepted at `9c1f68962e84d21d87b2af8072bb0fadf9c4a2f0`.** Pack/classic identity, pure raw/validated schema contracts, exact JSON/enums, canonical keys/pairs, typed results/diagnostics, and focused tests.
 2. **INT0-I2 — Validator and Index Tooling:** **Accepted at `93a26fd8942fe0a519d60e9d5ac1a29f09930340`; run `31105509521` passed 5/5.** Repository CLI/tooling and synthetic fixtures cover path/schema/hash/index/inventory checks, deterministic check mode, and authoring status; no production prose or runtime UI.
 3. **INT0-I3 — Built-In Pack Source and Resolver:** **Accepted at `062e1e193d1a62b8c5f61c828e24314a112e7984`.** App-packaged all-not-ready Classic skeleton, pure source/resolver contracts, same-locale trust-chain loading, broken-ready behavior, lazy entries, and bounded caches; no prose.
-4. **INT0-I4 — Selector, Settings v2 and Silent Host:** **Product complete and owner/review accepted at `b684bb08b2b1369bfd9c014e45bb6748154534da`; replacement hosted green pending after the local R56 repair.** Manifest-named Classic selector, lazy v1→v2 settings migration, immediate reveal-gated re-resolution, removal of the unavailable placeholder, silent host, and real-control UI evidence.
+4. **INT0-I4 — Selector, Settings v2 and Silent Host:** **Product complete and owner/review accepted at `b684bb08b2b1369bfd9c014e45bb6748154534da`; the accepted INT1-I1 checkpoint later passed hosted run 57 (`31159098001`) 5/5.** Manifest-named Classic selector, lazy v1→v2 settings migration, immediate reveal-gated re-resolution, removal of the unavailable placeholder, silent host, and real-control UI evidence.
+
+### INT-SQL1 — Source/Runtime Storage Pivot
+
+Status: **Complete locally, pending owner commit/push and hosted verification.**
+
+Canonical JSON now uses manifest v2 and complete card/pair/position bundles under `resources/interpretation/tarot/sources/`. Strict tooling validates and compiles one immutable SQLite `.noxinterp`; App runtime resolves through read-only package stores. The former production filesystem/index/hash runtime is removed. No Tarot prose was authored.
 
 ### INT1 — Single-Card Runtime, Russian Authoring, and Promotion
 
-Status: **INT1-I1 presentation foundation complete locally; authoring next.**
+Status: **INT1-I1 accepted; bulk Russian authoring follows hosted-green INT-SQL1.**
 
-**INT1-I1** adds fixture-backed five-section presentation, deterministic three-tag selection, semantic valence roles, intensity markers, reveal gating, and a Debug-only visual seam without production prose. Next, author and owner-review exactly 156 Russian upright/reversed entries in small batches under **INT1-AUTH-RU** while readiness stays false; trusted same-locale label routing, exact validation, and index generation are mandatory before **INT1-PROMOTE-RU**.
+**INT1-I1** adds fixture-backed five-section presentation, deterministic three-tag selection, semantic valence roles, intensity markers, reveal gating, and a Debug-only visual seam without production prose. Next, author all 78 Russian bundles / 156 upright/reversed states in one autonomous research/generation/QA/correction run under **INT1-AUTH-RU** while readiness stays false; complete inventory, vocabulary, labels, compilation, inspection, runtime smoke, and explicit owner promotion are mandatory before **INT1-PROMOTE-RU**.
 
 ### INT2 — Two-Card Runtime and UX
 
@@ -102,7 +108,7 @@ Implement the approved non-positional `two-cards` spread, draw two distinct card
 
 Status: **Not started**.
 
-After the single-card foundation, implement batch tooling and owner-review all 12,012 independent orientation-state interpretations over exactly 3003 canonical unordered identities, using bounded 24–40-file batches, inventory/index generation, and completeness/duplicate/hash validation. Readiness remains false until complete.
+After the single-card foundation, author all 12,012 independent orientation-state interpretations over exactly 3003 canonical unordered identities in several large waves of approximately 1,500–2,500 states. All four states of a pair remain together; prompts and `SESSION-LOG` own wave ranges, while canonical paths contain no wave taxonomy. Readiness remains false until validation and compilation prove completeness.
 
 ### INT4 — Russian Past / Present / Future Interpretation
 

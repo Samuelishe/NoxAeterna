@@ -51,14 +51,18 @@ pwsh eng/test-route.ps1 run Full -NoBuild -AllowMilestone
 
 The registry is responsibility-oriented, not stage-oriented. A leaf route must remain bounded and non-overlapping with its peers. A composite is an ordered plan, not a parallel scheduler.
 
-`Interpretation` owns the focused `NoxAeterna.Tests.Interpretation` namespace for pack identities, schemas, JSON, canonical keys, pure validation, source contracts, locale/mode resolution, trust-chain loading, lazy entries, and bounded caches. `Presentation` owns the pure single-card display builder and deterministic tag subset. `App-Workspace` owns built-in source/catalog, packaging/output, coordinator, and real-control source/materialization contracts. `Repository-Tooling` owns explicit-root validation, canonical source-byte gates, generated indexes/check mode, and authoring reports. `Architecture-Boundaries` proves one-way Interpretation → Presentation → App usage and filesystem/Avalonia ownership. `Project-Stats` and `Agent-Context` retain their separate namespaces.
+`Interpretation` owns source-manifest/bundle contracts, canonical keys, pure validation, package-store resolution, locale/broken-ready behavior, exact SQLite lookups, and bounded semantic caches. `Presentation` owns the pure single-card display builder and deterministic tag subset. `App-Workspace` owns built-in package catalog, build/output packaging, coordinator, and real-control wiring. `Repository-Tooling` owns explicit-root source validation, canonical-byte gates, deterministic digest, compilation/check/inspection, and authoring status. `Architecture-Boundaries` proves Interpretation.Sqlite → Interpretation and App/Tools one-way usage with no SQL above the store boundary. `Project-Stats` and `Agent-Context` retain their separate namespaces.
 
-Tooling CLI examples use an explicit synthetic or future pack root:
+Interpretation package CLI smoke uses the repository tool directly: `validate-source --source-root`, `compile --source-root --output`, `inspect-package --package`, then `compile ... --check`. Stale-source and corrupt-package probes must operate only on temporary copies; generated `.noxinterp` files remain outside tracked repository paths.
+
+Tooling CLI examples use an explicit source root and a temporary package path:
 
 ```powershell
-dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack validate --pack-root <path>
-dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack generate-indexes --pack-root <path> --check
-dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack authoring-status --working-root <path>
+dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack validate-source --source-root <path>
+dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack compile --source-root <path> --output <temporary.noxinterp>
+dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack inspect-package --package <temporary.noxinterp>
+dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack compile --source-root <path> --output <temporary.noxinterp> --check
+dotnet run --project NoxAeterna.Tools.Repository -- interpretation-pack authoring-status --source-root <path>
 ```
 
 ## Build and `-NoBuild`

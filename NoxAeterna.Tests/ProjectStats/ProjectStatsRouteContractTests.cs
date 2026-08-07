@@ -23,7 +23,7 @@ public sealed class ProjectStatsRouteContractTests
     }
 
     [Fact]
-    public void ToolProjectIsNetTenExecutableWithOnlyPureInterpretationReferenceAndNoPackages()
+    public void ToolProjectIsNetTenExecutableWithOnlyInterpretationCompilerBoundariesAndNoPackages()
     {
         var path = Path.Combine(
             ProjectStatsTestFixture.RepositoryRoot,
@@ -35,8 +35,12 @@ public sealed class ProjectStatsRouteContractTests
         Assert.Equal("Exe", document.Descendants("OutputType").Single().Value);
         Assert.Empty(document.Descendants("PackageReference"));
         Assert.Equal(
-            @"..\NoxAeterna.Interpretation\NoxAeterna.Interpretation.csproj",
-            document.Descendants("ProjectReference").Single().Attribute("Include")?.Value);
+            new[]
+            {
+                @"..\NoxAeterna.Interpretation\NoxAeterna.Interpretation.csproj",
+                @"..\NoxAeterna.Interpretation.Sqlite\NoxAeterna.Interpretation.Sqlite.csproj"
+            },
+            document.Descendants("ProjectReference").Select(reference => reference.Attribute("Include")?.Value).ToArray());
     }
 
     [Fact]
