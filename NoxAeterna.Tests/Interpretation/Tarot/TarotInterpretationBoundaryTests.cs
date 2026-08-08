@@ -55,13 +55,14 @@ public sealed class TarotInterpretationBoundaryTests
     }
 
     [Fact]
-    public void SourceTreeContainsCompleteCanonicalRussianPairCorpusAndRetainsExcludedProseBoundaries()
+    public void SourceTreeContainsCompleteCanonicalRussianAuthoredCorporaAndRetainsExcludedProseBoundaries()
     {
         var productionRoot = RepositoryPath("resources", "interpretation", "tarot", "sources", "classic");
         var russianRoot = Path.Combine(productionRoot, "content", "ru");
         var englishRoot = Path.Combine(productionRoot, "content", "en");
         var singleCardRoot = Path.Combine(russianRoot, "single-card");
         var orientedPairRoot = Path.Combine(russianRoot, "oriented-pairs");
+        var threeCardPositionRoot = Path.Combine(russianRoot, "three-card-positions");
         var vocabularyRoot = Path.Combine(russianRoot, "vocabulary");
         var productionFiles = Directory.GetFiles(productionRoot, "*", SearchOption.AllDirectories).Order(StringComparer.Ordinal).ToArray();
         var singleCardFiles = Directory.GetFiles(singleCardRoot, "*.json", SearchOption.TopDirectoryOnly)
@@ -88,17 +89,37 @@ public sealed class TarotInterpretationBoundaryTests
             using var bundle = JsonDocument.Parse(File.ReadAllText(file));
             return bundle.RootElement.GetProperty("states").EnumerateObject().Count();
         }).ToArray();
+        var threeCardPositionFiles = Directory.GetFiles(threeCardPositionRoot, "*.json", SearchOption.TopDirectoryOnly)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        var expectedThreeCardPositionFiles = canonicalCardIds
+            .Select(cardId => Path.Combine(threeCardPositionRoot, $"{cardId}.json"))
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        var threeCardPositionStateCounts = threeCardPositionFiles.Select(file =>
+        {
+            using var bundle = JsonDocument.Parse(File.ReadAllText(file));
+            var positions = bundle.RootElement.GetProperty("states");
+            Assert.Equal(new[] { "past", "present", "future" }, positions.EnumerateObject().Select(static item => item.Name));
+            Assert.All(positions.EnumerateObject(), position =>
+                Assert.Equal(new[] { "upright", "reversed" }, position.Value.EnumerateObject().Select(static item => item.Name)));
+            return positions.EnumerateObject().Sum(static position => position.Value.EnumerateObject().Count());
+        }).ToArray();
         var vocabularyFiles = Directory.GetFiles(vocabularyRoot, "*.json", SearchOption.TopDirectoryOnly);
         var englishFiles = Directory.GetFiles(englishRoot, "*", SearchOption.AllDirectories);
         using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(productionRoot, "interpretation-pack.json")));
 
-        Assert.Equal(3145, productionFiles.Length);
+        Assert.Equal(3223, productionFiles.Length);
         Assert.Equal(78, singleCardFiles.Length);
         Assert.Equal(expectedSingleCardFiles, singleCardFiles);
         Assert.Equal(3003, orientedPairFiles.Length);
         Assert.Equal(expectedOrientedPairFiles, orientedPairFiles);
         Assert.All(orientedPairStateCounts, count => Assert.Equal(4, count));
         Assert.Equal(12012, orientedPairStateCounts.Sum());
+        Assert.Equal(78, threeCardPositionFiles.Length);
+        Assert.Equal(expectedThreeCardPositionFiles, threeCardPositionFiles);
+        Assert.All(threeCardPositionStateCounts, count => Assert.Equal(6, count));
+        Assert.Equal(468, threeCardPositionStateCounts.Sum());
         Assert.Equal("major.chariot__major.death", expectedAuthoredPairIdentities[0]);
         Assert.Equal("major.hanged-man__minor.swords.seven", expectedAuthoredPairIdentities[499]);
         Assert.Equal("major.hanged-man__minor.swords.six", expectedAuthoredPairIdentities[500]);
@@ -132,7 +153,6 @@ public sealed class TarotInterpretationBoundaryTests
             readiness.Where(static item => item.Ready).Select(static item => item.Identity).Order(StringComparer.Ordinal));
         Assert.Equal(6, readiness.Count(static item => !item.Ready));
         Assert.False(Directory.Exists(RepositoryPath("resources", "interpretation", "tarot", "working")));
-        Assert.False(Directory.Exists(Path.Combine(russianRoot, "three-card-positions")));
         Assert.False(Directory.Exists(Path.Combine(russianRoot, "synthesis")));
         Assert.False(Directory.Exists(Path.Combine(AppContext.BaseDirectory, "TestData", "Interpretation")));
     }

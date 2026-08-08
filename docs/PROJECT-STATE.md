@@ -27,12 +27,13 @@
 - INT1-AUTH-RU-BULK is accepted at `8c6d1ad4744394965eec4b09f155608fa8d6d537`; hosted run 60 passed CI with the complete 78-bundle / 156-state Russian Classic single-card corpus.
 - INT2-RUNTIME-RU-TWO and the EOL-independent documentation-budget repair are accepted through checkpoint `5fbae998c6de71de7561d38925a66e1119bab698`; hosted run 72 passed all five jobs, including Windows.
 - S2 window placement/seamless Windows chrome and the corrected minimize glyph are accepted through checkpoint `e5b16d1f785a9a2f7530a43b3d15f64f99a40dc3`; hosted run 74 passed all five jobs.
+- T-UX2B truthful Tarot `NoReading` and the bounded centered wide single-card composition are accepted at checkpoint `f950b65df9acad9b121d2685a5cf0ac34128bfaa`.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-**T-UX2B-TAROT-READING-COMPOSITION — truthful empty state and bounded single-card group**: the reading surface now follows the actual in-memory reading, spread changes without Draw return to a neutral card-free state, and wide single-card card/text columns form one centered height-aware group. Local verification and real-control smoke precede owner review; backdrop and three-card authoring remain separate.
+**INT3-AUTH-RU-POSITIONS — Russian Classic three-card position authoring**: the canonical Russian position corpus is complete at 78/78 bundles and 468/468 independently authored `past/present/future × upright/reversed` states. Three-card synthesis remains absent, so `ru + three-cards` remains unready pending the separate synthesis and runtime stages.
 
 ## Preserved Contracts
 
@@ -40,7 +41,7 @@
 - Zodiac projection is counterclockwise; known-time charts use Placidus and the accepted orientation.
 - UnknownTime has no houses or principal angles and retains its documented technical-noon planet policy.
 - Runtime and user data belong in AppData or the platform user-data location; shipped assets belong in the repository.
-- Tarot semantic decks, artwork packs, skins, backs, and interpretation packs are independent. `classic` remains the sole built-in pack; `ru + single-card` and `ru + two-cards` are ready, while the other six locale/mode declarations remain unready. The resolver retains read-only SQLite stores, requested→English→Russian→silent absence, canonical unordered-pair resolution, and broken-ready stop behavior. Single-card five-section and combined pair interaction/direction presentation use same-locale pack vocabulary, authored tag metrics, reveal gating, and silent `NoContent`. RU oriented-pair source is accepted and complete at 3,003/3,003 bundles and 12,012/12,012 states; EN, three-card-position, and synthesis prose remain absent.
+- Tarot semantic decks, artwork packs, skins, backs, and interpretation packs are independent. `classic` remains the sole built-in pack; `ru + single-card` and `ru + two-cards` are ready, while the other six locale/mode declarations remain unready. The resolver retains read-only SQLite stores, requested→English→Russian→silent absence, canonical unordered-pair resolution, and broken-ready stop behavior. Single-card five-section and combined pair interaction/direction presentation use same-locale pack vocabulary, authored tag metrics, reveal gating, and silent `NoContent`. RU oriented-pair source is accepted and complete at 3,003/3,003 bundles and 12,012/12,012 states; RU three-card positions are complete at 78/78 bundles and 468/468 states, while three-card synthesis and all EN interpretation prose remain absent.
 - Interpretation authoring status and audit are repository tooling under the Interpretation owner, not Project Stats. Audit warnings are deterministic review suspicions; structural source errors remain errors, and no progress/report file controls authoring or runtime state.
 - Lupus Noctis A0 and A1 remain rejected. The owner accepted all A2, A4, A5, A6, A7, A8, A9, A10, A11, the two promoted A12 cards, all four A13 cards, and all A14–A26 cards; the built-in complete pack now owns 78/78 production illustrations, uses no prototype fallback, and declares `partialPack: false`. Detailed card state, provenance, hashes, and accepted exceptions belong only to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md` and its linked records.
 - Repository packs are versioned seed sources; the target runtime reads synchronized built-in and user packs from AppData. Discovery, no-delete synchronization, fingerprints, normalization, import, tooling, and packaging are staged under `ASSET-PACK-RUNTIME.md`; A3 direct output loading is temporary built-in-only behavior.

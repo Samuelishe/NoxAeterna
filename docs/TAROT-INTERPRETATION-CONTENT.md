@@ -33,6 +33,12 @@ Pair prose interprets the new dynamic created by two meanings in their authored 
 
 Systematic meta-prose about cards or generation is not production interpretation: repeated pair-title prefixes, “прямой мотив”, “перевёрнутый мотив”, “тема карты”, “сюжет пары”, and descriptions of what a card mechanically “вносит” are prohibited. Card names are normally unnecessary because the reading already displays them. As editorial guidance rather than schema, `interaction` is usually one to three sentences and roughly 25–65 meaningful tokens; `direction` is usually one to two sentences and roughly 15–40 tokens. Longer prose needs concrete semantic justification.
 
+## Three-card position prose
+
+Each card owns six independently authored `past/present/future × upright/reversed` states. Past identifies the causal experience, resource, loss, choice, or unfinished legacy still shaping the situation; present identifies the active pressure, contradiction, or opportunity operating now; future describes the probable next trajectory if the current line continues without turning into absolute prophecy or generic advice. Position labels already appear in the reading, so production prose begins with meaning rather than meta-card or “in this position” narration.
+
+Orientation and position interact. A reversed state may be blocked, delayed, internalized, excessive, distorted, resisted, depleted, or—where the traditional meaning warrants it—releasing or recovering; it is neither a grammatical negation nor the same adverse sentence moved between tenses. Position is not encoded as a tag concept. Text, tags, tag metrics, and overall metrics are reviewed together for each state.
+
 ## Tags and semantic presentation
 
 Tags use stable language-neutral `conceptId` values. Every locale owns a vocabulary file per concept containing its visible label and editorial meaning. An entry assigns its own valence `-2..2` and intensity `1..3`; the concept itself does not own universal valence. Duplicate concepts in one state are invalid.

@@ -9,6 +9,10 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-08: INT3-AUTH-RU-POSITIONS
+
+- Authored the complete Russian Classic three-card position corpus at 78 canonical bundles / 468 independent `past/present/future × upright/reversed` states, completed structural, lexical, positional-similarity, metadata, editorial, package, and focused verification, and retained absent synthesis plus unchanged three-card readiness, accepted single/pair sources, English, UI, runtime, window, and artwork boundaries.
+
 ## 2026-08-08: T-UX2B-TAROT-READING-COMPOSITION
 
 - Replaced the spread-driven fake-card preview with an explicit reading-driven `NoReading` surface, made every incompatible spread switch return to the same localized empty composition, and bounded/centered the height-aware wide single-card card-plus-interpretation group while preserving independent wide text scrolling and existing multi-card semantics. Focused/full verification and bounded Obsidian/Porcelain real-control smoke completed without interpretation, artwork, backdrop, settings-schema, or window-chrome changes.
