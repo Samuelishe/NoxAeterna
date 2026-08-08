@@ -9,6 +9,10 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-08: S2-WINDOW-LIFECYCLE-CHROME
+
+- Added schema-3 safe main-window placement with pure DPI/work-area/topology repair and close-only atomic persistence, plus Windows-only project-drawn Avalonia 12 caption controls over native drag/resize/maximize/Snap and Alt+Space system-menu behavior while retaining native macOS/Linux decorations. Focused routes, full milestone, documentation validation, and bounded real Windows placement/chrome/theme/Tarot smoke completed without changing Tarot composition or content.
+
 ## 2026-08-08: CI-R71-DOC-BUDGET-DETERMINISM
 
 - Made governed document budgets EOL-independent by counting LF-normalized logical text in both documentation validation and xUnit, archived the complete 2026-08-07 chronology through the governed full-date rollover, and restored active-log headroom. Repository-Tooling, zero-warning solution build, and Full milestone passed locally; the change targets the Windows-only run 71 failure and awaits owner commit/push plus hosted verification.

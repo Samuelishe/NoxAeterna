@@ -10,7 +10,7 @@ namespace NoxAeterna.App.Preferences;
 /// <summary>Loads and atomically saves the versioned AppData settings document.</summary>
 public sealed class JsonUserPreferencesStore : IUserPreferencesStore
 {
-    public const int CurrentSchemaVersion = 2;
+    public const int CurrentSchemaVersion = 3;
     private static readonly TarotInterpretationPackId CompiledDefaultInterpretationPackId = new("classic");
 
     private static readonly JsonSerializerOptions SerializerOptions = new()
@@ -68,7 +68,7 @@ public sealed class JsonUserPreferencesStore : IUserPreferencesStore
                 return Malformed(defaults, "The settings document is empty.");
             }
 
-            if (document.SchemaVersion is not (1 or CurrentSchemaVersion))
+            if (document.SchemaVersion is not (1 or 2 or CurrentSchemaVersion))
             {
                 return new UserPreferencesLoadResult(
                     defaults,
@@ -154,7 +154,10 @@ public sealed class JsonUserPreferencesStore : IUserPreferencesStore
                     document.SchemaVersion == 1 ? null : tarot?.SelectedInterpretationPackId),
                 new TarotBackVariantId(Normalize(tarot?.BackVariantId, SupportedBackVariants, defaults.Tarot.BackVariantId.Value)),
                 tarot?.AllowReversed ?? defaults.Tarot.AllowReversed,
-                tarot?.AutoRevealCards ?? defaults.Tarot.AutoRevealCards));
+                tarot?.AutoRevealCards ?? defaults.Tarot.AutoRevealCards),
+            document.SchemaVersion >= 3
+                ? NormalizeWindowPlacement(document.WindowPlacement)
+                : null);
     }
 
     private static string Normalize(string? value, HashSet<string> supported, string fallback) =>
@@ -200,8 +203,103 @@ public sealed class JsonUserPreferencesStore : IUserPreferencesStore
             BackVariantId = preferences.Tarot.BackVariantId.Value,
             AllowReversed = preferences.Tarot.AllowReversed,
             AutoRevealCards = preferences.Tarot.AutoRevealCards
-        }
+        },
+        WindowPlacement = preferences.WindowPlacement is null
+            ? null
+            : JsonSerializer.SerializeToElement(new WindowPlacementPreferencesDocument
+            {
+                NormalX = preferences.WindowPlacement.NormalX,
+                NormalY = preferences.WindowPlacement.NormalY,
+                NormalWidth = preferences.WindowPlacement.NormalWidth,
+                NormalHeight = preferences.WindowPlacement.NormalHeight,
+                IsMaximized = preferences.WindowPlacement.IsMaximized,
+                ScreenId = preferences.WindowPlacement.ScreenId,
+                SourceWorkAreaX = preferences.WindowPlacement.SourceWorkAreaX,
+                SourceWorkAreaY = preferences.WindowPlacement.SourceWorkAreaY,
+                SourceWorkAreaWidth = preferences.WindowPlacement.SourceWorkAreaWidth,
+                SourceWorkAreaHeight = preferences.WindowPlacement.SourceWorkAreaHeight,
+                SourceScaling = preferences.WindowPlacement.SourceScaling
+            }, SerializerOptions)
     };
+
+    private static WindowPlacementPreference? NormalizeWindowPlacement(JsonElement? element)
+    {
+        if (element is not { ValueKind: JsonValueKind.Object } placement ||
+            !TryGetDouble(placement, "normalX", out var normalX) ||
+            !TryGetDouble(placement, "normalY", out var normalY) ||
+            !TryGetDouble(placement, "normalWidth", out var normalWidth) ||
+            !TryGetDouble(placement, "normalHeight", out var normalHeight) ||
+            !TryGetBoolean(placement, "isMaximized", out var isMaximized) ||
+            !TryGetOptionalString(placement, "screenId", out var screenId) ||
+            !TryGetInt32(placement, "sourceWorkAreaX", out var sourceWorkAreaX) ||
+            !TryGetInt32(placement, "sourceWorkAreaY", out var sourceWorkAreaY) ||
+            !TryGetInt32(placement, "sourceWorkAreaWidth", out var sourceWorkAreaWidth) ||
+            !TryGetInt32(placement, "sourceWorkAreaHeight", out var sourceWorkAreaHeight) ||
+            !TryGetDouble(placement, "sourceScaling", out var sourceScaling))
+        {
+            return null;
+        }
+
+        return new WindowPlacementPreference(
+            normalX,
+            normalY,
+            normalWidth,
+            normalHeight,
+            isMaximized,
+            screenId,
+            sourceWorkAreaX,
+            sourceWorkAreaY,
+            sourceWorkAreaWidth,
+            sourceWorkAreaHeight,
+            sourceScaling);
+    }
+
+    private static bool TryGetDouble(JsonElement element, string name, out double value)
+    {
+        value = default;
+        return element.TryGetProperty(name, out var property) &&
+               property.ValueKind == JsonValueKind.Number &&
+               property.TryGetDouble(out value) &&
+               double.IsFinite(value);
+    }
+
+    private static bool TryGetInt32(JsonElement element, string name, out int value)
+    {
+        value = default;
+        return element.TryGetProperty(name, out var property) &&
+               property.ValueKind == JsonValueKind.Number &&
+               property.TryGetInt32(out value);
+    }
+
+    private static bool TryGetBoolean(JsonElement element, string name, out bool value)
+    {
+        value = default;
+        if (!element.TryGetProperty(name, out var property) ||
+            property.ValueKind is not (JsonValueKind.True or JsonValueKind.False))
+        {
+            return false;
+        }
+
+        value = property.GetBoolean();
+        return true;
+    }
+
+    private static bool TryGetOptionalString(JsonElement element, string name, out string? value)
+    {
+        value = null;
+        if (!element.TryGetProperty(name, out var property) || property.ValueKind == JsonValueKind.Null)
+        {
+            return true;
+        }
+
+        if (property.ValueKind != JsonValueKind.String)
+        {
+            return false;
+        }
+
+        value = property.GetString();
+        return true;
+    }
 
     private static UserPreferencesLoadResult Malformed(UserPreferences defaults, string message) => new(
         defaults,

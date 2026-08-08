@@ -1,5 +1,9 @@
 {
   "ui.shell.window_title": "Nox Aeterna",
+  "ui.shell.window.minimize": "Minimize",
+  "ui.shell.window.maximize": "Maximize",
+  "ui.shell.window.restore": "Restore",
+  "ui.shell.window.close": "Close",
   "ui.shell.navigation_title": "Sections",
   "ui.shell.navigation.expand": "Expand navigation",
   "ui.shell.navigation.collapse": "Collapse navigation",

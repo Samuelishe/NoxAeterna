@@ -52,6 +52,7 @@ Verified Fluent mappings such as `SystemAccentColor`, `ComboBoxDropDownBackgroun
 `SemanticControlStyles.axaml` owns the project-level visual surface for:
 
 - windows and common text roles;
+- the Avalonia 12 `WindowDrawnDecorations` theme, integrated Windows caption buttons, and their hover/pressed/focus/maximized states;
 - navigation `ListBoxItem` states;
 - the adaptive shell `SplitView`, compact navigation-item alignment, and navigation-toggle states;
 - primary and secondary buttons;
@@ -137,6 +138,7 @@ Check both dark and light variants:
 - empty startup;
 - ExactTime and UnknownTime astrology charts;
 - standard, maximized, and live-resized windows;
+- project-owned Windows caption in normal/maximized states, native-decoration fallback on macOS/Linux, minimize/maximize/restore/close interaction, Alt+Space system menu, and restrained close hover;
 - navigation default, hover, selected, and keyboard focus;
 - expanded, user-collapsed, forced-compact, and restored-wide shell navigation;
 - localized navigation tooltips and accessible names in compact mode;

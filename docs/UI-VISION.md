@@ -68,6 +68,8 @@ The UI should support repeated study and comparison:
 Current shell direction:
 
 - a thin presentation-led shell can exist before real product screens;
+- on Windows the application canvas extends to the physical top edge and uses a compact project-owned caption with native decoration roles for drag, minimize, maximize/restore, close, resize, and Snap integration; a narrow App-owned Windows hook preserves the standard Alt+Space system menu, while macOS and Linux keep native decorations;
+- the main window restores a repaired last normal position/size and meaningful maximized state from the existing AppData preference document, while first run is centered and no session ever reopens minimized;
 - top-level sections should be modeled explicitly rather than improvised in `App`;
 - the first astrology workspace foundation can replace a raw debug-only host before full product screens exist;
 - development-only sample data remains available to tests and explicit debug fixtures but must not drive normal visible startup.

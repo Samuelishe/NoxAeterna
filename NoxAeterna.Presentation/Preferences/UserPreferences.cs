@@ -9,4 +9,5 @@ public sealed record UserPreferences(
     ApplicationLanguagePreference ApplicationLanguage,
     InterpretationLanguagePreference InterpretationLanguage,
     ThemeId ThemeId,
-    TarotWorkspacePreferences Tarot);
+    TarotWorkspacePreferences Tarot,
+    WindowPlacementPreference? WindowPlacement = null);

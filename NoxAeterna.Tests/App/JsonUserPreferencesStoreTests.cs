@@ -60,6 +60,7 @@ public sealed class JsonUserPreferencesStoreTests
 
         Assert.Null(load.Diagnostic);
         Assert.Equal(CreateDistinctPreferences(), load.Preferences);
+        Assert.Null(load.Preferences.WindowPlacement);
         Assert.Equal(TarotPrototypeSelections.InterpretationPackId, load.Preferences.Tarot.InterpretationPackId);
         Assert.Equal(original, File.ReadAllText(fixture.SettingsPath));
 
@@ -70,7 +71,8 @@ public sealed class JsonUserPreferencesStoreTests
         Assert.True(fixture.CreateStore().Save(changed).IsSuccess);
 
         using var json = JsonDocument.Parse(File.ReadAllText(fixture.SettingsPath));
-        Assert.Equal(2, json.RootElement.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal(3, json.RootElement.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal(JsonValueKind.Null, json.RootElement.GetProperty("windowPlacement").ValueKind);
         Assert.Equal(
             "classic",
             json.RootElement.GetProperty("tarot").GetProperty("selectedInterpretationPackId").GetString());
@@ -89,6 +91,43 @@ public sealed class JsonUserPreferencesStoreTests
 
         Assert.Null(result.Diagnostic);
         Assert.Equal(new TarotInterpretationPackId("second-pack"), result.Preferences.Tarot.InterpretationPackId);
+        Assert.Null(result.Preferences.WindowPlacement);
+    }
+
+    [Fact]
+    public void Load_VersionThreeMalformedPlacementDefaultsOnlyPlacementAndPreservesOtherPreferences()
+    {
+        using var fixture = new SettingsFixture();
+        fixture.WriteRaw(
+            """
+            {
+              "schemaVersion": 3,
+              "applicationLanguage": "en",
+              "interpretationLanguage": "en",
+              "theme": "light",
+              "tarot": {
+                "spreadId": "three-cards",
+                "artworkPackId": "lupus-noctis",
+                "selectedInterpretationPackId": "classic",
+                "backVariantId": "lunar-seal",
+                "allowReversed": true,
+                "autoRevealCards": false
+              },
+              "windowPlacement": {
+                "normalX": "corrupt",
+                "normalY": 80,
+                "normalWidth": 1280,
+                "normalHeight": 800,
+                "isMaximized": false
+              }
+            }
+            """);
+
+        var result = fixture.CreateStore().Load();
+
+        Assert.Null(result.Diagnostic);
+        Assert.Equal(CreateDistinctPreferences(), result.Preferences);
+        Assert.Null(result.Preferences.WindowPlacement);
     }
 
     [Theory]
@@ -120,11 +159,11 @@ public sealed class JsonUserPreferencesStoreTests
     }
 
     [Fact]
-    public void SaveAndLoad_RoundTripsEveryPreferenceAndWritesSchemaVersionTwo()
+    public void SaveAndLoad_RoundTripsEveryPreferenceAndWritesSchemaVersionThree()
     {
         using var fixture = new SettingsFixture();
         var store = fixture.CreateStore();
-        var expected = CreateDistinctPreferences();
+        var expected = CreateDistinctPreferencesWithPlacement();
 
         var save = store.Save(expected);
         var load = store.Load();
@@ -134,14 +173,14 @@ public sealed class JsonUserPreferencesStoreTests
         Assert.Null(load.Diagnostic);
         Assert.Equal(expected, load.Preferences);
         using var json = JsonDocument.Parse(File.ReadAllText(fixture.SettingsPath));
-        Assert.Equal(2, json.RootElement.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal(3, json.RootElement.GetProperty("schemaVersion").GetInt32());
         Assert.Equal(
             "classic",
             json.RootElement.GetProperty("tarot").GetProperty("selectedInterpretationPackId").GetString());
     }
 
     [Fact]
-    public void SaveAndLoad_RoundTripsTwoCardSpreadWithoutSchemaChange()
+    public void SaveAndLoad_RoundTripsTwoCardSpreadInCurrentSchema()
     {
         using var fixture = new SettingsFixture();
         var store = fixture.CreateStore();
@@ -159,7 +198,8 @@ public sealed class JsonUserPreferencesStoreTests
         Assert.Null(loaded.Diagnostic);
         Assert.Equal(StandardTarotSpreads.TwoCards.Id, loaded.Preferences.Tarot.SpreadId);
         using var json = JsonDocument.Parse(File.ReadAllText(fixture.SettingsPath));
-        Assert.Equal(2, json.RootElement.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal(3, json.RootElement.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal(JsonValueKind.Null, json.RootElement.GetProperty("windowPlacement").ValueKind);
         Assert.Equal("two-cards", json.RootElement.GetProperty("tarot").GetProperty("spreadId").GetString());
     }
 
@@ -169,11 +209,11 @@ public sealed class JsonUserPreferencesStoreTests
         using var fixture = new SettingsFixture();
         var store = fixture.CreateStore();
 
-        Assert.True(store.Save(CreateDistinctPreferences()).IsSuccess);
+        Assert.True(store.Save(CreateDistinctPreferencesWithPlacement()).IsSuccess);
 
         using var json = JsonDocument.Parse(File.ReadAllText(fixture.SettingsPath));
         Assert.Equal(
-            new[] { "schemaVersion", "applicationLanguage", "interpretationLanguage", "theme", "tarot" },
+            new[] { "schemaVersion", "applicationLanguage", "interpretationLanguage", "theme", "tarot", "windowPlacement" },
             json.RootElement.EnumerateObject().Select(property => property.Name));
         var tarot = json.RootElement.GetProperty("tarot");
         Assert.Equal(
@@ -187,6 +227,16 @@ public sealed class JsonUserPreferencesStoreTests
         Assert.Equal(JsonValueKind.String, tarot.GetProperty("spreadId").ValueKind);
         Assert.Equal(JsonValueKind.True, tarot.GetProperty("allowReversed").ValueKind);
         Assert.Equal(JsonValueKind.False, tarot.GetProperty("autoRevealCards").ValueKind);
+        var placement = json.RootElement.GetProperty("windowPlacement");
+        Assert.Equal(
+            new[]
+            {
+                "normalX", "normalY", "normalWidth", "normalHeight", "isMaximized", "screenId",
+                "sourceWorkAreaX", "sourceWorkAreaY", "sourceWorkAreaWidth", "sourceWorkAreaHeight", "sourceScaling"
+            },
+            placement.EnumerateObject().Select(property => property.Name));
+        Assert.Equal(JsonValueKind.Number, placement.GetProperty("normalX").ValueKind);
+        Assert.Equal(JsonValueKind.True, placement.GetProperty("isMaximized").ValueKind);
 
         var serialized = File.ReadAllText(fixture.SettingsPath);
         foreach (var forbidden in new[]
@@ -212,7 +262,7 @@ public sealed class JsonUserPreferencesStoreTests
         Assert.True(Directory.Exists(Path.GetDirectoryName(fixture.SettingsPath)));
         var content = File.ReadAllText(fixture.SettingsPath);
         Assert.Contains(Environment.NewLine, content, StringComparison.Ordinal);
-        Assert.Contains("  \"schemaVersion\": 2", content, StringComparison.Ordinal);
+        Assert.Contains("  \"schemaVersion\": 3", content, StringComparison.Ordinal);
         using var json = JsonDocument.Parse(content);
         Assert.Equal(JsonValueKind.Object, json.RootElement.ValueKind);
     }
@@ -268,13 +318,13 @@ public sealed class JsonUserPreferencesStoreTests
     public void Load_UnsupportedSchemaVersion_ReturnsControlledDefaultsAndStructuredDiagnostic()
     {
         using var fixture = new SettingsFixture();
-        fixture.WriteRaw(ValidJson(schemaVersion: 3));
+        fixture.WriteRaw(ValidJson(schemaVersion: 4));
 
         var result = fixture.CreateStore().Load();
 
         Assert.Equal(UserPreferencesDefaults.Create(), result.Preferences);
         Assert.Equal(UserPreferencesDiagnosticCode.UnsupportedSchemaVersion, result.Diagnostic?.Code);
-        Assert.Contains("3", result.Diagnostic!.Message, StringComparison.Ordinal);
+        Assert.Contains("4", result.Diagnostic!.Message, StringComparison.Ordinal);
     }
 
     [Theory]
@@ -448,6 +498,23 @@ public sealed class JsonUserPreferencesStoreTests
             new TarotBackVariantId("lunar-seal"),
             AllowReversed: true,
             AutoRevealCards: false));
+
+    private static UserPreferences CreateDistinctPreferencesWithPlacement() =>
+        CreateDistinctPreferences() with
+        {
+            WindowPlacement = new WindowPlacementPreference(
+                NormalX: 120.5,
+                NormalY: 80.25,
+                NormalWidth: 1280,
+                NormalHeight: 800,
+                IsMaximized: true,
+                ScreenId: "DISPLAY-2",
+                SourceWorkAreaX: -1920,
+                SourceWorkAreaY: 0,
+                SourceWorkAreaWidth: 1920,
+                SourceWorkAreaHeight: 1040,
+                SourceScaling: 1.25)
+        };
 
     private static string ValidJson(
         int schemaVersion = 1,

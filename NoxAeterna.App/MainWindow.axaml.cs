@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Automation;
 using Avalonia.Controls;
+using Avalonia.Threading;
+using Avalonia.VisualTree;
 using Avalonia.Markup.Xaml;
 using NoxAeterna.Astronomy.Calculation;
 using NoxAeterna.Astronomy.Time;
@@ -36,9 +38,12 @@ public partial class MainWindow : Window
     private readonly TarotArtworkPackCatalog _tarotArtworkPackCatalog;
     private readonly TarotInterpretationPackCatalog _tarotInterpretationPackCatalog;
     private readonly TarotWorkspaceInterpretationCoordinator _tarotInterpretationCoordinator;
+    private readonly WindowPlacementCoordinator _windowPlacementCoordinator;
+    private readonly WindowsSystemMenuCoordinator? _windowsSystemMenuCoordinator;
     private readonly SettingsViewModel _settingsViewModel;
     private readonly DevelopmentAstrologyChartCoordinator _astrologyChartCoordinator;
     private readonly SplitView _shellSplitView;
+    private readonly Border _windowCaptionSpacer;
     private readonly TextBlock _navigationTitleTextBlock;
     private readonly Button _navigationToggleButton;
     private readonly ShapePath _navigationToggleIcon;
@@ -47,6 +52,7 @@ public partial class MainWindow : Window
     private readonly TextBlock _sectionTitleTextBlock;
     private readonly TextBlock _sectionHintTextBlock;
     private readonly ContentControl _sectionContentHost;
+    private readonly bool _usesProjectChrome;
     private ShellNavigationItemView[] _navigationItemViews = [];
 
     public MainWindow()
@@ -67,6 +73,8 @@ public partial class MainWindow : Window
         ArgumentNullException.ThrowIfNull(interpretationComposition);
         InitializeComponent();
 
+        _windowCaptionSpacer = this.FindControl<Border>("WindowCaptionSpacer")
+            ?? throw new InvalidOperationException("WindowCaptionSpacer was not found.");
         _shellSplitView = this.FindControl<SplitView>("ShellSplitView")
             ?? throw new InvalidOperationException("ShellSplitView was not found.");
         _navigationTitleTextBlock = this.FindControl<TextBlock>("NavigationTitleTextBlock")
@@ -89,6 +97,12 @@ public partial class MainWindow : Window
         _userPreferences = _preferencesCoordinator.Current;
         ApplicationCultureController.Apply(_userPreferences.ApplicationLanguage.Language);
         _localizationProvider = DebugShellLocalizationProviderFactory.Create(_userPreferences.ApplicationLanguage.Language);
+        _usesProjectChrome = WindowChromePolicy.Apply(this);
+        _windowCaptionSpacer.IsVisible = _usesProjectChrome;
+        _windowsSystemMenuCoordinator = _usesProjectChrome
+            ? new WindowsSystemMenuCoordinator(this)
+            : null;
+        _windowPlacementCoordinator = new WindowPlacementCoordinator(this, _preferencesCoordinator);
         _shellViewModel = ShellViewModel.CreateDefault();
         _shellViewModel.NavigationState.UpdateViewportWidth(
             double.IsFinite(Width) && Width > 0d
@@ -122,7 +136,8 @@ public partial class MainWindow : Window
         _shellSplitView.OpenPaneLength = ShellNavigationLayout.ExpandedPaneLength;
         _shellSplitView.CompactPaneLength = ShellNavigationLayout.CompactPaneLength;
         SizeChanged += OnWindowSizeChanged;
-        Closed += (_, _) => _tarotInterpretationCoordinator.Dispose();
+        Opened += OnWindowOpened;
+        PropertyChanged += OnMainWindowPropertyChanged;
 
         RefreshShell();
     }
@@ -241,6 +256,7 @@ public partial class MainWindow : Window
     private void RefreshShell()
     {
         Title = Localize(_shellViewModel.WindowTitleKey);
+        RefreshCaptionLocalization();
         _navigationTitleTextBlock.Text = Localize("ui.shell.navigation_title");
 
         _navigationItemViews = _shellViewModel.NavigationItems
@@ -256,6 +272,91 @@ public partial class MainWindow : Window
 
         ApplyNavigationVisualState();
         UpdateShellSection();
+    }
+
+    protected override void OnClosing(WindowClosingEventArgs e)
+    {
+        base.OnClosing(e);
+        if (!e.Cancel)
+        {
+            _windowPlacementCoordinator.PersistAtClose();
+        }
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        Opened -= OnWindowOpened;
+        PropertyChanged -= OnMainWindowPropertyChanged;
+        _windowPlacementCoordinator.Dispose();
+        _windowsSystemMenuCoordinator?.Dispose();
+        _tarotInterpretationCoordinator.Dispose();
+        base.OnClosed(e);
+    }
+
+    private void OnWindowOpened(object? sender, EventArgs e) =>
+        Dispatcher.UIThread.Post(UpdateCaptionAccessibility);
+
+    private void OnMainWindowPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        if (e.Property != WindowStateProperty || !_usesProjectChrome)
+        {
+            return;
+        }
+
+        RefreshCaptionLocalization();
+        Dispatcher.UIThread.Post(UpdateCaptionAccessibility);
+    }
+
+    private void RefreshCaptionLocalization()
+    {
+        Resources["WindowCaptionMinimizeText"] = Localize("ui.shell.window.minimize");
+        Resources["WindowCaptionMaximizeText"] = Localize(
+            WindowState == WindowState.Maximized
+                ? "ui.shell.window.restore"
+                : "ui.shell.window.maximize");
+        Resources["WindowCaptionCloseText"] = Localize("ui.shell.window.close");
+        if (_usesProjectChrome && IsVisible)
+        {
+            Dispatcher.UIThread.Post(UpdateCaptionAccessibility);
+        }
+    }
+
+    private void UpdateCaptionAccessibility()
+    {
+        if (!_usesProjectChrome || VisualRoot is not Visual visualRoot)
+        {
+            return;
+        }
+
+        SetCaptionButtonText(
+            visualRoot,
+            "PART_MinimizeButton",
+            Localize("ui.shell.window.minimize"));
+        SetCaptionButtonText(
+            visualRoot,
+            "PART_MaximizeButton",
+            Localize(WindowState == WindowState.Maximized
+                ? "ui.shell.window.restore"
+                : "ui.shell.window.maximize"));
+        SetCaptionButtonText(
+            visualRoot,
+            "PART_CloseButton",
+            Localize("ui.shell.window.close"));
+    }
+
+    private static void SetCaptionButtonText(Visual visualRoot, string name, string text)
+    {
+        var button = visualRoot
+            .GetVisualDescendants()
+            .OfType<Button>()
+            .FirstOrDefault(candidate => candidate.Name == name);
+        if (button is null)
+        {
+            return;
+        }
+
+        ToolTip.SetTip(button, text);
+        AutomationProperties.SetName(button, text);
     }
 
     private void ApplyNavigationVisualState()

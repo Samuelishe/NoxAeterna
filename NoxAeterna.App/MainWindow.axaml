@@ -6,12 +6,18 @@
     Title="Nox Aeterna"
     Background="{DynamicResource DesignCanvasBrush}"
     Foreground="{DynamicResource DesignTextPrimaryBrush}"
+    WindowDecorationsTheme="{DynamicResource NoxAeternaWindowDecorationsTheme}"
     Width="1360"
     Height="860"
     MinWidth="1180"
     MinHeight="760">
-  <Grid Margin="20">
-    <SplitView x:Name="ShellSplitView"
+  <Grid RowDefinitions="Auto,*">
+    <Border x:Name="WindowCaptionSpacer"
+            Height="36"
+            Background="{DynamicResource DesignCanvasBrush}"
+            IsHitTestVisible="False" />
+    <Grid Grid.Row="1" Margin="20">
+      <SplitView x:Name="ShellSplitView"
                DisplayMode="CompactInline"
                PanePlacement="Left"
                PaneBackground="Transparent">
@@ -100,6 +106,7 @@
                           VerticalContentAlignment="Stretch" />
         </DockPanel>
       </SplitView.Content>
-    </SplitView>
+      </SplitView>
+    </Grid>
   </Grid>
 </Window>

@@ -31,6 +31,12 @@ public sealed class UserPreferencesCoordinator
     public bool ApplyTarotPreferences(TarotWorkspacePreferences tarot) =>
         Update(current => current with { Tarot = tarot });
 
+    public bool ApplyWindowPlacement(WindowPlacementPreference placement)
+    {
+        ArgumentNullException.ThrowIfNull(placement);
+        return Update(current => current with { WindowPlacement = placement });
+    }
+
     private bool Update(Func<UserPreferences, UserPreferences> update)
     {
         var next = update(Current);

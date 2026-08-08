@@ -46,6 +46,7 @@ public sealed class UserPreferencesCoordinatorTests
         Assert.Equal(new LanguageCode("en"), saved.InterpretationLanguage.Language);
         Assert.Equal(new ThemeId("light"), saved.ThemeId);
         Assert.Same(initial.Tarot, saved.Tarot);
+        Assert.Equal(initial.WindowPlacement, saved.WindowPlacement);
         Assert.Equal(saved, coordinator.Current);
     }
 
@@ -65,7 +66,40 @@ public sealed class UserPreferencesCoordinatorTests
         Assert.Equal(initial.InterpretationLanguage, saved.InterpretationLanguage);
         Assert.Equal(initial.ThemeId, saved.ThemeId);
         Assert.Same(tarot, saved.Tarot);
+        Assert.Equal(initial.WindowPlacement, saved.WindowPlacement);
         Assert.Equal(saved, coordinator.Current);
+    }
+
+    [Fact]
+    public void WindowPlacementChange_MergesOtherPreferencesAndWritesOneCompleteSnapshot()
+    {
+        var store = new RecordingStore();
+        var initial = CreatePreferences();
+        var coordinator = CreateCoordinator(store, initial);
+        var placement = CreatePlacement() with { NormalX = 240, NormalY = 160 };
+
+        var changed = coordinator.ApplyWindowPlacement(placement);
+
+        Assert.True(changed);
+        var saved = Assert.Single(store.SavedPreferences);
+        Assert.Equal(initial.ApplicationLanguage, saved.ApplicationLanguage);
+        Assert.Equal(initial.InterpretationLanguage, saved.InterpretationLanguage);
+        Assert.Equal(initial.ThemeId, saved.ThemeId);
+        Assert.Equal(initial.Tarot, saved.Tarot);
+        Assert.Equal(placement, saved.WindowPlacement);
+    }
+
+    [Fact]
+    public void IdenticalWindowPlacementAtCloseDoesNotWriteAgain()
+    {
+        var store = new RecordingStore();
+        var initial = CreatePreferences();
+        var coordinator = CreateCoordinator(store, initial);
+
+        var changed = coordinator.ApplyWindowPlacement(Assert.IsType<WindowPlacementPreference>(initial.WindowPlacement));
+
+        Assert.False(changed);
+        Assert.Empty(store.SavedPreferences);
     }
 
     [Fact]
@@ -246,7 +280,21 @@ public sealed class UserPreferencesCoordinatorTests
             TarotPrototypeSelections.InterpretationPackId,
             new TarotBackVariantId("lunar-seal"),
             AllowReversed: true,
-            AutoRevealCards: false));
+            AutoRevealCards: false),
+        CreatePlacement());
+
+    private static WindowPlacementPreference CreatePlacement() => new(
+        NormalX: 120,
+        NormalY: 80,
+        NormalWidth: 1280,
+        NormalHeight: 800,
+        IsMaximized: false,
+        ScreenId: "DISPLAY-1",
+        SourceWorkAreaX: 0,
+        SourceWorkAreaY: 0,
+        SourceWorkAreaWidth: 1920,
+        SourceWorkAreaHeight: 1040,
+        SourceScaling: 1d);
 
     private sealed class RecordingStore(UserPreferencesSaveResult? saveResult = null) : IUserPreferencesStore
     {

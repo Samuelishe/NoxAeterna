@@ -11,11 +11,6 @@
 
 - V1 chart visual design is accepted.
 - V2 semantic shell and theme migration is accepted.
-- T1-A repository documentation foundation is complete at checkpoint commit `77538a6157e269cde20b26ae3fa72764231a3858`.
-- T1-B implementation is complete, and hosted run `30619151450` passed documentation validation, Windows/Linux/macOS milestone tests, and diagnostic coverage with four expected artifacts.
-- The same-day session-log rollover is complete; finished July 31 evidence is retained in indexed partial-day archive part 01.
-- T2-A Project Stats and the T2-A.1 host-independent MSBuild path repair are complete. Hosted checkpoint commit `9791d672c87c06c71e365d5433b4f847d6917046` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs; the Unix parsing blocker is removed.
-- T2-B deterministic RAG-lite context routing is complete. Hosted checkpoint commit `28c895c366d9a8e451b8ed5c34c998322e3986fc` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs; the repository-foundation wave is complete.
 - P1 planet semantic anchoring is accepted at checkpoint commit `6d7b02444bd44ad5cb1846e871d7170871a9d3e1`. Hosted run `30633659249` passed Documentation, Windows, Ubuntu, macOS, and diagnostic coverage jobs, and the owner accepted the four visual-evidence screenshots.
 - S1 adaptive shell navigation is visually accepted and complete at checkpoint commit `705fef517834e609b485faca511e240e6dec0a8a`. Hosted run `30636973316` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
 - T0-A Tarot semantic foundation is accepted at checkpoint commit `e8cb628d5dbbfb2a5fdc16b87fc4c3247bfb861f`. Hosted run `30788655353` passed Documentation contracts, Windows, Ubuntu, macOS, and Diagnostic coverage jobs.
@@ -30,12 +25,13 @@
 - INT-SQL1 is recorded at baseline commit `5ce1be8677a52b3e0e5bd249868671013c1648e5`: canonical JSON bundles compile into immutable SQLite `.noxinterp` packages while runtime selection, fallback, presentation, and silent-host semantics remain preserved.
 - INT1-QA0 is accepted at `1aa77fb0fcdc2a755658b0263dd828031f2dd374`; hosted run `31174870501` (59) passed CI.
 - INT1-AUTH-RU-BULK is accepted at `8c6d1ad4744394965eec4b09f155608fa8d6d537`; hosted run 60 passed CI with the complete 78-bundle / 156-state Russian Classic single-card corpus.
+- INT2-RUNTIME-RU-TWO and the EOL-independent documentation-budget repair are accepted through checkpoint `5fbae998c6de71de7561d38925a66e1119bab698`; hosted run 72 passed all five jobs, including Windows.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-**INT2-RUNTIME-RU-TWO — playable Russian Classic two-card mode**: the accepted 3,003/12,012 oriented-pair corpus is runtime-ready, the neutral two-card spread is wired through Domain, Presentation, and App, and owner review of the real layout remains pending before optional T-UX2B refinement.
+**S2-WINDOW-LIFECYCLE-CHROME — safe placement and seamless Windows chrome**: schema-3 AppData preferences now retain repaired normal bounds plus meaningful maximized state, while Avalonia 12 drawn decorations provide the project-owned Windows caption over native desktop behavior. Local verification and real Windows smoke are complete; owner review precedes the separate T-UX2B Tarot composition stage.
 
 ## Preserved Contracts
 
@@ -52,4 +48,4 @@
 
 ## Active Blockers
 
-- No implementation blocker remains. Owner visual review decides whether T-UX2B is needed; English translation and three-card semantic authoring require separate explicit stages.
+- No implementation blocker remains. S2 awaits owner review; T-UX2B, English translation, and three-card semantic authoring remain separate explicit stages.

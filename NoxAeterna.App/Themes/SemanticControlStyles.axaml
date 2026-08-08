@@ -1,6 +1,102 @@
 <Styles
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chrome="clr-namespace:Avalonia.Controls.Chrome;assembly=Avalonia.Controls">
+  <Styles.Resources>
+    <ControlTheme x:Key="NoxAeternaWindowDecorationsTheme"
+                  TargetType="chrome:WindowDrawnDecorations">
+      <Setter Property="DefaultTitleBarHeight" Value="36" />
+      <Setter Property="DefaultFrameThickness" Value="0" />
+      <Setter Property="DefaultShadowThickness" Value="0" />
+      <Setter Property="Template">
+        <WindowDrawnDecorationsTemplate>
+          <WindowDrawnDecorationsContent>
+            <WindowDrawnDecorationsContent.Underlay>
+              <Panel x:Name="PART_TitleBar"
+                     Height="{TemplateBinding TitleBarHeight}"
+                     VerticalAlignment="Top"
+                     Background="{DynamicResource DesignCanvasBrush}"
+                     chrome:WindowDecorationProperties.ElementRole="TitleBar" />
+            </WindowDrawnDecorationsContent.Underlay>
+            <WindowDrawnDecorationsContent.Overlay>
+              <Grid Height="{TemplateBinding TitleBarHeight}"
+                    VerticalAlignment="Top"
+                    ColumnDefinitions="*,Auto">
+                <TextBlock Margin="20,0,0,0"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           Foreground="{DynamicResource DesignTextSecondaryBrush}"
+                           IsHitTestVisible="False"
+                           Text="{TemplateBinding Title}" />
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                  <Button x:Name="PART_MinimizeButton"
+                          Classes="window-caption-button"
+                          ToolTip.Tip="{DynamicResource WindowCaptionMinimizeText}"
+                          AutomationProperties.Name="{DynamicResource WindowCaptionMinimizeText}"
+                          chrome:WindowDecorationProperties.ElementRole="MinimizeButton">
+                    <Path Width="12"
+                          Height="12"
+                          Data="M3,12 L21,12"
+                          Fill="Transparent"
+                          Stroke="{DynamicResource DesignTextPrimaryBrush}"
+                          StrokeThickness="1.6"
+                          StrokeLineCap="Square"
+                          Stretch="Uniform"
+                          IsHitTestVisible="False" />
+                  </Button>
+                  <Button x:Name="PART_MaximizeButton"
+                          Classes="window-caption-button"
+                          ToolTip.Tip="{DynamicResource WindowCaptionMaximizeText}"
+                          AutomationProperties.Name="{DynamicResource WindowCaptionMaximizeText}"
+                          chrome:WindowDecorationProperties.ElementRole="MaximizeButton">
+                    <Grid Width="12" Height="12" IsHitTestVisible="False">
+                      <Path x:Name="WindowCaptionMaximizeIcon"
+                            Data="M3,3 L21,3 L21,21 L3,21 Z"
+                            Fill="Transparent"
+                            Stroke="{DynamicResource DesignTextPrimaryBrush}"
+                            StrokeThickness="1.6"
+                            Stretch="Uniform" />
+                      <Path x:Name="WindowCaptionRestoreIcon"
+                            IsVisible="False"
+                            Data="M7,3 L21,3 L21,17 M3,7 L17,7 L17,21 L3,21 Z"
+                            Fill="Transparent"
+                            Stroke="{DynamicResource DesignTextPrimaryBrush}"
+                            StrokeThickness="1.6"
+                            Stretch="Uniform" />
+                    </Grid>
+                  </Button>
+                  <Button x:Name="PART_CloseButton"
+                          Classes="window-caption-button window-caption-close"
+                          ToolTip.Tip="{DynamicResource WindowCaptionCloseText}"
+                          AutomationProperties.Name="{DynamicResource WindowCaptionCloseText}"
+                          chrome:WindowDecorationProperties.ElementRole="CloseButton">
+                    <Path Width="12"
+                          Height="12"
+                          Data="M4,4 L20,20 M20,4 L4,20"
+                          Fill="Transparent"
+                          Stroke="{DynamicResource DesignTextPrimaryBrush}"
+                          StrokeThickness="1.6"
+                          StrokeLineCap="Square"
+                          Stretch="Uniform"
+                          IsHitTestVisible="False" />
+                  </Button>
+                </StackPanel>
+              </Grid>
+            </WindowDrawnDecorationsContent.Overlay>
+          </WindowDrawnDecorationsContent>
+        </WindowDrawnDecorationsTemplate>
+      </Setter>
+      <Style Selector="^:maximized /template/ Path#WindowCaptionMaximizeIcon">
+        <Setter Property="IsVisible" Value="False" />
+      </Style>
+      <Style Selector="^:maximized /template/ Path#WindowCaptionRestoreIcon">
+        <Setter Property="IsVisible" Value="True" />
+      </Style>
+    </ControlTheme>
+  </Styles.Resources>
+
   <Style Selector="Window">
     <Setter Property="Background" Value="{DynamicResource DesignCanvasBrush}" />
     <Setter Property="Foreground" Value="{DynamicResource DesignTextPrimaryBrush}" />
@@ -185,6 +281,38 @@
     <Setter Property="BorderBrush" Value="{DynamicResource DesignBorderBrush}" />
     <Setter Property="Foreground" Value="{DynamicResource DesignDisabledTextBrush}" />
     <Setter Property="Opacity" Value="1" />
+  </Style>
+
+  <Style Selector="Button.window-caption-button">
+    <Setter Property="Width" Value="46" />
+    <Setter Property="Height" Value="36" />
+    <Setter Property="MinWidth" Value="46" />
+    <Setter Property="MinHeight" Value="36" />
+    <Setter Property="Padding" Value="14,10" />
+    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+  <Style Selector="Button.window-caption-button:pointerover">
+    <Setter Property="Background" Value="{DynamicResource DesignSurfaceRaisedBrush}" />
+  </Style>
+  <Style Selector="Button.window-caption-button:pressed">
+    <Setter Property="Background" Value="{DynamicResource DesignControlFillPressedBrush}" />
+  </Style>
+  <Style Selector="Button.window-caption-button:focus-visible">
+    <Setter Property="BorderBrush" Value="{DynamicResource DesignFocusRingBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+  </Style>
+  <Style Selector="Button.window-caption-close:pointerover">
+    <Setter Property="Background" Value="{DynamicResource DesignErrorBrush}" />
+  </Style>
+  <Style Selector="Button.window-caption-close:pointerover Path">
+    <Setter Property="Stroke" Value="{DynamicResource DesignSelectionForegroundBrush}" />
+  </Style>
+  <Style Selector="Button.window-caption-close:pressed">
+    <Setter Property="Background" Value="{DynamicResource DesignErrorBrush}" />
+    <Setter Property="Opacity" Value="0.82" />
   </Style>
 
   <Style Selector="Button">

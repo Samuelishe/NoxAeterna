@@ -138,7 +138,7 @@ public sealed class TarotInterpretationBoundaryTests
     }
 
     [Fact]
-    public void PresentationOwnsTypedPackSelectionWhileSettingsUseSchemaTwo()
+    public void PresentationOwnsTypedPackSelectionWhileSettingsUseCurrentSchema()
     {
         var presentationSource = string.Join(
             Environment.NewLine,
@@ -149,7 +149,7 @@ public sealed class TarotInterpretationBoundaryTests
         Assert.DoesNotContain("File.", presentationSource, StringComparison.Ordinal);
         Assert.DoesNotContain("Directory.", presentationSource, StringComparison.Ordinal);
         Assert.Contains("TarotInterpretationPackOption", presentationSource, StringComparison.Ordinal);
-        Assert.Equal(2, JsonUserPreferencesStore.CurrentSchemaVersion);
+        Assert.Equal(3, JsonUserPreferencesStore.CurrentSchemaVersion);
         Assert.NotNull(typeof(TarotWorkspacePreferencesDocument).GetProperty("SelectedInterpretationPackId"));
     }
 

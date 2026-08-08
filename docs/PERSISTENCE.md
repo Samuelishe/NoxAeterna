@@ -101,18 +101,19 @@ Record the migration decision in `DECISIONS-LOG.md`.
 
 The App composition boundary owns a narrow `System.Text.Json` adapter at the logical platform path `<LocalApplicationData>/NoxAeterna/settings.json` (on Windows, `%LOCALAPPDATA%\NoxAeterna\settings.json`). Presentation owns only typed immutable preferences; it does not use file, environment, or JSON APIs. Domain and Infrastructure do not participate.
 
-Schema version `2` persists:
+Schema version `3` persists:
 
 - application and interpretation language IDs;
 - theme ID;
 - Tarot spread, artwork-pack, selected interpretation-pack, and back-variant IDs;
 - Tarot reversal and auto-reveal booleans.
+- optional main-window normal X/Y offsets and width/height in DIPs, meaningful maximized state, and source monitor work-area/scaling context for safe repair.
 
-The document does not persist a reading, drawn or revealed cards, selection, interpretation, random state, timestamps, bitmap/cache state, failures, navigation, resize, scroll offset, profile, or history data.
+The document does not persist a reading, drawn or revealed cards, selection, interpretation, random state, timestamps, bitmap/cache state, failures, navigation state, scroll offset, profile, or history data. Window placement is shell state, but transient minimized/maximized bounds and per-pixel resize events are not persisted.
 
-Missing files are normal first-run state and return `ru` / `ru` / `dark` plus `single-card` / `lupus-noctis` / `classic` / `black-sun` / reversed `false` / auto reveal `true`, without a diagnostic or write. Schema 1 and schema 2 load; v1 becomes current in memory with `classic` but startup does not rewrite bytes, and the next actual preference change writes schema 2 with nested `selectedInterpretationPackId`. Unknown, missing, or empty v2 pack IDs normalize silently to Classic when available; an empty catalog retains the safe compiled identity while cards remain usable. Malformed JSON, unsupported schemas, and read failures return controlled defaults with structured diagnostics.
+Missing files are normal first-run state and return `ru` / `ru` / `dark` plus `single-card` / `lupus-noctis` / `classic` / `black-sun` / reversed `false` / auto reveal `true` and no stored placement, without a diagnostic or write. Schemas 1, 2, and 3 load; older schemas normalize placement to absent in memory and startup does not rewrite bytes, while the next actual preference change writes schema 3. Unknown, missing, or empty v2+ pack IDs normalize silently to Classic when available; an empty catalog retains the safe compiled identity while cards remain usable. A malformed schema-3 placement degrades only that optional portion and preserves all other valid preferences. Malformed root JSON, unsupported schemas, and read failures return controlled defaults with structured diagnostics.
 
-An actual preference change updates one App-owned immutable root snapshot and triggers one save attempt. Draw, redraw, reveal, selection, navigation, resizing, control recreation, and bitmap loading do not save. Writes create the directory, serialize to a same-directory temporary file, flush and close it, then replace/move the final file; controlled failure does not crash the application and performs best-effort temporary cleanup.
+An actual preference change updates one App-owned immutable root snapshot and triggers one save attempt. Window movement, resizing, and state changes update only an in-memory placement session; one semantic snapshot is saved after a non-cancelled close, and an unchanged snapshot is suppressed. Draw, redraw, reveal, selection, navigation, control recreation, and bitmap loading do not save. Writes create the directory, serialize to a same-directory temporary file, flush and close it, then replace/move the final file; controlled failure does not crash the application and performs best-effort temporary cleanup.
 
 Theme is loaded and applied before MainWindow is created. A DEBUG-only injected AppData root supports isolated real-control smoke without reading or modifying the real user file.
 
@@ -127,6 +128,10 @@ A future saved Tarot reading should be able to retain interpretation pack ID, co
 Schema 2 adds stable semantic field `selectedInterpretationPackId` inside the existing Tarot DTO. It defaults to `classic`, restores at startup, and changes only when the user selects another available pack. Version 1 loads and normalizes in memory; startup does not rewrite merely for migration, while the next actual preference save writes version 2. An unknown ID resolves to `classic` when available; with no available pack, cards remain usable and interpretation remains empty. No migration message is shown.
 
 Settings persist only the selected stable ID: current interpretation text is not settings state, and resolved fallback locale is runtime provenance rather than a user preference. Pack selection/fallback belongs to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md); exact migration and selector gates belong to [`TAROT-INTERPRETATION-IMPLEMENTATION.md`](TAROT-INTERPRETATION-IMPLEMENTATION.md).
+
+## Implemented Settings Schema 3
+
+Schema 3 adds optional `windowPlacement` data to the same atomic settings document. Presentation owns immutable placement values and pure topology/DPI repair; App adapts Avalonia `Window`/`Screens` lifecycle data. Width, height, and work-area-relative normal offsets are DIPs; source/current work areas and restored `Window.Position` are physical pixels, with explicit `Screen.Scaling` conversion. Startup chooses a matching current monitor when possible, otherwise repairs against overlap/primary fallback, clamps to its current work area, and centers safe defaults. Minimized is never a persisted startup state; maximized retains prior normal restore bounds. Future application-wide reset replaces this optional value with the default absent placement together with the other preferences.
 
 Settings also gains two shared actions:
 

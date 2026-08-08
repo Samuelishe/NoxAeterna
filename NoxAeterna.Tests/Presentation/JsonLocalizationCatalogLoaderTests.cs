@@ -130,6 +130,26 @@ public sealed class JsonLocalizationCatalogLoaderTests
     }
 
     [Fact]
+    public void RealUiCatalogs_LocalizeEveryProjectOwnedWindowCaptionAction()
+    {
+        var ruCatalog = LoadRealUiCatalog("ru");
+        var enCatalog = LoadRealUiCatalog("en");
+        var expected = new Dictionary<string, (string Ru, string En)>
+        {
+            ["ui.shell.window.minimize"] = ("Свернуть", "Minimize"),
+            ["ui.shell.window.maximize"] = ("Развернуть", "Maximize"),
+            ["ui.shell.window.restore"] = ("Восстановить", "Restore"),
+            ["ui.shell.window.close"] = ("Закрыть", "Close")
+        };
+
+        foreach (var (key, value) in expected)
+        {
+            Assert.Equal(value.Ru, GetRequiredText(ruCatalog, key));
+            Assert.Equal(value.En, GetRequiredText(enCatalog, key));
+        }
+    }
+
+    [Fact]
     public void RealRussianUiCatalog_UsesLocalizedBirthInputLabelsWithoutKnownMixedEnglishTerms()
     {
         var ruCatalog = LoadRealUiCatalog("ru");

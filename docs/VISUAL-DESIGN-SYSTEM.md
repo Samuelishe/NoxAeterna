@@ -121,6 +121,8 @@ The Avalonia dark/light dictionaries expose these values as paired `Design*Color
 
 The shell navigation uses the existing semantic roles rather than a dedicated palette. Its pane is a `Surface` region with a `Border` edge; hover uses `SurfaceRaised`, selection uses `AccentPrimarySoft` with an `AccentPrimaryStrong` left rail, and keyboard focus uses `FocusRing`.
 
+The Windows caption is part of the same `Canvas` rather than a separate header card. Its project-owned vector controls use `TextPrimary`, restrained `ControlFillHover`/`ControlFillPressed` states, and `FocusRing`; only close hover borrows the existing `Error` role. No caption-specific color family or permanent destructive fill is introduced.
+
 Expanded navigation presents project-owned vector icons with localized labels. Collapsed navigation keeps the same icon order, centers the icons, removes label and heading layout space, and preserves localized tooltip and accessible-name text. Navigation icons share one normalized 24-by-24 coordinate system, use semantic foreground brushes, and remain functional rather than decorative. Unicode arrows, emoji, external icon fonts, downloaded icons, glow, and platform-accent selection are not part of this language.
 
 ## Chart Palette V1
