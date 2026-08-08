@@ -55,7 +55,7 @@ public sealed class TarotInterpretationBoundaryTests
     }
 
     [Fact]
-    public void SourceTreeContainsCanonicalRussianSingleCardAndW1W2W3W4W5PairCorporaAndRetainsExcludedProseBoundaries()
+    public void SourceTreeContainsCompleteCanonicalRussianPairCorpusAndRetainsExcludedProseBoundaries()
     {
         var productionRoot = RepositoryPath("resources", "interpretation", "tarot", "sources", "classic");
         var russianRoot = Path.Combine(productionRoot, "content", "ru");
@@ -75,13 +75,7 @@ public sealed class TarotInterpretationBoundaryTests
         var expectedAuthoredPairIdentities = canonicalCardIds
             .SelectMany((cardAId, index) => canonicalCardIds.Skip(index + 1)
                 .Select(cardBId => $"{cardAId}__{cardBId}"))
-            .Take(2500)
             .ToArray();
-        var nextMissingPairIdentity = canonicalCardIds
-            .SelectMany((cardAId, index) => canonicalCardIds.Skip(index + 1)
-                .Select(cardBId => $"{cardAId}__{cardBId}"))
-            .Skip(2500)
-            .First();
         var orientedPairFiles = Directory.GetFiles(orientedPairRoot, "*.json", SearchOption.TopDirectoryOnly)
             .Order(StringComparer.Ordinal)
             .ToArray();
@@ -89,15 +83,22 @@ public sealed class TarotInterpretationBoundaryTests
             .Select(identity => Path.Combine(orientedPairRoot, $"{identity}.json"))
             .Order(StringComparer.Ordinal)
             .ToArray();
+        var orientedPairStateCounts = orientedPairFiles.Select(file =>
+        {
+            using var bundle = JsonDocument.Parse(File.ReadAllText(file));
+            return bundle.RootElement.GetProperty("states").EnumerateObject().Count();
+        }).ToArray();
         var vocabularyFiles = Directory.GetFiles(vocabularyRoot, "*.json", SearchOption.TopDirectoryOnly);
         var englishFiles = Directory.GetFiles(englishRoot, "*", SearchOption.AllDirectories);
         using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(productionRoot, "interpretation-pack.json")));
 
-        Assert.Equal(2642, productionFiles.Length);
+        Assert.Equal(3145, productionFiles.Length);
         Assert.Equal(78, singleCardFiles.Length);
         Assert.Equal(expectedSingleCardFiles, singleCardFiles);
-        Assert.Equal(2500, orientedPairFiles.Length);
+        Assert.Equal(3003, orientedPairFiles.Length);
         Assert.Equal(expectedOrientedPairFiles, orientedPairFiles);
+        Assert.All(orientedPairStateCounts, count => Assert.Equal(4, count));
+        Assert.Equal(12012, orientedPairStateCounts.Sum());
         Assert.Equal("major.chariot__major.death", expectedAuthoredPairIdentities[0]);
         Assert.Equal("major.hanged-man__minor.swords.seven", expectedAuthoredPairIdentities[499]);
         Assert.Equal("major.hanged-man__minor.swords.six", expectedAuthoredPairIdentities[500]);
@@ -107,9 +108,9 @@ public sealed class TarotInterpretationBoundaryTests
         Assert.Equal("minor.cups.ace__minor.swords.six", expectedAuthoredPairIdentities[1500]);
         Assert.Equal("minor.cups.six__minor.wands.ace", expectedAuthoredPairIdentities[1999]);
         Assert.Equal("minor.cups.six__minor.wands.eight", expectedAuthoredPairIdentities[2000]);
-        Assert.Equal("minor.pentacles.seven__minor.wands.nine", expectedAuthoredPairIdentities[^1]);
-        Assert.Equal("minor.pentacles.seven__minor.wands.page", nextMissingPairIdentity);
-        Assert.False(File.Exists(Path.Combine(orientedPairRoot, $"{nextMissingPairIdentity}.json")));
+        Assert.Equal("minor.pentacles.seven__minor.wands.nine", expectedAuthoredPairIdentities[2499]);
+        Assert.Equal("minor.pentacles.seven__minor.wands.page", expectedAuthoredPairIdentities[2500]);
+        Assert.Equal("minor.wands.three__minor.wands.two", expectedAuthoredPairIdentities[^1]);
         Assert.Equal(61, vocabularyFiles.Length);
         Assert.Contains(Path.Combine(productionRoot, "interpretation-pack.json"), productionFiles);
         Assert.Contains(Path.Combine(russianRoot, "labels.json"), productionFiles);

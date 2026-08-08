@@ -9,6 +9,10 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-08: INT2-PAIR-RU-W6 Complete Russian Classic Oriented-Pair Corpus
+
+- Authored final canonical pair indices 2500..3002, from `minor.pentacles.seven__minor.wands.page` through `minor.wands.three__minor.wands.two`: 503 complete bundles / 2,012 states, completing the RU corpus at 3,003/3,003 bundles and 12,012/12,012 states. Full-corpus structural, lexical, metadata, package, and milestone verification completed without changing W1R–W5, English, readiness, runtime, UI, or artwork; owner acceptance and `ru + two-cards` promotion remain separate.
+
 ## 2026-08-08: INT2-PAIR-RU-W5 Russian Classic Oriented-Pair Authoring
 
 - Authored canonical pair indices 2000..2499, from `minor.cups.six__minor.wands.eight` through `minor.pentacles.seven__minor.wands.nine`: 500 complete bundles / 2,000 orientation states, bringing the accumulated RU pair corpus to 2,500/3,003 bundles and 10,000/12,012 states. Iterative structural, semantic-intensity, lexical, and micro-phrase review removed every new scaffold and unrelated-family formula while preserving W1R–W4, readiness, English content, runtime, and UI; W6 was not started.
