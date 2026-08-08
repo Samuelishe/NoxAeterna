@@ -290,6 +290,16 @@ public sealed class JsonLocalizationCatalogLoaderTests
     }
 
     [Fact]
+    public void RealUiCatalogs_UseSpreadNeutralTarotNoReadingGuidance()
+    {
+        var english = LoadRealUiCatalog("en");
+        var russian = LoadRealUiCatalog("ru");
+
+        Assert.Equal("Draw the cards to begin", GetRequiredText(english, "ui.tarot.empty-state"));
+        Assert.Equal("Вытяните карты, чтобы начать", GetRequiredText(russian, "ui.tarot.empty-state"));
+    }
+
+    [Fact]
     public void RealUiCatalogs_ContainTwoCardSpreadAndPairHeadingsWithExactCopy()
     {
         var english = LoadRealUiCatalog("en");

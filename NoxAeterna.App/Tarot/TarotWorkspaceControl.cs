@@ -30,6 +30,7 @@ public sealed class TarotWorkspaceControl : UserControl
     private readonly LanguageCode applicationLanguage;
     private readonly Func<Instant> getCurrentInstant;
     private readonly ContentControl tableauStateHost;
+    private readonly ContentControl emptyStateHost;
     private readonly ContentControl interpretationHost;
     private readonly ContentControl readingLayoutHost;
     private readonly Dictionary<string, Bitmap> rasterImageCache = new(StringComparer.Ordinal);
@@ -59,7 +60,16 @@ public sealed class TarotWorkspaceControl : UserControl
         this.applicationLanguage = applicationLanguage;
         this.getCurrentInstant = getCurrentInstant ?? throw new ArgumentNullException(nameof(getCurrentInstant));
 
-        tableauStateHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch };
+        tableauStateHost = new ContentControl
+        {
+            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            VerticalContentAlignment = VerticalAlignment.Top
+        };
+        emptyStateHost = new ContentControl
+        {
+            HorizontalContentAlignment = HorizontalAlignment.Center,
+            VerticalContentAlignment = VerticalAlignment.Center
+        };
         interpretationHost = new ContentControl { HorizontalContentAlignment = HorizontalAlignment.Stretch };
         readingLayoutHost = new ContentControl
         {
@@ -259,6 +269,7 @@ public sealed class TarotWorkspaceControl : UserControl
             HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
             VerticalScrollBarVisibility = ScrollBarVisibility.Disabled,
             HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            VerticalContentAlignment = VerticalAlignment.Top,
             Content = tableauStateHost
         };
         ScrollViewer.SetIsScrollChainingEnabled(tableauScrollViewer, true);
@@ -303,16 +314,27 @@ public sealed class TarotWorkspaceControl : UserControl
         };
     }
 
-    private Control CreateWideSingleCardReadingSurface(double cardColumnWidth)
+    private Control CreateNoReadingSurface() => new Grid
+    {
+        Name = "TarotNoReadingSurface",
+        HorizontalAlignment = HorizontalAlignment.Stretch,
+        VerticalAlignment = VerticalAlignment.Stretch,
+        Children = { emptyStateHost }
+    };
+
+    private Control CreateWideSingleCardReadingSurface(TarotSingleCardReadingLayoutResult layout)
     {
         var columns = new ColumnDefinitions
         {
-            new ColumnDefinition { Width = new GridLength(cardColumnWidth) },
-            new ColumnDefinition { Width = GridLength.Star }
+            new ColumnDefinition { Width = new GridLength(layout.CardColumnWidth) },
+            new ColumnDefinition { Width = new GridLength(layout.InterpretationColumnWidth) }
         };
         var grid = new Grid
         {
             Name = "TarotSingleCardReadingGrid",
+            Width = layout.GroupWidth,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Stretch,
             ColumnDefinitions = columns,
             ColumnSpacing = TarotReadingWorkspaceLayout.ColumnGap
         };
@@ -321,7 +343,7 @@ public sealed class TarotWorkspaceControl : UserControl
             Name = "TarotInterpretationScrollViewer",
             VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
             HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
-            HorizontalContentAlignment = HorizontalAlignment.Left,
+            HorizontalContentAlignment = HorizontalAlignment.Stretch,
             Padding = new Thickness(0, 0, 8, 0),
             Content = interpretationHost
         };
@@ -339,14 +361,21 @@ public sealed class TarotWorkspaceControl : UserControl
         var availableHeight = readingLayoutHost.Bounds.Height > 0d
             ? readingLayoutHost.Bounds.Height
             : TarotTableauLayout.SingleCardWidth / TarotTableauLayout.CardAspectRatio;
-        var isSingleCard = viewModel.SelectedSpread.Definition.Id == StandardTarotSpreads.SingleCard.Id;
-        singleCardReadingLayout = isSingleCard
+        var readingSurfaceState = viewModel.ReadingSurfaceState;
+        var nextSingleCardReadingLayout = readingSurfaceState == TarotReadingSurfaceState.SingleCardReading
             ? TarotReadingWorkspaceLayout.CalculateSingleCard(availableWidth, availableHeight)
             : null;
-        var desiredComposition = singleCardReadingLayout?.Composition ==
-                                 TarotSingleCardReadingComposition.SideBySide
-            ? ReadingSurfaceComposition.SideBySideSingleCard
-            : ReadingSurfaceComposition.Stacked;
+        var desiredComposition = readingSurfaceState switch
+        {
+            TarotReadingSurfaceState.NoReading => ReadingSurfaceComposition.NoReading,
+            TarotReadingSurfaceState.SingleCardReading
+                when nextSingleCardReadingLayout?.Composition == TarotSingleCardReadingComposition.SideBySide =>
+                ReadingSurfaceComposition.SideBySideSingleCard,
+            _ => ReadingSurfaceComposition.Stacked
+        };
+        var sideBySideMeasurementsChanged = desiredComposition == ReadingSurfaceComposition.SideBySideSingleCard &&
+                                            nextSingleCardReadingLayout != singleCardReadingLayout;
+        singleCardReadingLayout = nextSingleCardReadingLayout;
 
         interpretationHost.MaxWidth = TarotReadingWorkspaceLayout.MaximumInterpretationTextWidth;
         interpretationHost.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -355,18 +384,23 @@ public sealed class TarotWorkspaceControl : UserControl
             ? ScrollBarVisibility.Disabled
             : ScrollBarVisibility.Auto;
 
-        if (readingSurfaceComposition == desiredComposition)
+        if (readingSurfaceComposition == desiredComposition && !sideBySideMeasurementsChanged)
         {
             return;
         }
 
         DetachFromLayoutParent(tableauScrollViewer);
         DetachFromLayoutParent(interpretationHost);
+        DetachFromLayoutParent(emptyStateHost);
         readingSurfaceComposition = desiredComposition;
         readingLayoutHost.Content = null;
-        var newContent = desiredComposition == ReadingSurfaceComposition.SideBySideSingleCard
-            ? CreateWideSingleCardReadingSurface(singleCardReadingLayout!.CardColumnWidth)
-            : CreateStackedReadingSurface();
+        var newContent = desiredComposition switch
+        {
+            ReadingSurfaceComposition.NoReading => CreateNoReadingSurface(),
+            ReadingSurfaceComposition.SideBySideSingleCard =>
+                CreateWideSingleCardReadingSurface(singleCardReadingLayout!),
+            _ => CreateStackedReadingSurface()
+        };
         readingLayoutHost.Content = newContent;
     }
 
@@ -415,26 +449,21 @@ public sealed class TarotWorkspaceControl : UserControl
 
     private void RefreshTableau()
     {
+        emptyStateHost.Content = null;
         if (viewModel.CurrentFailure is not null)
         {
-            tableauStateHost.Content = CreateStateText(Localize(viewModel.FailureStateKey), "validation-error");
+            tableauStateHost.Content = null;
+            emptyStateHost.Content = CreateStateText(Localize(viewModel.FailureStateKey), "validation-error");
             return;
         }
 
         if (viewModel.CurrentReading is not { } reading)
         {
-            var preview = CreateCardBack(viewModel.SelectedBackVariant.Id, TarotTableauLayout.MinimumCardWidth);
-            preview.IsHitTestVisible = false;
-            tableauStateHost.Content = new StackPanel
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Spacing = 14,
-                Children =
-                {
-                    preview,
-                    CreateStateText(Localize(viewModel.EmptyStateKey), "subtle")
-                }
-            };
+            tableauStateHost.Content = null;
+            emptyStateHost.Content = CreateStateText(
+                Localize(viewModel.EmptyStateKey),
+                "subtle",
+                "TarotEmptyStateText");
             return;
         }
 
@@ -807,10 +836,11 @@ public sealed class TarotWorkspaceControl : UserControl
         };
     }
 
-    private static TextBlock CreateStateText(string text, string styleClass)
+    private static TextBlock CreateStateText(string text, string styleClass, string? name = null)
     {
         var textBlock = new TextBlock
         {
+            Name = name,
             Text = text,
             TextWrapping = TextWrapping.Wrap,
             TextAlignment = TextAlignment.Center,
@@ -854,7 +884,8 @@ public sealed class TarotWorkspaceControl : UserControl
 
     private enum ReadingSurfaceComposition
     {
-        Stacked = 0,
-        SideBySideSingleCard = 1
+        NoReading = 0,
+        Stacked = 1,
+        SideBySideSingleCard = 2
     }
 }

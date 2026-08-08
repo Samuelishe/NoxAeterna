@@ -9,6 +9,10 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-08: T-UX2B-TAROT-READING-COMPOSITION
+
+- Replaced the spread-driven fake-card preview with an explicit reading-driven `NoReading` surface, made every incompatible spread switch return to the same localized empty composition, and bounded/centered the height-aware wide single-card card-plus-interpretation group while preserving independent wide text scrolling and existing multi-card semantics. Focused/full verification and bounded Obsidian/Porcelain real-control smoke completed without interpretation, artwork, backdrop, settings-schema, or window-chrome changes.
+
 ## 2026-08-08: S2-WINDOW-LIFECYCLE-CHROME
 
 - Added schema-3 safe main-window placement with pure DPI/work-area/topology repair and close-only atomic persistence, plus Windows-only project-drawn Avalonia 12 caption controls over native drag/resize/maximize/Snap and Alt+Space system-menu behavior while retaining native macOS/Linux decorations. Focused routes, full milestone, documentation validation, and bounded real Windows placement/chrome/theme/Tarot smoke completed without changing Tarot composition or content.

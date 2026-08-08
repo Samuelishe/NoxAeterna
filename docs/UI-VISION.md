@@ -88,12 +88,13 @@ Current shell direction:
 Current Tarot direction:
 
 - the Tarot section is a real in-memory workspace using Domain-owned standard cards, built-in spreads, orientation policy, and draw engine;
-- wide single-card presentation uses a two-column reading surface: a bounded left card column retains the accepted `378 × 648` DIP ceiling while fitting available height, and an independently scrolling right column keeps tags plus five readable interpretation sections beside it;
+- when no in-memory reading exists, Tarot shows one spread-neutral localized guidance message without a card back, tableau, position slots, or interpretation placeholder, regardless of the persisted selector;
+- wide single-card presentation centers one bounded card + `28` DIP gap + interpretation group: the left card column retains the accepted `378 × 648` DIP ceiling while fitting available height, the interpretation column remains between `400` and `720` DIP, and surplus desktop width stays outside the group;
 - when the content viewport cannot fit the accepted card column, the deliberate gap, and the minimum readable interpretation column, single-card presentation returns to an ordered card → tags → interpretation stack; three-card presentation keeps ordered past/present/future assignments at equal preferred `315 × 540` DIP sizes;
 - compact widths preserve a `216` DIP card minimum and give horizontal overflow to the tableau instead of clipping the shell;
 - Lupus Noctis is the sole visible artwork option and resolves all 78 standard cards to raster; required-pack damage disables Draw with a controlled localized diagnostic rather than exposing Classic;
 - raster inner artwork never owns the programmatic frame, localized title, selection state, or reversal transform; Black Sun and Lunar Seal remain selectable prototype backs;
-- a fixed control panel sits above one stretching reading surface; wide single-card readings pin the card beside an independently vertically scrolling interpretation column, while narrow single-card and existing multi-card readings retain the ordered outer vertical surface and tableau-owned horizontal overflow;
+- a fixed control panel sits above one stretching reading surface; wide single-card readings top-align the card with an independently vertically scrolling interpretation column, while narrow single-card and existing multi-card readings retain the ordered outer vertical surface and tableau-owned horizontal overflow;
 - interpretation prose has a bounded readable measure instead of stretching across an arbitrarily wide desktop column; the Tarot workspace suppresses the redundant shell section header, single-card and the non-positional two-card spread suppress non-distinguishing/technical position labels, while semantic three-card position labels remain visible;
 - the selected-card metadata inspector is absent from production UI; selection remains available for card state, keyboard focus, accessibility, and future navigation;
 - auto reveal defaults on; manual mode reveals one activated position at a time, and hidden cards never leak future meaning content;

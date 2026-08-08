@@ -49,10 +49,15 @@ public sealed class TarotWorkspaceContractTests
         var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
         var wide = MethodSlice(
             source,
-            "private Control CreateWideSingleCardReadingSurface(double cardColumnWidth)",
+            "private Control CreateWideSingleCardReadingSurface(TarotSingleCardReadingLayoutResult layout)",
             "private void RefreshReadingLayout()");
 
         Assert.Contains("Name = \"TarotSingleCardReadingGrid\"", wide, StringComparison.Ordinal);
+        Assert.Contains("Width = layout.GroupWidth", wide, StringComparison.Ordinal);
+        Assert.Contains("HorizontalAlignment = HorizontalAlignment.Center", wide, StringComparison.Ordinal);
+        Assert.Contains("new GridLength(layout.CardColumnWidth)", wide, StringComparison.Ordinal);
+        Assert.Contains("new GridLength(layout.InterpretationColumnWidth)", wide, StringComparison.Ordinal);
+        Assert.DoesNotContain("GridLength.Star", wide, StringComparison.Ordinal);
         Assert.Contains("TarotReadingWorkspaceLayout.ColumnGap", wide, StringComparison.Ordinal);
         Assert.Contains("Name = \"TarotInterpretationScrollViewer\"", wide, StringComparison.Ordinal);
         Assert.Contains("VerticalScrollBarVisibility = ScrollBarVisibility.Auto", wide, StringComparison.Ordinal);
@@ -65,6 +70,32 @@ public sealed class TarotWorkspaceContractTests
         Assert.True(
             wide.IndexOf("tableauScrollViewer!", StringComparison.Ordinal) <
             wide.IndexOf("interpretationScrollViewer", wide.IndexOf("grid.Children.Add", StringComparison.Ordinal), StringComparison.Ordinal));
+        Assert.Contains("VerticalContentAlignment = VerticalAlignment.Top", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void NoReading_UsesSpreadNeutralGuidanceWithoutCardBackTableauOrInterpretation()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+        var layout = MethodSlice(source, "private void RefreshReadingLayout()", "private static void DetachFromLayoutParent");
+        var tableau = MethodSlice(source, "private void RefreshTableau()", "private Control CreateCardSlot");
+        var emptySurface = MethodSlice(
+            source,
+            "private Control CreateNoReadingSurface()",
+            "private Control CreateWideSingleCardReadingSurface");
+
+        Assert.Contains("viewModel.ReadingSurfaceState", layout, StringComparison.Ordinal);
+        Assert.DoesNotContain("viewModel.SelectedSpread", layout, StringComparison.Ordinal);
+        Assert.Contains("TarotReadingSurfaceState.NoReading", layout, StringComparison.Ordinal);
+        Assert.Contains("ReadingSurfaceComposition.NoReading => CreateNoReadingSurface()", layout, StringComparison.Ordinal);
+        Assert.Contains("Name = \"TarotNoReadingSurface\"", emptySurface, StringComparison.Ordinal);
+        Assert.Contains("Children = { emptyStateHost }", emptySurface, StringComparison.Ordinal);
+        Assert.DoesNotContain("tableauScrollViewer", emptySurface, StringComparison.Ordinal);
+        Assert.DoesNotContain("interpretationHost", emptySurface, StringComparison.Ordinal);
+
+        Assert.Contains("tableauStateHost.Content = null", tableau, StringComparison.Ordinal);
+        Assert.Contains("\"TarotEmptyStateText\"", tableau, StringComparison.Ordinal);
+        Assert.DoesNotContain("CreateCardBack", tableau, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -103,6 +134,7 @@ public sealed class TarotWorkspaceContractTests
 
         Assert.Contains("DetachFromLayoutParent(tableauScrollViewer)", refresh, StringComparison.Ordinal);
         Assert.Contains("DetachFromLayoutParent(interpretationHost)", refresh, StringComparison.Ordinal);
+        Assert.Contains("DetachFromLayoutParent(emptyStateHost)", refresh, StringComparison.Ordinal);
         Assert.True(
             refresh.IndexOf("DetachFromLayoutParent", StringComparison.Ordinal) <
             refresh.IndexOf("readingLayoutHost.Content = null", StringComparison.Ordinal));

@@ -84,7 +84,7 @@
   "ui.tarot.control.draw": "Draw cards",
   "ui.tarot.control.redraw": "New reading",
   "ui.tarot.tableau.title": "Tableau",
-  "ui.tarot.empty-state": "Choose a spread and draw the cards",
+  "ui.tarot.empty-state": "Draw the cards to begin",
   "ui.tarot.failure.insufficient-deck": "The selected deck does not contain enough cards for this spread.",
   "ui.tarot.artwork.unavailable": "Lupus Noctis artwork is unavailable. Check the built-in application resources.",
   "ui.tarot.spread.single-card": "Single card",

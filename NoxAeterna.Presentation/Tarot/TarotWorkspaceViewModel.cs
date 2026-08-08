@@ -120,6 +120,10 @@ public sealed class TarotWorkspaceViewModel
     /// <summary>Gets the current successful in-memory reading.</summary>
     public TarotReading? CurrentReading { get; private set; }
 
+    /// <summary>Gets the visual reading state derived from the actual current reading.</summary>
+    public TarotReadingSurfaceState ReadingSurfaceState =>
+        TarotReadingWorkspaceLayout.ResolveReadingSurfaceState(CurrentReading);
+
     /// <summary>Gets the selected revealed card assignment.</summary>
     public TarotDrawnCard? SelectedCard { get; private set; }
 

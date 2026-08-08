@@ -84,7 +84,7 @@
   "ui.tarot.control.draw": "Вытянуть карты",
   "ui.tarot.control.redraw": "Новый расклад",
   "ui.tarot.tableau.title": "Расклад",
-  "ui.tarot.empty-state": "Выберите расклад и вытяните карты",
+  "ui.tarot.empty-state": "Вытяните карты, чтобы начать",
   "ui.tarot.failure.insufficient-deck": "В выбранной колоде недостаточно карт для этого расклада.",
   "ui.tarot.artwork.unavailable": "Иллюстрации Lupus Noctis недоступны. Проверьте встроенные ресурсы приложения.",
   "ui.tarot.spread.single-card": "Одна карта",

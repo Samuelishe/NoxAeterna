@@ -26,12 +26,13 @@
 - INT1-QA0 is accepted at `1aa77fb0fcdc2a755658b0263dd828031f2dd374`; hosted run `31174870501` (59) passed CI.
 - INT1-AUTH-RU-BULK is accepted at `8c6d1ad4744394965eec4b09f155608fa8d6d537`; hosted run 60 passed CI with the complete 78-bundle / 156-state Russian Classic single-card corpus.
 - INT2-RUNTIME-RU-TWO and the EOL-independent documentation-budget repair are accepted through checkpoint `5fbae998c6de71de7561d38925a66e1119bab698`; hosted run 72 passed all five jobs, including Windows.
+- S2 window placement/seamless Windows chrome and the corrected minimize glyph are accepted through checkpoint `e5b16d1f785a9a2f7530a43b3d15f64f99a40dc3`; hosted run 74 passed all five jobs.
 - The actual branch and current HEAD are always reported by `eng/repo-baseline.ps1`; dynamic Git state is not owned here.
 - The visual system is Astral Archive with paired Obsidian and Porcelain themes.
 
 ## Current Focus
 
-**S2-WINDOW-LIFECYCLE-CHROME — safe placement and seamless Windows chrome**: schema-3 AppData preferences now retain repaired normal bounds plus meaningful maximized state, while Avalonia 12 drawn decorations provide the project-owned Windows caption over native desktop behavior. Local verification and real Windows smoke are complete; owner review precedes the separate T-UX2B Tarot composition stage.
+**T-UX2B-TAROT-READING-COMPOSITION — truthful empty state and bounded single-card group**: the reading surface now follows the actual in-memory reading, spread changes without Draw return to a neutral card-free state, and wide single-card card/text columns form one centered height-aware group. Local verification and real-control smoke precede owner review; backdrop and three-card authoring remain separate.
 
 ## Preserved Contracts
 
@@ -48,4 +49,4 @@
 
 ## Active Blockers
 
-- No implementation blocker remains. S2 awaits owner review; T-UX2B, English translation, and three-card semantic authoring remain separate explicit stages.
+- No implementation blocker remains. T-UX2B awaits owner review; backdrop prototyping, English interpretation, and three-card semantic authoring remain separate explicit stages.

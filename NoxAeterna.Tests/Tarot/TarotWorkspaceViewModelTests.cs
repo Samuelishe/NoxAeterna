@@ -55,6 +55,25 @@ public sealed class TarotWorkspaceViewModelTests
         Assert.Equal("two-cards", viewModel.Preferences.SpreadId.Value);
         Assert.Null(viewModel.CurrentReading);
         Assert.Equal(0, viewModel.RevealedCardCount);
+        Assert.Equal(TarotReadingSurfaceState.NoReading, viewModel.ReadingSurfaceState);
+    }
+
+    [Theory]
+    [InlineData("single-card")]
+    [InlineData("two-cards")]
+    [InlineData("three-cards")]
+    public void RestoredSpreadWithoutSessionReading_IsAlwaysNoReading(string spreadId)
+    {
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
+            new TarotDrawEngine(new SequenceRandomSource()),
+            initialPreferences: TarotWorkspacePreferences.CreateDefault() with
+            {
+                SpreadId = new TarotSpreadId(spreadId)
+            });
+
+        Assert.Equal(spreadId, viewModel.SelectedSpread.Definition.Id.Value);
+        Assert.Null(viewModel.CurrentReading);
+        Assert.Equal(TarotReadingSurfaceState.NoReading, viewModel.ReadingSurfaceState);
     }
 
     [Fact]
@@ -257,6 +276,56 @@ public sealed class TarotWorkspaceViewModelTests
         Assert.Null(viewModel.SelectedCard);
         Assert.Null(viewModel.CurrentFailure);
         Assert.False(viewModel.IsRevealed(positionId));
+        Assert.Equal(TarotReadingSurfaceState.NoReading, viewModel.ReadingSurfaceState);
+    }
+
+    [Theory]
+    [InlineData("two-cards", "single-card", TarotReadingSurfaceState.TwoCardReading, TarotReadingSurfaceState.SingleCardReading)]
+    [InlineData("three-cards", "single-card", TarotReadingSurfaceState.ThreeCardReading, TarotReadingSurfaceState.SingleCardReading)]
+    [InlineData("single-card", "two-cards", TarotReadingSurfaceState.SingleCardReading, TarotReadingSurfaceState.TwoCardReading)]
+    public void SwitchingSpread_ClearsToNoReadingUntilNextCompatibleDraw(
+        string initialSpreadId,
+        string nextSpreadId,
+        TarotReadingSurfaceState initialReadingState,
+        TarotReadingSurfaceState nextReadingState)
+    {
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
+            new TarotDrawEngine(new SequenceRandomSource(0, 0, 0, 0, 0, 0)));
+        viewModel.SelectSpread(new TarotSpreadId(initialSpreadId));
+        viewModel.Draw(Instant.FromUnixTimeTicks(41));
+        Assert.Equal(initialReadingState, viewModel.ReadingSurfaceState);
+
+        viewModel.SelectSpread(new TarotSpreadId(nextSpreadId));
+
+        Assert.Null(viewModel.CurrentReading);
+        Assert.Equal(TarotReadingSurfaceState.NoReading, viewModel.ReadingSurfaceState);
+
+        viewModel.Draw(Instant.FromUnixTimeTicks(42));
+        Assert.Equal(nextReadingState, viewModel.ReadingSurfaceState);
+        Assert.Equal(nextSpreadId, viewModel.CurrentReading!.SpreadId.Value);
+    }
+
+    [Fact]
+    public void ReadingSurfaceState_TracksNoReadingBetweenEverySupportedComposition()
+    {
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
+            new TarotDrawEngine(new SequenceRandomSource(0, 0, 0, 0, 0, 0)));
+        Assert.Equal(TarotReadingSurfaceState.NoReading, viewModel.ReadingSurfaceState);
+
+        viewModel.Draw(Instant.FromUnixTimeTicks(43));
+        Assert.Equal(TarotReadingSurfaceState.SingleCardReading, viewModel.ReadingSurfaceState);
+        viewModel.SelectSpread(StandardTarotSpreads.TwoCards.Id);
+        Assert.Equal(TarotReadingSurfaceState.NoReading, viewModel.ReadingSurfaceState);
+
+        viewModel.Draw(Instant.FromUnixTimeTicks(44));
+        Assert.Equal(TarotReadingSurfaceState.TwoCardReading, viewModel.ReadingSurfaceState);
+        viewModel.SelectSpread(StandardTarotSpreads.ThreeCards.Id);
+        Assert.Equal(TarotReadingSurfaceState.NoReading, viewModel.ReadingSurfaceState);
+
+        viewModel.Draw(Instant.FromUnixTimeTicks(45));
+        Assert.Equal(TarotReadingSurfaceState.ThreeCardReading, viewModel.ReadingSurfaceState);
+        viewModel.SelectSpread(StandardTarotSpreads.SingleCard.Id);
+        Assert.Equal(TarotReadingSurfaceState.NoReading, viewModel.ReadingSurfaceState);
     }
 
     [Fact]

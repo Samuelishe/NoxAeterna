@@ -19,6 +19,8 @@ public sealed class TarotReadingWorkspaceLayoutTests
         Assert.Equal(
             TarotReadingWorkspaceLayout.MinimumInterpretationColumnWidth,
             result.InterpretationColumnWidth);
+        Assert.Equal(TarotReadingWorkspaceLayout.SideBySideMinimumWidth, result.GroupWidth);
+        Assert.Equal(0d, result.LeadingOffset);
     }
 
     [Fact]
@@ -32,6 +34,8 @@ public sealed class TarotReadingWorkspaceLayoutTests
         var veryNarrow = TarotReadingWorkspaceLayout.CalculateSingleCard(180d, 700d);
         Assert.Equal(TarotTableauLayout.MinimumCardWidth, veryNarrow.CardWidth);
         Assert.Equal(180d, veryNarrow.InterpretationColumnWidth);
+        Assert.Equal(180d, veryNarrow.GroupWidth);
+        Assert.Equal(0d, veryNarrow.LeadingOffset);
     }
 
     [Theory]
@@ -67,6 +71,56 @@ public sealed class TarotReadingWorkspaceLayoutTests
             result.CardWidth,
             TarotTableauLayout.MinimumCardWidth,
             TarotTableauLayout.SingleCardWidth);
+        Assert.Equal(result.CardWidth / TarotTableauLayout.CardAspectRatio, result.CardHeight, precision: 10);
+    }
+
+    [Theory]
+    [InlineData(1000d, 1000d, 594d, 0d)]
+    [InlineData(1360d, 1126d, 720d, 117d)]
+    [InlineData(1920d, 1126d, 720d, 397d)]
+    [InlineData(2560d, 1126d, 720d, 717d)]
+    public void WideSingleCard_BoundsAndCentersOneNaturalGroup(
+        double availableWidth,
+        double expectedGroupWidth,
+        double expectedInterpretationWidth,
+        double expectedLeadingOffset)
+    {
+        var result = TarotReadingWorkspaceLayout.CalculateSingleCard(availableWidth, 900d);
+
+        Assert.Equal(TarotSingleCardReadingComposition.SideBySide, result.Composition);
+        Assert.Equal(expectedGroupWidth, result.GroupWidth);
+        Assert.Equal(expectedInterpretationWidth, result.InterpretationColumnWidth);
+        Assert.Equal(expectedLeadingOffset, result.LeadingOffset);
+        Assert.Equal(availableWidth, result.LeadingOffset * 2d + result.GroupWidth, precision: 10);
+        Assert.InRange(
+            result.InterpretationColumnWidth,
+            TarotReadingWorkspaceLayout.MinimumInterpretationColumnWidth,
+            TarotReadingWorkspaceLayout.MaximumInterpretationTextWidth);
+        Assert.InRange(result.CardWidth, TarotTableauLayout.MinimumCardWidth, TarotTableauLayout.SingleCardWidth);
+    }
+
+    [Fact]
+    public void MaximumWideGroup_IsDerivedFromCanonicalColumnContracts()
+    {
+        Assert.Equal(
+            TarotTableauLayout.SingleCardWidth +
+            TarotReadingWorkspaceLayout.ColumnGap +
+            TarotReadingWorkspaceLayout.MaximumInterpretationTextWidth,
+            TarotReadingWorkspaceLayout.MaximumSideBySideGroupWidth);
+
+        var result = TarotReadingWorkspaceLayout.CalculateSingleCard(4000d, 2000d);
+
+        Assert.Equal(TarotReadingWorkspaceLayout.MaximumSideBySideGroupWidth, result.GroupWidth);
+        Assert.Equal(TarotReadingWorkspaceLayout.MaximumInterpretationTextWidth, result.InterpretationColumnWidth);
+        Assert.True(result.LeadingOffset > 0d);
+    }
+
+    [Fact]
+    public void NoReadingState_DoesNotDependOnASelectedSpread()
+    {
+        Assert.Equal(
+            TarotReadingSurfaceState.NoReading,
+            TarotReadingWorkspaceLayout.ResolveReadingSurfaceState(reading: null));
     }
 
     [Fact]
