@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Xml.Linq;
 using NoxAeterna.App.Shell;
 
@@ -57,6 +58,33 @@ public sealed class WindowChromeContractTests
         Assert.Contains("WindowDrawnDecorationsTemplate", source, StringComparison.Ordinal);
         Assert.DoesNotContain("Click=", source, StringComparison.Ordinal);
         Assert.Contains("DesignCanvasBrush", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void MinimizeButton_UsesNonDegenerateCompactDashWithNativeRole()
+    {
+        var path = AppPath("Themes", "SemanticControlStyles.axaml");
+        var document = XDocument.Load(path);
+        var minimizeButton = Assert.Single(document.Descendants(), element =>
+            GetAttribute(element, "Name") == "PART_MinimizeButton");
+        var glyph = Assert.Single(minimizeButton.Descendants(), element =>
+            GetAttribute(element, "Name") == "WindowCaptionMinimizeIcon");
+        var width = double.Parse(Assert.IsType<XAttribute>(glyph.Attribute("Width")).Value, CultureInfo.InvariantCulture);
+        var height = double.Parse(Assert.IsType<XAttribute>(glyph.Attribute("Height")).Value, CultureInfo.InvariantCulture);
+
+        Assert.Equal("MinimizeButton", GetAttribute(minimizeButton, "WindowDecorationProperties.ElementRole"));
+        Assert.Equal("Rectangle", glyph.Name.LocalName);
+        Assert.InRange(width, 9, 12);
+        Assert.InRange(height, 1, 2);
+        Assert.True(width > height);
+        Assert.Equal("Center", (string?)glyph.Attribute("HorizontalAlignment"));
+        Assert.Equal("Center", (string?)glyph.Attribute("VerticalAlignment"));
+        Assert.Equal("{DynamicResource DesignTextPrimaryBrush}", (string?)glyph.Attribute("Fill"));
+        Assert.Equal("False", (string?)glyph.Attribute("IsHitTestVisible"));
+
+        var source = File.ReadAllText(path);
+        Assert.DoesNotContain("M3,12 L21,12", source, StringComparison.Ordinal);
+        Assert.Null(glyph.Attribute("Stretch"));
     }
 
     [Fact]

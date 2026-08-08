@@ -36,15 +36,13 @@
                           ToolTip.Tip="{DynamicResource WindowCaptionMinimizeText}"
                           AutomationProperties.Name="{DynamicResource WindowCaptionMinimizeText}"
                           chrome:WindowDecorationProperties.ElementRole="MinimizeButton">
-                    <Path Width="12"
-                          Height="12"
-                          Data="M3,12 L21,12"
-                          Fill="Transparent"
-                          Stroke="{DynamicResource DesignTextPrimaryBrush}"
-                          StrokeThickness="1.6"
-                          StrokeLineCap="Square"
-                          Stretch="Uniform"
-                          IsHitTestVisible="False" />
+                    <Rectangle x:Name="WindowCaptionMinimizeIcon"
+                               Width="10"
+                               Height="1.5"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Fill="{DynamicResource DesignTextPrimaryBrush}"
+                               IsHitTestVisible="False" />
                   </Button>
                   <Button x:Name="PART_MaximizeButton"
                           Classes="window-caption-button"
