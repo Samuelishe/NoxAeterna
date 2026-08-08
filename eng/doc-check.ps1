@@ -44,6 +44,12 @@ function Get-RelativePath {
     [IO.Path]::GetRelativePath($BasePath, $TargetPath).Replace('\', '/')
 }
 
+function Get-LogicalTextLength {
+    param([string]$Content)
+
+    return $Content.Replace("`r`n", "`n").Replace("`r", "`n").Length
+}
+
 function Test-Metadata {
     param(
         [string]$Content,
@@ -194,7 +200,8 @@ if ($null -ne $manifest) {
         }
 
         if ($hardLimit -gt 0 -and $warningRatio -gt 0d -and $warningRatio -lt 1d) {
-            $characterCount = (Get-Content -LiteralPath $absoluteDocumentPath -Raw).Length
+            $content = Get-Content -LiteralPath $absoluteDocumentPath -Raw
+            $characterCount = Get-LogicalTextLength -Content $content
             $softLimit = [int][Math]::Floor($hardLimit * $warningRatio)
             $status = 'ok'
             if ($characterCount -gt $hardLimit) {

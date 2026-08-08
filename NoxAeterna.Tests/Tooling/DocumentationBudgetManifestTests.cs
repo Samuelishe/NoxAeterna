@@ -40,7 +40,7 @@ public sealed class DocumentationBudgetManifestTests
 
             Assert.True(File.Exists(absolutePath), path);
             Assert.True(hardLimit > 0, path);
-            Assert.True(File.ReadAllText(absolutePath).Length <= hardLimit, path);
+            Assert.True(GetLogicalTextLength(File.ReadAllText(absolutePath)) <= hardLimit, path);
             Assert.Contains(strategy, new[] { "manual-reconcile", "rollover-archive" });
 
             if (strategy == "rollover-archive")
@@ -55,5 +55,23 @@ public sealed class DocumentationBudgetManifestTests
             }
         }
     }
+
+    [Fact]
+    public void LogicalTextLength_NormalizesLfCrLfAndLoneCrWithoutChangingOtherCharacters()
+    {
+        const string lf = "alpha\nbeta\n";
+        const string crlf = "alpha\r\nbeta\r\n";
+        const string cr = "alpha\rbeta\r";
+
+        Assert.Equal(11, GetLogicalTextLength(lf));
+        Assert.Equal(GetLogicalTextLength(lf), GetLogicalTextLength(crlf));
+        Assert.Equal(GetLogicalTextLength(lf), GetLogicalTextLength(cr));
+    }
+
+    private static int GetLogicalTextLength(string content) =>
+        content
+            .Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace("\r", "\n", StringComparison.Ordinal)
+            .Length;
 }
 

@@ -44,6 +44,54 @@ public sealed class DocumentationCheckScriptTests
         Assert.Contains("exceed hard limit", result.CombinedOutput, StringComparison.Ordinal);
     }
 
+    [Theory]
+    [InlineData("\n")]
+    [InlineData("\r\n")]
+    [InlineData("\r")]
+    public void BudgetMeasurement_NormalizesLfCrLfAndLoneCrToSameLogicalLength(string lineEnding)
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.SetBudgetContent($"alpha{lineEnding}beta{lineEnding}");
+        fixture.SetBudget(hardLimit: 20, warningRatio: 0.9d);
+
+        var result = fixture.Run("-Json");
+        var measurement = ReadBudgetMeasurement(result);
+
+        Assert.Equal(0, result.ExitCode);
+        Assert.Equal(11, measurement.CharacterCount);
+        Assert.Equal("ok", measurement.Status);
+    }
+
+    [Theory]
+    [InlineData("\n")]
+    [InlineData("\r\n")]
+    public void SoftThresholdStatus_IsIndependentOfLfOrCrLf(string lineEnding)
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.SetBudgetContent($"12345{lineEnding}6789");
+        fixture.SetBudget(hardLimit: 12, warningRatio: 0.75d);
+
+        var result = fixture.Run("-Json");
+        var measurement = ReadBudgetMeasurement(result);
+
+        Assert.Equal(0, result.ExitCode);
+        Assert.Equal(10, measurement.CharacterCount);
+        Assert.Equal("warning", measurement.Status);
+    }
+
+    [Fact]
+    public void HardOverflowAfterLineEndingNormalizationStillFails()
+    {
+        using var fixture = DocumentationFixture.Create();
+        fixture.SetBudgetContent("12345\r\n67890");
+        fixture.SetBudget(hardLimit: 10);
+
+        var result = fixture.Run();
+
+        Assert.NotEqual(0, result.ExitCode);
+        Assert.Contains("11 characters exceed hard limit 10", result.CombinedOutput, StringComparison.Ordinal);
+    }
+
     [Fact]
     public void InvalidManifestFails()
     {
@@ -425,6 +473,15 @@ public sealed class DocumentationCheckScriptTests
         Assert.Contains("Agent-Context route does not exist", result.CombinedOutput, StringComparison.Ordinal);
     }
 
+    private static (int CharacterCount, string? Status) ReadBudgetMeasurement(ScriptResult result)
+    {
+        using var document = JsonDocument.Parse(result.StandardOutput);
+        var measurement = document.RootElement.GetProperty("measuredDocuments")[0];
+        return (
+            measurement.GetProperty("characterCount").GetInt32(),
+            measurement.GetProperty("status").GetString());
+    }
+
     private sealed class DocumentationFixture : IDisposable
     {
         private const string Metadata = """
@@ -445,7 +502,9 @@ public sealed class DocumentationCheckScriptTests
 
         public string ManifestPath => Path.Combine(Root, "eng", "document-budgets.json");
 
-        public int BudgetLength => File.ReadAllText(Path.Combine(Root, "docs", "BUDGET.md")).Length;
+        public string BudgetPath => Path.Combine(Root, "docs", "BUDGET.md");
+
+        public int BudgetLength => File.ReadAllText(BudgetPath).Length;
 
         public static DocumentationFixture Create()
         {
@@ -616,6 +675,11 @@ public sealed class DocumentationCheckScriptTests
             File.WriteAllText(
                 ManifestPath,
                 JsonSerializer.Serialize(manifest, new JsonSerializerOptions { WriteIndented = true }));
+        }
+
+        public void SetBudgetContent(string content)
+        {
+            File.WriteAllText(BudgetPath, content);
         }
 
         public void AddArchiveChunk(string fileName, params string[] headings)

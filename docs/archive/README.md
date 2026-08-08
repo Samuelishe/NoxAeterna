@@ -27,3 +27,4 @@ Archived content is retained historical evidence, not current status. Use [`PROJ
 - [`2026-08-05, part 02`](session-log/SESSION-LOG_2026-08-05_part-02.md) — remaining August 5 evidence for A24/A25 and the A23 CI correction; this completes the archived chronology for August 5.
 - [`2026-08-06, part 01`](session-log/SESSION-LOG_2026-08-06_part-01.md) — partial-day evidence for T-UX1A, INT0 planning, and A26 completion; later August 6 entries remain in the active log.
 - [`2026-08-06, part 02`](session-log/SESSION-LOG_2026-08-06_part-02.md) — remaining August 6 evidence for INT0-D1 through INT0-I4; this completes the archived chronology for August 6.
+- [`2026-08-07`](session-log/SESSION-LOG_2026-08-07_to_2026-08-07.md) — complete retained chronology for August 7.
