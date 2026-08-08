@@ -8,23 +8,46 @@ using NoxAeterna.Interpretation.Tarot.Resolution;
 
 namespace NoxAeterna.Presentation.Tarot;
 
-/// <summary>Provides already resolved pack-local section and vocabulary labels for one locale.</summary>
+/// <summary>Provides all trusted pack-local presentation labels for one resolved locale.</summary>
 public sealed class TarotInterpretationPresentationLabels
 {
     public TarotInterpretationPresentationLabels(
-        IReadOnlyDictionary<string, string> sectionLabels,
+        IReadOnlyDictionary<string, string> singleCardSectionLabels,
+        IReadOnlyDictionary<string, string> threeCardPositionLabels,
+        IReadOnlyDictionary<string, string> relationLabels,
         IReadOnlyDictionary<TarotTagConceptId, string> tagLabels)
     {
-        ArgumentNullException.ThrowIfNull(sectionLabels);
+        ArgumentNullException.ThrowIfNull(singleCardSectionLabels);
+        ArgumentNullException.ThrowIfNull(threeCardPositionLabels);
+        ArgumentNullException.ThrowIfNull(relationLabels);
         ArgumentNullException.ThrowIfNull(tagLabels);
-        SectionLabels = new ReadOnlyDictionary<string, string>(
-            sectionLabels.ToDictionary(static pair => pair.Key, static pair => pair.Value, StringComparer.Ordinal));
+        SingleCardSectionLabels = Copy(singleCardSectionLabels);
+        ThreeCardPositionLabels = Copy(threeCardPositionLabels);
+        RelationLabels = Copy(relationLabels);
         TagLabels = new ReadOnlyDictionary<TarotTagConceptId, string>(
             tagLabels.ToDictionary(static pair => pair.Key, static pair => pair.Value));
     }
 
-    public IReadOnlyDictionary<string, string> SectionLabels { get; }
+    public TarotInterpretationPresentationLabels(
+        IReadOnlyDictionary<string, string> singleCardSectionLabels,
+        IReadOnlyDictionary<TarotTagConceptId, string> tagLabels)
+        : this(
+            singleCardSectionLabels,
+            new Dictionary<string, string>(StringComparer.Ordinal),
+            new Dictionary<string, string>(StringComparer.Ordinal),
+            tagLabels)
+    {
+    }
+
+    public IReadOnlyDictionary<string, string> SingleCardSectionLabels { get; }
+    public IReadOnlyDictionary<string, string> SectionLabels => SingleCardSectionLabels;
+    public IReadOnlyDictionary<string, string> ThreeCardPositionLabels { get; }
+    public IReadOnlyDictionary<string, string> RelationLabels { get; }
     public IReadOnlyDictionary<TarotTagConceptId, string> TagLabels { get; }
+
+    private static IReadOnlyDictionary<string, string> Copy(IReadOnlyDictionary<string, string> source) =>
+        new ReadOnlyDictionary<string, string>(
+            source.ToDictionary(static pair => pair.Key, static pair => pair.Value, StringComparer.Ordinal));
 }
 
 /// <summary>Represents one visible pack-local single-card section.</summary>
@@ -98,7 +121,7 @@ public sealed class TarotSingleCardInterpretationPresentationBuilder
         var sections = new List<TarotSingleCardInterpretationSection>(SectionOrder.Length);
         foreach (var sectionId in SectionOrder)
         {
-            if (!labels.SectionLabels.TryGetValue(sectionId, out var label) || string.IsNullOrWhiteSpace(label))
+            if (!labels.SingleCardSectionLabels.TryGetValue(sectionId, out var label) || string.IsNullOrWhiteSpace(label))
             {
                 return null;
             }

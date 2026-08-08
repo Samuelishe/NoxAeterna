@@ -713,28 +713,38 @@ public sealed class TarotWorkspaceControl : UserControl
         interpretationHost.IsVisible = false;
         var singleCard = interpretationCoordinator.Current.SingleCardPresentation;
         var twoCard = interpretationCoordinator.Current.TwoCardPresentation;
-        if (singleCard is null && twoCard is null)
+        var threeCard = interpretationCoordinator.Current.ThreeCardPresentation;
+        if (singleCard is null && twoCard is null && threeCard is null)
         {
             return;
         }
 
         var content = new StackPanel { Spacing = 20 };
+        if (threeCard is not null)
+        {
+            foreach (var block in threeCard.Blocks)
+            {
+                content.Children.Add(block switch
+                {
+                    TarotThreeCardPositionPresentation position =>
+                        CreateThreeCardPositionBlock(position),
+                    TarotThreeCardRelationPresentation relation =>
+                        CreateThreeCardRelationBlock(relation, threeCard.ResolvedLocale),
+                    TarotThreeCardOverallPresentation overall =>
+                        CreateThreeCardOverallBlock(overall),
+                    _ => throw new InvalidOperationException("Unknown Three Cards interpretation block.")
+                });
+            }
+
+            interpretationHost.Content = content;
+            interpretationHost.IsVisible = content.Children.Count > 0;
+            return;
+        }
+
         var tags = singleCard?.Tags ?? twoCard!.Tags;
         if (tags.Count > 0)
         {
-            var tagRow = new WrapPanel
-            {
-                Name = "TarotInterpretationTagRow",
-                Orientation = Orientation.Horizontal
-            };
-            foreach (var tag in tags)
-            {
-                var chip = CreateInterpretationTag(tag);
-                chip.Margin = new Thickness(0, 0, 10, 8);
-                tagRow.Children.Add(chip);
-            }
-
-            content.Children.Add(tagRow);
+            content.Children.Add(CreateInterpretationTagRow(tags, "TarotInterpretationTagRow"));
         }
 
         if (singleCard is not null)
@@ -762,6 +772,78 @@ public sealed class TarotWorkspaceControl : UserControl
 
         interpretationHost.Content = content;
         interpretationHost.IsVisible = true;
+    }
+
+    private Control CreateThreeCardPositionBlock(TarotThreeCardPositionPresentation position)
+    {
+        var block = CreateInterpretationBlock(position.PositionId, position.Label);
+        if (position.Tags.Count > 0)
+        {
+            block.Children.Add(CreateInterpretationTagRow(
+                position.Tags,
+                $"TarotInterpretationTagRow_{position.PositionId}"));
+        }
+
+        block.Children.Add(CreateInterpretationBody(position.Text));
+        return block;
+    }
+
+    private Control CreateThreeCardRelationBlock(
+        TarotThreeCardRelationPresentation relation,
+        TarotInterpretationLocale resolvedLocale)
+    {
+        var block = CreateInterpretationBlock(relation.RelationId, relation.Label);
+        if (relation.Tags.Count > 0)
+        {
+            block.Children.Add(CreateInterpretationTagRow(
+                relation.Tags,
+                $"TarotInterpretationTagRow_{relation.RelationId.Replace('-', '_')}"));
+        }
+
+        block.Children.Add(CreateInterpretationSection(
+            $"{relation.RelationId}-interaction",
+            LocalizeForInterpretationLocale(
+                "ui.tarot.interpretation.pair.interaction",
+                resolvedLocale),
+            relation.Interaction));
+        block.Children.Add(CreateInterpretationSection(
+            $"{relation.RelationId}-direction",
+            LocalizeForInterpretationLocale(
+                "ui.tarot.interpretation.pair.direction",
+                resolvedLocale),
+            relation.Direction));
+        return block;
+    }
+
+    private static Control CreateThreeCardOverallBlock(TarotThreeCardOverallPresentation overall)
+    {
+        var block = CreateInterpretationBlock(overall.RelationId, overall.Label);
+        block.Children.Add(CreateInterpretationBody(
+            overall.TrajectoryText,
+            "TarotThreeCardOverallTrajectory"));
+        block.Children.Add(CreateInterpretationBody(
+            overall.TransitionText,
+            "TarotThreeCardOverallTransition"));
+        return block;
+    }
+
+    private WrapPanel CreateInterpretationTagRow(
+        IReadOnlyList<TarotInterpretationTagPresentation> tags,
+        string name)
+    {
+        var tagRow = new WrapPanel
+        {
+            Name = name,
+            Orientation = Orientation.Horizontal
+        };
+        foreach (var tag in tags)
+        {
+            var chip = CreateInterpretationTag(tag);
+            chip.Margin = new Thickness(0, 0, 10, 8);
+            tagRow.Children.Add(chip);
+        }
+
+        return tagRow;
     }
 
     private Border CreateInterpretationTag(TarotInterpretationTagPresentation tag)
@@ -815,6 +897,13 @@ public sealed class TarotWorkspaceControl : UserControl
 
     private static Control CreateInterpretationSection(string sectionId, string label, string text)
     {
+        var content = CreateInterpretationBlock(sectionId, label);
+        content.Children.Add(CreateInterpretationBody(text));
+        return content;
+    }
+
+    private static StackPanel CreateInterpretationBlock(string sectionId, string label)
+    {
         var heading = new TextBlock
         {
             Name = $"TarotInterpretationSectionHeading_{sectionId}",
@@ -822,18 +911,25 @@ public sealed class TarotWorkspaceControl : UserControl
             TextWrapping = TextWrapping.Wrap
         };
         heading.Classes.Add("tarot-interpretation-section-heading");
+        return new StackPanel
+        {
+            Name = $"TarotInterpretationBlock_{sectionId}",
+            Spacing = 6,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Children = { heading }
+        };
+    }
+
+    private static TextBlock CreateInterpretationBody(string text, string? name = null)
+    {
         var body = new TextBlock
         {
+            Name = name,
             Text = text,
             TextWrapping = TextWrapping.Wrap
         };
         body.Classes.Add("tarot-interpretation-section-body");
-        return new StackPanel
-        {
-            Spacing = 6,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            Children = { heading, body }
-        };
+        return body;
     }
 
     private static TextBlock CreateStateText(string text, string styleClass, string? name = null)

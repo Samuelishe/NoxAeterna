@@ -9,6 +9,10 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-08: INT3-RUNTIME-RU-THREE
+
+- Promoted only Russian Classic Three Cards readiness and wired reveal-gated position, adjacent-relation, and deterministic two-resource synthesis resolution through the normal package boundary into typed Presentation and the existing reading surface. Preserved accepted RU source corpora byte-for-byte, proved canonical pair/orientation and broken-ready behavior with real-package tests, and completed package, focused/full, documentation, and real Windows Obsidian/Porcelain smoke verification.
+
 ## 2026-08-08: INT3-AUTH-RU-SYNTH
 
 - Froze a strict 13-resource Russian Three Cards synthesis inventory, typed payloads, exhaustive deterministic planner, exact source/package ready validation, scoped status/audit, and authored all 7 trajectory plus 6 adjacent-transition texts. Preserved only `past-present`/`present-future`, unchanged accepted corpora/readiness/English/UI, and completed package plus focused/full verification without launching the app.

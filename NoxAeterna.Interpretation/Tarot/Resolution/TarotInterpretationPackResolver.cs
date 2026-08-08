@@ -46,6 +46,39 @@ public sealed class TarotInterpretationPackResolver
         return Resolve(context,TarotInterpretationCorpus.ThreeCards,key,()=>context.Store.GetThreeCardPosition(context.ResolvedLocale,position,cardId,orientation));
     }
 
+    public TarotInterpretationResolution<TarotSynthesisResource> ResolveThreeCardSynthesisResource(
+        TarotInterpretationPackId packId,
+        TarotInterpretationLocale requestedLocale,
+        TarotSynthesisResourceType resourceType,
+        TarotSynthesisResourceId resourceId)
+    {
+        ArgumentNullException.ThrowIfNull(resourceId);
+        if (!TarotThreeCardSynthesisContract.IsRequired(resourceType, resourceId))
+        {
+            return NoContent<TarotSynthesisResource>(
+                TarotNoContentReason.ValidationFailed,
+                "request.invalid-synthesis-resource",
+                "The requested synthesis resource is not part of the Three Cards production inventory.");
+        }
+
+        var prepared = Prepare(packId, requestedLocale, TarotInterpretationMode.ThreeCards);
+        if (prepared.Context is null)
+        {
+            return prepared.NoContent<TarotSynthesisResource>();
+        }
+
+        var context = prepared.Context;
+        var key = TarotInterpretationKeys.CreateSynthesisResource(resourceType, resourceId);
+        return Resolve(
+            context,
+            TarotInterpretationCorpus.ThreeCards,
+            key,
+            () => context.Store.GetSynthesisResource(
+                context.ResolvedLocale,
+                resourceType,
+                resourceId));
+    }
+
     public TarotInterpretationResolution<TarotResolvedModuleSnapshot> ResolveMode(TarotInterpretationPackId packId,TarotInterpretationMode modeId,TarotInterpretationLocale requestedLocale)
     {
         if(!Enum.IsDefined(modeId))return NoContent<TarotResolvedModuleSnapshot>(TarotNoContentReason.UnsupportedMode,"request.unsupported-mode","The requested interpretation mode is not defined.");

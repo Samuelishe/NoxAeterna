@@ -15,7 +15,7 @@ namespace NoxAeterna.Tests.App;
 public sealed class TarotInterpretationPackageIntegrationTests
 {
     [Fact]
-    public void PromotedCanonicalRussianSingleCardCorpusStillResolvesWhileThreeCardAndCelticCrossStayUnready()
+    public void PromotedCanonicalRussianModesResolveWhileOnlyCelticCrossStaysUnready()
     {
         var sourceRoot = PathAt("resources", "interpretation", "tarot", "sources", "classic");
         using var output = BuiltInOutput.Create(sourceRoot);
@@ -31,6 +31,10 @@ public sealed class TarotInterpretationPackageIntegrationTests
         Assert.False(store.Manifest.Modules[TarotInterpretationMode.SingleCard][english].Ready);
         Assert.True(store.Manifest.Modules[TarotInterpretationMode.TwoCards][russian].Ready);
         Assert.False(store.Manifest.Modules[TarotInterpretationMode.TwoCards][english].Ready);
+        Assert.True(store.Manifest.Modules[TarotInterpretationMode.ThreeCards][russian].Ready);
+        Assert.False(store.Manifest.Modules[TarotInterpretationMode.ThreeCards][english].Ready);
+        Assert.False(store.Manifest.Modules[TarotInterpretationMode.CelticCross][russian].Ready);
+        Assert.False(store.Manifest.Modules[TarotInterpretationMode.CelticCross][english].Ready);
 
         var resolver = new TarotInterpretationPackResolver(stores, StandardTarotCatalog.Deck);
         var labelSource = new TarotPackagePresentationLabelSource(stores);
@@ -99,16 +103,9 @@ public sealed class TarotInterpretationPackageIntegrationTests
         Assert.Equal("en", englishFallback.RequestedLocale.Value);
         Assert.Equal("ru", englishFallback.ResolvedLocale.Value);
 
-        foreach (var mode in new[]
-                 {
-                     TarotInterpretationMode.ThreeCards,
-                     TarotInterpretationMode.CelticCross
-                 })
-        {
-            var noContent = Assert.IsType<NoTarotInterpretationContent<TarotResolvedModuleSnapshot>>(
-                resolver.ResolveMode(packId, mode, russian));
-            Assert.Equal(TarotNoContentReason.NoReadyLocale, noContent.Reason);
-        }
+        var noContent = Assert.IsType<NoTarotInterpretationContent<TarotResolvedModuleSnapshot>>(
+            resolver.ResolveMode(packId, TarotInterpretationMode.CelticCross, russian));
+        Assert.Equal(TarotNoContentReason.NoReadyLocale, noContent.Reason);
     }
 
     [Fact]
@@ -247,6 +244,196 @@ public sealed class TarotInterpretationPackageIntegrationTests
     }
 
     [Fact]
+    public void PromotedRussianThreeCardsMatchesExactSourcePlannerResourcesFallbackAndAllPairOrientations()
+    {
+        var sourceRoot = PathAt("resources", "interpretation", "tarot", "sources", "classic");
+        using var output = BuiltInOutput.Create(sourceRoot);
+        var stores = BuiltInTarotInterpretationPackStoreCatalog.Create(output.Root);
+        var resolver = new TarotInterpretationPackResolver(stores, StandardTarotCatalog.Deck);
+        var adapter = new TarotWorkspaceInterpretationResolverAdapter(resolver);
+        var labelSource = new TarotPackagePresentationLabelSource(stores);
+        var packId = new TarotInterpretationPackId("classic");
+        var russian = new TarotInterpretationLocale("ru");
+        var english = new TarotInterpretationLocale("en");
+        var pastCard = StandardTarotCatalog.Deck.Cards.Single(static card => card.Id.Value == "major.world");
+        var presentCard = StandardTarotCatalog.Deck.Cards.Single(static card => card.Id.Value == "major.tower");
+        var futureCard = StandardTarotCatalog.Deck.Cards.Single(static card => card.Id.Value == "major.fool");
+        var reading = new TarotReading(
+            StandardTarotCatalog.Deck.Id,
+            StandardTarotSpreads.ThreeCards.Id,
+            Instant.FromUnixTimeTicks(29),
+            [
+                new(StandardTarotSpreads.ThreeCards.Positions[0].Id, pastCard, TarotCardOrientation.Reversed),
+                new(StandardTarotSpreads.ThreeCards.Positions[1].Id, presentCard, TarotCardOrientation.Upright),
+                new(StandardTarotSpreads.ThreeCards.Positions[2].Id, futureCard, TarotCardOrientation.Reversed)
+            ]);
+
+        var positions = new[]
+        {
+            Assert.IsType<ResolvedTarotInterpretation<TarotThreeCardPositionEntry>>(
+                adapter.ResolveThreeCardPosition(packId, russian, TarotThreeCardPosition.Past, pastCard.Id, TarotCardOrientation.Reversed)),
+            Assert.IsType<ResolvedTarotInterpretation<TarotThreeCardPositionEntry>>(
+                adapter.ResolveThreeCardPosition(packId, russian, TarotThreeCardPosition.Present, presentCard.Id, TarotCardOrientation.Upright)),
+            Assert.IsType<ResolvedTarotInterpretation<TarotThreeCardPositionEntry>>(
+                adapter.ResolveThreeCardPosition(packId, russian, TarotThreeCardPosition.Future, futureCard.Id, TarotCardOrientation.Reversed))
+        };
+        AssertPositionMatchesSource(sourceRoot, positions[0], "major.world", "past", "reversed");
+        AssertPositionMatchesSource(sourceRoot, positions[1], "major.tower", "present", "upright");
+        AssertPositionMatchesSource(sourceRoot, positions[2], "major.fool", "future", "reversed");
+
+        var pastPresent = Assert.IsType<ResolvedTarotInterpretation<TarotOrientedPairEntry>>(
+            adapter.ResolveThreeCardRelation(
+                packId,
+                russian,
+                pastCard.Id,
+                TarotCardOrientation.Reversed,
+                presentCard.Id,
+                TarotCardOrientation.Upright));
+        var presentFuture = Assert.IsType<ResolvedTarotInterpretation<TarotOrientedPairEntry>>(
+            adapter.ResolveThreeCardRelation(
+                packId,
+                russian,
+                presentCard.Id,
+                TarotCardOrientation.Upright,
+                futureCard.Id,
+                TarotCardOrientation.Reversed));
+        Assert.Equal(TarotInterpretationMode.ThreeCards, pastPresent.ModeId);
+        Assert.Equal(TarotInterpretationMode.ThreeCards, presentFuture.ModeId);
+        Assert.Equal("major.tower", pastPresent.Content.CardAId.Value);
+        Assert.Equal("major.world", pastPresent.Content.CardBId.Value);
+        Assert.Equal(TarotOrientedPairState.UprightReversed, pastPresent.Content.OrientationState);
+        Assert.Equal("major.fool", presentFuture.Content.CardAId.Value);
+        Assert.Equal("major.tower", presentFuture.Content.CardBId.Value);
+        Assert.Equal(TarotOrientedPairState.ReversedUpright, presentFuture.Content.OrientationState);
+        AssertPairMatchesSource(sourceRoot, pastPresent, "major.tower", "major.world", "upright-reversed");
+        AssertPairMatchesSource(sourceRoot, presentFuture, "major.fool", "major.tower", "reversed-upright");
+
+        var plan = TarotThreeCardSynthesisPlanner.Plan(new(
+            positions[0].Content.OverallValence,
+            positions[1].Content.OverallValence,
+            positions[2].Content.OverallValence,
+            pastPresent.Content.OverallValence,
+            pastPresent.Content.OverallIntensity,
+            presentFuture.Content.OverallValence,
+            presentFuture.Content.OverallIntensity));
+        Assert.Equal(TarotThreeCardSynthesisContract.DifficultContinuity, plan.TrajectoryProfileId.Value);
+        Assert.Equal(TarotThreeCardSynthesisContract.MutuallyConflicted, plan.SynthesisFragmentId.Value);
+        var trajectory = Assert.IsType<ResolvedTarotInterpretation<TarotSynthesisResource>>(
+            adapter.ResolveThreeCardSynthesisResource(
+                packId,
+                russian,
+                TarotSynthesisResourceType.TrajectoryProfile,
+                plan.TrajectoryProfileId));
+        var transition = Assert.IsType<ResolvedTarotInterpretation<TarotSynthesisResource>>(
+            adapter.ResolveThreeCardSynthesisResource(
+                packId,
+                russian,
+                TarotSynthesisResourceType.SynthesisFragment,
+                plan.SynthesisFragmentId));
+        AssertSynthesisMatchesSource(sourceRoot, trajectory);
+        AssertSynthesisMatchesSource(sourceRoot, transition);
+
+        var labels = Assert.IsType<TarotInterpretationPresentationLabels>(
+            labelSource.Resolve(packId, positions[0].ContentVersion, positions[0].ResolvedLocale));
+        Assert.Equal("Прошлое", labels.ThreeCardPositionLabels["past"]);
+        Assert.Equal("Настоящее", labels.ThreeCardPositionLabels["present"]);
+        Assert.Equal("Будущее", labels.ThreeCardPositionLabels["future"]);
+        Assert.Equal("Что привело к настоящему", labels.RelationLabels["past-present"]);
+        Assert.Equal("Куда движется ситуация", labels.RelationLabels["present-future"]);
+        Assert.Equal("Общая картина", labels.RelationLabels["overall"]);
+        var presentation = Assert.IsType<TarotThreeCardInterpretationPresentation>(
+            new TarotThreeCardInterpretationPresentationBuilder().Build(
+                reading,
+                positions,
+                pastPresent,
+                presentFuture,
+                new(plan, trajectory, transition),
+                labels));
+        Assert.Equal(
+            ["past", "past-present", "present", "present-future", "future", "overall"],
+            presentation.Blocks.Select(static block => block.BlockId));
+        Assert.Equal(trajectory.Content.Text, presentation.Overall?.TrajectoryText);
+        Assert.Equal(transition.Content.Text, presentation.Overall?.TransitionText);
+        Assert.All(presentation.Positions, block =>
+        {
+            var authored = positions.Single(item => item.Content.Position == block.Position).Content.Tags;
+            Assert.Equal(
+                authored.Select(static tag => (tag.ConceptId, tag.Valence, tag.Intensity)),
+                block.Tags.Select(static tag => (tag.ConceptId, tag.Valence, tag.Intensity)));
+            Assert.All(block.Tags, static tag => Assert.NotEqual(tag.ConceptId.Value, tag.Label));
+        });
+        Assert.All(presentation.Relations, block =>
+        {
+            var authored = (block.Relation == TarotThreeCardRelationId.PastPresent
+                ? pastPresent
+                : presentFuture).Content.Tags;
+            Assert.Equal(
+                authored.Select(static tag => (tag.ConceptId, tag.Valence, tag.Intensity)),
+                block.Tags.Select(static tag => (tag.ConceptId, tag.Valence, tag.Intensity)));
+            Assert.All(block.Tags, static tag => Assert.NotEqual(tag.ConceptId.Value, tag.Label));
+        });
+
+        var englishPositions = new[]
+        {
+            Assert.IsType<ResolvedTarotInterpretation<TarotThreeCardPositionEntry>>(
+                adapter.ResolveThreeCardPosition(packId, english, TarotThreeCardPosition.Past, pastCard.Id, TarotCardOrientation.Reversed)),
+            Assert.IsType<ResolvedTarotInterpretation<TarotThreeCardPositionEntry>>(
+                adapter.ResolveThreeCardPosition(packId, english, TarotThreeCardPosition.Present, presentCard.Id, TarotCardOrientation.Upright)),
+            Assert.IsType<ResolvedTarotInterpretation<TarotThreeCardPositionEntry>>(
+                adapter.ResolveThreeCardPosition(packId, english, TarotThreeCardPosition.Future, futureCard.Id, TarotCardOrientation.Reversed))
+        };
+        var englishPastPresent = Assert.IsType<ResolvedTarotInterpretation<TarotOrientedPairEntry>>(
+            adapter.ResolveThreeCardRelation(packId, english, pastCard.Id, TarotCardOrientation.Reversed, presentCard.Id, TarotCardOrientation.Upright));
+        var englishPresentFuture = Assert.IsType<ResolvedTarotInterpretation<TarotOrientedPairEntry>>(
+            adapter.ResolveThreeCardRelation(packId, english, presentCard.Id, TarotCardOrientation.Upright, futureCard.Id, TarotCardOrientation.Reversed));
+        var englishTrajectory = Assert.IsType<ResolvedTarotInterpretation<TarotSynthesisResource>>(
+            adapter.ResolveThreeCardSynthesisResource(packId, english, TarotSynthesisResourceType.TrajectoryProfile, plan.TrajectoryProfileId));
+        var englishTransition = Assert.IsType<ResolvedTarotInterpretation<TarotSynthesisResource>>(
+            adapter.ResolveThreeCardSynthesisResource(packId, english, TarotSynthesisResourceType.SynthesisFragment, plan.SynthesisFragmentId));
+        Assert.All(englishPositions, static item => Assert.Equal("ru", item.ResolvedLocale.Value));
+        Assert.All(
+            new[] { englishPastPresent, englishPresentFuture },
+            static item => Assert.Equal("ru", item.ResolvedLocale.Value));
+        Assert.All(
+            new[] { englishTrajectory, englishTransition },
+            static item => Assert.Equal("ru", item.ResolvedLocale.Value));
+        var fallbackPresentation = Assert.IsType<TarotThreeCardInterpretationPresentation>(
+            new TarotThreeCardInterpretationPresentationBuilder().Build(
+                reading,
+                englishPositions,
+                englishPastPresent,
+                englishPresentFuture,
+                new(plan, englishTrajectory, englishTransition),
+                Assert.IsType<TarotInterpretationPresentationLabels>(
+                    labelSource.Resolve(packId, englishPositions[0].ContentVersion, englishPositions[0].ResolvedLocale))));
+        Assert.Equal("en", fallbackPresentation.RequestedLocale.Value);
+        Assert.Equal("ru", fallbackPresentation.ResolvedLocale.Value);
+        Assert.Equal("Прошлое", fallbackPresentation.Positions[0].Label);
+        Assert.Equal("Общая картина", fallbackPresentation.Overall?.Label);
+
+        var orientationCases = new[]
+        {
+            (Past: TarotCardOrientation.Upright, Present: TarotCardOrientation.Upright, Future: TarotCardOrientation.Upright,
+                PastPresent: TarotOrientedPairState.UprightUpright, PresentFuture: TarotOrientedPairState.UprightUpright),
+            (Past: TarotCardOrientation.Reversed, Present: TarotCardOrientation.Upright, Future: TarotCardOrientation.Reversed,
+                PastPresent: TarotOrientedPairState.UprightReversed, PresentFuture: TarotOrientedPairState.ReversedUpright),
+            (Past: TarotCardOrientation.Reversed, Present: TarotCardOrientation.Reversed, Future: TarotCardOrientation.Reversed,
+                PastPresent: TarotOrientedPairState.ReversedReversed, PresentFuture: TarotOrientedPairState.ReversedReversed)
+        };
+        foreach (var item in orientationCases)
+        {
+            var first = Assert.IsType<ResolvedTarotInterpretation<TarotOrientedPairEntry>>(
+                adapter.ResolveThreeCardRelation(packId, russian, pastCard.Id, item.Past, presentCard.Id, item.Present));
+            var second = Assert.IsType<ResolvedTarotInterpretation<TarotOrientedPairEntry>>(
+                adapter.ResolveThreeCardRelation(packId, russian, presentCard.Id, item.Present, futureCard.Id, item.Future));
+            Assert.Equal(item.PastPresent, first.Content.OrientationState);
+            Assert.Equal(item.PresentFuture, second.Content.OrientationState);
+            Assert.Equal(TarotInterpretationMode.ThreeCards, first.ModeId);
+            Assert.Equal(TarotInterpretationMode.ThreeCards, second.ModeId);
+        }
+    }
+
+    [Fact]
     public void BuiltInSkeletonRegistersSelectorNamesAndRemainsSilentlyNotReady()
     {
         using var fixture=InterpretationToolingFixture.CreateSkeleton();using var output=BuiltInOutput.Create(fixture);
@@ -282,6 +469,92 @@ public sealed class TarotInterpretationPackageIntegrationTests
         var packages=Directory.GetFiles(output,"*.noxinterp",SearchOption.AllDirectories);Assert.Single(packages);Assert.EndsWith(Path.Combine("resources","interpretation","tarot","packs","classic.noxinterp"),packages[0],StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain(Directory.GetFiles(output,"*.json",SearchOption.AllDirectories),path=>path.Contains($"{Path.DirectorySeparatorChar}interpretation{Path.DirectorySeparatorChar}",StringComparison.OrdinalIgnoreCase));
         Assert.False(File.Exists(Path.Combine(output,"NoxAeterna.Tools.Repository.dll")));
+    }
+
+    private static void AssertPositionMatchesSource(
+        string sourceRoot,
+        ResolvedTarotInterpretation<TarotThreeCardPositionEntry> resolved,
+        string cardId,
+        string position,
+        string orientation)
+    {
+        using var source = JsonDocument.Parse(File.ReadAllText(Path.Combine(
+            sourceRoot,
+            "content",
+            "ru",
+            "three-card-positions",
+            $"{cardId}.json")));
+        var authored = source.RootElement.GetProperty("states").GetProperty(position).GetProperty(orientation);
+
+        Assert.Equal("ru", resolved.RequestedLocale.Value);
+        Assert.Equal("ru", resolved.ResolvedLocale.Value);
+        Assert.Equal(TarotInterpretationMode.ThreeCards, resolved.ModeId);
+        Assert.Equal(cardId, resolved.Content.CardId.Value);
+        Assert.Equal(authored.GetProperty("text").GetString(), resolved.Content.Text);
+        Assert.Equal(authored.GetProperty("overallValence").GetInt32(), resolved.Content.OverallValence);
+        Assert.Equal(authored.GetProperty("overallIntensity").GetInt32(), resolved.Content.OverallIntensity);
+        Assert.Equal(
+            authored.GetProperty("tags").EnumerateArray().Select(static tag =>
+                (
+                    tag.GetProperty("conceptId").GetString(),
+                    tag.GetProperty("valence").GetInt32(),
+                    tag.GetProperty("intensity").GetInt32())),
+            resolved.Content.Tags.Select(static tag =>
+                ((string?)tag.ConceptId.Value, tag.Valence, tag.Intensity)));
+    }
+
+    private static void AssertPairMatchesSource(
+        string sourceRoot,
+        ResolvedTarotInterpretation<TarotOrientedPairEntry> resolved,
+        string cardAId,
+        string cardBId,
+        string state)
+    {
+        using var source = JsonDocument.Parse(File.ReadAllText(Path.Combine(
+            sourceRoot,
+            "content",
+            "ru",
+            "oriented-pairs",
+            $"{cardAId}__{cardBId}.json")));
+        var authored = source.RootElement.GetProperty("states").GetProperty(state);
+
+        Assert.Equal(authored.GetProperty("interaction").GetString(), resolved.Content.Interaction);
+        Assert.Equal(authored.GetProperty("direction").GetString(), resolved.Content.Direction);
+        Assert.Equal(authored.GetProperty("overallValence").GetInt32(), resolved.Content.OverallValence);
+        Assert.Equal(authored.GetProperty("overallIntensity").GetInt32(), resolved.Content.OverallIntensity);
+        Assert.Equal(
+            authored.GetProperty("tags").EnumerateArray().Select(static tag =>
+                (
+                    tag.GetProperty("conceptId").GetString(),
+                    tag.GetProperty("valence").GetInt32(),
+                    tag.GetProperty("intensity").GetInt32())),
+            resolved.Content.Tags.Select(static tag =>
+                ((string?)tag.ConceptId.Value, tag.Valence, tag.Intensity)));
+    }
+
+    private static void AssertSynthesisMatchesSource(
+        string sourceRoot,
+        ResolvedTarotInterpretation<TarotSynthesisResource> resolved)
+    {
+        var type = resolved.Content.ResourceType switch
+        {
+            TarotSynthesisResourceType.TrajectoryProfile => "trajectory-profile",
+            TarotSynthesisResourceType.SynthesisFragment => "synthesis-fragment",
+            _ => throw new ArgumentOutOfRangeException()
+        };
+        using var source = JsonDocument.Parse(File.ReadAllText(Path.Combine(
+            sourceRoot,
+            "content",
+            "ru",
+            "synthesis",
+            type,
+            $"{resolved.Content.ResourceId.Value}.json")));
+
+        Assert.Equal("ru", resolved.ResolvedLocale.Value);
+        Assert.Equal(TarotInterpretationMode.ThreeCards, resolved.ModeId);
+        Assert.Equal(type, source.RootElement.GetProperty("resourceType").GetString());
+        Assert.Equal(resolved.Content.ResourceId.Value, source.RootElement.GetProperty("resourceId").GetString());
+        Assert.Equal(source.RootElement.GetProperty("data").GetProperty("text").GetString(), resolved.Content.Text);
     }
 
     private static string PathAt(params string[] segments)=>Path.Combine(new[]{Path.GetFullPath(Path.Combine(AppContext.BaseDirectory,"..","..","..",".."))}.Concat(segments).ToArray());

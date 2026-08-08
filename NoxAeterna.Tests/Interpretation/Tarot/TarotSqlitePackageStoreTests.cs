@@ -87,6 +87,46 @@ public sealed class TarotSqlitePackageStoreTests
         var result = store.ValidateReadyModule(new("ru"), TarotInterpretationMode.ThreeCards);
 
         Assert.Equal(TarotInterpretationStoreStatus.Missing, result.Status);
+        var resolver = new TarotInterpretationPackResolver(
+            new SingleStoreCatalog(store),
+            StandardTarotCatalog.Deck);
+        var resolution = Assert.IsType<NoTarotInterpretationContent<TarotResolvedModuleSnapshot>>(
+            resolver.ResolveMode(new("classic"), TarotInterpretationMode.ThreeCards, new("en")));
+        Assert.Equal(TarotNoContentReason.BrokenReadyModule, resolution.Reason);
+    }
+
+    [Theory]
+    [InlineData("position")]
+    [InlineData("pair")]
+    public void MissingReadyThreeCardsSemanticRowIsBrokenReadyAndDoesNotFallbackPastRussian(string mutation)
+    {
+        using var fixture = InterpretationToolingFixture.CreateSkeleton();
+        fixture.AddCompleteSynthesis("ru");
+        using var package = CompiledPackage.Create(fixture);
+        using (var connection = OpenWrite(package.Path))
+        {
+            PopulateReadyThreeCards(connection);
+            using var command = connection.CreateCommand();
+            command.CommandText = mutation switch
+            {
+                "position" => "DELETE FROM three_card_position WHERE locale='ru' AND position='past' AND card_id='card00000' AND orientation='upright'",
+                "pair" => "DELETE FROM oriented_pair WHERE locale='ru' AND card_a_id='a00000' AND card_b_id='z' AND orientation_state='upright-upright'",
+                _ => throw new ArgumentOutOfRangeException(nameof(mutation))
+            };
+            Assert.Equal(1, command.ExecuteNonQuery());
+        }
+
+        var store = new TarotSqlitePackageStore(package.Path, new("classic"), StandardTarotCatalog.Deck.Id);
+        Assert.Equal(
+            TarotInterpretationStoreStatus.Missing,
+            store.ValidateReadyModule(new("ru"), TarotInterpretationMode.ThreeCards).Status);
+
+        var resolver = new TarotInterpretationPackResolver(
+            new SingleStoreCatalog(store),
+            StandardTarotCatalog.Deck);
+        var resolution = Assert.IsType<NoTarotInterpretationContent<TarotResolvedModuleSnapshot>>(
+            resolver.ResolveMode(new("classic"), TarotInterpretationMode.ThreeCards, new("en")));
+        Assert.Equal(TarotNoContentReason.BrokenReadyModule, resolution.Reason);
     }
 
     [Fact]

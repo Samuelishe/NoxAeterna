@@ -69,6 +69,22 @@ internal sealed class DebugTarotInterpretationPreview :
         TarotCardOrientation secondOrientation) =>
         new NoTarotInterpretationContent<TarotOrientedPairEntry>(TarotNoContentReason.NoReadyLocale);
 
+    public TarotInterpretationResolution<TarotOrientedPairEntry> ResolveThreeCardRelation(
+        TarotInterpretationPackId packId,
+        TarotInterpretationLocale requestedLocale,
+        TarotCardId firstCardId,
+        TarotCardOrientation firstOrientation,
+        TarotCardId secondCardId,
+        TarotCardOrientation secondOrientation) =>
+        new NoTarotInterpretationContent<TarotOrientedPairEntry>(TarotNoContentReason.NoReadyLocale);
+
+    public TarotInterpretationResolution<TarotSynthesisResource> ResolveThreeCardSynthesisResource(
+        TarotInterpretationPackId packId,
+        TarotInterpretationLocale requestedLocale,
+        TarotSynthesisResourceType resourceType,
+        TarotSynthesisResourceId resourceId) =>
+        new NoTarotInterpretationContent<TarotSynthesisResource>(TarotNoContentReason.NoReadyLocale);
+
     public TarotInterpretationPresentationLabels? Resolve(
         TarotInterpretationPackId packId,
         int contentVersion,
@@ -97,7 +113,37 @@ internal sealed class DebugTarotInterpretationPreview :
                 : new[] { "Conflict", "Choice", "Change", "Opportunity", "Risk", "Release" })
             .Select((label, index) => (Id: TagIds[index], Label: label))
             .ToDictionary(static item => item.Id, static item => item.Label);
-        return new TarotInterpretationPresentationLabels(sectionLabels, tagLabels);
+        var positionLabels = russian
+            ? new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["past"] = "Прошлое",
+                ["present"] = "Настоящее",
+                ["future"] = "Будущее"
+            }
+            : new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["past"] = "Past",
+                ["present"] = "Present",
+                ["future"] = "Future"
+            };
+        var relationLabels = russian
+            ? new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["past-present"] = "Что привело к настоящему",
+                ["present-future"] = "Куда движется ситуация",
+                ["overall"] = "Общая картина"
+            }
+            : new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["past-present"] = "Past — Present",
+                ["present-future"] = "Present — Future",
+                ["overall"] = "Overall"
+            };
+        return new TarotInterpretationPresentationLabels(
+            sectionLabels,
+            positionLabels,
+            relationLabels,
+            tagLabels);
     }
 
     private static TarotSingleCardEntry CreateEntry(

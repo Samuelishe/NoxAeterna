@@ -164,10 +164,11 @@ public sealed class TarotInterpretationBoundaryTests
         Assert.Equal(8, readiness.Length);
         Assert.True(Assert.Single(readiness, item => item.Identity == "single-card/ru").Ready);
         Assert.True(Assert.Single(readiness, item => item.Identity == "two-cards/ru").Ready);
+        Assert.True(Assert.Single(readiness, item => item.Identity == "three-cards/ru").Ready);
         Assert.Equal(
-            new[] { "single-card/ru", "two-cards/ru" },
+            new[] { "single-card/ru", "three-cards/ru", "two-cards/ru" },
             readiness.Where(static item => item.Ready).Select(static item => item.Identity).Order(StringComparer.Ordinal));
-        Assert.Equal(6, readiness.Count(static item => !item.Ready));
+        Assert.Equal(5, readiness.Count(static item => !item.Ready));
         Assert.False(Directory.Exists(RepositoryPath("resources", "interpretation", "tarot", "working")));
         Assert.True(Directory.Exists(synthesisRoot));
         Assert.False(Directory.Exists(Path.Combine(AppContext.BaseDirectory, "TestData", "Interpretation")));

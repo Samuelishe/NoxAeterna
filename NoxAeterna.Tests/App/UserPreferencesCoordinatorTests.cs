@@ -356,6 +356,34 @@ public sealed class UserPreferencesCoordinatorTests
                 NoxAeterna.Interpretation.Tarot.Contracts.TarotThreeCardPositionEntry>(
                 NoxAeterna.Interpretation.Tarot.Contracts.TarotNoContentReason.NoReadyLocale);
         }
+
+        public NoxAeterna.Interpretation.Tarot.Resolution.TarotInterpretationResolution<
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotOrientedPairEntry> ResolveThreeCardRelation(
+            TarotInterpretationPackId packId,
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotInterpretationLocale requestedLocale,
+            TarotCardId firstCardId,
+            TarotCardOrientation firstOrientation,
+            TarotCardId secondCardId,
+            TarotCardOrientation secondOrientation)
+        {
+            CallCount++;
+            return new NoxAeterna.Interpretation.Tarot.Resolution.NoTarotInterpretationContent<
+                NoxAeterna.Interpretation.Tarot.Contracts.TarotOrientedPairEntry>(
+                NoxAeterna.Interpretation.Tarot.Contracts.TarotNoContentReason.NoReadyLocale);
+        }
+
+        public NoxAeterna.Interpretation.Tarot.Resolution.TarotInterpretationResolution<
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotSynthesisResource> ResolveThreeCardSynthesisResource(
+            TarotInterpretationPackId packId,
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotInterpretationLocale requestedLocale,
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotSynthesisResourceType resourceType,
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotSynthesisResourceId resourceId)
+        {
+            CallCount++;
+            return new NoxAeterna.Interpretation.Tarot.Resolution.NoTarotInterpretationContent<
+                NoxAeterna.Interpretation.Tarot.Contracts.TarotSynthesisResource>(
+                NoxAeterna.Interpretation.Tarot.Contracts.TarotNoContentReason.NoReadyLocale);
+        }
     }
 
     private sealed class SequenceRandomSource(params int[] values) : ITarotRandomSource

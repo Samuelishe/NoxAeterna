@@ -185,6 +185,161 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
     }
 
     [Fact]
+    public void ThreeCards_NonLinearRevealAddsOnlyPermittedBlocksAndNeverRequestsPastFuture()
+    {
+        var resolver = new RecordingResolver(resolveThreeCards: true);
+        var viewModel = Workspace(autoRevealCards: false, new SequenceRandomSource(0, 0, 0));
+        viewModel.SelectSpread(StandardTarotSpreads.ThreeCards.Id);
+        using var coordinator = Coordinator(resolver, viewModel, new RecordingLabelSource());
+        viewModel.Draw(Instant.FromUnixTimeTicks(41));
+        var reading = Assert.IsType<TarotReading>(viewModel.CurrentReading);
+        var past = reading.Cards.Single(static card => card.PositionId.Value == "past");
+        var present = reading.Cards.Single(static card => card.PositionId.Value == "present");
+        var future = reading.Cards.Single(static card => card.PositionId.Value == "future");
+
+        Assert.Same(TarotWorkspaceInterpretationSnapshot.Empty, coordinator.Current);
+        viewModel.RevealAndSelect(future.PositionId);
+
+        Assert.Equal(["future"], Assert.IsType<TarotThreeCardInterpretationPresentation>(
+            coordinator.Current.ThreeCardPresentation).Blocks.Select(static block => block.BlockId));
+        Assert.Empty(resolver.ThreeCardRelationCalls);
+        Assert.Empty(resolver.SynthesisCalls);
+
+        resolver.ClearThreeCardCalls();
+        viewModel.RevealAndSelect(past.PositionId);
+
+        Assert.Equal(["past", "future"], Assert.IsType<TarotThreeCardInterpretationPresentation>(
+            coordinator.Current.ThreeCardPresentation).Blocks.Select(static block => block.BlockId));
+        Assert.Equal(2, resolver.PositionCalls.Count);
+        Assert.Empty(resolver.ThreeCardRelationCalls);
+        Assert.Empty(resolver.SynthesisCalls);
+        Assert.Null(coordinator.Current.ThreeCardSynthesis);
+
+        resolver.ClearThreeCardCalls();
+        viewModel.RevealAndSelect(present.PositionId);
+
+        Assert.Equal(
+            ["past", "past-present", "present", "present-future", "future", "overall"],
+            Assert.IsType<TarotThreeCardInterpretationPresentation>(
+                coordinator.Current.ThreeCardPresentation).Blocks.Select(static block => block.BlockId));
+        Assert.Equal(3, resolver.PositionCalls.Count);
+        Assert.Collection(
+            resolver.ThreeCardRelationCalls,
+            call => Assert.Equal(
+                (past.Card.Id, past.Orientation, present.Card.Id, present.Orientation),
+                (call.FirstCardId, call.FirstOrientation, call.SecondCardId, call.SecondOrientation)),
+            call => Assert.Equal(
+                (present.Card.Id, present.Orientation, future.Card.Id, future.Orientation),
+                (call.FirstCardId, call.FirstOrientation, call.SecondCardId, call.SecondOrientation)));
+        Assert.DoesNotContain(
+            resolver.ThreeCardRelationCalls,
+            call =>
+                (call.FirstCardId == past.Card.Id && call.SecondCardId == future.Card.Id) ||
+                (call.FirstCardId == future.Card.Id && call.SecondCardId == past.Card.Id));
+        Assert.Equal(
+            [TarotThreeCardRelationId.PastPresent, TarotThreeCardRelationId.PresentFuture],
+            coordinator.Current.ThreeCardRelations.Select(static item => item.RelationId));
+        Assert.Collection(
+            resolver.SynthesisCalls,
+            call =>
+            {
+                Assert.Equal(TarotSynthesisResourceType.TrajectoryProfile, call.ResourceType);
+                Assert.Equal(TarotThreeCardSynthesisContract.Improving, call.ResourceId.Value);
+            },
+            call =>
+            {
+                Assert.Equal(TarotSynthesisResourceType.SynthesisFragment, call.ResourceType);
+                Assert.Equal(TarotThreeCardSynthesisContract.UnevenInfluence, call.ResourceId.Value);
+            });
+        var synthesis = Assert.IsType<TarotThreeCardSynthesisSelection>(coordinator.Current.ThreeCardSynthesis);
+        Assert.Equal(TarotThreeCardSynthesisContract.Improving, synthesis.Plan.TrajectoryProfileId.Value);
+        Assert.Equal(TarotThreeCardSynthesisContract.UnevenInfluence, synthesis.Plan.SynthesisFragmentId.Value);
+        Assert.True(coordinator.Current.HasResolvedContent);
+    }
+
+    [Fact]
+    public void ThreeCards_TwoAdjacentRevealsAddOnlyTheirRelationWithoutOverall()
+    {
+        var resolver = new RecordingResolver(resolveThreeCards: true);
+        var viewModel = Workspace(autoRevealCards: false, new SequenceRandomSource(0, 0, 0));
+        viewModel.SelectSpread(StandardTarotSpreads.ThreeCards.Id);
+        using var coordinator = Coordinator(resolver, viewModel, new RecordingLabelSource());
+        viewModel.Draw(Instant.FromUnixTimeTicks(42));
+        var reading = Assert.IsType<TarotReading>(viewModel.CurrentReading);
+
+        viewModel.RevealAndSelect(reading.Cards[0].PositionId);
+        resolver.ClearThreeCardCalls();
+        viewModel.RevealAndSelect(reading.Cards[1].PositionId);
+
+        Assert.Equal(
+            ["past", "past-present", "present"],
+            Assert.IsType<TarotThreeCardInterpretationPresentation>(
+                coordinator.Current.ThreeCardPresentation).Blocks.Select(static block => block.BlockId));
+        Assert.Equal(TarotThreeCardRelationId.PastPresent, Assert.Single(coordinator.Current.ThreeCardRelations).RelationId);
+        Assert.Single(resolver.ThreeCardRelationCalls);
+        Assert.Empty(resolver.SynthesisCalls);
+        Assert.Null(coordinator.Current.ThreeCardSynthesis);
+    }
+
+    [Fact]
+    public void ThreeCards_AutoRevealBuildsCompleteSnapshotOnlyAfterAllFiveSemanticEntriesResolve()
+    {
+        var resolvedResolver = new RecordingResolver(resolveThreeCards: true);
+        var viewModel = Workspace(autoRevealCards: true, new SequenceRandomSource(0, 0, 0));
+        viewModel.SelectSpread(StandardTarotSpreads.ThreeCards.Id);
+        using var coordinator = Coordinator(resolvedResolver, viewModel, new RecordingLabelSource());
+
+        viewModel.Draw(Instant.FromUnixTimeTicks(43));
+
+        Assert.True(viewModel.AreAllCardsRevealed);
+        Assert.Equal(3, coordinator.Current.ThreeCardPositions.Count);
+        Assert.Equal(2, coordinator.Current.ThreeCardRelations.Count);
+        Assert.NotNull(coordinator.Current.ThreeCardSynthesis);
+        Assert.Equal(6, Assert.IsType<TarotThreeCardInterpretationPresentation>(
+            coordinator.Current.ThreeCardPresentation).Blocks.Count);
+
+        var unresolvedResolver = new RecordingResolver();
+        coordinator.ReplaceResolver(unresolvedResolver);
+
+        Assert.Equal(3, unresolvedResolver.PositionCalls.Count);
+        Assert.Equal(2, unresolvedResolver.ThreeCardRelationCalls.Count);
+        Assert.Empty(unresolvedResolver.SynthesisCalls);
+        Assert.Null(coordinator.Current.ThreeCardSynthesis);
+        Assert.Null(coordinator.Current.ThreeCardPresentation);
+        Assert.False(coordinator.Current.HasResolvedContent);
+    }
+
+    [Fact]
+    public void ThreeCards_RedrawLanguageAndSpreadSwitchReplaceSnapshotWithoutStaleBlocks()
+    {
+        var resolver = new RecordingResolver(resolveThreeCards: true, resolvedLocaleFollowsRequest: true);
+        var viewModel = Workspace(autoRevealCards: true, new SequenceRandomSource(0, 0, 0, 1, 0, 0, 0));
+        viewModel.SelectSpread(StandardTarotSpreads.ThreeCards.Id);
+        using var coordinator = Coordinator(resolver, viewModel, new RecordingLabelSource());
+        viewModel.Draw(Instant.FromUnixTimeTicks(44));
+        var first = Assert.IsType<TarotThreeCardInterpretationPresentation>(coordinator.Current.ThreeCardPresentation);
+
+        coordinator.SetInterpretationLanguage(new(new LanguageCode("en")));
+        var english = Assert.IsType<TarotThreeCardInterpretationPresentation>(coordinator.Current.ThreeCardPresentation);
+        Assert.Equal("en", english.ResolvedLocale.Value);
+        Assert.All(english.Positions, static block => Assert.StartsWith("en ", block.Label, StringComparison.Ordinal));
+        Assert.All(english.Relations, static block => Assert.StartsWith("en ", block.Label, StringComparison.Ordinal));
+
+        viewModel.Draw(Instant.FromUnixTimeTicks(45));
+        var redrawn = Assert.IsType<TarotThreeCardInterpretationPresentation>(coordinator.Current.ThreeCardPresentation);
+        Assert.NotSame(first, redrawn);
+        Assert.Equal(6, redrawn.Blocks.Count);
+
+        viewModel.SelectSpread(StandardTarotSpreads.SingleCard.Id);
+
+        Assert.Same(TarotWorkspaceInterpretationSnapshot.Empty, coordinator.Current);
+        Assert.Empty(coordinator.Current.ThreeCardPositions);
+        Assert.Empty(coordinator.Current.ThreeCardRelations);
+        Assert.Null(coordinator.Current.ThreeCardSynthesis);
+        Assert.Null(coordinator.Current.ThreeCardPresentation);
+    }
+
+    [Fact]
     public void PackAndInterpretationLanguageSwitchesReResolveWithoutChangingReadingOrReveal()
     {
         var resolver = new RecordingResolver();
@@ -325,12 +480,22 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
     private sealed class RecordingResolver(
         bool resolveSingle = false,
         bool resolvePair = false,
+        bool resolveThreeCards = false,
         TarotResolutionDiagnostic? diagnostic = null,
         bool resolvedLocaleFollowsRequest = false) : ITarotWorkspaceInterpretationResolver
     {
         public List<SingleCall> SingleCalls { get; } = [];
         public List<PairCall> PairCalls { get; } = [];
         public List<PositionCall> PositionCalls { get; } = [];
+        public List<PairCall> ThreeCardRelationCalls { get; } = [];
+        public List<SynthesisCall> SynthesisCalls { get; } = [];
+
+        public void ClearThreeCardCalls()
+        {
+            PositionCalls.Clear();
+            ThreeCardRelationCalls.Clear();
+            SynthesisCalls.Clear();
+        }
 
         public TarotInterpretationResolution<TarotSingleCardEntry> ResolveSingleCard(
             TarotInterpretationPackId packId,
@@ -374,7 +539,99 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
             TarotCardOrientation orientation)
         {
             PositionCalls.Add(new(packId, requestedLocale, position, cardId, orientation));
-            return new NoTarotInterpretationContent<TarotThreeCardPositionEntry>(TarotNoContentReason.NoReadyLocale);
+            if (!resolveThreeCards)
+            {
+                return new NoTarotInterpretationContent<TarotThreeCardPositionEntry>(TarotNoContentReason.NoReadyLocale);
+            }
+
+            var (valence, intensity) = position switch
+            {
+                TarotThreeCardPosition.Past => (-2, 1),
+                TarotThreeCardPosition.Present => (0, 2),
+                TarotThreeCardPosition.Future => (2, 3),
+                _ => throw new ArgumentOutOfRangeException(nameof(position))
+            };
+            return new ResolvedTarotInterpretation<TarotThreeCardPositionEntry>(
+                packId,
+                7,
+                TarotInterpretationMode.ThreeCards,
+                requestedLocale,
+                resolvedLocaleFollowsRequest ? requestedLocale : new("ru"),
+                new(
+                    position,
+                    cardId,
+                    orientation,
+                    $"Synthetic {position} position",
+                    [new(new($"position-{position.ToString().ToLowerInvariant()}"), valence, intensity)],
+                    valence,
+                    intensity));
+        }
+
+        public TarotInterpretationResolution<TarotOrientedPairEntry> ResolveThreeCardRelation(
+            TarotInterpretationPackId packId,
+            TarotInterpretationLocale requestedLocale,
+            TarotCardId firstCardId,
+            TarotCardOrientation firstOrientation,
+            TarotCardId secondCardId,
+            TarotCardOrientation secondOrientation)
+        {
+            ThreeCardRelationCalls.Add(new(
+                packId,
+                requestedLocale,
+                firstCardId,
+                firstOrientation,
+                secondCardId,
+                secondOrientation));
+            if (!resolveThreeCards)
+            {
+                return new NoTarotInterpretationContent<TarotOrientedPairEntry>(TarotNoContentReason.NoReadyLocale);
+            }
+
+            var isPastPresent = ThreeCardRelationCalls.Count % 2 == 1;
+            var (valence, intensity, tagId) = isPastPresent
+                ? (-1, 3, "relation-past-present")
+                : (1, 1, "relation-present-future");
+            var pair = Assert.IsType<TarotCanonicalPair>(TarotInterpretationKeys.CanonicalizePair(
+                firstCardId,
+                firstOrientation,
+                secondCardId,
+                secondOrientation).Value);
+            return new ResolvedTarotInterpretation<TarotOrientedPairEntry>(
+                packId,
+                7,
+                TarotInterpretationMode.ThreeCards,
+                requestedLocale,
+                resolvedLocaleFollowsRequest ? requestedLocale : new("ru"),
+                new(
+                    pair.CardAId,
+                    pair.CardBId,
+                    pair.OrientationState,
+                    isPastPresent ? "Synthetic past-present interaction" : "Synthetic present-future interaction",
+                    isPastPresent ? "Synthetic past-present direction" : "Synthetic present-future direction",
+                    [new(new(tagId), valence, intensity)],
+                    valence,
+                    intensity));
+        }
+
+        public TarotInterpretationResolution<TarotSynthesisResource> ResolveThreeCardSynthesisResource(
+            TarotInterpretationPackId packId,
+            TarotInterpretationLocale requestedLocale,
+            TarotSynthesisResourceType resourceType,
+            TarotSynthesisResourceId resourceId)
+        {
+            SynthesisCalls.Add(new(packId, requestedLocale, resourceType, resourceId));
+            if (!resolveThreeCards)
+            {
+                return new NoTarotInterpretationContent<TarotSynthesisResource>(TarotNoContentReason.NoReadyLocale);
+            }
+
+            return new ResolvedTarotInterpretation<TarotSynthesisResource>(
+                packId,
+                7,
+                TarotInterpretationMode.ThreeCards,
+                requestedLocale,
+                resolvedLocaleFollowsRequest ? requestedLocale : new("ru"),
+                new(resourceType, resourceId, $"Synthetic synthesis {resourceId.Value}", "{\"text\":\"synthetic\"}\n"));
         }
 
         public TarotInterpretationResolution<TarotOrientedPairEntry> ResolveOrientedPair(
@@ -439,9 +696,30 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
                 ["outcome"] = $"{resolvedLocale.Value} outcome",
                 ["advice"] = $"{resolvedLocale.Value} advice"
             },
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["past"] = $"{resolvedLocale.Value} past",
+                ["present"] = $"{resolvedLocale.Value} present",
+                ["future"] = $"{resolvedLocale.Value} future"
+            },
+            new Dictionary<string, string>(StringComparer.Ordinal)
+            {
+                ["past-present"] = $"{resolvedLocale.Value} past-present",
+                ["present-future"] = $"{resolvedLocale.Value} present-future",
+                ["overall"] = $"{resolvedLocale.Value} overall"
+            },
             Enumerable.Range(1, 5).ToDictionary(
                 static index => new TarotTagConceptId($"synthetic-{index}"),
-                index => $"{resolvedLocale.Value} tag {index}"));
+                index => $"{resolvedLocale.Value} tag {index}")
+                .Concat(new Dictionary<TarotTagConceptId, string>
+                {
+                    [new("position-past")] = $"{resolvedLocale.Value} position past",
+                    [new("position-present")] = $"{resolvedLocale.Value} position present",
+                    [new("position-future")] = $"{resolvedLocale.Value} position future",
+                    [new("relation-past-present")] = $"{resolvedLocale.Value} relation past-present",
+                    [new("relation-present-future")] = $"{resolvedLocale.Value} relation present-future"
+                })
+                .ToDictionary(static pair => pair.Key, static pair => pair.Value));
     }
 
     private sealed record SingleCall(
@@ -464,6 +742,12 @@ public sealed class TarotWorkspaceInterpretationCoordinatorTests
         TarotThreeCardPosition Position,
         TarotCardId CardId,
         TarotCardOrientation Orientation);
+
+    private sealed record SynthesisCall(
+        TarotInterpretationPackId PackId,
+        TarotInterpretationLocale Locale,
+        TarotSynthesisResourceType ResourceType,
+        TarotSynthesisResourceId ResourceId);
 
     private sealed class SequenceRandomSource(params int[] values) : ITarotRandomSource
     {

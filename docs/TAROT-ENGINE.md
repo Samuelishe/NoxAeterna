@@ -59,7 +59,7 @@ These IDs are semantic keys, not user-facing labels. Spreads contain no Avalonia
 
 Canonical interpretation mode IDs are `single-card`, `two-cards`, `three-cards`, and `celtic-cross`. A mode normally shares its semantic spread ID; the implemented non-positional pair spread is therefore `two-cards`, while any future ordered two-card spread must use another ID and content contract. Mode content and routing belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
-`classic` (`Классика` / `Classic`) is the built-in selectable interpretation pack; its user-facing names come from the manifest under application UI language and its selection is independent from artwork, back, spread, and interpretation language. Its accepted Russian single-card and two-card modules are `ready = true`: single-card contains 78 cards / 156 independently authored upright/reversed states with five sections, and two-card contains 3,003 canonical pairs / 12,012 independently authored orientation states. The other six locale/mode modules remain unready; the authorial contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
+`classic` (`Классика` / `Classic`) is the built-in selectable interpretation pack; its user-facing names come from the manifest under application UI language and its selection is independent from artwork, back, spread, and interpretation language. Its accepted Russian single-card, two-card, and three-card modules are `ready = true`: single-card contains 78 cards / 156 independently authored upright/reversed states with five sections, two-card contains 3,003 canonical pairs / 12,012 independently authored orientation states, and three-card contains 78 bundles / 468 position states plus 13 exact synthesis resources. Russian Celtic Cross and all English modules remain unready; the authorial contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
 
 Celtic Cross remains future scope. Its larger card count will require smaller card surfaces than the one-, two-, and three-card modes; exact positions, relation graph, synthesis, layout, and dimensions belong to later design stages. Its `celtic-cross` interpretation module will be compositional rather than exhaustive, and no implementation begins in INT0.
 
@@ -105,10 +105,10 @@ TAROT-ART-RUNTIME-1 subsequently made Lupus Noctis the sole default user-facing 
 
 ## Interpretation Planning Baseline
 
-- `single-card/card`, non-positional `two-cards/slot-a,slot-b`, and ordered `three-cards/past,present,future` are implemented; only the first two currently have ready Russian interpretation modules.
+- `single-card/card`, non-positional `two-cards/slot-a,slot-b`, and ordered `three-cards/past,present,future` are implemented with ready Russian interpretation modules.
 - Draws are without replacement and already support upright and reversed orientation.
-- The active `classic` interpretation-pack resolves the complete accepted Russian single-card prose; only `ru + single-card` is ready, while English and multi-card `NoContent` remains silent.
-- Schema-v2 source bundles, strict validation/compiler direction, typed package-store resolution, settings-v2, selector, five-section presentation, and reveal-gated orchestration are the current contracts. The accepted Russian single-card corpus is the only production Tarot meaning corpus.
+- The active `classic` interpretation-pack resolves the accepted Russian single-card, two-card, and three-card corpora. English requests fall back to the ready Russian module as one coherent locale; unavailable and broken-ready content remains silent.
+- Schema-v2 source bundles, strict validation/compiler direction, typed package-store resolution, settings-v2, selector, structured presentation, and reveal-gated orchestration are the current contracts. Three Cards adds only revealed position blocks, only adjacent revealed relations, and an Overall from the exact planner-selected trajectory/transition resources after all three cards are revealed.
 - INT1-AUTH-RU-BULK is accepted at checkpoint `8c6d1ad4744394965eec4b09f155608fa8d6d537`; hosted run 60 passed CI. INT1-PROMOTE-RU performs only the bounded `classic + ru + single-card` readiness promotion.
 
 ## Asset Direction
