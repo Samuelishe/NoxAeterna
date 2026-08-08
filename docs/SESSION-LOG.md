@@ -9,6 +9,10 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-08: INT2-PAIR-RU-W4 Russian Classic Oriented-Pair Authoring
+
+- Authored canonical pair indices 1500..1999, from `minor.cups.ace__minor.swords.six` through `minor.cups.six__minor.wands.ace`: 500 complete bundles / 2,000 orientation states, bringing the accumulated RU pair corpus to 2,000/3,003 bundles and 8,000/12,012 states. Iterative semantic-intensity and lexical correction removed W4 preset, duplicate, near-duplicate, and cross-wave scaffold defects while preserving W1R/W2/W3/W3I, readiness, English content, runtime, and UI; W5 was not started.
+
 ## 2026-08-08: INT2-PAIR-RU-W3I Semantic-Intensity Correction
 
 - Reviewed semantic weight across all 2,000 W3 states / 6,000 tag assignments, replacing the inherited max-intensity pattern with prose- and concept-specific assignments and independently reviewing overall intensity. Prose, concept IDs, valence, W1R/W2, inventory, readiness, English content, runtime, and UI remain unchanged; validation and lexical diagnostics remain stable.

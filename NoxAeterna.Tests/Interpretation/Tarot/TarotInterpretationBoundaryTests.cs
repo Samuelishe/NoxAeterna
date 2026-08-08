@@ -55,7 +55,7 @@ public sealed class TarotInterpretationBoundaryTests
     }
 
     [Fact]
-    public void SourceTreeContainsCanonicalRussianSingleCardAndW1W2W3PairCorporaAndRetainsExcludedProseBoundaries()
+    public void SourceTreeContainsCanonicalRussianSingleCardAndW1W2W3W4PairCorporaAndRetainsExcludedProseBoundaries()
     {
         var productionRoot = RepositoryPath("resources", "interpretation", "tarot", "sources", "classic");
         var russianRoot = Path.Combine(productionRoot, "content", "ru");
@@ -75,8 +75,13 @@ public sealed class TarotInterpretationBoundaryTests
         var expectedAuthoredPairIdentities = canonicalCardIds
             .SelectMany((cardAId, index) => canonicalCardIds.Skip(index + 1)
                 .Select(cardBId => $"{cardAId}__{cardBId}"))
-            .Take(1500)
+            .Take(2000)
             .ToArray();
+        var nextMissingPairIdentity = canonicalCardIds
+            .SelectMany((cardAId, index) => canonicalCardIds.Skip(index + 1)
+                .Select(cardBId => $"{cardAId}__{cardBId}"))
+            .Skip(2000)
+            .First();
         var orientedPairFiles = Directory.GetFiles(orientedPairRoot, "*.json", SearchOption.TopDirectoryOnly)
             .Order(StringComparer.Ordinal)
             .ToArray();
@@ -88,17 +93,21 @@ public sealed class TarotInterpretationBoundaryTests
         var englishFiles = Directory.GetFiles(englishRoot, "*", SearchOption.AllDirectories);
         using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(productionRoot, "interpretation-pack.json")));
 
-        Assert.Equal(1642, productionFiles.Length);
+        Assert.Equal(2142, productionFiles.Length);
         Assert.Equal(78, singleCardFiles.Length);
         Assert.Equal(expectedSingleCardFiles, singleCardFiles);
-        Assert.Equal(1500, orientedPairFiles.Length);
+        Assert.Equal(2000, orientedPairFiles.Length);
         Assert.Equal(expectedOrientedPairFiles, orientedPairFiles);
         Assert.Equal("major.chariot__major.death", expectedAuthoredPairIdentities[0]);
         Assert.Equal("major.hanged-man__minor.swords.seven", expectedAuthoredPairIdentities[499]);
         Assert.Equal("major.hanged-man__minor.swords.six", expectedAuthoredPairIdentities[500]);
         Assert.Equal("major.moon__minor.cups.knight", expectedAuthoredPairIdentities[999]);
         Assert.Equal("major.moon__minor.cups.nine", expectedAuthoredPairIdentities[1000]);
-        Assert.Equal("minor.cups.ace__minor.swords.seven", expectedAuthoredPairIdentities[^1]);
+        Assert.Equal("minor.cups.ace__minor.swords.seven", expectedAuthoredPairIdentities[1499]);
+        Assert.Equal("minor.cups.ace__minor.swords.six", expectedAuthoredPairIdentities[1500]);
+        Assert.Equal("minor.cups.six__minor.wands.ace", expectedAuthoredPairIdentities[^1]);
+        Assert.Equal("minor.cups.six__minor.wands.eight", nextMissingPairIdentity);
+        Assert.False(File.Exists(Path.Combine(orientedPairRoot, $"{nextMissingPairIdentity}.json")));
         Assert.Equal(61, vocabularyFiles.Length);
         Assert.Contains(Path.Combine(productionRoot, "interpretation-pack.json"), productionFiles);
         Assert.Contains(Path.Combine(russianRoot, "labels.json"), productionFiles);
