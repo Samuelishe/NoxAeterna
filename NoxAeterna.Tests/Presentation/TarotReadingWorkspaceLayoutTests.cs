@@ -70,10 +70,11 @@ public sealed class TarotReadingWorkspaceLayoutTests
     }
 
     [Fact]
-    public void PositionLabels_AreHiddenOnlyForSingleCardSpread()
+    public void PositionLabels_AreHiddenForNonSemanticSpreadsAndPreservedForThreeCards()
     {
         Assert.False(TarotReadingWorkspaceLayout.ShowPositionLabels(StandardTarotSpreads.SingleCard.Id));
+        Assert.False(TarotReadingWorkspaceLayout.ShowPositionLabels(StandardTarotSpreads.TwoCards.Id));
         Assert.True(TarotReadingWorkspaceLayout.ShowPositionLabels(StandardTarotSpreads.ThreeCards.Id));
-        Assert.True(TarotReadingWorkspaceLayout.ShowPositionLabels(new TarotSpreadId("future-spread")));
+        Assert.False(TarotReadingWorkspaceLayout.ShowPositionLabels(new TarotSpreadId("future-spread")));
     }
 }

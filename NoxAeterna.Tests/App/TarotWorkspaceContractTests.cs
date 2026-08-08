@@ -113,7 +113,7 @@ public sealed class TarotWorkspaceContractTests
     }
 
     [Fact]
-    public void SingleCardPositionLabelIsConditionalWhileMultiCardLabelsRemainMaterialized()
+    public void PositionLabelsAreMaterializedOnlyWhenLayoutMarksSemanticPositions()
     {
         var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
 
@@ -121,6 +121,7 @@ public sealed class TarotWorkspaceContractTests
         Assert.Contains("showPositionLabels ? PositionLabelHeight : 0d", source, StringComparison.Ordinal);
         Assert.Contains("if (showPositionLabel)", source, StringComparison.Ordinal);
         Assert.Contains("TarotCardTextResolver.GetPositionName(", source, StringComparison.Ordinal);
+        Assert.Contains("showPositionLabel", source, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -157,12 +158,13 @@ public sealed class TarotWorkspaceContractTests
         Assert.Contains("interpretationHost.IsVisible = false", refresh, StringComparison.Ordinal);
         Assert.Contains("interpretationHost.Content = null", refresh, StringComparison.Ordinal);
         Assert.Contains("interpretationCoordinator.Current.SingleCardPresentation", refresh, StringComparison.Ordinal);
+        Assert.Contains("interpretationCoordinator.Current.TwoCardPresentation", refresh, StringComparison.Ordinal);
         Assert.Contains("interpretationHost.IsVisible = true", refresh, StringComparison.Ordinal);
         Assert.Contains("CreateInterpretationTag(tag)", refresh, StringComparison.Ordinal);
-        Assert.Contains("CreateInterpretationSection(section)", refresh, StringComparison.Ordinal);
+        Assert.Contains("CreateInterpretationSection(section.SectionId, section.Label, section.Text)", refresh, StringComparison.Ordinal);
         Assert.True(
             refresh.IndexOf("content.Children.Add(tagRow)", StringComparison.Ordinal) <
-            refresh.IndexOf("content.Children.Add(CreateInterpretationSection(section))", StringComparison.Ordinal));
+            refresh.IndexOf("content.Children.Add(CreateInterpretationSection(", StringComparison.Ordinal));
         Assert.DoesNotContain("MinHeight", refresh, StringComparison.Ordinal);
         Assert.DoesNotContain("surface-card", refresh, StringComparison.Ordinal);
         Assert.DoesNotContain("ThreeCardPositions", refresh, StringComparison.Ordinal);
@@ -180,7 +182,29 @@ public sealed class TarotWorkspaceContractTests
         Assert.Contains("interpretationCoordinator.SnapshotChanged -= OnInterpretationSnapshotChanged", source, StringComparison.Ordinal);
         Assert.Contains("_tarotInterpretationCoordinator,", window, StringComparison.Ordinal);
         Assert.DoesNotContain("ResolveSingleCard(", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("ResolveOrientedPair(", source, StringComparison.Ordinal);
         Assert.DoesNotContain("ResolveThreeCardPosition(", source, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void OrientedPairRendererUsesCombinedFieldsAuthoredTagsAndResolvedLocaleHeadings()
+    {
+        var source = File.ReadAllText(AppPath("Tarot", "TarotWorkspaceControl.cs"));
+        var refresh = MethodSlice(source, "private void RefreshInterpretation()", "private static TextBlock CreateStateText");
+
+        Assert.Contains("twoCard.Interaction", refresh, StringComparison.Ordinal);
+        Assert.Contains("twoCard.Direction", refresh, StringComparison.Ordinal);
+        Assert.Contains("twoCard!.Tags", refresh, StringComparison.Ordinal);
+        Assert.Contains("ui.tarot.interpretation.pair.interaction", refresh, StringComparison.Ordinal);
+        Assert.Contains("ui.tarot.interpretation.pair.direction", refresh, StringComparison.Ordinal);
+        Assert.Contains("twoCard!.ResolvedLocale", refresh, StringComparison.Ordinal);
+        Assert.Contains("twoCard.ResolvedLocale", refresh, StringComparison.Ordinal);
+        Assert.Contains("new LanguageCode(locale.Value)", source, StringComparison.Ordinal);
+        Assert.Contains("for (var index = 0; index < tag.Intensity; index++)", source, StringComparison.Ordinal);
+        Assert.DoesNotContain("ConceptId.Value", refresh, StringComparison.Ordinal);
+        Assert.DoesNotContain("situation", refresh, StringComparison.Ordinal);
+        Assert.DoesNotContain("outcome", refresh, StringComparison.Ordinal);
+        Assert.DoesNotContain("advice", refresh, StringComparison.Ordinal);
     }
 
     [Fact]

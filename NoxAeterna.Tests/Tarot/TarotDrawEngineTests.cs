@@ -52,6 +52,24 @@ public sealed class TarotDrawEngineTests
     }
 
     [Fact]
+    public void TwoCardSpread_DrawsTwoDistinctAssignmentsWithoutReplacement()
+    {
+        var random = new RecordingRandomSource(0, 0);
+
+        var result = new TarotDrawEngine(random).Draw(
+            CreateFourCardDeck(),
+            StandardTarotSpreads.TwoCards,
+            TarotOrientationPolicy.UprightOnly,
+            Instant.FromUnixTimeTicks(321));
+
+        var reading = Assert.IsType<TarotReading>(result.Reading);
+        Assert.Equal("two-cards", reading.SpreadId.Value);
+        Assert.Equal(new[] { "slot-a", "slot-b" }, reading.Cards.Select(static card => card.PositionId.Value));
+        Assert.Equal(2, reading.Cards.Select(static card => card.Card.Id).Distinct().Count());
+        Assert.Equal(new[] { 4, 3 }, random.RequestedUpperBounds);
+    }
+
+    [Fact]
     public void Draw_InsufficientDeckReturnsTypedFailureWithoutUsingRandomness()
     {
         var random = new RecordingRandomSource();

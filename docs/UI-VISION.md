@@ -92,7 +92,7 @@ Current Tarot direction:
 - Lupus Noctis is the sole visible artwork option and resolves all 78 standard cards to raster; required-pack damage disables Draw with a controlled localized diagnostic rather than exposing Classic;
 - raster inner artwork never owns the programmatic frame, localized title, selection state, or reversal transform; Black Sun and Lunar Seal remain selectable prototype backs;
 - a fixed control panel sits above one stretching reading surface; wide single-card readings pin the card beside an independently vertically scrolling interpretation column, while narrow single-card and existing multi-card readings retain the ordered outer vertical surface and tableau-owned horizontal overflow;
-- interpretation prose has a bounded readable measure instead of stretching across an arbitrarily wide desktop column; the Tarot workspace suppresses the redundant shell section header, and single-card suppresses its non-distinguishing position label while multi-card position labels remain visible;
+- interpretation prose has a bounded readable measure instead of stretching across an arbitrarily wide desktop column; the Tarot workspace suppresses the redundant shell section header, single-card and the non-positional two-card spread suppress non-distinguishing/technical position labels, while semantic three-card position labels remain visible;
 - the selected-card metadata inspector is absent from production UI; selection remains available for card state, keyboard focus, accessibility, and future navigation;
 - auto reveal defaults on; manual mode reveals one activated position at a time, and hidden cards never leak future meaning content;
 - language, theme, spread, artwork, back, reversal, and auto-reveal preferences persist in AppData JSON, while current reading, revealed positions, and selection remain session-only.
@@ -100,6 +100,7 @@ Current Tarot direction:
 - `TarotInterpretationPackSelector` stays visible in the control panel even with only Classic; its `Толкование / Interpretation` control label and manifest-owned pack display name follow UI language, while prose resolution follows interpretation language.
 - absent content is silent: the host is empty and hidden with no top-level heading, empty surface, placeholder, fallback explanation, readiness state, or diagnostic banner. Section headings appear only when the later structured content renderer has real sections.
 - available interpretation content uses visible localized section headings for scanability, compact tags, and semantic typography rather than a headingless wall of text; headings are content structure, not implementation or fallback explanations. Content carries no hardcoded fonts, colors, or Avalonia styles; its contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
+- two-card presentation keeps two equal cards in the existing multi-card tableau and places one combined tag/interaction/direction interpretation after it; tableau order does not create pair meaning, and no per-card interpretation or custom split-pane layout is introduced before owner review.
 - the content host has no top-level visible `Интерпретация` or `Толкование` heading; that text labels the selector, while single-card section and three-card position/relation headings remain useful navigation.
 
 Current birth-input direction:

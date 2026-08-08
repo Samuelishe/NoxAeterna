@@ -85,13 +85,13 @@ Runtime LLM generation is absent. Optional narrative presentation remains downst
 
 ## Tarot INT0 Architecture Status
 
-INT0-D1–D4, I1–I4, INT1-I1, INT-SQL1, INT1-QA0, and the Russian Classic single-card corpus are accepted. The runtime resolver, selector/settings orchestration, silent host, and structured single-card renderer exist. Classic `ru + single-card` is ready; the other seven locale/mode modules remain unready, and no `two-cards` spread, AppData pack source, or user-pack flow is implemented.
+INT0-D1–D4, I1–I4, INT1-I1, INT-SQL1, INT1-QA0, the Russian Classic single-card corpus, and the complete Russian oriented-pair corpus are accepted. The runtime resolver, selector/settings orchestration, silent host, structured single-card renderer, and combined two-card renderer exist. Classic `ru + single-card` and `ru + two-cards` are ready; the other six locale/mode modules remain unready, and no AppData pack source or user-pack flow is implemented.
 
 ## Current Implementation Baseline
 
 Literal source inspection confirms:
 
-- Domain provides only `single-card` with position `card` and ordered `three-cards` with positions `past`, `present`, and `future`; no two-card spread exists.
+- Domain provides `single-card` with position `card`, non-positional `two-cards` with technical slots `slot-a`/`slot-b`, and ordered `three-cards` with positions `past`, `present`, and `future`.
 - `TarotDrawEngine` already draws without replacement and supports explicit upright-only or upright/reversed orientation policies.
 - Current code has `TarotInterpretationPackId` as a separate typed identity from the semantic deck, artwork pack, presentation skin, and back variant; the active compile-time value is `classic`.
 - Presentation owns separate interpretation-language and selected-pack preferences plus the pure structured single-card display builder; it reads no files and resolves no fallback/readiness.
@@ -106,7 +106,7 @@ Literal source inspection confirms:
 Reveal state is a Presentation-owned visibility policy. With auto reveal enabled, every card is revealed after Draw and a future MVP interpretation appears immediately. With auto reveal disabled:
 
 - a single-card interpretation appears only after that card is manually revealed;
-- the future non-positional `two-cards` mode may reveal cards separately, but shows no interpretation or tags until both are revealed and never substitutes temporary single-card content;
+- the non-positional `two-cards` mode may reveal cards separately, but shows no interpretation or tags until both are revealed and never substitutes temporary single-card content;
 - Past / Present / Future may progressively add a position-aware fragment for each revealed card;
 - transition content requires both cards involved in that transition to be revealed;
 - whole-spread synthesis requires all three cards to be revealed.
@@ -145,7 +145,7 @@ INT0-D2 approves expanded standalone content with five visible sections, indepen
 
 ### INT2/INT3 — Two-Card Combination Mode
 
-The future `two-cards` mode draws two distinct cards without replacement and has no positional roles. It canonicalizes an unordered identity through ordinal semantic-ID order, attaches four orientation states to the canonical card slots, and requires all `3003 × 4 = 12012` states to have independent authored prose. It shows nothing until both cards are revealed. Pair fields, tags, bundle paths, large waves, and validation belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
+The implemented `two-cards` mode draws two distinct cards without replacement and has no positional roles. Interpretation canonicalizes the unordered identity through ordinal semantic-ID order, attaches four orientation states to the canonical card slots, and resolves one of the accepted `3003 × 4 = 12012` independently authored states. It shows nothing until both cards are revealed; Presentation then exposes pack-local tags plus the combined `interaction` and `direction`. Pair fields, tags, bundle paths, and validation belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
 ### INT4 — Past / Present / Future
 

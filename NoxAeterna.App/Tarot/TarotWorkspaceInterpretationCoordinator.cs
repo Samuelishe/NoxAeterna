@@ -17,6 +17,14 @@ public interface ITarotWorkspaceInterpretationResolver
         TarotCardId cardId,
         TarotCardOrientation orientation);
 
+    TarotInterpretationResolution<TarotOrientedPairEntry> ResolveOrientedPair(
+        TarotInterpretationPackId packId,
+        TarotInterpretationLocale requestedLocale,
+        TarotCardId firstCardId,
+        TarotCardOrientation firstOrientation,
+        TarotCardId secondCardId,
+        TarotCardOrientation secondOrientation);
+
     TarotInterpretationResolution<TarotThreeCardPositionEntry> ResolveThreeCardPosition(
         TarotInterpretationPackId packId,
         TarotInterpretationLocale requestedLocale,
@@ -38,6 +46,22 @@ public sealed class TarotWorkspaceInterpretationResolverAdapter(TarotInterpretat
         TarotCardOrientation orientation) =>
         resolver.ResolveSingleCard(packId, requestedLocale, cardId, orientation);
 
+    public TarotInterpretationResolution<TarotOrientedPairEntry> ResolveOrientedPair(
+        TarotInterpretationPackId packId,
+        TarotInterpretationLocale requestedLocale,
+        TarotCardId firstCardId,
+        TarotCardOrientation firstOrientation,
+        TarotCardId secondCardId,
+        TarotCardOrientation secondOrientation) =>
+        resolver.ResolveOrientedPair(
+            packId,
+            TarotInterpretationMode.TwoCards,
+            requestedLocale,
+            firstCardId,
+            firstOrientation,
+            secondCardId,
+            secondOrientation);
+
     public TarotInterpretationResolution<TarotThreeCardPositionEntry> ResolveThreeCardPosition(
         TarotInterpretationPackId packId,
         TarotInterpretationLocale requestedLocale,
@@ -48,38 +72,38 @@ public sealed class TarotWorkspaceInterpretationResolverAdapter(TarotInterpretat
 }
 
 /// <summary>Supplies already trusted pack-local labels without placing filesystem work in Presentation.</summary>
-public interface ITarotSingleCardPresentationLabelSource
+public interface ITarotInterpretationPresentationLabelSource
 {
-    TarotSingleCardInterpretationLabels? Resolve(
+    TarotInterpretationPresentationLabels? Resolve(
         TarotInterpretationPackId packId,
         int contentVersion,
         TarotInterpretationLocale resolvedLocale);
 }
 
 /// <summary>Keeps production presentation silent until trusted pack-local label routing is available.</summary>
-public sealed class EmptyTarotSingleCardPresentationLabelSource : ITarotSingleCardPresentationLabelSource
+public sealed class EmptyTarotInterpretationPresentationLabelSource : ITarotInterpretationPresentationLabelSource
 {
-    public static EmptyTarotSingleCardPresentationLabelSource Instance { get; } = new();
+    public static EmptyTarotInterpretationPresentationLabelSource Instance { get; } = new();
 
-    private EmptyTarotSingleCardPresentationLabelSource()
+    private EmptyTarotInterpretationPresentationLabelSource()
     {
     }
 
-    public TarotSingleCardInterpretationLabels? Resolve(
+    public TarotInterpretationPresentationLabels? Resolve(
         TarotInterpretationPackId packId,
         int contentVersion,
         TarotInterpretationLocale resolvedLocale) => null;
 }
 
 /// <summary>Maps trusted package-local labels and vocabulary into the pure Presentation model.</summary>
-public sealed class TarotPackagePresentationLabelSource(ITarotInterpretationPackStoreCatalog catalog) : ITarotSingleCardPresentationLabelSource
+public sealed class TarotPackagePresentationLabelSource(ITarotInterpretationPackStoreCatalog catalog) : ITarotInterpretationPresentationLabelSource
 {
     private readonly ITarotInterpretationPackStoreCatalog catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
-    public TarotSingleCardInterpretationLabels? Resolve(TarotInterpretationPackId packId,int contentVersion,TarotInterpretationLocale resolvedLocale)
+    public TarotInterpretationPresentationLabels? Resolve(TarotInterpretationPackId packId,int contentVersion,TarotInterpretationLocale resolvedLocale)
     {
         if(!catalog.TryGetStore(packId,out var store)||store is null||store.Manifest.ContentVersion!=contentVersion)return null;
         var result=store.GetLabels(resolvedLocale);return result.Status==TarotInterpretationStoreStatus.Found&&result.Value is { } labels
-            ? new TarotSingleCardInterpretationLabels(labels.Labels.SingleCardSections,labels.TagLabels)
+            ? new TarotInterpretationPresentationLabels(labels.Labels.SingleCardSections,labels.TagLabels)
             : null;
     }
 }
@@ -89,28 +113,39 @@ public sealed class TarotWorkspaceInterpretationSnapshot
 {
     public static TarotWorkspaceInterpretationSnapshot Empty { get; } = new(
         null,
+        null,
         new Dictionary<TarotSpreadPositionId, TarotInterpretationResolution<TarotThreeCardPositionEntry>>(),
+        null,
         null);
 
     public TarotWorkspaceInterpretationSnapshot(
         TarotInterpretationResolution<TarotSingleCardEntry>? singleCard,
+        TarotInterpretationResolution<TarotOrientedPairEntry>? twoCardPair,
         IReadOnlyDictionary<TarotSpreadPositionId, TarotInterpretationResolution<TarotThreeCardPositionEntry>> threeCardPositions,
-        TarotSingleCardInterpretationPresentation? singleCardPresentation = null)
+        TarotSingleCardInterpretationPresentation? singleCardPresentation = null,
+        TarotOrientedPairInterpretationPresentation? twoCardPresentation = null)
     {
         SingleCard = singleCard;
+        TwoCardPair = twoCardPair;
         ThreeCardPositions = new ReadOnlyDictionary<TarotSpreadPositionId, TarotInterpretationResolution<TarotThreeCardPositionEntry>>(
             threeCardPositions.ToDictionary(static pair => pair.Key, static pair => pair.Value));
         SingleCardPresentation = singleCardPresentation;
+        TwoCardPresentation = twoCardPresentation;
     }
 
     public TarotInterpretationResolution<TarotSingleCardEntry>? SingleCard { get; }
+
+    public TarotInterpretationResolution<TarotOrientedPairEntry>? TwoCardPair { get; }
 
     public IReadOnlyDictionary<TarotSpreadPositionId, TarotInterpretationResolution<TarotThreeCardPositionEntry>> ThreeCardPositions { get; }
 
     public TarotSingleCardInterpretationPresentation? SingleCardPresentation { get; }
 
+    public TarotOrientedPairInterpretationPresentation? TwoCardPresentation { get; }
+
     public bool HasResolvedContent =>
         SingleCard is ResolvedTarotInterpretation<TarotSingleCardEntry> ||
+        TwoCardPair is ResolvedTarotInterpretation<TarotOrientedPairEntry> ||
         ThreeCardPositions.Values.Any(static item => item is ResolvedTarotInterpretation<TarotThreeCardPositionEntry>);
 }
 
@@ -119,22 +154,25 @@ public sealed class TarotWorkspaceInterpretationCoordinator : IDisposable
 {
     private ITarotWorkspaceInterpretationResolver resolver;
     private readonly TarotWorkspaceViewModel viewModel;
-    private readonly ITarotSingleCardPresentationLabelSource labelSource;
+    private readonly ITarotInterpretationPresentationLabelSource labelSource;
     private readonly TarotSingleCardInterpretationPresentationBuilder presentationBuilder;
+    private readonly TarotOrientedPairInterpretationPresentationBuilder pairPresentationBuilder;
     private InterpretationLanguagePreference language;
 
     public TarotWorkspaceInterpretationCoordinator(
         ITarotWorkspaceInterpretationResolver resolver,
         TarotWorkspaceViewModel viewModel,
         InterpretationLanguagePreference language,
-        ITarotSingleCardPresentationLabelSource? labelSource = null,
-        TarotSingleCardInterpretationPresentationBuilder? presentationBuilder = null)
+        ITarotInterpretationPresentationLabelSource? labelSource = null,
+        TarotSingleCardInterpretationPresentationBuilder? presentationBuilder = null,
+        TarotOrientedPairInterpretationPresentationBuilder? pairPresentationBuilder = null)
     {
         this.resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
         this.viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
         this.language = language ?? throw new ArgumentNullException(nameof(language));
-        this.labelSource = labelSource ?? EmptyTarotSingleCardPresentationLabelSource.Instance;
+        this.labelSource = labelSource ?? EmptyTarotInterpretationPresentationLabelSource.Instance;
         this.presentationBuilder = presentationBuilder ?? new TarotSingleCardInterpretationPresentationBuilder();
+        this.pairPresentationBuilder = pairPresentationBuilder ?? new TarotOrientedPairInterpretationPresentationBuilder();
         viewModel.StateChanged += OnWorkspaceStateChanged;
         Refresh();
     }
@@ -194,7 +232,41 @@ public sealed class TarotWorkspaceInterpretationCoordinator : IDisposable
                 : null;
             Publish(new TarotWorkspaceInterpretationSnapshot(
                 resolution,
+                null,
                 new Dictionary<TarotSpreadPositionId, TarotInterpretationResolution<TarotThreeCardPositionEntry>>(),
+                presentation));
+            return;
+        }
+
+        if (reading.SpreadId == StandardTarotSpreads.TwoCards.Id)
+        {
+            if (!viewModel.AreAllCardsRevealed)
+            {
+                Publish(TarotWorkspaceInterpretationSnapshot.Empty);
+                return;
+            }
+
+            var first = reading.Cards[0];
+            var second = reading.Cards[1];
+            var resolution = resolver.ResolveOrientedPair(
+                viewModel.InterpretationPackId,
+                locale,
+                first.Card.Id,
+                first.Orientation,
+                second.Card.Id,
+                second.Orientation);
+            var presentation = resolution is ResolvedTarotInterpretation<TarotOrientedPairEntry> resolved &&
+                               labelSource.Resolve(
+                                   resolved.PackId,
+                                   resolved.ContentVersion,
+                                   resolved.ResolvedLocale) is { } labels
+                ? pairPresentationBuilder.Build(reading, resolved, labels)
+                : null;
+            Publish(new TarotWorkspaceInterpretationSnapshot(
+                null,
+                resolution,
+                new Dictionary<TarotSpreadPositionId, TarotInterpretationResolution<TarotThreeCardPositionEntry>>(),
+                null,
                 presentation));
             return;
         }
@@ -214,7 +286,7 @@ public sealed class TarotWorkspaceInterpretationCoordinator : IDisposable
                         card.Orientation));
             }
 
-            Publish(new TarotWorkspaceInterpretationSnapshot(null, positions));
+            Publish(new TarotWorkspaceInterpretationSnapshot(null, null, positions));
             return;
         }
 

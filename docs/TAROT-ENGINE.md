@@ -49,20 +49,21 @@ Current code has validated `TarotArtworkPackId`, `TarotPresentationSkinId`, `Tar
 
 ## Built-In Spreads
 
-Two immutable definitions exist:
+Three immutable definitions exist:
 
 - `single-card` with internal position ID `card`;
+- `two-cards` with technical internal position IDs `slot-a` and `slot-b`, which carry no semantic roles and are never visible labels;
 - `three-cards` with ordered internal position IDs `past`, `present`, and `future`.
 
 These IDs are semantic keys, not user-facing labels. Spreads contain no Avalonia geometry, pixel coordinates, localized names, or meanings. A spread becomes selectable when its Domain, Presentation, and UI behavior is implemented; interpretation-pack completeness never gates it. The canonical pack/mode relationship belongs to [`TAROT-INTERPRETATION-PACKS.md`](TAROT-INTERPRETATION-PACKS.md).
 
-Canonical interpretation mode IDs are `single-card`, `two-cards`, `three-cards`, and `celtic-cross`. A mode normally shares its semantic spread ID; the future non-positional pair spread is therefore `two-cards`, while any future ordered two-card spread must use another ID and content contract. Mode content and routing belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
+Canonical interpretation mode IDs are `single-card`, `two-cards`, `three-cards`, and `celtic-cross`. A mode normally shares its semantic spread ID; the implemented non-positional pair spread is therefore `two-cards`, while any future ordered two-card spread must use another ID and content contract. Mode content and routing belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
-`classic` (`Классика` / `Classic`) is the built-in selectable interpretation pack; its user-facing names come from the manifest under application UI language and its selection is independent from artwork, back, spread, and interpretation language. Its accepted Russian single-card module is `ready = true` and contains all 78 cards and 156 independently authored upright/reversed states with five structured sections. The other seven locale/mode modules remain unready; the authorial contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
+`classic` (`Классика` / `Classic`) is the built-in selectable interpretation pack; its user-facing names come from the manifest under application UI language and its selection is independent from artwork, back, spread, and interpretation language. Its accepted Russian single-card and two-card modules are `ready = true`: single-card contains 78 cards / 156 independently authored upright/reversed states with five sections, and two-card contains 3,003 canonical pairs / 12,012 independently authored orientation states. The other six locale/mode modules remain unready; the authorial contract belongs to [`TAROT-INTERPRETATION-CONTENT.md`](TAROT-INTERPRETATION-CONTENT.md).
 
 Celtic Cross remains future scope. Its larger card count will require smaller card surfaces than the one-, two-, and three-card modes; exact positions, relation graph, synthesis, layout, and dimensions belong to later design stages. Its `celtic-cross` interpretation module will be compositional rather than exhaustive, and no implementation begins in INT0.
 
-The planned `two-cards` mode does not exist in Domain or UI. It will draw exactly two distinct cards without replacement, assign no semantic positions, and resolve one unordered combination after both cards are revealed. Canonical identity uses ordinal semantic-ID order; all 12,012 oriented states are independently authored under the mode owner.
+The playable `two-cards` mode draws exactly two distinct cards without replacement, assigns no semantic positions, and resolves one unordered combined interpretation after both cards are revealed. Canonical identity and card-specific orientation attachment remain owned by the Interpretation resolver; Presentation exposes localized pack vocabulary and combined `interaction`/`direction`, and the App uses the existing stacked multi-card reading surface without semantic position labels.
 
 ## Boundary With Meaning and Presentation
 
@@ -102,7 +103,7 @@ TAROT-ART-RUNTIME-1 subsequently made Lupus Noctis the sole default user-facing 
 
 ## Interpretation Planning Baseline
 
-- Only `single-card/card` and ordered `three-cards/past,present,future` are implemented.
+- `single-card/card`, non-positional `two-cards/slot-a,slot-b`, and ordered `three-cards/past,present,future` are implemented; only the first two currently have ready Russian interpretation modules.
 - Draws are without replacement and already support upright and reversed orientation.
 - The active `classic` interpretation-pack resolves the complete accepted Russian single-card prose; only `ru + single-card` is ready, while English and multi-card `NoContent` remains silent.
 - Schema-v2 source bundles, strict validation/compiler direction, typed package-store resolution, settings-v2, selector, five-section presentation, and reveal-gated orchestration are the current contracts. The accepted Russian single-card corpus is the only production Tarot meaning corpus.

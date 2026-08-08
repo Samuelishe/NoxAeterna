@@ -10,7 +10,7 @@ namespace NoxAeterna.App.Debug;
 /// <summary>Opt-in synthetic resolved content for real-control presentation smoke only.</summary>
 internal sealed class DebugTarotInterpretationPreview :
     ITarotWorkspaceInterpretationResolver,
-    ITarotSingleCardPresentationLabelSource
+    ITarotInterpretationPresentationLabelSource
 {
     internal const string EnvironmentVariableName = "NOXAETERNA_DEBUG_INTERPRETATION_PREVIEW";
     private readonly bool noContentInEnglish;
@@ -60,7 +60,16 @@ internal sealed class DebugTarotInterpretationPreview :
         TarotCardOrientation orientation) =>
         new NoTarotInterpretationContent<TarotThreeCardPositionEntry>(TarotNoContentReason.NoReadyLocale);
 
-    public TarotSingleCardInterpretationLabels? Resolve(
+    public TarotInterpretationResolution<TarotOrientedPairEntry> ResolveOrientedPair(
+        TarotInterpretationPackId packId,
+        TarotInterpretationLocale requestedLocale,
+        TarotCardId firstCardId,
+        TarotCardOrientation firstOrientation,
+        TarotCardId secondCardId,
+        TarotCardOrientation secondOrientation) =>
+        new NoTarotInterpretationContent<TarotOrientedPairEntry>(TarotNoContentReason.NoReadyLocale);
+
+    public TarotInterpretationPresentationLabels? Resolve(
         TarotInterpretationPackId packId,
         int contentVersion,
         TarotInterpretationLocale resolvedLocale)
@@ -88,7 +97,7 @@ internal sealed class DebugTarotInterpretationPreview :
                 : new[] { "Conflict", "Choice", "Change", "Opportunity", "Risk", "Release" })
             .Select((label, index) => (Id: TagIds[index], Label: label))
             .ToDictionary(static item => item.Id, static item => item.Label);
-        return new TarotSingleCardInterpretationLabels(sectionLabels, tagLabels);
+        return new TarotInterpretationPresentationLabels(sectionLabels, tagLabels);
     }
 
     private static TarotSingleCardEntry CreateEntry(

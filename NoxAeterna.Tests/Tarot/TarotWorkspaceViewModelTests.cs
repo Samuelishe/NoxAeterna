@@ -14,10 +14,24 @@ public sealed class TarotWorkspaceViewModelTests
             new TarotDrawEngine(new SequenceRandomSource(0)));
 
         Assert.Equal(
-            new[] { StandardTarotSpreads.SingleCard.Id, StandardTarotSpreads.ThreeCards.Id },
+            new[]
+            {
+                StandardTarotSpreads.SingleCard.Id,
+                StandardTarotSpreads.TwoCards.Id,
+                StandardTarotSpreads.ThreeCards.Id
+            },
             viewModel.SpreadOptions.Select(option => option.Definition.Id));
         Assert.Same(StandardTarotSpreads.SingleCard, viewModel.SpreadOptions[0].Definition);
-        Assert.Same(StandardTarotSpreads.ThreeCards, viewModel.SpreadOptions[1].Definition);
+        Assert.Same(StandardTarotSpreads.TwoCards, viewModel.SpreadOptions[1].Definition);
+        Assert.Same(StandardTarotSpreads.ThreeCards, viewModel.SpreadOptions[2].Definition);
+        Assert.Equal(
+            new[]
+            {
+                "ui.tarot.spread.single-card",
+                "ui.tarot.spread.two-cards",
+                "ui.tarot.spread.three-cards"
+            },
+            viewModel.SpreadOptions.Select(static option => option.LabelKey.Value));
         Assert.Equal("lupus-noctis", viewModel.ArtworkPackId.Value);
         Assert.Equal("lupus-noctis", Assert.Single(viewModel.ArtworkPacks).Id.Value);
         Assert.Same(Assert.Single(viewModel.ArtworkPacks), viewModel.SelectedArtworkPack);
@@ -25,6 +39,22 @@ public sealed class TarotWorkspaceViewModelTests
         Assert.Equal(TarotWorkspacePreferences.CreateDefault(), viewModel.Preferences);
         Assert.Equal("astral-archive-prototype", viewModel.PresentationSkinId.Value);
         Assert.Equal("classic", viewModel.InterpretationPackId.Value);
+    }
+
+    [Fact]
+    public void CreateClassic_RestoresPersistedTwoCardSpreadByExplicitId()
+    {
+        var viewModel = TarotWorkspaceViewModel.CreateClassic(
+            new TarotDrawEngine(new SequenceRandomSource(0)),
+            initialPreferences: TarotWorkspacePreferences.CreateDefault() with
+            {
+                SpreadId = StandardTarotSpreads.TwoCards.Id
+            });
+
+        Assert.Same(StandardTarotSpreads.TwoCards, viewModel.SelectedSpread.Definition);
+        Assert.Equal("two-cards", viewModel.Preferences.SpreadId.Value);
+        Assert.Null(viewModel.CurrentReading);
+        Assert.Equal(0, viewModel.RevealedCardCount);
     }
 
     [Fact]
@@ -324,14 +354,14 @@ public sealed class TarotWorkspaceViewModelTests
         var observed = new List<TarotWorkspacePreferences>();
         viewModel.PreferencesChanged += (_, preferences) => observed.Add(preferences);
 
-        viewModel.SelectSpread(StandardTarotSpreads.ThreeCards.Id);
+        viewModel.SelectSpread(StandardTarotSpreads.TwoCards.Id);
         viewModel.SelectArtworkPack(alternate.Id);
         viewModel.SelectBackVariant(new TarotBackVariantId("lunar-seal"));
         viewModel.SetAllowReversed(true);
         viewModel.SetAutoRevealCards(false);
 
         Assert.Equal(5, observed.Count);
-        Assert.Equal(StandardTarotSpreads.ThreeCards.Id, observed[0].SpreadId);
+        Assert.Equal(StandardTarotSpreads.TwoCards.Id, observed[0].SpreadId);
         Assert.Equal(alternate.Id, observed[1].ArtworkPackId);
         Assert.Equal(new TarotBackVariantId("lunar-seal"), observed[2].BackVariantId);
         Assert.True(observed[3].AllowReversed);
@@ -594,6 +624,7 @@ public sealed class TarotWorkspaceViewModelTests
         StandardTarotCatalog.Deck,
         [
             new TarotSpreadOption(StandardTarotSpreads.SingleCard, new("ui.test.single")),
+            new TarotSpreadOption(StandardTarotSpreads.TwoCards, new("ui.test.two")),
             new TarotSpreadOption(StandardTarotSpreads.ThreeCards, new("ui.test.three"))
         ],
         TarotPrototypeSelections.BackVariants,

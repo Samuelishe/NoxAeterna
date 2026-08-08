@@ -8,10 +8,10 @@ using NoxAeterna.Interpretation.Tarot.Resolution;
 
 namespace NoxAeterna.Presentation.Tarot;
 
-/// <summary>Provides already resolved pack-local labels for one single-card locale.</summary>
-public sealed class TarotSingleCardInterpretationLabels
+/// <summary>Provides already resolved pack-local section and vocabulary labels for one locale.</summary>
+public sealed class TarotInterpretationPresentationLabels
 {
-    public TarotSingleCardInterpretationLabels(
+    public TarotInterpretationPresentationLabels(
         IReadOnlyDictionary<string, string> sectionLabels,
         IReadOnlyDictionary<TarotTagConceptId, string> tagLabels)
     {
@@ -31,7 +31,7 @@ public sealed class TarotSingleCardInterpretationLabels
 public sealed record TarotSingleCardInterpretationSection(string SectionId, string Label, string Text);
 
 /// <summary>Represents one visible labeled semantic tag without UI color data.</summary>
-public sealed record TarotSingleCardInterpretationTag(
+public sealed record TarotInterpretationTagPresentation(
     TarotTagConceptId ConceptId,
     string Label,
     int Valence,
@@ -46,7 +46,7 @@ public sealed class TarotSingleCardInterpretationPresentation
         TarotInterpretationLocale requestedLocale,
         TarotInterpretationLocale resolvedLocale,
         IEnumerable<TarotSingleCardInterpretationSection> sections,
-        IEnumerable<TarotSingleCardInterpretationTag> tags,
+        IEnumerable<TarotInterpretationTagPresentation> tags,
         int overallValence,
         int overallIntensity)
     {
@@ -65,7 +65,7 @@ public sealed class TarotSingleCardInterpretationPresentation
     public TarotInterpretationLocale RequestedLocale { get; }
     public TarotInterpretationLocale ResolvedLocale { get; }
     public IReadOnlyList<TarotSingleCardInterpretationSection> Sections { get; }
-    public IReadOnlyList<TarotSingleCardInterpretationTag> Tags { get; }
+    public IReadOnlyList<TarotInterpretationTagPresentation> Tags { get; }
     public int OverallValence { get; }
     public int OverallIntensity { get; }
 }
@@ -78,7 +78,7 @@ public sealed class TarotSingleCardInterpretationPresentationBuilder
     public TarotSingleCardInterpretationPresentation? Build(
         TarotReading reading,
         ResolvedTarotInterpretation<TarotSingleCardEntry> resolved,
-        TarotSingleCardInterpretationLabels labels)
+        TarotInterpretationPresentationLabels labels)
     {
         ArgumentNullException.ThrowIfNull(reading);
         ArgumentNullException.ThrowIfNull(resolved);
@@ -113,7 +113,7 @@ public sealed class TarotSingleCardInterpretationPresentationBuilder
             .Where(tag => labels.TagLabels.TryGetValue(tag.ConceptId, out var label) && !string.IsNullOrWhiteSpace(label))
             .Select(tag => new RankedTag(
                 Rank(seed, tag.ConceptId),
-                new TarotSingleCardInterpretationTag(
+                new TarotInterpretationTagPresentation(
                     tag.ConceptId,
                     labels.TagLabels[tag.ConceptId],
                     tag.Valence,
@@ -151,5 +151,5 @@ public sealed class TarotSingleCardInterpretationPresentationBuilder
     private static string Rank(string seed, TarotTagConceptId conceptId) => Convert.ToHexString(
         SHA256.HashData(Encoding.UTF8.GetBytes($"{seed}\n{conceptId.Value}")));
 
-    private sealed record RankedTag(string Hash, TarotSingleCardInterpretationTag Tag);
+    private sealed record RankedTag(string Hash, TarotInterpretationTagPresentation Tag);
 }

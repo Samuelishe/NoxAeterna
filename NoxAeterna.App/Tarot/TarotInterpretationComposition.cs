@@ -8,7 +8,7 @@ public sealed record TarotInterpretationComposition(
     BuiltInTarotInterpretationPackStoreCatalog StoreCatalog,
     TarotInterpretationPackCatalog PackCatalog,
     ITarotWorkspaceInterpretationResolver Resolver,
-    ITarotSingleCardPresentationLabelSource PresentationLabels)
+    ITarotInterpretationPresentationLabelSource PresentationLabels)
 {
     public static TarotInterpretationComposition CreateBuiltIn()
     {
@@ -16,7 +16,7 @@ public sealed record TarotInterpretationComposition(
         var packCatalog = new TarotInterpretationPackCatalog(storeCatalog, storeCatalog.PackIds);
         ITarotWorkspaceInterpretationResolver resolver = new TarotWorkspaceInterpretationResolverAdapter(
             new TarotInterpretationPackResolver(storeCatalog, StandardTarotCatalog.Deck));
-        ITarotSingleCardPresentationLabelSource labels = new TarotPackagePresentationLabelSource(storeCatalog);
+        ITarotInterpretationPresentationLabelSource labels = new TarotPackagePresentationLabelSource(storeCatalog);
 #if DEBUG
         if (NoxAeterna.App.Debug.DebugTarotInterpretationPreview.TryCreate() is { } preview)
         {

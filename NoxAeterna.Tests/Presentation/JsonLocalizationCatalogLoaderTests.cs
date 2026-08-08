@@ -224,7 +224,9 @@ public sealed class JsonLocalizationCatalogLoaderTests
             "ui.tarot.control.auto-reveal",
             "ui.tarot.control.draw", "ui.tarot.control.redraw", "ui.tarot.tableau.title",
             "ui.tarot.empty-state", "ui.tarot.failure.insufficient-deck", "ui.tarot.artwork.unavailable",
-            "ui.tarot.spread.single-card", "ui.tarot.spread.three-cards", "ui.tarot.position.card",
+            "ui.tarot.spread.single-card", "ui.tarot.spread.two-cards", "ui.tarot.spread.three-cards",
+            "ui.tarot.interpretation.pair.interaction", "ui.tarot.interpretation.pair.direction",
+            "ui.tarot.position.card",
             "ui.tarot.position.past", "ui.tarot.position.present", "ui.tarot.position.future",
             "ui.tarot.orientation.upright", "ui.tarot.orientation.reversed", "ui.tarot.arcana.major",
             "ui.tarot.arcana.minor", "ui.tarot.back.black-sun", "ui.tarot.back.lunar-seal",
@@ -265,6 +267,20 @@ public sealed class JsonLocalizationCatalogLoaderTests
         Assert.Equal(
             "Открывать карты автоматически",
             GetRequiredText(russian, "ui.tarot.control.auto-reveal"));
+    }
+
+    [Fact]
+    public void RealUiCatalogs_ContainTwoCardSpreadAndPairHeadingsWithExactCopy()
+    {
+        var english = LoadRealUiCatalog("en");
+        var russian = LoadRealUiCatalog("ru");
+
+        Assert.Equal("Two cards", GetRequiredText(english, "ui.tarot.spread.two-cards"));
+        Assert.Equal("Interaction", GetRequiredText(english, "ui.tarot.interpretation.pair.interaction"));
+        Assert.Equal("Direction", GetRequiredText(english, "ui.tarot.interpretation.pair.direction"));
+        Assert.Equal("Две карты", GetRequiredText(russian, "ui.tarot.spread.two-cards"));
+        Assert.Equal("Взаимодействие", GetRequiredText(russian, "ui.tarot.interpretation.pair.interaction"));
+        Assert.Equal("Направление", GetRequiredText(russian, "ui.tarot.interpretation.pair.direction"));
     }
 
     [Fact]

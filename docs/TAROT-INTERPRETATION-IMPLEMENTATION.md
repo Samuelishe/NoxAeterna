@@ -276,6 +276,8 @@ NoxAeterna.Tools.Repository ──┘
 
 The resolver retains pack selection, locale chain, same-locale dependency resolution, canonical pair handling, and typed `Resolved`/`NoContent`. Missing rows or query/package damage in a ready module produce `BrokenReadyModule` and stop locale fallback. No ready locale produces `NoReadyLocale`; unknown/missing package produces `PackUnavailable`.
 
+The playable workspace keeps a narrow App adapter over that resolver. `single-card` resolves after its assignment is revealed; `two-cards` resolves exactly one unordered oriented-pair entry only after both technical draw slots are revealed; `three-cards` continues to use semantic position entries when their corpus becomes ready. Presentation converts resolved entries and pack-local vocabulary into typed UI models, so Avalonia receives localized tag labels and authored valence/intensity rather than storage DTOs or raw concept IDs. Pair section chrome (`interaction` and `direction`) is selected with the resolved interpretation locale, including locale fallback.
+
 Only bounded semantic entry caching is permitted. Cache identity uses pack ID, content version/source digest, resolved locale, corpus/mode, and canonical key—not artwork, theme, dimensions, or display name.
 
 ## Build integration

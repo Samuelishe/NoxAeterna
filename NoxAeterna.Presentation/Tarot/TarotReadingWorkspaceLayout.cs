@@ -83,6 +83,6 @@ public static class TarotReadingWorkspaceLayout
     public static bool ShowPositionLabels(TarotSpreadId spreadId)
     {
         ArgumentNullException.ThrowIfNull(spreadId);
-        return spreadId != StandardTarotSpreads.SingleCard.Id;
+        return spreadId == StandardTarotSpreads.ThreeCards.Id;
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.Data.Sqlite;
 using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Interpretation.Sqlite;
 using NoxAeterna.Interpretation.Tarot.Contracts;
+using NoxAeterna.Interpretation.Tarot.Resolution;
 using NoxAeterna.Interpretation.Tarot.Storage;
 using NoxAeterna.Tests.Tooling.Interpretation;
 using NoxAeterna.Tools.Repository.Interpretation.Compilation;
@@ -58,6 +59,46 @@ public sealed class TarotSqlitePackageStoreTests
     }
 
     [Fact]
+    public void MissingRealPromotedPairRowIsBrokenReadyAndStopsEnglishRequestAtRussianModule()
+    {
+        var sourceRoot = Path.GetFullPath(Path.Combine(
+            AppContext.BaseDirectory,
+            "..", "..", "..", "..",
+            "resources", "interpretation", "tarot", "sources", "classic"));
+        using var package = CompiledPackage.Create(sourceRoot);
+        using (var connection = OpenWrite(package.Path))
+        {
+            using var command = connection.CreateCommand();
+            command.CommandText = """
+                                  PRAGMA foreign_keys=ON;
+                                  DELETE FROM oriented_pair_tag
+                                  WHERE locale='ru' AND card_a_id='major.chariot' AND card_b_id='major.death'
+                                    AND orientation_state='upright-upright';
+                                  DELETE FROM oriented_pair
+                                  WHERE locale='ru' AND card_a_id='major.chariot' AND card_b_id='major.death'
+                                    AND orientation_state='upright-upright';
+                                  """;
+            Assert.Equal(4, command.ExecuteNonQuery());
+        }
+
+        var store = new TarotSqlitePackageStore(package.Path, new("classic"), StandardTarotCatalog.Deck.Id);
+        var validation = store.ValidateReadyModule(new("ru"), TarotInterpretationMode.TwoCards);
+        Assert.Equal(TarotInterpretationStoreStatus.Missing, validation.Status);
+
+        var resolver = new TarotInterpretationPackResolver(new SingleStoreCatalog(store), StandardTarotCatalog.Deck);
+        var resolution = Assert.IsType<NoTarotInterpretationContent<TarotOrientedPairEntry>>(
+            resolver.ResolveOrientedPair(
+                new("classic"),
+                TarotInterpretationMode.TwoCards,
+                new("en"),
+                new("major.chariot"),
+                TarotCardOrientation.Upright,
+                new("major.death"),
+                TarotCardOrientation.Upright));
+        Assert.Equal(TarotNoContentReason.BrokenReadyModule, resolution.Reason);
+    }
+
+    [Fact]
     public void DamageAfterRegistrationBecomesControlledStoreFailure()
     {
         using var fixture=InterpretationToolingFixture.CreateSkeleton();using var package=CompiledPackage.Create(fixture);var store=new TarotSqlitePackageStore(package.Path,new("classic"),StandardTarotCatalog.Deck.Id);
@@ -72,6 +113,16 @@ public sealed class TarotSqlitePackageStoreTests
     {
         private CompiledPackage(string path)=>Path=path;public string Path{get;}
         public static CompiledPackage Create(InterpretationToolingFixture fixture){var path=System.IO.Path.Combine(System.IO.Path.GetTempPath(),$"NoxAeterna-store-{Guid.NewGuid():N}.noxinterp");var report=new InterpretationPackageCompiler().Compile(fixture.Root,path,false);Assert.True(report.Success,string.Join(Environment.NewLine,report.Diagnostics.Select(static item=>item.Message)));return new(path);}
+        public static CompiledPackage Create(string sourceRoot){var path=System.IO.Path.Combine(System.IO.Path.GetTempPath(),$"NoxAeterna-store-{Guid.NewGuid():N}.noxinterp");var report=new InterpretationPackageCompiler().Compile(sourceRoot,path,false);Assert.True(report.Success,string.Join(Environment.NewLine,report.Diagnostics.Select(static item=>item.Message)));return new(path);}
         public void Dispose(){if(File.Exists(Path))File.Delete(Path);}
+    }
+
+    private sealed class SingleStoreCatalog(ITarotInterpretationPackStore store) : ITarotInterpretationPackStoreCatalog
+    {
+        public bool TryGetStore(TarotInterpretationPackId packId, out ITarotInterpretationPackStore? result)
+        {
+            result = packId == store.Manifest.PackId ? store : null;
+            return result is not null;
+        }
     }
 }

@@ -141,6 +141,29 @@ public sealed class JsonUserPreferencesStoreTests
     }
 
     [Fact]
+    public void SaveAndLoad_RoundTripsTwoCardSpreadWithoutSchemaChange()
+    {
+        using var fixture = new SettingsFixture();
+        var store = fixture.CreateStore();
+        var expected = UserPreferencesDefaults.Create() with
+        {
+            Tarot = TarotWorkspacePreferences.CreateDefault() with
+            {
+                SpreadId = StandardTarotSpreads.TwoCards.Id
+            }
+        };
+
+        Assert.True(store.Save(expected).IsSuccess);
+        var loaded = store.Load();
+
+        Assert.Null(loaded.Diagnostic);
+        Assert.Equal(StandardTarotSpreads.TwoCards.Id, loaded.Preferences.Tarot.SpreadId);
+        using var json = JsonDocument.Parse(File.ReadAllText(fixture.SettingsPath));
+        Assert.Equal(2, json.RootElement.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal("two-cards", json.RootElement.GetProperty("tarot").GetProperty("spreadId").GetString());
+    }
+
+    [Fact]
     public void Save_WritesOnlyVersionedPrimitivePreferenceDocument()
     {
         using var fixture = new SettingsFixture();

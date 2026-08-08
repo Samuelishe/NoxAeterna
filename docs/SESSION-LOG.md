@@ -9,6 +9,10 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-08: INT2-RUNTIME-RU-TWO Russian Two-Card Runtime Promotion
+
+- Added the neutral `two-cards` spread with hidden technical slots, one reveal-gated unordered pair resolution, typed combined Presentation, pack-vocabulary tags, resolved-locale interaction/direction chrome, preference restore, and RU readiness promotion. Accepted 3,003/12,012 pair and 78/156 single-card JSON stayed byte-identical; package digest is `ef43733319615378375f599dd1d4f5b69b1a04190a08e5f44049060b03e13009`. All focused routes, zero-warning solution build, and Full 986/986 passed. Real production-package smoke covered Obsidian/Porcelain, wide/minimum, UU/mixed, manual reveal, redraw, navigation, spread switching, persistence restart, and single/three-card regressions; screenshots remain temporary.
+
 ## 2026-08-08: INT2-PAIR-RU-W6 Complete Russian Classic Oriented-Pair Corpus
 
 - Authored final canonical pair indices 2500..3002, from `minor.pentacles.seven__minor.wands.page` through `minor.wands.three__minor.wands.two`: 503 complete bundles / 2,012 states, completing the RU corpus at 3,003/3,003 bundles and 12,012/12,012 states. Full-corpus structural, lexical, metadata, package, and milestone verification completed without changing W1R–W5, English, readiness, runtime, UI, or artwork; owner acceptance and `ru + two-cards` promotion remain separate.

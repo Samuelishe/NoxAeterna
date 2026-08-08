@@ -22,7 +22,11 @@ public sealed class JsonUserPreferencesStore : IUserPreferencesStore
     private static readonly HashSet<string> SupportedLanguages = new(["ru", "en"], StringComparer.Ordinal);
     private static readonly HashSet<string> SupportedThemes = new(["dark", "light"], StringComparer.Ordinal);
     private static readonly HashSet<string> SupportedSpreads = new(
-        [StandardTarotSpreads.SingleCard.Id.Value, StandardTarotSpreads.ThreeCards.Id.Value],
+        [
+            StandardTarotSpreads.SingleCard.Id.Value,
+            StandardTarotSpreads.TwoCards.Id.Value,
+            StandardTarotSpreads.ThreeCards.Id.Value
+        ],
         StringComparer.Ordinal);
     private static readonly HashSet<string> SupportedArtworkPacks = new(
         [TarotPrototypeSelections.LupusNoctisArtworkPackId.Value],

@@ -161,6 +161,7 @@ public sealed class TarotWorkspaceViewModel
         StandardTarotCatalog.Deck,
         [
             new TarotSpreadOption(StandardTarotSpreads.SingleCard, new LocalizationKey("ui.tarot.spread.single-card")),
+            new TarotSpreadOption(StandardTarotSpreads.TwoCards, new LocalizationKey("ui.tarot.spread.two-cards")),
             new TarotSpreadOption(StandardTarotSpreads.ThreeCards, new LocalizationKey("ui.tarot.spread.three-cards"))
         ],
         TarotPrototypeSelections.BackVariants,

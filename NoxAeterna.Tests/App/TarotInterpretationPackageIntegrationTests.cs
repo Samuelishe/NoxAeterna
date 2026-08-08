@@ -15,7 +15,7 @@ namespace NoxAeterna.Tests.App;
 public sealed class TarotInterpretationPackageIntegrationTests
 {
     [Fact]
-    public void PromotedCanonicalRussianSingleCardCorpusResolvesAndBuildsLocalizedPresentationWhileOtherModesStayUnready()
+    public void PromotedCanonicalRussianSingleCardCorpusStillResolvesWhileThreeCardAndCelticCrossStayUnready()
     {
         var sourceRoot = PathAt("resources", "interpretation", "tarot", "sources", "classic");
         using var output = BuiltInOutput.Create(sourceRoot);
@@ -29,6 +29,8 @@ public sealed class TarotInterpretationPackageIntegrationTests
         Assert.NotNull(store);
         Assert.True(store.Manifest.Modules[TarotInterpretationMode.SingleCard][russian].Ready);
         Assert.False(store.Manifest.Modules[TarotInterpretationMode.SingleCard][english].Ready);
+        Assert.True(store.Manifest.Modules[TarotInterpretationMode.TwoCards][russian].Ready);
+        Assert.False(store.Manifest.Modules[TarotInterpretationMode.TwoCards][english].Ready);
 
         var resolver = new TarotInterpretationPackResolver(stores, StandardTarotCatalog.Deck);
         var labelSource = new TarotPackagePresentationLabelSource(stores);
@@ -99,7 +101,6 @@ public sealed class TarotInterpretationPackageIntegrationTests
 
         foreach (var mode in new[]
                  {
-                     TarotInterpretationMode.TwoCards,
                      TarotInterpretationMode.ThreeCards,
                      TarotInterpretationMode.CelticCross
                  })
@@ -108,6 +109,141 @@ public sealed class TarotInterpretationPackageIntegrationTests
                 resolver.ResolveMode(packId, mode, russian));
             Assert.Equal(TarotNoContentReason.NoReadyLocale, noContent.Reason);
         }
+    }
+
+    [Fact]
+    public void PromotedRussianTwoCardCorpusResolvesAllFourStatesSwappedInputsAndEnglishFallback()
+    {
+        var sourceRoot = PathAt("resources", "interpretation", "tarot", "sources", "classic");
+        using var output = BuiltInOutput.Create(sourceRoot);
+        var stores = BuiltInTarotInterpretationPackStoreCatalog.Create(output.Root);
+        var resolver = new TarotInterpretationPackResolver(stores, StandardTarotCatalog.Deck);
+        var adapter = new TarotWorkspaceInterpretationResolverAdapter(resolver);
+        var labelSource = new TarotPackagePresentationLabelSource(stores);
+        var packId = new TarotInterpretationPackId("classic");
+        var russian = new TarotInterpretationLocale("ru");
+        var english = new TarotInterpretationLocale("en");
+        var cardA = StandardTarotCatalog.Deck.Cards.Single(static card => card.Id.Value == "major.chariot");
+        var cardB = StandardTarotCatalog.Deck.Cards.Single(static card => card.Id.Value == "major.death");
+        var bundlePath = Path.Combine(
+            sourceRoot,
+            "content",
+            "ru",
+            "oriented-pairs",
+            "major.chariot__major.death.json");
+        using var bundle = JsonDocument.Parse(File.ReadAllText(bundlePath));
+        var vocabulary = RussianVocabularyLabels(sourceRoot);
+
+        var cases = new[]
+        {
+            (A: TarotCardOrientation.Upright, B: TarotCardOrientation.Upright,
+                State: TarotOrientedPairState.UprightUpright, SourceKey: "upright-upright"),
+            (A: TarotCardOrientation.Upright, B: TarotCardOrientation.Reversed,
+                State: TarotOrientedPairState.UprightReversed, SourceKey: "upright-reversed"),
+            (A: TarotCardOrientation.Reversed, B: TarotCardOrientation.Upright,
+                State: TarotOrientedPairState.ReversedUpright, SourceKey: "reversed-upright"),
+            (A: TarotCardOrientation.Reversed, B: TarotCardOrientation.Reversed,
+                State: TarotOrientedPairState.ReversedReversed, SourceKey: "reversed-reversed")
+        };
+
+        foreach (var testCase in cases)
+        {
+            var resolved = Assert.IsType<ResolvedTarotInterpretation<TarotOrientedPairEntry>>(
+                adapter.ResolveOrientedPair(packId, russian, cardA.Id, testCase.A, cardB.Id, testCase.B));
+            var swapped = Assert.IsType<ResolvedTarotInterpretation<TarotOrientedPairEntry>>(
+                adapter.ResolveOrientedPair(packId, russian, cardB.Id, testCase.B, cardA.Id, testCase.A));
+            var authored = bundle.RootElement.GetProperty("states").GetProperty(testCase.SourceKey);
+
+            Assert.Equal("ru", resolved.RequestedLocale.Value);
+            Assert.Equal("ru", resolved.ResolvedLocale.Value);
+            Assert.Equal(TarotInterpretationMode.TwoCards, resolved.ModeId);
+            Assert.Equal(cardA.Id, resolved.Content.CardAId);
+            Assert.Equal(cardB.Id, resolved.Content.CardBId);
+            Assert.Equal(testCase.State, resolved.Content.OrientationState);
+            Assert.Equal(authored.GetProperty("interaction").GetString(), resolved.Content.Interaction);
+            Assert.Equal(authored.GetProperty("direction").GetString(), resolved.Content.Direction);
+            Assert.Equal(authored.GetProperty("overallValence").GetInt32(), resolved.Content.OverallValence);
+            Assert.Equal(authored.GetProperty("overallIntensity").GetInt32(), resolved.Content.OverallIntensity);
+            Assert.Equal(
+                authored.GetProperty("tags").EnumerateArray().Select(static tag =>
+                    (
+                        tag.GetProperty("conceptId").GetString(),
+                        tag.GetProperty("valence").GetInt32(),
+                        tag.GetProperty("intensity").GetInt32())),
+                resolved.Content.Tags.Select(static tag =>
+                    ((string?)tag.ConceptId.Value, tag.Valence, tag.Intensity)));
+            Assert.Equal(resolved.Content.CardAId, swapped.Content.CardAId);
+            Assert.Equal(resolved.Content.CardBId, swapped.Content.CardBId);
+            Assert.Equal(resolved.Content.OrientationState, swapped.Content.OrientationState);
+            Assert.Equal(resolved.Content.Interaction, swapped.Content.Interaction);
+            Assert.Equal(resolved.Content.Direction, swapped.Content.Direction);
+
+            var labels = Assert.IsType<TarotInterpretationPresentationLabels>(
+                labelSource.Resolve(packId, resolved.ContentVersion, resolved.ResolvedLocale));
+            var reading = new TarotReading(
+                StandardTarotCatalog.Deck.Id,
+                StandardTarotSpreads.TwoCards.Id,
+                Instant.FromUnixTimeTicks(23),
+                [
+                    new(StandardTarotSpreads.TwoCards.Positions[0].Id, cardB, testCase.B),
+                    new(StandardTarotSpreads.TwoCards.Positions[1].Id, cardA, testCase.A)
+                ]);
+            var presentation = Assert.IsType<TarotOrientedPairInterpretationPresentation>(
+                new TarotOrientedPairInterpretationPresentationBuilder().Build(reading, resolved, labels));
+            Assert.Equal(resolved.Content.Tags.Count, presentation.Tags.Count);
+            Assert.All(presentation.Tags, tag =>
+            {
+                Assert.Equal(vocabulary[tag.ConceptId.Value], tag.Label);
+                Assert.NotEqual(tag.ConceptId.Value, tag.Label);
+                var authoredTag = resolved.Content.Tags.Single(item => item.ConceptId == tag.ConceptId);
+                Assert.Equal(authoredTag.Valence, tag.Valence);
+                Assert.Equal(authoredTag.Intensity, tag.Intensity);
+            });
+        }
+
+        var englishFallback = Assert.IsType<ResolvedTarotInterpretation<TarotOrientedPairEntry>>(
+            adapter.ResolveOrientedPair(
+                packId,
+                english,
+                cardA.Id,
+                TarotCardOrientation.Upright,
+                cardB.Id,
+                TarotCardOrientation.Reversed));
+        Assert.Equal("en", englishFallback.RequestedLocale.Value);
+        Assert.Equal("ru", englishFallback.ResolvedLocale.Value);
+        Assert.Equal(
+            bundle.RootElement.GetProperty("states").GetProperty("upright-reversed")
+                .GetProperty("interaction").GetString(),
+            englishFallback.Content.Interaction);
+        var fallbackLabels = Assert.IsType<TarotInterpretationPresentationLabels>(
+            labelSource.Resolve(packId, englishFallback.ContentVersion, englishFallback.ResolvedLocale));
+        Assert.All(englishFallback.Content.Tags, tag =>
+            Assert.Equal(vocabulary[tag.ConceptId.Value], fallbackLabels.TagLabels[tag.ConceptId]));
+
+        var headingProvider = new FallbackLocalizationProvider(
+        [
+            JsonLocalizationCatalogLoader.LoadFromFile(
+                LocalizationScope.Ui,
+                new LanguageCode("ru"),
+                PathAt("resources", "localization", "ui", "ru.json")),
+            JsonLocalizationCatalogLoader.LoadFromFile(
+                LocalizationScope.Ui,
+                new LanguageCode("en"),
+                PathAt("resources", "localization", "ui", "en.json"))
+        ]);
+        var headingLanguage = new LanguageCode(englishFallback.ResolvedLocale.Value);
+        Assert.Equal(
+            "Взаимодействие",
+            headingProvider.Get(
+                LocalizationScope.Ui,
+                headingLanguage,
+                new LocalizationKey("ui.tarot.interpretation.pair.interaction")).Text);
+        Assert.Equal(
+            "Направление",
+            headingProvider.Get(
+                LocalizationScope.Ui,
+                headingLanguage,
+                new LocalizationKey("ui.tarot.interpretation.pair.direction")).Text);
     }
 
     [Fact]

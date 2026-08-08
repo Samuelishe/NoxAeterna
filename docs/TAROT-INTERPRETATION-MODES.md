@@ -9,7 +9,7 @@
 
 ## Frozen modes
 
-Stable mode IDs are `single-card`, `two-cards`, `three-cards`, and `celtic-cross`. The current app exposes single-card behavior; later modes use the contracts here without silently redefining identity.
+Stable mode IDs are `single-card`, `two-cards`, `three-cards`, and `celtic-cross`. The current app exposes single-card and non-positional two-card interpretation behavior; later semantic modes use the contracts here without silently redefining identity.
 
 ## Canonical authoring tree
 
@@ -71,6 +71,8 @@ One canonical pair is one JSON file containing exactly:
 Each state independently owns `interaction`, `direction`, tags, overall valence, and overall intensity. It is not mechanically assembled from single-card text. Self-pairs, reversed canonical order, partial bundles, and extra states are invalid.
 
 Complete inventory per locale: `C(78,2) = 3003` files and `3003 × 4 = 12012` semantic states.
+
+The playable `two-cards` spread uses two stable technical draw slots only. Tableau order is not semantic, position labels remain hidden, and runtime sends both card-specific orientations to the canonical Interpretation resolver only after both cards are revealed. Presentation renders one combined `interaction`/`direction` result rather than two single-card meanings.
 
 ## Three-card position bundle and synthesis
 

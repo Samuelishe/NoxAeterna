@@ -8,6 +8,7 @@ using Avalonia.Media.Imaging;
 using System.Globalization;
 using NodaTime;
 using NoxAeterna.Domain.Tarot;
+using NoxAeterna.Interpretation.Tarot.Contracts;
 using NoxAeterna.Presentation.Localization;
 using NoxAeterna.Presentation.Tarot;
 using ShapePath = Avalonia.Controls.Shapes.Path;
@@ -489,7 +490,11 @@ public sealed class TarotWorkspaceControl : UserControl
         var cardName = isRevealed
             ? TarotCardTextResolver.GetCardName(assignment.Card, localizationProvider, applicationLanguage)
             : Localize(viewModel.SelectedBackVariant.LabelKey);
-        AutomationProperties.SetName(button, $"{TarotCardTextResolver.GetPositionName(assignment.PositionId, localizationProvider, applicationLanguage)}: {cardName}");
+        AutomationProperties.SetName(
+            button,
+            showPositionLabel
+                ? $"{TarotCardTextResolver.GetPositionName(assignment.PositionId, localizationProvider, applicationLanguage)}: {cardName}"
+                : cardName);
         button.Click += (_, _) => viewModel.RevealAndSelect(assignment.PositionId);
 
         var slot = new StackPanel
@@ -677,20 +682,23 @@ public sealed class TarotWorkspaceControl : UserControl
     {
         interpretationHost.Content = null;
         interpretationHost.IsVisible = false;
-        if (interpretationCoordinator.Current.SingleCardPresentation is not { } presentation)
+        var singleCard = interpretationCoordinator.Current.SingleCardPresentation;
+        var twoCard = interpretationCoordinator.Current.TwoCardPresentation;
+        if (singleCard is null && twoCard is null)
         {
             return;
         }
 
         var content = new StackPanel { Spacing = 20 };
-        if (presentation.Tags.Count > 0)
+        var tags = singleCard?.Tags ?? twoCard!.Tags;
+        if (tags.Count > 0)
         {
             var tagRow = new WrapPanel
             {
                 Name = "TarotInterpretationTagRow",
                 Orientation = Orientation.Horizontal
             };
-            foreach (var tag in presentation.Tags)
+            foreach (var tag in tags)
             {
                 var chip = CreateInterpretationTag(tag);
                 chip.Margin = new Thickness(0, 0, 10, 8);
@@ -700,16 +708,34 @@ public sealed class TarotWorkspaceControl : UserControl
             content.Children.Add(tagRow);
         }
 
-        foreach (var section in presentation.Sections)
+        if (singleCard is not null)
         {
-            content.Children.Add(CreateInterpretationSection(section));
+            foreach (var section in singleCard.Sections)
+            {
+                content.Children.Add(CreateInterpretationSection(section.SectionId, section.Label, section.Text));
+            }
+        }
+        else
+        {
+            content.Children.Add(CreateInterpretationSection(
+                "pair-interaction",
+                LocalizeForInterpretationLocale(
+                    "ui.tarot.interpretation.pair.interaction",
+                    twoCard!.ResolvedLocale),
+                twoCard.Interaction));
+            content.Children.Add(CreateInterpretationSection(
+                "pair-direction",
+                LocalizeForInterpretationLocale(
+                    "ui.tarot.interpretation.pair.direction",
+                    twoCard.ResolvedLocale),
+                twoCard.Direction));
         }
 
         interpretationHost.Content = content;
         interpretationHost.IsVisible = true;
     }
 
-    private Border CreateInterpretationTag(TarotSingleCardInterpretationTag tag)
+    private Border CreateInterpretationTag(TarotInterpretationTagPresentation tag)
     {
         var intensity = new StackPanel
         {
@@ -758,18 +784,18 @@ public sealed class TarotWorkspaceControl : UserControl
         return chip;
     }
 
-    private static Control CreateInterpretationSection(TarotSingleCardInterpretationSection section)
+    private static Control CreateInterpretationSection(string sectionId, string label, string text)
     {
         var heading = new TextBlock
         {
-            Name = $"TarotInterpretationSectionHeading_{section.SectionId}",
-            Text = section.Label,
+            Name = $"TarotInterpretationSectionHeading_{sectionId}",
+            Text = label,
             TextWrapping = TextWrapping.Wrap
         };
         heading.Classes.Add("tarot-interpretation-section-heading");
         var body = new TextBlock
         {
-            Text = section.Text,
+            Text = text,
             TextWrapping = TextWrapping.Wrap
         };
         body.Classes.Add("tarot-interpretation-section-body");
@@ -799,6 +825,12 @@ public sealed class TarotWorkspaceControl : UserControl
         localizationProvider.Get(LocalizationScope.Ui, applicationLanguage, key).Text;
 
     private string Localize(string key) => Localize(new LocalizationKey(key));
+
+    private string LocalizeForInterpretationLocale(string key, TarotInterpretationLocale locale) =>
+        localizationProvider.Get(
+            LocalizationScope.Ui,
+            new LanguageCode(locale.Value),
+            new LocalizationKey(key)).Text;
 
     private sealed record LocalizedSpreadOption(TarotSpreadOption Option, string Label)
     {

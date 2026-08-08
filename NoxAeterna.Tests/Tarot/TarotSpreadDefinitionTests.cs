@@ -13,6 +13,25 @@ public sealed class TarotSpreadDefinitionTests
     }
 
     [Fact]
+    public void TwoCardSpread_ContainsExactlyTwoNeutralStableTechnicalPositions()
+    {
+        Assert.Equal("two-cards", StandardTarotSpreads.TwoCards.Id.Value);
+        var positionIds = StandardTarotSpreads.TwoCards.Positions
+            .Select(static position => position.Id.Value)
+            .ToArray();
+
+        Assert.Equal(new[] { "slot-a", "slot-b" }, positionIds);
+        Assert.Equal(2, positionIds.Distinct(StringComparer.Ordinal).Count());
+        Assert.DoesNotContain(
+            positionIds,
+            id => new[]
+            {
+                "past", "future", "cause", "effect", "problem", "solution", "me", "partner",
+                "question", "answer", "left", "right", "first", "second"
+            }.Contains(id, StringComparer.Ordinal));
+    }
+
+    [Fact]
     public void ThreeCardSpread_ContainsUniquePastPresentFuturePositionsInOrder()
     {
         var positionIds = StandardTarotSpreads.ThreeCards.Positions

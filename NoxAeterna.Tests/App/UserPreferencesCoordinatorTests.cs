@@ -281,6 +281,21 @@ public sealed class UserPreferencesCoordinatorTests
         }
 
         public NoxAeterna.Interpretation.Tarot.Resolution.TarotInterpretationResolution<
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotOrientedPairEntry> ResolveOrientedPair(
+            TarotInterpretationPackId packId,
+            NoxAeterna.Interpretation.Tarot.Contracts.TarotInterpretationLocale requestedLocale,
+            TarotCardId firstCardId,
+            TarotCardOrientation firstOrientation,
+            TarotCardId secondCardId,
+            TarotCardOrientation secondOrientation)
+        {
+            CallCount++;
+            return new NoxAeterna.Interpretation.Tarot.Resolution.NoTarotInterpretationContent<
+                NoxAeterna.Interpretation.Tarot.Contracts.TarotOrientedPairEntry>(
+                NoxAeterna.Interpretation.Tarot.Contracts.TarotNoContentReason.NoReadyLocale);
+        }
+
+        public NoxAeterna.Interpretation.Tarot.Resolution.TarotInterpretationResolution<
             NoxAeterna.Interpretation.Tarot.Contracts.TarotThreeCardPositionEntry> ResolveThreeCardPosition(
             TarotInterpretationPackId packId,
             NoxAeterna.Interpretation.Tarot.Contracts.TarotInterpretationLocale requestedLocale,

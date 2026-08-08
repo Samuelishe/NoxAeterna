@@ -129,7 +129,7 @@ public sealed class TarotSingleCardInterpretationPresentationBuilderTests
     {
         var context = Context(TarotCardOrientation.Upright);
         var sections = SectionLabels("RU").Where(static pair => pair.Key != "risk").ToDictionary();
-        var labels = new TarotSingleCardInterpretationLabels(sections, TagLabels("RU", "concept", 6));
+        var labels = new TarotInterpretationPresentationLabels(sections, TagLabels("RU", "concept", 6));
 
         var result = new TarotSingleCardInterpretationPresentationBuilder().Build(
             context.Reading,
@@ -205,7 +205,7 @@ public sealed class TarotSingleCardInterpretationPresentationBuilderTests
         OverallValence=reversed?-1:1,OverallIntensity=3,ReversalMechanisms=reversed?[TarotReversalMechanism.Blocked]:[]
     };
 
-    private static TarotSingleCardInterpretationLabels Labels(
+    private static TarotInterpretationPresentationLabels Labels(
         string prefix,
         int tagCount = 10,
         string conceptPrefix = "concept") => new(
