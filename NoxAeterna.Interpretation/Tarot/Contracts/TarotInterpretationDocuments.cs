@@ -111,3 +111,9 @@ public sealed class TarotSynthesisResourceDocument
     [JsonPropertyOrder(2)] public string? ResourceId { get; set; }
     [JsonPropertyOrder(3)] public JsonElement? Data { get; set; }
 }
+
+/// <summary>Exact localized payload shared by production synthesis resource types.</summary>
+public sealed class TarotSynthesisTextDocument
+{
+    [JsonPropertyOrder(0)] public string? Text { get; set; }
+}

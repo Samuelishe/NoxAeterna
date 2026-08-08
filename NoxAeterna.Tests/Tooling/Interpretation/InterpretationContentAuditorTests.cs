@@ -328,6 +328,24 @@ public sealed class InterpretationContentAuditorTests
         Assert.Equal(InterpretationToolReportWriter.WriteJson(first), InterpretationToolReportWriter.WriteJson(second));
     }
 
+    [Fact]
+    public void SynthesisAuditExtractsEveryTypedResourceTextWithSmallCorpusStatistics()
+    {
+        using var fixture = InterpretationToolingFixture.CreateSkeleton();
+        fixture.AddCompleteSynthesis("ru");
+
+        var report = Audit(fixture, InterpretationAuthoringCorpus.ThreeCardSynthesis);
+
+        Assert.True(report.Success);
+        Assert.Equal(13, report.Counts["textUnits"]);
+        Assert.Equal(78, report.Counts["possibleComparisons"]);
+        Assert.Equal(7, report.Statistics["tokens.three-card-synthesis.trajectory-profile"].Count);
+        Assert.Equal(6, report.Statistics["tokens.three-card-synthesis.synthesis-fragment"].Count);
+        Assert.Empty(report.Distributions["overallIntensity"]);
+        Assert.Empty(report.Distributions["overallValence"]);
+        Assert.Empty(report.Distributions["tagConceptUsage"]);
+    }
+
     private static InterpretationToolReport Audit(
         InterpretationToolingFixture fixture,
         InterpretationAuthoringCorpus corpus) =>

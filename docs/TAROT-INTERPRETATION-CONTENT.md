@@ -113,4 +113,6 @@ Automated and editorial QA should detect or surface:
 
 Repository machine audit is a deterministic suspicion finder, not an editorial verdict: warnings neither prove a defect nor produce a synthetic quality score. Card-specific traditional meaning, literary quality, advice quality, external-source copying without a reference corpus, and future RU/EN semantic fidelity still require Codex/editorial review followed by correction and a repeated audit.
 
+Three-card synthesis prose is deliberately small and structural. A trajectory profile states how the Past → Present → Future line develops; a synthesis fragment states whether the two adjacent relations reinforce, conflict, ease, worsen, mix, or differ materially in influence. Each resource must be distinct, reusable, card-agnostic, concrete enough to describe its class, agency-preserving, and free of universal meta-openings such as “Карты показывают” or “В целом ситуация”. It summarizes direction plus transition behavior without repeating position/pair passages, inventing advice, naming cards, or claiming certainty absent from the resolved inputs.
+
 Draft/review status may be recorded in normal Markdown chronology when useful. It never controls runtime fallback. Exact bundle files, inventories, wave sizes, and physical paths belong to [TAROT-INTERPRETATION-MODES.md](TAROT-INTERPRETATION-MODES.md).

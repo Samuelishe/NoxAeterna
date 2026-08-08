@@ -86,7 +86,14 @@ future/upright     future/reversed
 
 Each state independently owns its text, tags, overall valence, and overall intensity. Complete inventory per locale: 78 files and `78 × 3 × 2 = 468` semantic states.
 
-Three-card interpretation composes three revealed position entries, two adjacent oriented-pair relations (`past-present`, `present-future`), and an `overall` synthesis resource. Progressive reveal never leaks hidden-card meaning. No exhaustive triple-text corpus is authored.
+Three-card interpretation composes three revealed position entries, exactly two adjacent oriented-pair relations (`past-present`, `present-future`), and one deterministic `overall` block. There is no `past-future` runtime relation. Progressive reveal never leaks hidden-card meaning, and no exhaustive triple-text corpus is authored.
+
+Overall synthesis selects exactly one trajectory profile from position valence buckets and one transition fragment from the two adjacent relation valence/intensity buckets. It never selects by card ID or parses prose. The production inventory is finite and exact:
+
+- trajectory profiles: `constructive-continuity`, `deteriorating`, `difficult-continuity`, `improving`, `neutral-continuity`, `turning-point`, `unsettled`;
+- synthesis fragments: `mixed-transitions`, `mutually-conflicted`, `mutually-supportive`, `tension-eases`, `tension-emerges`, `uneven-influence`.
+
+`three-card-position` and `relation-label` remain reserved synthesis enum values, not production resource families. The accepted position corpus and `labels.json` already own those responsibilities. Every required ID is reachable through the closed deterministic classifier; no additional synthesis identity is valid production source.
 
 ## Authoring-wave policy
 
@@ -104,7 +111,7 @@ When `ready = true`, exact same-locale inventory and dependencies are mandatory:
 
 - single-card: 78 bundles / 156 states plus labels and used vocabulary;
 - two-cards: 3003 pair bundles / 12012 states plus labels and used vocabulary;
-- three-cards: the pair inventory, 78 position bundles / 468 states, synthesis resources, labels, and used vocabulary.
+- three-cards: the pair inventory, 78 position bundles / 468 states, the exact 13-resource synthesis inventory, labels, and used vocabulary.
 
 When `ready = false`, a corpus may be incomplete, but every file that exists must be a complete valid bundle. Readiness remains a deliberate manifest decision; neither file presence nor compilation promotes it.
 

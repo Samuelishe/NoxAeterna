@@ -1,4 +1,5 @@
 using NoxAeterna.Domain.Tarot;
+using NoxAeterna.Interpretation.Tarot.Contracts;
 using NoxAeterna.Tools.Repository.Interpretation.Analysis;
 using NoxAeterna.Tools.Repository.Interpretation.Reports;
 
@@ -87,6 +88,31 @@ public sealed class InterpretationAuthoringInventoryTests
         Assert.Equal(78, report.Counts["missingBundles"]);
         Assert.Equal(468, report.Counts["missingStates"]);
         Assert.Equal(CanonicalCardIdentities(), report.Inventories["missingIdentities"]);
+    }
+
+    [Fact]
+    public void ThreeCardSynthesisInventoryReportsExactFrozenMissingResources()
+    {
+        using var fixture = InterpretationToolingFixture.CreateSkeleton();
+        var expected = TarotThreeCardSynthesisContract.RequiredResources
+            .Select(identity => $"{NoxAeterna.Interpretation.Tarot.Serialization.TarotSchemaText.Get(identity.ResourceType, NoxAeterna.Interpretation.Tarot.Serialization.TarotSchemaText.SynthesisResourceTypes)}/{identity.ResourceId.Value}")
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+
+        var empty = new InterpretationAuthoringInventoryAnalyzer()
+            .Analyze(fixture.Root, "ru", InterpretationAuthoringCorpus.ThreeCardSynthesis);
+        fixture.AddSynthesis("ru", TarotSynthesisResourceType.TrajectoryProfile, "trajectory-profile", TarotThreeCardSynthesisContract.Improving);
+        var partial = new InterpretationAuthoringInventoryAnalyzer()
+            .Analyze(fixture.Root, "ru", InterpretationAuthoringCorpus.ThreeCardSynthesis);
+
+        Assert.True(empty.Success);
+        Assert.Equal(13, empty.Counts["expectedResources"]);
+        Assert.Equal(0, empty.Counts["presentResources"]);
+        Assert.Equal(13, empty.Counts["missingResources"]);
+        Assert.Equal(expected, empty.Inventories["missingIdentities"]);
+        Assert.Equal(1, partial.Counts["presentResources"]);
+        Assert.Equal(12, partial.Counts["missingResources"]);
+        Assert.DoesNotContain("trajectory-profile/improving", partial.Inventories["missingIdentities"]);
     }
 
     [Fact]

@@ -14,7 +14,7 @@ public sealed class TarotSqlitePackageStoreTests
     [Fact]
     public void CompiledStoreReadsMetadataLabelsAndExactSemanticRows()
     {
-        using var fixture=InterpretationToolingFixture.CreateSkeleton();fixture.AddVocabulary("ru","transition");fixture.AddTaggedSingle("ru","major.fool","transition");fixture.AddPair("ru","major.fool","major.magician");fixture.AddPositions("ru","major.fool");fixture.AddSynthesis("ru",TarotSynthesisResourceType.TrajectoryProfile,"trajectory-profile","basic");
+        using var fixture=InterpretationToolingFixture.CreateSkeleton();fixture.AddVocabulary("ru","transition");fixture.AddTaggedSingle("ru","major.fool","transition");fixture.AddPair("ru","major.fool","major.magician");fixture.AddPositions("ru","major.fool");fixture.AddSynthesis("ru",TarotSynthesisResourceType.TrajectoryProfile,"trajectory-profile",TarotThreeCardSynthesisContract.Improving);
         using var package=CompiledPackage.Create(fixture);
         var store=new TarotSqlitePackageStore(package.Path,new("classic"),StandardTarotCatalog.Deck.Id);
 
@@ -23,7 +23,7 @@ public sealed class TarotSqlitePackageStoreTests
         var single=store.GetSingleCard(new("ru"),new("major.fool"),TarotCardOrientation.Reversed);Assert.Equal(TarotInterpretationStoreStatus.Found,single.Status);Assert.Equal(TarotReversalMechanism.Blocked,Assert.Single(single.Value!.ReversalMechanisms));Assert.Equal("transition",Assert.Single(single.Value.Tags).ConceptId.Value);
         var pair=store.GetOrientedPair(new("ru"),new("major.fool"),new("major.magician"),TarotOrientedPairState.UprightReversed);Assert.Equal(TarotInterpretationStoreStatus.Found,pair.Status);Assert.Equal(TarotOrientedPairState.UprightReversed,pair.Value!.OrientationState);
         var position=store.GetThreeCardPosition(new("ru"),TarotThreeCardPosition.Future,new("major.fool"),TarotCardOrientation.Reversed);Assert.Equal(TarotInterpretationStoreStatus.Found,position.Status);Assert.Equal(TarotThreeCardPosition.Future,position.Value!.Position);
-        var synthesis=store.GetSynthesisResource(new("ru"),TarotSynthesisResourceType.TrajectoryProfile,new("basic"));Assert.Equal(TarotInterpretationStoreStatus.Found,synthesis.Status);Assert.Equal("{\"kind\":\"fixture\"}\n",synthesis.Value!.CanonicalJson);
+        var synthesis=store.GetSynthesisResource(new("ru"),TarotSynthesisResourceType.TrajectoryProfile,new(TarotThreeCardSynthesisContract.Improving));Assert.Equal(TarotInterpretationStoreStatus.Found,synthesis.Status);Assert.Equal("Fixture synthesis text",synthesis.Value!.Text);Assert.Equal("{\"text\":\"Fixture synthesis text\"}\n",synthesis.Value.CanonicalJson);
     }
 
     [Theory]
@@ -56,6 +56,54 @@ public sealed class TarotSqlitePackageStoreTests
         var store=new TarotSqlitePackageStore(package.Path,new("classic"),StandardTarotCatalog.Deck.Id);
         var result=store.ValidateReadyModule(new("en"),TarotInterpretationMode.SingleCard);
         Assert.Equal(TarotInterpretationStoreStatus.Missing,result.Status);
+    }
+
+    [Theory]
+    [InlineData("missing")]
+    [InlineData("extra")]
+    [InlineData("wrong-id")]
+    [InlineData("malformed-payload")]
+    public void ReadyThreeCardsRequiresExactTypedSynthesisInventory(string mutation)
+    {
+        using var fixture = InterpretationToolingFixture.CreateSkeleton();
+        fixture.AddCompleteSynthesis("ru");
+        using var package = CompiledPackage.Create(fixture);
+        using (var connection = OpenWrite(package.Path))
+        {
+            PopulateReadyThreeCards(connection);
+            using var command = connection.CreateCommand();
+            command.CommandText = mutation switch
+            {
+                "missing" => $"DELETE FROM synthesis_resource WHERE locale='ru' AND resource_type='trajectory-profile' AND resource_id='{TarotThreeCardSynthesisContract.Improving}'",
+                "extra" => "INSERT INTO synthesis_resource VALUES('ru','relation-label','overall','{\"text\":\"Extra\"}')",
+                "wrong-id" => $"UPDATE synthesis_resource SET resource_id='unknown-profile' WHERE locale='ru' AND resource_type='trajectory-profile' AND resource_id='{TarotThreeCardSynthesisContract.Improving}'",
+                "malformed-payload" => $"UPDATE synthesis_resource SET canonical_json='{{\"kind\":\"wrong\"}}' WHERE locale='ru' AND resource_type='trajectory-profile' AND resource_id='{TarotThreeCardSynthesisContract.Improving}'",
+                _ => throw new ArgumentOutOfRangeException(nameof(mutation))
+            };
+            Assert.Equal(1, command.ExecuteNonQuery());
+        }
+
+        var store = new TarotSqlitePackageStore(package.Path, new("classic"), StandardTarotCatalog.Deck.Id);
+        var result = store.ValidateReadyModule(new("ru"), TarotInterpretationMode.ThreeCards);
+
+        Assert.Equal(TarotInterpretationStoreStatus.Missing, result.Status);
+    }
+
+    [Fact]
+    public void ReadyThreeCardsAcceptsCompleteTypedSynthesisInventory()
+    {
+        using var fixture = InterpretationToolingFixture.CreateSkeleton();
+        fixture.AddCompleteSynthesis("ru");
+        using var package = CompiledPackage.Create(fixture);
+        using (var connection = OpenWrite(package.Path)) PopulateReadyThreeCards(connection);
+
+        var store = new TarotSqlitePackageStore(package.Path, new("classic"), StandardTarotCatalog.Deck.Id);
+        var result = store.ValidateReadyModule(new("ru"), TarotInterpretationMode.ThreeCards);
+
+        Assert.Equal(TarotInterpretationStoreStatus.Found, result.Status);
+        Assert.Equal(
+            [TarotInterpretationCorpus.OrientedPairs, TarotInterpretationCorpus.ThreeCards],
+            result.Value);
     }
 
     [Fact]
@@ -108,6 +156,24 @@ public sealed class TarotSqlitePackageStoreTests
     }
 
     private static SqliteConnection OpenWrite(string path){var connection=new SqliteConnection($"Data Source={path};Mode=ReadWrite;Pooling=False");connection.Open();return connection;}
+
+    private static void PopulateReadyThreeCards(SqliteConnection connection)
+    {
+        using var command = connection.CreateCommand();
+        command.CommandText = """
+                              UPDATE module SET ready=1 WHERE mode='three-cards' AND locale='ru';
+                              WITH RECURSIVE n(value) AS (SELECT 0 UNION ALL SELECT value+1 FROM n WHERE value<12011)
+                              INSERT INTO oriented_pair(locale,card_a_id,card_b_id,orientation_state,interaction,direction,overall_valence,overall_intensity)
+                              SELECT 'ru',printf('a%05d',value),'z',
+                                     CASE value%4 WHEN 0 THEN 'upright-upright' WHEN 1 THEN 'upright-reversed' WHEN 2 THEN 'reversed-upright' ELSE 'reversed-reversed' END,
+                                     'interaction','direction',0,2 FROM n;
+                              WITH RECURSIVE n(value) AS (SELECT 0 UNION ALL SELECT value+1 FROM n WHERE value<467)
+                              INSERT INTO three_card_position(locale,position,card_id,orientation,text,overall_valence,overall_intensity)
+                              SELECT 'ru',CASE value%3 WHEN 0 THEN 'past' WHEN 1 THEN 'present' ELSE 'future' END,
+                                     printf('card%05d',value),CASE value%2 WHEN 0 THEN 'upright' ELSE 'reversed' END,'text',0,2 FROM n;
+                              """;
+        Assert.Equal(12_481, command.ExecuteNonQuery());
+    }
 
     private sealed class CompiledPackage:IDisposable
     {

@@ -33,7 +33,7 @@
 
 ## Current Focus
 
-**INT3-AUTH-RU-POSITIONS — Russian Classic three-card position authoring**: the canonical Russian position corpus is complete at 78/78 bundles and 468/468 independently authored `past/present/future × upright/reversed` states. Three-card synthesis remains absent, so `ru + three-cards` remains unready pending the separate synthesis and runtime stages.
+**INT3-AUTH-RU-SYNTH**: Russian Three Cards semantic dependencies are complete—positions 78/468 and strict synthesis 13/13 (7 trajectory profiles + 6 adjacent-transition fragments). `ru + three-cards` remains unready pending owner acceptance and runtime promotion.
 
 ## Preserved Contracts
 
@@ -41,7 +41,7 @@
 - Zodiac projection is counterclockwise; known-time charts use Placidus and the accepted orientation.
 - UnknownTime has no houses or principal angles and retains its documented technical-noon planet policy.
 - Runtime and user data belong in AppData or the platform user-data location; shipped assets belong in the repository.
-- Tarot semantic decks, artwork packs, skins, backs, and interpretation packs are independent. `classic` remains the sole built-in pack; `ru + single-card` and `ru + two-cards` are ready, while the other six locale/mode declarations remain unready. The resolver retains read-only SQLite stores, requested→English→Russian→silent absence, canonical unordered-pair resolution, and broken-ready stop behavior. Single-card five-section and combined pair interaction/direction presentation use same-locale pack vocabulary, authored tag metrics, reveal gating, and silent `NoContent`. RU oriented-pair source is accepted and complete at 3,003/3,003 bundles and 12,012/12,012 states; RU three-card positions are complete at 78/78 bundles and 468/468 states, while three-card synthesis and all EN interpretation prose remain absent.
+- Tarot semantic decks, artwork packs, skins, backs, and interpretation packs are independent. `classic` remains the sole built-in pack; only `single-card/ru` and `two-cards/ru` are ready. The resolver retains read-only SQLite stores, requested→English→Russian→silent absence, canonical unordered-pair resolution, and broken-ready stop behavior. RU pairs are complete at 3,003/12,012, positions at 78/468, and synthesis at exact 13/13; EN prose is absent and Three Cards runtime promotion remains separate.
 - Interpretation authoring status and audit are repository tooling under the Interpretation owner, not Project Stats. Audit warnings are deterministic review suspicions; structural source errors remain errors, and no progress/report file controls authoring or runtime state.
 - Lupus Noctis A0 and A1 remain rejected. The owner accepted all A2, A4, A5, A6, A7, A8, A9, A10, A11, the two promoted A12 cards, all four A13 cards, and all A14–A26 cards; the built-in complete pack now owns 78/78 production illustrations, uses no prototype fallback, and declares `partialPack: false`. Detailed card state, provenance, hashes, and accepted exceptions belong only to `resources/assets/tarot/artwork-packs/lupus-noctis/LUPUS-NOCTIS.md` and its linked records.
 - Repository packs are versioned seed sources; the target runtime reads synchronized built-in and user packs from AppData. Discovery, no-delete synchronization, fingerprints, normalization, import, tooling, and packaging are staged under `ASSET-PACK-RUNTIME.md`; A3 direct output loading is temporary built-in-only behavior.
@@ -50,4 +50,4 @@
 
 ## Active Blockers
 
-- No implementation blocker remains. T-UX2B awaits owner review; backdrop prototyping, English interpretation, and three-card semantic authoring remain separate explicit stages.
+- No implementation blocker remains. Three Cards now awaits owner acceptance followed by the separate `INT3-RUNTIME-RU-THREE` readiness/runtime stage; backdrop prototyping and English interpretation remain separate owner-selected work.

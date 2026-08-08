@@ -57,7 +57,7 @@ public sealed class TarotSqlitePackageStore : ITarotInterpretationPackStore
             if (mode == TarotInterpretationMode.ThreeCards)
             {
                 if (Count(connection, "SELECT count(*) FROM three_card_position WHERE locale=$l", ("$l", locale.Value)) != 468 ||
-                    Count(connection, "SELECT count(*) FROM synthesis_resource WHERE locale=$l", ("$l", locale.Value)) == 0) return null;
+                    !HasExactSynthesisInventory(connection, locale)) return null;
                 corpora.Add(TarotInterpretationCorpus.ThreeCards);
             }
             return (IReadOnlyList<TarotInterpretationCorpus>)Array.AsReadOnly(corpora.ToArray());
@@ -104,7 +104,9 @@ public sealed class TarotSqlitePackageStore : ITarotInterpretationPackStore
         Query(connection =>
         {
             using var command=Command(connection,"SELECT canonical_json FROM synthesis_resource WHERE locale=$l AND resource_type=$t AND resource_id=$i",("$l",locale.Value),("$t",Text(resourceType,TarotSchemaText.SynthesisResourceTypes)),("$i",resourceId.Value));
-            var value=command.ExecuteScalar() as string;return value is null?null:new TarotSynthesisResource(resourceType,resourceId,value);
+            var value=command.ExecuteScalar() as string;
+            if (value is null || !TryParseSynthesisText(value, out var text)) return null;
+            return new TarotSynthesisResource(resourceType,resourceId,text!,value);
         }, "store.synthesis-missing", "The ready synthesis row is missing.");
 
     private TarotInterpretationStoreResult<T> Query<T>(Func<SqliteConnection,T?> query,string missingCode,string missingMessage) where T:class
@@ -139,6 +141,31 @@ public sealed class TarotSqlitePackageStore : ITarotInterpretationPackStore
     }
 
     private static IReadOnlyList<TarotTagAssignment> ReadTags(SqliteConnection connection,string sql,params (string,object)[] args){var result=new List<TarotTagAssignment>();using var command=Command(connection,sql,args);using var reader=command.ExecuteReader();while(reader.Read())result.Add(new(new(reader.GetString(0)),reader.GetInt32(1),reader.GetInt32(2)));return result.AsReadOnly();}
+    private static bool HasExactSynthesisInventory(SqliteConnection connection, TarotInterpretationLocale locale)
+    {
+        var actual = new HashSet<TarotSynthesisResourceIdentity>();
+        using var command = Command(connection, "SELECT resource_type,resource_id,canonical_json FROM synthesis_resource WHERE locale=$l ORDER BY resource_type,resource_id", ("$l", locale.Value));
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            if (!TarotSchemaText.TryParse(reader.GetString(0), TarotSchemaText.SynthesisResourceTypes, out TarotSynthesisResourceType type)) return false;
+            TarotSynthesisResourceId id;
+            try { id = new(reader.GetString(1)); }
+            catch (ArgumentException) { return false; }
+            if (!TarotThreeCardSynthesisContract.IsRequired(type, id) || !TryParseSynthesisText(reader.GetString(2), out _)) return false;
+            if (!actual.Add(new(type, id))) return false;
+        }
+        return actual.SetEquals(TarotThreeCardSynthesisContract.RequiredResources);
+    }
+    private static bool TryParseSynthesisText(string canonicalJson, out string? text)
+    {
+        text = null;
+        var parsed = TarotInterpretationJson.Parse<TarotSynthesisTextDocument>(canonicalJson);
+        if (!parsed.IsSuccess || parsed.Document?.Text is not { } value || string.IsNullOrWhiteSpace(value) || value != value.Trim()) return false;
+        if (!string.Equals(canonicalJson, TarotInterpretationJson.SerializeToString(parsed.Document), StringComparison.Ordinal)) return false;
+        text = value;
+        return true;
+    }
     private static IReadOnlyList<TEnum> ReadEnums<TEnum>(SqliteConnection connection,string sql,IReadOnlyDictionary<TEnum,string> map,params (string,object)[] args) where TEnum:struct,Enum{var result=new List<TEnum>();using var command=Command(connection,sql,args);using var reader=command.ExecuteReader();while(reader.Read()){if(!TarotSchemaText.TryParse(reader.GetString(0),map,out TEnum value))throw new InvalidDataException("Unknown stored enum value.");result.Add(value);}return result.AsReadOnly();}
     private static int Count(SqliteConnection connection,string sql,params (string,object)[] args){using var command=Command(connection,sql,args);return Convert.ToInt32(command.ExecuteScalar(),System.Globalization.CultureInfo.InvariantCulture);}
     private static SqliteCommand Command(SqliteConnection connection,string sql,params (string Name,object Value)[] args){var command=connection.CreateCommand();command.CommandText=sql;foreach(var arg in args)command.Parameters.AddWithValue(arg.Name,arg.Value);return command;}

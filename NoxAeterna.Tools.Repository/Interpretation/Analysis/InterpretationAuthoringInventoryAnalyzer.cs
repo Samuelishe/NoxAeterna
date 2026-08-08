@@ -1,5 +1,6 @@
 using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Interpretation.Tarot.Contracts;
+using NoxAeterna.Interpretation.Tarot.Serialization;
 using NoxAeterna.Tools.Repository.Interpretation.Reports;
 
 namespace NoxAeterna.Tools.Repository.Interpretation.Analysis;
@@ -9,7 +10,8 @@ public enum InterpretationAuthoringCorpus
 {
     SingleCard,
     OrientedPairs,
-    ThreeCardPositions
+    ThreeCardPositions,
+    ThreeCardSynthesis
 }
 
 public static class InterpretationAuthoringCorpusNames
@@ -21,9 +23,10 @@ public static class InterpretationAuthoringCorpusNames
             "single-card" => InterpretationAuthoringCorpus.SingleCard,
             "oriented-pairs" => InterpretationAuthoringCorpus.OrientedPairs,
             "three-card-positions" => InterpretationAuthoringCorpus.ThreeCardPositions,
+            "three-card-synthesis" => InterpretationAuthoringCorpus.ThreeCardSynthesis,
             _ => default
         };
-        return value is "single-card" or "oriented-pairs" or "three-card-positions";
+        return value is "single-card" or "oriented-pairs" or "three-card-positions" or "three-card-synthesis";
     }
 
     public static string Get(InterpretationAuthoringCorpus corpus) => corpus switch
@@ -31,6 +34,7 @@ public static class InterpretationAuthoringCorpusNames
         InterpretationAuthoringCorpus.SingleCard => "single-card",
         InterpretationAuthoringCorpus.OrientedPairs => "oriented-pairs",
         InterpretationAuthoringCorpus.ThreeCardPositions => "three-card-positions",
+        InterpretationAuthoringCorpus.ThreeCardSynthesis => "three-card-synthesis",
         _ => throw new ArgumentOutOfRangeException(nameof(corpus))
     };
 }
@@ -70,6 +74,11 @@ public sealed class InterpretationAuthoringInventoryAnalyzer
                     InterpretationToolSeverity.Error,
                     localeName,
                     "The locale is not declared by the pack manifest.")]);
+        }
+
+        if (corpus == InterpretationAuthoringCorpus.ThreeCardSynthesis)
+        {
+            return AnalyzeSynthesis(loaded, locale);
         }
 
         var (expected, statesPerBundle, present, presentStates) = corpus switch
@@ -125,4 +134,39 @@ public sealed class InterpretationAuthoringInventoryAnalyzer
         };
         return new InterpretationToolReport(loaded.Report.Diagnostics, counts, details, inventories: inventories);
     }
+
+    private static InterpretationToolReport AnalyzeSynthesis(
+        InterpretationSourceCompilationResult loaded,
+        TarotInterpretationLocale locale)
+    {
+        var expected = TarotThreeCardSynthesisContract.RequiredResources
+            .Select(Identity)
+            .ToArray();
+        var present = loaded.Compilation!.SynthesisResources[locale]
+            .Select(item => Identity(new(item.ResourceType, item.ResourceId)))
+            .ToHashSet(StringComparer.Ordinal);
+        var missing = expected.Where(identity => !present.Contains(identity)).ToArray();
+        var counts = new Dictionary<string, int>(StringComparer.Ordinal)
+        {
+            ["duplicateIdentities"] = loaded.Report.Counts.GetValueOrDefault("duplicateIdentities"),
+            ["expectedResources"] = expected.Length,
+            ["invalidResources"] = loaded.Report.Counts.GetValueOrDefault("invalidBundles"),
+            ["missingResources"] = missing.Length,
+            ["noncanonicalIdentities"] = loaded.Report.Counts.GetValueOrDefault("noncanonicalIdentities"),
+            ["presentResources"] = present.Count
+        };
+        var details = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["corpus"] = InterpretationAuthoringCorpusNames.Get(InterpretationAuthoringCorpus.ThreeCardSynthesis),
+            ["locale"] = locale.Value
+        };
+        var inventories = new Dictionary<string, IReadOnlyList<string>>(StringComparer.Ordinal)
+        {
+            ["missingIdentities"] = missing
+        };
+        return new InterpretationToolReport(loaded.Report.Diagnostics, counts, details, inventories: inventories);
+    }
+
+    private static string Identity(TarotSynthesisResourceIdentity identity) =>
+        $"{TarotSchemaText.Get(identity.ResourceType, TarotSchemaText.SynthesisResourceTypes)}/{identity.ResourceId.Value}";
 }

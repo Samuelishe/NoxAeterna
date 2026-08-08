@@ -149,7 +149,7 @@ The implemented `two-cards` mode draws two distinct cards without replacement an
 
 ### INT4 — Past / Present / Future
 
-The implemented `three-cards` spread is ordered as `past`, `present`, `future`. Its target interpretation uses 468 independently authored position/orientation entries, all three oriented pair relations including past-future, typed trajectory rules, curated localized fragments, and deterministic synthesis. It deliberately rejects an exhaustive 3,651,648-state oriented triple corpus. Exact contracts belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
+The implemented `three-cards` spread is ordered as `past`, `present`, `future`. Its target interpretation uses 468 independently authored position/orientation entries, exactly the two adjacent relations `past-present` and `present-future`, typed trajectory rules, curated localized fragments, and deterministic synthesis. There is no `past-future` relation in this mode. It deliberately rejects an exhaustive 3,651,648-state oriented triple corpus; exact contracts belong to [`TAROT-INTERPRETATION-MODES.md`](TAROT-INTERPRETATION-MODES.md).
 
 ## Superseded Pair Hypotheses
 

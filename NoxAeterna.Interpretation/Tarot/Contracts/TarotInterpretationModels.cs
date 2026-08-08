@@ -143,4 +143,5 @@ public sealed class TarotThreeCardPositionEntry
 public sealed record TarotSynthesisResource(
     TarotSynthesisResourceType ResourceType,
     TarotSynthesisResourceId ResourceId,
+    string Text,
     string CanonicalJson);

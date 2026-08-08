@@ -9,6 +9,10 @@
 
 Older retained evidence is indexed in [the documentation archive](archive/README.md). Use [PROJECT-STATE.md](PROJECT-STATE.md) for the current checkpoint.
 
+## 2026-08-08: INT3-AUTH-RU-SYNTH
+
+- Froze a strict 13-resource Russian Three Cards synthesis inventory, typed payloads, exhaustive deterministic planner, exact source/package ready validation, scoped status/audit, and authored all 7 trajectory plus 6 adjacent-transition texts. Preserved only `past-present`/`present-future`, unchanged accepted corpora/readiness/English/UI, and completed package plus focused/full verification without launching the app.
+
 ## 2026-08-08: INT3-AUTH-RU-POSITIONS
 
 - Authored the complete Russian Classic three-card position corpus at 78 canonical bundles / 468 independent `past/present/future × upright/reversed` states, completed structural, lexical, positional-similarity, metadata, editorial, package, and focused verification, and retained absent synthesis plus unchanged three-card readiness, accepted single/pair sources, English, UI, runtime, window, and artwork boundaries.

@@ -191,6 +191,61 @@ public static class TarotInterpretationValidator
         return TarotValidationResult<IReadOnlyList<TarotThreeCardPositionEntry>>.Create(bag.HasErrors ? null : entries.AsReadOnly(), bag.Items);
     }
 
+    public static TarotValidationResult<TarotSynthesisResource> ValidateSynthesisResource(
+        TarotSynthesisResourceDocument document)
+    {
+        ArgumentNullException.ThrowIfNull(document);
+        var bag = new TarotDiagnosticBag();
+        RequireVersion(document.SchemaVersion, 1, "schemaVersion", bag);
+
+        TarotSynthesisResourceId? resourceId = null;
+        if (document.ResourceId is null)
+        {
+            bag.Error("value.required", "resourceId", "A value is required.");
+        }
+        else
+        {
+            resourceId = Parse(() => new TarotSynthesisResourceId(document.ResourceId), document.ResourceId, "resourceId", bag);
+        }
+
+        if (document.ResourceType is null)
+        {
+            bag.Error("value.required", "resourceType", "A value is required.");
+        }
+        else if (resourceId is not null && !TarotThreeCardSynthesisContract.IsRequired(document.ResourceType.Value, resourceId))
+        {
+            bag.Error("synthesis.inventory", "resourceId", "The type/resource ID pair is not in the frozen Three Cards synthesis inventory.");
+        }
+
+        TarotSynthesisTextDocument? payload = null;
+        if (document.Data is null)
+        {
+            bag.Error("value.required", "data", "A value is required.");
+        }
+        else
+        {
+            var parsed = TarotInterpretationJson.Parse<TarotSynthesisTextDocument>(document.Data.Value.GetRawText());
+            if (!parsed.IsSuccess || parsed.Document is null)
+            {
+                bag.Error("synthesis.payload", "data", parsed.Failure?.Message ?? "The synthesis payload is invalid.");
+            }
+            else
+            {
+                payload = parsed.Document;
+            }
+        }
+
+        var text = payload is null ? null : Text(payload.Text, "data.text", bag);
+        var value = bag.HasErrors || document.ResourceType is null || resourceId is null || payload is null || text is null
+            ? null
+            : new TarotSynthesisResource(
+                document.ResourceType.Value,
+                resourceId,
+                text,
+                TarotInterpretationJson.SerializeToString(payload));
+        return TarotValidationResult<TarotSynthesisResource>.Create(value, bag.Items);
+    }
+
     private static TarotModuleDependency[] ExpectedDependencies(TarotInterpretationMode mode) => mode switch
     {
         TarotInterpretationMode.SingleCard or TarotInterpretationMode.CelticCross => [],

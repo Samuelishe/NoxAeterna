@@ -75,13 +75,40 @@ internal sealed class InterpretationToolingFixture : IDisposable
         ReversalMechanisms = reversalMechanisms?.Select(mechanism => (TarotReversalMechanism?)mechanism).ToList() ?? []
     };
 
-    public void AddSynthesis(string locale, TarotSynthesisResourceType resourceType, string resourceTypePath, string resourceId)
+    public void AddSynthesis(string locale, TarotSynthesisResourceType resourceType, string resourceTypePath, string resourceId, string text = "Fixture synthesis text")
     {
-        using var data = JsonDocument.Parse("{\"kind\":\"fixture\"}");
+        using var data = JsonDocument.Parse(JsonSerializer.Serialize(new TarotSynthesisTextDocument { Text = text }, TarotSerializerOptions));
         Write($"content/{locale}/synthesis/{resourceTypePath}/{resourceId}.json", new TarotSynthesisResourceDocument
         {
             SchemaVersion = 1, ResourceType = resourceType, ResourceId = resourceId, Data = data.RootElement.Clone()
         });
+    }
+
+    public void AddCompleteSynthesis(string locale)
+    {
+        foreach (var identity in TarotThreeCardSynthesisContract.RequiredResources)
+        {
+            var type = TarotSchemaText.Get(identity.ResourceType, TarotSchemaText.SynthesisResourceTypes);
+            AddSynthesis(locale, identity.ResourceType, type, identity.ResourceId.Value,
+                $"Уникальный ресурс {type} {identity.ResourceId.Value} описывает самостоятельный структурный ход чтения без повтора");
+        }
+    }
+
+    public void AddCompleteThreeCardDependencies(string locale)
+    {
+        var cards = StandardTarotCatalog.Deck.Cards.Select(card => card.Id.Value).Order(StringComparer.Ordinal).ToArray();
+        foreach (var card in cards) AddPositions(locale, card);
+        for (var left = 0; left < cards.Length - 1; left++)
+        for (var right = left + 1; right < cards.Length; right++)
+            AddPair(locale, cards[left], cards[right]);
+    }
+
+    public void SetReady(string locale, string mode, bool ready)
+    {
+        var parsed = TarotInterpretationJson.Parse<TarotInterpretationPackDocument>(File.ReadAllBytes(ManifestPath));
+        if (!parsed.IsSuccess || parsed.Document is null) throw new InvalidOperationException("Fixture manifest is invalid.");
+        parsed.Document.Modules![mode]![locale]!.Ready = ready;
+        Write("interpretation-pack.json", parsed.Document);
     }
 
     private void AddSingleCore(string locale, string cardId, string? filename, string? conceptId)
@@ -210,5 +237,10 @@ internal sealed class InterpretationToolingFixture : IDisposable
     private static TarotThreeCardPositionStateDocument PositionState(string position, string orientation) => new()
     {
         Text = $"Position {position} {orientation}", Tags = [], OverallValence = 0, OverallIntensity = 2
+    };
+
+    private static readonly JsonSerializerOptions TarotSerializerOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 }

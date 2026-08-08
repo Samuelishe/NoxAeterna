@@ -165,6 +165,18 @@ public sealed class InterpretationContentAuditor
                     result.Add(CreateUnit($"{stateTarget}:text", $"three-card-positions.{PositionName(state.Position)}", stateTarget, "text", state.Text));
                 }
                 break;
+            case InterpretationAuthoringCorpus.ThreeCardSynthesis:
+                foreach (var resource in compilation.SynthesisResources[locale]
+                             .OrderBy(item => item.ResourceType)
+                             .ThenBy(item => item.ResourceId.Value, StringComparer.Ordinal))
+                {
+                    var type = resource.ResourceType == TarotSynthesisResourceType.TrajectoryProfile
+                        ? "trajectory-profile"
+                        : "synthesis-fragment";
+                    var stateTarget = $"{locale.Value}/three-card-synthesis/{type}/{resource.ResourceId.Value}";
+                    result.Add(CreateUnit($"{stateTarget}:text", $"three-card-synthesis.{type}", stateTarget, "text", resource.Text));
+                }
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(corpus));
         }
@@ -609,6 +621,9 @@ public sealed class InterpretationContentAuditor
                 break;
             case InterpretationAuthoringCorpus.ThreeCardPositions:
                 entries = compilation.ThreeCardPositions[locale].Select(item => (item.Tags, item.OverallValence, item.OverallIntensity));
+                break;
+            case InterpretationAuthoringCorpus.ThreeCardSynthesis:
+                entries = [];
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(corpus));

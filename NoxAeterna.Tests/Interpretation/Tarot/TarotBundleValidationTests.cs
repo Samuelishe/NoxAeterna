@@ -1,5 +1,6 @@
 using NoxAeterna.Domain.Tarot;
 using NoxAeterna.Interpretation.Tarot.Contracts;
+using NoxAeterna.Interpretation.Tarot.Serialization;
 using NoxAeterna.Interpretation.Tarot.Validation;
 
 namespace NoxAeterna.Tests.Interpretation.Tarot;
@@ -111,6 +112,56 @@ public sealed class TarotBundleValidationTests
         Assert.Equal(468, cards * 3 * 2);
     }
 
+    [Fact]
+    public void SynthesisResourceRequiresFrozenIdentityAndExactTrimmedTextPayload()
+    {
+        var document = Synthesis(
+            TarotSynthesisResourceType.TrajectoryProfile,
+            TarotThreeCardSynthesisContract.Improving,
+            "Траектория постепенно становится более конструктивной.");
+
+        var result = TarotInterpretationValidator.ValidateSynthesisResource(document);
+
+        Assert.True(result.IsValid, Format(result.Diagnostics));
+        Assert.Equal("Траектория постепенно становится более конструктивной.", result.Value!.Text);
+        Assert.Equal(
+            TarotInterpretationJson.SerializeToString(new TarotSynthesisTextDocument { Text = "Траектория постепенно становится более конструктивной." }),
+            result.Value.CanonicalJson);
+    }
+
+    [Theory]
+    [InlineData(TarotSynthesisResourceType.TrajectoryProfile, "unknown", "synthesis.inventory")]
+    [InlineData(TarotSynthesisResourceType.SynthesisFragment, TarotThreeCardSynthesisContract.Improving, "synthesis.inventory")]
+    [InlineData(TarotSynthesisResourceType.RelationLabel, "overall", "synthesis.inventory")]
+    public void SynthesisResourceRejectsUnknownReservedAndWrongTypeIdentities(
+        TarotSynthesisResourceType resourceType,
+        string resourceId,
+        string expectedCode)
+    {
+        var result = TarotInterpretationValidator.ValidateSynthesisResource(Synthesis(resourceType, resourceId, "Valid text"));
+
+        Assert.False(result.IsValid);
+        Assert.Contains(result.Diagnostics, item => item.Code == expectedCode);
+    }
+
+    [Fact]
+    public void SynthesisResourceRejectsUnknownPayloadMembers()
+    {
+        using var data = System.Text.Json.JsonDocument.Parse("{\"text\":\"Valid text\",\"kind\":\"extra\"}");
+        var document = new TarotSynthesisResourceDocument
+        {
+            SchemaVersion = 1,
+            ResourceType = TarotSynthesisResourceType.TrajectoryProfile,
+            ResourceId = TarotThreeCardSynthesisContract.Improving,
+            Data = data.RootElement.Clone()
+        };
+
+        var result = TarotInterpretationValidator.ValidateSynthesisResource(document);
+
+        Assert.False(result.IsValid);
+        Assert.Contains(result.Diagnostics, item => item.Code == "synthesis.payload");
+    }
+
     private static TarotSingleCardBundleDocument Single() => new()
     {
         SchemaVersion = 1, CardId = "major.fool", States = new(StringComparer.Ordinal)
@@ -147,5 +198,10 @@ public sealed class TarotBundleValidationTests
     };
     private static TarotThreeCardPositionStateDocument PositionState(string position, string orientation) => new() { Text = $"{position} {orientation}", Tags = [], OverallValence = 0, OverallIntensity = 2 };
     private static TarotTagAssignmentDocument Tag(string id) => new() { ConceptId = id, Valence = 0, Intensity = 2 };
+    private static TarotSynthesisResourceDocument Synthesis(TarotSynthesisResourceType type, string id, string text)
+    {
+        using var data = System.Text.Json.JsonDocument.Parse($"{{\"text\":{System.Text.Json.JsonSerializer.Serialize(text)}}}");
+        return new() { SchemaVersion = 1, ResourceType = type, ResourceId = id, Data = data.RootElement.Clone() };
+    }
     private static string Format(IEnumerable<TarotValidationDiagnostic> diagnostics) => string.Join(Environment.NewLine, diagnostics.Select(item => $"{item.Code}: {item.Message}"));
 }

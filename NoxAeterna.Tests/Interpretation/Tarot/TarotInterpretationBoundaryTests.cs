@@ -2,6 +2,8 @@ using System.Text.Json;
 using System.Xml.Linq;
 using NoxAeterna.App.Preferences;
 using NoxAeterna.Domain.Tarot;
+using NoxAeterna.Interpretation.Tarot.Contracts;
+using NoxAeterna.Interpretation.Tarot.Serialization;
 
 namespace NoxAeterna.Tests.Interpretation.Tarot;
 
@@ -63,6 +65,7 @@ public sealed class TarotInterpretationBoundaryTests
         var singleCardRoot = Path.Combine(russianRoot, "single-card");
         var orientedPairRoot = Path.Combine(russianRoot, "oriented-pairs");
         var threeCardPositionRoot = Path.Combine(russianRoot, "three-card-positions");
+        var synthesisRoot = Path.Combine(russianRoot, "synthesis");
         var vocabularyRoot = Path.Combine(russianRoot, "vocabulary");
         var productionFiles = Directory.GetFiles(productionRoot, "*", SearchOption.AllDirectories).Order(StringComparer.Ordinal).ToArray();
         var singleCardFiles = Directory.GetFiles(singleCardRoot, "*.json", SearchOption.TopDirectoryOnly)
@@ -106,10 +109,20 @@ public sealed class TarotInterpretationBoundaryTests
             return positions.EnumerateObject().Sum(static position => position.Value.EnumerateObject().Count());
         }).ToArray();
         var vocabularyFiles = Directory.GetFiles(vocabularyRoot, "*.json", SearchOption.TopDirectoryOnly);
+        var synthesisFiles = Directory.GetFiles(synthesisRoot, "*.json", SearchOption.AllDirectories)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+        var expectedSynthesisFiles = TarotThreeCardSynthesisContract.RequiredResources
+            .Select(identity => Path.Combine(
+                synthesisRoot,
+                TarotSchemaText.Get(identity.ResourceType, TarotSchemaText.SynthesisResourceTypes),
+                $"{identity.ResourceId.Value}.json"))
+            .Order(StringComparer.Ordinal)
+            .ToArray();
         var englishFiles = Directory.GetFiles(englishRoot, "*", SearchOption.AllDirectories);
         using var manifest = JsonDocument.Parse(File.ReadAllText(Path.Combine(productionRoot, "interpretation-pack.json")));
 
-        Assert.Equal(3223, productionFiles.Length);
+        Assert.Equal(3236, productionFiles.Length);
         Assert.Equal(78, singleCardFiles.Length);
         Assert.Equal(expectedSingleCardFiles, singleCardFiles);
         Assert.Equal(3003, orientedPairFiles.Length);
@@ -120,6 +133,9 @@ public sealed class TarotInterpretationBoundaryTests
         Assert.Equal(expectedThreeCardPositionFiles, threeCardPositionFiles);
         Assert.All(threeCardPositionStateCounts, count => Assert.Equal(6, count));
         Assert.Equal(468, threeCardPositionStateCounts.Sum());
+        Assert.Equal(13, synthesisFiles.Length);
+        Assert.Equal(expectedSynthesisFiles, synthesisFiles);
+        Assert.DoesNotContain(synthesisFiles, path => path.Contains("past-future", StringComparison.Ordinal));
         Assert.Equal("major.chariot__major.death", expectedAuthoredPairIdentities[0]);
         Assert.Equal("major.hanged-man__minor.swords.seven", expectedAuthoredPairIdentities[499]);
         Assert.Equal("major.hanged-man__minor.swords.six", expectedAuthoredPairIdentities[500]);
@@ -153,7 +169,7 @@ public sealed class TarotInterpretationBoundaryTests
             readiness.Where(static item => item.Ready).Select(static item => item.Identity).Order(StringComparer.Ordinal));
         Assert.Equal(6, readiness.Count(static item => !item.Ready));
         Assert.False(Directory.Exists(RepositoryPath("resources", "interpretation", "tarot", "working")));
-        Assert.False(Directory.Exists(Path.Combine(russianRoot, "synthesis")));
+        Assert.True(Directory.Exists(synthesisRoot));
         Assert.False(Directory.Exists(Path.Combine(AppContext.BaseDirectory, "TestData", "Interpretation")));
     }
 
